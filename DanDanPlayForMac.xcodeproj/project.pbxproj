@@ -1,0 +1,722 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FD01C58C40B002F32FD /* AppDelegate.m */; };
+		89636FD41C58C40B002F32FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FD31C58C40B002F32FD /* main.m */; };
+		89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89636FD81C58C40B002F32FD /* Assets.xcassets */; };
+		89636FDC1C58C40B002F32FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89636FDA1C58C40B002F32FD /* Main.storyboard */; };
+		896370221C58FC9F002F32FD /* BarrageCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FF91C58FC9F002F32FD /* BarrageCanvas.m */; settings = {ASSET_TAGS = (); }; };
+		896370231C58FC9F002F32FD /* BarrageClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FFB1C58FC9F002F32FD /* BarrageClock.m */; settings = {ASSET_TAGS = (); }; };
+		896370241C58FC9F002F32FD /* BarrageDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FFD1C58FC9F002F32FD /* BarrageDescriptor.m */; settings = {ASSET_TAGS = (); }; };
+		896370251C58FC9F002F32FD /* BarrageDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FFF1C58FC9F002F32FD /* BarrageDispatcher.m */; settings = {ASSET_TAGS = (); }; };
+		896370261C58FC9F002F32FD /* BarrageRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370011C58FC9F002F32FD /* BarrageRenderer.m */; settings = {ASSET_TAGS = (); }; };
+		896370271C58FC9F002F32FD /* BarrageSpriteFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370031C58FC9F002F32FD /* BarrageSpriteFactory.m */; settings = {ASSET_TAGS = (); }; };
+		896370281C58FC9F002F32FD /* BarrageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370071C58FC9F002F32FD /* BarrageLoader.m */; settings = {ASSET_TAGS = (); }; };
+		896370291C58FC9F002F32FD /* BarrageFloatImageSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963700A1C58FC9F002F32FD /* BarrageFloatImageSprite.m */; settings = {ASSET_TAGS = (); }; };
+		8963702A1C58FC9F002F32FD /* BarrageFloatSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963700C1C58FC9F002F32FD /* BarrageFloatSprite.m */; settings = {ASSET_TAGS = (); }; };
+		8963702B1C58FC9F002F32FD /* BarrageFloatTextSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963700E1C58FC9F002F32FD /* BarrageFloatTextSprite.m */; settings = {ASSET_TAGS = (); }; };
+		8963702C1C58FC9F002F32FD /* BarrageSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370101C58FC9F002F32FD /* BarrageSprite.m */; settings = {ASSET_TAGS = (); }; };
+		8963702D1C58FC9F002F32FD /* BarrageSpriteUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370131C58FC9F002F32FD /* BarrageSpriteUtility.m */; settings = {ASSET_TAGS = (); }; };
+		8963702E1C58FC9F002F32FD /* BarrageWalkImageSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370151C58FC9F002F32FD /* BarrageWalkImageSprite.m */; settings = {ASSET_TAGS = (); }; };
+		8963702F1C58FC9F002F32FD /* BarrageWalkSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370171C58FC9F002F32FD /* BarrageWalkSprite.m */; settings = {ASSET_TAGS = (); }; };
+		896370301C58FC9F002F32FD /* BarrageWalkTextSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370191C58FC9F002F32FD /* BarrageWalkTextSprite.m */; settings = {ASSET_TAGS = (); }; };
+		896370311C58FC9F002F32FD /* NHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963701B1C58FC9F002F32FD /* NHDisplayLink.m */; settings = {ASSET_TAGS = (); }; };
+		896370321C58FC9F002F32FD /* NSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963701D1C58FC9F002F32FD /* NSLabel.m */; settings = {ASSET_TAGS = (); }; };
+		896370331C58FC9F002F32FD /* NSValue+iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963701F1C58FC9F002F32FD /* NSValue+iOS.m */; settings = {ASSET_TAGS = (); }; };
+		896370341C58FC9F002F32FD /* NSView+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370211C58FC9F002F32FD /* NSView+UIView.m */; settings = {ASSET_TAGS = (); }; };
+		8963703A1C58FCDF002F32FD /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 896370391C58FCDF002F32FD /* VLCKit.framework */; };
+		8963703B1C58FCDF002F32FD /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 896370391C58FCDF002F32FD /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		896370491C5901C3002F32FD /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963703E1C5901C3002F32FD /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
+		8963704A1C5901C3002F32FD /* DanMuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370401C5901C3002F32FD /* DanMuModel.m */; settings = {ASSET_TAGS = (); }; };
+		8963704B1C5901C3002F32FD /* MatchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370421C5901C3002F32FD /* MatchModel.m */; settings = {ASSET_TAGS = (); }; };
+		8963704C1C5901C3002F32FD /* SearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370441C5901C3002F32FD /* SearchModel.m */; settings = {ASSET_TAGS = (); }; };
+		8963704D1C5901C3002F32FD /* VideoInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370461C5901C3002F32FD /* VideoInfoModel.m */; settings = {ASSET_TAGS = (); }; };
+		8963704E1C5901C3002F32FD /* LocalVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370481C5901C3002F32FD /* LocalVideoModel.m */; settings = {ASSET_TAGS = (); }; };
+		896370571C59028C002F32FD /* BaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370501C59028C002F32FD /* BaseNetManager.m */; settings = {ASSET_TAGS = (); }; };
+		896370581C59028C002F32FD /* DanMuNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370521C59028C002F32FD /* DanMuNetManager.m */; settings = {ASSET_TAGS = (); }; };
+		896370591C59028C002F32FD /* MatchNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370541C59028C002F32FD /* MatchNetManager.m */; settings = {ASSET_TAGS = (); }; };
+		8963705A1C59028C002F32FD /* SearchNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370561C59028C002F32FD /* SearchNetManager.m */; settings = {ASSET_TAGS = (); }; };
+		896370C21C59099C002F32FD /* DanMuModelArr2Dic.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370C11C59099C002F32FD /* DanMuModelArr2Dic.m */; settings = {ASSET_TAGS = (); }; };
+		89C04B641C5913CA00225ABA /* NSData+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B631C5913CA00225ABA /* NSData+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		89C04B671C59191D00225ABA /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B661C59191D00225ABA /* NSString+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		89C04B701C591B2400225ABA /* NSDictionary+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B6F1C591B2400225ABA /* NSDictionary+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		89C04B731C591BEC00225ABA /* NSArray+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B721C591BEC00225ABA /* NSArray+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		89C04B761C591E5700225ABA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B751C591E5700225ABA /* MainViewController.m */; settings = {ASSET_TAGS = (); }; };
+		CA0DE9BDBB94BB3A6117693A /* libPods-DanDanPlayForMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 663B9184163870AB6D8158DB /* libPods-DanDanPlayForMac.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		896370381C58FCBF002F32FD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8963703B1C58FCDF002F32FD /* VLCKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6082462430812892B6624682 /* Pods-DanDanPlayForMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac.release.xcconfig"; sourceTree = "<group>"; };
+		663B9184163870AB6D8158DB /* libPods-DanDanPlayForMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		89636FCC1C58C40B002F32FD /* DanDanPlayForMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanDanPlayForMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		89636FCF1C58C40B002F32FD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		89636FD01C58C40B002F32FD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		89636FD31C58C40B002F32FD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		89636FD81C58C40B002F32FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
+		89636FDB1C58C40B002F32FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		89636FEF1C58FAD1002F32FD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89636FF81C58FC9F002F32FD /* BarrageCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageCanvas.h; sourceTree = "<group>"; };
+		89636FF91C58FC9F002F32FD /* BarrageCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageCanvas.m; sourceTree = "<group>"; };
+		89636FFA1C58FC9F002F32FD /* BarrageClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageClock.h; sourceTree = "<group>"; };
+		89636FFB1C58FC9F002F32FD /* BarrageClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageClock.m; sourceTree = "<group>"; };
+		89636FFC1C58FC9F002F32FD /* BarrageDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageDescriptor.h; sourceTree = "<group>"; };
+		89636FFD1C58FC9F002F32FD /* BarrageDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageDescriptor.m; sourceTree = "<group>"; };
+		89636FFE1C58FC9F002F32FD /* BarrageDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageDispatcher.h; sourceTree = "<group>"; };
+		89636FFF1C58FC9F002F32FD /* BarrageDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageDispatcher.m; sourceTree = "<group>"; };
+		896370001C58FC9F002F32FD /* BarrageRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageRenderer.h; sourceTree = "<group>"; };
+		896370011C58FC9F002F32FD /* BarrageRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageRenderer.m; sourceTree = "<group>"; };
+		896370021C58FC9F002F32FD /* BarrageSpriteFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageSpriteFactory.h; sourceTree = "<group>"; };
+		896370031C58FC9F002F32FD /* BarrageSpriteFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageSpriteFactory.m; sourceTree = "<group>"; };
+		896370041C58FC9F002F32FD /* BarrageHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageHeader.h; sourceTree = "<group>"; };
+		896370061C58FC9F002F32FD /* BarrageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageLoader.h; sourceTree = "<group>"; };
+		896370071C58FC9F002F32FD /* BarrageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageLoader.m; sourceTree = "<group>"; };
+		896370091C58FC9F002F32FD /* BarrageFloatImageSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageFloatImageSprite.h; sourceTree = "<group>"; };
+		8963700A1C58FC9F002F32FD /* BarrageFloatImageSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageFloatImageSprite.m; sourceTree = "<group>"; };
+		8963700B1C58FC9F002F32FD /* BarrageFloatSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageFloatSprite.h; sourceTree = "<group>"; };
+		8963700C1C58FC9F002F32FD /* BarrageFloatSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageFloatSprite.m; sourceTree = "<group>"; };
+		8963700D1C58FC9F002F32FD /* BarrageFloatTextSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageFloatTextSprite.h; sourceTree = "<group>"; };
+		8963700E1C58FC9F002F32FD /* BarrageFloatTextSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageFloatTextSprite.m; sourceTree = "<group>"; };
+		8963700F1C58FC9F002F32FD /* BarrageSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageSprite.h; sourceTree = "<group>"; };
+		896370101C58FC9F002F32FD /* BarrageSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageSprite.m; sourceTree = "<group>"; };
+		896370111C58FC9F002F32FD /* BarrageSpriteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageSpriteProtocol.h; sourceTree = "<group>"; };
+		896370121C58FC9F002F32FD /* BarrageSpriteUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageSpriteUtility.h; sourceTree = "<group>"; };
+		896370131C58FC9F002F32FD /* BarrageSpriteUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageSpriteUtility.m; sourceTree = "<group>"; };
+		896370141C58FC9F002F32FD /* BarrageWalkImageSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageWalkImageSprite.h; sourceTree = "<group>"; };
+		896370151C58FC9F002F32FD /* BarrageWalkImageSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageWalkImageSprite.m; sourceTree = "<group>"; };
+		896370161C58FC9F002F32FD /* BarrageWalkSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageWalkSprite.h; sourceTree = "<group>"; };
+		896370171C58FC9F002F32FD /* BarrageWalkSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageWalkSprite.m; sourceTree = "<group>"; };
+		896370181C58FC9F002F32FD /* BarrageWalkTextSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarrageWalkTextSprite.h; sourceTree = "<group>"; };
+		896370191C58FC9F002F32FD /* BarrageWalkTextSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarrageWalkTextSprite.m; sourceTree = "<group>"; };
+		8963701A1C58FC9F002F32FD /* NHDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NHDisplayLink.h; sourceTree = "<group>"; };
+		8963701B1C58FC9F002F32FD /* NHDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NHDisplayLink.m; sourceTree = "<group>"; };
+		8963701C1C58FC9F002F32FD /* NSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSLabel.h; sourceTree = "<group>"; };
+		8963701D1C58FC9F002F32FD /* NSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLabel.m; sourceTree = "<group>"; };
+		8963701E1C58FC9F002F32FD /* NSValue+iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+iOS.h"; sourceTree = "<group>"; };
+		8963701F1C58FC9F002F32FD /* NSValue+iOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+iOS.m"; sourceTree = "<group>"; };
+		896370201C58FC9F002F32FD /* NSView+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+UIView.h"; sourceTree = "<group>"; };
+		896370211C58FC9F002F32FD /* NSView+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+UIView.m"; sourceTree = "<group>"; };
+		896370391C58FCDF002F32FD /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VLCKit.framework; path = ../../VLCKit.framework; sourceTree = "<group>"; };
+		8963703D1C5901C3002F32FD /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
+		8963703E1C5901C3002F32FD /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
+		8963703F1C5901C3002F32FD /* DanMuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuModel.h; sourceTree = "<group>"; };
+		896370401C5901C3002F32FD /* DanMuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuModel.m; sourceTree = "<group>"; };
+		896370411C5901C3002F32FD /* MatchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchModel.h; sourceTree = "<group>"; };
+		896370421C5901C3002F32FD /* MatchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchModel.m; sourceTree = "<group>"; };
+		896370431C5901C3002F32FD /* SearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchModel.h; sourceTree = "<group>"; };
+		896370441C5901C3002F32FD /* SearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchModel.m; sourceTree = "<group>"; };
+		896370451C5901C3002F32FD /* VideoInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoInfoModel.h; sourceTree = "<group>"; };
+		896370461C5901C3002F32FD /* VideoInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoInfoModel.m; sourceTree = "<group>"; };
+		896370471C5901C3002F32FD /* LocalVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalVideoModel.h; sourceTree = "<group>"; };
+		896370481C5901C3002F32FD /* LocalVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalVideoModel.m; sourceTree = "<group>"; };
+		8963704F1C59028C002F32FD /* BaseNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNetManager.h; sourceTree = "<group>"; };
+		896370501C59028C002F32FD /* BaseNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNetManager.m; sourceTree = "<group>"; };
+		896370511C59028C002F32FD /* DanMuNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuNetManager.h; sourceTree = "<group>"; };
+		896370521C59028C002F32FD /* DanMuNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuNetManager.m; sourceTree = "<group>"; };
+		896370531C59028C002F32FD /* MatchNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchNetManager.h; sourceTree = "<group>"; };
+		896370541C59028C002F32FD /* MatchNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchNetManager.m; sourceTree = "<group>"; };
+		896370551C59028C002F32FD /* SearchNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNetManager.h; sourceTree = "<group>"; };
+		896370561C59028C002F32FD /* SearchNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchNetManager.m; sourceTree = "<group>"; };
+		8963705B1C590424002F32FD /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		896370C01C59099C002F32FD /* DanMuModelArr2Dic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuModelArr2Dic.h; sourceTree = "<group>"; };
+		896370C11C59099C002F32FD /* DanMuModelArr2Dic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuModelArr2Dic.m; sourceTree = "<group>"; };
+		89C04B621C5913CA00225ABA /* NSData+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Tools.h"; sourceTree = "<group>"; };
+		89C04B631C5913CA00225ABA /* NSData+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Tools.m"; sourceTree = "<group>"; };
+		89C04B651C59191D00225ABA /* NSString+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tools.h"; sourceTree = "<group>"; };
+		89C04B661C59191D00225ABA /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tools.m"; sourceTree = "<group>"; };
+		89C04B6E1C591B2400225ABA /* NSDictionary+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Tools.h"; sourceTree = "<group>"; };
+		89C04B6F1C591B2400225ABA /* NSDictionary+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Tools.m"; sourceTree = "<group>"; };
+		89C04B711C591BEC00225ABA /* NSArray+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Tools.h"; sourceTree = "<group>"; };
+		89C04B721C591BEC00225ABA /* NSArray+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Tools.m"; sourceTree = "<group>"; };
+		89C04B741C591E5700225ABA /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		89C04B751C591E5700225ABA /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		BE4CC565510FBBFF11126BA7 /* Pods-DanDanPlayForMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		89636FC91C58C40B002F32FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA0DE9BDBB94BB3A6117693A /* libPods-DanDanPlayForMac.a in Frameworks */,
+				8963703A1C58FCDF002F32FD /* VLCKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		10260DB5F8628274DDEED15E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BE4CC565510FBBFF11126BA7 /* Pods-DanDanPlayForMac.debug.xcconfig */,
+				6082462430812892B6624682 /* Pods-DanDanPlayForMac.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		89636FC31C58C40A002F32FD = {
+			isa = PBXGroup;
+			children = (
+				89636FCE1C58C40B002F32FD /* DanDanPlayForMac */,
+				89636FCD1C58C40B002F32FD /* Products */,
+				10260DB5F8628274DDEED15E /* Pods */,
+				A42F97F2000AD1698A3592B2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		89636FCD1C58C40B002F32FD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				89636FCC1C58C40B002F32FD /* DanDanPlayForMac.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		89636FCE1C58C40B002F32FD /* DanDanPlayForMac */ = {
+			isa = PBXGroup;
+			children = (
+				89636FCF1C58C40B002F32FD /* AppDelegate.h */,
+				89636FD01C58C40B002F32FD /* AppDelegate.m */,
+				896370BC1C590900002F32FD /* Tools */,
+				89636FEE1C58FAD1002F32FD /* Config */,
+				89636FF11C58FAD1002F32FD /* Resource */,
+				89636FF21C58FAD1002F32FD /* Vender */,
+				8963703C1C590191002F32FD /* Model */,
+				89636FF01C58FAD1002F32FD /* NetManager */,
+				89636FF31C58FAD1002F32FD /* ViewController */,
+				89636FF41C58FAD1002F32FD /* ViewModel */,
+				89636FD21C58C40B002F32FD /* Supporting Files */,
+			);
+			path = DanDanPlayForMac;
+			sourceTree = "<group>";
+		};
+		89636FD21C58C40B002F32FD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				89636FD31C58C40B002F32FD /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		89636FEE1C58FAD1002F32FD /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				89636FEF1C58FAD1002F32FD /* Info.plist */,
+				8963705B1C590424002F32FD /* PrefixHeader.pch */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		89636FF01C58FAD1002F32FD /* NetManager */ = {
+			isa = PBXGroup;
+			children = (
+				8963704F1C59028C002F32FD /* BaseNetManager.h */,
+				896370501C59028C002F32FD /* BaseNetManager.m */,
+				896370511C59028C002F32FD /* DanMuNetManager.h */,
+				896370521C59028C002F32FD /* DanMuNetManager.m */,
+				896370531C59028C002F32FD /* MatchNetManager.h */,
+				896370541C59028C002F32FD /* MatchNetManager.m */,
+				896370551C59028C002F32FD /* SearchNetManager.h */,
+				896370561C59028C002F32FD /* SearchNetManager.m */,
+			);
+			path = NetManager;
+			sourceTree = "<group>";
+		};
+		89636FF11C58FAD1002F32FD /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				89636FD81C58C40B002F32FD /* Assets.xcassets */,
+				89636FDA1C58C40B002F32FD /* Main.storyboard */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		89636FF21C58FAD1002F32FD /* Vender */ = {
+			isa = PBXGroup;
+			children = (
+				896370391C58FCDF002F32FD /* VLCKit.framework */,
+				89636FF61C58FC9F002F32FD /* BarrageRenderer */,
+				89C04B621C5913CA00225ABA /* NSData+Tools.h */,
+				89C04B631C5913CA00225ABA /* NSData+Tools.m */,
+				89C04B651C59191D00225ABA /* NSString+Tools.h */,
+				89C04B661C59191D00225ABA /* NSString+Tools.m */,
+				89C04B6E1C591B2400225ABA /* NSDictionary+Tools.h */,
+				89C04B6F1C591B2400225ABA /* NSDictionary+Tools.m */,
+				89C04B711C591BEC00225ABA /* NSArray+Tools.h */,
+				89C04B721C591BEC00225ABA /* NSArray+Tools.m */,
+			);
+			path = Vender;
+			sourceTree = "<group>";
+		};
+		89636FF31C58FAD1002F32FD /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				89C04B741C591E5700225ABA /* MainViewController.h */,
+				89C04B751C591E5700225ABA /* MainViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		89636FF41C58FAD1002F32FD /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		89636FF61C58FC9F002F32FD /* BarrageRenderer */ = {
+			isa = PBXGroup;
+			children = (
+				89636FF71C58FC9F002F32FD /* BarrageEngine */,
+				896370041C58FC9F002F32FD /* BarrageHeader.h */,
+				896370051C58FC9F002F32FD /* BarrageLoader */,
+				896370081C58FC9F002F32FD /* BarrageSpirit */,
+				8963701A1C58FC9F002F32FD /* NHDisplayLink.h */,
+				8963701B1C58FC9F002F32FD /* NHDisplayLink.m */,
+				8963701C1C58FC9F002F32FD /* NSLabel.h */,
+				8963701D1C58FC9F002F32FD /* NSLabel.m */,
+				8963701E1C58FC9F002F32FD /* NSValue+iOS.h */,
+				8963701F1C58FC9F002F32FD /* NSValue+iOS.m */,
+				896370201C58FC9F002F32FD /* NSView+UIView.h */,
+				896370211C58FC9F002F32FD /* NSView+UIView.m */,
+			);
+			path = BarrageRenderer;
+			sourceTree = "<group>";
+		};
+		89636FF71C58FC9F002F32FD /* BarrageEngine */ = {
+			isa = PBXGroup;
+			children = (
+				89636FF81C58FC9F002F32FD /* BarrageCanvas.h */,
+				89636FF91C58FC9F002F32FD /* BarrageCanvas.m */,
+				89636FFA1C58FC9F002F32FD /* BarrageClock.h */,
+				89636FFB1C58FC9F002F32FD /* BarrageClock.m */,
+				89636FFC1C58FC9F002F32FD /* BarrageDescriptor.h */,
+				89636FFD1C58FC9F002F32FD /* BarrageDescriptor.m */,
+				89636FFE1C58FC9F002F32FD /* BarrageDispatcher.h */,
+				89636FFF1C58FC9F002F32FD /* BarrageDispatcher.m */,
+				896370001C58FC9F002F32FD /* BarrageRenderer.h */,
+				896370011C58FC9F002F32FD /* BarrageRenderer.m */,
+				896370021C58FC9F002F32FD /* BarrageSpriteFactory.h */,
+				896370031C58FC9F002F32FD /* BarrageSpriteFactory.m */,
+			);
+			path = BarrageEngine;
+			sourceTree = "<group>";
+		};
+		896370051C58FC9F002F32FD /* BarrageLoader */ = {
+			isa = PBXGroup;
+			children = (
+				896370061C58FC9F002F32FD /* BarrageLoader.h */,
+				896370071C58FC9F002F32FD /* BarrageLoader.m */,
+			);
+			path = BarrageLoader;
+			sourceTree = "<group>";
+		};
+		896370081C58FC9F002F32FD /* BarrageSpirit */ = {
+			isa = PBXGroup;
+			children = (
+				896370091C58FC9F002F32FD /* BarrageFloatImageSprite.h */,
+				8963700A1C58FC9F002F32FD /* BarrageFloatImageSprite.m */,
+				8963700B1C58FC9F002F32FD /* BarrageFloatSprite.h */,
+				8963700C1C58FC9F002F32FD /* BarrageFloatSprite.m */,
+				8963700D1C58FC9F002F32FD /* BarrageFloatTextSprite.h */,
+				8963700E1C58FC9F002F32FD /* BarrageFloatTextSprite.m */,
+				8963700F1C58FC9F002F32FD /* BarrageSprite.h */,
+				896370101C58FC9F002F32FD /* BarrageSprite.m */,
+				896370111C58FC9F002F32FD /* BarrageSpriteProtocol.h */,
+				896370121C58FC9F002F32FD /* BarrageSpriteUtility.h */,
+				896370131C58FC9F002F32FD /* BarrageSpriteUtility.m */,
+				896370141C58FC9F002F32FD /* BarrageWalkImageSprite.h */,
+				896370151C58FC9F002F32FD /* BarrageWalkImageSprite.m */,
+				896370161C58FC9F002F32FD /* BarrageWalkSprite.h */,
+				896370171C58FC9F002F32FD /* BarrageWalkSprite.m */,
+				896370181C58FC9F002F32FD /* BarrageWalkTextSprite.h */,
+				896370191C58FC9F002F32FD /* BarrageWalkTextSprite.m */,
+			);
+			path = BarrageSpirit;
+			sourceTree = "<group>";
+		};
+		8963703C1C590191002F32FD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8963703D1C5901C3002F32FD /* BaseModel.h */,
+				8963703E1C5901C3002F32FD /* BaseModel.m */,
+				896370471C5901C3002F32FD /* LocalVideoModel.h */,
+				896370481C5901C3002F32FD /* LocalVideoModel.m */,
+				8963703F1C5901C3002F32FD /* DanMuModel.h */,
+				896370401C5901C3002F32FD /* DanMuModel.m */,
+				896370411C5901C3002F32FD /* MatchModel.h */,
+				896370421C5901C3002F32FD /* MatchModel.m */,
+				896370431C5901C3002F32FD /* SearchModel.h */,
+				896370441C5901C3002F32FD /* SearchModel.m */,
+				896370451C5901C3002F32FD /* VideoInfoModel.h */,
+				896370461C5901C3002F32FD /* VideoInfoModel.m */,
+			);
+			name = Model;
+			path = Vender/Model;
+			sourceTree = "<group>";
+		};
+		896370BC1C590900002F32FD /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				896370C31C590C51002F32FD /* Category */,
+				896370C01C59099C002F32FD /* DanMuModelArr2Dic.h */,
+				896370C11C59099C002F32FD /* DanMuModelArr2Dic.m */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		896370C31C590C51002F32FD /* Category */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Category;
+			sourceTree = "<group>";
+		};
+		A42F97F2000AD1698A3592B2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				663B9184163870AB6D8158DB /* libPods-DanDanPlayForMac.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		89636FCB1C58C40B002F32FD /* DanDanPlayForMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89636FE01C58C40B002F32FD /* Build configuration list for PBXNativeTarget "DanDanPlayForMac" */;
+			buildPhases = (
+				F8313CE34A22544C1C999039 /* Check Pods Manifest.lock */,
+				89636FC81C58C40B002F32FD /* Sources */,
+				89636FC91C58C40B002F32FD /* Frameworks */,
+				89636FCA1C58C40B002F32FD /* Resources */,
+				4003360A5724A7A0B01CBECA /* Embed Pods Frameworks */,
+				422792AA4E212602E2DAC710 /* Copy Pods Resources */,
+				896370381C58FCBF002F32FD /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DanDanPlayForMac;
+			productName = DanDanPlayForMac;
+			productReference = 89636FCC1C58C40B002F32FD /* DanDanPlayForMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		89636FC41C58C40A002F32FD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = JimHuang;
+				TargetAttributes = {
+					89636FCB1C58C40B002F32FD = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 89636FC71C58C40A002F32FD /* Build configuration list for PBXProject "DanDanPlayForMac" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 89636FC31C58C40A002F32FD;
+			productRefGroup = 89636FCD1C58C40B002F32FD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				89636FCB1C58C40B002F32FD /* DanDanPlayForMac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		89636FCA1C58C40B002F32FD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */,
+				89636FDC1C58C40B002F32FD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4003360A5724A7A0B01CBECA /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		422792AA4E212602E2DAC710 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8313CE34A22544C1C999039 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		89636FC81C58C40B002F32FD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				896370311C58FC9F002F32FD /* NHDisplayLink.m in Sources */,
+				89C04B761C591E5700225ABA /* MainViewController.m in Sources */,
+				89636FD41C58C40B002F32FD /* main.m in Sources */,
+				8963705A1C59028C002F32FD /* SearchNetManager.m in Sources */,
+				896370251C58FC9F002F32FD /* BarrageDispatcher.m in Sources */,
+				8963704D1C5901C3002F32FD /* VideoInfoModel.m in Sources */,
+				896370231C58FC9F002F32FD /* BarrageClock.m in Sources */,
+				896370581C59028C002F32FD /* DanMuNetManager.m in Sources */,
+				896370281C58FC9F002F32FD /* BarrageLoader.m in Sources */,
+				8963704B1C5901C3002F32FD /* MatchModel.m in Sources */,
+				8963702C1C58FC9F002F32FD /* BarrageSprite.m in Sources */,
+				896370321C58FC9F002F32FD /* NSLabel.m in Sources */,
+				89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */,
+				896370271C58FC9F002F32FD /* BarrageSpriteFactory.m in Sources */,
+				8963704A1C5901C3002F32FD /* DanMuModel.m in Sources */,
+				896370571C59028C002F32FD /* BaseNetManager.m in Sources */,
+				896370221C58FC9F002F32FD /* BarrageCanvas.m in Sources */,
+				896370591C59028C002F32FD /* MatchNetManager.m in Sources */,
+				8963702F1C58FC9F002F32FD /* BarrageWalkSprite.m in Sources */,
+				896370C21C59099C002F32FD /* DanMuModelArr2Dic.m in Sources */,
+				89C04B671C59191D00225ABA /* NSString+Tools.m in Sources */,
+				89C04B701C591B2400225ABA /* NSDictionary+Tools.m in Sources */,
+				8963704E1C5901C3002F32FD /* LocalVideoModel.m in Sources */,
+				8963704C1C5901C3002F32FD /* SearchModel.m in Sources */,
+				896370261C58FC9F002F32FD /* BarrageRenderer.m in Sources */,
+				896370341C58FC9F002F32FD /* NSView+UIView.m in Sources */,
+				8963702A1C58FC9F002F32FD /* BarrageFloatSprite.m in Sources */,
+				896370491C5901C3002F32FD /* BaseModel.m in Sources */,
+				8963702D1C58FC9F002F32FD /* BarrageSpriteUtility.m in Sources */,
+				8963702E1C58FC9F002F32FD /* BarrageWalkImageSprite.m in Sources */,
+				8963702B1C58FC9F002F32FD /* BarrageFloatTextSprite.m in Sources */,
+				89C04B641C5913CA00225ABA /* NSData+Tools.m in Sources */,
+				896370331C58FC9F002F32FD /* NSValue+iOS.m in Sources */,
+				896370291C58FC9F002F32FD /* BarrageFloatImageSprite.m in Sources */,
+				896370301C58FC9F002F32FD /* BarrageWalkTextSprite.m in Sources */,
+				89C04B731C591BEC00225ABA /* NSArray+Tools.m in Sources */,
+				896370241C58FC9F002F32FD /* BarrageDescriptor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		89636FDA1C58C40B002F32FD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				89636FDB1C58C40B002F32FD /* Base */,
+			);
+			name = Main.storyboard;
+			path = ..;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		89636FDE1C58C40B002F32FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		89636FDF1C58C40B002F32FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		89636FE11C58C40B002F32FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE4CC565510FBBFF11126BA7 /* Pods-DanDanPlayForMac.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREFIX_HEADER = DanDanPlayForMac/Config/PrefixHeader.pch;
+				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jim.DanDanPlayForMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		89636FE21C58C40B002F32FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6082462430812892B6624682 /* Pods-DanDanPlayForMac.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREFIX_HEADER = DanDanPlayForMac/Config/PrefixHeader.pch;
+				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jim.DanDanPlayForMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		89636FC71C58C40A002F32FD /* Build configuration list for PBXProject "DanDanPlayForMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89636FDE1C58C40B002F32FD /* Debug */,
+				89636FDF1C58C40B002F32FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		89636FE01C58C40B002F32FD /* Build configuration list for PBXNativeTarget "DanDanPlayForMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89636FE11C58C40B002F32FD /* Debug */,
+				89636FE21C58C40B002F32FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 89636FC41C58C40A002F32FD /* Project object */;
+}

@@ -1,0 +1,15 @@
+//
+//  PrefixHeader.pch
+//  DanDanPlayForMac
+//
+//  Created by JimHuang on 16/1/27.
+//  Copyright © 2016年 JimHuang. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import <YYModel.h>
+#import <AFNetworking.h>
+
+#endif /* PrefixHeader_pch */
