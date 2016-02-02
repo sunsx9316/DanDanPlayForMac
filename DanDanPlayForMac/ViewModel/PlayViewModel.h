@@ -10,7 +10,7 @@
 /**
  *  播放视图模型
  */
-@class DanMuModel, DanMuDataModel;
+@class DanMuModel, DanMuDataModel, LocalVideoModel;
 @interface PlayViewModel : BaseViewModel
 /**
  *  获取当前秒的弹幕
@@ -21,17 +21,18 @@
  */
 - (NSArray <DanMuDataModel *>*)currentSecondDanMuArr:(NSInteger)second;
 /**
- *  初始化 传进来的model如果为DanMuModel直接播放 否则获取弹幕
+ *  视频路径
  *
- *  @param model 模型
+ *  @return 路径
+ */
+- (NSURL *)videoURL;
+/**
+ *  初始化
+ *
+ *  @param localVideoModel 本地视频模型
+ *  @param dic             弹幕字典
  *
  *  @return self
  */
-- (instancetype)initWithModel:(id)model provider:(NSString *)provider;
-/**
- *  获取弹幕
- *
- *  @param complete 回调
- */
-- (void)getDanMuCompletionHandler:(void(^)(NSError *error))complete;
+- (instancetype)initWithLocalVideoModel:(LocalVideoModel *)localVideoModel danMuDic:(NSDictionary *)dic;
 @end

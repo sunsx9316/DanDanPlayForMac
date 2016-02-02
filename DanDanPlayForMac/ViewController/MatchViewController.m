@@ -14,7 +14,8 @@
 
 @interface MatchViewController ()<NSTableViewDataSource, NSTableViewDelegate>
 @property (weak) IBOutlet NSTableView *tableView;
-@property (weak) IBOutlet NSTextField *textField;
+@property (weak) IBOutlet NSSearchField *searchField;
+
 
 
 @property (strong, nonatomic) MatchViewModel *vm;
@@ -26,12 +27,19 @@
 #pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf) name:@"disMissViewController" object: nil];
+    
     [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" style:value1 parentView:self.view dismissWhenClick: YES];
     
     [self.vm refreshWithModelCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
         [self.tableView reloadData];
     }];
+}
+
+- (void)viewWillDisappear{
+    [super viewWillDisappear];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 - (instancetype)initWithStoryboardID:(NSString *)StoryboardID videoModel:(LocalVideoModel *)videoModel{
@@ -44,10 +52,16 @@
 
 - (IBAction)searchButtonDown:(NSButton *)sender {
     SearchViewController *vc = [[SearchViewController alloc] init];
-    vc.searchText = self.textField.stringValue;
+    vc.searchText = self.searchField.stringValue;
     [self presentViewControllerAsSheet: vc];
 }
 - (IBAction)backButtonDown:(NSButton *)sender {
+    [self dismissController: self];
+}
+
+#pragma mark - 私有方法
+
+- (void)disMissSelf{
     [self dismissController: self];
 }
 

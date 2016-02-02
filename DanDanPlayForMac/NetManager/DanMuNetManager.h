@@ -12,7 +12,7 @@
 /**
  *  获取弹幕库
  *
- *  @param parameters 参数 id
+ *  @param parameters 参数 节目id
  *  @param complete   回调 在官方弹幕库不为空时 直接返回官方弹幕库；为空时 返回对应的番剧分集信息
  *
  *  @return 任务

@@ -10,9 +10,11 @@
 #import "LocalVideoModel.h"
 #import "MatchViewController.h"
 #import "BackGroundImageView.h"
+#import "PlayerViewController.h"
 
 @interface MainViewController ()
 @property (strong, nonatomic) BackGroundImageView *imgView;
+@property (strong, nonatomic) LocalVideoModel *video;
 @end
 
 @implementation MainViewController
@@ -24,6 +26,12 @@
     [self.imgView setUpBlock:^(NSString *filePath) {
         [weakSelf setUpWithFilePath: filePath];
     }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"danMuChooseOver" object: nil];
+}
+
+- (void)viewWillDisappear{
+    [super viewWillDisappear];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 - (void)setUpWithFilePath:(NSString *)filePath{
@@ -32,11 +40,17 @@
     [[NSFileManager defaultManager] fileExistsAtPath: filePath isDirectory:&isDirectory];
     //是文件才开始解析
     if (!isDirectory) {
-        
-        [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithStoryboardID:@"MatchViewController" videoModel: [[LocalVideoModel alloc] initWithFilePath: filePath]]];
+        self.video = [[LocalVideoModel alloc] initWithFilePath: filePath];
+        [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithStoryboardID:@"MatchViewController" videoModel: self.video]];
     }else{
         [[NSAlert alertWithMessageText:@"然而文件并不存在，或者你用个文件夹在逗我" defaultButton:@"ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@"⊂彡☆))∀`)"] runModal];
     }
+}
+
+#pragma mark - 私有方法
+
+- (void)presentPlayerViewController:(NSNotification *)notification{
+    [NSApplication sharedApplication].mainWindow.contentViewController = [[PlayerViewController alloc] initWithLocaleVideo:self.video danMuDic:notification.userInfo];
 }
 
 #pragma mark - 懒加载
@@ -46,7 +60,7 @@
         [_imgView setWantsLayer: YES];
         _imgView.layer.backgroundColor = [NSColor blackColor].CGColor;
         _imgView.image = [NSImage imageNamed:@"home"];
-        _imgView.imageScaling = NSImageScaleProportionallyDown;
+        _imgView.imageScaling = NSImageScaleProportionallyUpOrDown;
         [_imgView setAutoresizingMask:NSViewMaxYMargin|NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewHeightSizable|NSViewMinYMargin];
 	}
 	return _imgView;

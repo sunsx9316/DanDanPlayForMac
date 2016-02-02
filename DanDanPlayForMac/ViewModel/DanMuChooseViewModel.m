@@ -15,8 +15,8 @@
 @end
 
 @implementation DanMuChooseViewModel
-- (NSString *)supplierNameWithIndex:(NSInteger)index{
-    return [self.supplierArr objectOrNilAtIndex: index];
+- (NSString *)providerNameWithIndex:(NSInteger)index{
+    return [self.providerArr objectOrNilAtIndex: index];
 }
 - (NSString *)shiBanTitleWithIndex:(NSInteger)index{
     return [[self.shiBanArr objectOrNilAtIndex: index] title];
@@ -28,8 +28,8 @@
     return [[self.episodeTitleArr objectOrNilAtIndex: index] danMuKu];
 }
 
-- (NSInteger)supplierNum{
-    return self.supplierArr.count;
+- (NSInteger)providerNum{
+    return self.providerArr.count;
 }
 - (NSInteger)shiBanNum{
     return self.shiBanArr.count;
@@ -41,22 +41,32 @@
 
 
 - (void)refreshCompletionHandler:(void (^)(NSError *))complete{
-    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
-        self.contentDic = responseObj;
-        self.supplierArr = responseObj.allKeys;
-        self.shiBanArr = responseObj[self.supplierArr.firstObject];
-        self.episodeTitleArr = self.shiBanArr.firstObject.videos;
+    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(id responseObj, NSError *error){
+        if ([responseObj isKindOfClass: [NSDictionary class]]) {
+            self.contentDic = responseObj;
+            self.providerArr = [responseObj allKeys];
+            self.shiBanArr = responseObj[self.providerArr.firstObject];
+            self.episodeTitleArr = self.shiBanArr.firstObject.videos;
+        }else{
+            NSLog(@"有官方弹幕");
+        }
         complete(error);
     }];
 }
 
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj))complete{
+    NSString *provider = [self providerNameWithIndex: index];
+    NSString *danMuKuID = [self danMuKuWithIndex: index];
+    if (!danMuKuID || !provider) return;
+    
+    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmuku":danMuKuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
+        if (!error) complete(responseObj);
+    }];
+}
 
-- (instancetype)initWithVideoDic:(NSDictionary *)dic{
+- (instancetype)initWithVideoID:(NSString *)videoID{
     if (self = [super init]) {
-        self.contentDic = dic;
-        self.supplierArr = dic.allKeys;
-        self.shiBanArr = dic[self.supplierArr.firstObject];
-        self.episodeTitleArr = self.shiBanArr.firstObject.videos;
+        self.videoID = videoID;
     }
     return self;
 }

@@ -7,6 +7,8 @@
 //
 
 #import "DanDanSearchViewController.h"
+#import "DanMuChooseViewController.h"
+
 #import "SearchViewModel.h"
 #import "SearchModel.h"
 
@@ -20,6 +22,7 @@
 #pragma mark - 方法
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [self.outlineView setDoubleAction: @selector(doubleClickRow)];
 }
 
 - (void)refreshWithKeyWord:(NSString *)keyWord completion:(void(^)(NSError *error))completionHandler{
@@ -29,12 +32,17 @@
     }];
 }
 
-- (void)outlineViewSelectionDidChange:(NSNotification *)notification{
+- (void)doubleClickRow{
     id aModel = [self.outlineView itemAtRow: [self.outlineView selectedRow]];
     if ([aModel isKindOfClass: [EpisodesModel class]]) {
-        NSLog(@"%@, %@", [aModel title], [aModel identity]);
+        NSString *videoID = [aModel ID];
+        if (videoID) {
+            DanMuChooseViewController *vc = [[DanMuChooseViewController alloc] initWithVideoID: videoID];
+            [self presentViewControllerAsSheet: vc];
+        }
     }
 }
+
 
 #pragma mark - NSOutlineViewDataSource
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item{

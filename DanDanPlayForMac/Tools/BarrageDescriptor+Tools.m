@@ -9,22 +9,23 @@
 #import "BarrageDescriptor+Tools.h"
 #import "BarrageHeader.h"
 #import "NSColor+Tools.h"
+#import "DanMuModel.h"
 
 @implementation BarrageDescriptor (Tools)
-+ (instancetype)descriptorWithText:(NSString*)text color:(NSInteger)color style:(NSInteger)style fontSize:(NSInteger)fontSize{
++ (instancetype)descriptorWithModel:(DanMuDataModel *)model{
     BarrageDescriptor * descriptor = [[BarrageDescriptor alloc]init];
-    if (style == 1) {
+    if (model.mode == 1) {
         descriptor.spriteName = NSStringFromClass([BarrageWalkTextSprite class]);
         descriptor.params[@"speed"] = @(arc4random()%100 + 50);
-    }else if(style == 4 || style == 5){
+    }else if(model.mode == 4 || model.mode == 5){
         descriptor.spriteName = NSStringFromClass([BarrageFloatTextSprite class]);;
         descriptor.params[@"duration"] = @(3);
     }
     
-    descriptor.params[@"text"] = text;
-    descriptor.params[@"textColor"] = [NSColor colorWithRGB: (uint32_t)color];
-    descriptor.params[@"direction"] = (style == 1 || style == 5) ? @(1) : @(2);
-    descriptor.params[@"fontSize"] = @(fontSize);
+    descriptor.params[@"text"] = model.message;
+    descriptor.params[@"textColor"] = [NSColor colorWithRGB: (uint32_t)model.color];
+    descriptor.params[@"direction"] = (model.mode == 1 || model.mode == 5) ? @(1) : @(2);
+    descriptor.params[@"fontSize"] = @(model.fontSize);
     return descriptor;
 }
 @end

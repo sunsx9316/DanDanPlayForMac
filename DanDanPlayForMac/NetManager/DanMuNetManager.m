@@ -17,9 +17,9 @@
     if (!parameters[@"id"]) return nil;
     
     return [self getWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: parameters[@"id"]] parameters:@{@"from":@"0"} completionHandler:^(NSDictionary *responseObj, NSError *error) {
-        //如果返回的对象吧不为空 说明有官方弹幕库 直接返回 否则请求第三方弹幕库
+        //如果返回的对象不为空 说明有官方弹幕库 直接返回 否则请求第三方弹幕库
         if ([responseObj[@"Comments"] count]) {
-            complete([DanMuModel yy_modelWithDictionary: responseObj], error);
+            complete([DanMuModelArr2Dic dicWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:official], error);
         }else{
             [self getThirdPartyDanMuWithParameters:parameters completionHandler:complete];
         }
@@ -28,7 +28,7 @@
 
 + (id)downThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     // danmuku:弹幕库id provider 提供者
-    if (!parameters[@"danmuku"]) {
+    if (!parameters[@"danmuku"] || !parameters[@"provider"]) {
         complete(nil, nil);
         return nil;
     }

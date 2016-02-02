@@ -11,7 +11,7 @@
 
 @interface DanMuChooseViewModel : BaseViewModel
 @property (nonatomic, strong) NSDictionary *contentDic;
-@property (nonatomic, strong) NSArray <NSString *>*supplierArr;
+@property (nonatomic, strong) NSArray <NSString *>*providerArr;
 @property (nonatomic, strong) NSArray <VideoInfoModel *>*shiBanArr;
 @property (nonatomic, strong) NSArray <VideoInfoDataModel *>*episodeTitleArr;
 
@@ -22,7 +22,7 @@
  *
  *  @return 提供者名称
  */
-- (NSString *)supplierNameWithIndex:(NSInteger)index;
+- (NSString *)providerNameWithIndex:(NSInteger)index;
 /**
  *  获取番剧名称
  *
@@ -52,7 +52,7 @@
  *
  *  @return 提供者总数
  */
-- (NSInteger)supplierNum;
+- (NSInteger)providerNum;
 /**
  *  番剧总数
  *
@@ -65,6 +65,13 @@
  *  @return 分集总数
  */
 - (NSInteger)episodeNum;
+/**
+ *  下载第三方弹幕
+ *
+ *  @param index    下标
+ *  @param complete 回调
+ */
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj))complete;
 
 
 
@@ -76,5 +83,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithVideoDic:(NSDictionary *)dic;
+- (instancetype)initWithVideoID:(NSString *)videoID;
 @end

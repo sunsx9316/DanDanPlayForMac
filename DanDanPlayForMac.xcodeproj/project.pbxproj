@@ -47,9 +47,11 @@
 		89651E401C5F8A9E002F23A2 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E3F1C5F8A9E002F23A2 /* JHProgressHUD.m */; settings = {ASSET_TAGS = (); }; };
 		89651E461C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E451C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		89651E491C5FA837002F23A2 /* NSColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E481C5FA837002F23A2 /* NSColor+Tools.m */; settings = {ASSET_TAGS = (); }; };
-		89651E4C1C5FA974002F23A2 /* PlayerUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E4B1C5FA974002F23A2 /* PlayerUI.m */; settings = {ASSET_TAGS = (); }; };
+		8975A0AC1C60A03A009BD30F /* PlayerSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0A81C60A03A009BD30F /* PlayerSlideView.m */; settings = {ASSET_TAGS = (); }; };
+		8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0AA1C60A03A009BD30F /* PlayerViewController.m */; settings = {ASSET_TAGS = (); }; };
+		8975A0AE1C60A03A009BD30F /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		8975A0B11C60A8EA009BD30F /* DanMuChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0B01C60A8EA009BD30F /* DanMuChooseViewController.m */; settings = {ASSET_TAGS = (); }; };
 		897619ED1C59E8520046A245 /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897619E21C59E8520046A245 /* BaseViewModel.m */; settings = {ASSET_TAGS = (); }; };
-		897619EF1C59E8520046A245 /* EpisodeChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897619E61C59E8520046A245 /* EpisodeChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		897619F01C59E8520046A245 /* MatchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897619E81C59E8520046A245 /* MatchViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		897619F11C59E8520046A245 /* PlayViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897619EA1C59E8520046A245 /* PlayViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		897619F21C59E8520046A245 /* SearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897619EC1C59E8520046A245 /* SearchViewModel.m */; settings = {ASSET_TAGS = (); }; };
@@ -163,12 +165,15 @@
 		89651E451C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BarrageDescriptor+Tools.m"; sourceTree = "<group>"; };
 		89651E471C5FA837002F23A2 /* NSColor+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Tools.h"; sourceTree = "<group>"; };
 		89651E481C5FA837002F23A2 /* NSColor+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Tools.m"; sourceTree = "<group>"; };
-		89651E4A1C5FA974002F23A2 /* PlayerUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerUI.h; sourceTree = "<group>"; };
-		89651E4B1C5FA974002F23A2 /* PlayerUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerUI.m; sourceTree = "<group>"; };
+		8975A0A71C60A03A009BD30F /* PlayerSlideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSlideView.h; sourceTree = "<group>"; };
+		8975A0A81C60A03A009BD30F /* PlayerSlideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSlideView.m; sourceTree = "<group>"; };
+		8975A0A91C60A03A009BD30F /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
+		8975A0AA1C60A03A009BD30F /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
+		8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
+		8975A0AF1C60A8EA009BD30F /* DanMuChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuChooseViewController.h; sourceTree = "<group>"; };
+		8975A0B01C60A8EA009BD30F /* DanMuChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuChooseViewController.m; sourceTree = "<group>"; };
 		897619E11C59E8520046A245 /* BaseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewModel.h; sourceTree = "<group>"; };
 		897619E21C59E8520046A245 /* BaseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewModel.m; sourceTree = "<group>"; };
-		897619E51C59E8520046A245 /* EpisodeChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeChooseViewModel.h; sourceTree = "<group>"; };
-		897619E61C59E8520046A245 /* EpisodeChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeChooseViewModel.m; sourceTree = "<group>"; };
 		897619E71C59E8520046A245 /* MatchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchViewModel.h; sourceTree = "<group>"; };
 		897619E81C59E8520046A245 /* MatchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchViewModel.m; sourceTree = "<group>"; };
 		897619E91C59E8520046A245 /* PlayViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayViewModel.h; sourceTree = "<group>"; };
@@ -313,6 +318,8 @@
 		89636FF31C58FAD1002F32FD /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				89E3A71A1C60FEDA0030C44A /* 弹幕选择界面 */,
+				89E3A7191C60FEC50030C44A /* 播放界面 */,
 				89788D371C5E446500CA31EF /* 搜索界面 */,
 				89761A161C5A71C10046A245 /* 匹配界面 */,
 				897619FD1C59EEFD0046A245 /* 主界面 */,
@@ -329,8 +336,6 @@
 				897619E21C59E8520046A245 /* BaseViewModel.m */,
 				897619F71C59EDBC0046A245 /* DanMuChooseViewModel.h */,
 				897619F81C59EDBC0046A245 /* DanMuChooseViewModel.m */,
-				897619E51C59E8520046A245 /* EpisodeChooseViewModel.h */,
-				897619E61C59E8520046A245 /* EpisodeChooseViewModel.m */,
 				897619E71C59E8520046A245 /* MatchViewModel.h */,
 				897619E81C59E8520046A245 /* MatchViewModel.m */,
 				897619EB1C59E8520046A245 /* SearchViewModel.h */,
@@ -470,8 +475,6 @@
 				89C04B751C591E5700225ABA /* MainViewController.m */,
 				89651E3B1C5F81E4002F23A2 /* BackGroundImageView.h */,
 				89651E3C1C5F81E4002F23A2 /* BackGroundImageView.m */,
-				89651E4A1C5FA974002F23A2 /* PlayerUI.h */,
-				89651E4B1C5FA974002F23A2 /* PlayerUI.m */,
 			);
 			name = "主界面";
 			sourceTree = "<group>";
@@ -496,6 +499,27 @@
 				89FE1F091C5E57BB00FF4586 /* DanDanSearchViewController.m */,
 			);
 			name = "搜索界面";
+			sourceTree = "<group>";
+		};
+		89E3A7191C60FEC50030C44A /* 播放界面 */ = {
+			isa = PBXGroup;
+			children = (
+				8975A0A71C60A03A009BD30F /* PlayerSlideView.h */,
+				8975A0A81C60A03A009BD30F /* PlayerSlideView.m */,
+				8975A0A91C60A03A009BD30F /* PlayerViewController.h */,
+				8975A0AA1C60A03A009BD30F /* PlayerViewController.m */,
+				8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */,
+			);
+			name = "播放界面";
+			sourceTree = "<group>";
+		};
+		89E3A71A1C60FEDA0030C44A /* 弹幕选择界面 */ = {
+			isa = PBXGroup;
+			children = (
+				8975A0AF1C60A8EA009BD30F /* DanMuChooseViewController.h */,
+				8975A0B01C60A8EA009BD30F /* DanMuChooseViewController.m */,
+			);
+			name = "弹幕选择界面";
 			sourceTree = "<group>";
 		};
 		A42F97F2000AD1698A3592B2 /* Frameworks */ = {
@@ -569,6 +593,7 @@
 			files = (
 				89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */,
 				89636FDC1C58C40B002F32FD /* Main.storyboard in Resources */,
+				8975A0AE1C60A03A009BD30F /* PlayerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +652,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8975A0AC1C60A03A009BD30F /* PlayerSlideView.m in Sources */,
 				896370311C58FC9F002F32FD /* NHDisplayLink.m in Sources */,
 				89C04B761C591E5700225ABA /* MainViewController.m in Sources */,
 				89636FD41C58C40B002F32FD /* main.m in Sources */,
@@ -643,9 +669,9 @@
 				8963704B1C5901C3002F32FD /* MatchModel.m in Sources */,
 				897619F21C59E8520046A245 /* SearchViewModel.m in Sources */,
 				8963702C1C58FC9F002F32FD /* BarrageSprite.m in Sources */,
-				89651E4C1C5FA974002F23A2 /* PlayerUI.m in Sources */,
 				896370321C58FC9F002F32FD /* NSLabel.m in Sources */,
 				89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */,
+				8975A0B11C60A8EA009BD30F /* DanMuChooseViewController.m in Sources */,
 				897619F91C59EDBC0046A245 /* DanMuChooseViewModel.m in Sources */,
 				896370271C58FC9F002F32FD /* BarrageSpriteFactory.m in Sources */,
 				89761A251C5A84860046A245 /* NSArray+Tools.m in Sources */,
@@ -655,13 +681,13 @@
 				89651E3D1C5F81E4002F23A2 /* BackGroundImageView.m in Sources */,
 				896370571C59028C002F32FD /* BaseNetManager.m in Sources */,
 				89761A281C5A84860046A245 /* NSString+Tools.m in Sources */,
-				897619EF1C59E8520046A245 /* EpisodeChooseViewModel.m in Sources */,
 				896370221C58FC9F002F32FD /* BarrageCanvas.m in Sources */,
 				89761A271C5A84860046A245 /* NSDictionary+Tools.m in Sources */,
 				896370591C59028C002F32FD /* MatchNetManager.m in Sources */,
 				8963702F1C58FC9F002F32FD /* BarrageWalkSprite.m in Sources */,
 				896370C21C59099C002F32FD /* DanMuModelArr2Dic.m in Sources */,
 				89761A261C5A84860046A245 /* NSData+Tools.m in Sources */,
+				8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */,
 				8963704E1C5901C3002F32FD /* LocalVideoModel.m in Sources */,
 				8963704C1C5901C3002F32FD /* SearchModel.m in Sources */,
 				896370261C58FC9F002F32FD /* BarrageRenderer.m in Sources */,

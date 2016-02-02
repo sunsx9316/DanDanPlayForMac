@@ -7,7 +7,7 @@
 //
 
 #import "BarrageDescriptor.h"
-
+@class DanMuDataModel;
 @interface BarrageDescriptor (Tools)
-+ (instancetype)descriptorWithText:(NSString*)text color:(NSInteger)color style:(NSInteger)style fontSize:(NSInteger)fontSize;
++ (instancetype)descriptorWithModel:(DanMuDataModel *)model;
 @end

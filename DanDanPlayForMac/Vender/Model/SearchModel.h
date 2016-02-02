@@ -49,5 +49,5 @@
 /**
  *  分集id
  */
-@property (nonatomic, strong)NSString* identity;
+@property (nonatomic, strong)NSString* ID;
 @end

@@ -11,9 +11,9 @@
 #import "JHProgressHUD.h"
 
 @interface SearchViewController ()<NSTabViewDelegate>
-@property (weak) IBOutlet NSTextField *searchTextField;
 @property (weak) IBOutlet NSTabView *tabView;
-
+@property (weak) IBOutlet NSSearchField *searchTextField;
+@property (strong, nonatomic) NSMutableArray <NSViewController *>*viewController;
 @end
 
 @implementation SearchViewController
@@ -22,10 +22,12 @@
     [super viewDidLoad];
     [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
     self.searchTextField.stringValue = self.searchText;
+    
     DanDanSearchViewController *dvc = (DanDanSearchViewController *)[self addViewControllerWithTitile:@"官方" ID:@"DanDanSearchViewController"];
     [dvc refreshWithKeyWord: self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];
+    
 }
 
 - (instancetype)init{
@@ -33,7 +35,16 @@
 }
 
 - (IBAction)searchButtonDown:(NSButton *)sender {
-    NSLog(@"%ld", (long)[self.tabView indexOfTabViewItem:self.tabView.selectedTabViewItem]);
+    NSInteger index = [self.tabView indexOfTabViewItem:self.tabView.selectedTabViewItem];
+    if (index == 0) {
+        DanDanSearchViewController *dvc = (DanDanSearchViewController *)self.viewController[index];
+        if (!dvc) return;
+        
+        [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
+        [dvc refreshWithKeyWord: self.searchTextField.stringValue completion:^(NSError *error) {
+            [JHProgressHUD disMiss];
+        }];
+    }
 }
 
 - (IBAction)backButtonDown:(NSButton *)sender {
@@ -56,8 +67,18 @@
     tabViewItem.view = vc.view;
     tabViewItem.label = title;
     [self addChildViewController: vc];
+    [self.viewController addObject: vc];
     [self.tabView addTabViewItem: tabViewItem];
     return vc;
+}
+
+#pragma mark - 懒加载
+
+- (NSMutableArray <NSViewController *> *)viewController {
+	if(_viewController == nil) {
+		_viewController = [[NSMutableArray <NSViewController *> alloc] init];
+	}
+	return _viewController;
 }
 
 @end

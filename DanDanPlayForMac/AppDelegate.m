@@ -24,6 +24,7 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
 }
+
 - (IBAction)openLocaleFile:(NSMenuItem *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseDirectories:NO];
