@@ -10,7 +10,7 @@
 @class EpisodesModel, SearchDataModel;
 
 /**
- *  搜索模型
+ *  官方搜索模型
  */
 @interface SearchModel : BaseModel
 @property (nonatomic, strong)NSArray<SearchDataModel*>* animes;
@@ -47,7 +47,7 @@
  */
 @property (nonatomic, strong)NSString* title;
 /**
- *  分集标识
+ *  分集id
  */
 @property (nonatomic, strong)NSString* identity;
 @end

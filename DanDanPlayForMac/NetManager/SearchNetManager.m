@@ -11,14 +11,17 @@
 
 @implementation SearchNetManager
 + (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(SearchModel* responseObj, NSError *error))complete{
-    if (!parameters[@"anime"]) return nil;
-    
+    if (!parameters[@"anime"]){
+        complete(nil, nil);
+        return nil;
+    }
+    NSString *formatterAnima = [parameters[@"anime"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
     NSString* basePath = @"http://acplay.net/api/v1/searchall/";
     //episode属性不存在
     if (!parameters[@"episode"]) {
-        basePath = [basePath stringByAppendingFormat:@"%@",parameters[@"anime"]];
+        basePath = [basePath stringByAppendingFormat:@"%@",formatterAnima];
     }else{
-        basePath = [basePath stringByAppendingFormat:@"%@/%@",parameters[@"anime"],parameters[@"episode"]];
+        basePath = [basePath stringByAppendingFormat:@"%@/%@",formatterAnima,[parameters[@"episode"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
     }
     
     return [self getWithPath:basePath parameters:nil completionHandler:^(id responseObj, NSError *error) {

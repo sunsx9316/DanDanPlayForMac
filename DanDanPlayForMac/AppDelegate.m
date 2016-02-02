@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MainViewController.h"
 
 @interface AppDelegate ()
 
@@ -15,11 +16,26 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+    self.mainWindowController = kViewControllerWithId(@"MainWindowController");
+    [self.mainWindowController showWindow: self];
+    [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
+}
+- (IBAction)openLocaleFile:(NSMenuItem *)sender {
+    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseDirectories:NO];
+    [openPanel setCanChooseFiles:YES];
+    [openPanel setAllowsMultipleSelection:NO];
+    
+    [openPanel beginSheetModalForWindow:self.mainWindowController.window completionHandler:^(NSInteger result) {
+        if (result == NSFileHandlingPanelOKButton) {
+            MainViewController *vc = (MainViewController *)[self.mainWindowController contentViewController];
+            [vc setUpWithFilePath: [[openPanel URL] path]];
+        }
+    }];
 }
 
 @end

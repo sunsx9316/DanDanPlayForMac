@@ -12,27 +12,27 @@
  */
 @interface LocalVideoModel : BaseModel
 /**
- *  文件名
+ *  文件名不带格式
  */
-@property (nonatomic, strong) NSString* fileName;
+- (NSString *)fileName;
 /**
- *  文件路径：文件名加后缀名
+ *  文件完整路径
  */
-@property (nonatomic, strong) NSString* filePath;
+- (NSString *)filePath;
 /**
  *  文件哈希值
  */
-@property (nonatomic, strong) NSString* md5;
+- (NSString *)md5;
 /**
- *  文件长
+ *  文件大小
  */
-@property (nonatomic, strong) NSString* length;
+- (NSString *)length;
 /**
- *  缩略图
+ *  初始化
+ *
+ *  @param filePath 文件路径
+ *
+ *  @return self
  */
-@property (nonatomic, strong) NSImage *thumb;
-/**
- *  视频时长
- */
-@property (nonatomic, strong) NSString *duration;
+- (instancetype)initWithFilePath:(NSString *)filePath;
 @end

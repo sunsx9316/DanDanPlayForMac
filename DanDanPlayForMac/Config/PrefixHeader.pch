@@ -11,5 +11,9 @@
 
 #import <YYModel.h>
 #import <AFNetworking.h>
+#import <Masonry.h>
+
+//配置头文件
+#import "Config.h"
 
 #endif /* PrefixHeader_pch */

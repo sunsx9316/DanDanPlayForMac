@@ -46,6 +46,38 @@
     return nil;
 }
 
+/**
+ *  获取b站弹幕
+ *
+ *  @param parameters 参数
+ *  @param complete   回调
+ *
+ *  @return 任务
+ */
++ (id)getBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
+    //http://bangumi.bilibili.com/jsonp/avseason/46431.ver
+    //http://www.bilibilijj.com/Api/AvToCid/3203638
+    return [self getWithPath:[NSString stringWithFormat: @"http://www.bilibilijj.com/Api/AvToCid/%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
+        complete([BiliBiliVideoInfoModel yy_modelWithDictionary: responseObj], error);
+    }];
+}
+
+/**
+ *  获取a站弹幕
+ *
+ *  @param parameters 参数
+ *  @param complete   回调
+ *
+ *  @return 任务
+ */
++ (id)getAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
+    //http://www.acfun.tv/bangumi/video/page?bangumiId=1470358&order=2
+    //http://api.aixifan.com/bangumis/1470315 请求头deviceType = 1
+    return [self getWithPath:[NSString stringWithFormat:@"http://api.aixifan.com/bangumis/%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
+        complete([AcfunVideoInfoModel yy_modelWithDictionary: responseObj[@"data"]], error);
+    }];
+}
+
 #pragma mark - 私有方法
 /**
  *  获取第三方弹幕库
@@ -85,39 +117,7 @@
         [[NSOperationQueue mainQueue] addOperations:@[operations.lastObject] waitUntilFinished:NO];
     }];
 }
-/**
- *  获取b站弹幕
- *
- *  @param parameters 参数
- *  @param complete   回调
- *
- *  @return 任务
- */
-+ (id)getBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    //http://bangumi.bilibili.com/jsonp/avseason/46431.ver
-    //http://www.bilibilijj.com/Api/AvToCid/3203638
-    return [self getWithPath:[NSString stringWithFormat: @"http://www.bilibilijj.com/Api/AvToCid/%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
-        complete([BiliBiliVideoInfoModel yy_modelWithDictionary: responseObj], error);
-    }];
-}
 
-/**
- *  获取a站弹幕
- *
- *  @param parameters 参数
- *  @param complete   回调
- *
- *  @return 任务
- */
-+ (id)getAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    //http://www.acfun.tv/bangumi/video/page?bangumiId=1470358&order=2
-    //http://api.aixifan.com/bangumis/1470315 请求头deviceType = 1
-    return [self getWithPath:[NSString stringWithFormat:@"http://api.aixifan.com/bangumis/%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
-        complete([AcfunVideoInfoModel yy_modelWithDictionary: responseObj[@"data"]], error);
-    }];
-}
-
-#pragma mark - 私有方法
 /**
  *  获取b站视频av号 分集
  *
