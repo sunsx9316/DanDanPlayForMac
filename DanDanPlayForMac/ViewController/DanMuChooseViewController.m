@@ -40,10 +40,11 @@
 //点击确认 发送播放通知
 - (IBAction)clickOKButton:(NSButton *)sender {
     [JHProgressHUD showWithMessage:@"挖坟中..." parentView:self.view];
-    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(NSDictionary *responseObj) {
+    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(NSDictionary *responseObj) {
         [JHProgressHUD disMiss];
+        //通知关闭列表视图控制器
         [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:responseObj];
-        
+        //通知开始播放
         [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
     }];
 }
@@ -90,12 +91,9 @@
     [self.providerButton removeAllItems];
     
     NSInteger supplierNum = [self.vm providerNum];
-    //不能移除第一个 否则会有问题
     for (int i = 0; i < supplierNum; ++i) {
         [self.providerButton addItemWithTitle: [self.vm providerNameWithIndex: i]];
     }
-   // [self.providerButton selectItemAtIndex: 0];
-  //  [self.providerButton setTitle: [self.providerButton titleOfSelectedItem]];
 }
 
 - (void)reloadShiBanButton{
@@ -105,8 +103,6 @@
     for (int i = 0; i < shiBanNum; ++i) {
         [self.shiBanBurron addItemWithTitle: [self.vm shiBanTitleWithIndex: i]];
     }
-    //[self.shiBanBurron selectItemAtIndex: 0];
-   // [self.shiBanBurron setTitle: [self.shiBanBurron titleOfSelectedItem]];
 }
 
 - (void)reloadEpisodeButton{
@@ -117,8 +113,6 @@
     for (int i = 0; i < episodeNum; ++i) {
         [self.episodeButton addItemWithTitle: [self.vm episodeTitleWithIndex: i]];
     }
-   // [self.episodeButton selectItemAtIndex: 0];
-    //[self.episodeButton setTitle: [self.episodeButton titleOfSelectedItem]];
 }
 
 @end

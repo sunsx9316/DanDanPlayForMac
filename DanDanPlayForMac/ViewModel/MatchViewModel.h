@@ -62,5 +62,5 @@
  *
  *  @param complete 回调
  */
-- (void)refreshWithModelCompletionHandler:(void(^)(NSError *error))complete;
+- (void)refreshWithModelCompletionHandler:(void(^)(NSError *error, NSString *episodeId))complete;
 @end

@@ -71,10 +71,14 @@
  *  @param index    下标
  *  @param complete 回调
  */
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj))complete;
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index provider:(NSString *)provider completionHandler:(void(^)(id responseObj))complete;
 
 
-
+/**
+ *  刷新
+ *
+ *  @param complete 回调
+ */
 - (void)refreshCompletionHandler:(void(^)(NSError *error))complete;
 /**
  *  初始化

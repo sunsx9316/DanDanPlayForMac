@@ -10,6 +10,7 @@
 #import "MatchViewModel.h"
 #import "LocalVideoModel.h"
 #import "SearchViewController.h"
+#import "DanMuChooseViewController.h"
 #import "JHProgressHUD.h"
 
 @interface MatchViewController ()<NSTableViewDataSource, NSTableViewDelegate>
@@ -27,13 +28,20 @@
 #pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tableView setDoubleAction: @selector(doubleClickRow)];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf) name:@"disMissViewController" object: nil];
     
-    [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" style:value1 parentView:self.view dismissWhenClick: YES];
+    [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
     
-    [self.vm refreshWithModelCompletionHandler:^(NSError *error) {
-        [JHProgressHUD disMiss];
-        [self.tableView reloadData];
+    [self.vm refreshWithModelCompletionHandler:^(NSError *error, NSString *episodeId) {
+        //episodeId存在 说明精确匹配
+        if (episodeId) {
+            [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: episodeId]];
+        }else{
+            [JHProgressHUD disMiss];
+            [self.tableView reloadData];
+        }
     }];
 }
 
@@ -63,6 +71,14 @@
 
 - (void)disMissSelf{
     [self dismissController: self];
+}
+
+- (void)doubleClickRow{
+    NSString *episodeID = [self.vm modelEpisodeIdWithIndex: [self.tableView clickedRow]];
+    if (episodeID) {
+            DanMuChooseViewController *vc = [[DanMuChooseViewController alloc] initWithVideoID: episodeID];
+            [self presentViewControllerAsSheet: vc];
+        }
 }
 
 

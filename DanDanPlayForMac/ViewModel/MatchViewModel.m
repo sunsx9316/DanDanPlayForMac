@@ -45,10 +45,14 @@
     return self;
 }
 
-- (void)refreshWithModelCompletionHandler:(void(^)(NSError *error))complete{
+- (void)refreshWithModelCompletionHandler:(void(^)(NSError *error, NSString *episodeId))complete{
     [MatchNetManager getWithParameters:@{@"fileName":self.videoModel.fileName, @"hash": self.videoModel.md5, @"length": self.videoModel.length} completionHandler:^(MatchModel *responseObj, NSError *error) {
-        self.models = responseObj.matches;
-        complete(error);
+        if (responseObj.matches.count == 1) {
+            complete(error, responseObj.matches.firstObject.episodeId);
+        }else{
+            self.models = responseObj.matches;
+            complete(error, nil);
+        }
     }];
 }
 

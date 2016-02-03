@@ -36,7 +36,7 @@
             model.time = [tempArr[0] intValue];
             model.color = [tempArr[1] intValue];
             model.mode = [tempArr[2] intValue];
-            model.fontSize = [tempArr[3] intValue] / 1.5;
+            model.fontSize = [tempArr[3] intValue];
             model.message = dic[@"m"];
             
             if (!mDic[@(model.time)]) mDic[@(model.time)] = [NSMutableArray array];
@@ -52,7 +52,7 @@
     [arr enumerateObjectsUsingBlock:^(DanMuDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         //第一次创建
         if (!dic[@(obj.time)]) dic[@(obj.time)] = [NSMutableArray array];
-        obj.fontSize = 16;
+        obj.fontSize = 25;
         [dic[@(obj.time)] addObject: obj];
     }];
     return dic;
@@ -75,7 +75,7 @@
         DanMuDataModel* model = [[DanMuDataModel alloc] init];
         model.time = [strArr[0] intValue];
         model.mode = [strArr[1] intValue];
-        model.fontSize = [strArr[2] intValue] / 1.5;
+        model.fontSize = [strArr[2] intValue];
         model.color = [strArr[3] intValue];
         model.message = [self getTextWithString:subStr];
         

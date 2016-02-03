@@ -47,6 +47,7 @@
 		89651E401C5F8A9E002F23A2 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E3F1C5F8A9E002F23A2 /* JHProgressHUD.m */; settings = {ASSET_TAGS = (); }; };
 		89651E461C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E451C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		89651E491C5FA837002F23A2 /* NSColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E481C5FA837002F23A2 /* NSColor+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		897548571C61C70A0075436B /* JHVLCMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 897548561C61C70A0075436B /* JHVLCMedia.m */; settings = {ASSET_TAGS = (); }; };
 		8975A0AC1C60A03A009BD30F /* PlayerSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0A81C60A03A009BD30F /* PlayerSlideView.m */; settings = {ASSET_TAGS = (); }; };
 		8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0AA1C60A03A009BD30F /* PlayerViewController.m */; settings = {ASSET_TAGS = (); }; };
 		8975A0AE1C60A03A009BD30F /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */; settings = {ASSET_TAGS = (); }; };
@@ -165,6 +166,8 @@
 		89651E451C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BarrageDescriptor+Tools.m"; sourceTree = "<group>"; };
 		89651E471C5FA837002F23A2 /* NSColor+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Tools.h"; sourceTree = "<group>"; };
 		89651E481C5FA837002F23A2 /* NSColor+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Tools.m"; sourceTree = "<group>"; };
+		897548551C61C70A0075436B /* JHVLCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHVLCMedia.h; sourceTree = "<group>"; };
+		897548561C61C70A0075436B /* JHVLCMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHVLCMedia.m; sourceTree = "<group>"; };
 		8975A0A71C60A03A009BD30F /* PlayerSlideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSlideView.h; sourceTree = "<group>"; };
 		8975A0A81C60A03A009BD30F /* PlayerSlideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSlideView.m; sourceTree = "<group>"; };
 		8975A0A91C60A03A009BD30F /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
@@ -443,6 +446,8 @@
 				896370C31C590C51002F32FD /* Category */,
 				896370C01C59099C002F32FD /* DanMuModelArr2Dic.h */,
 				896370C11C59099C002F32FD /* DanMuModelArr2Dic.m */,
+				897548551C61C70A0075436B /* JHVLCMedia.h */,
+				897548561C61C70A0075436B /* JHVLCMedia.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -678,6 +683,7 @@
 				89761A2E1C5A84C10046A245 /* NSView+Tools.m in Sources */,
 				89788D361C5E3DB100CA31EF /* SearchViewController.m in Sources */,
 				8963704A1C5901C3002F32FD /* DanMuModel.m in Sources */,
+				897548571C61C70A0075436B /* JHVLCMedia.m in Sources */,
 				89651E3D1C5F81E4002F23A2 /* BackGroundImageView.m in Sources */,
 				896370571C59028C002F32FD /* BaseNetManager.m in Sources */,
 				89761A281C5A84860046A245 /* NSString+Tools.m in Sources */,

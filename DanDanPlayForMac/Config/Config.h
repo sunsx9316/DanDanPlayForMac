@@ -10,4 +10,11 @@
 #define Config_h
 
 #define kViewControllerWithId(ID) [[NSStoryboard storyboardWithName:@"Main" bundle: nil] instantiateControllerWithIdentifier: ID]
+
+#ifdef DEBUG
+#define NSLog(...) NSLog(__VA_ARGS__);
+#else
+#define NSLog(...)
+#endif
+
 #endif /* Config_h */

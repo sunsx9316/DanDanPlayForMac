@@ -7,6 +7,7 @@
 //
 
 #import "BarrageDescriptor.h"
+#import "BarrageHeader.h"
 @class DanMuDataModel;
 @interface BarrageDescriptor (Tools)
 + (instancetype)descriptorWithModel:(DanMuDataModel *)model;

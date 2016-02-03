@@ -10,6 +10,8 @@
 #import "DanMuNetManager.h"
 #import "VideoInfoModel.h"
 #import "NSArray+Tools.h"
+
+
 @interface DanMuChooseViewModel()
 @property (nonatomic, strong) NSString *videoID;
 @end
@@ -41,23 +43,29 @@
 
 
 - (void)refreshCompletionHandler:(void (^)(NSError *))complete{
-    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(id responseObj, NSError *error){
-        if ([responseObj isKindOfClass: [NSDictionary class]]) {
+    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
+        //字典的第一个对象不是NSNumber类型说明没有官方弹幕
+        if (![[responseObj allKeys].firstObject isKindOfClass: [NSNumber class]]) {
             self.contentDic = responseObj;
             self.providerArr = [responseObj allKeys];
             self.shiBanArr = responseObj[self.providerArr.firstObject];
             self.episodeTitleArr = self.shiBanArr.firstObject.videos;
         }else{
-            NSLog(@"有官方弹幕");
+            //通知关闭列表视图控制器
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:responseObj];
+            //通知开始播放
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
         }
         complete(error);
     }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj))complete{
-    NSString *provider = [self providerNameWithIndex: index];
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index provider:(NSString *)provider completionHandler:(void(^)(id responseObj))complete{
     NSString *danMuKuID = [self danMuKuWithIndex: index];
-    if (!danMuKuID || !provider) return;
+    if (!danMuKuID || !provider){
+        complete(nil);
+        return;
+    }
     
     [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmuku":danMuKuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
         if (!error) complete(responseObj);

@@ -46,6 +46,7 @@ static JHProgressHUD *_hud = nil;
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_offset(0);
     }];
+    
     [self.indicator startAnimation: self];
 }
 

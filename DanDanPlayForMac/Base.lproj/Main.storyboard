@@ -201,7 +201,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="18" rowSizeStyle="automatic" headerView="ibR-AG-gpW" viewBased="YES" id="cFm-R9-608">
-                                            <rect key="frame" x="0.0" y="0.0" width="448" height="240"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="445" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -262,8 +262,8 @@
                                                             <rect key="frame" x="195" y="1" width="249" height="18"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField identifier="cell2" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h2V-Qk-Jg9">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="249" height="18"/>
+                                                                <textField identifier="cell2" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="h2V-Qk-Jg9">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="246" height="18"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="A0K-YZ-nPa">
                                                                         <font key="font" size="15" name=".HelveticaNeueDeskInterface-Regular"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -311,7 +311,7 @@
                                     <constraint firstAttribute="height" constant="22" id="LOv-Hd-Wzd"/>
                                     <constraint firstAttribute="width" constant="22" id="PIh-hp-BCI"/>
                                 </constraints>
-                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="ABBFCEA9-EE5F-46B1-9D4B-9BEF31899AE4" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="cML-5r-Mxg">
+                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="CF1BD00C-0267-4006-99CB-919F0CFED890" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="cML-5r-Mxg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -494,7 +494,7 @@
                                     <constraint firstAttribute="width" constant="22" id="kN2-CK-tCM"/>
                                     <constraint firstAttribute="height" constant="22" id="mAt-2n-8Ig"/>
                                 </constraints>
-                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="EC63BA83-58E3-43E8-81BA-4C1202D9A94C" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="dQK-ny-h8t">
+                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="9BFC6AB2-7A87-413F-93C1-E821F774CC59" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="dQK-ny-h8t">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -687,7 +687,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ABBFCEA9-EE5F-46B1-9D4B-9BEF31899AE4" width="1" height="1">
+        <image name="9BFC6AB2-7A87-413F-93C1-E821F774CC59" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -738,7 +738,7 @@ qgmvCbcJugm/Cc4J0gnZCeEJ7gnzCfUJ9wn8CgQKBwoMChQKFwopCiwKMQAAAAAAAAIBAAAAAAAAAEIA
 AAAAAAAAAAAAAAAAAAozA
 </mutableData>
         </image>
-        <image name="EC63BA83-58E3-43E8-81BA-4C1202D9A94C" width="1" height="1">
+        <image name="CF1BD00C-0267-4006-99CB-919F0CFED890" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
