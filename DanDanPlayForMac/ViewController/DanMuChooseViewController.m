@@ -8,7 +8,6 @@
 
 #import "DanMuChooseViewController.h"
 #import "DanMuChooseViewModel.h"
-#import "JHProgressHUD.h"
 #import "VideoInfoModel.h"
 
 @interface DanMuChooseViewController ()<NSTableViewDelegate, NSTableViewDataSource>

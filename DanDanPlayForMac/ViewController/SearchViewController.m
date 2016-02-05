@@ -8,11 +8,12 @@
 
 #import "SearchViewController.h"
 #import "DanDanSearchViewController.h"
-#import "JHProgressHUD.h"
+#import "ThirdPartySearchViewController.h"
 
 @interface SearchViewController ()<NSTabViewDelegate>
 @property (weak) IBOutlet NSTabView *tabView;
 @property (weak) IBOutlet NSSearchField *searchTextField;
+
 @property (strong, nonatomic) NSMutableArray <NSViewController *>*viewController;
 @end
 
@@ -23,11 +24,16 @@
     [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
     self.searchTextField.stringValue = self.searchText;
     
-    DanDanSearchViewController *dvc = (DanDanSearchViewController *)[self addViewControllerWithTitile:@"官方" ID:@"DanDanSearchViewController"];
+    DanDanSearchViewController *dvc = (DanDanSearchViewController *)[self addViewControllerWithViewController:kViewControllerWithId(@"DanDanSearchViewController") title:@"官方"];
     [dvc refreshWithKeyWord: self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];
     
+    
+    ThirdPartySearchViewController *tvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:kViewControllerWithId(@"ThirdPartySearchViewController") title:@"bilibili"];
+    [tvc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
+        [JHProgressHUD disMiss];
+    }];
 }
 
 - (instancetype)init{
@@ -38,6 +44,14 @@
     NSInteger index = [self.tabView indexOfTabViewItem:self.tabView.selectedTabViewItem];
     if (index == 0) {
         DanDanSearchViewController *dvc = (DanDanSearchViewController *)self.viewController[index];
+        if (!dvc) return;
+        
+        [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
+        [dvc refreshWithKeyWord: self.searchTextField.stringValue completion:^(NSError *error) {
+            [JHProgressHUD disMiss];
+        }];
+    }else if (index == 1){
+        ThirdPartySearchViewController *dvc = (ThirdPartySearchViewController *)self.viewController[index];
         if (!dvc) return;
         
         [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
@@ -61,9 +75,9 @@
  *
  *  @return 控制器
  */
-- (NSViewController *)addViewControllerWithTitile:(NSString *)title ID:(NSString *)ID{
+
+- (NSViewController *)addViewControllerWithViewController:(NSViewController *)vc title:(NSString *)title{
     NSTabViewItem *tabViewItem = [[NSTabViewItem alloc] init];
-    NSViewController *vc = kViewControllerWithId(ID);
     tabViewItem.view = vc.view;
     tabViewItem.label = title;
     [self addChildViewController: vc];

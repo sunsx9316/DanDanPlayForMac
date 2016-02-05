@@ -16,7 +16,7 @@
     BarrageDescriptor * descriptor = [[BarrageDescriptor alloc]init];
     if (model.mode == 1) {
         descriptor.spriteName = NSStringFromClass([BarrageWalkTextSprite class]);
-        descriptor.params[@"speed"] = @(arc4random()%100 + 50);
+        descriptor.params[@"speed"] = @(arc4random()%100 + 80);
     }else if(model.mode == 4 || model.mode == 5){
         descriptor.spriteName = NSStringFromClass([BarrageFloatTextSprite class]);;
         descriptor.params[@"duration"] = @(3);

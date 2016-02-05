@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class LocalVideoModel;
+@class LocalVideoModel, VLCMedia;
 @interface PlayerViewController : NSViewController
-- (instancetype)initWithLocaleVideo:(LocalVideoModel *)localVideoModel danMuDic:(NSDictionary *)dic;
+- (instancetype)initWithLocaleVideo:(LocalVideoModel *)localVideoModel vlcMedia:(VLCMedia *)media danMuDic:(NSDictionary *)dic;
 @end

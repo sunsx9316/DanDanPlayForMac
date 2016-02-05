@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 @class LocalVideoModel;
 @interface MatchViewController : NSViewController
-- (instancetype)initWithStoryboardID:(NSString *)StoryboardID videoModel:(LocalVideoModel *)videoModel;
+- (instancetype)initWithVideoModel:(LocalVideoModel *)videoModel;
 @end

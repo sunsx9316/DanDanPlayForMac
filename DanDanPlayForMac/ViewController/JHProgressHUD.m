@@ -9,6 +9,7 @@
 #import "JHProgressHUD.h"
 static JHProgressHUD *_hud = nil;
 @interface JHProgressHUD()
+@property (assign, nonatomic) JHProgressHUDStyle style;
 @property (strong, nonatomic) NSView *blackBackGroundMask;
 @property (strong, nonatomic) NSProgressIndicator *indicator;
 @property (strong, nonatomic) NSView *parentView;
@@ -17,18 +18,33 @@ static JHProgressHUD *_hud = nil;
 @end
 
 @implementation JHProgressHUD
-+ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick{
++ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick{
     JHProgressHUD *hud = [self shareHUD];
-    [hud setMessage:message style:style parentView:parentView dismissWhenClick: dismissWhenClick];
+    [hud setMessage:message style:style parentView:parentView indicatorSize:size fontSize: fontSize dismissWhenClick: dismissWhenClick];
     [hud show];
+}
++ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick{
+    [self showWithMessage:message style:style parentView:parentView indicatorSize:NSMakeSize(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:dismissWhenClick];
 }
 
 + (void)showWithMessage:(NSString *)message parentView:(NSView *)parentView{
-    [self showWithMessage:message style:value1 parentView:parentView dismissWhenClick: YES];
+    [self showWithMessage:message style:JHProgressHUDStyleValue1 parentView:parentView dismissWhenClick: YES];
 }
 
 + (void)disMiss{
     [[self shareHUD] disMiss];
+}
+
++ (void)updateProgress:(CGFloat)progress{
+    JHProgressHUD *hud = [self shareHUD];
+    if (hud.style == JHProgressHUDStyleValue2 || hud.style == JHProgressHUDStyleValue4) {
+        [hud.indicator incrementBy: progress];
+    }
+}
+
++ (void)updateMessage:(NSString *)message{
+    JHProgressHUD *hud = [self shareHUD];
+    hud.text.stringValue = message;
 }
 
 #pragma mark - 私有方法
@@ -59,24 +75,36 @@ static JHProgressHUD *_hud = nil;
     if (self.dismissWhenClick) [self disMiss];
 }
 
-- (void)setMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick{
+- (void)setMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick{
     self.parentView = parentView;
     self.dismissWhenClick = dismissWhenClick;
+    self.style = style;
     
     [self addSubview: self.blackBackGroundMask];
-    [self.blackBackGroundMask mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.blackBackGroundMask mas_updateConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_offset(0);
     }];
     
+    self.indicator.indeterminate = (style == JHProgressHUDStyleValue1 || style == JHProgressHUDStyleValue3);
+    
+    if (style == JHProgressHUDStyleValue1 || style == JHProgressHUDStyleValue2) {
+        self.indicator.style = NSProgressIndicatorSpinningStyle;
+    }else{
+        self.indicator.style = NSProgressIndicatorBarStyle;
+    }
+    
+    
     [self.blackBackGroundMask addSubview: self.indicator];
-    [self.indicator mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.indicator mas_updateConstraints:^(MASConstraintMaker *make) {
         make.center.mas_offset(0);
-        make.width.height.mas_equalTo(30);
+        make.width.mas_equalTo(size.width);
+        make.height.mas_equalTo(size.height);
     }];
     
     [self.blackBackGroundMask addSubview: self.text];
     self.text.stringValue = message;
-    [self.text mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.text.font = [NSFont systemFontOfSize: fontSize];
+    [self.text mas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.indicator);
         make.top.equalTo(self.indicator.mas_bottom).mas_offset(20);
     }];

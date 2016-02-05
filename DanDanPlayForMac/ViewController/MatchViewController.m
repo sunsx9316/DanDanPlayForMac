@@ -11,7 +11,6 @@
 #import "LocalVideoModel.h"
 #import "SearchViewController.h"
 #import "DanMuChooseViewController.h"
-#import "JHProgressHUD.h"
 
 @interface MatchViewController ()<NSTableViewDataSource, NSTableViewDelegate>
 @property (weak) IBOutlet NSTableView *tableView;
@@ -36,10 +35,10 @@
     
     [self.vm refreshWithModelCompletionHandler:^(NSError *error, NSString *episodeId) {
         //episodeId存在 说明精确匹配
+        [JHProgressHUD disMiss];
         if (episodeId) {
             [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: episodeId]];
         }else{
-            [JHProgressHUD disMiss];
             [self.tableView reloadData];
         }
     }];
@@ -50,8 +49,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-- (instancetype)initWithStoryboardID:(NSString *)StoryboardID videoModel:(LocalVideoModel *)videoModel{
-    if ((self = kViewControllerWithId(StoryboardID))) {
+- (instancetype)initWithVideoModel:(LocalVideoModel *)videoModel{
+    if ((self = kViewControllerWithId(@"MatchViewController"))) {
         self.videoModel = videoModel;
         self.vm = [[MatchViewModel alloc] initWithModel: videoModel];
     }

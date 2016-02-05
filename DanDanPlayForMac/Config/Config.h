@@ -11,6 +11,12 @@
 
 #define kViewControllerWithId(ID) [[NSStoryboard storyboardWithName:@"Main" bundle: nil] instantiateControllerWithIdentifier: ID]
 
+//  appkey
+#define APPKEY @"85eb6835b0a1034e"
+
+//  appsec
+#define APPSEC @"2ad42749773c441109bdc0191257a664"
+
 #ifdef DEBUG
 #define NSLog(...) NSLog(__VA_ARGS__);
 #else

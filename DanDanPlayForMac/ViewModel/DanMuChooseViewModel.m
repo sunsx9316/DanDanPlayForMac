@@ -50,13 +50,18 @@
             self.providerArr = [responseObj allKeys];
             self.shiBanArr = responseObj[self.providerArr.firstObject];
             self.episodeTitleArr = self.shiBanArr.firstObject.videos;
+            complete(error);
         }else{
+            if (!responseObj.count) {
+                error = [NSError errorWithDomain:@"noDanMu" code:200 userInfo:nil];
+            }
+            complete(error);
             //通知关闭列表视图控制器
             [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:responseObj];
             //通知开始播放
             [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
+            
         }
-        complete(error);
     }];
 }
 
@@ -68,7 +73,7 @@
     }
     
     [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmuku":danMuKuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
-        if (!error) complete(responseObj);
+        complete(responseObj);
     }];
 }
 

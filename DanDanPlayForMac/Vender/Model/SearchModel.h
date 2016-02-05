@@ -51,3 +51,36 @@
  */
 @property (nonatomic, strong)NSString* ID;
 @end
+
+
+/**
+ *  bilibili搜索模型
+ */
+@class BiliBiliSearchDataModel;
+@interface BiliBiliSearchModel : BaseModel
+@property (strong, nonatomic) NSArray <BiliBiliSearchDataModel *>*result;
+@end
+
+@interface BiliBiliSearchDataModel : BaseModel
+//data分为两种 番剧和普通视频 用isBangumi属性区分
+/**
+ *  番剧id
+ */
+@property (strong, nonatomic) NSString *seasonID;
+/**
+ *  视频aid
+ */
+@property (strong, nonatomic) NSString *aid;
+/**
+ *  是否为番剧
+ */
+@property (assign, nonatomic, getter=isBangumi) BOOL bangumi;
+/**
+ *  番剧/视频 标题
+ */
+@property (strong, nonatomic) NSString *title;
+/**
+ *  番剧/视频 描述
+ */
+@property (strong, nonatomic) NSString *desc;
+@end

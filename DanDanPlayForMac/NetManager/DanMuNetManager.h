@@ -28,16 +28,16 @@
  */
 + (id)downThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 /**
- *  获取b站弹幕id
+ *  获取b站视频详情
  *
- *  @param parameters aid:视频aid
+ *  @param parameters 参数
  *  @param complete   回调
  *
  *  @return 任务
  */
 + (id)getBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 /**
- *  获取a站弹幕id
+ *  获取a站视频详情
  *
  *  @param parameters aid:视频aid
  *  @param complete   回调

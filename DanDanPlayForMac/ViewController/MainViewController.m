@@ -12,8 +12,12 @@
 #import "BackGroundImageView.h"
 #import "PlayerViewController.h"
 #import "DanMuModel.h"
+#import "JHVLCMedia.h"
 
-@interface MainViewController ()
+#import "MatchViewModel.h"
+#import "DanMuChooseViewModel.h"
+
+@interface MainViewController ()<NSWindowDelegate>
 @property (strong, nonatomic) BackGroundImageView *imgView;
 @property (strong, nonatomic) LocalVideoModel *video;
 @end
@@ -22,13 +26,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    __weak typeof (self)weakSelf = self;
+    [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
     [self.view addSubview: self.imgView];
-    [self.imgView setUpBlock:^(NSString *filePath) {
-        [weakSelf setUpWithFilePath: filePath];
-    }];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"danMuChooseOver" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showImgView) name:@"playOver" object: nil];
+    
 }
+
 
 - (void)viewWillDisappear{
     [super viewWillDisappear];
@@ -41,21 +46,25 @@
     [[NSFileManager defaultManager] fileExistsAtPath: filePath isDirectory:&isDirectory];
     //是文件才开始解析
     if (!isDirectory) {
-        
         self.video = [[LocalVideoModel alloc] initWithFilePath: filePath];
-//        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-//        for (int i = 0; i < 1000; ++i) {
-//            DanMuDataModel *model = [[DanMuDataModel alloc] init];
-//            model.time = i;
-//            model.mode = 1;
-//            model.color = 16777215;
-//            model.fontSize = 25;
-//            model.message = @(i).stringValue;
-//            dic[@(i)] = @[model,model,model,model,model,model,model,model,model];
-//        }
-//        [NSApplication sharedApplication].mainWindow.contentViewController = [[PlayerViewController alloc] initWithLocaleVideo:self.video danMuDic:dic];
-       
-        [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithStoryboardID:@"MatchViewController" videoModel: self.video]];
+       // [self presentPlayerViewController: nil];
+        [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(100, 100) fontSize: 20 dismissWhenClick: NO];
+        
+        [[[MatchViewModel alloc] initWithModel:self.video] refreshWithModelCompletionHandler:^(NSError *error, NSString *episodeId) {
+            //episodeId存在 说明精确匹配
+            if (episodeId) {
+                [JHProgressHUD updateProgress: 50];
+                [JHProgressHUD updateMessage: @"搜索弹幕..."];
+                //搜索弹幕
+                [[[DanMuChooseViewModel alloc] initWithVideoID: episodeId] refreshCompletionHandler:^(NSError *error) {
+                    [JHProgressHUD updateProgress: 100];
+                    [JHProgressHUD updateMessage: @"解析视频..."];
+                }];
+            }else{
+                [JHProgressHUD disMiss];
+                [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.video]];
+            }
+        }];
     }else{
         [[NSAlert alertWithMessageText:@"然而文件并不存在，或者你用个文件夹在逗我" defaultButton:@"ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@"⊂彡☆))∀`)"] runModal];
     }
@@ -64,20 +73,38 @@
 #pragma mark - 私有方法
 
 - (void)presentPlayerViewController:(NSNotification *)notification{
-    [NSApplication sharedApplication].mainWindow.contentViewController = [[PlayerViewController alloc] initWithLocaleVideo:self.video danMuDic:notification.userInfo];
+    [[[JHVLCMedia alloc] initWithURL: [NSURL fileURLWithPath: self.video.filePath]] parseWithBlock:^(VLCMedia *aMedia) {
+        [JHProgressHUD disMiss];
+        PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideo: self.video vlcMedia:aMedia danMuDic:notification.userInfo];
+        [self addChildViewController: pvc];
+        [self.view addSubview: pvc.view];
+        [pvc.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
+        }];
+        [self.imgView removeFromSuperview];
+    }];
+}
+
+- (void)showImgView{
+    self.imgView.frame = self.view.frame;
+    [self.view addSubview: self.imgView];
 }
 
 #pragma mark - 懒加载
 - (BackGroundImageView *)imgView {
-	if(_imgView == nil) {
-		_imgView = [[BackGroundImageView alloc] initWithFrame:self.view.frame];
+    if(_imgView == nil) {
+        _imgView = [[BackGroundImageView alloc] initWithFrame:self.view.frame];
         [_imgView setWantsLayer: YES];
         _imgView.layer.backgroundColor = [NSColor blackColor].CGColor;
         _imgView.image = [NSImage imageNamed:@"home"];
+        __weak typeof (self)weakSelf = self;
+        [self.imgView setUpBlock:^(NSString *filePath) {
+            [weakSelf setUpWithFilePath: filePath];
+        }];
         _imgView.imageScaling = NSImageScaleProportionallyUpOrDown;
-        [_imgView setAutoresizingMask:NSViewMaxYMargin|NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewHeightSizable|NSViewMinYMargin];
-	}
-	return _imgView;
+        [_imgView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    }
+    return _imgView;
 }
 
 @end

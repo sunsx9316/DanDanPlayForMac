@@ -12,6 +12,7 @@
 #import <YYModel.h>
 #import <AFNetworking.h>
 #import <Masonry.h>
+#import "JHProgressHUD.h"
 
 //配置头文件
 #import "Config.h"

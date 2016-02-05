@@ -9,5 +9,13 @@
 #import <Cocoa/Cocoa.h>
 
 @interface DanMuChooseViewController : NSViewController
+/**
+ *  初始化
+ *
+ *  @param videoID dandanplay官方视频id
+ *
+ *  @return self
+ */
 - (instancetype)initWithVideoID:(NSString *)videoID;
+
 @end

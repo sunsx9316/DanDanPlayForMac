@@ -27,6 +27,12 @@
  */
 - (NSURL *)videoURL;
 /**
+ *  视频名称
+ *
+ *  @return 名称
+ */
+- (NSString *)videoName;
+/**
  *  初始化
  *
  *  @param localVideoModel 本地视频模型

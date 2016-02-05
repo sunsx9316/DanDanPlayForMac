@@ -81,7 +81,7 @@
 
 - (NSColor *)backGroundColor{
     if (_backGroundColor == nil) {
-        _backGroundColor = [NSColor lightGrayColor];
+        _backGroundColor = [NSColor gridColor];
     }
     return _backGroundColor;
 }

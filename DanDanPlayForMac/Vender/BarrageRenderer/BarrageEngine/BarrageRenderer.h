@@ -43,6 +43,7 @@
 #pragma mark - life cycle
 
 #pragma mark - control
+- (void)clearAllBarrage;
 
 /// 启动弹幕, 内部时钟从0开始;
 /// 若是stop之后的start,则start函数内部会清空records;

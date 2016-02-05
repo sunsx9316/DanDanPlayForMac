@@ -14,7 +14,7 @@
 /**
  *  保存弹幕模型
  */
-@property (nonatomic, strong) NSDictionary <NSNumber *, NSArray *>*dic;
+@property (nonatomic, strong) NSMutableDictionary <NSNumber *, NSArray *>*dic;
 @property (nonatomic, strong) NSString *danMuKu;
 @property (nonatomic, strong) NSString *provider;
 @property (strong, nonatomic) LocalVideoModel *video;
@@ -22,17 +22,23 @@
 
 @implementation PlayViewModel
 - (NSArray <DanMuDataModel *>*)currentSecondDanMuArr:(NSInteger)second{
-    return self.dic[@(second)];
+    NSArray *arr = self.dic[@(second)];
+    self.dic[@(second)] = nil;
+    return arr;
 }
 
 - (NSURL *)videoURL{
     return [NSURL fileURLWithPath: self.video.filePath];
 }
 
+- (NSString *)videoName{
+    return self.video.fileName;
+}
+
 - (instancetype)initWithLocalVideoModel:(LocalVideoModel *)localVideoModel danMuDic:(NSDictionary *)dic{
     if (self = [super init]) {
         self.video = localVideoModel;
-        self.dic = dic;
+        self.dic = [dic mutableCopy];
     }
     return self;
 }

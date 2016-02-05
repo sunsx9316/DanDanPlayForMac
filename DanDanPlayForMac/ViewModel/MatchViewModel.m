@@ -50,6 +50,13 @@
         if (responseObj.matches.count == 1) {
             complete(error, responseObj.matches.firstObject.episodeId);
         }else{
+            if (responseObj.matches.count == 0){
+                MatchDataModel *model = [MatchDataModel new];
+                model.animeTitle = @"・_ゝ・并没有找到";
+                model.episodeTitle = @"务必手动搜索";
+                responseObj.matches = @[model];
+            }
+            
             self.models = responseObj.matches;
             complete(error, nil);
         }

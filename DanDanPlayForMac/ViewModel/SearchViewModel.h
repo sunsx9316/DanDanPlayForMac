@@ -10,7 +10,7 @@
 @class SearchDataModel, VideoModel;
 
 @interface SearchViewModel : BaseViewModel
-
+//官方搜索结果
 - (NSInteger)numberOfChildrenOfItem:(id)item;
 - (BOOL)ItemExpandable:(id)item;
 - (id)child:(NSInteger)index ofItem:(id)item;

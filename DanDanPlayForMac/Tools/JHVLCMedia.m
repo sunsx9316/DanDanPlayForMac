@@ -21,6 +21,10 @@
     self.returnBlock(aMedia);
 }
 
+- (void)mediaMetaDataDidChange:(VLCMedia *)aMedia{
+    
+}
+
 
 - (instancetype)initWithURL:(NSURL *)anURL{
     if (self = [super initWithURL:anURL]) {
