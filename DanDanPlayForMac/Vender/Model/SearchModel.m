@@ -47,3 +47,25 @@
 @end
 
 
+@implementation AcFunSearchModel
++ (NSDictionary *)modelContainerPropertyGenericClass{
+    return @{@"list":[AcFunSearchListModel class], @"special":[AcFunSearchSpecialModel class]};
+}
+
++ (NSDictionary *)modelCustomPropertyMapper{
+    return @{@"special":@"sp"};
+}
+@end
+
+
+@implementation AcFunSearchListModel
++ (NSDictionary *)modelCustomPropertyMapper{
+    return @{@"desc":@"description"};
+}
+@end
+
+@implementation AcFunSearchSpecialModel
++ (NSDictionary *)modelCustomPropertyMapper{
+    return @{@"desc":@"description"};
+}
+@end

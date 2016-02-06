@@ -9,16 +9,27 @@
 #import "ThirdPartySearchViewController.h"
 #import "ThirdPartyDanMuChooseViewController.h"
 #import "BiliBiliSearchViewModel.h"
+#import "AcFunSearchViewModel.h"
 
 @interface ThirdPartySearchViewController ()<NSTableViewDelegate, NSTableViewDataSource>
-
-@property (strong, nonatomic) BiliBiliSearchViewModel *vm;
 @property (weak) IBOutlet NSImageView *coverImageView;
 @property (weak) IBOutlet NSTextField *titleTextField;
 @property (weak) IBOutlet NSTextField *detailTextField;
+@property (strong, nonatomic) ThirdPartySearchViewModel *vm;
 @end
 
 @implementation ThirdPartySearchViewController
+
+- (instancetype)initWithType:(kDanMuSource)type{
+    if ((self = kViewControllerWithId(@"ThirdPartySearchViewController"))) {
+        if (type == bilibili) {
+            self.vm = [BiliBiliSearchViewModel new];
+        }else if (type == acfun){
+            self.vm = [AcFunSearchViewModel new];
+        }
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,7 +66,7 @@
 
 - (void)shiBanTableViewDoubleClickRow{
     NSInteger row = [self.shiBantableView clickedRow];
-    //判断改行是否为新番
+    //判断该行是否为新番
     if ([self.vm isShiBanForRow: row]) {
         NSString *seasonID = [self.vm seasonIDForRow: row];
         if (seasonID) {
@@ -69,8 +80,13 @@
     }else{
         NSString *aid = [self.vm aidForRow: row];
         if (aid) {
-            ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid];
-            [self presentViewControllerAsSheet: vc];
+            if ([self.vm isKindOfClass: [BiliBiliSearchViewModel class]]) {
+                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: bilibili];
+                [self presentViewControllerAsSheet: vc];
+            }else if ([self.vm isKindOfClass: [AcFunSearchViewModel class]]){
+                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: acfun];
+                [self presentViewControllerAsSheet: vc];
+            }
         }
     }
 }
@@ -96,6 +112,7 @@
     if ([tableColumn.identifier isEqualToString:@"shiBanCell"]){
         NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
         cell.textField.stringValue = [self.vm shiBanTitleForRow: row];
+        cell.imageView.image = [self.vm imageForRow: row];
         return cell;
     }else if ([tableColumn.identifier isEqualToString:@"episodeCell"]){
         NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
@@ -103,14 +120,6 @@
         return cell;
     }
     return nil;
-}
-
-#pragma mark - 懒加载
-- (BiliBiliSearchViewModel *)vm {
-	if(_vm == nil) {
-		_vm = [[BiliBiliSearchViewModel alloc] init];
-	}
-	return _vm;
 }
 
 @end

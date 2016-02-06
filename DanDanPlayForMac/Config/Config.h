@@ -17,6 +17,12 @@
 //  appsec
 #define APPSEC @"2ad42749773c441109bdc0191257a664"
 
+typedef NS_ENUM(NSInteger, kDanMuSource){
+    official,
+    bilibili,
+    acfun
+};
+
 #ifdef DEBUG
 #define NSLog(...) NSLog(__VA_ARGS__);
 #else

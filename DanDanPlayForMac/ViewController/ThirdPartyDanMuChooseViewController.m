@@ -8,10 +8,11 @@
 
 #import "ThirdPartyDanMuChooseViewController.h"
 #import "BiliBiliDanMuChooseViewModel.h"
+#import "AcFunDanMuChooseViewModel.h"
 
 @interface ThirdPartyDanMuChooseViewController ()
 @property (weak) IBOutlet NSPopUpButton *episodeButton;
-@property (strong, nonatomic) BiliBiliDanMuChooseViewModel *vm;
+@property (strong, nonatomic) ThirdPartyDanMuChooseViewModel *vm;
 @end
 
 @implementation ThirdPartyDanMuChooseViewController
@@ -26,9 +27,13 @@
     }];
 }
 
-- (instancetype)initWithVideoID:(NSString *)videoID{
+- (instancetype)initWithVideoID:(NSString *)videoID type:(kDanMuSource)type{
     if ((self = kViewControllerWithId(@"ThirdPartyDanMuChooseViewController"))) {
-        self.vm = [[BiliBiliDanMuChooseViewModel alloc] initWithAid: videoID];
+        if (type == bilibili) {
+            self.vm = [[BiliBiliDanMuChooseViewModel alloc] initWithAid: videoID];
+        }else if (type == acfun){
+            self.vm = [[AcFunDanMuChooseViewModel alloc] initWithAid: videoID];
+        }
     }
     return self;
 }

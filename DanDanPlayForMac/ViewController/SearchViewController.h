@@ -9,5 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 @interface SearchViewController : NSViewController
+/**
+ *  搜索关键词
+ */
 @property (strong, nonatomic) NSString *searchText;
 @end

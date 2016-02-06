@@ -7,11 +7,7 @@
 //  把弹幕数组转成字典的工具类
 //
 
-typedef NS_ENUM(NSInteger, kDanMuSource){
-    official,
-    bilibili,
-    acfun
-};
+
 
 @interface DanMuModelArr2Dic : NSObject
 /**

@@ -8,11 +8,6 @@
 
 #import "ShiBanModel.h"
 
-@implementation ShiBanModel
-
-@end
-
-
 @implementation BiliBiliShiBanModel
 + (NSDictionary *)modelContainerPropertyGenericClass{
     return @{@"episodes":[BiliBiliShiBanDataModel class]};
@@ -27,4 +22,15 @@
 + (NSDictionary *)modelCustomPropertyMapper{
     return @{@"title":@"index_title", @"danmuku":@"danmaku"};
 }
+@end
+
+@implementation AcFunShiBanModel
++ (NSDictionary *)modelContainerPropertyGenericClass{
+    return @{@"list":[AcFunShiBanDataModel class]};
+}
+@end
+
+
+@implementation AcFunShiBanDataModel
+
 @end

@@ -50,6 +50,10 @@
 		89651E401C5F8A9E002F23A2 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E3F1C5F8A9E002F23A2 /* JHProgressHUD.m */; settings = {ASSET_TAGS = (); }; };
 		89651E461C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E451C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		89651E491C5FA837002F23A2 /* NSColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E481C5FA837002F23A2 /* NSColor+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		896A716A1C66248800280B79 /* AcFunSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71691C66248800280B79 /* AcFunSearchViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A716C1C66276C00280B79 /* ThirdPartySearchViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		896A71771C66421500280B79 /* AcFunDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		897548571C61C70A0075436B /* JHVLCMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 897548561C61C70A0075436B /* JHVLCMedia.m */; settings = {ASSET_TAGS = (); }; };
 		8975485D1C625B3B0075436B /* PlayerHUDControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975485C1C625B3B0075436B /* PlayerHUDControl.m */; settings = {ASSET_TAGS = (); }; };
 		8975A0AC1C60A03A009BD30F /* PlayerSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0A81C60A03A009BD30F /* PlayerSlideView.m */; settings = {ASSET_TAGS = (); }; };
@@ -180,6 +184,14 @@
 		89651E451C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BarrageDescriptor+Tools.m"; sourceTree = "<group>"; };
 		89651E471C5FA837002F23A2 /* NSColor+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Tools.h"; sourceTree = "<group>"; };
 		89651E481C5FA837002F23A2 /* NSColor+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Tools.m"; sourceTree = "<group>"; };
+		896A71681C66248800280B79 /* AcFunSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcFunSearchViewModel.h; sourceTree = "<group>"; };
+		896A71691C66248800280B79 /* AcFunSearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcFunSearchViewModel.m; sourceTree = "<group>"; };
+		896A716B1C66276C00280B79 /* ThirdPartySearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartySearchViewModel.h; sourceTree = "<group>"; };
+		896A716C1C66276C00280B79 /* ThirdPartySearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartySearchViewModel.m; sourceTree = "<group>"; };
+		896A71711C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartyDanMuChooseViewModel.h; sourceTree = "<group>"; };
+		896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartyDanMuChooseViewModel.m; sourceTree = "<group>"; };
+		896A71751C66421500280B79 /* AcFunDanMuChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcFunDanMuChooseViewModel.h; sourceTree = "<group>"; };
+		896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcFunDanMuChooseViewModel.m; sourceTree = "<group>"; };
 		897548551C61C70A0075436B /* JHVLCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHVLCMedia.h; sourceTree = "<group>"; };
 		897548561C61C70A0075436B /* JHVLCMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHVLCMedia.m; sourceTree = "<group>"; };
 		8975485B1C625B3B0075436B /* PlayerHUDControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHUDControl.h; sourceTree = "<group>"; };
@@ -368,18 +380,12 @@
 		89636FF41C58FAD1002F32FD /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				896A716E1C66277A00280B79 /* 弹幕选择 */,
+				896A716F1C66279100280B79 /* 弹幕搜索 */,
 				897619E11C59E8520046A245 /* BaseViewModel.h */,
 				897619E21C59E8520046A245 /* BaseViewModel.m */,
-				8995C9981C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.h */,
-				8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */,
-				897619F71C59EDBC0046A245 /* DanMuChooseViewModel.h */,
-				897619F81C59EDBC0046A245 /* DanMuChooseViewModel.m */,
 				897619E71C59E8520046A245 /* MatchViewModel.h */,
 				897619E81C59E8520046A245 /* MatchViewModel.m */,
-				897619EB1C59E8520046A245 /* SearchViewModel.h */,
-				897619EC1C59E8520046A245 /* SearchViewModel.m */,
-				8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */,
-				8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */,
 				897619E91C59E8520046A245 /* PlayViewModel.h */,
 				897619EA1C59E8520046A245 /* PlayViewModel.m */,
 			);
@@ -514,6 +520,52 @@
 				89A164BD1C6329AA00C0033F /* VLCMedia+Tools.m */,
 			);
 			name = Category;
+			sourceTree = "<group>";
+		};
+		896A716E1C66277A00280B79 /* 弹幕选择 */ = {
+			isa = PBXGroup;
+			children = (
+				896A71741C6641F000280B79 /* 第三方 */,
+				897619F71C59EDBC0046A245 /* DanMuChooseViewModel.h */,
+				897619F81C59EDBC0046A245 /* DanMuChooseViewModel.m */,
+			);
+			name = "弹幕选择";
+			sourceTree = "<group>";
+		};
+		896A716F1C66279100280B79 /* 弹幕搜索 */ = {
+			isa = PBXGroup;
+			children = (
+				896A71701C6627AE00280B79 /* 第三方搜索 */,
+				897619EB1C59E8520046A245 /* SearchViewModel.h */,
+				897619EC1C59E8520046A245 /* SearchViewModel.m */,
+			);
+			name = "弹幕搜索";
+			sourceTree = "<group>";
+		};
+		896A71701C6627AE00280B79 /* 第三方搜索 */ = {
+			isa = PBXGroup;
+			children = (
+				896A716B1C66276C00280B79 /* ThirdPartySearchViewModel.h */,
+				896A716C1C66276C00280B79 /* ThirdPartySearchViewModel.m */,
+				8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */,
+				8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */,
+				896A71681C66248800280B79 /* AcFunSearchViewModel.h */,
+				896A71691C66248800280B79 /* AcFunSearchViewModel.m */,
+			);
+			name = "第三方搜索";
+			sourceTree = "<group>";
+		};
+		896A71741C6641F000280B79 /* 第三方 */ = {
+			isa = PBXGroup;
+			children = (
+				896A71711C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.h */,
+				896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */,
+				8995C9981C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.h */,
+				8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */,
+				896A71751C66421500280B79 /* AcFunDanMuChooseViewModel.h */,
+				896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */,
+			);
+			name = "第三方";
 			sourceTree = "<group>";
 		};
 		897619FD1C59EEFD0046A245 /* 主界面 */ = {
@@ -737,12 +789,14 @@
 				897548571C61C70A0075436B /* JHVLCMedia.m in Sources */,
 				89651E3D1C5F81E4002F23A2 /* BackGroundImageView.m in Sources */,
 				89A164BE1C6329AA00C0033F /* VLCMedia+Tools.m in Sources */,
+				896A716A1C66248800280B79 /* AcFunSearchViewModel.m in Sources */,
 				896370571C59028C002F32FD /* BaseNetManager.m in Sources */,
 				89761A281C5A84860046A245 /* NSString+Tools.m in Sources */,
 				896370221C58FC9F002F32FD /* BarrageCanvas.m in Sources */,
 				89761A271C5A84860046A245 /* NSDictionary+Tools.m in Sources */,
 				896370591C59028C002F32FD /* MatchNetManager.m in Sources */,
 				8963702F1C58FC9F002F32FD /* BarrageWalkSprite.m in Sources */,
+				896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */,
 				896370C21C59099C002F32FD /* DanMuModelArr2Dic.m in Sources */,
 				89761A261C5A84860046A245 /* NSData+Tools.m in Sources */,
 				8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */,
@@ -751,6 +805,7 @@
 				896370261C58FC9F002F32FD /* BarrageRenderer.m in Sources */,
 				897619F11C59E8520046A245 /* PlayViewModel.m in Sources */,
 				8995C9971C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m in Sources */,
+				896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */,
 				896370341C58FC9F002F32FD /* NSView+UIView.m in Sources */,
 				8963702A1C58FC9F002F32FD /* BarrageFloatSprite.m in Sources */,
 				896370491C5901C3002F32FD /* BaseModel.m in Sources */,
@@ -763,6 +818,7 @@
 				896370331C58FC9F002F32FD /* NSValue+iOS.m in Sources */,
 				896370291C58FC9F002F32FD /* BarrageFloatImageSprite.m in Sources */,
 				8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */,
+				896A71771C66421500280B79 /* AcFunDanMuChooseViewModel.m in Sources */,
 				8995C99A1C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m in Sources */,
 				896370301C58FC9F002F32FD /* BarrageWalkTextSprite.m in Sources */,
 				897619F01C59E8520046A245 /* MatchViewModel.m in Sources */,

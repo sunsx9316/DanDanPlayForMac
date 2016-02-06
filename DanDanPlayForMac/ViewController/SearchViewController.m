@@ -9,6 +9,8 @@
 #import "SearchViewController.h"
 #import "DanDanSearchViewController.h"
 #import "ThirdPartySearchViewController.h"
+#import "BiliBiliSearchViewModel.h"
+#import "AcFunSearchViewModel.h"
 
 @interface SearchViewController ()<NSTabViewDelegate>
 @property (weak) IBOutlet NSTabView *tabView;
@@ -30,8 +32,13 @@
     }];
     
     
-    ThirdPartySearchViewController *tvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:kViewControllerWithId(@"ThirdPartySearchViewController") title:@"bilibili"];
-    [tvc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
+    ThirdPartySearchViewController *bvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:bilibili] title:@"bilibili"];
+    [bvc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
+        [JHProgressHUD disMiss];
+    }];
+    
+    ThirdPartySearchViewController *avc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:acfun] title:@"acfun"];
+    [avc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];
 }
@@ -50,7 +57,7 @@
         [dvc refreshWithKeyWord: self.searchTextField.stringValue completion:^(NSError *error) {
             [JHProgressHUD disMiss];
         }];
-    }else if (index == 1){
+    }else{
         ThirdPartySearchViewController *dvc = (ThirdPartySearchViewController *)self.viewController[index];
         if (!dvc) return;
         

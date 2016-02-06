@@ -183,6 +183,7 @@
     self.playerUIHeight.constant = 40;
     self.fullScreen = NO;
     self.playerHUDControl.hidden = YES;
+    [NSCursor unhide];
     [self.view removeTrackingArea:self.trackingArea];
 }
 
@@ -248,7 +249,8 @@
 }
 //隐藏hud面板
 - (void)hideHUDPanelAndCursor{
-    [NSCursor hide];
+    //全屏状态 隐藏鼠标才生效
+    if (self.isFullScreen) [NSCursor hide];
     self.playerHUDControl.animator.alphaValue = 0;
 }
 

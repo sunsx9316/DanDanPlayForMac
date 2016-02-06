@@ -1,13 +1,13 @@
 //
-//  BiliBiliSearchViewModel.h
+//  AcFunSearchViewModel.h
 //  DanDanPlayForMac
 //
-//  Created by JimHuang on 16/2/5.
+//  Created by JimHuang on 16/2/6.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
 #import "BaseViewModel.h"
 #import "ThirdPartySearchViewModel.h"
-@interface BiliBiliSearchViewModel : ThirdPartySearchViewModel
+@interface AcFunSearchViewModel : ThirdPartySearchViewModel
 
 @end

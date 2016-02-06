@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 @interface ThirdPartyDanMuChooseViewController : NSViewController
 /**
  *  初始化
@@ -16,5 +15,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithVideoID:(NSString *)videoID;
+- (instancetype)initWithVideoID:(NSString *)videoID type:(kDanMuSource)type;
 @end

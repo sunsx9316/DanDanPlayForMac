@@ -30,7 +30,8 @@
 }
 
 - (NSString *)shiBanTitleForRow:(NSInteger)row{
-    return (row < _shiBanViewArr.count)?_shiBanViewArr[row].title:@"";
+    if (row >= _shiBanViewArr.count) return @"";
+    return [self isShiBanForRow: row]?[NSString stringWithFormat:@"剧集：%@", _shiBanViewArr[row].title]:_shiBanViewArr[row].title;
 }
 
 - (NSString *)seasonIDForRow:(NSInteger)row{
@@ -43,6 +44,11 @@
 
 - (NSString *)episodeTitleForRow:(NSInteger)row{
     return (row < _infoArr.count)?[NSString stringWithFormat: @"%ld. %@", (long)row + 1,_infoArr[row].title]:@"";
+}
+
+- (NSImage *)imageForRow:(NSInteger)row{
+    if (row >= _shiBanViewArr.count) return nil;
+    return [self isShiBanForRow: row]?[NSImage imageNamed:NSImageNameStatusAvailable]:nil;
 }
 
 - (BOOL)isShiBanForRow:(NSInteger)row{
@@ -122,7 +128,7 @@
 #pragma mark - 私有方法
 
 - (NSString *)danMuKuIDForRow:(NSInteger)row{
-    return (row < _infoArr.count)?_infoArr[row].danmuku:@"";
+    return (row < _infoArr.count)?_infoArr[row].danmuku:nil;
 }
 
 @end

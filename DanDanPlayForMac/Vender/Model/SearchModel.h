@@ -9,9 +9,7 @@
 #import "BaseModel.h"
 @class EpisodesModel, SearchDataModel;
 
-/**
- *  官方搜索模型
- */
+#pragma mark - 官方搜索模型
 @interface SearchModel : BaseModel
 @property (nonatomic, strong)NSArray<SearchDataModel*>* animes;
 @end
@@ -53,9 +51,7 @@
 @end
 
 
-/**
- *  bilibili搜索模型
- */
+#pragma mark - bilibili搜索模型
 @class BiliBiliSearchDataModel;
 @interface BiliBiliSearchModel : BaseModel
 @property (strong, nonatomic) NSArray <BiliBiliSearchDataModel *>*result;
@@ -83,4 +79,59 @@
  *  番剧/视频 描述
  */
 @property (strong, nonatomic) NSString *desc;
+@end
+
+#pragma mark - acfun搜索模型
+@interface AcFunSearchModel : BaseModel
+/**
+ *  单集
+ */
+@property (strong, nonatomic) NSArray *list;
+/**
+ *  剧集
+ */
+@property (strong, nonatomic) NSArray *special;
+@end
+
+
+@interface AcFunSearchListModel : BaseModel
+/**
+ *  内容id
+ */
+@property (strong, nonatomic) NSString *contentId;
+/**
+ *  描述
+ */
+@property (strong, nonatomic) NSString *desc;
+/**
+ *  标题
+ */
+@property (strong, nonatomic) NSString *title;
+/**
+ *  是否为番剧
+ */
+@property (assign, nonatomic, getter=isBangumi) BOOL bangumi;
+@end
+
+@interface AcFunSearchSpecialModel : BaseModel
+/**
+ *  内容id
+ */
+@property (strong, nonatomic) NSString *contentId;
+/**
+ *  描述
+ */
+@property (strong, nonatomic) NSString *desc;
+/**
+ *  标题
+ */
+@property (strong, nonatomic) NSString *title;
+/**
+ *  封面
+ */
+@property (strong, nonatomic) NSURL *titleImg;
+/**
+ *  是否为番剧
+ */
+@property (assign, nonatomic, getter=isBangumi) BOOL bangumi;
 @end

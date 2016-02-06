@@ -55,10 +55,15 @@
 }
 
 + (id)getAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    //http://www.acfun.tv/bangumi/video/page?bangumiId=1470358&order=2
-    //http://api.aixifan.com/bangumis/1470315 请求头deviceType = 1
-    return [self getWithPath:[NSString stringWithFormat:@"http://api.aixifan.com/bangumis/%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
-        complete([AcfunVideoInfoModel yy_modelWithDictionary: responseObj[@"data"]], error);
+    //http://www.talkshowcn.com/video/getVideo.aspx?id=435639 黑科技
+    return [self getWithPath:[NSString stringWithFormat:@"http://www.talkshowcn.com/video/getVideo.aspx?id=%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
+        //黑科技只解析单个视频的信息 故把字典封装成数组才可解析
+        if (!responseObj) {
+            complete(nil, nil);
+            return;
+        }
+        
+        complete([AcfunVideoInfoModel yy_modelWithDictionary: @{@"videos":@[responseObj], @"title":responseObj[@"title"]}], error);
     }];
 }
 

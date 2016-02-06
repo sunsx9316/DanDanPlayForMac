@@ -7,12 +7,8 @@
 //
 
 #import "BaseViewModel.h"
+#import "ThirdPartyDanMuChooseViewModel.h"
 
-@interface BiliBiliDanMuChooseViewModel : BaseViewModel
-- (NSInteger)episodeCount;
-- (NSString *)episodeTitleWithIndex:(NSInteger)index;
-- (NSString *)danMuKuWithIndex:(NSInteger)index;
-- (void)refreshCompletionHandler:(void(^)(NSError *error))complete;
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj))complete;
-- (instancetype)initWithAid:(NSString *)aid;
+@interface BiliBiliDanMuChooseViewModel : ThirdPartyDanMuChooseViewModel
+
 @end

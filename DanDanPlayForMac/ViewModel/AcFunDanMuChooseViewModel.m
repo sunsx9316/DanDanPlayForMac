@@ -1,15 +1,16 @@
 //
-//  BiliBiliDanMuChooseViewModel.m
+//  AcFunDanMuChooseViewModel.m
 //  DanDanPlayForMac
 //
-//  Created by JimHuang on 16/2/5.
+//  Created by JimHuang on 16/2/6.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "BiliBiliDanMuChooseViewModel.h"
+#import "AcFunDanMuChooseViewModel.h"
 #import "DanMuNetManager.h"
 
-@implementation BiliBiliDanMuChooseViewModel
+
+@implementation AcFunDanMuChooseViewModel
 
 - (void)refreshCompletionHandler:(void(^)(NSError *error))complete{
     if (!self.aid) {
@@ -17,7 +18,7 @@
         return;
     }
     
-    [DanMuNetManager getBiliBiliDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
+    [DanMuNetManager getAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, NSError *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];
@@ -30,8 +31,9 @@
         return;
     }
     
-    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmuku":danMuKuID, @"provider":@"bilibili"} completionHandler:^(id responseObj, NSError *error) {
+    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmuku":danMuKuID, @"provider":@"acfun"} completionHandler:^(id responseObj, NSError *error) {
         complete(responseObj);
     }];
 }
+
 @end
