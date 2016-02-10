@@ -48,6 +48,8 @@
 }
 
 - (IBAction)searchButtonDown:(NSButton *)sender {
+    if (!self.searchTextField.stringValue  || [self.searchTextField.stringValue  isEqualToString: @""]) return;
+    
     NSInteger index = [self.tabView indexOfTabViewItem:self.tabView.selectedTabViewItem];
     if (index == 0) {
         DanDanSearchViewController *dvc = (DanDanSearchViewController *)self.viewController[index];

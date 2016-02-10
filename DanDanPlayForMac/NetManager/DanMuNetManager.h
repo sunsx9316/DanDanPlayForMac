@@ -21,7 +21,7 @@
 /**
  *  下载第三方弹幕
  *
- *  @param parameters 参数 danmuku:弹幕库id provider 提供者
+ *  @param parameters 参数 danmaku:弹幕库id provider 提供者
  *  @param complete   回调
  *
  *  @return 任务

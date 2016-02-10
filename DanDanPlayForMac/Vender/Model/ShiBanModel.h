@@ -31,9 +31,9 @@
 
 @interface BiliBiliShiBanDataModel : BaseModel
 /**
- *  danmuku 直接给了
+ *  danmaku 直接给了
  */
-@property (strong, nonatomic) NSString *danmuku;
+@property (strong, nonatomic) NSString *danmaku;
 /**
  *  分集标题
  */

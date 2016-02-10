@@ -16,14 +16,14 @@
     return index < self.videos.count?self.videos[index].title:@"";
 }
 
-- (NSString *)danMuKuWithIndex:(NSInteger)index{
-    return index < self.videos.count?self.videos[index].danMuKu:@"";
+- (NSString *)danmakuWithIndex:(NSInteger)index{
+    return index < self.videos.count?self.videos[index].danmaku:@"";
 }
 
 - (void)refreshCompletionHandler:(void(^)(NSError *error))complete{
     
 }
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj))complete{
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, NSError *error))complete{
     
 }
 

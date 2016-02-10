@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-typedef void(^filePickBlock)(NSString *filePath);
+typedef void(^filePickBlock)(NSArray *filePath);
 @interface BackGroundImageView : NSImageView
 - (void)setUpBlock:(filePickBlock)block;
 @end

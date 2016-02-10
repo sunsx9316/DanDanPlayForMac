@@ -10,8 +10,31 @@
 /**
  *  播放视图模型
  */
-@class DanMuModel, DanMuDataModel, LocalVideoModel;
+@class DanMuDataModel, LocalVideoModel, VLCMedia;
 @interface PlayViewModel : BaseViewModel
+/**
+ *  保存弹幕模型
+ */
+@property (nonatomic, strong) NSDictionary <NSNumber *, NSArray *>*dic;
+@property (assign, nonatomic) NSInteger currentIndex;
+/**
+ *  获取当前VLCMedia
+ *
+ *  @param complete 回调
+ */
+- (void)currentVLCMediaWithCompletionHandler:(void(^)(VLCMedia *responseObj))complete;
+/**
+ *  获取当前LocalVideoModel
+ *
+ *  @return LocalVideoModel
+ */
+- (LocalVideoModel *)currentLocalVideoModel;
+/**
+ *  当前视频名称
+ *
+ *  @return 视频名称
+ */
+- (NSString *)currentVideoName;
 /**
  *  获取当前秒的弹幕
  *
@@ -21,18 +44,6 @@
  */
 - (NSArray <DanMuDataModel *>*)currentSecondDanMuArr:(NSInteger)second;
 /**
- *  视频路径
- *
- *  @return 路径
- */
-- (NSURL *)videoURL;
-/**
- *  视频名称
- *
- *  @return 名称
- */
-- (NSString *)videoName;
-/**
  *  初始化
  *
  *  @param localVideoModel 本地视频模型
@@ -40,5 +51,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithLocalVideoModel:(LocalVideoModel *)localVideoModel danMuDic:(NSDictionary *)dic;
+- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic;
 @end

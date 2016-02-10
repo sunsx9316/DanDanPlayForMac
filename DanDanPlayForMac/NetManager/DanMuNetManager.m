@@ -16,7 +16,7 @@
 + (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     if (!parameters[@"id"]) return nil;
     
-    return [self getWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: parameters[@"id"]] parameters:@{@"from":@"0"} completionHandler:^(NSDictionary *responseObj, NSError *error) {
+    return [self getWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
         //如果返回的对象不为空 说明有官方弹幕库 直接返回 否则请求第三方弹幕库
         if ([responseObj[@"Comments"] count]) {
             complete([DanMuModelArr2Dic dicWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:official], error);
@@ -27,19 +27,19 @@
 }
 
 + (id)downThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    // danmuku:弹幕库id provider 提供者
-    if (!parameters[@"danmuku"] || !parameters[@"provider"]) {
+    // danmaku:弹幕库id provider 提供者
+    if (!parameters[@"danmaku"] || !parameters[@"provider"]) {
         complete(nil, nil);
         return nil;
     }
     
     if ([parameters[@"provider"] isEqualToString: @"bilibili"]) {
-        return [self getDataWithPath:[@"http://comment.bilibili.com/" stringByAppendingFormat:@"%@.xml",parameters[@"danmuku"]] parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
+        return [self getDataWithPath:[@"http://comment.bilibili.com/" stringByAppendingFormat:@"%@.xml",parameters[@"danmaku"]] parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
             complete([DanMuModelArr2Dic dicWithObj:responseObj source:bilibili], error);
         }];
     }else if ([parameters[@"provider"] isEqualToString: @"acfun"]){
         //http://danmu.aixifan.com/3037718
-        return [self getWithPath:[@"http://danmu.aixifan.com/" stringByAppendingString: parameters[@"danmuku"]] parameters:nil completionHandler:^(NSArray <NSArray *>*responseObj, NSError *error) {
+        return [self getWithPath:[@"http://danmu.aixifan.com/" stringByAppendingString: parameters[@"danmaku"]] parameters:nil completionHandler:^(NSArray <NSArray *>*responseObj, NSError *error) {
             complete([DanMuModelArr2Dic dicWithObj:responseObj source:acfun], error);
         }];
     }

@@ -29,7 +29,20 @@
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ){
         if (self.block) {
-            self.block([[pboard propertyListForType:NSFilenamesPboardType] firstObject]);
+            NSArray *pathArr = [pboard propertyListForType:NSFilenamesPboardType];
+          //  NSMutableArray *allFiles = [NSMutableArray array];
+           // BOOL isDirectory = NO;
+//            NSFileManager *fileManager = [NSFileManager defaultManager];
+//            for (NSString *path in pathArr) {
+//                [fileManager fileExistsAtPath: path isDirectory:&isDirectory];
+//                if (isDirectory) {
+//                    NSArray *contentsArr = [fileManager contentsOfDirectoryAtURL:[NSURL fileURLWithPath:path] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants error:nil];
+//                    [allFiles addObjectsFromArray: contentsArr];
+//                }else{
+//                    [allFiles addObject: path];
+//                }
+//            }
+            self.block(pathArr);
         }
     }
     return YES;

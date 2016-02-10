@@ -41,6 +41,10 @@
     [JHProgressHUD showWithMessage:@"挖坟中..." parentView:self.view];
     [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(NSDictionary *responseObj) {
         [JHProgressHUD disMiss];
+        NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem]?[self.shiBanBurron titleOfSelectedItem]:@"";
+        NSString *episodeTitle = [self.episodeButton titleOfSelectedItem]?[self.episodeButton titleOfSelectedItem]:@"";
+        //通知更新匹配名称
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo:@{@"animateTitle": [shiBanTitle stringByAppendingString: episodeTitle]}];
         //通知关闭列表视图控制器
         [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:responseObj];
         //通知开始播放

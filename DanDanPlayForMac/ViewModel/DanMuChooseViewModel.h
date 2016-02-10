@@ -46,7 +46,7 @@
  *
  *  @return 弹幕id
  */
-- (NSString *)danMuKuWithIndex:(NSInteger)index;
+- (NSString *)danMaKuWithIndex:(NSInteger)index;
 /**
  *  提供者总数
  *

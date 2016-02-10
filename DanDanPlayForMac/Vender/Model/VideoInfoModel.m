@@ -28,7 +28,7 @@
 
 @implementation BiliBiliVideoInfoDataModel
 + (NSDictionary *)modelCustomPropertyMapper{
-    return @{@"danMuKu":@"CID", @"title":@"Title"};
+    return @{@"danmaku":@"CID", @"title":@"Title"};
 }
 @end
 
@@ -40,6 +40,6 @@
 
 @implementation AcfunVideoInfoDataModel
 + (NSDictionary *)modelCustomPropertyMapper{
-    return @{@"danMuKu":@"danmakuId"};
+    return @{@"danmaku":@"danmakuId"};
 }
 @end

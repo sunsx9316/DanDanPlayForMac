@@ -26,8 +26,8 @@
 - (NSString *)episodeTitleWithIndex:(NSInteger)index{
     return [[self.episodeTitleArr objectOrNilAtIndex: index] title];
 }
-- (NSString *)danMuKuWithIndex:(NSInteger)index{
-    return [[self.episodeTitleArr objectOrNilAtIndex: index] danMuKu];
+- (NSString *)danMaKuWithIndex:(NSInteger)index{
+    return [[self.episodeTitleArr objectOrNilAtIndex: index] danmaku];
 }
 
 - (NSInteger)providerNum{
@@ -66,13 +66,13 @@
 }
 
 - (void)downThirdPartyDanMuWithIndex:(NSInteger)index provider:(NSString *)provider completionHandler:(void(^)(id responseObj))complete{
-    NSString *danMuKuID = [self danMuKuWithIndex: index];
-    if (!danMuKuID || !provider){
+    NSString *danmakuID = [self danMaKuWithIndex: index];
+    if (!danmakuID || !provider){
         complete(nil);
         return;
     }
     
-    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmuku":danMuKuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
+    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
         complete(responseObj);
     }];
 }

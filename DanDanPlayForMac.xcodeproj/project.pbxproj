@@ -10,6 +10,7 @@
 		892A80EA1C637A6C00602B34 /* NSDictionary+BiliBili.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A80E91C637A6C00602B34 /* NSDictionary+BiliBili.m */; settings = {ASSET_TAGS = (); }; };
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		8946B5CF1C63B5450042A370 /* ShiBanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CE1C63B5450042A370 /* ShiBanModel.m */; settings = {ASSET_TAGS = (); }; };
+		896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963478F1C6860A000EF63E5 /* NSButton+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FD01C58C40B002F32FD /* AppDelegate.m */; };
 		89636FD41C58C40B002F32FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FD31C58C40B002F32FD /* main.m */; };
 		89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89636FD81C58C40B002F32FD /* Assets.xcassets */; };
@@ -77,6 +78,7 @@
 		8995C9971C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9961C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m */; settings = {ASSET_TAGS = (); }; };
 		8995C99A1C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		89A164BE1C6329AA00C0033F /* VLCMedia+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A164BD1C6329AA00C0033F /* VLCMedia+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		89B6543E1C67934E00814803 /* OpacityScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B6543D1C67934E00814803 /* OpacityScrollView.m */; settings = {ASSET_TAGS = (); }; };
 		89C04B761C591E5700225ABA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B751C591E5700225ABA /* MainViewController.m */; settings = {ASSET_TAGS = (); }; };
 		89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FE1F091C5E57BB00FF4586 /* DanDanSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		CA0DE9BDBB94BB3A6117693A /* libPods-DanDanPlayForMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 663B9184163870AB6D8158DB /* libPods-DanDanPlayForMac.a */; };
@@ -105,6 +107,8 @@
 		8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliBiliSearchViewModel.m; sourceTree = "<group>"; };
 		8946B5CD1C63B5450042A370 /* ShiBanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiBanModel.h; sourceTree = "<group>"; };
 		8946B5CE1C63B5450042A370 /* ShiBanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiBanModel.m; sourceTree = "<group>"; };
+		8963478E1C6860A000EF63E5 /* NSButton+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSButton+Tools.h"; sourceTree = "<group>"; };
+		8963478F1C6860A000EF63E5 /* NSButton+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSButton+Tools.m"; sourceTree = "<group>"; };
 		89636FCC1C58C40B002F32FD /* DanDanPlayForMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanDanPlayForMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89636FCF1C58C40B002F32FD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		89636FD01C58C40B002F32FD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -238,6 +242,8 @@
 		8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliBiliDanMuChooseViewModel.m; sourceTree = "<group>"; };
 		89A164BC1C6329AA00C0033F /* VLCMedia+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VLCMedia+Tools.h"; sourceTree = "<group>"; };
 		89A164BD1C6329AA00C0033F /* VLCMedia+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VLCMedia+Tools.m"; sourceTree = "<group>"; };
+		89B6543C1C67934E00814803 /* OpacityScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpacityScrollView.h; sourceTree = "<group>"; };
+		89B6543D1C67934E00814803 /* OpacityScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpacityScrollView.m; sourceTree = "<group>"; };
 		89C04B741C591E5700225ABA /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		89C04B751C591E5700225ABA /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		89FE1F081C5E57BB00FF4586 /* DanDanSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanDanSearchViewController.h; sourceTree = "<group>"; };
@@ -366,6 +372,8 @@
 		89636FF31C58FAD1002F32FD /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				89761A1A1C5A7B8B0046A245 /* ColorButton.h */,
+				89761A1B1C5A7B8B0046A245 /* ColorButton.m */,
 				89E3A71A1C60FEDA0030C44A /* 弹幕选择界面 */,
 				89E3A7191C60FEC50030C44A /* 播放界面 */,
 				89788D371C5E446500CA31EF /* 搜索界面 */,
@@ -518,6 +526,8 @@
 				89651E481C5FA837002F23A2 /* NSColor+Tools.m */,
 				89A164BC1C6329AA00C0033F /* VLCMedia+Tools.h */,
 				89A164BD1C6329AA00C0033F /* VLCMedia+Tools.m */,
+				8963478E1C6860A000EF63E5 /* NSButton+Tools.h */,
+				8963478F1C6860A000EF63E5 /* NSButton+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -584,8 +594,6 @@
 			children = (
 				89761A071C5A5E750046A245 /* MatchViewController.h */,
 				89761A081C5A5E750046A245 /* MatchViewController.m */,
-				89761A1A1C5A7B8B0046A245 /* ColorButton.h */,
-				89761A1B1C5A7B8B0046A245 /* ColorButton.m */,
 			);
 			name = "匹配界面";
 			sourceTree = "<group>";
@@ -612,6 +620,8 @@
 				8975485B1C625B3B0075436B /* PlayerHUDControl.h */,
 				8975485C1C625B3B0075436B /* PlayerHUDControl.m */,
 				8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */,
+				89B6543C1C67934E00814803 /* OpacityScrollView.h */,
+				89B6543D1C67934E00814803 /* OpacityScrollView.m */,
 			);
 			name = "播放界面";
 			sourceTree = "<group>";
@@ -774,6 +784,7 @@
 				8963704B1C5901C3002F32FD /* MatchModel.m in Sources */,
 				897619F21C59E8520046A245 /* SearchViewModel.m in Sources */,
 				8963702C1C58FC9F002F32FD /* BarrageSprite.m in Sources */,
+				896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */,
 				8995C9911C648607008C1C02 /* ThirdPartySearchViewController.m in Sources */,
 				896370321C58FC9F002F32FD /* NSLabel.m in Sources */,
 				8946B5CF1C63B5450042A370 /* ShiBanModel.m in Sources */,
@@ -810,6 +821,7 @@
 				8963702A1C58FC9F002F32FD /* BarrageFloatSprite.m in Sources */,
 				896370491C5901C3002F32FD /* BaseModel.m in Sources */,
 				8963702D1C58FC9F002F32FD /* BarrageSpriteUtility.m in Sources */,
+				89B6543E1C67934E00814803 /* OpacityScrollView.m in Sources */,
 				8963702E1C58FC9F002F32FD /* BarrageWalkImageSprite.m in Sources */,
 				8963702B1C58FC9F002F32FD /* BarrageFloatTextSprite.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,

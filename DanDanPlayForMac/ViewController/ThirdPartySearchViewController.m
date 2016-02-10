@@ -94,8 +94,16 @@
 - (void)episodeTableViewDoubleClickRow{
     if (![self.vm infoArrCount]) return;
     [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView: self.view];
-    [self.vm downDanMuWithRow:[self.episodeTableView clickedRow] completionHandler:^(NSError *error) {
+    NSInteger clickRow = [self.episodeTableView clickedRow];
+    [self.vm downDanMuWithRow:clickRow completionHandler:^(id responseObj,NSError *error) {
         [JHProgressHUD disMiss];
+        
+        //通知更新匹配名称
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo:@{@"animateTitle": [self.vm episodeTitleForRow:clickRow]}];
+        //通知关闭列表视图控制器
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:responseObj];
+        //通知开始播放
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
     }];
 }
 

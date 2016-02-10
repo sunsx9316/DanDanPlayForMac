@@ -46,10 +46,6 @@
     }
 }
 
-//- (void)scrollWheel:(NSEvent *)theEvent{
-//     NSLog(@"%f", theEvent.scrollingDeltaY);
-//}
-
 - (void)awakeFromNib{
     [super awakeFromNib];
     [self setWantsLayer: YES];

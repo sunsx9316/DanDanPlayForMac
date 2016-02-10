@@ -10,37 +10,75 @@
 #import "DanMuModel.h"
 #import "DanMuNetManager.h"
 #import "LocalVideoModel.h"
+#import "JHVLCMedia.h"
 @interface PlayViewModel()
-/**
- *  保存弹幕模型
- */
-@property (nonatomic, strong) NSMutableDictionary <NSNumber *, NSArray *>*dic;
-@property (nonatomic, strong) NSString *danMuKu;
-@property (nonatomic, strong) NSString *provider;
-@property (strong, nonatomic) LocalVideoModel *video;
+@property (strong, nonatomic) NSArray <LocalVideoModel *>*videos;
+@property (strong, nonatomic) NSMutableDictionary <NSNumber *,VLCMedia *>*VLCMedias;
 @end
 
 @implementation PlayViewModel
+- (void)setCurrentIndex:(NSInteger)currentIndex{
+    _currentIndex = currentIndex>0?currentIndex%self.videos.count:0;
+}
+
+- (void)currentVLCMediaWithCompletionHandler:(void(^)(VLCMedia *responseObj))complete{
+    [self VLCMediaWithIndex:self.currentIndex completionHandler:complete];
+}
+- (LocalVideoModel *)currentLocalVideoModel{
+    return [self localVideoModelWithIndex: self.currentIndex];
+}
 - (NSArray <DanMuDataModel *>*)currentSecondDanMuArr:(NSInteger)second{
-    NSArray *arr = self.dic[@(second)];
-    self.dic[@(second)] = nil;
-    return arr;
+    return self.dic[@(second)];
 }
 
-- (NSURL *)videoURL{
-    return [NSURL fileURLWithPath: self.video.filePath];
+- (NSString *)currentVideoName{
+    return [self videoNameWithIndex: self.currentIndex];
 }
 
-- (NSString *)videoName{
-    return self.video.fileName;
+#pragma mark - 私有方法
+- (NSURL *)videoURLWithIndex:(NSInteger)index{
+    return [self localVideoModelWithIndex: index].filePath?[self localVideoModelWithIndex: index].filePath:nil;
 }
 
-- (instancetype)initWithLocalVideoModel:(LocalVideoModel *)localVideoModel danMuDic:(NSDictionary *)dic{
+- (NSString *)videoNameWithIndex:(NSInteger)index{
+    return [self localVideoModelWithIndex: index].fileName?[self localVideoModelWithIndex: index].fileName:@"";
+}
+
+- (void)VLCMediaWithIndex:(NSInteger)index completionHandler:(void(^)(VLCMedia *responseObj))complete{
+    if (!self.VLCMedias[@(index)]) {
+        self.VLCMedias[@(index)] = [VLCMedia mediaWithURL: [self videoURLWithIndex: index]];
+    }
+    
+    if (self.VLCMedias[@(index)].isParsed) {
+        complete(self.VLCMedias[@(index)]);
+        return;
+    }
+    
+    [[[JHVLCMedia alloc] initWithURL: [self videoURLWithIndex: index]] parseWithBlock:^(VLCMedia *aMedia) {
+        self.VLCMedias[@(index)] = aMedia;
+        complete(aMedia);
+    }];
+}
+
+- (LocalVideoModel *)localVideoModelWithIndex:(NSInteger)index{
+    return self.videos[index];
+}
+
+- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic{
     if (self = [super init]) {
-        self.video = localVideoModel;
+        self.videos = localVideoModels;
         self.dic = [dic mutableCopy];
     }
     return self;
+}
+
+#pragma mark - 懒加载
+
+- (NSMutableDictionary <NSNumber *,VLCMedia *> *)VLCMedias {
+	if(_VLCMedias == nil) {
+		_VLCMedias = [[NSMutableDictionary <NSNumber *,VLCMedia *> alloc] init];
+	}
+	return _VLCMedias;
 }
 
 @end

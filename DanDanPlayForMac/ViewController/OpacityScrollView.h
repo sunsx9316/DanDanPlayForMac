@@ -1,14 +1,13 @@
 //
-//  ColorButton.h
+//  OpacityScrollView.h
 //  DanDanPlayForMac
 //
-//  Created by JimHuang on 16/1/29.
+//  Created by JimHuang on 16/2/7.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "NSButton+Tools.h"
-@interface ColorButton : NSButton
 
+@interface OpacityScrollView : NSScrollView
 
 @end

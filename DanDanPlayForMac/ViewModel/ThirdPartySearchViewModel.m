@@ -48,7 +48,7 @@
 - (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(NSError *error))complete{
     
 }
-- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(NSError *error))complete{
+- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete{
     
 }
 @end

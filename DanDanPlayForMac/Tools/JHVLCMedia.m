@@ -27,9 +27,10 @@
 
 
 - (instancetype)initWithURL:(NSURL *)anURL{
-    if (self = [super initWithURL:anURL]) {
-        
-    }
-    return [super initWithURL:anURL];
+    return (self = [super initWithURL:anURL]);
+}
+
+- (instancetype)initWithPath:(NSString *)aPath{
+    return [self initWithURL: [NSURL fileURLWithPath: aPath]];
 }
 @end

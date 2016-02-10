@@ -9,5 +9,15 @@
 #import <Cocoa/Cocoa.h>
 @class LocalVideoModel, VLCMedia;
 @interface PlayerViewController : NSViewController
-- (instancetype)initWithLocaleVideo:(LocalVideoModel *)localVideoModel vlcMedia:(VLCMedia *)media danMuDic:(NSDictionary *)dic;
+/**
+ *  初始化
+ *
+ *  @param localVideoModel 本地视频模型
+ *  @param media           vlc视频模型
+ *  @param dic             弹幕字典
+ *  @param matchName       精确匹配文件名
+ *
+ *  @return self
+ */
+- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName;
 @end

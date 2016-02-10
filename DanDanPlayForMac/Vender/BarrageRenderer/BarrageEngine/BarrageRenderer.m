@@ -88,10 +88,6 @@ NSString * const kBarrageRendererContextTimestamp = @"kBarrageRendererContextTim
 }
 
 #pragma mark - control
-- (void)clearAllBarrage{
-    [_preloadedDescriptors removeAllObjects];
-}
-
 - (void)receive:(BarrageDescriptor *)descriptor
 {
     if (!_startTime) { // 如果没有启动,则抛弃接收弹幕

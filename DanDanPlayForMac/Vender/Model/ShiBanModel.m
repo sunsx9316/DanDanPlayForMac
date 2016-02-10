@@ -20,7 +20,7 @@
 
 @implementation BiliBiliShiBanDataModel
 + (NSDictionary *)modelCustomPropertyMapper{
-    return @{@"title":@"index_title", @"danmuku":@"danmaku"};
+    return @{@"title":@"index_title"};
 }
 @end
 

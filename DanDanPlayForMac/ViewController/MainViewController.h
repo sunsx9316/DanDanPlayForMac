@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MainViewController : NSViewController
-- (void)setUpWithFilePath:(NSString *)filePath;
+- (void)setUpWithFilePath:(NSArray *)filePaths;
 @end

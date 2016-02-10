@@ -110,5 +110,5 @@
  *  @param row      行数
  *  @param complete 回调
  */
-- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(NSError *error))complete;
+- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete;
 @end

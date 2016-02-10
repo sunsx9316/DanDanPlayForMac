@@ -17,9 +17,14 @@
 //  appsec
 #define APPSEC @"2ad42749773c441109bdc0191257a664"
 
+#define kNoMatchError [NSError errorWithDomain:@"nomatchdanmaku" code:200 userInfo: nil]
+//来源枚举
 typedef NS_ENUM(NSInteger, kDanMuSource){
+    //官方
     official,
+    //b站
     bilibili,
+    //a站
     acfun
 };
 

@@ -37,7 +37,7 @@
  *
  *  @return 弹幕id
  */
-- (NSString *)danMuKuWithIndex:(NSInteger)index;
+- (NSString *)danmakuWithIndex:(NSInteger)index;
 /**
  *  根据aid获取视频详情 主要是cid
  *
@@ -50,7 +50,7 @@
  *  @param index    下标
  *  @param complete 回调
  */
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj))complete;
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, NSError *error))complete;
 /**
  *  根据aid初始化
  *

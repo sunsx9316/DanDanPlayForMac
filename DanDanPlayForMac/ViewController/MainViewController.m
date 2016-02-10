@@ -19,7 +19,8 @@
 
 @interface MainViewController ()<NSWindowDelegate>
 @property (strong, nonatomic) BackGroundImageView *imgView;
-@property (strong, nonatomic) LocalVideoModel *video;
+@property (strong, nonatomic) NSMutableArray <LocalVideoModel *>*videos;
+@property (strong, nonatomic) NSString *animateTitle;
 @end
 
 @implementation MainViewController
@@ -28,10 +29,9 @@
     [super viewDidLoad];
     [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
     [self.view addSubview: self.imgView];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"danMuChooseOver" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showImgView) name:@"playOver" object: nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMainView) name:@"playOver" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
 }
 
 
@@ -40,54 +40,85 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-- (void)setUpWithFilePath:(NSString *)filePath{
-    
-    BOOL isDirectory = NO;
-    [[NSFileManager defaultManager] fileExistsAtPath: filePath isDirectory:&isDirectory];
-    //是文件才开始解析
-    if (!isDirectory) {
-        self.video = [[LocalVideoModel alloc] initWithFilePath: filePath];
-       // [self presentPlayerViewController: nil];
-        [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(100, 100) fontSize: 20 dismissWhenClick: NO];
-        
-        [[[MatchViewModel alloc] initWithModel:self.video] refreshWithModelCompletionHandler:^(NSError *error, NSString *episodeId) {
-            //episodeId存在 说明精确匹配
-            if (episodeId) {
-                [JHProgressHUD updateProgress: 50];
-                [JHProgressHUD updateMessage: @"搜索弹幕..."];
-                //搜索弹幕
-                [[[DanMuChooseViewModel alloc] initWithVideoID: episodeId] refreshCompletionHandler:^(NSError *error) {
-                    [JHProgressHUD updateProgress: 100];
-                    [JHProgressHUD updateMessage: @"解析视频..."];
-                }];
-            }else{
-                [JHProgressHUD disMiss];
-                [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.video]];
+
+
+- (void)setUpWithFilePath:(NSArray *)filePaths{
+    [self.videos removeAllObjects];
+    //路径为文件夹时 扫描文件夹下第一级目录
+    for (NSString *fileURL in filePaths) {
+        NSArray *contents = [self contentsOfDirectoryAtURL: fileURL];
+        if (contents) {
+            for (NSURL *url in contents) {
+                [self.videos addObject: [[LocalVideoModel alloc] initWithFileURL:url]];
             }
-        }];
-    }else{
-        [[NSAlert alertWithMessageText:@"然而文件并不存在，或者你用个文件夹在逗我" defaultButton:@"ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@"⊂彡☆))∀`)"] runModal];
+        }else{
+            [self.videos addObject: [[LocalVideoModel alloc] initWithFilePath: fileURL]];
+        }
     }
+    
+    if (!self.videos.count) return;
+    
+    
+    [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(200, 100) fontSize: 20 dismissWhenClick: NO];
+    
+    [[[MatchViewModel alloc] initWithModel:self.videos.firstObject] refreshWithModelCompletionHandler:^(NSError *error, NSString *episodeId) {
+        //episodeId存在 说明精确匹配
+        if (episodeId) {
+            [JHProgressHUD updateProgress: 50];
+            [JHProgressHUD updateMessage: @"搜索弹幕..."];
+            //搜索弹幕
+            [[[DanMuChooseViewModel alloc] initWithVideoID: episodeId] refreshCompletionHandler:^(NSError *error) {
+                [JHProgressHUD updateProgress: 100];
+                [JHProgressHUD updateMessage: @"解析视频..."];
+            }];
+        }else{
+            [JHProgressHUD disMiss];
+            [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
+        }
+    }];
 }
 
 #pragma mark - 私有方法
 
 - (void)presentPlayerViewController:(NSNotification *)notification{
-    [[[JHVLCMedia alloc] initWithURL: [NSURL fileURLWithPath: self.video.filePath]] parseWithBlock:^(VLCMedia *aMedia) {
-        [JHProgressHUD disMiss];
-        PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideo: self.video vlcMedia:aMedia danMuDic:notification.userInfo];
-        [self addChildViewController: pvc];
-        [self.view addSubview: pvc.view];
-        [pvc.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(0);
-        }];
-        [self.imgView removeFromSuperview];
+    [JHProgressHUD disMiss];
+    PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideos: self.videos danMuDic:notification.userInfo matchName: self.animateTitle];
+    [self.view viewWithTag: 111];
+    [self addChildViewController: pvc];
+    [self.view addSubview: pvc.view];
+    [pvc.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
     }];
+    [self.imgView removeFromSuperview];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"mathchVideo" object: nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"danMuChooseOver" object: nil];
 }
 
-- (void)showImgView{
+- (void)changeMathchVideoName:(NSNotification *)notification{
+    self.animateTitle = notification.userInfo[@"animateTitle"];
+}
+
+- (void)showMainView{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"danMuChooseOver" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
     self.imgView.frame = self.view.frame;
     [self.view addSubview: self.imgView];
+}
+
+- (NSArray *)contentsOfDirectoryAtURL:(NSString *)path{
+    BOOL isDirectory;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager fileExistsAtPath: path isDirectory:&isDirectory];
+    if (!isDirectory) return nil;
+    NSMutableArray *arr = [[fileManager contentsOfDirectoryAtURL:[NSURL fileURLWithPath:path] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants error:nil] mutableCopy];
+    
+    
+    for (NSInteger i = arr.count - 1; i >= 0; --i) {
+        NSURL *url = arr[i];
+        [fileManager fileExistsAtPath: url.path isDirectory:&isDirectory];
+        if (isDirectory) [arr removeObjectAtIndex: i];
+    }
+    return arr;
 }
 
 #pragma mark - 懒加载
@@ -98,13 +129,20 @@
         _imgView.layer.backgroundColor = [NSColor blackColor].CGColor;
         _imgView.image = [NSImage imageNamed:@"home"];
         __weak typeof (self)weakSelf = self;
-        [self.imgView setUpBlock:^(NSString *filePath) {
+        [self.imgView setUpBlock:^(NSArray *filePath) {
             [weakSelf setUpWithFilePath: filePath];
         }];
         _imgView.imageScaling = NSImageScaleProportionallyUpOrDown;
         [_imgView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     }
     return _imgView;
+}
+
+- (NSMutableArray <LocalVideoModel *> *)videos {
+    if(_videos == nil) {
+        _videos = [[NSMutableArray <LocalVideoModel *> alloc] init];
+    }
+    return _videos;
 }
 
 @end

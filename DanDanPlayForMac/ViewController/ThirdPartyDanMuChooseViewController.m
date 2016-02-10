@@ -42,12 +42,16 @@
 - (IBAction)clickChooseDanMuButton:(NSButton *)sender {
     [JHProgressHUD showWithMessage:@"挖坟中..." parentView:self.view];
     
-    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem]  completionHandler:^(NSDictionary *responseObj) {
+    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(NSDictionary *responseObj, NSError *error) {
         [JHProgressHUD disMiss];
-        //通知关闭列表视图控制器
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:responseObj];
-        //通知开始播放
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
+        if (!error) {
+            //通知更新匹配名称
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo:@{@"animateTitle": [self.episodeButton titleOfSelectedItem]?[self.episodeButton titleOfSelectedItem]:@""}];
+            //通知关闭列表视图控制器
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:responseObj];
+            //通知开始播放
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
+        }
     }];
 }
 - (IBAction)clickGoBackButton:(NSButton *)sender {

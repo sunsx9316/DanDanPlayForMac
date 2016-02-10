@@ -16,4 +16,5 @@ typedef void(^complete)(VLCMedia *aMedia);
  */
 - (void)parseWithBlock:(complete)block;
 - (instancetype)initWithURL:(NSURL *)anURL;
+- (instancetype)initWithPath:(NSString *)aPath;
 @end

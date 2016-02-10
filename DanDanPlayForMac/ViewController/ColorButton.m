@@ -8,16 +8,15 @@
 
 #import "ColorButton.h"
 
+
 @implementation ColorButton
 
 -(void)awakeFromNib
 {
     [super awakeFromNib];
-    NSColor *color = [NSColor blueColor];
-    NSMutableAttributedString *colorTitle = [[NSMutableAttributedString alloc] initWithAttributedString:[self attributedTitle]];
-    NSRange titleRange = NSMakeRange(0, [colorTitle length]);
-    [colorTitle addAttribute:NSForegroundColorAttributeName value:color range:titleRange];
-    [self setAttributedTitle:colorTitle];
+    //默认颜色
+    [self setTitleColor: [NSColor blueColor]];
 }
+
 
 @end

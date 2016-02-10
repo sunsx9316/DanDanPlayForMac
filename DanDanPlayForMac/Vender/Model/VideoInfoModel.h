@@ -27,7 +27,7 @@
 /**
  *  弹幕id
  */
-@property (nonatomic, strong) NSString *danMuKu;
+@property (nonatomic, strong) NSString *danmaku;
 /**
  *  视频标题
  */

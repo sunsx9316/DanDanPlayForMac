@@ -18,7 +18,7 @@
 /**
  *  文件完整路径
  */
-- (NSString *)filePath;
+- (NSURL *)filePath;
 /**
  *  文件哈希值
  */
@@ -35,4 +35,12 @@
  *  @return self
  */
 - (instancetype)initWithFilePath:(NSString *)filePath;
+/**
+ *  初始化
+ *
+ *  @param fileURL 文件路径
+ *
+ *  @return self
+ */
+- (instancetype)initWithFileURL:(NSURL *)fileURL;
 @end

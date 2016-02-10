@@ -28,14 +28,19 @@
 
 - (IBAction)openLocaleFile:(NSMenuItem *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-    [openPanel setCanChooseDirectories:NO];
+    [openPanel setCanChooseDirectories: YES];
     [openPanel setCanChooseFiles:YES];
-    [openPanel setAllowsMultipleSelection:NO];
+    [openPanel setAllowsMultipleSelection: YES];
     
     [openPanel beginSheetModalForWindow:self.mainWindowController.window completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             MainViewController *vc = (MainViewController *)[self.mainWindowController contentViewController];
-            [vc setUpWithFilePath: [[openPanel URL] path]];
+            NSMutableArray *pathArr = [NSMutableArray array];
+            NSArray *urlArr = [openPanel URLs];
+            [urlArr enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [pathArr addObject: obj.path];
+            }];
+            [vc setUpWithFilePath: pathArr];
         }
     }];
 }

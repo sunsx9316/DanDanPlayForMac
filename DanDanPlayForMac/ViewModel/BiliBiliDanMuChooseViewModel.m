@@ -23,15 +23,18 @@
     }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj))complete{
-    NSString *danMuKuID = [self danMuKuWithIndex: index];
-    if (!danMuKuID){
-        complete(nil);
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, NSError *error))complete{
+    NSString *danmakuID = [self danmakuWithIndex: index];
+    if (!danmakuID || [danmakuID isEqualToString: @""]){
+        complete(nil, kNoMatchError);
         return;
     }
     
-    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmuku":danMuKuID, @"provider":@"bilibili"} completionHandler:^(id responseObj, NSError *error) {
-        complete(responseObj);
+    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":@"bilibili"} completionHandler:^(id responseObj, NSError *error) {
+        if (![responseObj count]) {
+            error = kNoMatchError;
+        }
+        complete(responseObj, error);
     }];
 }
 @end

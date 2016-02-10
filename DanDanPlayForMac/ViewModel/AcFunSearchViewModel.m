@@ -107,26 +107,26 @@
         complete(error);
     }];
 }
-- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(NSError *error))complete{
-    NSString *danMuKuID = [self danMuKuIDForRow: row];
-    if (!danMuKuID) {
-        complete(nil);
+- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete{
+    NSString *danmakuID = [self danMaKuIDForRow: row];
+    if (!danmakuID) {
+        complete(nil, kNoMatchError);
         return;
     }
     
-    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmuku":danMuKuID, @"provider":@"acfun"} completionHandler:^(id responseObj, NSError *error) {
-        //通知关闭列表视图控制器
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:responseObj];
-        //通知开始播放
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
-        complete(responseObj);
+    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":@"acfun"} completionHandler:^(NSDictionary *responseObj, NSError *error) {
+        if (responseObj.count) {
+            error = kNoMatchError;
+        }
+        
+        complete(responseObj, kNoMatchError);
     }];
 }
 
 
 #pragma mark - 私有方法
 
-- (NSString *)danMuKuIDForRow:(NSInteger)row{
+- (NSString *)danMaKuIDForRow:(NSInteger)row{
     return (row < _infoArr.count)?_infoArr[row].danmakuId:nil;
 }
 @end

@@ -19,7 +19,7 @@
 
 
 @property (strong, nonatomic) MatchViewModel *vm;
-@property (strong, nonatomic) LocalVideoModel *videoModel;
+//@property (strong, nonatomic) LocalVideoModel *videoModel;
 @end
 
 @implementation MatchViewController
@@ -27,6 +27,7 @@
 #pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.searchField.stringValue = [self.vm videoName];
     [self.tableView setDoubleAction: @selector(doubleClickRow)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf) name:@"disMissViewController" object: nil];
@@ -51,19 +52,25 @@
 
 - (instancetype)initWithVideoModel:(LocalVideoModel *)videoModel{
     if ((self = kViewControllerWithId(@"MatchViewController"))) {
-        self.videoModel = videoModel;
+     //   self.videoModel = videoModel;
         self.vm = [[MatchViewModel alloc] initWithModel: videoModel];
     }
     return self;
 }
 
 - (IBAction)searchButtonDown:(NSButton *)sender {
+    if (!self.searchField.stringValue || [self.searchField.stringValue isEqualToString: @""]) return;
+    
     SearchViewController *vc = [[SearchViewController alloc] init];
     vc.searchText = self.searchField.stringValue;
     [self presentViewControllerAsSheet: vc];
 }
 - (IBAction)backButtonDown:(NSButton *)sender {
     [self dismissController: self];
+    //通知更新匹配名称
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo: nil];
+    //通知开始播放
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo: nil];
 }
 
 #pragma mark - 私有方法

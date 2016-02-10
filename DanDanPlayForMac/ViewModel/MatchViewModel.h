@@ -9,7 +9,6 @@
 #import "BaseModel.h"
 @class LocalVideoModel;
 @interface MatchViewModel : BaseModel
-@property (nonatomic, strong) LocalVideoModel* videoModel;
 /**
  *  分集id
  *
@@ -35,13 +34,11 @@
  */
 - (NSString *)modelEpisodeTitleWithIndex:(NSInteger)index;
 /**
- *  分集路径
+ *  视频名称
  *
- *  @param index 下标
- *
- *  @return 路径
+ *  @return 视频名称
  */
-- (NSURL *)modelPathWithIndex:(NSInteger)index;
+- (NSString *)videoName;
 /**
  *  总行数
  *
