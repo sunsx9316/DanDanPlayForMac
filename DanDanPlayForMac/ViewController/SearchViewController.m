@@ -23,6 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backButtonDown:) name:@"disMissViewController" object: nil];
+    
     [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
     self.searchTextField.stringValue = self.searchText;
     
@@ -41,6 +44,11 @@
     [avc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];
+}
+
+- (void)viewWillDisappear{
+    [super viewWillDisappear];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 - (instancetype)init{
@@ -73,6 +81,7 @@
 - (IBAction)backButtonDown:(NSButton *)sender {
     [self dismissController: self];
 }
+
 
 
 #pragma mark - 私有方法

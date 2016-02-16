@@ -16,14 +16,17 @@
 
 #import "MatchViewModel.h"
 #import "DanMuChooseViewModel.h"
+#import "MatchModel.h"
 
 @interface MainViewController ()<NSWindowDelegate>
 @property (strong, nonatomic) BackGroundImageView *imgView;
 @property (strong, nonatomic) NSMutableArray <LocalVideoModel *>*videos;
-@property (strong, nonatomic) NSString *animateTitle;
 @end
 
 @implementation MainViewController
+{
+    NSString *_animateTitle;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,16 +61,18 @@
     
     if (!self.videos.count) return;
     
-    
     [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(200, 100) fontSize: 20 dismissWhenClick: NO];
     
-    [[[MatchViewModel alloc] initWithModel:self.videos.firstObject] refreshWithModelCompletionHandler:^(NSError *error, NSString *episodeId) {
+    [[[MatchViewModel alloc] initWithModel:self.videos.firstObject] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
-        if (episodeId) {
+        if (model.episodeId) {
+            
+            _animateTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
+            
             [JHProgressHUD updateProgress: 50];
             [JHProgressHUD updateMessage: @"搜索弹幕..."];
             //搜索弹幕
-            [[[DanMuChooseViewModel alloc] initWithVideoID: episodeId] refreshCompletionHandler:^(NSError *error) {
+            [[[DanMuChooseViewModel alloc] initWithVideoID: model.episodeId] refreshCompletionHandler:^(NSError *error) {
                 [JHProgressHUD updateProgress: 100];
                 [JHProgressHUD updateMessage: @"解析视频..."];
             }];
@@ -82,20 +87,22 @@
 
 - (void)presentPlayerViewController:(NSNotification *)notification{
     [JHProgressHUD disMiss];
-    PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideos: self.videos danMuDic:notification.userInfo matchName: self.animateTitle];
-    [self.view viewWithTag: 111];
+    PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideos: self.videos danMuDic:notification.userInfo matchName: _animateTitle];
+    //赋值之后置空
+    _animateTitle = nil;
     [self addChildViewController: pvc];
     [self.view addSubview: pvc.view];
-    [pvc.view mas_makeConstraints:^(MASConstraintMaker *make) {
+    [pvc.view mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
     [self.imgView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"mathchVideo" object: nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"danMuChooseOver" object: nil];
 }
 
 - (void)changeMathchVideoName:(NSNotification *)notification{
-    self.animateTitle = notification.userInfo[@"animateTitle"];
+    _animateTitle = notification.userInfo[@"animateTitle"];
 }
 
 - (void)showMainView{
@@ -112,7 +119,7 @@
     if (!isDirectory) return nil;
     NSMutableArray *arr = [[fileManager contentsOfDirectoryAtURL:[NSURL fileURLWithPath:path] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants error:nil] mutableCopy];
     
-    
+    //移除一级目录下的文件夹
     for (NSInteger i = arr.count - 1; i >= 0; --i) {
         NSURL *url = arr[i];
         [fileManager fileExistsAtPath: url.path isDirectory:&isDirectory];
@@ -127,7 +134,8 @@
         _imgView = [[BackGroundImageView alloc] initWithFrame:self.view.frame];
         [_imgView setWantsLayer: YES];
         _imgView.layer.backgroundColor = [NSColor blackColor].CGColor;
-        _imgView.image = [NSImage imageNamed:@"home"];
+        _imgView.image = [UserDefaultManager homeImg];
+        
         __weak typeof (self)weakSelf = self;
         [self.imgView setUpBlock:^(NSArray *filePath) {
             [weakSelf setUpWithFilePath: filePath];

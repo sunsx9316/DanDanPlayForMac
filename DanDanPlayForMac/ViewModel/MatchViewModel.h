@@ -7,7 +7,7 @@
 //
 
 #import "BaseModel.h"
-@class LocalVideoModel;
+@class LocalVideoModel, MatchDataModel;
 @interface MatchViewModel : BaseModel
 /**
  *  分集id
@@ -59,5 +59,5 @@
  *
  *  @param complete 回调
  */
-- (void)refreshWithModelCompletionHandler:(void(^)(NSError *error, NSString *episodeId))complete;
+- (void)refreshWithModelCompletionHandler:(void(^)(NSError *error, MatchDataModel *dataModel))complete;
 @end

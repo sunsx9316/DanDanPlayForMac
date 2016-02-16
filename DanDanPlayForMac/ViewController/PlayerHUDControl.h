@@ -7,7 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+/**
+ *  全屏模式下的控制面板
+ */
 @interface PlayerHUDControl : NSView
 
 @end

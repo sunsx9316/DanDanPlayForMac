@@ -14,6 +14,14 @@
  */
 typedef NS_ENUM(NSUInteger, DanMaKuSpiritEdgeStyle) {
     /**
+     *  啥也没有
+     */
+    DanMaKuSpiritEdgeStyleNone = 100,
+    /**
+     *  描边
+     */
+    DanMaKuSpiritEdgeStyleStroke,
+    /**
      *  投影
      */
     DanMaKuSpiritEdgeStyleShadow,
@@ -21,14 +29,6 @@ typedef NS_ENUM(NSUInteger, DanMaKuSpiritEdgeStyle) {
      *  外发光
      */
     DanMaKuSpiritEdgeStyleGlow,
-    /**
-     *  描边
-     */
-    DanMaKuSpiritEdgeStyleStroke,
-    /**
-     *  啥也没有
-     */
-    DanMaKuSpiritEdgeStyleNone
 };
 
 @interface BarrageDescriptor (Tools)

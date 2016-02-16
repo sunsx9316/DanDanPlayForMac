@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="GetKeyViewController">
+            <connections>
+                <outlet property="functionTextField" destination="DJX-LH-wf1" id="JuP-AH-c63"/>
+                <outlet property="keyNameTextField" destination="UWT-nE-vfz" id="7fM-lb-MLw"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="450" height="200"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="He8-Xg-Wdt">
+                    <rect key="frame" x="132" y="153" width="186" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="你将要更改下述功能的快捷键：" id="url-IJ-95R">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DJX-LH-wf1">
+                    <rect key="frame" x="197" y="126" width="56" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="功能名称" id="jdY-Vj-ibh">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UWT-nE-vfz">
+                    <rect key="frame" x="204" y="92" width="43" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="快捷键" id="lDU-rf-fKo">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4hR-wA-gMJ">
+                    <rect key="frame" x="264" y="3" width="92" height="32"/>
+                    <buttonCell key="cell" type="push" title="取消" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3Zr-5w-Ndy">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clickCancelButton:" target="-2" id="WK7-9W-FYg"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aWm-4i-dWm">
+                    <rect key="frame" x="354" y="3" width="92" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="hHe-Vw-AgF"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="确定" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IdL-wJ-cRQ">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clickOKButton:" target="-2" id="Ukj-sB-3lG"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="He8-Xg-Wdt" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="30" id="Kj9-Dx-gjw"/>
+                <constraint firstAttribute="trailing" secondItem="aWm-4i-dWm" secondAttribute="trailing" constant="10" id="Ptk-DD-kXu"/>
+                <constraint firstItem="UWT-nE-vfz" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="SKF-EU-0fw"/>
+                <constraint firstItem="aWm-4i-dWm" firstAttribute="leading" secondItem="4hR-wA-gMJ" secondAttribute="trailing" constant="10" id="UdX-Jl-jYP"/>
+                <constraint firstItem="DJX-LH-wf1" firstAttribute="centerX" secondItem="He8-Xg-Wdt" secondAttribute="centerX" id="eda-oL-bvb"/>
+                <constraint firstItem="DJX-LH-wf1" firstAttribute="top" secondItem="He8-Xg-Wdt" secondAttribute="bottom" constant="10" id="fpJ-f8-Q5o"/>
+                <constraint firstItem="UWT-nE-vfz" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="gjL-xY-EOs"/>
+                <constraint firstItem="He8-Xg-Wdt" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="j3l-BH-M47"/>
+                <constraint firstItem="aWm-4i-dWm" firstAttribute="width" secondItem="4hR-wA-gMJ" secondAttribute="width" id="kCu-0k-UgV"/>
+                <constraint firstItem="aWm-4i-dWm" firstAttribute="centerY" secondItem="4hR-wA-gMJ" secondAttribute="centerY" id="nPa-lm-eLl"/>
+                <constraint firstItem="UWT-nE-vfz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DJX-LH-wf1" secondAttribute="bottom" constant="10" id="seC-G1-tEX"/>
+                <constraint firstAttribute="bottom" secondItem="aWm-4i-dWm" secondAttribute="bottom" constant="10" id="thr-gC-aEb"/>
+            </constraints>
+            <point key="canvasLocation" x="186.5" y="273"/>
+        </customView>
+    </objects>
+</document>

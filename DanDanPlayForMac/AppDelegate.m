@@ -25,6 +25,9 @@
     // Insert code here to tear down your application
 }
 
+- (IBAction)openPreferencePanel:(NSMenuItem *)sender {
+    [self.mainWindowController.contentViewController presentViewControllerAsModalWindow:kViewControllerWithId(@"PreferenceViewController")];
+}
 
 - (IBAction)openLocaleFile:(NSMenuItem *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];

@@ -7,19 +7,17 @@
 //
 
 #import "MatchViewController.h"
-#import "MatchViewModel.h"
-#import "LocalVideoModel.h"
 #import "SearchViewController.h"
 #import "DanMuChooseViewController.h"
+#import "MatchViewModel.h"
+#import "LocalVideoModel.h"
+#import "MatchModel.h"
 
 @interface MatchViewController ()<NSTableViewDataSource, NSTableViewDelegate>
 @property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet NSSearchField *searchField;
 
-
-
 @property (strong, nonatomic) MatchViewModel *vm;
-//@property (strong, nonatomic) LocalVideoModel *videoModel;
 @end
 
 @implementation MatchViewController
@@ -27,6 +25,7 @@
 #pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.searchField.stringValue = [self.vm videoName];
     [self.tableView setDoubleAction: @selector(doubleClickRow)];
     
@@ -34,11 +33,12 @@
     
     [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
     
-    [self.vm refreshWithModelCompletionHandler:^(NSError *error, NSString *episodeId) {
+    [self.vm refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         [JHProgressHUD disMiss];
-        if (episodeId) {
-            [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: episodeId]];
+        if (model.episodeId) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
+            [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: model.episodeId]];
         }else{
             [self.tableView reloadData];
         }
@@ -52,7 +52,6 @@
 
 - (instancetype)initWithVideoModel:(LocalVideoModel *)videoModel{
     if ((self = kViewControllerWithId(@"MatchViewController"))) {
-     //   self.videoModel = videoModel;
         self.vm = [[MatchViewModel alloc] initWithModel: videoModel];
     }
     return self;
@@ -67,8 +66,6 @@
 }
 - (IBAction)backButtonDown:(NSButton *)sender {
     [self dismissController: self];
-    //通知更新匹配名称
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo: nil];
     //通知开始播放
     [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo: nil];
 }

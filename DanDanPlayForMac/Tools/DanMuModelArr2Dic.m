@@ -9,6 +9,7 @@
 
 #import "DanMuModelArr2Dic.h"
 #import "DanMuModel.h"
+#import "NSString+Tools.h"
 
 @implementation DanMuModelArr2Dic
 + (NSDictionary *)dicWithObj:(id)obj source:(kDanMuSource)source{
@@ -38,6 +39,7 @@
             model.mode = [tempArr[2] intValue];
             model.fontSize = [tempArr[3] intValue];
             model.message = dic[@"m"];
+            model.filter = [self filterWithDanMudataModel:model];
             
             if (!mDic[@(model.time)]) mDic[@(model.time)] = [NSMutableArray array];
             [mDic[@(model.time)] addObject:model];
@@ -52,6 +54,7 @@
     [arr enumerateObjectsUsingBlock:^(DanMuDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         //第一次创建
         if (!dic[@(obj.time)]) dic[@(obj.time)] = [NSMutableArray array];
+        obj.filter = [self filterWithDanMudataModel:obj];
         obj.fontSize = 25;
         [dic[@(obj.time)] addObject: obj];
     }];
@@ -67,6 +70,8 @@
     //正则表达式匹配的范围
     NSArray<NSTextCheckingResult*>* resultArr = [regu matchesInString:str options:0 range:NSMakeRange(0, str.length)];
     
+    
+    
     //所有弹幕标签
     for (NSTextCheckingResult* re in resultArr) {
         NSString* subStr = [str substringWithRange:re.range];
@@ -78,6 +83,7 @@
         model.fontSize = [strArr[2] intValue];
         model.color = [strArr[3] intValue];
         model.message = [self getTextWithString:subStr];
+        model.filter = [self filterWithDanMudataModel:model];
         
         if (dic[@(model.time)] == nil) dic[@(model.time)] = [NSMutableArray array];
         [dic[@(model.time)] addObject: model];
@@ -105,6 +111,22 @@
         return [str substringWithRange:NSMakeRange(resultArr.firstObject.range.location + 1, resultArr.firstObject.range.length - 2)];
     }
     return nil;
+}
+
+//过滤弹幕
++ (BOOL)filterWithDanMudataModel:(DanMuDataModel *)model{
+    NSArray *userFilterArr = [UserDefaultManager userFilter];
+    for (NSDictionary *filterDic in userFilterArr) {
+        //使用正则表达式
+        if ([filterDic[@"state"] intValue] == 1) {
+            if ([model.message matchesRegex:filterDic[@"text"] options:NSRegularExpressionCaseInsensitive]) {
+                return YES;
+            }
+        }else if([model.message containsString:filterDic[@"text"]]){
+            return YES;
+        }
+    }
+    return NO;
 }
 @end
 

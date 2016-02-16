@@ -8,13 +8,12 @@
 
 #import "ThirdPartySearchViewController.h"
 #import "ThirdPartyDanMuChooseViewController.h"
+#import "ThirdPartySearchVideoInfoView.h"
 #import "BiliBiliSearchViewModel.h"
 #import "AcFunSearchViewModel.h"
 
 @interface ThirdPartySearchViewController ()<NSTableViewDelegate, NSTableViewDataSource>
-@property (weak) IBOutlet NSImageView *coverImageView;
-@property (weak) IBOutlet NSTextField *titleTextField;
-@property (weak) IBOutlet NSTextField *detailTextField;
+@property (weak) IBOutlet ThirdPartySearchVideoInfoView *videoInfoView;
 @property (strong, nonatomic) ThirdPartySearchViewModel *vm;
 @end
 
@@ -33,15 +32,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self.shiBantableView setDoubleAction:@selector(shiBanTableViewDoubleClickRow)];
     [self.episodeTableView setDoubleAction:@selector(episodeTableViewDoubleClickRow)];
 }
 
 - (void)refreshWithKeyWord:(NSString *)keyWord completion:(void(^)(NSError *error))completionHandler{
     [self.vm refreshWithKeyWord:keyWord completionHandler:^(NSError *error) {
-        _coverImageView.image = [NSImage imageNamed:@"imghold"];
-        _titleTextField.stringValue = @"";
-        _detailTextField.stringValue = @"";
+        //刷新的时候重置视频详情
+        self.videoInfoView.coverImg.image = [NSImage imageNamed:@"imghold"];
+        self.videoInfoView.animaTitleTextField.stringValue = @"";
+        self.videoInfoView.detailTextField.stringValue = @"";
         [self.shiBantableView reloadData];
         [self.episodeTableView reloadData];
         completionHandler(error);
@@ -56,12 +57,11 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSImage *img = [[NSImage alloc] initWithContentsOfURL: [self.vm coverImg]];
        dispatch_async(dispatch_get_main_queue(), ^{
-           self.coverImageView.image = img;
+           self.videoInfoView.coverImg.image = img;
        });
     });
-    
-    self.titleTextField.stringValue = [self.vm shiBanTitle];
-    self.detailTextField.stringValue = [self.vm shiBanDetail];
+    self.videoInfoView.animaTitleTextField.stringValue = [self.vm shiBanTitle];
+    self.videoInfoView.detailTextField.stringValue = [self.vm shiBanDetail];
 }
 
 - (void)shiBanTableViewDoubleClickRow{

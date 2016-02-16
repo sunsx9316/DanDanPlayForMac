@@ -13,6 +13,7 @@
 #import <AFNetworking.h>
 #import <Masonry.h>
 #import "JHProgressHUD.h"
+#import "UserDefaultManager.h"
 
 //配置头文件
 #import "Config.h"

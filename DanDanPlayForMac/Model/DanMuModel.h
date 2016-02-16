@@ -36,4 +36,8 @@
  *  Message: 弹幕内容文字。\r和\n不会作为换行转义符。
  */
 @property (nonatomic, strong) NSString* message;
+/**
+ *  是否被过滤
+ */
+@property (assign, nonatomic, getter=isFilter) BOOL filter;
 @end
