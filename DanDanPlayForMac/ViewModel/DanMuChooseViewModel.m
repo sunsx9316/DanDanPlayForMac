@@ -43,6 +43,13 @@
 
 
 - (void)refreshCompletionHandler:(void (^)(NSError *))complete{
+    id cache = [self danMuCacheWithDanmakuID:self.videoID provider:@"official"];
+    if (cache) {
+        complete(nil);
+        [self postNotificationWithDanMuObj:cache];
+    }
+    
+    
     [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
         //字典的第一个对象不是NSNumber类型说明没有官方弹幕
         if (![[responseObj allKeys].firstObject isKindOfClass: [NSNumber class]]) {
@@ -50,17 +57,17 @@
             self.providerArr = [responseObj allKeys];
             self.shiBanArr = responseObj[self.providerArr.firstObject];
             self.episodeTitleArr = self.shiBanArr.firstObject.videos;
+            error = [NSError errorWithDomain:@"noDanMu" code:200 userInfo:nil];
             complete(error);
         }else{
             if (!responseObj.count) {
                 error = [NSError errorWithDomain:@"noDanMu" code:200 userInfo:nil];
             }
             complete(error);
-            //通知关闭列表视图控制器
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:responseObj];
-            //通知开始播放
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
-            
+            //写入缓存
+            [self writeDanMuCacheWithProvider:@"official" danmakuID:self.videoID responseObj:responseObj];
+            //发通知
+            [self postNotificationWithDanMuObj:responseObj];
         }
     }];
 }
@@ -72,7 +79,17 @@
         return;
     }
     
+    id danMuCache = [self danMuCacheWithDanmakuID:danmakuID provider:provider];
+    if (danMuCache) {
+        complete(danMuCache);
+        return;
+    }
+    
     [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
+        if ([responseObj count]){
+            [self writeDanMuCacheWithProvider:provider danmakuID:danmakuID responseObj:responseObj];
+        }
+
         complete(responseObj);
     }];
 }
@@ -82,5 +99,30 @@
         self.videoID = videoID;
     }
     return self;
+}
+
+#pragma mark - 私有方法
+- (id)danMuCacheWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider{
+    
+    NSString *danMuCachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:[provider stringByAppendingPathComponent:danmakuID]];
+    return [NSKeyedUnarchiver unarchiveObjectWithFile: danMuCachePath];
+}
+
+- (void)writeDanMuCacheWithProvider:(NSString *)provider danmakuID:(NSString *)danmakuID responseObj:(id)responseObj{
+    //将弹幕写入缓存
+    NSString *cachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:provider];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:cachePath]) {
+        [fileManager createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    [NSKeyedArchiver archiveRootObject:responseObj toFile:[cachePath stringByAppendingPathComponent:danmakuID]];
+}
+
+- (void)postNotificationWithDanMuObj:(id)obj{
+    //通知关闭列表视图控制器
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:nil];
+    //通知开始播放
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:obj];
 }
 @end

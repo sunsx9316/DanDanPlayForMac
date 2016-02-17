@@ -11,12 +11,29 @@
 #import "DanMuNetManager.h"
 #import "LocalVideoModel.h"
 #import "JHVLCMedia.h"
+#import "VLCMedia+Tools.h"
 @interface PlayViewModel()
 @property (strong, nonatomic) NSArray <LocalVideoModel *>*videos;
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *,VLCMedia *>*VLCMedias;
 @end
 
 @implementation PlayViewModel
+- (NSString *)localeVideoNameWithIndex:(NSInteger)index{
+    return [self localVideoModelWithIndex: index].fileName;
+}
+
+- (NSInteger)localeVideoCount{
+    return self.videos.count;
+}
+
+- (NSString *)currentVideoName{
+    return [self videoNameWithIndex: self.currentIndex];
+}
+
+- (LocalVideoModel *)currentLocalVideoModel{
+    return [self localVideoModelWithIndex: self.currentIndex];
+}
+
 - (void)setCurrentIndex:(NSInteger)currentIndex{
     _currentIndex = currentIndex>0?currentIndex%self.videos.count:0;
 }
@@ -24,16 +41,11 @@
 - (void)currentVLCMediaWithCompletionHandler:(void(^)(VLCMedia *responseObj))complete{
     [self VLCMediaWithIndex:self.currentIndex completionHandler:complete];
 }
-- (LocalVideoModel *)currentLocalVideoModel{
-    return [self localVideoModelWithIndex: self.currentIndex];
-}
 - (NSArray <DanMuDataModel *>*)currentSecondDanMuArr:(NSInteger)second{
     return self.dic[@(second)];
 }
 
-- (NSString *)currentVideoName{
-    return [self videoNameWithIndex: self.currentIndex];
-}
+
 
 #pragma mark - 私有方法
 - (NSURL *)videoURLWithIndex:(NSInteger)index{
@@ -55,18 +67,22 @@
     }
     
     [[[JHVLCMedia alloc] initWithURL: [self videoURLWithIndex: index]] parseWithBlock:^(VLCMedia *aMedia) {
-        self.VLCMedias[@(index)] = aMedia;
         complete(aMedia);
+        self.VLCMedias[@(index)] = aMedia;
     }];
 }
 
 - (LocalVideoModel *)localVideoModelWithIndex:(NSInteger)index{
-    return self.videos[index];
+    return index<self.videos.count?self.videos[index]:nil;
 }
 
 - (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic{
     if (self = [super init]) {
         self.videos = localVideoModels;
+        self.testarr = [NSMutableArray array];
+        [localVideoModels enumerateObjectsUsingBlock:^(LocalVideoModel*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self.testarr addObject:[VLCMedia mediaWithURL:[obj filePath]]];
+        }];
         self.dic = [dic mutableCopy];
     }
     return self;

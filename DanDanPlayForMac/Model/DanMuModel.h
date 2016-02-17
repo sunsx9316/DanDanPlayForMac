@@ -29,10 +29,6 @@
  */
 @property (nonatomic, assign) NSInteger color;
 /**
- *  字体大小
- */
-@property (nonatomic, assign) NSInteger fontSize;
-/**
  *  Message: 弹幕内容文字。\r和\n不会作为换行转义符。
  */
 @property (nonatomic, strong) NSString* message;

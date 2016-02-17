@@ -61,6 +61,7 @@
         default:
             break;
     }
+    [self clickSlider:self.slider];
 }
 
 - (void)clickSlider:(NSSlider *)slider{
@@ -77,7 +78,12 @@
             {
                 float value = slider.floatValue * 2.9 + 0.1;
                 self.block(value);
-                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", value];
+                if (value == 3.0) {
+                    self.valueLabel.textColor = [NSColor redColor];
+                }else{
+                    self.valueLabel.textColor = [NSColor whiteColor];
+                }
+                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f倍速", value];
                 break;
             }
             case sliderControlStyleOpacity:{

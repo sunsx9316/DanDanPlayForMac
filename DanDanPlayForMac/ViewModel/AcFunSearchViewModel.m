@@ -108,25 +108,13 @@
     }];
 }
 - (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete{
-    NSString *danmakuID = [self danMaKuIDForRow: row];
-    if (!danmakuID) {
-        complete(nil, kNoMatchError);
-        return;
-    }
-    
-    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":@"acfun"} completionHandler:^(NSDictionary *responseObj, NSError *error) {
-        if (responseObj.count) {
-            error = kNoMatchError;
-        }
-        
-        complete(responseObj, kNoMatchError);
-    }];
+    [super downThirdPartyDanMuWithDanmakuID:[self danmakuIDForRow: row] provider:@"acfun" completionHandler:complete];
 }
 
 
 #pragma mark - 私有方法
 
-- (NSString *)danMaKuIDForRow:(NSInteger)row{
+- (NSString *)danmakuIDForRow:(NSInteger)row{
     return (row < _infoArr.count)?_infoArr[row].danmakuId:nil;
 }
 @end

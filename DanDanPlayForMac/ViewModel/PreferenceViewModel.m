@@ -22,7 +22,7 @@
 - (NSInteger)numOfRowWithStyle:(preferenceTableViewStyle)style{
     switch (style) {
         case preferenceTableViewStyleDanMuSurface:
-            return 5;
+            return 6;
             break;
         case preferenceTableViewStylePlayer:
             return 1;

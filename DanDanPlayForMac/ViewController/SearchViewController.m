@@ -46,8 +46,7 @@
     }];
 }
 
-- (void)viewWillDisappear{
-    [super viewWillDisappear];
+- (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 

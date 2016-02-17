@@ -9,7 +9,7 @@
 #import "BaseViewModel.h"
 #import "VideoInfoModel.h"
 /**
- *  该类用于继承
+ *  第三方下载viewModel父类
  */
 @class VideoInfoDataModel;
 @interface ThirdPartyDanMuChooseViewModel : BaseViewModel
@@ -45,7 +45,15 @@
  */
 - (void)refreshCompletionHandler:(void(^)(NSError *error))complete;
 /**
- *  下载第三方弹幕
+ *  下载第三方弹幕完整方法
+ *
+ *  @param danmakuID 弹幕库id
+ *  @param provider  提供者
+ *  @param complete  回调
+ */
+- (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider completionHandler:(void(^)(id responseObj, NSError *error))complete;
+/**
+ *  下载第三方弹幕简单封装
  *
  *  @param index    下标
  *  @param complete 回调

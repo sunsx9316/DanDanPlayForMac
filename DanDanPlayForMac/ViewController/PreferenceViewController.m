@@ -10,19 +10,15 @@
 #import "PreferenceViewController.h"
 #import "PreferenceViewModel.h"
 
+#import "DanMuFastMatchCell.h"
 #import "FontSpeciallyCell.h"
 #import "SliderWithTickCell.h"
 #import "ChangeFontCell.h"
 #import "CaptionsProtectAreaCell.h"
-
 #import "ChangeBackGroundImgCell.h"
-
 #import "DanMuFilterCell.h"
-
 #import "KeyboardSettingCell.h"
-
 #import "ScreenShotCell.h"
-
 #import "CacheManagerCell.h"
 
 @interface PreferenceViewController ()<NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate, NSTableViewDataSource, NSSplitViewDelegate>
@@ -77,6 +73,7 @@
             else if (row == 1 || row == 2) return 108;
             else if (row == 3) return 88;
             else if (row == 4) return 79;
+            else if (row == 5) return 79;
             break;
         case preferenceTableViewStylePlayer:
             return 300;
@@ -123,6 +120,9 @@
     self.tableViewStyle = [self.outlineView selectedRow];
     [self.tableView reloadData];
 }
+- (IBAction)clickBackButton:(NSButton *)sender {
+    [self dismissViewController:self];
+}
 
 - (NSView *)danMuSurfaceTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     switch (row) {
@@ -155,6 +155,11 @@
         case 4:
         {
             CaptionsProtectAreaCell *cell = [tableView makeViewWithIdentifier:@"CaptionsProtectAreaCell" owner:self];
+            return cell;
+        }
+        case 5:
+        {
+            DanMuFastMatchCell *cell = [tableView makeViewWithIdentifier:@"DanMuFastMatchCell" owner:self];
             return cell;
         }
     }

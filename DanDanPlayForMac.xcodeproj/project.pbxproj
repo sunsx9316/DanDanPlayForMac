@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		892A80EA1C637A6C00602B34 /* NSDictionary+BiliBili.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A80E91C637A6C00602B34 /* NSDictionary+BiliBili.m */; settings = {ASSET_TAGS = (); }; };
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; settings = {ASSET_TAGS = (); }; };
-		895A2B7C1C6D9E3F000FE343 /* ReSelectDanMuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A2B7B1C6D9E3F000FE343 /* ReSelectDanMuCell.m */; settings = {ASSET_TAGS = (); }; };
+		895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */; settings = {ASSET_TAGS = (); }; };
 		896156811C6C50570016792B /* PlayerHUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896156801C6C50570016792B /* PlayerHUDMessageView.m */; settings = {ASSET_TAGS = (); }; };
 		896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963478F1C6860A000EF63E5 /* NSButton+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FD01C58C40B002F32FD /* AppDelegate.m */; };
@@ -92,6 +92,8 @@
 		897EC7C91C72056A00E1B03D /* SearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7C01C72056A00E1B03D /* SearchModel.m */; settings = {ASSET_TAGS = (); }; };
 		897EC7CA1C72056A00E1B03D /* ShiBanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7C21C72056A00E1B03D /* ShiBanModel.m */; settings = {ASSET_TAGS = (); }; };
 		897EC7CB1C72056A00E1B03D /* VideoInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7C41C72056A00E1B03D /* VideoInfoModel.m */; settings = {ASSET_TAGS = (); }; };
+		897ECC571C749233008AA5DB /* PlayerListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897ECC561C749233008AA5DB /* PlayerListTableView.m */; settings = {ASSET_TAGS = (); }; };
+		897ECC5A1C74C9F9008AA5DB /* DanMuFastMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */; settings = {ASSET_TAGS = (); }; };
 		8995C9911C648607008C1C02 /* ThirdPartySearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		8995C9971C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9961C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m */; settings = {ASSET_TAGS = (); }; };
 		8995C99A1C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
@@ -127,8 +129,8 @@
 		892A80E91C637A6C00602B34 /* NSDictionary+BiliBili.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+BiliBili.m"; sourceTree = "<group>"; };
 		8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliSearchViewModel.h; sourceTree = "<group>"; };
 		8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliBiliSearchViewModel.m; sourceTree = "<group>"; };
-		895A2B7A1C6D9E3F000FE343 /* ReSelectDanMuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReSelectDanMuCell.h; sourceTree = "<group>"; };
-		895A2B7B1C6D9E3F000FE343 /* ReSelectDanMuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReSelectDanMuCell.m; sourceTree = "<group>"; };
+		895A2B7A1C6D9E3F000FE343 /* OnlyButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlyButtonCell.h; sourceTree = "<group>"; };
+		895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlyButtonCell.m; sourceTree = "<group>"; };
 		8961567F1C6C50570016792B /* PlayerHUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHUDMessageView.h; sourceTree = "<group>"; };
 		896156801C6C50570016792B /* PlayerHUDMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerHUDMessageView.m; sourceTree = "<group>"; };
 		8963478E1C6860A000EF63E5 /* NSButton+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSButton+Tools.h"; sourceTree = "<group>"; };
@@ -290,6 +292,10 @@
 		897EC7C21C72056A00E1B03D /* ShiBanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiBanModel.m; sourceTree = "<group>"; };
 		897EC7C31C72056A00E1B03D /* VideoInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoInfoModel.h; sourceTree = "<group>"; };
 		897EC7C41C72056A00E1B03D /* VideoInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoInfoModel.m; sourceTree = "<group>"; };
+		897ECC551C749233008AA5DB /* PlayerListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerListTableView.h; sourceTree = "<group>"; };
+		897ECC561C749233008AA5DB /* PlayerListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerListTableView.m; sourceTree = "<group>"; };
+		897ECC581C74C9F9008AA5DB /* DanMuFastMatchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuFastMatchCell.h; sourceTree = "<group>"; };
+		897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuFastMatchCell.m; sourceTree = "<group>"; };
 		8995C98F1C648607008C1C02 /* ThirdPartySearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartySearchViewController.h; sourceTree = "<group>"; };
 		8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartySearchViewController.m; sourceTree = "<group>"; };
 		8995C9951C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartyDanMuChooseViewController.h; sourceTree = "<group>"; };
@@ -444,9 +450,9 @@
 				89651E3E1C5F8A9E002F23A2 /* JHProgressHUD.h */,
 				89651E3F1C5F8A9E002F23A2 /* JHProgressHUD.m */,
 				8975D1CF1C6EEFD7003FE797 /* 偏好设置 */,
+				89788D371C5E446500CA31EF /* 搜索界面 */,
 				89E3A71A1C60FEDA0030C44A /* 弹幕选择界面 */,
 				89E3A7191C60FEC50030C44A /* 播放界面 */,
-				89788D371C5E446500CA31EF /* 搜索界面 */,
 				89761A161C5A71C10046A245 /* 匹配界面 */,
 				897619FD1C59EEFD0046A245 /* 主界面 */,
 			);
@@ -656,6 +662,8 @@
 				8975D1DB1C6EF634003FE797 /* ChangeFontCell.m */,
 				8975D1DD1C6EF939003FE797 /* CaptionsProtectAreaCell.h */,
 				8975D1DE1C6EF939003FE797 /* CaptionsProtectAreaCell.m */,
+				897ECC581C74C9F9008AA5DB /* DanMuFastMatchCell.h */,
+				897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */,
 			);
 			name = "弹幕外观设置";
 			sourceTree = "<group>";
@@ -727,8 +735,8 @@
 		897EC7B51C72024A00E1B03D /* 弹幕控制面板 */ = {
 			isa = PBXGroup;
 			children = (
-				895A2B7A1C6D9E3F000FE343 /* ReSelectDanMuCell.h */,
-				895A2B7B1C6D9E3F000FE343 /* ReSelectDanMuCell.m */,
+				895A2B7A1C6D9E3F000FE343 /* OnlyButtonCell.h */,
+				895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */,
 				8996A6E11C6CE18200D5AA6E /* TimeAxisCell.h */,
 				8996A6E21C6CE18200D5AA6E /* TimeAxisCell.m */,
 				8996A6DE1C6CD95A00D5AA6E /* SliderControlCell.h */,
@@ -773,6 +781,8 @@
 				896156801C6C50570016792B /* PlayerHUDMessageView.m */,
 				8975485B1C625B3B0075436B /* PlayerHUDControl.h */,
 				8975485C1C625B3B0075436B /* PlayerHUDControl.m */,
+				897ECC551C749233008AA5DB /* PlayerListTableView.h */,
+				897ECC561C749233008AA5DB /* PlayerListTableView.m */,
 			);
 			name = "播放界面";
 			sourceTree = "<group>";
@@ -944,13 +954,14 @@
 				8975D1D91C6EF4DF003FE797 /* SliderWithTickCell.m in Sources */,
 				8975D1EA1C6F2B59003FE797 /* UseFilterExpressionCell.m in Sources */,
 				896370311C58FC9F002F32FD /* NHDisplayLink.m in Sources */,
+				897ECC5A1C74C9F9008AA5DB /* DanMuFastMatchCell.m in Sources */,
 				89C04B761C591E5700225ABA /* MainViewController.m in Sources */,
 				89636FD41C58C40B002F32FD /* main.m in Sources */,
 				897619ED1C59E8520046A245 /* BaseViewModel.m in Sources */,
 				8975D1ED1C6F355D003FE797 /* KeyboardSettingCell.m in Sources */,
 				897EC7C61C72056A00E1B03D /* DanMuModel.m in Sources */,
 				8975D1E31C6F2434003FE797 /* ChangeBackGroundImgCell.m in Sources */,
-				895A2B7C1C6D9E3F000FE343 /* ReSelectDanMuCell.m in Sources */,
+				895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */,
 				8963705A1C59028C002F32FD /* SearchNetManager.m in Sources */,
 				897368111C70708A00B9B765 /* NSString+KeyEvent.m in Sources */,
 				89FC23EE1C6F3EAF009FD27C /* ScreenShotCell.m in Sources */,
@@ -972,6 +983,7 @@
 				896370321C58FC9F002F32FD /* NSLabel.m in Sources */,
 				89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */,
 				8975D1E61C6F2A20003FE797 /* DanMuFilterCell.m in Sources */,
+				897ECC571C749233008AA5DB /* PlayerListTableView.m in Sources */,
 				8975A0B11C60A8EA009BD30F /* DanMuChooseViewController.m in Sources */,
 				89FC23F11C6F3EC3009FD27C /* CacheManagerCell.m in Sources */,
 				897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */,

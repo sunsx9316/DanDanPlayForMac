@@ -24,17 +24,8 @@
 }
 
 - (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    NSString *danmakuID = [self danmakuWithIndex: index];
-    if (!danmakuID || [danmakuID isEqualToString: @""]){
-        complete(nil, kNoMatchError);
-        return;
-    }
-    
-    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":@"bilibili"} completionHandler:^(id responseObj, NSError *error) {
-        if (![responseObj count]) {
-            error = kNoMatchError;
-        }
-        complete(responseObj, error);
-    }];
+    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:@"bilibili" completionHandler:complete];
 }
+
+
 @end

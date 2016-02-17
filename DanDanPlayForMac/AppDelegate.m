@@ -26,7 +26,7 @@
 }
 
 - (IBAction)openPreferencePanel:(NSMenuItem *)sender {
-    [self.mainWindowController.contentViewController presentViewControllerAsModalWindow:kViewControllerWithId(@"PreferenceViewController")];
+    [self.mainWindowController.contentViewController presentViewControllerAsSheet:kViewControllerWithId(@"PreferenceViewController")];
 }
 
 - (IBAction)openLocaleFile:(NSMenuItem *)sender {
@@ -46,6 +46,14 @@
             [vc setUpWithFilePath: pathArr];
         }
     }];
+}
+
+#pragma mark - 私有方法
+- (void)applicationInitalise{
+    //执行一些启动需要的操作
+    if ([UserDefaultManager shouldClearCache]) {
+        [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:nil];
+    }
 }
 
 @end

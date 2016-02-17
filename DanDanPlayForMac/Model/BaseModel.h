@@ -6,6 +6,7 @@
 //  Copyright © 2015年 JimHuang. All rights reserved.
 //
 
-@interface BaseModel : NSObject <YYModel>
-
+@interface BaseModel : NSObject <YYModel, NSCoding>
+- (void)encodeWithCoder:(NSCoder *)aCoder;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder;
 @end

@@ -13,6 +13,7 @@
 
 #import "PlayerHUDControl.h"
 #import "PlayerSlideView.h"
+#import "PlayerListTableView.h"
 #import "PlayerHUDMessageView.h"
 #import "ColorButton.h"
 #import "PlayViewModel.h"
@@ -22,15 +23,16 @@
 #import "HideDanMuAndCloseCell.h"
 #import "SliderControlCell.h"
 #import "TimeAxisCell.h"
-#import "ReSelectDanMuCell.h"
+#import "OnlyButtonCell.h"
 
 #import "BarrageDescriptor+Tools.h"
 #import "VLCMedia+Tools.h"
+#import "DanMuModelArr2Dic.h"
 
 #import <VLCKit/VLCKit.h>
 
 
-@interface PlayerViewController ()<PlayerSlideViewDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSUserNotificationCenterDelegate>
+@interface PlayerViewController ()<PlayerSlideViewDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSUserNotificationCenterDelegate, VLCMediaPlayerDelegate>
 
 //非全屏状态面板
 @property (weak) IBOutlet NSView *playerControl;
@@ -53,7 +55,7 @@
 
 //全屏模式和非全屏模式都存在
 @property (weak) IBOutlet NSScrollView *danMuControlView;
-@property (weak) IBOutlet NSTableView *tableView;
+@property (strong) IBOutlet NSScrollView *playListView;
 
 @property (strong, nonatomic) NSButton *showDanMuControllerViewButton;
 @property (strong, nonatomic) PlayerHUDMessageView *messageView;
@@ -104,7 +106,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanMuDic:) name:@"danMuChooseOver" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayerTimeChanged:) name:VLCMediaPlayerTimeChanged object:nil];
     
     self.vm.currentIndex = 0;
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
@@ -114,20 +115,6 @@
     }];
 }
 
-- (void)viewWillDisappear{
-    [super viewWillDisappear];
-    //[self stopPlay];
-//    [self.timer invalidate];
-//    [self.rander stop];
-//    [self.player stop];
-  //  [self removeObserver:self forKeyPath:@"player.time"];
-//    [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"playOver" object: nil];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [self.view removeTrackingArea:self.trackingArea];
-    self.vm = nil;
-}
 
 //全屏
 - (void)mouseDown:(NSEvent *)theEvent{
@@ -197,8 +184,13 @@
 
 - (IBAction)clickStopButton:(NSButton *)sender {
     [self stopPlay];
+    [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"playOver" object: nil];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
     [self removeFromParentViewController];
     [self.view removeFromSuperview];
+    [self.view removeTrackingArea:self.trackingArea];
+    self.vm = nil;
 }
 - (IBAction)clickVolumeSlider:(NSSlider *)sender {
     [self volumeValueAddTo:sender.intValue addBy:0];
@@ -211,6 +203,11 @@
 - (IBAction)clickPlayerHUDProgressSliderView:(NSSlider *)sender {
     [self.player setPosition: sender.floatValue / 100];
 }
+
+- (IBAction)clickPlayListViewButton:(NSButton *)sender {
+    sender.state?[self hidePlayerListView]:[self showPlayerListView];
+}
+
 
 
 #pragma mark - NSUserNotificationDelegate
@@ -246,21 +243,6 @@
     [NSCursor unhide];
 }
 
-- (void)mediaPlayerTimeChanged:(NSNotification *)aNotification{
-    CGFloat currentTime = [self currentSecond];
-    CGFloat videoTime = [self videoTime];
-    
-    //更新当前时间
-    if (!_fullScreen) {
-        self.timeLabel.stringValue = [NSString stringWithFormat:@"%@ / %@", [self.formatter stringFromDate: [NSDate dateWithTimeIntervalSinceReferenceDate:currentTime]], [self.formatter stringFromDate: [NSDate dateWithTimeIntervalSinceReferenceDate:videoTime]]];
-        [self.progressSliderView updateCurrentTime:currentTime / videoTime];
-    }else if(self.playerHUDControl.alphaValue){
-        self.playerHUDVideoTimeLabel.stringValue = [self.formatter stringFromDate: [NSDate dateWithTimeIntervalSinceReferenceDate:videoTime]];
-        self.playerHUDCurrentTimeLabel.stringValue = [self.formatter stringFromDate: [NSDate dateWithTimeIntervalSinceReferenceDate:currentTime]];
-        self.playerHUDProgressSliderView.floatValue = currentTime / videoTime * 100;
-    }
-}
-
 - (void)changeDanMuDic:(NSNotification *)notification{
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
         [self stopPlay];
@@ -291,6 +273,9 @@
         case 0:
             [self transformImgWithPath:path imgFileType:NSJPEGFileType suffixName:@".jpg"];
             break;
+        case 1:
+            [self transformImgWithPath:path imgFileType:NSPNGFileType suffixName:@".png"];
+            break;
         case 2:
             [self transformImgWithPath:path imgFileType:NSBMPFileType suffixName:@".bmp"];
             break;
@@ -303,13 +288,17 @@
 }
 
 - (void)transformImgWithPath:(NSString *)path imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName{
-    NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
-    if (!image) return;
-    CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
-    NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
-    [newRep setSize:[image size]];
-    NSData *pngData = [newRep representationUsingType:imgFileType properties: @{}];
-    [pngData writeToFile:[NSString stringWithFormat:@"%@%@",path,suffixName] atomically:YES];
+    if (imgFileType == NSPNGFileType) {
+        [[NSFileManager defaultManager] moveItemAtPath:path toPath:[path stringByAppendingPathExtension:@"png"] error:nil];
+    }else{        
+        NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
+        if (!image) return;
+        CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
+        NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
+        [newRep setSize:[image size]];
+        NSData *pngData = [newRep representationUsingType:imgFileType properties: @{}];
+        [pngData writeToFile:[NSString stringWithFormat:@"%@%@",path,suffixName] atomically:YES];
+    }
     [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
 }
 
@@ -340,20 +329,6 @@
     [self.rander stop];
     [self.player stop];
     [self.timer invalidate];
-//    [self.view removeFromSuperview];
-//    [self removeFromParentViewController];
-//    [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
-//    [[NSNotificationCenter defaultCenter] removeObserver: self];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"playOver" object: nil];
-    
-//    self.playButton.state = 1;
-//    self.playHUDButton.state = 1;
-//    [self.progressSliderView updateCurrentTime: 0];
-//    [self.playerHUDProgressSliderView setFloatValue: 0];
-    
-//    self.timeLabel.stringValue = @"00:00 / 00:00";
-//    self.playerHUDVideoTimeLabel.stringValue = @"00:00";
-//    self.playerHUDCurrentTimeLabel.stringValue = @"00:00";
     
 }
 
@@ -377,7 +352,8 @@
     NSArray* danMus = [self.vm currentSecondDanMuArr: [self currentSecond] + _danMuOffsetTime];
     [danMus enumerateObjectsUsingBlock:^(DanMuDataModel*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (![self.shieldDanMuStyle containsObject: @(obj.mode)] && !obj.isFilter) {
-            [self.rander receive: [BarrageDescriptor descriptorWithText:obj.message color:obj.color spiritStyle:obj.mode edgeStyle:_edgeStyle fontSize: obj.fontSize * _fontScale]];
+            NSFont *font = [UserDefaultManager danMuFont];
+            [self.rander receive: [BarrageDescriptor descriptorWithText:obj.message color:obj.color spiritStyle:obj.mode edgeStyle:_edgeStyle fontSize: font.pointSize * _fontScale font:[UserDefaultManager danMuFont]]];
         }
     }];
     
@@ -433,6 +409,34 @@
     }];
 }
 
+- (void)showPlayerListView{
+    NSRect rect = NSMakeRect(0, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+        self.playListView.animator.frame = rect;
+    } completionHandler:^{
+        [self.playListView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(0);
+            make.left.mas_equalTo(self.view.mas_left);
+            make.bottom.equalTo(self.playerControl.mas_top);
+            make.width.mas_equalTo(300);
+        }];
+    }];
+}
+
+- (void)hidePlayerListView{
+    NSRect rect = NSMakeRect(-300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+        self.playListView.animator.frame = rect;
+    } completionHandler:^{
+        [self.playListView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(0);
+            make.right.mas_equalTo(self.view.mas_left);
+            make.bottom.equalTo(self.playerControl.mas_top);
+            make.width.mas_equalTo(300);
+        }];
+    }];
+}
+
 - (void)showDanMuControllerButton{
     self.showDanMuControllerViewButton.animator.alphaValue = 1;
 }
@@ -467,6 +471,31 @@
     }
     self.messageView.text.stringValue = [NSString stringWithFormat:@"音量: %d", self.player.audio.volume / 2];
     [self.messageView showHUD];
+}
+
+- (void)loadLocaleDanMu{
+    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    [openPanel setTitle:@"选取弹幕"];
+    [openPanel setCanChooseDirectories: NO];
+    [openPanel setCanChooseFiles:YES];
+    [openPanel setAllowsMultipleSelection: NO];
+    [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
+        if (result == NSFileHandlingPanelOKButton){
+            //acfun：json解析方式
+            id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
+            NSDictionary *dic = [NSDictionary dictionary];
+            if (obj) {
+                dic = [DanMuModelArr2Dic dicWithObj:obj source:acfun];
+            }else{
+                //bilibili：xml解析方式
+                dic = [DanMuModelArr2Dic dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:bilibili];
+            }
+            if (dic) {
+                self.vm.dic = dic;
+                [self.player setPosition:0];
+            }
+        }
+    }];
 }
 
 - (void)targetMethodWithID:(NSNumber *)ID{
@@ -518,7 +547,12 @@
     CGSize screenSize = [NSScreen mainScreen].frame.size;
     
     //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
-    if (screenSize.width * (videoSize.height / videoSize.width) > screenSize.height) {
+    if (!videoSize.width || !videoSize.height) {
+        [self.playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.mas_equalTo(0);
+            make.bottom.equalTo(self.playerControl.mas_top);
+        }];
+    }else if (screenSize.width * (videoSize.height / videoSize.width) > screenSize.height) {
         [self.playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.centerX.bottom.mas_equalTo(0);
             make.width.equalTo(self.playerView.mas_height).multipliedBy(videoSize.width / videoSize.height);
@@ -537,9 +571,8 @@
     
     //初始化视频信息
     self.player = [[VLCMediaPlayer alloc] initWithVideoView:self.playerView];
+    self.player.delegate = self;
     self.player.media = aMedia;
-   // [self.view addSubview: self.playerView];
-   // self.listPlayer.rootMedia = aMedia;
     //设置HUD面板属性
     [self.view addSubview: self.playerHUDControl];
     [self.playerHUDControl mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -555,8 +588,6 @@
     self.videoTitleLabel.stringValue = [self.vm currentVideoName];
     
     //设置弹幕控制视图
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.rander.view];
     [self.danMuControlView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -565,10 +596,15 @@
         make.width.mas_equalTo(300);
     }];
     
+    [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.rander.view];
+    [self.playListView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(0);
+        make.right.mas_equalTo(self.view.mas_left);
+        make.bottom.equalTo(self.playerControl.mas_top);
+        make.width.mas_equalTo(300);
+    }];
+    
     //设置其它参数
-//    self.matchTextField.stringValue = _matchName?[NSString stringWithFormat:@"视频自动匹配为 %@", _matchName]:@"并没有匹配到视频";
-//    self.matchTextField.alphaValue = 1.0;
-//    [NSTimer scheduledTimerWithTimeInterval:5 target: self selector:@selector(hideMatchTextField:) userInfo:nil repeats: NO];
     [NSApplication sharedApplication].mainWindow.title = [self.vm currentVideoName];
     [self.view addTrackingArea:self.trackingArea];
     //初始化音量
@@ -576,6 +612,28 @@
     self.playerVolumeSlider.intValue = self.volumeSliderView.intValue;
     self.player.libraryInstance.debugLogging = NO;
     _fontScale = 1;
+}
+
+#pragma mark - VLCMediaPlayerDelegate
+- (void)mediaPlayerTimeChanged:(NSNotification *)aNotification{
+    CGFloat currentTime = [self currentSecond];
+    CGFloat videoTime = [self videoTime];
+    
+    //更新当前时间
+    if (!_fullScreen) {
+        self.timeLabel.stringValue = [NSString stringWithFormat:@"%@ / %@", [self.formatter stringFromDate: [NSDate dateWithTimeIntervalSinceReferenceDate:currentTime]], [self.formatter stringFromDate: [NSDate dateWithTimeIntervalSinceReferenceDate:videoTime]]];
+        [self.progressSliderView updateCurrentTime:currentTime / videoTime];
+    }else if(self.playerHUDControl.alphaValue){
+        self.playerHUDVideoTimeLabel.stringValue = [self.formatter stringFromDate: [NSDate dateWithTimeIntervalSinceReferenceDate:videoTime]];
+        self.playerHUDCurrentTimeLabel.stringValue = [self.formatter stringFromDate: [NSDate dateWithTimeIntervalSinceReferenceDate:currentTime]];
+        self.playerHUDProgressSliderView.floatValue = currentTime / videoTime * 100;
+    }
+}
+
+- (void)mediaPlayerStateChanged:(NSNotification *)aNotification{
+    if (self.player.state == VLCMediaPlayerStatePaused && [self videoTime] - [self currentSecond] < 1) {
+        [self clickNextButton: nil];
+    }
 }
 
 #pragma mark - PlayerSlideViewDelegate
@@ -586,12 +644,27 @@
     [self.player setPosition: endValue];
 }
 
-#pragma mark - NSTableViewDataSource
+#pragma mark - NSTableView
+
+- (IBAction)doubleClickPlayerList:(PlayerListTableView *)sender {
+    self.vm.currentIndex = [sender selectedRow];
+    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: [self.vm currentLocalVideoModel]]];
+}
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return 6;
+    if ([tableView isKindOfClass:[PlayerListTableView class]]) {
+        return [self.vm localeVideoCount];
+    }
+    return 7;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+    if ([tableView isKindOfClass:[PlayerListTableView class]]) {
+        NSTableCellView *cell = [tableView makeViewWithIdentifier:@"videoNameCell" owner:self];
+        cell.textField.stringValue = [self.vm localeVideoNameWithIndex:row];
+        return cell;
+    }
+    
     __weak typeof(self)weakSelf = self;
     if (row == 0) {
         HideDanMuAndCloseCell *cell = [tableView makeViewWithIdentifier:@"HideDanMuAndCloseCell" owner: self];
@@ -629,11 +702,19 @@
         }];
         return cell;
     }else if (row == 5){
-        ReSelectDanMuCell *cell = [tableView makeViewWithIdentifier:@"ReSelectDanMuCell" owner:self];
+        OnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OnlyButtonCell" owner:self];
+        cell.button.title = @"重新选择弹幕";
         [cell setWithBlock:^{
             SearchViewController *vc = [[SearchViewController alloc] init];
             vc.searchText = [weakSelf.vm currentVideoName];
             [weakSelf presentViewControllerAsSheet: vc];
+        }];
+        return cell;
+    }else if (row == 6){
+        OnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OnlyButtonCell" owner:self];
+        cell.button.title = @"加载本地弹幕";
+        [cell setWithBlock:^{
+            [weakSelf loadLocaleDanMu];
         }];
         return cell;
     }
@@ -641,6 +722,10 @@
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row{
+    if ([tableView isKindOfClass:[PlayerListTableView class]]) {
+        return 30;
+    }
+    
     if (row == 0 || row == 4) {
         return 120;
     }
@@ -651,11 +736,16 @@
 - (BarrageRenderer *)rander {
     if(_rander == nil) {
         _rander = [[BarrageRenderer alloc] init];
-        [_rander setSpeed: 1];
+        [_rander setSpeed: [UserDefaultManager danMuSpeed] * 0.029 + 0.1];
+        _rander.view.alphaValue = [UserDefaultManager danMuOpacity] / 100;
         [self.view addSubview:_rander.view positioned:NSWindowAbove relativeTo:self.playerView];
         [_rander.view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.mas_equalTo(0);
-            make.bottom.equalTo(self.playerControl.mas_top).mas_offset(-40);
+            if ([UserDefaultManager turnOnCaptionsProtectArea]) {
+                make.bottom.equalTo(self.playerControl.mas_top).mas_offset(-80);
+            }else{
+                make.bottom.equalTo(self.playerControl.mas_top);
+            }
         }];
     }
     return _rander;

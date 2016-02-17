@@ -32,5 +32,5 @@ typedef NS_ENUM(NSUInteger, DanMaKuSpiritEdgeStyle) {
 };
 
 @interface BarrageDescriptor (Tools)
-+ (instancetype)descriptorWithText:(NSString*)text color:(NSInteger)color spiritStyle:(NSInteger)spiritStyle edgeStyle:(DanMaKuSpiritEdgeStyle)edgeStyle fontSize:(CGFloat)fontSize;
++ (instancetype)descriptorWithText:(NSString*)text color:(NSInteger)color spiritStyle:(NSInteger)spiritStyle edgeStyle:(DanMaKuSpiritEdgeStyle)edgeStyle fontSize:(CGFloat)fontSize font:(NSFont *)font;
 @end

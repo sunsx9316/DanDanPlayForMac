@@ -30,7 +30,7 @@
     [openPanel setCanChooseDirectories: YES];
     [openPanel setCanChooseFiles:NO];
     [openPanel setAllowsMultipleSelection: NO];
-    [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
+    [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton){
             self.pathTextField.placeholderString = openPanel.URL.path;
             [UserDefaultManager setScreenShotPath: openPanel.URL.path];

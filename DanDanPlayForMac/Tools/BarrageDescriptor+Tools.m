@@ -12,7 +12,7 @@
 #import "DanMuModel.h"
 
 @implementation BarrageDescriptor (Tools)
-+ (instancetype)descriptorWithText:(NSString*)text color:(NSInteger)color spiritStyle:(NSInteger)spiritStyle edgeStyle:(DanMaKuSpiritEdgeStyle)edgeStyle fontSize:(CGFloat)fontSize{
++ (instancetype)descriptorWithText:(NSString*)text color:(NSInteger)color spiritStyle:(NSInteger)spiritStyle edgeStyle:(DanMaKuSpiritEdgeStyle)edgeStyle fontSize:(CGFloat)fontSize font:(NSFont *)font{
     BarrageDescriptor * descriptor = [[BarrageDescriptor alloc]init];
     if (spiritStyle == 1) {
         descriptor.spriteName = NSStringFromClass([BarrageWalkTextSprite class]);
@@ -21,34 +21,36 @@
         descriptor.spriteName = NSStringFromClass([BarrageFloatTextSprite class]);;
         descriptor.params[@"duration"] = @(3);
     }
-    
     descriptor.params[@"text"] = text;
     descriptor.params[@"direction"] = (spiritStyle == 1 || spiritStyle == 5) ? @(1) : @(2);
     descriptor.params[@"fontSize"] = @(fontSize);
     
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName: font}];
+    
     switch (edgeStyle) {
         case DanMaKuSpiritEdgeStyleShadow:
-            descriptor.params[@"attributedText"] = [self shadowStringStyleWithText:text fontSize:fontSize textColor:[NSColor colorWithRGB: (uint32_t)color] descriptor: descriptor];
+            [self shadowStringStyleWithAttributedString:str textColor:[NSColor colorWithRGB: (uint32_t)color]];
             break;
         case DanMaKuSpiritEdgeStyleGlow:
-            descriptor.params[@"attributedText"] = [self glowStringStyleWithText:text fontSize:fontSize textColor:[NSColor colorWithRGB: (uint32_t)color] descriptor: descriptor];
+            [self glowStringStyleWithAttributedString:str textColor:[NSColor colorWithRGB: (uint32_t)color]];
             break;
         case DanMaKuSpiritEdgeStyleStroke:
-            descriptor.params[@"attributedText"] = [self strokeStringStyleWithText:text fontSize:fontSize textColor:[NSColor colorWithRGB: (uint32_t)color] descriptor: descriptor];
+            [self strokeStringStyleWithAttributedString:str textColor:[NSColor colorWithRGB: (uint32_t)color]];
             break;
         case DanMaKuSpiritEdgeStyleNone:
-            descriptor.params[@"attributedText"] = [self noneStringStyleWithText:text fontSize:fontSize textColor:[NSColor colorWithRGB: (uint32_t)color] descriptor: descriptor];
+            [self noneStringStyleWithAttributedString:str textColor:[NSColor colorWithRGB: (uint32_t)color]];
             break;
         default:
             break;
     }
+    descriptor.params[@"attributedText"] = str;
     
     return descriptor;
 }
 
 #pragma mark - 私有方法
-+ (NSAttributedString *)shadowStringStyleWithText:(NSString *)text fontSize:(CGFloat)fontSize textColor:(NSColor *)textColor descriptor:(BarrageDescriptor *)descriptor{
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString: text];
++ (void)shadowStringStyleWithAttributedString:(NSMutableAttributedString *)string textColor:(NSColor *)textColor{
+    
     NSShadow *shadow = [[NSShadow alloc] init];
     if (textColor.brightnessComponent > 0.5) {
         [shadow setShadowColor:[NSColor blackColor]];
@@ -57,12 +59,11 @@
     }
     
     [shadow setShadowOffset:NSMakeSize(1, -2)];
-    [string addAttributes:@{NSShadowAttributeName: shadow, NSForegroundColorAttributeName: textColor, NSFontAttributeName: [NSFont systemFontOfSize: fontSize]} range: NSMakeRange(0, text.length)];
-    return string;
+    [string addAttributes:@{NSShadowAttributeName: shadow, NSForegroundColorAttributeName: textColor} range: NSMakeRange(0, string.length)];
 }
 
-+ (NSAttributedString *)glowStringStyleWithText:(NSString *)text fontSize:(CGFloat)fontSize textColor:(NSColor *)textColor descriptor:(BarrageDescriptor *)descriptor{
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString: text];
++ (void)glowStringStyleWithAttributedString:(NSMutableAttributedString *)string textColor:(NSColor *)textColor{
+
     NSShadow *shadow = [[NSShadow alloc] init];
     if (textColor.brightnessComponent > 0.5) {
         [shadow setShadowColor:[NSColor blackColor]];
@@ -71,12 +72,10 @@
     }
     
     [shadow setShadowBlurRadius: 5];
-    [string addAttributes:@{NSShadowAttributeName: shadow, NSForegroundColorAttributeName: textColor, NSFontAttributeName: [NSFont systemFontOfSize: fontSize]} range: NSMakeRange(0, text.length)];
-    return string;
+    [string addAttributes:@{NSShadowAttributeName: shadow, NSForegroundColorAttributeName: textColor} range: NSMakeRange(0, string.length)];
 }
 
-+ (NSAttributedString *)strokeStringStyleWithText:(NSString *)text fontSize:(CGFloat)fontSize textColor:(NSColor *)textColor descriptor:(BarrageDescriptor *)descriptor{
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString: text];
++ (void)strokeStringStyleWithAttributedString:(NSMutableAttributedString *)string textColor:(NSColor *)textColor{
     NSColor *strokeColor = nil;
     if (textColor.brightnessComponent > 0.5) {
         strokeColor = [NSColor blackColor];
@@ -84,13 +83,10 @@
         strokeColor = [NSColor whiteColor];
     }
     
-    [string addAttributes:@{NSStrokeWidthAttributeName: @(-2),NSStrokeColorAttributeName: strokeColor, NSForegroundColorAttributeName: textColor, NSFontAttributeName: [NSFont systemFontOfSize: fontSize]} range: NSMakeRange(0, text.length)];
-    return string;
+    [string addAttributes:@{NSStrokeWidthAttributeName: @(-2),NSStrokeColorAttributeName: strokeColor, NSForegroundColorAttributeName: textColor} range: NSMakeRange(0, string.length)];
 }
 
-+ (NSAttributedString *)noneStringStyleWithText:(NSString *)text fontSize:(CGFloat)fontSize textColor:(NSColor *)textColor descriptor:(BarrageDescriptor *)descriptor{
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString: text];
-    [string addAttributes:@{NSForegroundColorAttributeName: textColor, NSFontAttributeName: [NSFont systemFontOfSize: fontSize]} range: NSMakeRange(0, text.length)];
-    return string;
++ (void)noneStringStyleWithAttributedString:(NSMutableAttributedString *)string textColor:(NSColor *)textColor{
+    [string addAttributes:@{NSForegroundColorAttributeName: textColor} range: NSMakeRange(0, string.length)];
 }
 @end

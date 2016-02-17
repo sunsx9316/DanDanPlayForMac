@@ -43,7 +43,7 @@
 }
 
 - (NSString *)episodeTitleForRow:(NSInteger)row{
-    return (row < _infoArr.count)?[NSString stringWithFormat: @"%ld. %@", (long)row + 1,_infoArr[row].title]:@"";
+    return (row < _infoArr.count)?[NSString stringWithFormat: @"%ld. %@", _infoArr.count - row,_infoArr[row].title]:@"";
 }
 
 - (NSImage *)imageForRow:(NSInteger)row{
@@ -109,18 +109,7 @@
 }
 
 - (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete{
-    NSString *danmakuID = [self danmakuIDForRow: row];
-    if (!danmakuID) {
-        complete(nil, kNoMatchError);
-        return;
-    }
-    
-    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":@"bilibili"} completionHandler:^(NSDictionary *responseObj, NSError *error) {
-        if (!responseObj.count) {
-            error = kNoMatchError;
-        }
-        complete(responseObj, error);
-    }];
+    [super downThirdPartyDanMuWithDanmakuID:[self danmakuIDForRow: row] provider:@"bilibili" completionHandler:complete];
 }
 
 

@@ -1,11 +1,13 @@
 //
-//  ChangeFontCell.h
+//  PlayerListTableView.h
 //  DanDanPlayForMac
 //
-//  Created by JimHuang on 16/2/13.
+//  Created by JimHuang on 16/2/17.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
+
 #import <Cocoa/Cocoa.h>
 
-@interface ChangeFontCell : NSView
+@interface PlayerListTableView : NSTableView
+
 @end

@@ -36,7 +36,7 @@
     [self.vm refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         [JHProgressHUD disMiss];
-        if (model.episodeId) {
+        if (model.episodeId && [UserDefaultManager turnOnFastMatch]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
             [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: model.episodeId]];
         }else{
@@ -45,10 +45,10 @@
     }];
 }
 
-- (void)viewWillDisappear{
-    [super viewWillDisappear];
+- (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
+
 
 - (instancetype)initWithVideoModel:(LocalVideoModel *)videoModel{
     if ((self = kViewControllerWithId(@"MatchViewController"))) {

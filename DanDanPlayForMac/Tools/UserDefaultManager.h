@@ -28,10 +28,10 @@
 + (void)setHomeImgPath:(NSString *)homeImgPath;
 
 + (NSMutableArray *)userFilter;
-+ (void)setUserFilter:(NSArray *)userFilter;
++ (void)setUserFilter:(NSMutableArray *)userFilter;
 
 + (NSMutableArray *)customKeyMap;
-+ (void)setCustomKeyMap:(NSArray *)customKeyMap;
++ (void)setCustomKeyMap:(NSMutableArray *)customKeyMap;
 
 + (NSString *)screenShotPath;
 + (void)setScreenShotPath:(NSString *)screenShotPath;
@@ -39,6 +39,12 @@
 + (BOOL)shouldClearCache;
 + (void)setClearCache:(BOOL)clearCache;
 
++ (NSString *)cachePath;
++ (void)setCachePath:(NSString *)cachePath;
+
 + (NSInteger)defaultScreenShotType;
 + (void)setDefaultScreenShotType:(NSInteger)type;
+
++ (BOOL)turnOnFastMatch;
++ (void)setTurnOnFastMatch:(BOOL)fastMatch;
 @end

@@ -37,10 +37,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
 }
 
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
 
 - (void)viewWillDisappear{
     [super viewWillDisappear];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
 
@@ -58,25 +60,37 @@
             [self.videos addObject: [[LocalVideoModel alloc] initWithFilePath: fileURL]];
         }
     }
-    
+    //啥也没有
     if (!self.videos.count) return;
+    //没开启快速匹配
+    if (![UserDefaultManager turnOnFastMatch]) {
+        [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
+        return;
+    }
+    
     
     [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(200, 100) fontSize: 20 dismissWhenClick: NO];
     
     [[[MatchViewModel alloc] initWithModel:self.videos.firstObject] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         if (model.episodeId) {
-            
             _animateTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
-            
             [JHProgressHUD updateProgress: 50];
             [JHProgressHUD updateMessage: @"搜索弹幕..."];
             //搜索弹幕
             [[[DanMuChooseViewModel alloc] initWithVideoID: model.episodeId] refreshCompletionHandler:^(NSError *error) {
-                [JHProgressHUD updateProgress: 100];
-                [JHProgressHUD updateMessage: @"解析视频..."];
+                //判断官方弹幕是否为空
+                if (!error) {                    
+                    [JHProgressHUD updateProgress: 100];
+                    [JHProgressHUD updateMessage: @"解析视频..."];
+                }else{
+                    //快速匹配失败
+                    [JHProgressHUD disMiss];
+                    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
+                }
             }];
         }else{
+            //快速匹配失败
             [JHProgressHUD disMiss];
             [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
         }

@@ -76,7 +76,7 @@
     [openPanel setCanChooseDirectories: NO];
     [openPanel setCanChooseFiles:YES];
     [openPanel setAllowsMultipleSelection: NO];
-    [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
+    [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton){
             NSArray *arr = [NSArray arrayWithContentsOfURL: openPanel.URL];
             if (arr) {
@@ -92,7 +92,7 @@
     [panel setTitle:@"导出屏蔽列表"];
     [panel setCanCreateDirectories: YES];
     [panel setNameFieldStringValue:@"list.ls"];
-    [panel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
+    [panel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton)
             [self.userFilterArr writeToURL:panel.URL atomically:YES];
     }];
