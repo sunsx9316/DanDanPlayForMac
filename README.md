@@ -11,6 +11,9 @@
 ## 系统要求
 最低支持 osx 10.9
 
+## 下载
+[度娘](http://pan.baidu.com/s/1kUnnfGr)
+
 ## 第三方库
 * [AFNetworking](https://github.com/AFNetworking/AFNetworking)
 * [Masonry](https://github.com/jdg/MBProgressHUD)
