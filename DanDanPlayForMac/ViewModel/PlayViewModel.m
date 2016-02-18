@@ -13,6 +13,9 @@
 #import "JHVLCMedia.h"
 #import "VLCMedia+Tools.h"
 @interface PlayViewModel()
+/**
+ *  视频模型
+ */
 @property (strong, nonatomic) NSArray <LocalVideoModel *>*videos;
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *,VLCMedia *>*VLCMedias;
 @end
@@ -26,6 +29,10 @@
     return self.videos.count;
 }
 
+- (BOOL)showPlayIconWithIndex:(NSInteger)index{
+    return index != self.currentIndex;
+}
+
 - (NSString *)currentVideoName{
     return [self videoNameWithIndex: self.currentIndex];
 }
@@ -36,6 +43,10 @@
 
 - (void)setCurrentIndex:(NSInteger)currentIndex{
     _currentIndex = currentIndex>0?currentIndex%self.videos.count:0;
+}
+
+- (void)addLocalVideosModel:(NSArray *)videosModel{
+    self.videos = [self.videos arrayByAddingObjectsFromArray:videosModel];
 }
 
 - (void)currentVLCMediaWithCompletionHandler:(void(^)(VLCMedia *responseObj))complete{
@@ -79,10 +90,6 @@
 - (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic{
     if (self = [super init]) {
         self.videos = localVideoModels;
-        self.testarr = [NSMutableArray array];
-        [localVideoModels enumerateObjectsUsingBlock:^(LocalVideoModel*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [self.testarr addObject:[VLCMedia mediaWithURL:[obj filePath]]];
-        }];
         self.dic = [dic mutableCopy];
     }
     return self;

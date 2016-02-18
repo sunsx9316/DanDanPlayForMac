@@ -48,6 +48,12 @@
     }];
 }
 
+- (IBAction)clickBackButton:(NSMenuItem *)sender {
+    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController ;
+    [vc dismissController:vc];
+}
+
+
 #pragma mark - 私有方法
 - (void)applicationInitalise{
     //执行一些启动需要的操作

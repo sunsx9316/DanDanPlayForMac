@@ -17,6 +17,7 @@
                 <outlet property="playerHUDProgressSliderView" destination="wPt-b7-nao" id="7wU-8H-Rim"/>
                 <outlet property="playerHUDVideoTimeLabel" destination="i0y-kC-hgN" id="aeL-eb-y81"/>
                 <outlet property="playerHoldView" destination="egJ-NC-vhy" id="kXp-6Y-vHA"/>
+                <outlet property="playerListTableView" destination="iwU-51-HVO" id="PeS-mm-SMb"/>
                 <outlet property="playerUIHeight" destination="8lS-MK-jEq" id="2fK-Y5-Zqe"/>
                 <outlet property="playerVolumeSlider" destination="gVt-t3-sHf" id="2IR-tl-Vmi"/>
                 <outlet property="progressSliderView" destination="e6L-oi-94n" id="ncv-QW-lD1"/>
@@ -168,7 +169,7 @@
                         <constraint firstItem="I2Z-7l-Vdm" firstAttribute="leading" secondItem="jgh-U8-MyM" secondAttribute="trailing" constant="10" id="wfl-1o-JQ0"/>
                     </constraints>
                 </customView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="egJ-NC-vhy">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="egJ-NC-vhy" customClass="PlayerHoldView">
                     <rect key="frame" x="0.0" y="40" width="700" height="355"/>
                 </customView>
             </subviews>
@@ -345,7 +346,7 @@
             </constraints>
             <point key="canvasLocation" x="36" y="-172.5"/>
         </customView>
-        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="98" horizontalPageScroll="10" verticalLineScroll="98" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="3A9-ng-j0D">
+        <scrollView hidden="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="98" horizontalPageScroll="10" verticalLineScroll="98" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="3A9-ng-j0D">
             <rect key="frame" x="0.0" y="0.0" width="330" height="429"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="MW7-MI-cZI">
@@ -409,7 +410,7 @@
             </scroller>
             <point key="canvasLocation" x="599" y="165.5"/>
         </scrollView>
-        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="zmn-rV-nRF">
+        <scrollView hidden="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="zmn-rV-nRF">
             <rect key="frame" x="0.0" y="0.0" width="240" height="436"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <clipView key="contentView" drawsBackground="NO" id="Wld-F6-Lth">
@@ -436,13 +437,17 @@
                                 </textFieldCell>
                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                 <prototypeCellViews>
-                                    <tableCellView identifier="videoNameCell" id="t2t-ya-JGF">
+                                    <tableCellView identifier="videoNameCell" id="Pua-hw-2iG">
                                         <rect key="frame" x="1" y="1" width="237" height="17"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="dzO-q0-xzL">
-                                                <rect key="frame" x="0.0" y="0.0" width="237" height="17"/>
-                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="irZ-vv-Ur4">
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ej2-TY-lHe">
+                                                <rect key="frame" x="3" y="1" width="16" height="16"/>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusAvailable" id="7UE-nr-W1e"/>
+                                            </imageView>
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ErN-Gq-QqI">
+                                                <rect key="frame" x="22" y="0.0" width="215" height="17"/>
+                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="fiJ-er-7bB">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -450,13 +455,16 @@
                                             </textField>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="dzO-q0-xzL" secondAttribute="bottom" id="AMW-tS-4Pu"/>
-                                            <constraint firstAttribute="trailing" secondItem="dzO-q0-xzL" secondAttribute="trailing" constant="2" id="Dds-FO-pM1"/>
-                                            <constraint firstItem="dzO-q0-xzL" firstAttribute="leading" secondItem="t2t-ya-JGF" secondAttribute="leading" constant="2" id="Txm-qb-JUe"/>
-                                            <constraint firstItem="dzO-q0-xzL" firstAttribute="top" secondItem="t2t-ya-JGF" secondAttribute="top" id="n3Z-Lp-uCl"/>
+                                            <constraint firstItem="ErN-Gq-QqI" firstAttribute="top" secondItem="Pua-hw-2iG" secondAttribute="top" id="B24-xK-arV"/>
+                                            <constraint firstItem="ErN-Gq-QqI" firstAttribute="centerY" secondItem="ej2-TY-lHe" secondAttribute="centerY" id="JfK-IK-g0w"/>
+                                            <constraint firstItem="ej2-TY-lHe" firstAttribute="leading" secondItem="Pua-hw-2iG" secondAttribute="leading" constant="3" id="NfI-QP-TIJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="ErN-Gq-QqI" secondAttribute="bottom" id="RPg-vH-DZS"/>
+                                            <constraint firstAttribute="trailing" secondItem="ErN-Gq-QqI" secondAttribute="trailing" constant="2" id="bKN-HI-Xhm"/>
+                                            <constraint firstItem="ErN-Gq-QqI" firstAttribute="leading" secondItem="ej2-TY-lHe" secondAttribute="trailing" constant="5" id="uAJ-QK-E9u"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="textField" destination="dzO-q0-xzL" id="lkb-fx-j1V"/>
+                                            <outlet property="imageView" destination="ej2-TY-lHe" id="gEG-zH-jMX"/>
+                                            <outlet property="textField" destination="ErN-Gq-QqI" id="SAM-7N-EAt"/>
                                         </connections>
                                     </tableCellView>
                                 </prototypeCellViews>
@@ -484,6 +492,7 @@
     </objects>
     <resources>
         <image name="HUDPanel" width="500" height="100"/>
+        <image name="NSStatusAvailable" width="16" height="16"/>
         <image name="fastForwardhud" width="20" height="20"/>
         <image name="next" width="10" height="10"/>
         <image name="nexthud" width="20" height="20"/>

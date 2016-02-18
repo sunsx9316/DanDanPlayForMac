@@ -19,6 +19,7 @@
 #import "PlayViewModel.h"
 #import "DanMuModel.h"
 #import "BarrageCanvas.h"
+#import "PlayerHoldView.h"
 
 #import "HideDanMuAndCloseCell.h"
 #import "SliderControlCell.h"
@@ -41,7 +42,7 @@
 @property (weak) IBOutlet NSSlider *volumeSliderView;
 @property (weak) IBOutlet NSTextField *timeLabel;
 @property (weak) IBOutlet NSLayoutConstraint *playerUIHeight;
-@property (weak) IBOutlet NSView *playerHoldView;
+@property (weak) IBOutlet PlayerHoldView *playerHoldView;
 
 //hud面板
 @property (strong) IBOutlet PlayerHUDControl *playerHUDControl;
@@ -56,6 +57,8 @@
 //全屏模式和非全屏模式都存在
 @property (weak) IBOutlet NSScrollView *danMuControlView;
 @property (strong) IBOutlet NSScrollView *playListView;
+@property (weak) IBOutlet PlayerListTableView *playerListTableView;
+
 
 @property (strong, nonatomic) NSButton *showDanMuControllerViewButton;
 @property (strong, nonatomic) PlayerHUDMessageView *messageView;
@@ -103,6 +106,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillEnterFullScreen:) name:NSWindowWillEnterFullScreenNotification object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanMuDic:) name:@"danMuChooseOver" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
@@ -110,6 +114,7 @@
     self.vm.currentIndex = 0;
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
         //初始化播放器相关参数
+        [self setUpOnce];
         [self setUpWithMedia: responseObj];
         [self startPlay];
     }];
@@ -243,12 +248,18 @@
     [NSCursor unhide];
 }
 
+- (void)windowDidResize:(NSNotification *)notification{
+    self.danMuControlView.frame = CGRectMake(self.view.frame.size.width - 300 * !self.danMuControlView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    self.playListView.frame = NSMakeRect(-300 * self.playListView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+}
+
 - (void)changeDanMuDic:(NSNotification *)notification{
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
         [self stopPlay];
         [self setUpWithMedia: responseObj];
         self.vm.dic = notification.userInfo;
         [self startPlay];
+        [self.playerListTableView reloadData];
     }];
 }
 
@@ -381,60 +392,35 @@
 - (void)showDanMuControllerView{
     NSRect rect = NSMakeRect(self.view.frame.size.width - 300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+        self.danMuControlView.animator.hidden = NO;
         self.danMuControlView.animator.frame = rect;
         self.showDanMuControllerViewButton.hidden = YES;
-    } completionHandler:^{
-        [self.danMuControlView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(0);
-            make.bottom.mas_equalTo(self.playerControl.mas_top);
-            make.right.equalTo(self.view.mas_right);
-            make.width.mas_equalTo(300);
-        }];
-    }];
+    } completionHandler:nil];
 }
 //隐藏弹幕控制面板
 - (void)hideDanMuControllerView{
     NSRect rect = NSMakeRect(self.view.frame.size.width, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
-    
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
         self.danMuControlView.animator.frame = rect;
         self.showDanMuControllerViewButton.animator.hidden = NO;
-    } completionHandler:^{
-        [self.danMuControlView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(0);
-            make.bottom.mas_equalTo(self.playerControl.mas_top);
-            make.left.equalTo(self.view.mas_right);
-            make.width.mas_equalTo(300);
-        }];
-    }];
+        self.danMuControlView.animator.hidden = YES;
+    } completionHandler:nil];
 }
 
 - (void)showPlayerListView{
     NSRect rect = NSMakeRect(0, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
         self.playListView.animator.frame = rect;
-    } completionHandler:^{
-        [self.playListView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(0);
-            make.left.mas_equalTo(self.view.mas_left);
-            make.bottom.equalTo(self.playerControl.mas_top);
-            make.width.mas_equalTo(300);
-        }];
-    }];
+        self.playListView.animator.hidden = NO;
+    } completionHandler:nil];
 }
 
 - (void)hidePlayerListView{
     NSRect rect = NSMakeRect(-300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
         self.playListView.animator.frame = rect;
-    } completionHandler:^{
-        [self.playListView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(0);
-            make.right.mas_equalTo(self.view.mas_left);
-            make.bottom.equalTo(self.playerControl.mas_top);
-            make.width.mas_equalTo(300);
-        }];
-    }];
+        self.playListView.animator.hidden = YES;
+    } completionHandler:nil];
 }
 
 - (void)showDanMuControllerButton{
@@ -536,22 +522,55 @@
     }
 }
 
-- (void)setUpWithMedia:(VLCMedia *)aMedia{
+- (void)setUpOnce{
+    __weak typeof(self)weakSelf = self;
+    
     //必须设置 不然弹幕无法显示
     [self.view setWantsLayer: YES];
+    [self.playerHoldView setUpBlock:^(NSArray *filePaths) {
+        if (filePaths.count > 0) {
+            NSInteger oldCount = [weakSelf.vm localeVideoCount];
+            [weakSelf.vm addLocalVideosModel:filePaths];
+            weakSelf.vm.currentIndex = oldCount;
+            [weakSelf clickNextButton:nil];
+        }
+    }];
     
-    self.playerHoldView.layer.backgroundColor = [NSColor blackColor].CGColor;
     [self.playerHoldView addSubview:self.playerView];
+    [self.view addSubview: self.playerHUDControl];
+    [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.rander.view];
+    [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.rander.view];
     
+    
+    [self.playerHUDControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(500);
+        make.height.mas_equalTo(100);
+        make.centerX.mas_equalTo(0);
+        make.bottom.mas_offset(-200);
+    }];
+    
+    self.danMuControlView.frame = NSMakeRect(self.view.frame.size.width, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    self.playListView.frame = NSMakeRect(-300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    
+    self.playerControl.layer.backgroundColor = [NSColor windowFrameColor].CGColor;
+    self.progressSliderView.delegate = self;
+    [self.view addTrackingArea:self.trackingArea];
+    
+    //初始化视频信息
+    self.player = [[VLCMediaPlayer alloc] initWithVideoView:self.playerView];
+    self.player.delegate = self;
+}
+
+- (void)setUpWithMedia:(VLCMedia *)aMedia{
     CGSize videoSize = [aMedia videoSize];
     CGSize screenSize = [NSScreen mainScreen].frame.size;
-    
-    //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
+    //宽高有一个为0 使用布满全屏的约束
     if (!videoSize.width || !videoSize.height) {
         [self.playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.mas_equalTo(0);
             make.bottom.equalTo(self.playerControl.mas_top);
         }];
+    //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
     }else if (screenSize.width * (videoSize.height / videoSize.width) > screenSize.height) {
         [self.playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.centerX.bottom.mas_equalTo(0);
@@ -568,45 +587,14 @@
             make.height.equalTo(self.playerView.mas_width).multipliedBy(videoSize.height / videoSize.width);
         }];
     }
-    
-    //初始化视频信息
-    self.player = [[VLCMediaPlayer alloc] initWithVideoView:self.playerView];
-    self.player.delegate = self;
+
     self.player.media = aMedia;
-    //设置HUD面板属性
-    [self.view addSubview: self.playerHUDControl];
-    [self.playerHUDControl mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(500);
-        make.height.mas_equalTo(100);
-        make.centerX.mas_equalTo(0);
-        make.bottom.mas_offset(-200);
-    }];
     self.playerHUDControl.hidden = !_fullScreen;
-    //设置非全屏状态面板
-    self.playerControl.layer.backgroundColor = [NSColor windowFrameColor].CGColor;
-    self.progressSliderView.delegate = self;
     self.videoTitleLabel.stringValue = [self.vm currentVideoName];
-    
-    //设置弹幕控制视图
-    [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.rander.view];
-    [self.danMuControlView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(0);
-        make.bottom.equalTo(self.playerControl.mas_top);
-        make.left.equalTo(self.view.mas_right);
-        make.width.mas_equalTo(300);
-    }];
-    
-    [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.rander.view];
-    [self.playListView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(0);
-        make.right.mas_equalTo(self.view.mas_left);
-        make.bottom.equalTo(self.playerControl.mas_top);
-        make.width.mas_equalTo(300);
-    }];
     
     //设置其它参数
     [NSApplication sharedApplication].mainWindow.title = [self.vm currentVideoName];
-    [self.view addTrackingArea:self.trackingArea];
+    
     //初始化音量
     self.player.audio.volume = self.volumeSliderView.intValue * 2;
     self.playerVolumeSlider.intValue = self.volumeSliderView.intValue;
@@ -662,6 +650,7 @@
     if ([tableView isKindOfClass:[PlayerListTableView class]]) {
         NSTableCellView *cell = [tableView makeViewWithIdentifier:@"videoNameCell" owner:self];
         cell.textField.stringValue = [self.vm localeVideoNameWithIndex:row];
+        cell.imageView.hidden = [self.vm showPlayIconWithIndex:row];
         return cell;
     }
     

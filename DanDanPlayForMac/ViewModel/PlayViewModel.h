@@ -12,11 +12,14 @@
  */
 @class DanMuDataModel, LocalVideoModel, VLCMedia;
 @interface PlayViewModel : BaseViewModel
-@property (strong, nonatomic) NSMutableArray *testarr;
 /**
  *  保存弹幕模型
  */
 @property (nonatomic, strong) NSDictionary <NSNumber *, NSArray *>*dic;
+
+/**
+ *  当前视频下标
+ */
 @property (assign, nonatomic) NSInteger currentIndex;
 /**
  *  根据下标获取本地视频名称
@@ -33,6 +36,14 @@
  */
 - (NSInteger)localeVideoCount;
 /**
+ *  是否显示播放图标
+ *
+ *  @param index 下标
+ *
+ *  @return 是否显示播放图标
+ */
+- (BOOL)showPlayIconWithIndex:(NSInteger)index;
+/**
  *  获取当前LocalVideoModel
  *
  *  @return LocalVideoModel
@@ -44,7 +55,12 @@
  *  @return 视频名称
  */
 - (NSString *)currentVideoName;
-
+/**
+ *  添加本地视频
+ *
+ *  @param videosModel 数组
+ */
+- (void)addLocalVideosModel:(NSArray *)videosModel;
 
 /**
  *  获取当前VLCMedia

@@ -11,11 +11,11 @@
 
 #define kViewControllerWithId(ID) [[NSStoryboard storyboardWithName:@"Main" bundle: nil] instantiateControllerWithIdentifier: ID]
 
-//  appkey
-#define APPKEY @"85eb6835b0a1034e"
+//  官方的appkey填这里
+#define APPKEY @""
 
-//  appsec
-#define APPSEC @"2ad42749773c441109bdc0191257a664"
+//  官方的appsec填这里
+#define APPSEC @""
 
 #define kNoMatchError [NSError errorWithDomain:@"nomatchdanmaku" code:200 userInfo: nil]
 //来源枚举

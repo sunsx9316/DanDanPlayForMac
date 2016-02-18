@@ -89,10 +89,55 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="编辑" id="cAD-Bt-vqE">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="编辑" id="hgR-Vc-gun">
+                                    <items>
+                                        <menuItem title="剪切" keyEquivalent="x" id="Js5-52-LYG">
+                                            <connections>
+                                                <action selector="cut:" target="Ady-hI-5gd" id="fP5-8c-Ten"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="复制" keyEquivalent="c" id="FGn-99-a4L">
+                                            <connections>
+                                                <action selector="copy:" target="Ady-hI-5gd" id="pge-uq-mhh"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="粘贴" keyEquivalent="v" id="liC-Yn-ARz">
+                                            <connections>
+                                                <action selector="paste:" target="Ady-hI-5gd" id="H90-DW-dGb"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="粘贴并匹配样式" keyEquivalent="V" id="qgC-Dj-AEm">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="pasteAsPlainText:" target="Ady-hI-5gd" id="svD-RJ-uO3"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="删除" id="adJ-Tj-HXQ">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="delete:" target="Ady-hI-5gd" id="QPb-lL-x54"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="全选" keyEquivalent="a" id="wS4-ml-u1y">
+                                            <connections>
+                                                <action selector="selectAll:" target="Ady-hI-5gd" id="Dg9-eN-ulL"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="窗口" id="aUF-d1-5bR">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="窗口" systemMenu="window" id="Td7-aD-5lo">
                                     <items>
+                                        <menuItem title="返回" id="VbW-a5-1hZ">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="clickBackButton:" target="Voe-Tx-rLC" id="eco-Tv-Ckw"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="最小化" keyEquivalent="m" id="OY7-WF-poV">
                                             <connections>
                                                 <action selector="performMiniaturize:" target="Ady-hI-5gd" id="VwT-WD-YPe"/>
@@ -478,7 +523,7 @@
                                     <constraint firstAttribute="width" constant="22" id="kN2-CK-tCM"/>
                                     <constraint firstAttribute="height" constant="22" id="mAt-2n-8Ig"/>
                                 </constraints>
-                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="3D2AB3EF-774E-497D-A259-829FC83A7465" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="dQK-ny-h8t">
+                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="F950CAFE-AD3E-443F-8BD1-5D73386D27BA" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="dQK-ny-h8t">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -678,8 +723,8 @@
                                             <rect key="frame" x="1" y="1" width="281" height="437"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <outlineView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="bJu-IX-zua" id="c0I-rI-h8T">
-                                                    <rect key="frame" x="0.0" y="0.0" width="281" height="437"/>
+                                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="bJu-IX-zua" id="c0I-rI-h8T">
+                                                    <rect key="frame" x="0.0" y="0.0" width="281" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="0.0"/>
                                                     <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -747,7 +792,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="319" rowSizeStyle="automatic" viewBased="YES" id="20F-Uf-FNd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="465" height="437"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="465" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1984,7 +2029,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="3D2AB3EF-774E-497D-A259-829FC83A7465" width="1" height="1">
+        <image name="F950CAFE-AD3E-443F-8BD1-5D73386D27BA" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

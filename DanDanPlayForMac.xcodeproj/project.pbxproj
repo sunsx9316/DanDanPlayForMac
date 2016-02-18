@@ -52,6 +52,11 @@
 		896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A716C1C66276C00280B79 /* ThirdPartySearchViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		896A71771C66421500280B79 /* AcFunDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B31C7571EC00F64D39 /* PlayerHoldView.m */; settings = {ASSET_TAGS = (); }; };
+		897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B61C759CB200F64D39 /* NSArray+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B81C759CB200F64D39 /* NSData+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		897345BF1C759CB200F64D39 /* NSDictionary+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */; settings = {ASSET_TAGS = (); }; };
+		897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345BC1C759CB200F64D39 /* NSString+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		897368031C70392000B9B765 /* defaultKeyMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897368021C70392000B9B765 /* defaultKeyMap.plist */; settings = {ASSET_TAGS = (); }; };
 		8973680A1C70483000B9B765 /* GetKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897368081C70483000B9B765 /* GetKeyViewController.m */; settings = {ASSET_TAGS = (); }; };
 		8973680B1C70483000B9B765 /* GetKeyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897368091C70483000B9B765 /* GetKeyViewController.xib */; settings = {ASSET_TAGS = (); }; };
@@ -79,10 +84,6 @@
 		897619F91C59EDBC0046A245 /* DanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897619F81C59EDBC0046A245 /* DanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		89761A091C5A5E750046A245 /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A081C5A5E750046A245 /* MatchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		89761A1C1C5A7B8B0046A245 /* ColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A1B1C5A7B8B0046A245 /* ColorButton.m */; settings = {ASSET_TAGS = (); }; };
-		89761A251C5A84860046A245 /* NSArray+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A1E1C5A84860046A245 /* NSArray+Tools.m */; settings = {ASSET_TAGS = (); }; };
-		89761A261C5A84860046A245 /* NSData+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A201C5A84860046A245 /* NSData+Tools.m */; settings = {ASSET_TAGS = (); }; };
-		89761A271C5A84860046A245 /* NSDictionary+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A221C5A84860046A245 /* NSDictionary+Tools.m */; settings = {ASSET_TAGS = (); }; };
-		89761A281C5A84860046A245 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A241C5A84860046A245 /* NSString+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		89761A2E1C5A84C10046A245 /* NSView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A2D1C5A84C10046A245 /* NSView+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		89788D361C5E3DB100CA31EF /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89788D351C5E3DB100CA31EF /* SearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7B81C72056A00E1B03D /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
@@ -214,6 +215,16 @@
 		896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartyDanMuChooseViewModel.m; sourceTree = "<group>"; };
 		896A71751C66421500280B79 /* AcFunDanMuChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcFunDanMuChooseViewModel.h; sourceTree = "<group>"; };
 		896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcFunDanMuChooseViewModel.m; sourceTree = "<group>"; };
+		897345B21C7571EC00F64D39 /* PlayerHoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHoldView.h; sourceTree = "<group>"; };
+		897345B31C7571EC00F64D39 /* PlayerHoldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerHoldView.m; sourceTree = "<group>"; };
+		897345B51C759CB200F64D39 /* NSArray+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Tools.h"; sourceTree = "<group>"; };
+		897345B61C759CB200F64D39 /* NSArray+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Tools.m"; sourceTree = "<group>"; };
+		897345B71C759CB200F64D39 /* NSData+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Tools.h"; sourceTree = "<group>"; };
+		897345B81C759CB200F64D39 /* NSData+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Tools.m"; sourceTree = "<group>"; };
+		897345B91C759CB200F64D39 /* NSDictionary+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Tools.h"; sourceTree = "<group>"; };
+		897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Tools.m"; sourceTree = "<group>"; };
+		897345BB1C759CB200F64D39 /* NSString+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tools.h"; sourceTree = "<group>"; };
+		897345BC1C759CB200F64D39 /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tools.m"; sourceTree = "<group>"; };
 		897368021C70392000B9B765 /* defaultKeyMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaultKeyMap.plist; sourceTree = "<group>"; };
 		897368071C70483000B9B765 /* GetKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetKeyViewController.h; sourceTree = "<group>"; };
 		897368081C70483000B9B765 /* GetKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetKeyViewController.m; sourceTree = "<group>"; };
@@ -266,14 +277,6 @@
 		89761A151C5A6F190046A245 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		89761A1A1C5A7B8B0046A245 /* ColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorButton.h; sourceTree = "<group>"; };
 		89761A1B1C5A7B8B0046A245 /* ColorButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorButton.m; sourceTree = "<group>"; };
-		89761A1D1C5A84860046A245 /* NSArray+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Tools.h"; path = "../Config/NSArray+Tools.h"; sourceTree = "<group>"; };
-		89761A1E1C5A84860046A245 /* NSArray+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Tools.m"; path = "../Config/NSArray+Tools.m"; sourceTree = "<group>"; };
-		89761A1F1C5A84860046A245 /* NSData+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Tools.h"; path = "../Config/NSData+Tools.h"; sourceTree = "<group>"; };
-		89761A201C5A84860046A245 /* NSData+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Tools.m"; path = "../Config/NSData+Tools.m"; sourceTree = "<group>"; };
-		89761A211C5A84860046A245 /* NSDictionary+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Tools.h"; path = "../Config/NSDictionary+Tools.h"; sourceTree = "<group>"; };
-		89761A221C5A84860046A245 /* NSDictionary+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Tools.m"; path = "../Config/NSDictionary+Tools.m"; sourceTree = "<group>"; };
-		89761A231C5A84860046A245 /* NSString+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Tools.h"; path = "../Config/NSString+Tools.h"; sourceTree = "<group>"; };
-		89761A241C5A84860046A245 /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Tools.m"; path = "../Config/NSString+Tools.m"; sourceTree = "<group>"; };
 		89761A2C1C5A84C10046A245 /* NSView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+Tools.h"; sourceTree = "<group>"; };
 		89761A2D1C5A84C10046A245 /* NSView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+Tools.m"; sourceTree = "<group>"; };
 		89788D341C5E3DB100CA31EF /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -564,22 +567,22 @@
 		896370C31C590C51002F32FD /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				897345B51C759CB200F64D39 /* NSArray+Tools.h */,
+				897345B61C759CB200F64D39 /* NSArray+Tools.m */,
+				897345B71C759CB200F64D39 /* NSData+Tools.h */,
+				897345B81C759CB200F64D39 /* NSData+Tools.m */,
+				897345B91C759CB200F64D39 /* NSDictionary+Tools.h */,
+				897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */,
+				897345BB1C759CB200F64D39 /* NSString+Tools.h */,
+				897345BC1C759CB200F64D39 /* NSString+Tools.m */,
 				8973680F1C70708A00B9B765 /* NSString+KeyEvent.h */,
 				897368101C70708A00B9B765 /* NSString+KeyEvent.m */,
 				89651E441C5FA6A3002F23A2 /* BarrageDescriptor+Tools.h */,
 				89651E451C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m */,
 				89761A2C1C5A84C10046A245 /* NSView+Tools.h */,
 				89761A2D1C5A84C10046A245 /* NSView+Tools.m */,
-				89761A1D1C5A84860046A245 /* NSArray+Tools.h */,
-				89761A1E1C5A84860046A245 /* NSArray+Tools.m */,
-				89761A1F1C5A84860046A245 /* NSData+Tools.h */,
-				89761A201C5A84860046A245 /* NSData+Tools.m */,
-				89761A211C5A84860046A245 /* NSDictionary+Tools.h */,
-				89761A221C5A84860046A245 /* NSDictionary+Tools.m */,
 				892A80E81C637A6C00602B34 /* NSDictionary+BiliBili.h */,
 				892A80E91C637A6C00602B34 /* NSDictionary+BiliBili.m */,
-				89761A231C5A84860046A245 /* NSString+Tools.h */,
-				89761A241C5A84860046A245 /* NSString+Tools.m */,
 				89651E471C5FA837002F23A2 /* NSColor+Tools.h */,
 				89651E481C5FA837002F23A2 /* NSColor+Tools.m */,
 				89A164BC1C6329AA00C0033F /* VLCMedia+Tools.h */,
@@ -783,6 +786,8 @@
 				8975485C1C625B3B0075436B /* PlayerHUDControl.m */,
 				897ECC551C749233008AA5DB /* PlayerListTableView.h */,
 				897ECC561C749233008AA5DB /* PlayerListTableView.m */,
+				897345B21C7571EC00F64D39 /* PlayerHoldView.h */,
+				897345B31C7571EC00F64D39 /* PlayerHoldView.m */,
 			);
 			name = "播放界面";
 			sourceTree = "<group>";
@@ -971,11 +976,13 @@
 				897368141C70974400B9B765 /* UserDefaultManager.m in Sources */,
 				896370231C58FC9F002F32FD /* BarrageClock.m in Sources */,
 				89761A091C5A5E750046A245 /* MatchViewController.m in Sources */,
+				897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */,
 				896370581C59028C002F32FD /* DanMuNetManager.m in Sources */,
 				896370281C58FC9F002F32FD /* BarrageLoader.m in Sources */,
 				8975D1DF1C6EF939003FE797 /* CaptionsProtectAreaCell.m in Sources */,
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,
 				89761A1C1C5A7B8B0046A245 /* ColorButton.m in Sources */,
+				897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */,
 				897619F21C59E8520046A245 /* SearchViewModel.m in Sources */,
 				8963702C1C58FC9F002F32FD /* BarrageSprite.m in Sources */,
 				896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */,
@@ -990,7 +997,6 @@
 				897619F91C59EDBC0046A245 /* DanMuChooseViewModel.m in Sources */,
 				896370271C58FC9F002F32FD /* BarrageSpriteFactory.m in Sources */,
 				8975485D1C625B3B0075436B /* PlayerHUDControl.m in Sources */,
-				89761A251C5A84860046A245 /* NSArray+Tools.m in Sources */,
 				8965EE3A1C6DBCDD0089E187 /* PreferenceViewModel.m in Sources */,
 				89761A2E1C5A84C10046A245 /* NSView+Tools.m in Sources */,
 				89788D361C5E3DB100CA31EF /* SearchViewController.m in Sources */,
@@ -1003,14 +1009,11 @@
 				896A716A1C66248800280B79 /* AcFunSearchViewModel.m in Sources */,
 				896370571C59028C002F32FD /* BaseNetManager.m in Sources */,
 				897EC7CB1C72056A00E1B03D /* VideoInfoModel.m in Sources */,
-				89761A281C5A84860046A245 /* NSString+Tools.m in Sources */,
 				896370221C58FC9F002F32FD /* BarrageCanvas.m in Sources */,
-				89761A271C5A84860046A245 /* NSDictionary+Tools.m in Sources */,
 				896370591C59028C002F32FD /* MatchNetManager.m in Sources */,
 				8963702F1C58FC9F002F32FD /* BarrageWalkSprite.m in Sources */,
 				896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */,
 				896370C21C59099C002F32FD /* DanMuModelArr2Dic.m in Sources */,
-				89761A261C5A84860046A245 /* NSData+Tools.m in Sources */,
 				8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */,
 				8996A6E31C6CE18200D5AA6E /* TimeAxisCell.m in Sources */,
 				896370261C58FC9F002F32FD /* BarrageRenderer.m in Sources */,
@@ -1021,6 +1024,7 @@
 				8963702A1C58FC9F002F32FD /* BarrageFloatSprite.m in Sources */,
 				896156811C6C50570016792B /* PlayerHUDMessageView.m in Sources */,
 				8963702D1C58FC9F002F32FD /* BarrageSpriteUtility.m in Sources */,
+				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,
 				8963702E1C58FC9F002F32FD /* BarrageWalkImageSprite.m in Sources */,
 				8963702B1C58FC9F002F32FD /* BarrageFloatTextSprite.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,
@@ -1033,7 +1037,9 @@
 				8995C99A1C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m in Sources */,
 				8975D1DC1C6EF634003FE797 /* ChangeFontCell.m in Sources */,
 				8996A6E01C6CD95A00D5AA6E /* SliderControlCell.m in Sources */,
+				897345BF1C759CB200F64D39 /* NSDictionary+Tools.m in Sources */,
 				896370301C58FC9F002F32FD /* BarrageWalkTextSprite.m in Sources */,
+				897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */,
 				897619F01C59E8520046A245 /* MatchViewModel.m in Sources */,
 				89651E401C5F8A9E002F23A2 /* JHProgressHUD.m in Sources */,
 				896370241C58FC9F002F32FD /* BarrageDescriptor.m in Sources */,
