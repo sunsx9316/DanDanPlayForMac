@@ -1,6 +1,6 @@
 //
 //  PlayerViewController.m
-//  test
+//  DanDanPlayForMac
 //
 //  Created by JimHuang on 16/2/2.
 //  Copyright © 2016年 JimHuang. All rights reserved.
@@ -28,7 +28,7 @@
 
 #import "BarrageDescriptor+Tools.h"
 #import "VLCMedia+Tools.h"
-#import "DanMuModelArr2Dic.h"
+#import "PlayerViewControllerMethodManager.h"
 
 #import <VLCKit/VLCKit.h>
 
@@ -59,7 +59,6 @@
 @property (strong) IBOutlet NSScrollView *playListView;
 @property (weak) IBOutlet PlayerListTableView *playerListTableView;
 
-
 @property (strong, nonatomic) NSButton *showDanMuControllerViewButton;
 @property (strong, nonatomic) PlayerHUDMessageView *messageView;
 
@@ -84,6 +83,7 @@
     //字体缩放系数
     CGFloat _fontScale;
     //字体特效
+    
     DanMaKuSpiritEdgeStyle _edgeStyle;
     //NSString *_matchName;
     BOOL _fullScreen;
@@ -114,8 +114,8 @@
     self.vm.currentIndex = 0;
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
         //初始化播放器相关参数
-        [self setUpOnce];
-        [self setUpWithMedia: responseObj];
+        [self setupOnce];
+        [self setupWithMedia: responseObj];
         [self startPlay];
     }];
 }
@@ -131,9 +131,9 @@
 - (void)mouseMoved:(NSEvent *)theEvent{
     NSPoint point = theEvent.locationInWindow;
     if (point.y < 10 && _fullScreen){
-        [self hideHUDPanelAndCursor];
+        [PlayerViewControllerMethodManager hideCursorAndHUDPanel:self.playerHUDControl];
     }else{
-        [self showHUDPanelAndCursor];
+        [PlayerViewControllerMethodManager showCursorAndHUDPanel:self.playerHUDControl];
     }
     
     if (point.x > self.view.frame.size.width - 50) {
@@ -183,8 +183,7 @@
 
 
 - (void)clickShowDanMuControllerButton:(NSButton *)button{
-    [self showDanMuControllerView];
-    [self hideDanMuControllerButton];
+    [PlayerViewControllerMethodManager showDanMuControllerView:self.danMuControlView withRect:NSMakeRect(self.view.frame.size.width - 300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height) hideButton:self.showDanMuControllerViewButton];
 }
 
 - (IBAction)clickStopButton:(NSButton *)sender {
@@ -210,7 +209,9 @@
 }
 
 - (IBAction)clickPlayListViewButton:(NSButton *)sender {
-    sender.state?[self hidePlayerListView]:[self showPlayerListView];
+    sender.state
+    ?[PlayerViewControllerMethodManager hidePlayerListView:self.playListView withRect:NSMakeRect(-300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height)]
+    :[PlayerViewControllerMethodManager showPlayerListView:self.playListView withRect:NSMakeRect(0, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height)];
 }
 
 
@@ -256,7 +257,7 @@
 - (void)changeDanMuDic:(NSNotification *)notification{
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
         [self stopPlay];
-        [self setUpWithMedia: responseObj];
+        [self setupWithMedia: responseObj];
         self.vm.dic = notification.userInfo;
         [self startPlay];
         [self.playerListTableView reloadData];
@@ -268,50 +269,12 @@
 }
 
 - (void)snapShot{
-    
-    
-    NSString *path = [UserDefaultManager screenShotPath];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    
     NSDateFormatter *forematter = [NSDateFormatter new];
     [forematter setDateFormat:@"YY_MM_dd hh_mm_ss"];
-    path = [[UserDefaultManager screenShotPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [forematter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]];
-    [self.player saveVideoSnapshotAt:path withWidth:0 andHeight:0];
-
-    switch ([UserDefaultManager defaultScreenShotType]) {
-        case 0:
-            [self transformImgWithPath:path imgFileType:NSJPEGFileType suffixName:@".jpg"];
-            break;
-        case 1:
-            [self transformImgWithPath:path imgFileType:NSPNGFileType suffixName:@".png"];
-            break;
-        case 2:
-            [self transformImgWithPath:path imgFileType:NSBMPFileType suffixName:@".bmp"];
-            break;
-        case 3:
-            [self transformImgWithPath:path imgFileType:NSTIFFFileType suffixName:@".tiff"];
-            break;
-        default:
-            break;
-    }
+    [PlayerViewControllerMethodManager snapShotWithPlayer:self.player snapshotName:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [forematter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]];
 }
 
-- (void)transformImgWithPath:(NSString *)path imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName{
-    if (imgFileType == NSPNGFileType) {
-        [[NSFileManager defaultManager] moveItemAtPath:path toPath:[path stringByAppendingPathExtension:@"png"] error:nil];
-    }else{        
-        NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
-        if (!image) return;
-        CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
-        NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
-        [newRep setSize:[image size]];
-        NSData *pngData = [newRep representationUsingType:imgFileType properties: @{}];
-        [pngData writeToFile:[NSString stringWithFormat:@"%@%@",path,suffixName] atomically:YES];
-    }
-    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-}
+
 
 - (void)postMatchMessageWithMatchName:(NSString *)matchName{
     //删除已经显示过的通知(已经存在用户的通知列表中的)
@@ -334,6 +297,7 @@
 - (void)startPlay{
     [self videoAndDanMuPlay];
     self.timer = [NSTimer scheduledTimerWithTimeInterval: 1 target:self selector:@selector(startTimer) userInfo: nil repeats: YES];
+    
 }
 //结束播放
 - (void)stopPlay{
@@ -360,7 +324,7 @@
     //暂停状态直接返回
     if (self.player.state == VLCMediaPlayerStatePaused) return;
     //播放弹幕
-    NSArray* danMus = [self.vm currentSecondDanMuArr: [self currentSecond] + _danMuOffsetTime];
+    NSArray* danMus = [self.vm currentSecondDanMuArr: [PlayerViewControllerMethodManager currentTimeWithPlayer:self.player] + _danMuOffsetTime];
     [danMus enumerateObjectsUsingBlock:^(DanMuDataModel*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (![self.shieldDanMuStyle containsObject: @(obj.mode)] && !obj.isFilter) {
             NSFont *font = [UserDefaultManager danMuFont];
@@ -368,59 +332,6 @@
         }
     }];
     
-}
-//视频当前播放时间
-- (CGFloat)currentSecond{
-    return self.player.time.numberValue.floatValue / 1000;
-}
-//视频总时长
-- (CGFloat)videoTime{
-    return self.player.media.length.numberValue.floatValue / 1000;
-}
-//显示hud面板
-- (void)showHUDPanelAndCursor{
-    [NSCursor unhide];
-    self.playerHUDControl.animator.alphaValue = 1;
-}
-
-//隐藏hud面板
-- (void)hideHUDPanelAndCursor{
-    [NSCursor hide];
-    self.playerHUDControl.animator.alphaValue = 0;
-}
-//显示弹幕控制面板
-- (void)showDanMuControllerView{
-    NSRect rect = NSMakeRect(self.view.frame.size.width - 300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-        self.danMuControlView.animator.hidden = NO;
-        self.danMuControlView.animator.frame = rect;
-        self.showDanMuControllerViewButton.hidden = YES;
-    } completionHandler:nil];
-}
-//隐藏弹幕控制面板
-- (void)hideDanMuControllerView{
-    NSRect rect = NSMakeRect(self.view.frame.size.width, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-        self.danMuControlView.animator.frame = rect;
-        self.showDanMuControllerViewButton.animator.hidden = NO;
-        self.danMuControlView.animator.hidden = YES;
-    } completionHandler:nil];
-}
-
-- (void)showPlayerListView{
-    NSRect rect = NSMakeRect(0, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-        self.playListView.animator.frame = rect;
-        self.playListView.animator.hidden = NO;
-    } completionHandler:nil];
-}
-
-- (void)hidePlayerListView{
-    NSRect rect = NSMakeRect(-300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-        self.playListView.animator.frame = rect;
-        self.playListView.animator.hidden = YES;
-    } completionHandler:nil];
 }
 
 - (void)showDanMuControllerButton{
@@ -460,30 +371,17 @@
 }
 
 - (void)loadLocaleDanMu{
-    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-    [openPanel setTitle:@"选取弹幕"];
-    [openPanel setCanChooseDirectories: NO];
-    [openPanel setCanChooseFiles:YES];
-    [openPanel setAllowsMultipleSelection: NO];
-    [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
-        if (result == NSFileHandlingPanelOKButton){
-            //acfun：json解析方式
-            id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
-            NSDictionary *dic = [NSDictionary dictionary];
-            if (obj) {
-                dic = [DanMuModelArr2Dic dicWithObj:obj source:acfun];
-            }else{
-                //bilibili：xml解析方式
-                dic = [DanMuModelArr2Dic dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:bilibili];
-            }
-            if (dic) {
-                self.vm.dic = dic;
-                [self.player setPosition:0];
-            }
+    [PlayerViewControllerMethodManager loadLocaleDanMuWithBlock:^(NSDictionary *dic) {
+        if (dic.count > 0) {
+            self.vm.dic = dic;
+            [self.player setPosition:0];
+        }else{
+            [[NSAlert alertWithMessageText:@"并没有找到弹幕´_ゝ`" defaultButton:@"ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@""] runModal];
         }
     }];
 }
 
+//快捷键调用的方法
 - (void)targetMethodWithID:(NSNumber *)ID{
     switch (ID.integerValue) {
         case 0:
@@ -494,25 +392,25 @@
             [self clickPlayButton:self.playButton];
             break;
         case 2:
-            [self volumeValueAddTo:0 addBy: -10];
+            [self volumeValueAddTo:0 addBy: -20];
             break;
         case 3:
-            [self volumeValueAddTo:0 addBy: 10];
+            [self volumeValueAddTo:0 addBy: 20];
             break;
         case 4:
             [self volumeValueAddTo:0 addBy: 0];
             break;
         case 5:
-            [self.player mediumJumpForward];
+            [self.player shortJumpForward];
             break;
         case 6:
-            [self.player mediumJumpBackward];
+            [self.player shortJumpBackward];
             break;
         case 7:
-            [self.player longJumpForward];
+            [self.player mediumJumpForward];
             break;
         case 8:
-            [self.player longJumpBackward];
+            [self.player mediumJumpBackward];
             break;
         case 9:
             [self snapShot];
@@ -522,12 +420,13 @@
     }
 }
 
-- (void)setUpOnce{
+//只需要初始化一次的属性
+- (void)setupOnce{
     __weak typeof(self)weakSelf = self;
     
     //必须设置 不然弹幕无法显示
     [self.view setWantsLayer: YES];
-    [self.playerHoldView setUpBlock:^(NSArray *filePaths) {
+    [self.playerHoldView setupBlock:^(NSArray *filePaths) {
         if (filePaths.count > 0) {
             NSInteger oldCount = [weakSelf.vm localeVideoCount];
             [weakSelf.vm addLocalVideosModel:filePaths];
@@ -537,7 +436,7 @@
     }];
     
     [self.playerHoldView addSubview:self.playerView];
-    [self.view addSubview: self.playerHUDControl];
+    [self.view addSubview: self.playerHUDControl positioned:NSWindowAbove relativeTo:self.rander.view];
     [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.rander.view];
     [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.rander.view];
     
@@ -561,7 +460,7 @@
     self.player.delegate = self;
 }
 
-- (void)setUpWithMedia:(VLCMedia *)aMedia{
+- (void)setupWithMedia:(VLCMedia *)aMedia{
     CGSize videoSize = [aMedia videoSize];
     CGSize screenSize = [NSScreen mainScreen].frame.size;
     //宽高有一个为0 使用布满全屏的约束
@@ -570,7 +469,7 @@
             make.top.left.right.mas_equalTo(0);
             make.bottom.equalTo(self.playerControl.mas_top);
         }];
-    //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
+        //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
     }else if (screenSize.width * (videoSize.height / videoSize.width) > screenSize.height) {
         [self.playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.centerX.bottom.mas_equalTo(0);
@@ -587,7 +486,7 @@
             make.height.equalTo(self.playerView.mas_width).multipliedBy(videoSize.height / videoSize.width);
         }];
     }
-
+    
     self.player.media = aMedia;
     self.playerHUDControl.hidden = !_fullScreen;
     self.videoTitleLabel.stringValue = [self.vm currentVideoName];
@@ -604,8 +503,8 @@
 
 #pragma mark - VLCMediaPlayerDelegate
 - (void)mediaPlayerTimeChanged:(NSNotification *)aNotification{
-    CGFloat currentTime = [self currentSecond];
-    CGFloat videoTime = [self videoTime];
+    CGFloat currentTime = [PlayerViewControllerMethodManager currentTimeWithPlayer:self.player];
+    CGFloat videoTime = [PlayerViewControllerMethodManager videoTimeWithPlayer:self.player];
     
     //更新当前时间
     if (!_fullScreen) {
@@ -619,7 +518,7 @@
 }
 
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification{
-    if (self.player.state == VLCMediaPlayerStatePaused && [self videoTime] - [self currentSecond] < 1) {
+    if (self.player.state == VLCMediaPlayerStatePaused && [PlayerViewControllerMethodManager videoTimeWithPlayer:self.player] - [PlayerViewControllerMethodManager currentTimeWithPlayer:self.player] < 1) {
         [self clickNextButton: nil];
     }
 }
@@ -658,8 +557,7 @@
     if (row == 0) {
         HideDanMuAndCloseCell *cell = [tableView makeViewWithIdentifier:@"HideDanMuAndCloseCell" owner: self];
         [cell setWithCloseBlock:^{
-            [weakSelf hideDanMuControllerView];
-            [weakSelf showDanMuControllerButton];
+            [PlayerViewControllerMethodManager hideDanMuControllerView:weakSelf.danMuControlView withRect:NSMakeRect(weakSelf.view.frame.size.width, weakSelf.playerControl.frame.size.height, 300, weakSelf.view.frame.size.height - weakSelf.playerControl.frame.size.height) showButton:weakSelf.showDanMuControllerViewButton];
         } selectBlock:^(NSInteger num, NSInteger status) {
             status?[weakSelf.shieldDanMuStyle addObject: @(num)]:[weakSelf.shieldDanMuStyle removeObject: @(num)];
         }];
@@ -802,10 +700,10 @@
 }
 
 - (NSArray *)keyMap {
-	if(_keyMap == nil) {
-		_keyMap = [UserDefaultManager customKeyMap];
-	}
-	return _keyMap;
+    if(_keyMap == nil) {
+        _keyMap = [UserDefaultManager customKeyMap];
+    }
+    return _keyMap;
 }
 
 @end

@@ -9,15 +9,6 @@
 #ifndef Config_h
 #define Config_h
 
-#define kViewControllerWithId(ID) [[NSStoryboard storyboardWithName:@"Main" bundle: nil] instantiateControllerWithIdentifier: ID]
-
-//  官方的appkey填这里
-#define APPKEY @""
-
-//  官方的appsec填这里
-#define APPSEC @""
-
-#define kNoMatchError [NSError errorWithDomain:@"nomatchdanmaku" code:200 userInfo: nil]
 //来源枚举
 typedef NS_ENUM(NSInteger, kDanMuSource){
     //官方
@@ -28,10 +19,8 @@ typedef NS_ENUM(NSInteger, kDanMuSource){
     acfun
 };
 
-#ifdef DEBUG
-#define NSLog(...) NSLog(__VA_ARGS__);
-#else
-#define NSLog(...)
-#endif
+#define kViewControllerWithId(ID) [[NSStoryboard storyboardWithName:@"Main" bundle: nil] instantiateControllerWithIdentifier: ID]
+
+#define kNoMatchError [NSError errorWithDomain:@"nomatchdanmaku" code:200 userInfo: nil]
 
 #endif /* Config_h */

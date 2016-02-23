@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 typedef void(^filePickBlock)(NSArray *filePaths);
 @interface PlayerHoldView : NSView
-- (void)setUpBlock:(filePickBlock)block;
+- (void)setupBlock:(filePickBlock)block;
 @end

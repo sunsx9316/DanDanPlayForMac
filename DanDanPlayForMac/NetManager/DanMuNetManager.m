@@ -9,7 +9,6 @@
 #import "DanMuNetManager.h"
 #import "DanMuModel.h"
 #import "VideoInfoModel.h"
-#import "NSDictionary+BiliBili.h"
 #import "DanMuModelArr2Dic.h"
 
 @implementation DanMuNetManager
@@ -48,9 +47,26 @@
 
 
 + (id)getBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    //http://www.bilibilijj.com/Api/AvToCid/3203638
-    return [self getWithPath:[NSString stringWithFormat: @"http://www.bilibilijj.com/Api/AvToCid/%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
-        complete([BiliBiliVideoInfoModel yy_modelWithDictionary: responseObj], error);
+    //http://biliproxy.chinacloudsites.cn/av/46431/1?list=1
+    return [self getWithPath:[NSString stringWithFormat:@"http://biliproxy.chinacloudsites.cn/av/%@/1?list=1", parameters[@"aid"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+        if ([responseObj isKindOfClass:[NSDictionary class]] && responseObj.count) {
+            NSDictionary *dic = responseObj[@"parts"];
+            if (!dic) {
+                NSString *title = responseObj[@"title"]?responseObj[@"title"]:@"";
+                NSString *danmaku = responseObj[@"cid"]?responseObj[@"cid"]:@"";
+                complete([BiliBiliVideoInfoModel yy_modelWithDictionary: @{@"title":title, @"videos":@[@{@"title":title, @"danmaku":danmaku}]}], error);
+            }else{
+                NSArray *allSortedKeys = [dic.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString * _Nonnull obj1, NSString * _Nonnull obj2) {
+                    return obj1.integerValue < obj2.integerValue;
+                }];
+                NSInteger danmaku = [responseObj[@"cid"] integerValue];
+                NSMutableArray *videosArr = [NSMutableArray array];
+                [allSortedKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [videosArr addObject:@{@"title":[NSString stringWithFormat:@"%@: %@", obj, dic[obj]], @"danmaku":[NSString stringWithFormat:@"%ld", danmaku + idx]}];
+                }];
+                complete([BiliBiliVideoInfoModel yy_modelWithDictionary: @{@"title":responseObj[@"title"]?responseObj[@"title"]:@"", @"videos":videosArr}], error);
+            }
+        }
     }];
 }
 

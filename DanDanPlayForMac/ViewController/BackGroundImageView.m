@@ -36,7 +36,7 @@
     return YES;
 }
 
-- (void)setUpBlock:(filePickBlock)block{
+- (void)setupBlock:(filePickBlock)block{
     self.block = block;
 }
 

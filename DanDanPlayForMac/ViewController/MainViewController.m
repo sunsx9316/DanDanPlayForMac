@@ -151,7 +151,7 @@
         _imgView.image = [UserDefaultManager homeImg];
         
         __weak typeof (self)weakSelf = self;
-        [self.imgView setUpBlock:^(NSArray *filePath) {
+        [self.imgView setupBlock:^(NSArray *filePath) {
             [weakSelf setUpWithFilePath: filePath];
         }];
         _imgView.imageScaling = NSImageScaleProportionallyUpOrDown;

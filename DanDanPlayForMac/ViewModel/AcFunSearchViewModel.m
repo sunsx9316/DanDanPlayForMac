@@ -33,7 +33,7 @@
     return [self isShiBanForRow: row]?[NSString stringWithFormat:@"剧集：%@", [_listArr[row] title]]:[_listArr[row] title];
 }
 - (NSString *)episodeTitleForRow:(NSInteger)row{
-    return (row < _infoArr.count)?[NSString stringWithFormat:@"%ld. %@",(long)row + 1, [_infoArr[row] title]]:@"";
+    return (row < _infoArr.count)?[NSString stringWithFormat:@"%ld: %@",(long)row + 1, [_infoArr[row] title]]:@"";
 }
 - (NSString *)seasonIDForRow:(NSInteger)row{
     return (row < _listArr.count)?[_listArr[row] contentId]:@"";

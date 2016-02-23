@@ -20,16 +20,10 @@
 + (NSDictionary *)modelContainerPropertyGenericClass{
     return @{@"videos":[BiliBiliVideoInfoDataModel class]};
 }
-
-+ (NSDictionary *)modelCustomPropertyMapper{
-    return @{@"videos":@"list"};
-}
 @end
 
 @implementation BiliBiliVideoInfoDataModel
-+ (NSDictionary *)modelCustomPropertyMapper{
-    return @{@"danmaku":@"CID", @"title":@"Title"};
-}
+
 @end
 
 @implementation AcfunVideoInfoModel

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		892A80EA1C637A6C00602B34 /* NSDictionary+BiliBili.m in Sources */ = {isa = PBXBuildFile; fileRef = 892A80E91C637A6C00602B34 /* NSDictionary+BiliBili.m */; settings = {ASSET_TAGS = (); }; };
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */; settings = {ASSET_TAGS = (); }; };
 		896156811C6C50570016792B /* PlayerHUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896156801C6C50570016792B /* PlayerHUDMessageView.m */; settings = {ASSET_TAGS = (); }; };
@@ -52,6 +51,7 @@
 		896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A716C1C66276C00280B79 /* ThirdPartySearchViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		896A71771C66421500280B79 /* AcFunDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		896AEA931C7CB8680011E046 /* PlayerViewControllerMethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */; settings = {ASSET_TAGS = (); }; };
 		897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B31C7571EC00F64D39 /* PlayerHoldView.m */; settings = {ASSET_TAGS = (); }; };
 		897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B61C759CB200F64D39 /* NSArray+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B81C759CB200F64D39 /* NSData+Tools.m */; settings = {ASSET_TAGS = (); }; };
@@ -126,8 +126,6 @@
 /* Begin PBXFileReference section */
 		6082462430812892B6624682 /* Pods-DanDanPlayForMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac.release.xcconfig"; sourceTree = "<group>"; };
 		663B9184163870AB6D8158DB /* libPods-DanDanPlayForMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		892A80E81C637A6C00602B34 /* NSDictionary+BiliBili.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+BiliBili.h"; sourceTree = "<group>"; };
-		892A80E91C637A6C00602B34 /* NSDictionary+BiliBili.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+BiliBili.m"; sourceTree = "<group>"; };
 		8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliSearchViewModel.h; sourceTree = "<group>"; };
 		8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliBiliSearchViewModel.m; sourceTree = "<group>"; };
 		895A2B7A1C6D9E3F000FE343 /* OnlyButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlyButtonCell.h; sourceTree = "<group>"; };
@@ -215,6 +213,8 @@
 		896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartyDanMuChooseViewModel.m; sourceTree = "<group>"; };
 		896A71751C66421500280B79 /* AcFunDanMuChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcFunDanMuChooseViewModel.h; sourceTree = "<group>"; };
 		896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcFunDanMuChooseViewModel.m; sourceTree = "<group>"; };
+		896AEA911C7CB8680011E046 /* PlayerViewControllerMethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewControllerMethodManager.h; sourceTree = "<group>"; };
+		896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewControllerMethodManager.m; sourceTree = "<group>"; };
 		897345B21C7571EC00F64D39 /* PlayerHoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHoldView.h; sourceTree = "<group>"; };
 		897345B31C7571EC00F64D39 /* PlayerHoldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerHoldView.m; sourceTree = "<group>"; };
 		897345B51C759CB200F64D39 /* NSArray+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Tools.h"; sourceTree = "<group>"; };
@@ -581,8 +581,6 @@
 				89651E451C5FA6A3002F23A2 /* BarrageDescriptor+Tools.m */,
 				89761A2C1C5A84C10046A245 /* NSView+Tools.h */,
 				89761A2D1C5A84C10046A245 /* NSView+Tools.m */,
-				892A80E81C637A6C00602B34 /* NSDictionary+BiliBili.h */,
-				892A80E91C637A6C00602B34 /* NSDictionary+BiliBili.m */,
 				89651E471C5FA837002F23A2 /* NSColor+Tools.h */,
 				89651E481C5FA837002F23A2 /* NSColor+Tools.m */,
 				89A164BC1C6329AA00C0033F /* VLCMedia+Tools.h */,
@@ -780,6 +778,8 @@
 				8975A0A91C60A03A009BD30F /* PlayerViewController.h */,
 				8975A0AA1C60A03A009BD30F /* PlayerViewController.m */,
 				8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */,
+				896AEA911C7CB8680011E046 /* PlayerViewControllerMethodManager.h */,
+				896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */,
 				8961567F1C6C50570016792B /* PlayerHUDMessageView.h */,
 				896156801C6C50570016792B /* PlayerHUDMessageView.m */,
 				8975485B1C625B3B0075436B /* PlayerHUDControl.h */,
@@ -977,6 +977,7 @@
 				896370231C58FC9F002F32FD /* BarrageClock.m in Sources */,
 				89761A091C5A5E750046A245 /* MatchViewController.m in Sources */,
 				897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */,
+				896AEA931C7CB8680011E046 /* PlayerViewControllerMethodManager.m in Sources */,
 				896370581C59028C002F32FD /* DanMuNetManager.m in Sources */,
 				896370281C58FC9F002F32FD /* BarrageLoader.m in Sources */,
 				8975D1DF1C6EF939003FE797 /* CaptionsProtectAreaCell.m in Sources */,
@@ -1028,7 +1029,6 @@
 				8963702E1C58FC9F002F32FD /* BarrageWalkImageSprite.m in Sources */,
 				8963702B1C58FC9F002F32FD /* BarrageFloatTextSprite.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,
-				892A80EA1C637A6C00602B34 /* NSDictionary+BiliBili.m in Sources */,
 				89651E491C5FA837002F23A2 /* NSColor+Tools.m in Sources */,
 				896370331C58FC9F002F32FD /* NSValue+iOS.m in Sources */,
 				896370291C58FC9F002F32FD /* BarrageFloatImageSprite.m in Sources */,

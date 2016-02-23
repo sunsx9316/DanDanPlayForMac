@@ -26,7 +26,6 @@
 
 ## build
 1. 请自行编译[VLCKit](https://code.videolan.org/videolan/VLCKit) 直接导入
-2. bilibili搜索功能需要appkey 请自行准备 填在Config/Config.h中
 
 ## 软件截图
 ![预览图1](https://github.com/sunsx9316/DanDanPlayForMac/blob/master/snapshot/img1.png)

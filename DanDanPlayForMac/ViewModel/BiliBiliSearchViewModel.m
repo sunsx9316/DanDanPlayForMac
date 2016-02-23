@@ -43,7 +43,7 @@
 }
 
 - (NSString *)episodeTitleForRow:(NSInteger)row{
-    return (row < _infoArr.count)?[NSString stringWithFormat: @"%ld. %@", _infoArr.count - row,_infoArr[row].title]:@"";
+    return (row < _infoArr.count)?[NSString stringWithFormat: @"%ld: %@", _infoArr.count - row,_infoArr[row].title]:@"";
 }
 
 - (NSImage *)imageForRow:(NSInteger)row{

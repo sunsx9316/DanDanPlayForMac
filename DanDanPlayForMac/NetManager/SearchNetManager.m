@@ -9,7 +9,6 @@
 #import "SearchNetManager.h"
 #import "SearchModel.h"
 #import "ShiBanModel.h"
-#import "NSDictionary+BiliBili.h"
 #import "NSString+Tools.h"
 
 @implementation SearchNetManager
@@ -38,7 +37,7 @@
         return nil;
     }
     
-    return [self getWithPath:[[self encodeKeyWordWithDic: parameters] sortParameterWithSignWithBasePath:@"http://api.bilibili.cn/search"] parameters:nil completionHandler:^(id responseObj, NSError *error) {
+    [self getWithPath:@"http://biliproxy.chinacloudsites.cn/search" parameters:parameters completionHandler:^(id responseObj, NSError *error) {
         complete([BiliBiliSearchModel yy_modelWithDictionary: responseObj], error);
     }];
     return nil;

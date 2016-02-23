@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 /**
- *  另一种风格的匹配提示视图
+ *  提示面板 比如音量
  */
 @interface PlayerHUDMessageView : NSView
 @property (strong, nonatomic) NSTextField *text;
