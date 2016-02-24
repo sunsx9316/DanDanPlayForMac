@@ -190,7 +190,7 @@
             <subviews>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EJE-2z-pjV">
                     <rect key="frame" x="0.0" y="0.0" width="500" height="100"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="HUDPanel" id="IHM-jU-eAV"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="HUDPanel" id="IHM-jU-eAV"/>
                 </imageView>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gVt-t3-sHf">
                     <rect key="frame" x="10" y="14" width="85" height="15"/>

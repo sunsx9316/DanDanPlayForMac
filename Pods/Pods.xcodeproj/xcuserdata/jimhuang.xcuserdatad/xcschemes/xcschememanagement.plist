@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>GDataXML-HTML.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,17 +32,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>48B2AC108544731F246EFD06B0DEC27C</key>
+		<key>661266EBD6EA604C675CD4D5D02CF971</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B219DAF92AE9A462250D4F5078E281B8</key>
+		<key>D1F91163B54B3A0A80C058F9F902C98C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>D1FF3DE5FC9324CAAB4AF1A7B36610EB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D776E3E57767402867C8E0DE76FD428F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

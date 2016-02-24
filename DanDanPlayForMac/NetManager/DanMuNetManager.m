@@ -9,7 +9,7 @@
 #import "DanMuNetManager.h"
 #import "DanMuModel.h"
 #import "VideoInfoModel.h"
-#import "DanMuModelArr2Dic.h"
+#import "DanMuDataFormatter.h"
 
 @implementation DanMuNetManager
 + (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
@@ -18,7 +18,7 @@
     return [self getWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
         //如果返回的对象不为空 说明有官方弹幕库 直接返回 否则请求第三方弹幕库
         if ([responseObj[@"Comments"] count]) {
-            complete([DanMuModelArr2Dic dicWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:official], error);
+            complete([DanMuDataFormatter arrWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:JHDanMuSourceOfficial], error);
         }else{
             [self getThirdPartyDanMuWithParameters:parameters completionHandler:complete];
         }
@@ -34,12 +34,12 @@
     
     if ([parameters[@"provider"] isEqualToString: @"bilibili"]) {
         return [self getDataWithPath:[@"http://comment.bilibili.com/" stringByAppendingFormat:@"%@.xml",parameters[@"danmaku"]] parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
-            complete([DanMuModelArr2Dic dicWithObj:responseObj source:bilibili], error);
+            complete([DanMuDataFormatter arrWithObj:responseObj source:JHDanMuSourceBilibili], error);
         }];
     }else if ([parameters[@"provider"] isEqualToString: @"acfun"]){
         //http://danmu.aixifan.com/3037718
         return [self getWithPath:[@"http://danmu.aixifan.com/" stringByAppendingString: parameters[@"danmaku"]] parameters:nil completionHandler:^(NSArray <NSArray *>*responseObj, NSError *error) {
-            complete([DanMuModelArr2Dic dicWithObj:responseObj source:acfun], error);
+            complete([DanMuDataFormatter arrWithObj:responseObj source:JHDanMuSourceAcfun], error);
         }];
     }
     return nil;

@@ -8,7 +8,7 @@
 
 #import "OnlyButtonCell.h"
 @interface OnlyButtonCell()
-@property (strong, nonatomic) buttonDownBlock block;
+@property (copy, nonatomic) buttonDownBlock block;
 
 @end
 

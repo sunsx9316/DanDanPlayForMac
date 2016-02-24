@@ -8,7 +8,7 @@
 
 #import "PlayerViewControllerMethodManager.h"
 #import "PlayerHUDControl.h"
-#import "DanMuModelArr2Dic.h"
+#import "DanMuDataFormatter.h"
 #import <VLCKit/VLCMediaPlayer.h>
 
 @implementation PlayerViewControllerMethodManager
@@ -95,14 +95,14 @@
             if (result == NSFileHandlingPanelOKButton){
                 //acfun：json解析方式
                 id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
-                NSDictionary *dic = [NSDictionary dictionary];
+                NSArray *arr = nil;
                 if (obj) {
-                    dic = [DanMuModelArr2Dic dicWithObj:obj source:acfun];
+                    arr = [DanMuDataFormatter arrWithObj:obj source:JHDanMuSourceAcfun];
                 }else{
-                    //bilibili：xml解析方式
-                    dic = [DanMuModelArr2Dic dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:bilibili];
+                //bilibili：xml解析方式
+                    arr = [DanMuDataFormatter arrWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:JHDanMuSourceBilibili];
                 }
-                block(dic);
+                block(arr);
             }
         }];
 }

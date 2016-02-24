@@ -12,7 +12,7 @@
 
 - (void)mouseDragged:(NSEvent *)theEvent{
     NSRect rect = self.frame;
-    NSRect screenRect = [NSScreen mainScreen].frame;
+    NSRect screenRect = self.superview.frame;
     rect.origin.x += theEvent.deltaX;
     rect.origin.y -= theEvent.deltaY;
     

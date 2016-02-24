@@ -53,13 +53,4 @@
     [vc dismissController:vc];
 }
 
-
-#pragma mark - 私有方法
-- (void)applicationInitalise{
-    //执行一些启动需要的操作
-    if ([UserDefaultManager shouldClearCache]) {
-        [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:nil];
-    }
-}
-
 @end

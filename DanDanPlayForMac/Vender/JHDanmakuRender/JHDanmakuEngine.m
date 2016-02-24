@@ -1,0 +1,200 @@
+//
+//  JHDanmakuEngine.m
+//  JHDanmakuRenderDemo
+//
+//  Created by JimHuang on 16/2/22.
+//  Copyright © 2016年 JimHuang. All rights reserved.
+//
+
+#import "JHDanmakuEngine.h"
+#import "JHDanmakuClock.h"
+#import "DanmakuContainer.h"
+#import "ScrollDanmaku.h"
+#import "FloatDanmaku.h"
+@interface JHDanmakuEngine()
+@property (strong, nonatomic) JHDanmakuClock *clock;
+@property (strong, nonatomic) NSCache <NSNumber *, NSMutableArray <ParentDanmaku *>*>*danmakusCache;
+@property (strong, nonatomic) NSMutableArray <DanmakuContainer *>*inactiveContainer;
+@property (strong, nonatomic) NSMutableArray <DanmakuContainer *>*activeContainer;
+@end
+
+@implementation JHDanmakuEngine
+{
+    NSTimeInterval _currentTime;
+    //用于记录当前时间的整数值
+    NSInteger _intTime;
+}
+- (instancetype)init{
+    if (self = [super init]) {
+        _intTime = -1;
+        [self setSpeed: 1.0];
+    }
+    return self;
+}
+
+- (void)start{
+    [self.clock start];
+}
+- (void)stop{
+    [self.clock stop];
+    [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
+    [self.activeContainer removeAllObjects];
+}
+- (void)pause{
+    [self.clock pause];
+}
+
+- (void)addDanmaku:(ParentDanmaku *)danmaku{
+    //被过滤不显示
+    if (danmaku.isFilter || ([self.globalFilterDanmaku containsObject:@([(ScrollDanmaku *)danmaku direction])]) || ([self.globalFilterDanmaku containsObject:@([(FloatDanmaku *)danmaku direction])])) return;
+    
+    //没有开启回退功能 将当前时间作为弹幕的发射时间
+    if (!self.turnonBackFunction) danmaku.appearTime = _currentTime;
+    
+    DanmakuContainer *con = self.inactiveContainer.firstObject;
+    if (!con) {
+        con = [[DanmakuContainer alloc] initWithDanmaku:danmaku];
+    }else{
+        [self.inactiveContainer removeObject:con];
+        [con setWithDanmaku:danmaku];
+    }
+
+    con.globalAttributedDic = _globalAttributedDic;
+    con.globalFont = _globalFont;
+    con.originalPosition = [danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:self.canvas.frame danmakuSize:con.frame.size timeDifference:_currentTime - danmaku.appearTime];
+    [self.canvas addSubview: con];
+    [self.activeContainer addObject:con];
+}
+
+- (void)addAllDanmakus:(NSArray <ParentDanmaku *>*)danmakus{
+    [self.danmakusCache removeAllObjects];
+    for (ParentDanmaku *danmaku in danmakus) {
+        NSInteger time = danmaku.appearTime;
+        if (![self.danmakusCache objectForKey:@(time)]) {
+            [self.danmakusCache setObject:[NSMutableArray array] forKey:@(time)];
+        }
+        [[self.danmakusCache objectForKey:@(time)] addObject:danmaku];
+    }
+}
+
+- (void)setCurrentTime:(NSTimeInterval)currentTime{
+    if (currentTime >= 0){
+        _currentTime = currentTime;
+    }
+    [self.clock setCurrentTime:currentTime];
+    
+    if (self.turnonBackFunction) {
+        [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [obj removeFromSuperview];
+        }];
+        [self.activeContainer removeAllObjects];
+        //预加载前3秒的弹幕
+        for (NSInteger i = 1; i <= 3; ++i) {
+            NSInteger time = currentTime - i;
+            NSArray *danmakus = [self.danmakusCache objectForKey:@(time)];
+            for (ParentDanmaku *danmaku in danmakus) {
+                [self addDanmaku:danmaku];
+            }
+        }
+    }
+}
+
+- (void)setChannelCount:(NSInteger)channelCount{
+    if (channelCount > 0) {
+        _channelCount = channelCount;
+        [self setCurrentTime:_currentTime];
+    }
+}
+
+- (void)setSpeed:(CGFloat)speed{
+    self.clock.speed = speed;
+}
+
+- (void)setGlobalAttributedDic:(NSDictionary *)globalAttributedDic{
+    if (![_globalAttributedDic isEqualTo:globalAttributedDic]) {
+        _globalAttributedDic = globalAttributedDic;
+        [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.globalAttributedDic = globalAttributedDic;
+        }];
+    }
+}
+
+- (void)setGlobalFont:(NSFont *)globalFont{
+    if (![_globalFont isEqualTo: globalFont]){
+        _globalFont = globalFont;
+        [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.globalFont = globalFont;
+        }];
+    }
+}
+
+#pragma mark - 懒加载
+- (JHDanmakuClock *)clock {
+    if(_clock == nil) {
+        __weak typeof(self)weakSelf = self;
+        _clock = [JHDanmakuClock clockWithHandler:^(NSTimeInterval time) {
+            _currentTime = time;
+            
+            //每秒获取一次弹幕 开启回退功能时启用
+            if (self.turnonBackFunction && (NSInteger)time - _intTime) {
+                _intTime = time;
+                NSArray *danmakus = [weakSelf.danmakusCache objectForKey:@((NSInteger)time)];
+                for (ParentDanmaku *danmaku in danmakus) {
+                    [weakSelf addDanmaku:danmaku];
+                }
+            }
+            
+            NSArray <DanmakuContainer *>*danmakus = weakSelf.activeContainer;
+            for (NSInteger i = danmakus.count - 1; i >= 0; --i) {
+                DanmakuContainer *container = danmakus[i];
+                if (![container updatePositionWithTime:time]) {
+                    [weakSelf.activeContainer removeObjectAtIndex:i];
+                    [weakSelf.inactiveContainer addObject:container];
+                    [container removeFromSuperview];
+                    container.danmaku.disappearTime = time;
+                }
+            }
+        }];
+    }
+    return _clock;
+}
+
+
+- (NSMutableArray <DanmakuContainer *> *)inactiveContainer {
+    if(_inactiveContainer == nil) {
+        _inactiveContainer = [NSMutableArray array];
+    }
+    return _inactiveContainer;
+}
+
+- (NSMutableArray <DanmakuContainer *> *)activeContainer {
+    if(_activeContainer == nil) {
+        _activeContainer = [[NSMutableArray <DanmakuContainer *> alloc] init];
+    }
+    return _activeContainer;
+}
+
+- (NSCache <NSNumber *, NSMutableArray <ParentDanmaku *>*> *)danmakusCache {
+    if(_danmakusCache == nil) {
+        _danmakusCache = [[NSCache <NSNumber *, NSMutableArray <ParentDanmaku *>*> alloc] init];
+    }
+    return _danmakusCache;
+}
+
+- (JHDanmakuCanvas *)canvas {
+    if(_canvas == nil) {
+        _canvas = [[JHDanmakuCanvas alloc] init];
+    }
+    return _canvas;
+}
+
+- (NSMutableSet *)globalFilterDanmaku {
+    if(_globalFilterDanmaku == nil) {
+        _globalFilterDanmaku = [[NSMutableSet alloc] init];
+    }
+    return _globalFilterDanmaku;
+}
+
+@end

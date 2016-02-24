@@ -4,7 +4,7 @@
 
 ## 功能介绍
 1. 支持本地json、xml格式弹幕
-2. 支持弹幕过滤，支持正则表达式
+2. 支持弹幕云过滤、支持正则表达式
 3. 视频智能识别
 4. 支持acfun、bilibili的弹幕搜索
 
@@ -19,6 +19,7 @@
 * [Masonry](https://github.com/jdg/MBProgressHUD)
 * [YYModel](https://github.com/ibireme/YYModel)
 * [VLCKit](https://code.videolan.org/videolan/VLCKit)
+* [GDataXML-HTML](https://github.com/graetzer/GDataXML-HTML)
 
 ## thank
 * [Bilibili Mac Client](https://github.com/typcn/bilibili-mac-client)

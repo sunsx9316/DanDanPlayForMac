@@ -101,7 +101,8 @@
 
 - (void)presentPlayerViewController:(NSNotification *)notification{
     [JHProgressHUD disMiss];
-    PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideos: self.videos danMuDic:notification.userInfo matchName: _animateTitle];
+    
+    PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideos: self.videos danMuArr:notification.userInfo[@"danmuArr"] matchName: _animateTitle];
     //赋值之后置空
     _animateTitle = nil;
     [self addChildViewController: pvc];

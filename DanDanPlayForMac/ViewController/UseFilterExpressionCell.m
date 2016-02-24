@@ -8,7 +8,7 @@
 
 #import "UseFilterExpressionCell.h"
 @interface UseFilterExpressionCell()
-@property (strong, nonatomic) clickBlock block;
+@property (copy, nonatomic) clickBlock block;
 @end
 
 @implementation UseFilterExpressionCell

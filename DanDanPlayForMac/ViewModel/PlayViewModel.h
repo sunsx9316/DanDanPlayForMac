@@ -15,7 +15,7 @@
 /**
  *  保存弹幕模型
  */
-@property (nonatomic, strong) NSDictionary <NSNumber *, NSArray *>*dic;
+@property (strong, nonatomic) NSArray *arr;
 
 /**
  *  当前视频下标
@@ -69,20 +69,12 @@
  */
 - (void)currentVLCMediaWithCompletionHandler:(void(^)(VLCMedia *responseObj))complete;
 /**
- *  获取当前秒的弹幕
- *
- *  @param second 秒
- *
- *  @return 当前秒的弹幕
- */
-- (NSArray <DanMuDataModel *>*)currentSecondDanMuArr:(NSInteger)second;
-/**
  *  初始化
  *
  *  @param localVideoModel 本地视频模型
- *  @param dic             弹幕字典
+ *  @param arr             弹幕数组
  *
  *  @return self
  */
-- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic;
+- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuArr:(NSArray *)arr;
 @end

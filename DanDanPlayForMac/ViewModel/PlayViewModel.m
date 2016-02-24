@@ -12,6 +12,8 @@
 #import "LocalVideoModel.h"
 #import "JHVLCMedia.h"
 #import "VLCMedia+Tools.h"
+#import "ParentDanmaku.h"
+#import "JHDanmakuEngine+Tools.h"
 @interface PlayViewModel()
 /**
  *  视频模型
@@ -52,9 +54,6 @@
 - (void)currentVLCMediaWithCompletionHandler:(void(^)(VLCMedia *responseObj))complete{
     [self VLCMediaWithIndex:self.currentIndex completionHandler:complete];
 }
-- (NSArray <DanMuDataModel *>*)currentSecondDanMuArr:(NSInteger)second{
-    return self.dic[@(second)];
-}
 
 
 
@@ -87,10 +86,10 @@
     return index<self.videos.count?self.videos[index]:nil;
 }
 
-- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic{
+- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuArr:(NSArray *)arr{
     if (self = [super init]) {
         self.videos = localVideoModels;
-        self.dic = [dic mutableCopy];
+        self.arr = arr;
     }
     return self;
 }
@@ -102,6 +101,18 @@
 		_VLCMedias = [[NSMutableDictionary <NSNumber *,VLCMedia *> alloc] init];
 	}
 	return _VLCMedias;
+}
+
+- (void)setArr:(NSArray *)arr{
+    NSMutableArray *tempArr = [NSMutableArray array];
+    NSFont *font = [UserDefaultManager danMuFont];
+    [arr enumerateObjectsUsingBlock:^(DanMuDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:obj.message color:obj.color spiritStyle:obj.mode shadowStyle:[UserDefaultManager danMufontSpecially] fontSize: font.pointSize font:font];
+        danmaku.appearTime = obj.time;
+        danmaku.filter = obj.isFilter;
+        [tempArr addObject: danmaku];
+    }];
+    _arr = tempArr;
 }
 
 @end

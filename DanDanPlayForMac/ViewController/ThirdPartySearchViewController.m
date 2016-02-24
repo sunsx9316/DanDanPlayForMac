@@ -19,11 +19,11 @@
 
 @implementation ThirdPartySearchViewController
 
-- (instancetype)initWithType:(kDanMuSource)type{
+- (instancetype)initWithType:(JHDanMuSource)type{
     if ((self = kViewControllerWithId(@"ThirdPartySearchViewController"))) {
-        if (type == bilibili) {
+        if (type == JHDanMuSourceBilibili) {
             self.vm = [BiliBiliSearchViewModel new];
-        }else if (type == acfun){
+        }else if (type == JHDanMuSourceAcfun){
             self.vm = [AcFunSearchViewModel new];
         }
     }
@@ -81,10 +81,10 @@
         NSString *aid = [self.vm aidForRow: row];
         if (aid) {
             if ([self.vm isKindOfClass: [BiliBiliSearchViewModel class]]) {
-                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: bilibili];
+                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: JHDanMuSourceBilibili];
                 [self presentViewControllerAsSheet: vc];
             }else if ([self.vm isKindOfClass: [AcFunSearchViewModel class]]){
-                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: acfun];
+                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: JHDanMuSourceAcfun];
                 [self presentViewControllerAsSheet: vc];
             }
         }
@@ -103,7 +103,7 @@
         //通知关闭列表视图控制器
         [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:nil];
         //通知开始播放
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:@{@"danmuArr":responseObj?responseObj:@[]}];
     }];
 }
 

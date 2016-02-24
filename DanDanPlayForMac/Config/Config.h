@@ -10,13 +10,13 @@
 #define Config_h
 
 //来源枚举
-typedef NS_ENUM(NSInteger, kDanMuSource){
+typedef NS_ENUM(NSInteger, JHDanMuSource){
     //官方
-    official,
+    JHDanMuSourceOfficial,
     //b站
-    bilibili,
+    JHDanMuSourceBilibili,
     //a站
-    acfun
+    JHDanMuSourceAcfun
 };
 
 #define kViewControllerWithId(ID) [[NSStoryboard storyboardWithName:@"Main" bundle: nil] instantiateControllerWithIdentifier: ID]

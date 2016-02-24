@@ -10,7 +10,7 @@
 #import "NSString+KeyEvent.h"
 
 @interface GetKeyViewController ()
-@property (strong, nonatomic) getKeyInfoBlock block;
+@property (copy, nonatomic) getKeyInfoBlock block;
 @property (weak) IBOutlet NSTextField *functionTextField;
 @property (weak) IBOutlet NSTextField *keyNameTextField;
 //记录大小写锁定键 打开时 flag要减去65536

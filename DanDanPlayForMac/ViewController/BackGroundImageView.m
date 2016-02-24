@@ -8,7 +8,7 @@
 
 #import "BackGroundImageView.h"
 @interface BackGroundImageView()
-@property (strong, nonatomic) filePickBlock block;
+@property (copy, nonatomic) filePickBlock block;
 @end
 
 @implementation BackGroundImageView

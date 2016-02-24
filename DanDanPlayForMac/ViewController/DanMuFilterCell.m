@@ -8,6 +8,8 @@
 
 #import "DanMuFilterCell.h"
 #import "UseFilterExpressionCell.h"
+#import "FilterNetManager.h"
+
 @interface DanMuFilterCell()<NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
 @property (weak) IBOutlet NSButton *importButton;
 @property (weak) IBOutlet NSButton *exportButton;
@@ -98,16 +100,21 @@
     }];
 }
 
-- (void)rightMouseDown:(NSEvent *)theEvent{
-    NSInteger index = [self.tableView selectedRow];
-    if (index < self.userFilterArr.count) {
-        [self.userFilterArr removeObjectAtIndex: index];
-        [self.tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:index] withAnimation:NSTableViewAnimationEffectFade];
-    }
+- (IBAction)clickCloudFilterList:(NSButton *)sender {
+    [FilterNetManager filterWithCompletionHandler:^(NSArray *responseObj, NSError *error) {
+        for (NSDictionary *dic in responseObj) {
+            [self.userFilterArr addObject:dic];
+            [self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.userFilterArr.count] withAnimation:NSTableViewAnimationEffectFade];
+        }
+    }];
 }
 
-- (IBAction)updateRules:(NSButton *)sender {
-    [UserDefaultManager setUserFilter: self.userFilterArr];
+
+
+- (void)rightMouseDown:(NSEvent *)theEvent{
+    NSIndexSet *indexSet = [self.tableView selectedRowIndexes];
+    [self.userFilterArr removeObjectsAtIndexes:indexSet];
+    [self.tableView removeRowsAtIndexes:indexSet withAnimation:NSTableViewAnimationEffectFade];
 }
 
 - (void)doubleClick:(NSTableView *)tableView{
@@ -115,14 +122,19 @@
     [tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.userFilterArr.count] withAnimation:NSTableViewAnimationEffectFade];
 }
 
+- (IBAction)updateRules:(NSButton *)sender {
+    [UserDefaultManager setUserFilter: self.userFilterArr];
+}
+
+
 
 #pragma mark - 懒加载
 
 - (NSMutableArray *)userFilterArr {
-	if(_userFilterArr == nil) {
+    if(_userFilterArr == nil) {
         _userFilterArr = [UserDefaultManager userFilter];
-	}
-	return _userFilterArr;
+    }
+    return _userFilterArr;
 }
 
 @end

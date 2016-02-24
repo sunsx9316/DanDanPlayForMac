@@ -35,12 +35,12 @@
     }];
     
     
-    ThirdPartySearchViewController *bvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:bilibili] title:@"bilibili"];
+    ThirdPartySearchViewController *bvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:JHDanMuSourceBilibili] title:@"bilibili"];
     [bvc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];
     
-    ThirdPartySearchViewController *avc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:acfun] title:@"acfun"];
+    ThirdPartySearchViewController *avc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:JHDanMuSourceAcfun] title:@"acfun"];
     [avc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];

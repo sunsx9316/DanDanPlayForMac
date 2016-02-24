@@ -15,7 +15,7 @@
 @property (strong, nonatomic) NSButton *subtractFiveButton;
 @property (strong, nonatomic) NSButton *subtractTenButton;
 @property (strong, nonatomic) NSTextField *title;
-@property (strong, nonatomic) timeOffsetBlock block;
+@property (copy, nonatomic) timeOffsetBlock block;
 @end
 
 @implementation TimeAxisCell
