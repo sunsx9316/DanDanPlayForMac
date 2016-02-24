@@ -8,5 +8,6 @@ target 'DanDanPlayForMac' do
 pod 'AFNetworking', '~> 2.6.3'
 pod 'Masonry'
 pod 'YYModel'
+pod 'GDataXML-HTML'
 end
 

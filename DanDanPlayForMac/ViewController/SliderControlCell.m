@@ -8,7 +8,7 @@
 
 #import "SliderControlCell.h"
 @interface SliderControlCell()
-@property (strong, nonatomic) slideBlock block;
+@property (copy, nonatomic) slideBlock block;
 @property (strong, nonatomic) NSTextField *title;
 @property (strong, nonatomic) NSTextField *valueLabel;
 @property (strong, nonatomic) NSSlider *slider;
@@ -48,7 +48,7 @@
     switch (style) {
         case sliderControlStyleFontSize:
             self.title.stringValue = @"字体缩放";
-            self.slider.floatValue = 0.375;
+            self.slider.floatValue = [UserDefaultManager danMuFont].pointSize / 100;
             break;
         case sliderControlStyleSpeed:
             self.title.stringValue = @"速度调节";
@@ -69,7 +69,7 @@
         switch (self.style) {
             case sliderControlStyleFontSize:
             {
-                float value = slider.floatValue * 1.6 + 0.4;
+                float value = slider.floatValue * 99 + 1;
                 self.block(value);
                 self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", value];
                 break;

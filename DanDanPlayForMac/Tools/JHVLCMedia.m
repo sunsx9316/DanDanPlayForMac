@@ -8,7 +8,7 @@
 
 #import "JHVLCMedia.h"
 @interface JHVLCMedia()<VLCMediaDelegate>
-@property (nonatomic, strong) complete returnBlock;
+@property (nonatomic, copy) complete returnBlock;
 @end
 @implementation JHVLCMedia
 - (void)parseWithBlock:(complete)block{

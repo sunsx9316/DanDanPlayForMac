@@ -14,8 +14,8 @@
 @property (strong, nonatomic) NSButton *hideTopDanMuButton;
 @property (strong, nonatomic) NSButton *hideBottomDanMuButton;
 @property (strong, nonatomic) NSTextField *title;
-@property (strong, nonatomic) closeBlock closeHandle;
-@property (strong, nonatomic) selectBlock selectHandle;
+@property (copy, nonatomic) closeBlock closeHandle;
+@property (copy, nonatomic) selectBlock selectHandle;
 @end
 
 @implementation HideDanMuAndCloseCell
@@ -70,7 +70,7 @@
 
 - (void)clickHideButton:(NSButton *)button{
     if (self.selectHandle) {
-        self.selectHandle(button.tag - 100, button.state);
+        self.selectHandle(button.tag, button.state);
     }
 }
 
@@ -94,7 +94,7 @@
 		_hideScrollDanMuButton = [[NSButton alloc] init];
         _hideScrollDanMuButton.title = @"滚动弹幕";
         _hideScrollDanMuButton.bordered = NO;
-        _hideScrollDanMuButton.tag = 104;
+        _hideScrollDanMuButton.tag = 10;
         [_hideScrollDanMuButton setButtonType: NSSwitchButton];
         [_hideScrollDanMuButton setTitleColor: [NSColor whiteColor]];
         [_hideScrollDanMuButton setTarget: self];
@@ -108,7 +108,7 @@
 		_hideTopDanMuButton = [[NSButton alloc] init];
         _hideTopDanMuButton.title = @"顶部弹幕";
         _hideTopDanMuButton.bordered = NO;
-        _hideTopDanMuButton.tag = 101;
+        _hideTopDanMuButton.tag = 100;
         [_hideTopDanMuButton setButtonType: NSSwitchButton];
         [_hideTopDanMuButton setTitleColor: [NSColor whiteColor]];
         [_hideTopDanMuButton setTarget: self];
@@ -122,7 +122,7 @@
 		_hideBottomDanMuButton = [[NSButton alloc] init];
         _hideBottomDanMuButton.title = @"底部弹幕";
         _hideBottomDanMuButton.bordered = NO;
-        _hideBottomDanMuButton.tag = 105;
+        _hideBottomDanMuButton.tag = 101;
         [_hideBottomDanMuButton setButtonType: NSSwitchButton];
         [_hideBottomDanMuButton setTitleColor: [NSColor whiteColor]];
         [_hideBottomDanMuButton setTarget: self];

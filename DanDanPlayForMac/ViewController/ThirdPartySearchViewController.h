@@ -25,5 +25,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithType:(kDanMuSource)type;
+- (instancetype)initWithType:(JHDanMuSource)type;
 @end

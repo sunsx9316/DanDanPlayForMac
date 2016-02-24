@@ -215,27 +215,6 @@ static UserDefaultManager* manager = nil;
     [[NSUserDefaults standardUserDefaults] setObject:screenShotPath forKey:@"screenShotPath"];
 }
 
-+ (BOOL)shouldClearCache{
-    UserDefaultManager *manager = [self shareUserDefaultManager];
-    if (manager->_shouldClearCache) {
-        return manager->_shouldClearCache.boolValue;
-    }
-    
-    BOOL clearCache = NO;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"clearCache"]) {
-        clearCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"clearCache"];
-    }else{
-        [self setClearCache: NO];
-    }
-    return clearCache;
-}
-+ (void)setClearCache:(BOOL)clearCache{
-    UserDefaultManager *manager = [self shareUserDefaultManager];
-    manager->_shouldClearCache = @(clearCache);
-    
-    [[NSUserDefaults standardUserDefaults] setBool:clearCache forKey:@"clearCache"];
-}
-
 + (NSString *)cachePath{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     if (manager->_cachePath) {

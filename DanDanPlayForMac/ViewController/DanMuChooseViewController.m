@@ -39,7 +39,7 @@
 //点击确认 发送播放通知
 - (IBAction)clickOKButton:(NSButton *)sender {
     [JHProgressHUD showWithMessage:@"挖坟中..." parentView:self.view];
-    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(NSDictionary *responseObj) {
+    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(NSArray *responseObj) {
         [JHProgressHUD disMiss];
         NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem]?[self.shiBanBurron titleOfSelectedItem]:@"";
         NSString *episodeTitle = [self.episodeButton titleOfSelectedItem]?[self.episodeButton titleOfSelectedItem]:@"";
@@ -48,7 +48,7 @@
         //通知关闭列表视图控制器
         [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:nil];
         //通知开始播放
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:@{@"danmuArr":responseObj?responseObj:@[]}];
     }];
 }
 

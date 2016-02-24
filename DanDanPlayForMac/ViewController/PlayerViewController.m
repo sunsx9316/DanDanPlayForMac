@@ -18,7 +18,6 @@
 #import "ColorButton.h"
 #import "PlayViewModel.h"
 #import "DanMuModel.h"
-#import "BarrageCanvas.h"
 #import "PlayerHoldView.h"
 
 #import "HideDanMuAndCloseCell.h"
@@ -26,9 +25,11 @@
 #import "TimeAxisCell.h"
 #import "OnlyButtonCell.h"
 
-#import "BarrageDescriptor+Tools.h"
 #import "VLCMedia+Tools.h"
 #import "PlayerViewControllerMethodManager.h"
+
+#import "JHDanmakuRender.h"
+#import "JHDanmakuEngine+Tools.h"
 
 #import <VLCKit/VLCKit.h>
 
@@ -64,38 +65,31 @@
 
 @property (strong, nonatomic) VLCVideoView *playerView;
 @property (nonatomic, strong) VLCMediaPlayer *player;
-@property (nonatomic, strong) BarrageRenderer *rander;
+
+@property (strong, nonatomic) JHDanmakuEngine *rander;
 
 @property (strong, nonatomic) PlayViewModel *vm;
-@property (nonatomic, strong) NSTimer *timer;
 //跟踪区域
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
-//隐藏弹幕类型
-@property (strong, nonatomic) NSMutableSet *shieldDanMuStyle;
 //快捷键映射
 @property (strong, nonatomic) NSArray *keyMap;
+@property (strong, nonatomic) NSTimer *HUDControlTimer;
 @end
 
 @implementation PlayerViewController
 {
     //弹幕偏移时间
     NSInteger _danMuOffsetTime;
-    //字体缩放系数
-    CGFloat _fontScale;
-    //字体特效
-    
-    DanMaKuSpiritEdgeStyle _edgeStyle;
-    //NSString *_matchName;
+    //是否处于全屏状态
     BOOL _fullScreen;
     //时间格式化工具
     NSDateFormatter *_formatter;
     
 }
 #pragma mark - 方法
-- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName{
+- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuArr:(NSArray *)arr matchName:(NSString *)matchName{
     if (self = [super initWithNibName: @"PlayerViewController" bundle: nil]) {
-        self.vm = [[PlayViewModel alloc] initWithLocalVideoModels:localVideoModels danMuDic: dic];
-        _edgeStyle = [UserDefaultManager danMufontSpecially];
+        self.vm = [[PlayViewModel alloc] initWithLocalVideoModels:localVideoModels danMuArr:arr];
         [self postMatchMessageWithMatchName: matchName];
     }
     return self;
@@ -130,10 +124,10 @@
 
 - (void)mouseMoved:(NSEvent *)theEvent{
     NSPoint point = theEvent.locationInWindow;
-    if (point.y < 10 && _fullScreen){
-        [PlayerViewControllerMethodManager hideCursorAndHUDPanel:self.playerHUDControl];
-    }else{
+    if (_fullScreen) {
         [PlayerViewControllerMethodManager showCursorAndHUDPanel:self.playerHUDControl];
+        [self.HUDControlTimer invalidate];
+        self.HUDControlTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(hideCursorAndHUDPanel:) userInfo:nil repeats:NO];
     }
     
     if (point.x > self.view.frame.size.width - 50) {
@@ -141,6 +135,11 @@
     }else{
         [self hideDanMuControllerButton];
     }
+}
+
+- (void)hideCursorAndHUDPanel:(NSTimer *)timer{
+    [PlayerViewControllerMethodManager hideCursorAndHUDPanel:self.playerHUDControl];
+    [timer invalidate];
 }
 
 - (void)keyDown:(NSEvent *)theEvent{
@@ -246,19 +245,27 @@
     self.playerUIHeight.constant = 40;
     _fullScreen = NO;
     self.playerHUDControl.hidden = YES;
+    [self.HUDControlTimer invalidate];
     [NSCursor unhide];
 }
 
 - (void)windowDidResize:(NSNotification *)notification{
     self.danMuControlView.frame = CGRectMake(self.view.frame.size.width - 300 * !self.danMuControlView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
     self.playListView.frame = NSMakeRect(-300 * self.playListView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    CGRect frame = self.playerHoldView.frame;
+    if ([UserDefaultManager turnOnCaptionsProtectArea]) {
+        CGFloat offset = frame.size.height * 0.15;
+        frame.origin.y = offset;
+        frame.size.height -= offset;
+    }
+    self.rander.canvas.frame = frame;
 }
 
 - (void)changeDanMuDic:(NSNotification *)notification{
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
         [self stopPlay];
         [self setupWithMedia: responseObj];
-        self.vm.dic = notification.userInfo;
+        self.vm.arr = notification.userInfo[@"danmuArr"];
         [self startPlay];
         [self.playerListTableView reloadData];
     }];
@@ -296,15 +303,11 @@
 //开始播放
 - (void)startPlay{
     [self videoAndDanMuPlay];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval: 1 target:self selector:@selector(startTimer) userInfo: nil repeats: YES];
-    
 }
 //结束播放
 - (void)stopPlay{
     [self.rander stop];
     [self.player stop];
-    [self.timer invalidate];
-    
 }
 
 //播放弹幕和视频
@@ -317,21 +320,6 @@
 - (void)videoAndDanMuPause{
     [self.rander pause];
     [self.player pause];
-}
-
-//启动计时器
-- (void)startTimer{
-    //暂停状态直接返回
-    if (self.player.state == VLCMediaPlayerStatePaused) return;
-    //播放弹幕
-    NSArray* danMus = [self.vm currentSecondDanMuArr: [PlayerViewControllerMethodManager currentTimeWithPlayer:self.player] + _danMuOffsetTime];
-    [danMus enumerateObjectsUsingBlock:^(DanMuDataModel*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (![self.shieldDanMuStyle containsObject: @(obj.mode)] && !obj.isFilter) {
-            NSFont *font = [UserDefaultManager danMuFont];
-            [self.rander receive: [BarrageDescriptor descriptorWithText:obj.message color:obj.color spiritStyle:obj.mode edgeStyle:_edgeStyle fontSize: font.pointSize * _fontScale font:[UserDefaultManager danMuFont]]];
-        }
-    }];
-    
 }
 
 - (void)showDanMuControllerButton{
@@ -371,9 +359,10 @@
 }
 
 - (void)loadLocaleDanMu{
-    [PlayerViewControllerMethodManager loadLocaleDanMuWithBlock:^(NSDictionary *dic) {
-        if (dic.count > 0) {
-            self.vm.dic = dic;
+    [PlayerViewControllerMethodManager loadLocaleDanMuWithBlock:^(NSArray *arr) {
+        if (arr.count > 0) {
+            self.vm.arr = arr;
+            [self.rander addAllDanmakus:self.vm.arr];
             [self.player setPosition:0];
         }else{
             [[NSAlert alertWithMessageText:@"并没有找到弹幕´_ゝ`" defaultButton:@"ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@""] runModal];
@@ -436,17 +425,14 @@
     }];
     
     [self.playerHoldView addSubview:self.playerView];
-    [self.view addSubview: self.playerHUDControl positioned:NSWindowAbove relativeTo:self.rander.view];
-    [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.rander.view];
-    [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.rander.view];
+    [self.view addSubview: self.playerHUDControl positioned:NSWindowAbove relativeTo:self.rander.canvas];
+    [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.rander.canvas];
+    [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.rander.canvas];
     
-    
-    [self.playerHUDControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(500);
-        make.height.mas_equalTo(100);
-        make.centerX.mas_equalTo(0);
-        make.bottom.mas_offset(-200);
-    }];
+    CGSize screenSize = [NSScreen mainScreen].frame.size;
+    CGFloat playerHUDControlWidth = screenSize.width * 0.4;
+    CGFloat playerHUDControlHeight = playerHUDControlWidth / 5;
+    self.playerHUDControl.frame = CGRectMake((screenSize.width - playerHUDControlWidth) / 2, -playerHUDControlHeight, playerHUDControlWidth, playerHUDControlHeight);
     
     self.danMuControlView.frame = NSMakeRect(self.view.frame.size.width, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
     self.playListView.frame = NSMakeRect(-300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
@@ -463,11 +449,11 @@
 - (void)setupWithMedia:(VLCMedia *)aMedia{
     CGSize videoSize = [aMedia videoSize];
     CGSize screenSize = [NSScreen mainScreen].frame.size;
+    
     //宽高有一个为0 使用布满全屏的约束
     if (!videoSize.width || !videoSize.height) {
         [self.playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.right.mas_equalTo(0);
-            make.bottom.equalTo(self.playerControl.mas_top);
+            make.edges.mas_equalTo(0);
         }];
         //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
     }else if (screenSize.width * (videoSize.height / videoSize.width) > screenSize.height) {
@@ -498,7 +484,6 @@
     self.player.audio.volume = self.volumeSliderView.intValue * 2;
     self.playerVolumeSlider.intValue = self.volumeSliderView.intValue;
     self.player.libraryInstance.debugLogging = NO;
-    _fontScale = 1;
 }
 
 #pragma mark - VLCMediaPlayerDelegate
@@ -559,13 +544,13 @@
         [cell setWithCloseBlock:^{
             [PlayerViewControllerMethodManager hideDanMuControllerView:weakSelf.danMuControlView withRect:NSMakeRect(weakSelf.view.frame.size.width, weakSelf.playerControl.frame.size.height, 300, weakSelf.view.frame.size.height - weakSelf.playerControl.frame.size.height) showButton:weakSelf.showDanMuControllerViewButton];
         } selectBlock:^(NSInteger num, NSInteger status) {
-            status?[weakSelf.shieldDanMuStyle addObject: @(num)]:[weakSelf.shieldDanMuStyle removeObject: @(num)];
+            status?[weakSelf.rander.globalFilterDanmaku addObject:@(num)]:[weakSelf.rander.globalFilterDanmaku removeObject:@(num)];
         }];
         return cell;
     }else if (row == 1){
         SliderControlCell *cell = [tableView makeViewWithIdentifier:@"SliderControlCell" owner:self];
         [cell setWithBlock:^(CGFloat value) {
-            _fontScale = value;
+            weakSelf.rander.globalFont = [[NSFontManager sharedFontManager] convertFont:[UserDefaultManager danMuFont] toSize:value];
         } sliderControlStyle: sliderControlStyleFontSize];
         return cell;
     }else if (row == 2){
@@ -577,14 +562,15 @@
     }else if (row == 3){
         SliderControlCell *cell = [tableView makeViewWithIdentifier:@"SliderControlCell" owner:self];
         [cell setWithBlock:^(CGFloat value) {
-            weakSelf.rander.view.alphaValue = value;
+            weakSelf.rander.canvas.alphaValue = value;
         } sliderControlStyle: sliderControlStyleOpacity];
         return cell;
     }else if (row == 4){
         TimeAxisCell * cell = [tableView makeViewWithIdentifier:@"TimeAxisCell" owner: self];
         [cell setWithBlock:^(NSInteger num) {
             _danMuOffsetTime += num;
-            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", _danMuOffsetTime >= 0?@"+":@"", (long)_danMuOffsetTime];
+            weakSelf.rander.currentTime += num;
+            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", _danMuOffsetTime >= 0 ? @"+" : @"", (long)_danMuOffsetTime];
             [weakSelf.messageView showHUD];
         }];
         return cell;
@@ -620,27 +606,10 @@
 }
 
 #pragma mark - 懒加载
-- (BarrageRenderer *)rander {
-    if(_rander == nil) {
-        _rander = [[BarrageRenderer alloc] init];
-        [_rander setSpeed: [UserDefaultManager danMuSpeed] * 0.029 + 0.1];
-        _rander.view.alphaValue = [UserDefaultManager danMuOpacity] / 100;
-        [self.view addSubview:_rander.view positioned:NSWindowAbove relativeTo:self.playerView];
-        [_rander.view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.right.mas_equalTo(0);
-            if ([UserDefaultManager turnOnCaptionsProtectArea]) {
-                make.bottom.equalTo(self.playerControl.mas_top).mas_offset(-80);
-            }else{
-                make.bottom.equalTo(self.playerControl.mas_top);
-            }
-        }];
-    }
-    return _rander;
-}
 
 - (VLCVideoView *)playerView {
     if(_playerView == nil) {
-        _playerView = [[VLCVideoView alloc] initWithFrame: NSMakeRect(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _playerView = [[VLCVideoView alloc] initWithFrame: self.playerHoldView.frame];
     }
     return _playerView;
 }
@@ -669,7 +638,7 @@
         [_showDanMuControllerViewButton setImage: [NSImage imageNamed:@"showDanMuController"]];
         [_showDanMuControllerViewButton setTarget: self];
         [_showDanMuControllerViewButton setAction: @selector(clickShowDanMuControllerButton:)];
-        [self.view addSubview: _showDanMuControllerViewButton positioned:NSWindowAbove relativeTo: self.rander.view];
+        [self.view addSubview: _showDanMuControllerViewButton positioned:NSWindowAbove relativeTo: self.rander.canvas];
         [_showDanMuControllerViewButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(100);
@@ -679,17 +648,10 @@
     return _showDanMuControllerViewButton;
 }
 
-- (NSMutableSet *)shieldDanMuStyle {
-    if(_shieldDanMuStyle == nil) {
-        _shieldDanMuStyle = [[NSMutableSet alloc] init];
-    }
-    return _shieldDanMuStyle;
-}
-
 - (PlayerHUDMessageView *)messageView {
     if(_messageView == nil) {
         _messageView = [[PlayerHUDMessageView alloc] init];
-        [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo: self.rander.view];
+        [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo: self.rander.canvas];
         [_messageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(200);
             make.height.mas_equalTo(100);
@@ -704,6 +666,25 @@
         _keyMap = [UserDefaultManager customKeyMap];
     }
     return _keyMap;
+}
+
+- (JHDanmakuEngine *)rander {
+	if(_rander == nil) {
+		_rander = [[JHDanmakuEngine alloc] init];
+        _rander.turnonBackFunction = YES;
+        [_rander addAllDanmakus:self.vm.arr];
+        [_rander setSpeed: [UserDefaultManager danMuSpeed] * 0.029 + 0.1];
+        _rander.canvas.alphaValue = [UserDefaultManager danMuOpacity] / 100;
+        CGRect frame = self.playerHoldView.frame;
+        if ([UserDefaultManager turnOnCaptionsProtectArea]) {
+            CGFloat offset = frame.size.height * 0.15;
+            frame.origin.y = offset;
+            frame.size.height -= offset;
+        }
+        _rander.canvas.frame = frame;
+        [self.view addSubview:_rander.canvas positioned:NSWindowAbove relativeTo:self.playerHoldView];
+	}
+	return _rander;
 }
 
 @end

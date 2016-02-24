@@ -19,8 +19,7 @@
 }
 
 - (IBAction)clickClearCacheButton:(NSButton *)sender {
-    //标记 下一次启动会执行清空缓存操作
-    [UserDefaultManager setClearCache: sender.state];
+    [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:nil];
 }
 - (IBAction)clickChangeCachePathButton:(NSButton *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
@@ -30,8 +29,9 @@
     [openPanel setAllowsMultipleSelection: NO];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton){
-            self.pathTextField.placeholderString = openPanel.URL.path;
-            [UserDefaultManager setCachePath: openPanel.URL.path];
+            NSString *path = [openPanel.URL.path stringByAppendingPathComponent:@"dandanplay"];
+            self.pathTextField.placeholderString = path;
+            [UserDefaultManager setCachePath: path];
         }
     }];
 }

@@ -14,10 +14,10 @@
  *
  *  @param localVideoModel 本地视频模型
  *  @param media           vlc视频模型
- *  @param dic             弹幕字典
+ *  @param arr             弹幕数组
  *  @param matchName       精确匹配文件名
  *
  *  @return self
  */
-- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName;
+- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuArr:(NSArray *)arr matchName:(NSString *)matchName;
 @end

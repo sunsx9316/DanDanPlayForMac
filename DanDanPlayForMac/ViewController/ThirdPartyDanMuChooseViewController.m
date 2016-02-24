@@ -27,11 +27,11 @@
     }];
 }
 
-- (instancetype)initWithVideoID:(NSString *)videoID type:(kDanMuSource)type{
+- (instancetype)initWithVideoID:(NSString *)videoID type:(JHDanMuSource)type{
     if ((self = kViewControllerWithId(@"ThirdPartyDanMuChooseViewController"))) {
-        if (type == bilibili) {
+        if (type == JHDanMuSourceBilibili) {
             self.vm = [[BiliBiliDanMuChooseViewModel alloc] initWithAid: videoID];
-        }else if (type == acfun){
+        }else if (type == JHDanMuSourceAcfun){
             self.vm = [[AcFunDanMuChooseViewModel alloc] initWithAid: videoID];
         }
     }
@@ -42,7 +42,7 @@
 - (IBAction)clickChooseDanMuButton:(NSButton *)sender {
     [JHProgressHUD showWithMessage:@"挖坟中..." parentView:self.view];
     
-    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(NSDictionary *responseObj, NSError *error) {
+    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(NSArray *responseObj, NSError *error) {
         [JHProgressHUD disMiss];
         if (!error) {
             //通知更新匹配名称
@@ -50,7 +50,7 @@
             //通知关闭列表视图控制器
             [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:nil];
             //通知开始播放
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:@{@"danmuArr": responseObj?responseObj:@[]}];
         }
     }];
 }

@@ -50,9 +50,9 @@
     }
     
     
-    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
-        //字典的第一个对象不是NSNumber类型说明没有官方弹幕
-        if (![[responseObj allKeys].firstObject isKindOfClass: [NSNumber class]]) {
+    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(id responseObj, NSError *error){
+        //对象不是NSArray类型说明没有官方弹幕
+        if (![responseObj isKindOfClass:[NSArray class]]) {
             self.contentDic = responseObj;
             self.providerArr = [responseObj allKeys];
             self.shiBanArr = responseObj[self.providerArr.firstObject];
@@ -60,7 +60,7 @@
             error = [NSError errorWithDomain:@"noDanMu" code:200 userInfo:nil];
             complete(error);
         }else{
-            if (!responseObj.count) {
+            if (![responseObj count]) {
                 error = [NSError errorWithDomain:@"noDanMu" code:200 userInfo:nil];
             }
             complete(error);
@@ -123,6 +123,6 @@
     //通知关闭列表视图控制器
     [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:nil];
     //通知开始播放
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:obj];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:@{@"danmuArr":obj?obj:@[]}];
 }
 @end

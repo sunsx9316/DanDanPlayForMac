@@ -9,7 +9,7 @@
 #import "PlayerHoldView.h"
 #import "LocalVideoModel.h"
 @interface PlayerHoldView()
-@property (strong, nonatomic) filePickBlock block;
+@property (copy, nonatomic) filePickBlock block;
 @end
 
 

@@ -36,9 +36,6 @@
 + (NSString *)screenShotPath;
 + (void)setScreenShotPath:(NSString *)screenShotPath;
 
-+ (BOOL)shouldClearCache;
-+ (void)setClearCache:(BOOL)clearCache;
-
 + (NSString *)cachePath;
 + (void)setCachePath:(NSString *)cachePath;
 
