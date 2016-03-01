@@ -26,16 +26,21 @@
 }
 
 - (IBAction)openPreferencePanel:(NSMenuItem *)sender {
-    [self.mainWindowController.contentViewController presentViewControllerAsSheet:kViewControllerWithId(@"PreferenceViewController")];
+    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
+    [vc presentViewControllerAsSheet:kViewControllerWithId(@"PreferenceViewController")];
 }
 
 - (IBAction)openLocaleFile:(NSMenuItem *)sender {
+    NSWindow *window = [NSApplication sharedApplication].keyWindow;
+    
+    if (window != self.mainWindowController.window || [self.mainWindowController.window.contentViewController childViewControllers].count) return;
+    
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseDirectories: YES];
     [openPanel setCanChooseFiles:YES];
     [openPanel setAllowsMultipleSelection: YES];
     
-    [openPanel beginSheetModalForWindow:self.mainWindowController.window completionHandler:^(NSInteger result) {
+    [openPanel beginSheetModalForWindow:window completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             MainViewController *vc = (MainViewController *)[self.mainWindowController contentViewController];
             NSMutableArray *pathArr = [NSMutableArray array];
@@ -49,7 +54,7 @@
 }
 
 - (IBAction)clickBackButton:(NSMenuItem *)sender {
-    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController ;
+    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     [vc dismissController:vc];
 }
 

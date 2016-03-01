@@ -8,11 +8,9 @@
 
 #import "BaseNetManager.h"
 
-static AFHTTPRequestOperationManager* manager = nil;
-static AFHTTPSessionManager* dataManager = nil;
-
 @implementation BaseNetManager
 + (AFHTTPRequestOperationManager *)_sharedAFManager{
+    static AFHTTPRequestOperationManager* manager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         manager = [AFHTTPRequestOperationManager manager];
@@ -22,31 +20,32 @@ static AFHTTPSessionManager* dataManager = nil;
     return manager;
 }
 
-+ (AFHTTPSessionManager *)_sharedAFDataManager{
++ (AFHTTPRequestOperationManager *)_sharedAFDataManager{
+    static AFHTTPRequestOperationManager* dataManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        dataManager = [AFHTTPSessionManager manager];
+        dataManager = [AFHTTPRequestOperationManager manager];
         dataManager.responseSerializer = [AFHTTPResponseSerializer serializer];
     });
     return dataManager;
 }
 
-+ (id)getWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
++ (id)GETWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     return [[self _sharedAFManager] GET:path parameters: parameters success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject)
-    {
-        //NSLog(@"%@", operation.response.URL);
-        complete(responseObject, nil);
-    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        complete(nil, error);
-    }];
+            {
+                //NSLog(@"%@", operation.response.URL);
+                complete(responseObject, nil);
+            } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+                complete(nil, error);
+            }];
 }
 
-+ (id)getDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
-   return [[self _sharedAFDataManager] GET:path parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-       //NSLog(@"%@", task.response.URL);
-       complete(responseObject, nil);
-   } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-       complete(nil, error);
-   }];
++ (id)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
+    return [[self _sharedAFDataManager] GET:path parameters:parameters success:^(AFHTTPRequestOperation * _Nonnull task, id  _Nonnull responseObject) {
+        //NSLog(@"%@", task.response.URL);
+        complete(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation * _Nullable task, NSError * _Nonnull error) {
+        complete(nil, error);
+    }];
 }
 @end

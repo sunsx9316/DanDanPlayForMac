@@ -19,7 +19,24 @@
 }
 
 - (IBAction)clickClearCacheButton:(NSButton *)sender {
-    [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:nil];
+    NSError *err = nil;
+    [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:&err];
+    NSString *errorStr = nil;
+    NSString *inforStr = @"";
+    if (err) {
+        if (err.code == NSFileNoSuchFileError) {
+            errorStr = @"(╬ﾟдﾟ)并没有这个文件夹";
+            inforStr = @"你想怎样";
+        }
+        else errorStr = @"清除失败";
+    }else{
+        errorStr = @"清除成功";
+    }
+    
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = errorStr;
+    alert.informativeText = inforStr;
+    [alert runModal];
 }
 - (IBAction)clickChangeCachePathButton:(NSButton *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];

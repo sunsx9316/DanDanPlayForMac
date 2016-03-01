@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+typedef void(^progressCallBackBlock)(NSURLSessionTask *task, id responseObject, NSError *error);
 
 @interface BaseNetManager : NSObject
 /**
@@ -18,7 +19,7 @@
  *
  *  @return 任务
  */
-+ (id)getWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (id)GETWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 /**
  *  GET封装 直接获取data
  *
@@ -28,5 +29,6 @@
  *
  *  @return 任务
  */
-+ (id)getDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (id)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
+
 @end

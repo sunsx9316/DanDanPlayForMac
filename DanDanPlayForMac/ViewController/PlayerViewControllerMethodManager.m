@@ -95,14 +95,14 @@
             if (result == NSFileHandlingPanelOKButton){
                 //acfun：json解析方式
                 id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
-                NSArray *arr = nil;
+                NSDictionary *dic = nil;
                 if (obj) {
-                    arr = [DanMuDataFormatter arrWithObj:obj source:JHDanMuSourceAcfun];
+                    dic = [DanMuDataFormatter dicWithObj:obj source:JHDanMuSourceAcfun];
                 }else{
                 //bilibili：xml解析方式
-                    arr = [DanMuDataFormatter arrWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:JHDanMuSourceBilibili];
+                    dic = [DanMuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:JHDanMuSourceBilibili];
                 }
-                block(arr);
+                block(dic);
             }
         }];
 }

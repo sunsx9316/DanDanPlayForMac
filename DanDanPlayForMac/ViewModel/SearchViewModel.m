@@ -61,7 +61,13 @@
 
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
     [SearchNetManager getWithParameters:@{@"anime": keyWord} completionHandler:^(SearchModel *responseObj, NSError *error) {
-        self.models = [self classifyModel: responseObj.animes];
+        NSMutableArray *arr = [self classifyModel: responseObj.animes];
+        if (!arr.count) {
+            SearchDataModel *model = [[SearchDataModel alloc] init];
+            model.title = kNoFoundDanmaku;
+            [arr addObject:model];
+        }
+        self.models = arr;
         complete(error);
     }];
 }
@@ -74,7 +80,7 @@
  *
  *  @return 分类好的模型
  */
-- (NSArray *)classifyModel :(NSArray<SearchDataModel*> *)arr{
+- (NSMutableArray *)classifyModel :(NSArray<SearchDataModel*> *)arr{
     //分类
     NSMutableDictionary <NSString *,NSMutableArray *> *tempDic = [NSMutableDictionary dictionary];
     NSDictionary *tempMap = @{@"1":@"TV动画", @"2":@"TV动画特别放送", @"3":@"OVA", @"4":@"剧场版", @"5":@"音乐视频", @"6":@"网络放送", @"7":@"其他", @"10":@"三次元电影", @"20":@"三次元电视剧或国产动画", @"99":@"未知"};

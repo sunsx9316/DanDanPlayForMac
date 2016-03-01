@@ -32,12 +32,13 @@
     }];
     
     [self.animaTitleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.centerX.equalTo(self.coverImg);
+        make.centerX.equalTo(self.coverImg);
         make.top.greaterThanOrEqualTo(self.coverImg.mas_bottom).mas_offset(5);
     }];
 
     [self.detailTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.width.equalTo(self.animaTitleTextField);
+        make.width.equalTo(self.coverImg).mas_offset(60);
+        make.centerX.equalTo(self.coverImg);
         make.top.equalTo(self.animaTitleTextField.mas_bottom).mas_offset(5);
     }];
 }

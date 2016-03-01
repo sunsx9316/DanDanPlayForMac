@@ -25,28 +25,28 @@
     
     switch (value) {
         case 100:
-            self.noneButton.state = 1;
-            self.strokeButton.state = 0;
-            self.shadowButton.state = 0;
-            self.glowButton.state = 0;
+            self.noneButton.state = NSOKButton;
+            self.strokeButton.state = NSCancelButton;
+            self.shadowButton.state = NSCancelButton;
+            self.glowButton.state = NSCancelButton;
             break;
         case 101:
-            self.noneButton.state = 0;
-            self.strokeButton.state = 1;
-            self.shadowButton.state = 0;
-            self.glowButton.state = 0;
+            self.noneButton.state = NSCancelButton;
+            self.strokeButton.state = NSOKButton;
+            self.shadowButton.state = NSCancelButton;
+            self.glowButton.state = NSCancelButton;
             break;
         case 102:
-            self.noneButton.state = 0;
-            self.strokeButton.state = 0;
-            self.shadowButton.state = 1;
-            self.glowButton.state = 0;
+            self.noneButton.state = NSCancelButton;
+            self.strokeButton.state = NSCancelButton;
+            self.shadowButton.state = NSOKButton;
+            self.glowButton.state = NSCancelButton;
             break;
         case 103:
-            self.noneButton.state = 0;
-            self.strokeButton.state = 0;
-            self.shadowButton.state = 0;
-            self.glowButton.state = 1;
+            self.noneButton.state = NSCancelButton;
+            self.strokeButton.state = NSCancelButton;
+            self.shadowButton.state = NSCancelButton;
+            self.glowButton.state = NSOKButton;
             break;
         default:
             break;

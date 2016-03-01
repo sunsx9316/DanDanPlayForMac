@@ -13,15 +13,28 @@
 
 @implementation DanMuNetManager
 + (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    if (!parameters[@"id"]) return nil;
+    if (![UserDefaultManager turnOnFastMatch]) {
+       return [self getThirdPartyDanMuWithParameters:parameters completionHandler:complete];
+    }else{
+        return [self downOfficialDanmakuWithParameters:parameters completionHandler:^(id responseObj, NSError *error) {
+            //如果返回的对象不为空 说明有官方弹幕库 同时开启了快速匹配 直接返回 否则请求第三方弹幕库
+            if ([responseObj count]) {
+                complete(responseObj, error);
+            }else{
+                [self getThirdPartyDanMuWithParameters:parameters completionHandler:complete];
+            }
+        }];
+    }
+}
+
++ (id)downOfficialDanmakuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
+    if (!parameters[@"id"]) {
+        complete(nil, nil);
+        return nil;
+    }
     
-    return [self getWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
-        //如果返回的对象不为空 说明有官方弹幕库 直接返回 否则请求第三方弹幕库
-        if ([responseObj[@"Comments"] count]) {
-            complete([DanMuDataFormatter arrWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:JHDanMuSourceOfficial], error);
-        }else{
-            [self getThirdPartyDanMuWithParameters:parameters completionHandler:complete];
-        }
+    return [self GETWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+        complete([DanMuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:JHDanMuSourceOfficial], error);
     }];
 }
 
@@ -33,13 +46,13 @@
     }
     
     if ([parameters[@"provider"] isEqualToString: @"bilibili"]) {
-        return [self getDataWithPath:[@"http://comment.bilibili.com/" stringByAppendingFormat:@"%@.xml",parameters[@"danmaku"]] parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
-            complete([DanMuDataFormatter arrWithObj:responseObj source:JHDanMuSourceBilibili], error);
+        return [self GETDataWithPath:[@"http://comment.bilibili.com/" stringByAppendingFormat:@"%@.xml",parameters[@"danmaku"]] parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
+            complete([DanMuDataFormatter dicWithObj:responseObj source:JHDanMuSourceBilibili], error);
         }];
     }else if ([parameters[@"provider"] isEqualToString: @"acfun"]){
         //http://danmu.aixifan.com/3037718
-        return [self getWithPath:[@"http://danmu.aixifan.com/" stringByAppendingString: parameters[@"danmaku"]] parameters:nil completionHandler:^(NSArray <NSArray *>*responseObj, NSError *error) {
-            complete([DanMuDataFormatter arrWithObj:responseObj source:JHDanMuSourceAcfun], error);
+        return [self GETWithPath:[@"http://danmu.aixifan.com/" stringByAppendingString: parameters[@"danmaku"]] parameters:nil completionHandler:^(NSArray <NSArray *>*responseObj, NSError *error) {
+            complete([DanMuDataFormatter dicWithObj:responseObj source:JHDanMuSourceAcfun], error);
         }];
     }
     return nil;
@@ -48,7 +61,7 @@
 
 + (id)getBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     //http://biliproxy.chinacloudsites.cn/av/46431/1?list=1
-    return [self getWithPath:[NSString stringWithFormat:@"http://biliproxy.chinacloudsites.cn/av/%@/1?list=1", parameters[@"aid"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+    return [self GETWithPath:[NSString stringWithFormat:@"http://biliproxy.chinacloudsites.cn/av/%@/1?list=1", parameters[@"aid"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
         if ([responseObj isKindOfClass:[NSDictionary class]] && responseObj.count) {
             NSDictionary *dic = responseObj[@"parts"];
             if (!dic) {
@@ -72,7 +85,7 @@
 
 + (id)getAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     //http://www.talkshowcn.com/video/getVideo.aspx?id=435639 黑科技
-    return [self getWithPath:[NSString stringWithFormat:@"http://www.talkshowcn.com/video/getVideo.aspx?id=%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
+    return [self GETWithPath:[NSString stringWithFormat:@"http://www.talkshowcn.com/video/getVideo.aspx?id=%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
         //黑科技只解析单个视频的信息 故把字典封装成数组才可解析
         if (!responseObj) {
             complete(nil, nil);
@@ -94,7 +107,7 @@
  */
 + (id)getThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     //http://acplay.net/api/v1/related/111240001
-    return [self getWithPath:[@"http://acplay.net/api/v1/related/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+    return [self GETWithPath:[@"http://acplay.net/api/v1/related/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
         NSArray <NSDictionary *>*relateds = responseObj[@"Relateds"];
         //装视频详情的字典
         NSMutableDictionary <NSString *, NSMutableArray *> *videoInfoDic = [NSMutableDictionary dictionary];

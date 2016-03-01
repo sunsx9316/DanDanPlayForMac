@@ -17,6 +17,7 @@ typedef NS_ENUM(NSUInteger, JHProgressHUDStyle) {
     JHProgressHUDStyleValue4
 };
 @interface JHProgressHUD : NSView
+#pragma mark - 类方法
 /**
  *  隐藏
  */
@@ -62,4 +63,16 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick;
  *  @param parentView 父视图
  */
 + (void)showWithMessage:(NSString *)message parentView:(NSView *)parentView;
+
+#pragma mark - 实例方法 (与对应类方法功能一样 只是创建一个新的实例)
+
+- (instancetype)initWithMessage:(NSString *)message parentView:(NSView *)parentView;
+- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)
+parentView dismissWhenClick:(BOOL)dismissWhenClick;
+- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick;
+- (void)show;
+- (void)disMiss;
+- (void)updateProgress:(CGFloat)progress;
+- (void)updateMessage:(NSString *)message;
+- (BOOL)isShowing;
 @end

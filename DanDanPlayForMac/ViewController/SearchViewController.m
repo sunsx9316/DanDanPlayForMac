@@ -9,13 +9,13 @@
 #import "SearchViewController.h"
 #import "DanDanSearchViewController.h"
 #import "ThirdPartySearchViewController.h"
+#import "RespondKeyboardSearchField.h"
 #import "BiliBiliSearchViewModel.h"
 #import "AcFunSearchViewModel.h"
 
 @interface SearchViewController ()<NSTabViewDelegate>
 @property (weak) IBOutlet NSTabView *tabView;
-@property (weak) IBOutlet NSSearchField *searchTextField;
-
+@property (weak) IBOutlet RespondKeyboardSearchField *searchTextField;
 @property (strong, nonatomic) NSMutableArray <NSViewController *>*viewController;
 @end
 
@@ -25,15 +25,13 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backButtonDown:) name:@"disMissViewController" object: nil];
-    
-    [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
-    self.searchTextField.stringValue = self.searchText;
-    
-    DanDanSearchViewController *dvc = (DanDanSearchViewController *)[self addViewControllerWithViewController:kViewControllerWithId(@"DanDanSearchViewController") title:@"官方"];
-    [dvc refreshWithKeyWord: self.searchText completion:^(NSError *error) {
-        [JHProgressHUD disMiss];
+    __weak typeof(self)weakSelf = self;
+    [self.searchTextField setWithBlock:^{
+        [weakSelf searchButtonDown:nil];
     }];
-    
+    self.searchTextField.stringValue = self.searchText;
+    DanDanSearchViewController *dvc = (DanDanSearchViewController *)[self addViewControllerWithViewController:kViewControllerWithId(@"DanDanSearchViewController") title:@"官方"];
+    [dvc refreshWithKeyWord: self.searchText completion: nil];
     
     ThirdPartySearchViewController *bvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:JHDanMuSourceBilibili] title:@"bilibili"];
     [bvc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
@@ -58,22 +56,18 @@
     if (!self.searchTextField.stringValue  || [self.searchTextField.stringValue  isEqualToString: @""]) return;
     
     NSInteger index = [self.tabView indexOfTabViewItem:self.tabView.selectedTabViewItem];
+    //刷新官方页
     if (index == 0) {
         DanDanSearchViewController *dvc = (DanDanSearchViewController *)self.viewController[index];
         if (!dvc) return;
         
-        [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
-        [dvc refreshWithKeyWord: self.searchTextField.stringValue completion:^(NSError *error) {
-            [JHProgressHUD disMiss];
-        }];
+        [dvc refreshWithKeyWord: self.searchTextField.stringValue completion: nil];
+    //刷新第三方搜索页
     }else{
         ThirdPartySearchViewController *dvc = (ThirdPartySearchViewController *)self.viewController[index];
         if (!dvc) return;
         
-        [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
-        [dvc refreshWithKeyWord: self.searchTextField.stringValue completion:^(NSError *error) {
-            [JHProgressHUD disMiss];
-        }];
+        [dvc refreshWithKeyWord: self.searchTextField.stringValue completion: nil];
     }
 }
 

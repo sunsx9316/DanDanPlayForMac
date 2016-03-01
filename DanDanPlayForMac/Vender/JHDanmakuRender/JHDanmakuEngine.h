@@ -20,10 +20,11 @@
 @property (assign, nonatomic) NSTimeInterval currentTime;
 //全局文字风格字典 默认不使用 会覆盖个体设置
 @property (strong, nonatomic) NSDictionary *globalAttributedDic;
-//全局字体 默认不使用 会覆盖个体设置
+//全局字体 默认不使用 会覆盖个体设置 方便更改字体大小
 @property (strong, nonatomic) NSFont *globalFont;
 //全局屏蔽弹幕类型 @[方向] 比如@[@(scrollDanmakuDirectionR2L),@(floatDanmakuDirectionT2B)]
 @property (strong, nonatomic) NSMutableSet *globalFilterDanmaku;
+
 //默认1.0
 - (void)setSpeed:(CGFloat)speed;
 - (void)start;
@@ -36,10 +37,16 @@
  */
 - (void)addDanmaku:(ParentDanmaku *)danmaku;
 /**
- *  需要回退功能时使用 必须一次性加载所有的弹幕 弹幕需要设置出现时间
+ *  需要回退功能时使用 必须一次性加载所有的弹幕 弹幕需要设置出现时间 实际上就是设置时间字典
+ *  与addAllDanmakusDic方法作用一样
  *
  *  @param danmakus 弹幕数组
  */
 - (void)addAllDanmakus:(NSArray <ParentDanmaku *>*)danmakus;
-
+/**
+ * 需要回退功能时使用 必须一次性加载所有的弹幕 弹幕需要设置出现时间
+ * 字典按照秒分类 比如@{@(1):@[obj1,obj2...], @(2):@[obj1,obj2...]}
+ *  @param danmakus 弹幕字典
+ */
+- (void)addAllDanmakusDic:(NSDictionary <NSNumber *,NSArray <ParentDanmaku *>*>*)danmakus;
 @end

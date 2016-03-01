@@ -23,4 +23,8 @@ typedef NS_ENUM(NSInteger, JHDanMuSource){
 
 #define kNoMatchError [NSError errorWithDomain:@"nomatchdanmaku" code:200 userInfo: nil]
 
+#define kLoadMessage @"你不能让我加载 我就加载"
+
+#define kNoFoundDanmaku @"・_ゝ・并没有找到弹幕"
+
 #endif /* Config_h */

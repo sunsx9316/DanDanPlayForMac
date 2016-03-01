@@ -9,8 +9,9 @@
 #import "DanMuChooseViewController.h"
 #import "DanMuChooseViewModel.h"
 #import "VideoInfoModel.h"
+#import "DownLoadOtherDanmakuViewController.h"
 
-@interface DanMuChooseViewController ()<NSTableViewDelegate, NSTableViewDataSource>
+@interface DanMuChooseViewController ()
 @property (weak) IBOutlet NSPopUpButton *providerButton;
 @property (weak) IBOutlet NSPopUpButton *shiBanBurron;
 @property (weak) IBOutlet NSPopUpButton *episodeButton;
@@ -22,7 +23,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView: self.view];
+}
+
+- (void)viewDidAppear{
+    [super viewDidAppear];
+    [JHProgressHUD showWithMessage:kLoadMessage parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
         [self reloadData];
@@ -38,8 +43,10 @@
 }
 //点击确认 发送播放通知
 - (IBAction)clickOKButton:(NSButton *)sender {
+    if (!self.episodeButton.itemTitles.count) return;
+    
     [JHProgressHUD showWithMessage:@"挖坟中..." parentView:self.view];
-    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(NSArray *responseObj) {
+    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(id responseObj) {
         [JHProgressHUD disMiss];
         NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem]?[self.shiBanBurron titleOfSelectedItem]:@"";
         NSString *episodeTitle = [self.episodeButton titleOfSelectedItem]?[self.episodeButton titleOfSelectedItem]:@"";
@@ -48,13 +55,22 @@
         //通知关闭列表视图控制器
         [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:nil];
         //通知开始播放
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:@{@"danmuArr":responseObj?responseObj:@[]}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
     }];
 }
 
 - (IBAction)clickBackButton:(NSButton *)sender {
     [self dismissController: self];
 }
+
+- (IBAction)clickDownOtherDanmakuButton:(NSButton *)sender {
+    NSArray *arr = self.vm.episodeTitleArr;
+    if (arr.count) {
+        [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:arr danMuSource:[self.providerButton titleOfSelectedItem]]];
+    }
+}
+
+
 
 - (IBAction)selectEpisode:(NSPopUpButton *)sender {
     [sender setTitle: [sender titleOfSelectedItem]];

@@ -13,9 +13,9 @@
 #import "FloatDanmaku.h"
 @interface JHDanmakuEngine()
 @property (strong, nonatomic) JHDanmakuClock *clock;
-@property (strong, nonatomic) NSCache <NSNumber *, NSMutableArray <ParentDanmaku *>*>*danmakusCache;
 @property (strong, nonatomic) NSMutableArray <DanmakuContainer *>*inactiveContainer;
 @property (strong, nonatomic) NSMutableArray <DanmakuContainer *>*activeContainer;
+@property (strong, nonatomic) NSDictionary *danmakusCache;
 @end
 
 @implementation JHDanmakuEngine
@@ -69,14 +69,19 @@
 }
 
 - (void)addAllDanmakus:(NSArray <ParentDanmaku *>*)danmakus{
-    [self.danmakusCache removeAllObjects];
+    NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *>*>*dic = [NSMutableDictionary dictionary];
     for (ParentDanmaku *danmaku in danmakus) {
         NSInteger time = danmaku.appearTime;
-        if (![self.danmakusCache objectForKey:@(time)]) {
-            [self.danmakusCache setObject:[NSMutableArray array] forKey:@(time)];
+        if (![dic objectForKey:@(time)]) {
+            [dic setObject:[NSMutableArray array] forKey:@(time)];
         }
-        [[self.danmakusCache objectForKey:@(time)] addObject:danmaku];
+        [[dic objectForKey:@(time)] addObject:danmaku];
     }
+    self.danmakusCache = dic;
+}
+
+- (void)addAllDanmakusDic:(NSDictionary <NSNumber *,NSArray <ParentDanmaku *>*>*)danmakus{
+    self.danmakusCache = danmakus;
 }
 
 - (void)setCurrentTime:(NSTimeInterval)currentTime{
@@ -90,8 +95,8 @@
             [obj removeFromSuperview];
         }];
         [self.activeContainer removeAllObjects];
-        //预加载前3秒的弹幕
-        for (NSInteger i = 1; i <= 3; ++i) {
+        //预加载前5秒的弹幕
+        for (NSInteger i = 1; i <= 5; ++i) {
             NSInteger time = currentTime - i;
             NSArray *danmakus = [self.danmakusCache objectForKey:@(time)];
             for (ParentDanmaku *danmaku in danmakus) {
@@ -115,7 +120,8 @@
 - (void)setGlobalAttributedDic:(NSDictionary *)globalAttributedDic{
     if (![_globalAttributedDic isEqualTo:globalAttributedDic]) {
         _globalAttributedDic = globalAttributedDic;
-        [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSArray *activeContainer = self.activeContainer;
+        [activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             obj.globalAttributedDic = globalAttributedDic;
         }];
     }
@@ -124,7 +130,8 @@
 - (void)setGlobalFont:(NSFont *)globalFont{
     if (![_globalFont isEqualTo: globalFont]){
         _globalFont = globalFont;
-        [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSArray *activeContainer = self.activeContainer;
+        [activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             obj.globalFont = globalFont;
         }];
     }
@@ -176,9 +183,9 @@
     return _activeContainer;
 }
 
-- (NSCache <NSNumber *, NSMutableArray <ParentDanmaku *>*> *)danmakusCache {
+- (NSDictionary *)danmakusCache {
     if(_danmakusCache == nil) {
-        _danmakusCache = [[NSCache <NSNumber *, NSMutableArray <ParentDanmaku *>*> alloc] init];
+        _danmakusCache = [[NSDictionary alloc] init];
     }
     return _danmakusCache;
 }

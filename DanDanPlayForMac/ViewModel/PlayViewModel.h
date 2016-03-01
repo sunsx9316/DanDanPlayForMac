@@ -13,9 +13,13 @@
 @class DanMuDataModel, LocalVideoModel, VLCMedia;
 @interface PlayViewModel : BaseViewModel
 /**
- *  保存弹幕模型
+ *  保存弹幕模型的数组
  */
-@property (strong, nonatomic) NSArray *arr;
+@property (strong, nonatomic) NSArray *danmakusArr;
+/**
+ *  保存弹幕模型的字典
+ */
+@property (strong, nonatomic) NSDictionary *danmakusDic;
 
 /**
  *  当前视频下标
@@ -76,5 +80,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuArr:(NSArray *)arr;
+- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic;
 @end

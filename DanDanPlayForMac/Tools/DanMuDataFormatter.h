@@ -8,7 +8,7 @@
 //
 
 
-
+@class ParentDanmaku;
 @interface DanMuDataFormatter : NSObject
 /**
  *  把对象转成时间字典

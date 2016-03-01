@@ -47,12 +47,13 @@
     if (cache) {
         complete(nil);
         [self postNotificationWithDanMuObj:cache];
+        return;
     }
     
     
-    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(id responseObj, NSError *error){
-        //对象不是NSArray类型说明没有官方弹幕
-        if (![responseObj isKindOfClass:[NSArray class]]) {
+    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
+        //对象第一个key不是NSNumber类型说明没有官方弹幕
+        if (![[responseObj allKeys].firstObject isKindOfClass:[NSNumber class]]) {
             self.contentDic = responseObj;
             self.providerArr = [responseObj allKeys];
             self.shiBanArr = responseObj[self.providerArr.firstObject];
@@ -115,14 +116,15 @@
     if (![fileManager fileExistsAtPath:cachePath]) {
         [fileManager createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    
-    [NSKeyedArchiver archiveRootObject:responseObj toFile:[cachePath stringByAppendingPathComponent:danmakuID]];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [NSKeyedArchiver archiveRootObject:responseObj toFile:[cachePath stringByAppendingPathComponent:danmakuID]];
+    });
 }
 
 - (void)postNotificationWithDanMuObj:(id)obj{
     //通知关闭列表视图控制器
     [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:nil];
     //通知开始播放
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:@{@"danmuArr":obj?obj:@[]}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo: obj];
 }
 @end

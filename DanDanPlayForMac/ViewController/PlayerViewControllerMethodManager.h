@@ -6,7 +6,7 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-typedef void(^loadLocalDanMuBlock)(NSArray *dic);
+typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
 @class VLCMediaPlayer, PlayerHUDControl;
 @interface PlayerViewControllerMethodManager : NSObject
 /**

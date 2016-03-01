@@ -12,7 +12,7 @@
 @implementation MatchNetManager
 + (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(MatchModel* responseObj, NSError *error))complete{
     if (!parameters) return nil;
-    return [self getWithPath:@"http://acplay.net/api/v1/match" parameters:parameters completionHandler:^(id responseObj, NSError *error) {
+    return [self GETWithPath:@"http://acplay.net/api/v1/match" parameters:parameters completionHandler:^(id responseObj, NSError *error) {
         complete([MatchModel yy_modelWithDictionary: responseObj], error);
     }];
 }

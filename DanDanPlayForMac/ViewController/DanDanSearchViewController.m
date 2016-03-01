@@ -15,6 +15,7 @@
 @interface DanDanSearchViewController ()<NSOutlineViewDelegate, NSOutlineViewDataSource>
 @property (weak) IBOutlet NSOutlineView *outlineView;
 @property (strong, nonatomic) SearchViewModel *vm;
+@property (strong, nonatomic) JHProgressHUD *hud;
 @end
 
 @implementation DanDanSearchViewController
@@ -26,9 +27,20 @@
 }
 
 - (void)refreshWithKeyWord:(NSString *)keyWord completion:(void(^)(NSError *error))completionHandler{
+    //展示状态直接返回
+    if (self.hud.isShowing) return;
+    
+    [self.hud show];
     [self.vm refreshWithKeyWord:keyWord completionHandler:^(NSError *error) {
+        if (error) {
+            NSAlert *alert = [[NSAlert alloc] init];
+            alert.messageText = @"连接出错";
+            [alert runModal];
+        }
+        
+        [self.hud disMiss];
         [self.outlineView reloadData];
-        completionHandler(error);
+        if (completionHandler) completionHandler(error);
     }];
 }
 
@@ -37,7 +49,6 @@
     if ([aModel isKindOfClass: [EpisodesModel class]]) {
         NSString *videoID = [aModel ID];
         if (videoID) {
-            
             DanMuChooseViewController *vc = [[DanMuChooseViewController alloc] initWithVideoID: videoID];
             [self presentViewControllerAsSheet: vc];
         }
@@ -69,6 +80,14 @@
 		_vm = [[SearchViewModel alloc] init];
 	}
 	return _vm;
+}
+
+
+- (JHProgressHUD *)hud {
+    if(_hud == nil) {
+        _hud = [[JHProgressHUD alloc] initWithMessage:kLoadMessage style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+    }
+    return _hud;
 }
 
 @end

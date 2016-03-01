@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewModel.h"
+@class VideoInfoDataModel;
 /**
  *  该类用于继承
  */
@@ -89,6 +90,12 @@
  *  @return 图标
  */
 - (NSImage *)imageForRow:(NSInteger)row;
+/**
+ *  获取视频分集信息
+ *
+ *  @return 数组
+ */
+- (NSArray <VideoInfoDataModel *>*)videoInfoDataModels;
 /**
  *  根据关键词刷新 左视图
  *

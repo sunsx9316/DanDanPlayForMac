@@ -41,7 +41,7 @@
             default:
                 break;
         }
-        _attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:dic];
+        self.attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:dic];
     }
     return self;
 }

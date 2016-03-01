@@ -11,6 +11,7 @@
 #import "SearchModel.h"
 #import "ShiBanModel.h"
 #import "DanMuNetManager.h"
+#import "VideoInfoModel.h"
 
 @implementation BiliBiliSearchViewModel
 {
@@ -67,7 +68,16 @@
     return _shiBanDetail;
 }
 
-
+- (NSArray <VideoInfoDataModel *>*)videoInfoDataModels{
+    NSMutableArray *arr = [NSMutableArray array];
+    [_infoArr enumerateObjectsUsingBlock:^(BiliBiliShiBanDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        VideoInfoDataModel *model = [[VideoInfoDataModel alloc] init];
+        model.title = [self episodeTitleForRow: idx];
+        model.danmaku = obj.danmaku;
+        [arr addObject: model];
+    }];
+    return arr;
+}
 
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
     if (!keyWord) {
@@ -76,13 +86,21 @@
     }
     
     [SearchNetManager searchBiliBiliWithParameters:@{@"keyword": keyWord} completionHandler:^(BiliBiliSearchModel *responseObj, NSError *error) {
+        
         //移除掉不是番剧 但是seasonID又不为空的对象
         NSMutableArray *tempArr = [responseObj.result mutableCopy];
-        [responseObj.result enumerateObjectsUsingBlock:^(BiliBiliSearchDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (!obj.isBangumi && obj.seasonID){
-                [tempArr removeObject: obj];
-            }
-        }];
+        if (!tempArr.count) {
+            BiliBiliSearchDataModel *dataModel = [[BiliBiliSearchDataModel alloc] init];
+            dataModel.title = kNoFoundDanmaku;
+            tempArr = [@[dataModel] mutableCopy];
+        }else{
+            [responseObj.result enumerateObjectsUsingBlock:^(BiliBiliSearchDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (!obj.isBangumi && obj.seasonID){
+                    [tempArr removeObject: obj];
+                }
+            }];
+        }
+        
         
         _shiBanViewArr = tempArr;
         _infoArr = nil;

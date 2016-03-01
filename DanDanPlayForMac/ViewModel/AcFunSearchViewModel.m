@@ -11,6 +11,7 @@
 #import "SearchNetManager.h"
 #import "SearchModel.h"
 #import "ShiBanModel.h"
+#import "VideoInfoModel.h"
 
 @implementation AcFunSearchViewModel
 {
@@ -59,6 +60,17 @@
     return (row < _listArr.count)?[_listArr[row] contentId]:nil;
 }
 
+- (NSArray <VideoInfoDataModel *>*)videoInfoDataModels{
+    NSMutableArray *arr = [NSMutableArray array];
+    [_infoArr enumerateObjectsUsingBlock:^(AcFunShiBanDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        VideoInfoDataModel *model = [[VideoInfoDataModel alloc] init];
+        model.title = [self episodeTitleForRow: idx];
+        model.danmaku = obj.danmakuId;
+        [arr addObject: model];
+    }];
+    return arr;
+}
+
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
     if (!keyWord) {
         complete(nil);
@@ -66,6 +78,7 @@
     }
     
     [SearchNetManager searchAcFunWithParameters:@{@"keyword": keyWord} completionHandler:^(AcFunSearchModel *responseObj, NSError *error) {
+        
         //把剧集bangumi属性改为yes
         for (AcFunSearchSpecialModel *model in responseObj.special) {
             model.bangumi = YES;
@@ -78,6 +91,14 @@
         if (responseObj.list) {
             [arr addObjectsFromArray:responseObj.list];
         }
+        
+        //没有找到
+        if (!arr.count) {
+            AcFunSearchListModel *listModel = [[AcFunSearchListModel alloc] init];
+            listModel.title = kNoFoundDanmaku;
+            [arr addObject:listModel];
+        }
+        
         _listArr = arr;
         _infoArr = nil;
         _coverURL = nil;

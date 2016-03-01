@@ -7,7 +7,7 @@
 //
 
 typedef NS_ENUM(NSUInteger, preferenceTableViewStyle) {
-    preferenceTableViewStyleDanMuSurface,
+    preferenceTableViewStyleDanMu,
     preferenceTableViewStylePlayer,
     preferenceTableViewStyleFilter,
     preferenceTableViewStyleKeyboard,

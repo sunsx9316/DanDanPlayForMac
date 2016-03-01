@@ -9,11 +9,13 @@
             <connections>
                 <outlet property="danMuControlView" destination="3A9-ng-j0D" id="F1Y-ve-W3i"/>
                 <outlet property="playButton" destination="R7Q-A2-PU1" id="qvH-J2-99H"/>
+                <outlet property="playDanmakuControlButton" destination="IYN-tC-3fl" id="hhl-T8-SUT"/>
                 <outlet property="playHUDButton" destination="cEG-Nr-myi" id="JT2-WG-Q4W"/>
                 <outlet property="playListView" destination="zmn-rV-nRF" id="a76-fg-P4g"/>
                 <outlet property="playerControl" destination="3Gh-7C-1J9" id="J63-3H-xvA"/>
                 <outlet property="playerHUDControl" destination="3mV-jI-qRe" id="kCo-Sf-k2M"/>
                 <outlet property="playerHUDCurrentTimeLabel" destination="h0P-i3-94I" id="YhU-Cs-nJI"/>
+                <outlet property="playerHUDDanmakuControlButton" destination="N0G-hd-nSE" id="PYO-4r-gGp"/>
                 <outlet property="playerHUDProgressSliderView" destination="wPt-b7-nao" id="7wU-8H-Rim"/>
                 <outlet property="playerHUDVideoTimeLabel" destination="i0y-kC-hgN" id="aeL-eb-y81"/>
                 <outlet property="playerHoldView" destination="egJ-NC-vhy" id="kXp-6Y-vHA"/>
@@ -61,13 +63,13 @@
                             </connections>
                         </button>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="e6L-oi-94n" customClass="PlayerSlideView">
-                            <rect key="frame" x="200" y="13" width="218" height="15"/>
+                            <rect key="frame" x="200" y="13" width="178" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15" id="Ds7-Nf-XPo"/>
                             </constraints>
                         </customView>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jgh-U8-MyM">
-                            <rect key="frame" x="426" y="12" width="86" height="17"/>
+                            <rect key="frame" x="386" y="12" width="86" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="00:00 / 00:00" id="M9M-zv-EzW">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -75,7 +77,7 @@
                             </textFieldCell>
                         </textField>
                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZHX-gz-L6l">
-                            <rect key="frame" x="540" y="12" width="90" height="15"/>
+                            <rect key="frame" x="500" y="12" width="90" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="90" id="Da8-nB-RtH"/>
                             </constraints>
@@ -85,12 +87,12 @@
                             </connections>
                         </slider>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I2Z-7l-Vdm">
-                            <rect key="frame" x="520" y="15" width="10" height="10"/>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="volumeDown" id="bhe-2u-Uwn"/>
+                            <rect key="frame" x="480" y="15" width="10" height="10"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="volume_down" id="bhe-2u-Uwn"/>
                         </imageView>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EYS-FS-07N">
-                            <rect key="frame" x="640" y="15" width="10" height="10"/>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="volumeUp" id="QhW-DF-Qhi"/>
+                            <rect key="frame" x="600" y="15" width="10" height="10"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="volume_up" id="QhW-DF-Qhi"/>
                         </imageView>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z30-vn-x5d">
                             <rect key="frame" x="660" y="7" width="30" height="25"/>
@@ -127,12 +129,22 @@
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yEE-Q0-yK1">
                             <rect key="frame" x="165" y="7" width="30" height="25"/>
-                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="playerList" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" inset="2" id="PbY-1o-eat">
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="player_list" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" inset="2" id="PbY-1o-eat">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <connections>
                                 <action selector="clickPlayListViewButton:" target="-2" id="ZQr-hh-TU2"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IYN-tC-3fl">
+                            <rect key="frame" x="620" y="7" width="30" height="25"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="danmaku_control" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" id="jS2-Vh-r8O">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="clickDanmakuControlButton:" target="-2" id="EEM-Ym-01K"/>
                             </connections>
                         </button>
                     </subviews>
@@ -144,26 +156,29 @@
                         <constraint firstItem="Z30-vn-x5d" firstAttribute="centerY" secondItem="IS7-ld-r4s" secondAttribute="centerY" id="6SL-zH-2D2"/>
                         <constraint firstAttribute="height" constant="40" id="8lS-MK-jEq"/>
                         <constraint firstItem="IS7-ld-r4s" firstAttribute="leading" secondItem="3Gh-7C-1J9" secondAttribute="leading" constant="5" id="A1S-Gb-UHA"/>
+                        <constraint firstItem="IYN-tC-3fl" firstAttribute="leading" secondItem="EYS-FS-07N" secondAttribute="trailing" constant="10" id="Ble-O7-AFj"/>
                         <constraint firstItem="I2Z-7l-Vdm" firstAttribute="centerY" secondItem="IS7-ld-r4s" secondAttribute="centerY" id="CpJ-O7-rG5"/>
-                        <constraint firstItem="Z30-vn-x5d" firstAttribute="leading" secondItem="EYS-FS-07N" secondAttribute="trailing" constant="10" id="E7y-BP-FV3"/>
                         <constraint firstItem="IS7-ld-r4s" firstAttribute="centerY" secondItem="3Gh-7C-1J9" secondAttribute="centerY" id="ITy-qx-xeX"/>
                         <constraint firstItem="yEE-Q0-yK1" firstAttribute="centerY" secondItem="KQL-6M-FxQ" secondAttribute="centerY" id="LI1-y2-Th2"/>
+                        <constraint firstItem="Z30-vn-x5d" firstAttribute="centerY" secondItem="IYN-tC-3fl" secondAttribute="centerY" id="McM-El-qju"/>
                         <constraint firstItem="ZHX-gz-L6l" firstAttribute="centerY" secondItem="IS7-ld-r4s" secondAttribute="centerY" id="ND7-qq-Kna"/>
                         <constraint firstItem="e6L-oi-94n" firstAttribute="leading" secondItem="yEE-Q0-yK1" secondAttribute="trailing" constant="5" id="NXS-hq-5Tz"/>
                         <constraint firstItem="R7Q-A2-PU1" firstAttribute="leading" secondItem="IS7-ld-r4s" secondAttribute="trailing" constant="5" id="NYz-gE-n7a"/>
+                        <constraint firstItem="Z30-vn-x5d" firstAttribute="height" secondItem="IYN-tC-3fl" secondAttribute="height" id="Nmf-iq-czc"/>
                         <constraint firstItem="jgh-U8-MyM" firstAttribute="centerY" secondItem="IS7-ld-r4s" secondAttribute="centerY" id="PEs-xa-6Bi"/>
                         <constraint firstItem="GfI-mZ-UTi" firstAttribute="leading" secondItem="R7Q-A2-PU1" secondAttribute="trailing" constant="5" id="Rvf-s7-OZh"/>
                         <constraint firstItem="GfI-mZ-UTi" firstAttribute="width" secondItem="IS7-ld-r4s" secondAttribute="width" id="SQy-zD-YLu"/>
-                        <constraint firstItem="Z30-vn-x5d" firstAttribute="leading" secondItem="EYS-FS-07N" secondAttribute="trailing" constant="10" id="crp-4j-XaM"/>
                         <constraint firstItem="KQL-6M-FxQ" firstAttribute="leading" secondItem="GfI-mZ-UTi" secondAttribute="trailing" constant="5" id="dQ0-j1-9Ru"/>
                         <constraint firstItem="e6L-oi-94n" firstAttribute="centerY" secondItem="IS7-ld-r4s" secondAttribute="centerY" id="eEg-6R-q5v"/>
                         <constraint firstItem="ZHX-gz-L6l" firstAttribute="leading" secondItem="I2Z-7l-Vdm" secondAttribute="trailing" constant="10" id="eM5-oa-ebR"/>
                         <constraint firstItem="GfI-mZ-UTi" firstAttribute="centerY" secondItem="IS7-ld-r4s" secondAttribute="centerY" id="f0b-Go-MTe"/>
                         <constraint firstItem="yEE-Q0-yK1" firstAttribute="leading" secondItem="KQL-6M-FxQ" secondAttribute="trailing" constant="5" id="fb9-3t-3kd"/>
+                        <constraint firstItem="Z30-vn-x5d" firstAttribute="leading" secondItem="IYN-tC-3fl" secondAttribute="trailing" constant="10" id="hM7-sh-rUG"/>
                         <constraint firstItem="KQL-6M-FxQ" firstAttribute="width" secondItem="IS7-ld-r4s" secondAttribute="width" id="hsn-TA-VVT"/>
                         <constraint firstItem="R7Q-A2-PU1" firstAttribute="centerY" secondItem="IS7-ld-r4s" secondAttribute="centerY" id="i7I-yS-kJh"/>
                         <constraint firstItem="EYS-FS-07N" firstAttribute="leading" secondItem="ZHX-gz-L6l" secondAttribute="trailing" constant="10" id="nFe-AJ-QTe"/>
                         <constraint firstItem="EYS-FS-07N" firstAttribute="centerY" secondItem="IS7-ld-r4s" secondAttribute="centerY" id="ogB-ce-Of8"/>
+                        <constraint firstItem="Z30-vn-x5d" firstAttribute="width" secondItem="IYN-tC-3fl" secondAttribute="width" id="rxK-uf-wsV"/>
                         <constraint firstAttribute="trailing" secondItem="Z30-vn-x5d" secondAttribute="trailing" constant="10" id="sWp-RN-lXN"/>
                         <constraint firstItem="Z30-vn-x5d" firstAttribute="width" secondItem="IS7-ld-r4s" secondAttribute="width" id="vvt-uR-qVR"/>
                         <constraint firstItem="I2Z-7l-Vdm" firstAttribute="leading" secondItem="jgh-U8-MyM" secondAttribute="trailing" constant="10" id="wfl-1o-JQ0"/>
@@ -190,7 +205,7 @@
             <subviews>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EJE-2z-pjV">
                     <rect key="frame" x="0.0" y="0.0" width="500" height="100"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="HUDPanel" id="IHM-jU-eAV"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="HUD_panel" id="IHM-jU-eAV"/>
                 </imageView>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gVt-t3-sHf">
                     <rect key="frame" x="10" y="14" width="85" height="15"/>
@@ -204,7 +219,7 @@
                 </slider>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WbF-c4-hvu">
                     <rect key="frame" x="293" y="12" width="39" height="20"/>
-                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="fastForwardhud" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="pOx-u0-bmW">
+                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="HUD_fast_forward" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="pOx-u0-bmW">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -214,7 +229,7 @@
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fBz-sf-los">
                     <rect key="frame" x="342" y="12" width="39" height="20"/>
-                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="nexthud" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" inset="2" id="64I-kB-aMe">
+                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="HUD_next" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" inset="2" id="64I-kB-aMe">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -224,7 +239,7 @@
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HRK-Ca-JIw">
                     <rect key="frame" x="169" y="12" width="39" height="20"/>
-                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="rewindBackhud" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="rUy-ER-Xhh">
+                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="HUD_rewind_down" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="rUy-ER-Xhh">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -238,7 +253,7 @@
                         <constraint firstAttribute="height" constant="20" id="YCM-Jv-RDv"/>
                         <constraint firstAttribute="width" constant="39" id="nAa-g8-v5n"/>
                     </constraints>
-                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="prehud" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="4QH-tp-Y0w">
+                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="HUD_pre" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="4QH-tp-Y0w">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -252,7 +267,7 @@
                         <constraint firstAttribute="width" constant="30" id="BlA-2H-3aL"/>
                         <constraint firstAttribute="height" constant="30" id="wmi-TS-ivi"/>
                     </constraints>
-                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="scalehud" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" inset="2" id="Nw2-nr-mdL">
+                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="HUD_scale" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" inset="2" id="Nw2-nr-mdL">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -297,12 +312,22 @@
                         <constraint firstAttribute="width" constant="65" id="dZo-Dq-cPS"/>
                         <constraint firstAttribute="height" constant="35" id="ecL-Zu-0Ll"/>
                     </constraints>
-                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="playhud" imagePosition="overlaps" alignment="center" alternateImage="pausehud" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="oVV-2h-jK6">
+                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="HUD_play" imagePosition="overlaps" alignment="center" alternateImage="HUD_pause" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="oVV-2h-jK6">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
                         <action selector="clickPlayButton:" target="-2" id="z8s-KY-FeA"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N0G-hd-nSE">
+                    <rect key="frame" x="420" y="7" width="30" height="30"/>
+                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="HUD_danmaku_control" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" inset="2" id="77L-mK-22r">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clickDanmakuControlButton:" target="-2" id="l7D-xK-Adj"/>
                     </connections>
                 </button>
             </subviews>
@@ -316,15 +341,18 @@
                 <constraint firstAttribute="bottom" secondItem="EJE-2z-pjV" secondAttribute="bottom" id="FMI-Vq-zet"/>
                 <constraint firstAttribute="trailing" secondItem="EJE-2z-pjV" secondAttribute="trailing" id="Gko-jo-1Yc"/>
                 <constraint firstItem="HRK-Ca-JIw" firstAttribute="height" secondItem="OvQ-1g-1I0" secondAttribute="height" id="Icw-1g-suK"/>
+                <constraint firstItem="xL7-fU-40s" firstAttribute="leading" secondItem="N0G-hd-nSE" secondAttribute="trailing" constant="10" id="McY-K6-qhe"/>
                 <constraint firstItem="EJE-2z-pjV" firstAttribute="top" secondItem="3mV-jI-qRe" secondAttribute="top" id="NQ1-Zh-jkO"/>
                 <constraint firstItem="fG2-R5-S9K" firstAttribute="centerX" secondItem="wPt-b7-nao" secondAttribute="centerX" id="OSF-wt-Nf7"/>
                 <constraint firstItem="i0y-kC-hgN" firstAttribute="centerY" secondItem="h0P-i3-94I" secondAttribute="centerY" id="PvX-LD-bBw"/>
+                <constraint firstItem="xL7-fU-40s" firstAttribute="bottom" secondItem="N0G-hd-nSE" secondAttribute="bottom" id="Sz1-Pa-Osx"/>
                 <constraint firstAttribute="bottom" secondItem="gVt-t3-sHf" secondAttribute="bottom" constant="15" id="V5M-Bp-vMi"/>
                 <constraint firstItem="cEG-Nr-myi" firstAttribute="centerX" secondItem="3mV-jI-qRe" secondAttribute="centerX" id="Vf8-Nx-WMd"/>
                 <constraint firstItem="cEG-Nr-myi" firstAttribute="leading" secondItem="HRK-Ca-JIw" secondAttribute="trailing" constant="10" id="WZS-GZ-sm3"/>
                 <constraint firstItem="i0y-kC-hgN" firstAttribute="trailing" secondItem="wPt-b7-nao" secondAttribute="trailing" id="Woa-9R-dhb"/>
                 <constraint firstItem="cEG-Nr-myi" firstAttribute="centerY" secondItem="gVt-t3-sHf" secondAttribute="centerY" id="XTF-F0-PVs"/>
                 <constraint firstItem="gVt-t3-sHf" firstAttribute="leading" secondItem="3mV-jI-qRe" secondAttribute="leading" constant="10" id="YO1-Bz-ffE"/>
+                <constraint firstItem="xL7-fU-40s" firstAttribute="width" secondItem="N0G-hd-nSE" secondAttribute="width" id="cZ3-Hr-dBt"/>
                 <constraint firstItem="fBz-sf-los" firstAttribute="centerY" secondItem="gVt-t3-sHf" secondAttribute="centerY" id="dFh-0h-JIX"/>
                 <constraint firstItem="fBz-sf-los" firstAttribute="leading" secondItem="WbF-c4-hvu" secondAttribute="trailing" constant="10" id="dhT-zb-mxN"/>
                 <constraint firstItem="HRK-Ca-JIw" firstAttribute="width" secondItem="OvQ-1g-1I0" secondAttribute="width" id="ess-1D-ZBa"/>
@@ -333,6 +361,7 @@
                 <constraint firstItem="WbF-c4-hvu" firstAttribute="leading" secondItem="cEG-Nr-myi" secondAttribute="trailing" constant="10" id="gdZ-hp-sfa"/>
                 <constraint firstAttribute="trailing" secondItem="xL7-fU-40s" secondAttribute="trailing" constant="10" id="gu6-SM-sGn"/>
                 <constraint firstItem="WbF-c4-hvu" firstAttribute="width" secondItem="OvQ-1g-1I0" secondAttribute="width" id="h3h-th-kqH"/>
+                <constraint firstItem="xL7-fU-40s" firstAttribute="height" secondItem="N0G-hd-nSE" secondAttribute="height" id="lED-5c-vyi"/>
                 <constraint firstItem="fG2-R5-S9K" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="h0P-i3-94I" secondAttribute="trailing" constant="10" id="nxo-Wl-4cT"/>
                 <constraint firstItem="h0P-i3-94I" firstAttribute="leading" secondItem="3mV-jI-qRe" secondAttribute="leading" constant="10" id="sy5-ze-hmM"/>
                 <constraint firstItem="wPt-b7-nao" firstAttribute="leading" secondItem="3mV-jI-qRe" secondAttribute="leading" constant="10" id="tQt-fu-gD8"/>
@@ -442,11 +471,11 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ej2-TY-lHe">
-                                                <rect key="frame" x="3" y="1" width="16" height="16"/>
+                                                <rect key="frame" x="2" y="1" width="16" height="16"/>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusAvailable" id="7UE-nr-W1e"/>
                                             </imageView>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ErN-Gq-QqI">
-                                                <rect key="frame" x="22" y="0.0" width="215" height="17"/>
+                                                <rect key="frame" x="21" y="0.0" width="216" height="17"/>
                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="fiJ-er-7bB">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -455,12 +484,12 @@
                                             </textField>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="ErN-Gq-QqI" firstAttribute="top" secondItem="Pua-hw-2iG" secondAttribute="top" id="B24-xK-arV"/>
-                                            <constraint firstItem="ErN-Gq-QqI" firstAttribute="centerY" secondItem="ej2-TY-lHe" secondAttribute="centerY" id="JfK-IK-g0w"/>
-                                            <constraint firstItem="ej2-TY-lHe" firstAttribute="leading" secondItem="Pua-hw-2iG" secondAttribute="leading" constant="3" id="NfI-QP-TIJ"/>
-                                            <constraint firstAttribute="bottom" secondItem="ErN-Gq-QqI" secondAttribute="bottom" id="RPg-vH-DZS"/>
-                                            <constraint firstAttribute="trailing" secondItem="ErN-Gq-QqI" secondAttribute="trailing" constant="2" id="bKN-HI-Xhm"/>
-                                            <constraint firstItem="ErN-Gq-QqI" firstAttribute="leading" secondItem="ej2-TY-lHe" secondAttribute="trailing" constant="5" id="uAJ-QK-E9u"/>
+                                            <constraint firstItem="ErN-Gq-QqI" firstAttribute="centerY" secondItem="ej2-TY-lHe" secondAttribute="centerY" id="NTl-dl-cdO"/>
+                                            <constraint firstAttribute="trailing" secondItem="ErN-Gq-QqI" secondAttribute="trailing" constant="2" id="TU2-sN-sTE"/>
+                                            <constraint firstAttribute="bottom" secondItem="ErN-Gq-QqI" secondAttribute="bottom" id="Yy1-PJ-Zv2"/>
+                                            <constraint firstItem="ErN-Gq-QqI" firstAttribute="leading" secondItem="ej2-TY-lHe" secondAttribute="trailing" constant="5" id="gdm-fL-wyl"/>
+                                            <constraint firstItem="ErN-Gq-QqI" firstAttribute="top" secondItem="Pua-hw-2iG" secondAttribute="top" id="wet-3M-H4u"/>
+                                            <constraint firstItem="ej2-TY-lHe" firstAttribute="leading" secondItem="Pua-hw-2iG" secondAttribute="leading" constant="2" id="yqd-MR-OoH"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="ej2-TY-lHe" id="gEG-zH-jMX"/>
@@ -491,23 +520,25 @@
         </scrollView>
     </objects>
     <resources>
-        <image name="HUDPanel" width="500" height="100"/>
+        <image name="HUD_danmaku_control" width="20" height="20"/>
+        <image name="HUD_fast_forward" width="20" height="20"/>
+        <image name="HUD_next" width="20" height="20"/>
+        <image name="HUD_panel" width="500" height="100"/>
+        <image name="HUD_pause" width="20" height="20"/>
+        <image name="HUD_play" width="20" height="20"/>
+        <image name="HUD_pre" width="20" height="20"/>
+        <image name="HUD_rewind_down" width="20" height="20"/>
+        <image name="HUD_scale" width="20" height="20"/>
         <image name="NSStatusAvailable" width="16" height="16"/>
-        <image name="fastForwardhud" width="20" height="20"/>
+        <image name="danmaku_control" width="10" height="10"/>
         <image name="next" width="10" height="10"/>
-        <image name="nexthud" width="20" height="20"/>
         <image name="pause" width="20" height="20"/>
-        <image name="pausehud" width="20" height="20"/>
         <image name="play" width="20" height="20"/>
-        <image name="playerList" width="10" height="10"/>
-        <image name="playhud" width="20" height="20"/>
+        <image name="player_list" width="10" height="10"/>
         <image name="pre" width="10" height="10"/>
-        <image name="prehud" width="20" height="20"/>
-        <image name="rewindBackhud" width="20" height="20"/>
         <image name="scale" width="10" height="10"/>
-        <image name="scalehud" width="20" height="20"/>
         <image name="stop" width="10" height="10"/>
-        <image name="volumeDown" width="10" height="10"/>
-        <image name="volumeUp" width="10" height="10"/>
+        <image name="volume_down" width="10" height="10"/>
+        <image name="volume_up" width="10" height="10"/>
     </resources>
 </document>

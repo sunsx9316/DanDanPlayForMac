@@ -14,15 +14,11 @@
 - (void)parseWithBlock:(complete)block{
     self.returnBlock = block;
     self.delegate = self;
-    [self synchronousParse];
+    [self parse];
 }
 
 - (void)mediaDidFinishParsing:(VLCMedia *)aMedia{
     self.returnBlock(aMedia);
-}
-
-- (void)mediaMetaDataDidChange:(VLCMedia *)aMedia{
-    
 }
 
 

@@ -18,7 +18,7 @@
 #import "DanMuChooseViewModel.h"
 #import "MatchModel.h"
 
-@interface MainViewController ()<NSWindowDelegate>
+@interface MainViewController ()<NSWindowDelegate, NSUserNotificationCenterDelegate>
 @property (strong, nonatomic) BackGroundImageView *imgView;
 @property (strong, nonatomic) NSMutableArray <LocalVideoModel *>*videos;
 @end
@@ -35,17 +35,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"danMuChooseOver" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMainView) name:@"playOver" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadOverNotification:) name:@"downloadOver" object: nil];
 }
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
-
-- (void)viewWillDisappear{
-    [super viewWillDisappear];
-}
-
-
 
 - (void)setUpWithFilePath:(NSArray *)filePaths{
     [self.videos removeAllObjects];
@@ -69,7 +64,7 @@
     }
     
     
-    [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(200, 100) fontSize: 20 dismissWhenClick: NO];
+    [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
     
     [[[MatchViewModel alloc] initWithModel:self.videos.firstObject] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
@@ -102,7 +97,7 @@
 - (void)presentPlayerViewController:(NSNotification *)notification{
     [JHProgressHUD disMiss];
     
-    PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideos: self.videos danMuArr:notification.userInfo[@"danmuArr"] matchName: _animateTitle];
+    PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideos: self.videos danMuDic:notification.userInfo matchName: _animateTitle];
     //赋值之后置空
     _animateTitle = nil;
     [self addChildViewController: pvc];
@@ -141,6 +136,29 @@
         if (isDirectory) [arr removeObjectAtIndex: i];
     }
     return arr;
+}
+
+#pragma mark 下载通知
+- (void)downloadOverNotification:(NSNotification *)aNotification{
+    //删除已经显示过的通知(已经存在用户的通知列表中的)
+    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
+    
+    //删除已经在执行的通知(比如那些循环递交的通知)
+    for (NSUserNotification *notify in [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications]){
+        [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
+    }
+    
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    notification.title = @"弹弹play";
+    notification.informativeText = [NSString stringWithFormat:@"下载完成 一共%@个", aNotification.userInfo[@"downloadCount"]];
+    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+}
+
+#pragma mark - NSUserNotificationDelegate
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
+    //强制显示
+    return YES;
 }
 
 #pragma mark - 懒加载

@@ -9,6 +9,7 @@
 #import "ThirdPartyDanMuChooseViewController.h"
 #import "BiliBiliDanMuChooseViewModel.h"
 #import "AcFunDanMuChooseViewModel.h"
+#import "DownLoadOtherDanmakuViewController.h"
 
 @interface ThirdPartyDanMuChooseViewController ()
 @property (weak) IBOutlet NSPopUpButton *episodeButton;
@@ -19,8 +20,7 @@
 #pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [super viewDidLoad];
-    [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView: self.view];
+    [JHProgressHUD showWithMessage:kLoadMessage parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
         [self reloadData];
@@ -40,9 +40,12 @@
 
 
 - (IBAction)clickChooseDanMuButton:(NSButton *)sender {
+    if (!self.episodeButton.itemTitles.count) return;
+    
+    
     [JHProgressHUD showWithMessage:@"挖坟中..." parentView:self.view];
     
-    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(NSArray *responseObj, NSError *error) {
+    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(id responseObj, NSError *error) {
         [JHProgressHUD disMiss];
         if (!error) {
             //通知更新匹配名称
@@ -50,7 +53,7 @@
             //通知关闭列表视图控制器
             [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:nil];
             //通知开始播放
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:@{@"danmuArr": responseObj?responseObj:@[]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
         }
     }];
 }
@@ -61,6 +64,12 @@
 - (IBAction)clickChooseEpisodeButton:(NSPopUpButton *)sender {
     [sender setTitle: [sender titleOfSelectedItem]];
 }
+
+- (IBAction)clickDownLoadOtherDanmakuButton:(NSButton *)sender {
+    NSString *danMuSource = [self.vm isKindOfClass:[BiliBiliDanMuChooseViewModel class]]?@"bilibili":@"acfun";
+    [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:self.vm.videos danMuSource:danMuSource]];
+}
+
 
 #pragma mark - 私有方法
 - (void)reloadData{

@@ -9,12 +9,12 @@
 #import "FloatDanmaku.h"
 #import "DanmakuContainer.h"
 
-@implementation FloatDanmaku
-{
-    CGFloat _during;
-    floatDanmakuDirection _direction;
-}
+@interface FloatDanmaku()
+@property (assign, nonatomic) CGFloat during;
+@property (assign, nonatomic) floatDanmakuDirection direction;
+@end
 
+@implementation FloatDanmaku
 - (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(NSColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(NSFont *)font during:(CGFloat)during direction:(floatDanmakuDirection)direction{
     if (self = [super initWithFontSize:fontSize textColor:textColor text:text shadowStyle:shadowStyle font:font]) {
         _direction = direction;
@@ -61,7 +61,7 @@
             }
         }];
     }else{
-        if (_direction == floatDanmakuDirectionB2T) {
+        if (_direction == floatDanmakuDirectionT2B) {
             for (NSInteger i = 0; i < channelCount; ++i) {
                 if (!dic[@(i)]) {
                     channel = i;
@@ -92,7 +92,7 @@
 
 #pragma mark - 私有方法
 - (NSInteger)channelCountWithContentRect:(CGRect)contentRect danmakuSize:(CGSize)danmakuSize{
-    NSInteger channelCount = contentRect.size.width / danmakuSize.width;
+    NSInteger channelCount = contentRect.size.height / danmakuSize.height;
     return channelCount > 4 ? channelCount : 4;
 }
 @end

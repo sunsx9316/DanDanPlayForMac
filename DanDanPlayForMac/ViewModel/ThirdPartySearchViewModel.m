@@ -8,6 +8,8 @@
 
 #import "ThirdPartySearchViewModel.h"
 #import "DanMuNetManager.h"
+#import "FloatDanmaku.h"
+#import "ScrollDanmaku.h"
 
 @implementation ThirdPartySearchViewModel
 - (NSInteger)shiBanArrCount{
@@ -43,6 +45,10 @@
 - (NSString *)aidForRow:(NSInteger)row{
     return nil;
 }
+- (NSArray <VideoInfoDataModel *>*)videoInfoDataModels{
+    return nil;
+}
+
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
     
 }
@@ -91,6 +97,8 @@
         [fileManager createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
     }
     
-    [NSKeyedArchiver archiveRootObject:responseObj toFile:[cachePath stringByAppendingPathComponent:danmakuID]];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [NSKeyedArchiver archiveRootObject:responseObj toFile:[cachePath stringByAppendingPathComponent:danmakuID]];
+    });
 }
 @end

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		8951A1DA1C8073AD002472AD /* DownLoadOtherDanmakuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */; settings = {ASSET_TAGS = (); }; };
 		895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */; settings = {ASSET_TAGS = (); }; };
 		896156811C6C50570016792B /* PlayerHUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896156801C6C50570016792B /* PlayerHUDMessageView.m */; settings = {ASSET_TAGS = (); }; };
 		896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963478F1C6860A000EF63E5 /* NSButton+Tools.m */; settings = {ASSET_TAGS = (); }; };
@@ -93,6 +94,7 @@
 		89B585241C7D9FF50076FB26 /* JHDanmakuCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B585231C7D9FF50076FB26 /* JHDanmakuCanvas.m */; settings = {ASSET_TAGS = (); }; };
 		89B5854B1C7E07270076FB26 /* FilterNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B5854A1C7E07270076FB26 /* FilterNetManager.m */; settings = {ASSET_TAGS = (); }; };
 		89C04B761C591E5700225ABA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B751C591E5700225ABA /* MainViewController.m */; settings = {ASSET_TAGS = (); }; };
+		89E15F961C81D7320074CB55 /* RespondKeyboardSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */; settings = {ASSET_TAGS = (); }; };
 		89FC23EE1C6F3EAF009FD27C /* ScreenShotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FC23ED1C6F3EAF009FD27C /* ScreenShotCell.m */; settings = {ASSET_TAGS = (); }; };
 		89FC23F11C6F3EC3009FD27C /* CacheManagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FC23F01C6F3EC3009FD27C /* CacheManagerCell.m */; settings = {ASSET_TAGS = (); }; };
 		89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FE1F091C5E57BB00FF4586 /* DanDanSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -118,6 +120,8 @@
 		663B9184163870AB6D8158DB /* libPods-DanDanPlayForMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliSearchViewModel.h; sourceTree = "<group>"; };
 		8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliBiliSearchViewModel.m; sourceTree = "<group>"; };
+		8951A1D81C8073AD002472AD /* DownLoadOtherDanmakuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownLoadOtherDanmakuViewController.h; sourceTree = "<group>"; };
+		8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownLoadOtherDanmakuViewController.m; sourceTree = "<group>"; };
 		895A2B7A1C6D9E3F000FE343 /* OnlyButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlyButtonCell.h; sourceTree = "<group>"; };
 		895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlyButtonCell.m; sourceTree = "<group>"; };
 		8961567F1C6C50570016792B /* PlayerHUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHUDMessageView.h; sourceTree = "<group>"; };
@@ -284,6 +288,8 @@
 		89B5854A1C7E07270076FB26 /* FilterNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterNetManager.m; sourceTree = "<group>"; };
 		89C04B741C591E5700225ABA /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		89C04B751C591E5700225ABA /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		89E15F941C81D7320074CB55 /* RespondKeyboardSearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RespondKeyboardSearchField.h; sourceTree = "<group>"; };
+		89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RespondKeyboardSearchField.m; sourceTree = "<group>"; };
 		89FC23EC1C6F3EAF009FD27C /* ScreenShotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenShotCell.h; sourceTree = "<group>"; };
 		89FC23ED1C6F3EAF009FD27C /* ScreenShotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenShotCell.m; sourceTree = "<group>"; };
 		89FC23EF1C6F3EC3009FD27C /* CacheManagerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheManagerCell.h; sourceTree = "<group>"; };
@@ -423,6 +429,8 @@
 				89761A1B1C5A7B8B0046A245 /* ColorButton.m */,
 				89651E3E1C5F8A9E002F23A2 /* JHProgressHUD.h */,
 				89651E3F1C5F8A9E002F23A2 /* JHProgressHUD.m */,
+				89E15F941C81D7320074CB55 /* RespondKeyboardSearchField.h */,
+				89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */,
 				8975D1CF1C6EEFD7003FE797 /* 偏好设置 */,
 				89788D371C5E446500CA31EF /* 搜索界面 */,
 				89E3A71A1C60FEDA0030C44A /* 弹幕选择界面 */,
@@ -542,17 +550,17 @@
 			children = (
 				89FC23EB1C6F3E82009FD27C /* 缓存管理 */,
 				89FC23EA1C6F3E68009FD27C /* 截图设置 */,
-				8975D1EE1C6F3561003FE797 /* 键盘设置 */,
+				8975D1EE1C6F3561003FE797 /* 快捷键设置 */,
 				8975D1E71C6F2A2F003FE797 /* 弹幕过滤设置 */,
-				8975D1E01C6F2406003FE797 /* 播放器外观设置 */,
-				8975D1D31C6EF132003FE797 /* 弹幕外观设置 */,
+				8975D1E01C6F2406003FE797 /* 播放器设置 */,
+				8975D1D31C6EF132003FE797 /* 弹幕设置 */,
 				8965EE351C6DB8590089E187 /* PreferenceViewController.h */,
 				8965EE361C6DB8590089E187 /* PreferenceViewController.m */,
 			);
 			name = "偏好设置";
 			sourceTree = "<group>";
 		};
-		8975D1D31C6EF132003FE797 /* 弹幕外观设置 */ = {
+		8975D1D31C6EF132003FE797 /* 弹幕设置 */ = {
 			isa = PBXGroup;
 			children = (
 				8975D1D41C6EF173003FE797 /* FontSpeciallyCell.h */,
@@ -566,16 +574,16 @@
 				897ECC581C74C9F9008AA5DB /* DanMuFastMatchCell.h */,
 				897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */,
 			);
-			name = "弹幕外观设置";
+			name = "弹幕设置";
 			sourceTree = "<group>";
 		};
-		8975D1E01C6F2406003FE797 /* 播放器外观设置 */ = {
+		8975D1E01C6F2406003FE797 /* 播放器设置 */ = {
 			isa = PBXGroup;
 			children = (
 				8975D1E11C6F2434003FE797 /* ChangeBackGroundImgCell.h */,
 				8975D1E21C6F2434003FE797 /* ChangeBackGroundImgCell.m */,
 			);
-			name = "播放器外观设置";
+			name = "播放器设置";
 			sourceTree = "<group>";
 		};
 		8975D1E71C6F2A2F003FE797 /* 弹幕过滤设置 */ = {
@@ -589,7 +597,7 @@
 			name = "弹幕过滤设置";
 			sourceTree = "<group>";
 		};
-		8975D1EE1C6F3561003FE797 /* 键盘设置 */ = {
+		8975D1EE1C6F3561003FE797 /* 快捷键设置 */ = {
 			isa = PBXGroup;
 			children = (
 				8975D1EB1C6F355D003FE797 /* KeyboardSettingCell.h */,
@@ -598,7 +606,7 @@
 				897368081C70483000B9B765 /* GetKeyViewController.m */,
 				897368091C70483000B9B765 /* GetKeyViewController.xib */,
 			);
-			name = "键盘设置";
+			name = "快捷键设置";
 			sourceTree = "<group>";
 		};
 		897619FD1C59EEFD0046A245 /* 主界面 */ = {
@@ -731,6 +739,8 @@
 				8975A0B01C60A8EA009BD30F /* DanMuChooseViewController.m */,
 				8995C9951C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.h */,
 				8995C9961C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m */,
+				8951A1D81C8073AD002472AD /* DownLoadOtherDanmakuViewController.h */,
+				8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */,
 			);
 			name = "弹幕选择界面";
 			sourceTree = "<group>";
@@ -898,6 +908,7 @@
 				8975D1ED1C6F355D003FE797 /* KeyboardSettingCell.m in Sources */,
 				897EC7C61C72056A00E1B03D /* DanMuModel.m in Sources */,
 				89B585181C7D999F0076FB26 /* JHDanmakuClock.m in Sources */,
+				89E15F961C81D7320074CB55 /* RespondKeyboardSearchField.m in Sources */,
 				8975D1E31C6F2434003FE797 /* ChangeBackGroundImgCell.m in Sources */,
 				895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */,
 				89B585161C7D999F0076FB26 /* ScrollDanmaku.m in Sources */,
@@ -939,6 +950,7 @@
 				89A164BE1C6329AA00C0033F /* VLCMedia+Tools.m in Sources */,
 				896A716A1C66248800280B79 /* AcFunSearchViewModel.m in Sources */,
 				896370571C59028C002F32FD /* BaseNetManager.m in Sources */,
+				8951A1DA1C8073AD002472AD /* DownLoadOtherDanmakuViewController.m in Sources */,
 				897EC7CB1C72056A00E1B03D /* VideoInfoModel.m in Sources */,
 				896370591C59028C002F32FD /* MatchNetManager.m in Sources */,
 				89B585141C7D999F0076FB26 /* FloatDanmaku.m in Sources */,

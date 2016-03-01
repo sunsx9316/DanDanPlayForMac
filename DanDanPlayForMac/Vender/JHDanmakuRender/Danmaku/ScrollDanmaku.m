@@ -8,11 +8,13 @@
 
 #import "ScrollDanmaku.h"
 #import "DanmakuContainer.h"
+
+@interface ScrollDanmaku()
+@property (assign, nonatomic) CGFloat speed;
+@property (assign, nonatomic) scrollDanmakuDirection direction;
+@end
+
 @implementation ScrollDanmaku
-{
-    CGFloat _speed;
-    scrollDanmakuDirection _direction;
-}
 
 - (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(NSColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(NSFont *)font speed:(CGFloat)speed direction:(scrollDanmakuDirection)direction{
     if (self = [super initWithFontSize:fontSize textColor:textColor text:text shadowStyle:shadowStyle font:font]) {

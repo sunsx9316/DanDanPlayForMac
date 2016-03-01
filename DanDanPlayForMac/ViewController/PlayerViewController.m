@@ -15,10 +15,15 @@
 #import "PlayerSlideView.h"
 #import "PlayerListTableView.h"
 #import "PlayerHUDMessageView.h"
-#import "ColorButton.h"
-#import "PlayViewModel.h"
-#import "DanMuModel.h"
 #import "PlayerHoldView.h"
+#import "ColorButton.h"
+
+#import "DanMuModel.h"
+#import "MatchModel.h"
+
+#import "PlayViewModel.h"
+#import "MatchViewModel.h"
+#import "DanMuChooseViewModel.h"
 
 #import "HideDanMuAndCloseCell.h"
 #import "SliderControlCell.h"
@@ -26,11 +31,9 @@
 #import "OnlyButtonCell.h"
 
 #import "VLCMedia+Tools.h"
-#import "PlayerViewControllerMethodManager.h"
-
-#import "JHDanmakuRender.h"
 #import "JHDanmakuEngine+Tools.h"
-
+#import "PlayerViewControllerMethodManager.h"
+#import "JHDanmakuRender.h"
 #import <VLCKit/VLCKit.h>
 
 
@@ -44,6 +47,7 @@
 @property (weak) IBOutlet NSTextField *timeLabel;
 @property (weak) IBOutlet NSLayoutConstraint *playerUIHeight;
 @property (weak) IBOutlet PlayerHoldView *playerHoldView;
+@property (weak) IBOutlet NSButton *playDanmakuControlButton;
 
 //hud面板
 @property (strong) IBOutlet PlayerHUDControl *playerHUDControl;
@@ -53,6 +57,7 @@
 @property (weak) IBOutlet NSTextField *videoTitleLabel;
 @property (weak) IBOutlet NSSlider *playerVolumeSlider;
 @property (weak) IBOutlet NSButton *playHUDButton;
+@property (weak) IBOutlet NSButton *playerHUDDanmakuControlButton;
 
 
 //全屏模式和非全屏模式都存在
@@ -87,9 +92,9 @@
     
 }
 #pragma mark - 方法
-- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuArr:(NSArray *)arr matchName:(NSString *)matchName{
+- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName{
     if (self = [super initWithNibName: @"PlayerViewController" bundle: nil]) {
-        self.vm = [[PlayViewModel alloc] initWithLocalVideoModels:localVideoModels danMuArr:arr];
+        self.vm = [[PlayViewModel alloc] initWithLocalVideoModels:localVideoModels danMuDic:dic];
         [self postMatchMessageWithMatchName: matchName];
     }
     return self;
@@ -103,7 +108,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanMuDic:) name:@"danMuChooseOver" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
     
     self.vm.currentIndex = 0;
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
@@ -158,6 +162,7 @@
     [self volumeValueAddTo:0 addBy: theEvent.scrollingDeltaY];
 }
 
+#pragma mark 播放器相关
 - (IBAction)clickPlayButton:(NSButton *)sender {
     self.player.state == VLCMediaPlayerStateStopped?[self startPlay]:sender.state?[self videoAndDanMuPlay]:[self videoAndDanMuPause];
     self.playButton.state = sender.state;
@@ -166,11 +171,11 @@
 
 - (IBAction)clickNextButton:(NSButton *)sender {
     self.vm.currentIndex += 1;
-    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: [self.vm currentLocalVideoModel]]];
+    [self reloadDanmakuWithLocalVideoModel:[self.vm currentLocalVideoModel]];
 }
 - (IBAction)clickPreButton:(NSButton *)sender {
     self.vm.currentIndex -= 1;
-    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: [self.vm currentLocalVideoModel]]];
+    [self reloadDanmakuWithLocalVideoModel:[self.vm currentLocalVideoModel]];
 }
 
 - (IBAction)clickFFButton:(NSButton *)sender {
@@ -203,6 +208,13 @@
     [self toggleFullScreen];
 }
 
+- (IBAction)clickDanmakuControlButton:(NSButton *)sender {
+    self.rander.canvas.hidden = sender.state;
+    self.playDanmakuControlButton.state = sender.state;
+    self.playerHUDDanmakuControlButton.state = sender.state;
+}
+
+
 - (IBAction)clickPlayerHUDProgressSliderView:(NSSlider *)sender {
     [self.player setPosition: sender.floatValue / 100];
 }
@@ -213,17 +225,68 @@
     :[PlayerViewControllerMethodManager showPlayerListView:self.playListView withRect:NSMakeRect(0, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height)];
 }
 
+- (void)showDanMuControllerButton{
+    self.showDanMuControllerViewButton.animator.alphaValue = 1;
+}
+
+- (void)hideDanMuControllerButton{
+    self.showDanMuControllerViewButton.animator.alphaValue = 0;
+}
 
 
 #pragma mark - NSUserNotificationDelegate
-- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
-{
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
     //强制显示
     return YES;
 }
 
 #pragma mark - 私有方法
+//窗口大小变化
+- (void)windowDidResize:(NSNotification *)notification{
+    self.danMuControlView.frame = CGRectMake(self.view.frame.size.width - 300 * !self.danMuControlView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    self.playListView.frame = NSMakeRect(-300 * self.playListView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    CGRect frame = self.playerHoldView.frame;
+    if ([UserDefaultManager turnOnCaptionsProtectArea]) {
+        CGFloat offset = frame.size.height * 0.15;
+        frame.origin.y = offset;
+        frame.size.height -= offset;
+    }
+    self.rander.canvas.frame = frame;
+}
 
+- (void)reloadDanmakuWithLocalVideoModel:(LocalVideoModel *)localVideoModel{
+    //[self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: localVideoModel]];
+    [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    
+    [[[MatchViewModel alloc] initWithModel:localVideoModel] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *dataModel) {
+        //episodeId存在 说明精确匹配
+        if (dataModel.episodeId) {
+            [JHProgressHUD updateProgress: 50];
+            [JHProgressHUD updateMessage: @"搜索弹幕..."];
+            //搜索弹幕
+            [[[DanMuChooseViewModel alloc] initWithVideoID: dataModel.episodeId] refreshCompletionHandler:^(NSError *error) {
+                //判断官方弹幕是否为空
+                if (!error) {
+                    [JHProgressHUD updateProgress: 100];
+                    [JHProgressHUD updateMessage: @"解析视频..."];
+                    [JHProgressHUD disMiss];
+                    [self postMatchMessageWithMatchName: [NSString stringWithFormat:@"%@-%@", dataModel.animeTitle, dataModel.episodeTitle]];
+                }else{
+                    //快速匹配失败
+                    [JHProgressHUD disMiss];
+                    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: localVideoModel]];
+                }
+            }];
+        }else{
+            //快速匹配失败
+            [JHProgressHUD disMiss];
+            [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: localVideoModel]];
+        }
+    }];
+
+}
+
+#pragma mark 全屏相关
 //进入全屏方法
 - (void)toggleFullScreen{
     NSWindow *windows = [NSApplication sharedApplication].keyWindow;
@@ -249,40 +312,27 @@
     [NSCursor unhide];
 }
 
-- (void)windowDidResize:(NSNotification *)notification{
-    self.danMuControlView.frame = CGRectMake(self.view.frame.size.width - 300 * !self.danMuControlView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
-    self.playListView.frame = NSMakeRect(-300 * self.playListView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
-    CGRect frame = self.playerHoldView.frame;
-    if ([UserDefaultManager turnOnCaptionsProtectArea]) {
-        CGFloat offset = frame.size.height * 0.15;
-        frame.origin.y = offset;
-        frame.size.height -= offset;
-    }
-    self.rander.canvas.frame = frame;
-}
 
+#pragma mark 更换弹幕字典通知
 - (void)changeDanMuDic:(NSNotification *)notification{
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
         [self stopPlay];
         [self setupWithMedia: responseObj];
-        self.vm.arr = notification.userInfo[@"danmuArr"];
+        self.vm.danmakusDic = notification.userInfo;
+        [self.rander addAllDanmakusDic:notification.userInfo];
         [self startPlay];
         [self.playerListTableView reloadData];
     }];
 }
 
-- (void)changeMathchVideoName:(NSNotification *)notification{
-    [self postMatchMessageWithMatchName: notification.userInfo[@"animateTitle"]];
-}
-
+#pragma mark 截图
 - (void)snapShot{
     NSDateFormatter *forematter = [NSDateFormatter new];
     [forematter setDateFormat:@"YY_MM_dd hh_mm_ss"];
     [PlayerViewControllerMethodManager snapShotWithPlayer:self.player snapshotName:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [forematter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]];
 }
 
-
-
+#pragma mark 推送
 - (void)postMatchMessageWithMatchName:(NSString *)matchName{
     //删除已经显示过的通知(已经存在用户的通知列表中的)
     [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
@@ -299,7 +349,7 @@
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }
 
-
+#pragma mark 播放相关
 //开始播放
 - (void)startPlay{
     [self videoAndDanMuPlay];
@@ -320,14 +370,6 @@
 - (void)videoAndDanMuPause{
     [self.rander pause];
     [self.player pause];
-}
-
-- (void)showDanMuControllerButton{
-    self.showDanMuControllerViewButton.animator.alphaValue = 1;
-}
-
-- (void)hideDanMuControllerButton{
-    self.showDanMuControllerViewButton.animator.alphaValue = 0;
 }
 
 
@@ -359,18 +401,20 @@
 }
 
 - (void)loadLocaleDanMu{
-    [PlayerViewControllerMethodManager loadLocaleDanMuWithBlock:^(NSArray *arr) {
-        if (arr.count > 0) {
-            self.vm.arr = arr;
-            [self.rander addAllDanmakus:self.vm.arr];
+    [PlayerViewControllerMethodManager loadLocaleDanMuWithBlock:^(NSDictionary *dic) {
+        if (dic.count > 0) {
+            self.vm.danmakusDic = dic;
+            [self.rander addAllDanmakusDic:dic];
             [self.player setPosition:0];
         }else{
-            [[NSAlert alertWithMessageText:@"并没有找到弹幕´_ゝ`" defaultButton:@"ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@""] runModal];
+            NSAlert *alert = [[NSAlert alloc] init];
+            alert.messageText = kNoFoundDanmaku;
+            [alert runModal];
         }
     }];
 }
 
-//快捷键调用的方法
+#pragma mark 快捷键调用的方法
 - (void)targetMethodWithID:(NSNumber *)ID{
     switch (ID.integerValue) {
         case 0:
@@ -409,6 +453,7 @@
     }
 }
 
+#pragma mark 初始化相关
 //只需要初始化一次的属性
 - (void)setupOnce{
     __weak typeof(self)weakSelf = self;
@@ -419,7 +464,7 @@
         if (filePaths.count > 0) {
             NSInteger oldCount = [weakSelf.vm localeVideoCount];
             [weakSelf.vm addLocalVideosModel:filePaths];
-            weakSelf.vm.currentIndex = oldCount;
+            weakSelf.vm.currentIndex = oldCount - 1;
             [weakSelf clickNextButton:nil];
         }
     }];
@@ -520,7 +565,7 @@
 
 - (IBAction)doubleClickPlayerList:(PlayerListTableView *)sender {
     self.vm.currentIndex = [sender selectedRow];
-    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: [self.vm currentLocalVideoModel]]];
+    [self reloadDanmakuWithLocalVideoModel:[self.vm currentLocalVideoModel]];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
@@ -635,7 +680,7 @@
         _showDanMuControllerViewButton = [[NSButton alloc] init];
         _showDanMuControllerViewButton.bordered = NO;
         _showDanMuControllerViewButton.bezelStyle = NSTexturedRoundedBezelStyle;
-        [_showDanMuControllerViewButton setImage: [NSImage imageNamed:@"showDanMuController"]];
+        [_showDanMuControllerViewButton setImage: [NSImage imageNamed:@"show_damaku_controller"]];
         [_showDanMuControllerViewButton setTarget: self];
         [_showDanMuControllerViewButton setAction: @selector(clickShowDanMuControllerButton:)];
         [self.view addSubview: _showDanMuControllerViewButton positioned:NSWindowAbove relativeTo: self.rander.canvas];
@@ -672,7 +717,7 @@
 	if(_rander == nil) {
 		_rander = [[JHDanmakuEngine alloc] init];
         _rander.turnonBackFunction = YES;
-        [_rander addAllDanmakus:self.vm.arr];
+        [_rander addAllDanmakusDic:self.vm.danmakusDic];
         [_rander setSpeed: [UserDefaultManager danMuSpeed] * 0.029 + 0.1];
         _rander.canvas.alphaValue = [UserDefaultManager danMuOpacity] / 100;
         CGRect frame = self.playerHoldView.frame;

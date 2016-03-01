@@ -8,17 +8,20 @@
 
 #import "KeyboardSettingCell.h"
 #import "GetKeyViewController.h"
-
+#import "NSButton+Tools.h"
 
 @interface KeyboardSettingCell()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
 @property (strong, nonatomic) NSMutableArray *keyMapArr;
+@property (weak) IBOutlet NSButton *OKButton;
+
 @end
 
 @implementation KeyboardSettingCell
 - (void)awakeFromNib{
     [super awakeFromNib];
     [self.tableView setDoubleAction:@selector(doubleAction:)];
+    [self.OKButton setTitleColor:[NSColor colorWithRed:0.12 green:0.48 blue:0.98 alpha:1]];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{

@@ -2,6 +2,9 @@
 
 [弹弹play](http://www.dandanplay.com/)的mac版 
 
+## 下载
+[度娘盘](http://pan.baidu.com/s/1kUnnfGr)
+
 ## 功能介绍
 1. 支持本地json、xml格式弹幕
 2. 支持弹幕云过滤、支持正则表达式
@@ -10,9 +13,6 @@
 
 ## 系统要求
 最低支持 osx 10.9
-
-## 下载
-[度娘](http://pan.baidu.com/s/1kUnnfGr)
 
 ## 第三方库
 * [AFNetworking](https://github.com/AFNetworking/AFNetworking)
@@ -34,6 +34,9 @@
 ![预览图2](https://github.com/sunsx9316/DanDanPlayForMac/blob/master/snapshot/img2.png)
 
 ![预览图3](https://github.com/sunsx9316/DanDanPlayForMac/blob/master/snapshot/img3.png)
+
+## 微博
+[O浪微博](http://weibo.com/u/2996607392)
 
 ## 许可证
 软件遵循MIT协议 详情请见LICENSE文件

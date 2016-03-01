@@ -43,7 +43,9 @@
             NSURL *imgURL = [openPanel URLs].firstObject;
             NSImage *img = [[NSImage alloc] initWithContentsOfURL: imgURL];
             if (img == nil) {
-                [[NSAlert alertWithMessageText:@"然而这并不是图片" defaultButton:@"哦" alternateButton:nil otherButton:nil informativeTextWithFormat:@""] runModal];
+                NSAlert *alert = [[NSAlert alloc] init];
+                alert.messageText = @"然而这并不是图片";
+                [alert runModal];
             }else{
                 self.imageView.image = img;
                 [UserDefaultManager setHomeImgPath:imgURL.path];
@@ -69,7 +71,7 @@
 - (NSImageView *)BGImgView {
 	if(_BGImgView == nil) {
 		_BGImgView = [[NSImageView alloc] init];
-        _BGImgView.image = [NSImage imageNamed:@"homeBG"];
+        _BGImgView.image = [NSImage imageNamed:@"home_BG"];
 	}
 	return _BGImgView;
 }

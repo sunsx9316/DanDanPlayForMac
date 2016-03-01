@@ -19,5 +19,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuArr:(NSArray *)arr matchName:(NSString *)matchName;
+- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName;
 @end

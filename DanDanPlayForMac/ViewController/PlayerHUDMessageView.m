@@ -54,7 +54,7 @@
 - (NSImageView *)bgImg {
 	if(_bgImg == nil) {
 		_bgImg = [[NSImageView alloc] init];
-        _bgImg.image = [NSImage imageNamed:@"HUDPanel"];
+        _bgImg.image = [NSImage imageNamed:@"HUD_panel"];
         _bgImg.imageScaling = NSImageScaleProportionallyUpOrDown;
         [self addSubview: _bgImg];
         [_bgImg mas_makeConstraints:^(MASConstraintMaker *make) {

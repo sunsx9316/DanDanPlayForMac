@@ -38,7 +38,11 @@
 }
 
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex{
-    return self.view.frame.size.width;
+    return self.view.frame.size.width / 2;
+}
+
+- (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMinimumPosition ofSubviewAt:(NSInteger)dividerIndex{
+    return 20;
 }
 
 #pragma mark - NSTableViewDataSource
@@ -49,7 +53,7 @@
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     switch (self.tableViewStyle) {
-        case preferenceTableViewStyleDanMuSurface:
+        case preferenceTableViewStyleDanMu:
             return [self danMuSurfaceTableView:tableView viewForTableColumn:tableColumn row:row];
         case preferenceTableViewStylePlayer:
             return [self playerTableView:tableView viewForTableColumn:tableColumn row:row];
@@ -68,7 +72,7 @@
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row{
     switch (self.tableViewStyle) {
-        case preferenceTableViewStyleDanMuSurface:
+        case preferenceTableViewStyleDanMu:
             if (row == 0) return 132;
             else if (row == 1 || row == 2) return 108;
             else if (row == 3) return 88;

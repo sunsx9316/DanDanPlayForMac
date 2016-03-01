@@ -26,7 +26,7 @@
         basePath = [basePath stringByAppendingFormat:@"%@/%@",formatterAnima,[parameters[@"episode"] stringByURLEncode]];
     }
     
-    return [self getWithPath:basePath parameters:nil completionHandler:^(id responseObj, NSError *error) {
+    return [self GETWithPath:basePath parameters:nil completionHandler:^(id responseObj, NSError *error) {
         complete([SearchModel yy_modelWithDictionary:responseObj], error);
     }];
 }
@@ -37,7 +37,7 @@
         return nil;
     }
     
-    [self getWithPath:@"http://biliproxy.chinacloudsites.cn/search" parameters:parameters completionHandler:^(id responseObj, NSError *error) {
+    [self GETWithPath:[@"http://biliproxy.chinacloudsites.cn/search/" stringByAppendingString:[parameters[@"keyword"] stringByURLEncode]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
         complete([BiliBiliSearchModel yy_modelWithDictionary: responseObj], error);
     }];
     return nil;
@@ -50,7 +50,7 @@
         return nil;
     }
 
-    return [self getWithPath:[NSString stringWithFormat:@"http://bangumi.bilibili.com/jsonp/seasoninfo/%@.ver?", parameters[@"seasonID"]] parameters: nil completionHandler:^(id responseObj, NSError *error) {
+    return [self GETWithPath:[NSString stringWithFormat:@"http://bangumi.bilibili.com/jsonp/seasoninfo/%@.ver?", parameters[@"seasonID"]] parameters: nil completionHandler:^(id responseObj, NSError *error) {
         responseObj = responseObj[@"result"];
         complete([BiliBiliShiBanModel yy_modelWithDictionary: responseObj], error);
     }];
@@ -63,7 +63,7 @@
         complete(nil, nil);
         return nil;
     }
-    return [self getDataWithPath:[NSString stringWithFormat:@"http://search.acfun.tv/search?cd=1&type=2&sortType=-1&field=title&pageNo=1&pageSize=20&aiCount=3&spCount=3&isWeb=1&q=%@", [self encodeKeyWordWithDic:parameters][@"keyword"]] parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
+    return [self GETDataWithPath:[NSString stringWithFormat:@"http://search.acfun.tv/search?cd=1&type=2&sortType=-1&field=title&pageNo=1&pageSize=20&aiCount=3&spCount=3&isWeb=1&q=%@", [self encodeKeyWordWithDic:parameters][@"keyword"]] parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
         NSString *responseObjStr = [[NSString alloc] initWithData:responseObj encoding:NSUTF8StringEncoding];
         
         NSRange range = [responseObjStr rangeOfString:@"\\{.*\\}" options:NSRegularExpressionSearch];
@@ -87,7 +87,7 @@
         return nil;
     }
     
-    return [self getWithPath:[NSString stringWithFormat:@"http://www.acfun.tv/bangumi/video/page?bangumiId=%@&order=2", subID] parameters: nil completionHandler:^(id responseObj, NSError *error) {
+    return [self GETWithPath:[NSString stringWithFormat:@"http://www.acfun.tv/bangumi/video/page?bangumiId=%@&order=2", subID] parameters: nil completionHandler:^(id responseObj, NSError *error) {
         if (responseObj[@"data"]) {
             responseObj = responseObj[@"data"];
         }

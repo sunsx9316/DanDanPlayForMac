@@ -21,7 +21,7 @@
 
 - (NSInteger)numOfRowWithStyle:(preferenceTableViewStyle)style{
     switch (style) {
-        case preferenceTableViewStyleDanMuSurface:
+        case preferenceTableViewStyleDanMu:
             return 6;
             break;
         case preferenceTableViewStylePlayer:
@@ -47,7 +47,7 @@
 #pragma mark - 懒加载
 - (NSArray *)outlineViewArray {
 	if(_outlineViewArray == nil) {
-        _outlineViewArray = @[@"弹幕外观设置", @"播放器外观设置", @"弹幕过滤设置", @"键盘设置", @"截图设置", @"缓存管理"];
+        _outlineViewArray = @[@"弹幕设置", @"播放器设置", @"弹幕过滤设置", @"快捷键设置", @"截图设置", @"缓存管理"];
 	}
 	return _outlineViewArray;
 }

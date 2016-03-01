@@ -9,22 +9,41 @@
 #import "DanMuDataFormatter.h"
 #import "DanMuModel.h"
 #import "NSString+Tools.h"
+#import "ScrollDanmaku.h"
+#import "FloatDanmaku.h"
+#import "JHDanmakuEngine+Tools.h"
+#import <GDataXMLNode.h>
 
 typedef void(^callBackBlock)(DanMuDataModel *model);
 @implementation DanMuDataFormatter
 + (NSDictionary *)dicWithObj:(id)obj source:(JHDanMuSource)source{
-    NSMutableDictionary <NSNumber *,NSMutableArray <DanMuDataModel *> *> *dic = [NSMutableDictionary dictionary];
+    NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *> *> *dic = [NSMutableDictionary dictionary];
+    
+    NSFont *font = [UserDefaultManager danMuFont];
+    NSInteger danMufontSpecially = [UserDefaultManager danMufontSpecially];
+    
     [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
-        if (!dic[@(model.time)]) dic[@(model.time)] = [NSMutableArray array];
-        [dic[@(model.time)] addObject: model];
+        NSInteger time = model.time;
+        if (!dic[@(time)]) dic[@(time)] = [NSMutableArray array];
+        ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize: font.pointSize font:font];
+        danmaku.appearTime = model.time;
+        danmaku.filter = model.isFilter;
+        [dic[@(time)] addObject: danmaku];
     }];
     return dic;
 }
 
 + (NSArray *)arrWithObj:(id)obj source:(JHDanMuSource)source{
     NSMutableArray *arr = [NSMutableArray array];
+    
+    NSFont *font = [UserDefaultManager danMuFont];
+    NSInteger danMufontSpecially = [UserDefaultManager danMufontSpecially];
+    
     [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
-        [arr addObject: model];
+        ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize:font.pointSize font:font];
+        danmaku.appearTime = model.time;
+        danmaku.filter = model.isFilter;
+        [arr addObject: danmaku];
     }];
     return arr;
 }
@@ -77,46 +96,19 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
 
 //b站解析方式
 + (void)danMuWithBilibiliData:(NSData*)data block:(callBackBlock)block{
-    NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSRegularExpression* regu = [[NSRegularExpression alloc] initWithPattern:@"<d.*>" options:NSRegularExpressionCaseInsensitive error:nil];
-    //正则表达式匹配的范围
-    NSArray<NSTextCheckingResult*>* resultArr = [regu matchesInString:str options:0 range:NSMakeRange(0, str.length)];
-    
-    //所有弹幕标签
-    for (NSTextCheckingResult* re in resultArr) {
-        NSString* subStr = [str substringWithRange:re.range];
-        
-        NSArray* strArr = [[self getParameterWithString:subStr] componentsSeparatedByString:@","];
-        DanMuDataModel* model = [[DanMuDataModel alloc] init];
-        model.time = [strArr[0] floatValue];
-        model.mode = [strArr[1] intValue];
-        model.color = [strArr[3] intValue];
-        model.message = [self getTextWithString:subStr];
-        model.filter = [self filterWithDanMudataModel:model];
-        if (block) block(model);
+    GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:data error:nil];
+    GDataXMLElement *rootElement = document.rootElement;
+    NSArray *array = [rootElement elementsForName:@"d"];
+    for (GDataXMLElement *ele in array) {
+            NSArray* strArr = [[[ele attributeForName:@"p"] stringValue] componentsSeparatedByString:@","];
+            DanMuDataModel* model = [[DanMuDataModel alloc] init];
+            model.time = [strArr[0] floatValue];
+            model.mode = [strArr[1] intValue];
+            model.color = [strArr[3] intValue];
+            model.message = [ele stringValue];
+            model.filter = [self filterWithDanMudataModel:model];
+            if (block) block(model);
     }
-}
-
-//获取参数
-+ (NSString*)getParameterWithString:(NSString*)str{
-    NSRegularExpression* regu = [[NSRegularExpression alloc] initWithPattern:@"\".*\"" options:NSRegularExpressionCaseInsensitive error:nil];
-    //正则表达式匹配的范围
-    NSArray<NSTextCheckingResult*>* resultArr = [regu matchesInString:str options:0 range:NSMakeRange(0, str.length)];
-    if (resultArr.count > 0) {
-        return [str substringWithRange:NSMakeRange(resultArr.firstObject.range.location + 1, resultArr.firstObject.range.length - 2)];
-    }
-    return nil;
-}
-
-// 获取内容
-+ (NSString*)getTextWithString:(NSString*)str{
-    NSRegularExpression* regu = [[NSRegularExpression alloc] initWithPattern:@">.*<" options:NSRegularExpressionCaseInsensitive error:nil];
-    //正则表达式匹配的范围
-    NSArray<NSTextCheckingResult*>* resultArr = [regu matchesInString:str options:0 range:NSMakeRange(0, str.length)];
-    if (resultArr.count > 0) {
-        return [str substringWithRange:NSMakeRange(resultArr.firstObject.range.location + 1, resultArr.firstObject.range.length - 2)];
-    }
-    return nil;
 }
 
 //过滤弹幕

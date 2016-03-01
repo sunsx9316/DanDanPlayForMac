@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#import "BaseModel.h"
+
 @class DanmakuContainer;
 typedef NS_ENUM(NSUInteger, danmakuShadowStyle) {
     danmakuShadowStyleNone = 100,
@@ -16,7 +18,7 @@ typedef NS_ENUM(NSUInteger, danmakuShadowStyle) {
     danmakuShadowStyleGlow,
 };
 
-@interface ParentDanmaku : NSObject
+@interface ParentDanmaku : BaseModel
 @property (assign, nonatomic) NSTimeInterval appearTime;
 @property (assign, nonatomic) NSTimeInterval disappearTime;
 @property (strong, nonatomic) NSAttributedString *attributedString;
@@ -38,4 +40,6 @@ typedef NS_ENUM(NSUInteger, danmakuShadowStyle) {
  *  父类方法 不要使用
  */
 - (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(NSColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(NSFont *)font;
+
+
 @end

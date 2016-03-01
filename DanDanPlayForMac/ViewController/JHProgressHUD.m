@@ -12,19 +12,21 @@ static JHProgressHUD *_hud = nil;
 @property (assign, nonatomic) JHProgressHUDStyle style;
 @property (strong, nonatomic) NSView *blackBackGroundMask;
 @property (strong, nonatomic) NSProgressIndicator *indicator;
-@property (strong, nonatomic) NSView *parentView;
+@property (weak, nonatomic) NSView *parentView;
 @property (strong, nonatomic) NSTextField *text;
 @property (assign, nonatomic) BOOL dismissWhenClick;
+@property (assign, nonatomic) BOOL showing;
 @end
 
 @implementation JHProgressHUD
+#pragma mark - 类方法
 + (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick{
     JHProgressHUD *hud = [self shareHUD];
     [hud setMessage:message style:style parentView:parentView indicatorSize:size fontSize: fontSize dismissWhenClick: dismissWhenClick];
     [hud show];
 }
 + (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick{
-    [self showWithMessage:message style:style parentView:parentView indicatorSize:NSMakeSize(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:dismissWhenClick];
+    [self showWithMessage:message style:style parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:dismissWhenClick];
 }
 
 + (void)showWithMessage:(NSString *)message parentView:(NSView *)parentView{
@@ -36,15 +38,38 @@ static JHProgressHUD *_hud = nil;
 }
 
 + (void)updateProgress:(CGFloat)progress{
-    JHProgressHUD *hud = [self shareHUD];
-    if (hud.style == JHProgressHUDStyleValue2 || hud.style == JHProgressHUDStyleValue4) {
-        [hud.indicator incrementBy: progress];
-    }
+    [[self shareHUD] updateProgress:progress];
 }
 
 + (void)updateMessage:(NSString *)message{
-    JHProgressHUD *hud = [self shareHUD];
-    hud.text.stringValue = message;
+    [[self shareHUD] updateMessage:message];
+}
+
+
+#pragma mark - 实例方法
+- (instancetype)initWithMessage:(NSString *)message parentView:(NSView *)parentView{
+    return [self initWithMessage:message style:JHProgressHUDStyleValue1 parentView:parentView dismissWhenClick:YES];
+}
+
+- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)
+parentView dismissWhenClick:(BOOL)dismissWhenClick{
+    return [self initWithMessage:message style:style parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:YES];
+}
+
+- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick{
+    if (self = [super init]) {
+        [self setMessage:message style:style parentView:parentView indicatorSize:size fontSize: fontSize dismissWhenClick: dismissWhenClick];
+    }
+    return self;
+}
+
+- (void)updateProgress:(CGFloat)progress{
+    if (self.style == JHProgressHUDStyleValue2 || self.style == JHProgressHUDStyleValue4) {
+        [self.indicator incrementBy: progress];
+    }
+}
+- (void)updateMessage:(NSString *)message{
+    self.text.stringValue = message;
 }
 
 #pragma mark - 私有方法
@@ -58,6 +83,7 @@ static JHProgressHUD *_hud = nil;
 }
 
 - (void)show{
+    self.showing = YES;
     [self.parentView addSubview: self];
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_offset(0);
@@ -67,8 +93,13 @@ static JHProgressHUD *_hud = nil;
 }
 
 - (void)disMiss{
+    self.showing = NO;
     [self.indicator stopAnimation: self];
     [self removeFromSuperview];
+}
+
+- (BOOL)isShowing{
+    return self.showing;
 }
 
 - (void)clickBlackView{
@@ -109,6 +140,8 @@ static JHProgressHUD *_hud = nil;
         make.top.equalTo(self.indicator.mas_bottom).mas_offset(20);
     }];
 }
+
+
 
 #pragma mark - 懒加载
 - (NSProgressIndicator *)indicator {

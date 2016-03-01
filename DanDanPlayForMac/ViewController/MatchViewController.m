@@ -9,13 +9,14 @@
 #import "MatchViewController.h"
 #import "SearchViewController.h"
 #import "DanMuChooseViewController.h"
+#import "RespondKeyboardSearchField.h"
 #import "MatchViewModel.h"
 #import "LocalVideoModel.h"
 #import "MatchModel.h"
 
 @interface MatchViewController ()<NSTableViewDataSource, NSTableViewDelegate>
 @property (weak) IBOutlet NSTableView *tableView;
-@property (weak) IBOutlet NSSearchField *searchField;
+@property (weak) IBOutlet RespondKeyboardSearchField *searchField;
 
 @property (strong, nonatomic) MatchViewModel *vm;
 @end
@@ -26,23 +27,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    __weak typeof(self)weakSelf = self;
     self.searchField.stringValue = [self.vm videoName];
+    [self.searchField setWithBlock:^{
+        [weakSelf searchButtonDown:nil];
+    }];
+    
     [self.tableView setDoubleAction: @selector(doubleClickRow)];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf) name:@"disMissViewController" object: nil];
+    [JHProgressHUD showWithMessage:kLoadMessage parentView:self.view];
     
-    [JHProgressHUD showWithMessage:@"你不能让我加载, 我就加载" parentView:self.view];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"disMissViewController" object: nil];
     
     [self.vm refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         [JHProgressHUD disMiss];
         if (model.episodeId && [UserDefaultManager turnOnFastMatch]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
-            [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: model.episodeId]];
+                [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: model.episodeId]];
         }else{
             [self.tableView reloadData];
         }
     }];
+    
 }
 
 - (void)dealloc{
@@ -72,7 +79,7 @@
 
 #pragma mark - 私有方法
 
-- (void)disMissSelf{
+- (void)disMissSelf:(NSNotification *)notification{
     [self dismissController: self];
 }
 

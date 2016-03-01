@@ -60,7 +60,7 @@
         
         if (responseObj.matches.count == 0){
             MatchDataModel *model = [MatchDataModel new];
-            model.animeTitle = @"・_ゝ・并没有找到";
+            model.animeTitle = kNoFoundDanmaku;
             model.episodeTitle = @"可以尝试手♂动搜索";
             responseObj.matches = @[model];
         }
