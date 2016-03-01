@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSButton *subtractOneButton;
 @property (strong, nonatomic) NSButton *subtractFiveButton;
 @property (strong, nonatomic) NSButton *subtractTenButton;
+@property (strong, nonatomic) NSButton *resetButton;
 @property (strong, nonatomic) NSTextField *title;
 @property (copy, nonatomic) timeOffsetBlock block;
 @end
@@ -28,6 +29,7 @@
         [self addSubview: self.subtractOneButton];
         [self addSubview: self.subtractFiveButton];
         [self addSubview: self.subtractTenButton];
+        [self addSubview: self.resetButton];
         
         [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_offset(5);
@@ -62,6 +64,12 @@
         [self.subtractTenButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_offset(-10);
             make.centerY.equalTo(self.subtractFiveButton);
+        }];
+        
+        [self.resetButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.plusOneButton);
+            make.right.equalTo(self.plusTenButton);
+            make.top.equalTo(self.subtractOneButton.mas_bottom).mas_offset(10);
         }];
     }
     return self;
@@ -150,6 +158,18 @@
 	return _subtractTenButton;
 }
 
+- (NSButton *)resetButton {
+    if(_resetButton == nil) {
+        _resetButton = [[NSButton alloc] init];
+        [_resetButton setBezelStyle: NSInlineBezelStyle];
+        [_resetButton setTarget: self];
+        [_resetButton setAction: @selector(clickButton:)];
+        _resetButton.title = @"重置时间";
+        _resetButton.tag = 100;
+    }
+    return _resetButton;
+}
+
 - (NSTextField *)title {
 	if(_title == nil) {
 		_title = [[NSTextField alloc] init];
@@ -161,5 +181,6 @@
 	}
 	return _title;
 }
+
 
 @end

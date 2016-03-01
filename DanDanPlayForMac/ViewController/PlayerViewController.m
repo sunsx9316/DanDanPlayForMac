@@ -283,7 +283,7 @@
             [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: localVideoModel]];
         }
     }];
-
+    
 }
 
 #pragma mark 全屏相关
@@ -316,6 +316,7 @@
 #pragma mark 更换弹幕字典通知
 - (void)changeDanMuDic:(NSNotification *)notification{
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
+        _danMuOffsetTime = 0;
         [self stopPlay];
         [self setupWithMedia: responseObj];
         self.vm.danmakusDic = notification.userInfo;
@@ -613,8 +614,13 @@
     }else if (row == 4){
         TimeAxisCell * cell = [tableView makeViewWithIdentifier:@"TimeAxisCell" owner: self];
         [cell setWithBlock:^(NSInteger num) {
-            _danMuOffsetTime += num;
-            weakSelf.rander.currentTime += num;
+            if (num == 0 && _danMuOffsetTime) {
+                weakSelf.rander.currentTime -= _danMuOffsetTime;
+                _danMuOffsetTime = 0;
+            }else if(weakSelf.rander.currentTime + num > 0){
+                _danMuOffsetTime += num;
+                weakSelf.rander.currentTime += num;
+            }
             weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", _danMuOffsetTime >= 0 ? @"+" : @"", (long)_danMuOffsetTime];
             [weakSelf.messageView showHUD];
         }];
@@ -714,8 +720,8 @@
 }
 
 - (JHDanmakuEngine *)rander {
-	if(_rander == nil) {
-		_rander = [[JHDanmakuEngine alloc] init];
+    if(_rander == nil) {
+        _rander = [[JHDanmakuEngine alloc] init];
         _rander.turnonBackFunction = YES;
         [_rander addAllDanmakusDic:self.vm.danmakusDic];
         [_rander setSpeed: [UserDefaultManager danMuSpeed] * 0.029 + 0.1];
@@ -728,8 +734,8 @@
         }
         _rander.canvas.frame = frame;
         [self.view addSubview:_rander.canvas positioned:NSWindowAbove relativeTo:self.playerHoldView];
-	}
-	return _rander;
+    }
+    return _rander;
 }
 
 @end

@@ -20,7 +20,7 @@
 
 @implementation JHDanmakuEngine
 {
-    NSTimeInterval _currentTime;
+//    NSTimeInterval _currentTime;
     //用于记录当前时间的整数值
     NSInteger _intTime;
 }
@@ -85,9 +85,9 @@
 }
 
 - (void)setCurrentTime:(NSTimeInterval)currentTime{
-    if (currentTime >= 0){
-        _currentTime = currentTime;
-    }
+    if (currentTime <= 0) return;
+    
+    _currentTime = currentTime;
     [self.clock setCurrentTime:currentTime];
     
     if (self.turnonBackFunction) {

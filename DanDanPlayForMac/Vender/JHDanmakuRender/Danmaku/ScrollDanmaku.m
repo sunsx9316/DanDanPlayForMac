@@ -101,7 +101,7 @@
             if (firstGreatEqualThanSecond) channel = key.intValue;
         }];
     }else{
-        for (NSInteger i = 0; i < channelCount; ++i) {
+        for (NSInteger i = channelCount - 1; i >= 0; --i) {
             if (!dic[@(i)]) {
                 channel = i;
                 break;
