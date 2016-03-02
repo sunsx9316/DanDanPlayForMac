@@ -18,6 +18,7 @@
 {
     CGFloat _originalSpeed;
     NSTimeInterval _currentTime;
+    NSTimeInterval _offsetTime;
 }
 
 + (instancetype)clockWithHandler:(timeBlock)block{
@@ -55,13 +56,17 @@
     }
 }
 
+- (void)setOffsetTime:(NSTimeInterval)offsetTime{
+    _offsetTime = offsetTime;
+}
+
 - (void)updateTime{
     NSDate *date = [NSDate date];
     _currentTime += [date timeIntervalSinceDate:self.previousDate] * self.speed;
     self.previousDate = date;
     
     if (self.block) {
-        self.block(_currentTime);
+        self.block(_currentTime + _offsetTime);
     }
 }
 

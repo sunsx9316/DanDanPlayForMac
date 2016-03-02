@@ -13,6 +13,7 @@ typedef void(^timeBlock)(NSTimeInterval time);
 @property(nonatomic,assign)CGFloat speed;
 + (instancetype)clockWithHandler:(timeBlock)block;
 - (void)setCurrentTime:(NSTimeInterval)currentTime;
+- (void)setOffsetTime:(NSTimeInterval)offsetTime;
 - (void)start;
 - (void)stop;
 - (void)pause;

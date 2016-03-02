@@ -18,6 +18,8 @@
 @property (assign, nonatomic) NSInteger channelCount;
 //当前时间
 @property (assign, nonatomic) NSTimeInterval currentTime;
+//偏移时间
+@property (assign, nonatomic) NSTimeInterval offsetTime;
 //全局文字风格字典 默认不使用 会覆盖个体设置
 @property (strong, nonatomic) NSDictionary *globalAttributedDic;
 //全局字体 默认不使用 会覆盖个体设置 方便更改字体大小

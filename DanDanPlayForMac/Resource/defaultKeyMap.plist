@@ -72,7 +72,7 @@
 		<key>keyName</key>
 		<string>Right</string>
 		<key>name</key>
-		<string>普通快进</string>
+		<string>短快进</string>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -84,7 +84,7 @@
 		<key>keyName</key>
 		<string>Left</string>
 		<key>name</key>
-		<string>普通快退</string>
+		<string>短快退</string>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -92,11 +92,11 @@
 		<key>flag</key>
 		<real>12058624</real>
 		<key>keyCode</key>
-		<integer>123</integer>
+		<integer>124</integer>
 		<key>keyName</key>
-		<string>⌥ ⌘ Left</string>
+		<string>⌥ ⌘ Right</string>
 		<key>name</key>
-		<string>长快退</string>
+		<string>普通快进</string>
 	</dict>
 	<dict>
 		<key>id</key>
@@ -104,11 +104,11 @@
 		<key>flag</key>
 		<real>12058624</real>
 		<key>keyCode</key>
-		<integer>124</integer>
+		<integer>123</integer>
 		<key>keyName</key>
-		<string>⌥ ⌘ Right</string>
+		<string>⌥ ⌘ Left</string>
 		<key>name</key>
-		<string>长快进</string>
+		<string>普通快退</string>
 	</dict>
 	<dict>
 		<key>id</key>

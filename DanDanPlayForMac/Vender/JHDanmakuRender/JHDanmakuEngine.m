@@ -84,9 +84,13 @@
     self.danmakusCache = danmakus;
 }
 
+- (void)setOffsetTime:(NSTimeInterval)offsetTime{
+    _offsetTime = offsetTime;
+    [self.clock setOffsetTime:offsetTime];
+}
+
 - (void)setCurrentTime:(NSTimeInterval)currentTime{
-    if (currentTime <= 0) return;
-    
+    if (currentTime < 0) return;
     _currentTime = currentTime;
     [self.clock setCurrentTime:currentTime];
     
@@ -97,7 +101,7 @@
         [self.activeContainer removeAllObjects];
         //预加载前5秒的弹幕
         for (NSInteger i = 1; i <= 5; ++i) {
-            NSInteger time = currentTime - i;
+            NSInteger time = _currentTime - i;
             NSArray *danmakus = [self.danmakusCache objectForKey:@(time)];
             for (ParentDanmaku *danmaku in danmakus) {
                 [self addDanmaku:danmaku];
@@ -145,9 +149,9 @@
             _currentTime = time;
             
             //每秒获取一次弹幕 开启回退功能时启用
-            if (self.turnonBackFunction && (NSInteger)time - _intTime) {
-                _intTime = time;
-                NSArray *danmakus = [weakSelf.danmakusCache objectForKey:@((NSInteger)time)];
+            if (self.turnonBackFunction && (NSInteger)_currentTime - _intTime) {
+                _intTime = _currentTime;
+                NSArray *danmakus = [weakSelf.danmakusCache objectForKey:@((NSInteger)_currentTime)];
                 for (ParentDanmaku *danmaku in danmakus) {
                     [weakSelf addDanmaku:danmaku];
                 }
@@ -156,11 +160,11 @@
             NSArray <DanmakuContainer *>*danmakus = weakSelf.activeContainer;
             for (NSInteger i = danmakus.count - 1; i >= 0; --i) {
                 DanmakuContainer *container = danmakus[i];
-                if (![container updatePositionWithTime:time]) {
+                if (![container updatePositionWithTime:_currentTime]) {
                     [weakSelf.activeContainer removeObjectAtIndex:i];
                     [weakSelf.inactiveContainer addObject:container];
                     [container removeFromSuperview];
-                    container.danmaku.disappearTime = time;
+                    container.danmaku.disappearTime = _currentTime;
                 }
             }
         }];

@@ -36,6 +36,10 @@
 #import "JHDanmakuRender.h"
 #import <VLCKit/VLCKit.h>
 
+//短跳转时长
+#define shortJump 5
+//普通跳转时长
+#define mediumJump 10
 
 @interface PlayerViewController ()<PlayerSlideViewDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSUserNotificationCenterDelegate, VLCMediaPlayerDelegate>
 
@@ -58,7 +62,6 @@
 @property (weak) IBOutlet NSSlider *playerVolumeSlider;
 @property (weak) IBOutlet NSButton *playHUDButton;
 @property (weak) IBOutlet NSButton *playerHUDDanmakuControlButton;
-
 
 //全屏模式和非全屏模式都存在
 @property (weak) IBOutlet NSScrollView *danMuControlView;
@@ -216,7 +219,9 @@
 
 
 - (IBAction)clickPlayerHUDProgressSliderView:(NSSlider *)sender {
-    [self.player setPosition: sender.floatValue / 100];
+    float value = sender.floatValue / 100;
+    self.rander.currentTime = value * [PlayerViewControllerMethodManager videoTimeWithPlayer:self.player];
+    [self.player setPosition: value];
 }
 
 - (IBAction)clickPlayListViewButton:(NSButton *)sender {
@@ -252,6 +257,10 @@
         frame.size.height -= offset;
     }
     self.rander.canvas.frame = frame;
+}
+
+- (void)timeOffset:(NSInteger)time{
+    self.rander.offsetTime = time;
 }
 
 - (void)reloadDanmakuWithLocalVideoModel:(LocalVideoModel *)localVideoModel{
@@ -435,16 +444,20 @@
             [self volumeValueAddTo:0 addBy: 0];
             break;
         case 5:
-            [self.player shortJumpForward];
+            self.rander.currentTime += shortJump;
+            [self.player jumpForward:shortJump];
             break;
         case 6:
-            [self.player shortJumpBackward];
+            self.rander.currentTime -= shortJump;
+            [self.player jumpBackward:shortJump];
             break;
         case 7:
-            [self.player mediumJumpForward];
+            self.rander.currentTime += mediumJump;
+            [self.player jumpForward:mediumJump];
             break;
         case 8:
-            [self.player mediumJumpBackward];
+            self.rander.currentTime -= mediumJump;
+            [self.player jumpBackward:mediumJump];
             break;
         case 9:
             [self snapShot];
@@ -557,9 +570,11 @@
 #pragma mark - PlayerSlideViewDelegate
 - (void)playerSliderTouchEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView{
     [self.player setPosition: endValue];
+    self.rander.currentTime = endValue * [PlayerViewControllerMethodManager videoTimeWithPlayer:self.player];
 }
 - (void)playerSliderDraggedEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView{
     [self.player setPosition: endValue];
+    self.rander.currentTime = endValue * [PlayerViewControllerMethodManager videoTimeWithPlayer:self.player];
 }
 
 #pragma mark - NSTableView
@@ -614,13 +629,17 @@
     }else if (row == 4){
         TimeAxisCell * cell = [tableView makeViewWithIdentifier:@"TimeAxisCell" owner: self];
         [cell setWithBlock:^(NSInteger num) {
-            if (num == 0 && _danMuOffsetTime) {
-                weakSelf.rander.currentTime -= _danMuOffsetTime;
-                _danMuOffsetTime = 0;
-            }else if(weakSelf.rander.currentTime + num > 0){
-                _danMuOffsetTime += num;
-                weakSelf.rander.currentTime += num;
-            }
+            if (num == 0) _danMuOffsetTime = 0;
+            else _danMuOffsetTime += num;
+            
+            [weakSelf timeOffset: _danMuOffsetTime];
+//            if (num == 0 && _danMuOffsetTime) {
+//                weakSelf.rander.currentTime -= _danMuOffsetTime;
+//                _danMuOffsetTime = 0;
+//            }else if(weakSelf.rander.currentTime + num > 0){
+//                _danMuOffsetTime += num;
+//                weakSelf.rander.currentTime += num;
+//            }
             weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", _danMuOffsetTime >= 0 ? @"+" : @"", (long)_danMuOffsetTime];
             [weakSelf.messageView showHUD];
         }];
