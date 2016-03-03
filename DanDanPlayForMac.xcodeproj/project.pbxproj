@@ -65,7 +65,6 @@
 		897619F91C59EDBC0046A245 /* DanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897619F81C59EDBC0046A245 /* DanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		89761A091C5A5E750046A245 /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A081C5A5E750046A245 /* MatchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		89761A1C1C5A7B8B0046A245 /* ColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A1B1C5A7B8B0046A245 /* ColorButton.m */; settings = {ASSET_TAGS = (); }; };
-		89761A2E1C5A84C10046A245 /* NSView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A2D1C5A84C10046A245 /* NSView+Tools.m */; settings = {ASSET_TAGS = (); }; };
 		89788D361C5E3DB100CA31EF /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89788D351C5E3DB100CA31EF /* SearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7B81C72056A00E1B03D /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
 		897EC7C61C72056A00E1B03D /* DanMuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BA1C72056A00E1B03D /* DanMuModel.m */; settings = {ASSET_TAGS = (); }; };
@@ -76,6 +75,8 @@
 		897EC7CB1C72056A00E1B03D /* VideoInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7C41C72056A00E1B03D /* VideoInfoModel.m */; settings = {ASSET_TAGS = (); }; };
 		897ECC571C749233008AA5DB /* PlayerListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897ECC561C749233008AA5DB /* PlayerListTableView.m */; settings = {ASSET_TAGS = (); }; };
 		897ECC5A1C74C9F9008AA5DB /* DanMuFastMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */; settings = {ASSET_TAGS = (); }; };
+		8983C76D1C8819CC0080C316 /* NSData+DanDanPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */; settings = {ASSET_TAGS = (); }; };
+		8983C7751C8853B40080C316 /* danmakuColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8983C7741C8853B40080C316 /* danmakuColor.plist */; settings = {ASSET_TAGS = (); }; };
 		8995C9911C648607008C1C02 /* ThirdPartySearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */; settings = {ASSET_TAGS = (); }; };
 		8995C9971C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9961C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m */; settings = {ASSET_TAGS = (); }; };
 		8995C99A1C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */; settings = {ASSET_TAGS = (); }; };
@@ -94,6 +95,9 @@
 		89B585241C7D9FF50076FB26 /* JHDanmakuCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B585231C7D9FF50076FB26 /* JHDanmakuCanvas.m */; settings = {ASSET_TAGS = (); }; };
 		89B5854B1C7E07270076FB26 /* FilterNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B5854A1C7E07270076FB26 /* FilterNetManager.m */; settings = {ASSET_TAGS = (); }; };
 		89C04B761C591E5700225ABA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B751C591E5700225ABA /* MainViewController.m */; settings = {ASSET_TAGS = (); }; };
+		89C107121C885B8100090A9A /* DanmakuColorMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */; settings = {ASSET_TAGS = (); }; };
+		89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */; settings = {ASSET_TAGS = (); }; };
+		89C107181C887EA800090A9A /* RespondKeyboardTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107171C887EA800090A9A /* RespondKeyboardTextField.m */; settings = {ASSET_TAGS = (); }; };
 		89E15F961C81D7320074CB55 /* RespondKeyboardSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */; settings = {ASSET_TAGS = (); }; };
 		89FC23EE1C6F3EAF009FD27C /* ScreenShotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FC23ED1C6F3EAF009FD27C /* ScreenShotCell.m */; settings = {ASSET_TAGS = (); }; };
 		89FC23F11C6F3EC3009FD27C /* CacheManagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FC23F01C6F3EC3009FD27C /* CacheManagerCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -229,8 +233,6 @@
 		89761A151C5A6F190046A245 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		89761A1A1C5A7B8B0046A245 /* ColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorButton.h; sourceTree = "<group>"; };
 		89761A1B1C5A7B8B0046A245 /* ColorButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorButton.m; sourceTree = "<group>"; };
-		89761A2C1C5A84C10046A245 /* NSView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+Tools.h"; sourceTree = "<group>"; };
-		89761A2D1C5A84C10046A245 /* NSView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+Tools.m"; sourceTree = "<group>"; };
 		89788D341C5E3DB100CA31EF /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		89788D351C5E3DB100CA31EF /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		897EC7B71C72056A00E1B03D /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
@@ -251,6 +253,9 @@
 		897ECC561C749233008AA5DB /* PlayerListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerListTableView.m; sourceTree = "<group>"; };
 		897ECC581C74C9F9008AA5DB /* DanMuFastMatchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuFastMatchCell.h; sourceTree = "<group>"; };
 		897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuFastMatchCell.m; sourceTree = "<group>"; };
+		8983C76B1C8819CC0080C316 /* NSData+DanDanPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DanDanPlay.h"; sourceTree = "<group>"; };
+		8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+DanDanPlay.m"; sourceTree = "<group>"; };
+		8983C7741C8853B40080C316 /* danmakuColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = danmakuColor.plist; sourceTree = "<group>"; };
 		8995C98F1C648607008C1C02 /* ThirdPartySearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartySearchViewController.h; sourceTree = "<group>"; };
 		8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartySearchViewController.m; sourceTree = "<group>"; };
 		8995C9951C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartyDanMuChooseViewController.h; sourceTree = "<group>"; };
@@ -288,6 +293,12 @@
 		89B5854A1C7E07270076FB26 /* FilterNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterNetManager.m; sourceTree = "<group>"; };
 		89C04B741C591E5700225ABA /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		89C04B751C591E5700225ABA /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		89C107101C885B8100090A9A /* DanmakuColorMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuColorMenuItem.h; sourceTree = "<group>"; };
+		89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuColorMenuItem.m; sourceTree = "<group>"; };
+		89C107131C885FB200090A9A /* DanmakuModeMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuModeMenuItem.h; sourceTree = "<group>"; };
+		89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuModeMenuItem.m; sourceTree = "<group>"; };
+		89C107161C887EA800090A9A /* RespondKeyboardTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RespondKeyboardTextField.h; sourceTree = "<group>"; };
+		89C107171C887EA800090A9A /* RespondKeyboardTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RespondKeyboardTextField.m; sourceTree = "<group>"; };
 		89E15F941C81D7320074CB55 /* RespondKeyboardSearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RespondKeyboardSearchField.h; sourceTree = "<group>"; };
 		89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RespondKeyboardSearchField.m; sourceTree = "<group>"; };
 		89FC23EC1C6F3EAF009FD27C /* ScreenShotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenShotCell.h; sourceTree = "<group>"; };
@@ -409,6 +420,7 @@
 				89636FD81C58C40B002F32FD /* Assets.xcassets */,
 				89636FDA1C58C40B002F32FD /* Main.storyboard */,
 				897368021C70392000B9B765 /* defaultKeyMap.plist */,
+				8983C7741C8853B40080C316 /* danmakuColor.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -431,6 +443,8 @@
 				89651E3F1C5F8A9E002F23A2 /* JHProgressHUD.m */,
 				89E15F941C81D7320074CB55 /* RespondKeyboardSearchField.h */,
 				89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */,
+				89C107161C887EA800090A9A /* RespondKeyboardTextField.h */,
+				89C107171C887EA800090A9A /* RespondKeyboardTextField.m */,
 				8975D1CF1C6EEFD7003FE797 /* 偏好设置 */,
 				89788D371C5E446500CA31EF /* 搜索界面 */,
 				89E3A71A1C60FEDA0030C44A /* 弹幕选择界面 */,
@@ -481,12 +495,12 @@
 				897345B81C759CB200F64D39 /* NSData+Tools.m */,
 				897345B91C759CB200F64D39 /* NSDictionary+Tools.h */,
 				897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */,
+				8983C76B1C8819CC0080C316 /* NSData+DanDanPlay.h */,
+				8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */,
 				897345BB1C759CB200F64D39 /* NSString+Tools.h */,
 				897345BC1C759CB200F64D39 /* NSString+Tools.m */,
 				8973680F1C70708A00B9B765 /* NSString+KeyEvent.h */,
 				897368101C70708A00B9B765 /* NSString+KeyEvent.m */,
-				89761A2C1C5A84C10046A245 /* NSView+Tools.h */,
-				89761A2D1C5A84C10046A245 /* NSView+Tools.m */,
 				89651E471C5FA837002F23A2 /* NSColor+Tools.h */,
 				89651E481C5FA837002F23A2 /* NSColor+Tools.m */,
 				89A164BC1C6329AA00C0033F /* VLCMedia+Tools.h */,
@@ -720,6 +734,10 @@
 				8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */,
 				896AEA911C7CB8680011E046 /* PlayerViewControllerMethodManager.h */,
 				896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */,
+				89C107101C885B8100090A9A /* DanmakuColorMenuItem.h */,
+				89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */,
+				89C107131C885FB200090A9A /* DanmakuModeMenuItem.h */,
+				89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */,
 				8961567F1C6C50570016792B /* PlayerHUDMessageView.h */,
 				896156801C6C50570016792B /* PlayerHUDMessageView.m */,
 				8975485B1C625B3B0075436B /* PlayerHUDControl.h */,
@@ -832,6 +850,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8983C7751C8853B40080C316 /* danmakuColor.plist in Resources */,
 				89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */,
 				897368031C70392000B9B765 /* defaultKeyMap.plist in Resources */,
 				89636FDC1C58C40B002F32FD /* Main.storyboard in Resources */,
@@ -923,11 +942,14 @@
 				896370581C59028C002F32FD /* DanMuNetManager.m in Sources */,
 				8975D1DF1C6EF939003FE797 /* CaptionsProtectAreaCell.m in Sources */,
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,
+				89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */,
 				89761A1C1C5A7B8B0046A245 /* ColorButton.m in Sources */,
 				897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */,
 				897619F21C59E8520046A245 /* SearchViewModel.m in Sources */,
+				8983C76D1C8819CC0080C316 /* NSData+DanDanPlay.m in Sources */,
 				896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */,
 				8995C9911C648607008C1C02 /* ThirdPartySearchViewController.m in Sources */,
+				89C107181C887EA800090A9A /* RespondKeyboardTextField.m in Sources */,
 				89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */,
 				8975D1E61C6F2A20003FE797 /* DanMuFilterCell.m in Sources */,
 				897ECC571C749233008AA5DB /* PlayerListTableView.m in Sources */,
@@ -939,7 +961,6 @@
 				8975485D1C625B3B0075436B /* PlayerHUDControl.m in Sources */,
 				89B5851A1C7D999F0076FB26 /* JHDisplayLink.m in Sources */,
 				8965EE3A1C6DBCDD0089E187 /* PreferenceViewModel.m in Sources */,
-				89761A2E1C5A84C10046A245 /* NSView+Tools.m in Sources */,
 				89788D361C5E3DB100CA31EF /* SearchViewController.m in Sources */,
 				89B585171C7D999F0076FB26 /* DanmakuContainer.m in Sources */,
 				8996A6DA1C6CC03000D5AA6E /* HideDanMuAndCloseCell.m in Sources */,
@@ -977,6 +998,7 @@
 				897619F01C59E8520046A245 /* MatchViewModel.m in Sources */,
 				89651E401C5F8A9E002F23A2 /* JHProgressHUD.m in Sources */,
 				8975D1D61C6EF173003FE797 /* FontSpeciallyCell.m in Sources */,
+				89C107121C885B8100090A9A /* DanmakuColorMenuItem.m in Sources */,
 				897EC7C71C72056A00E1B03D /* LocalVideoModel.m in Sources */,
 				89B585211C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m in Sources */,
 			);

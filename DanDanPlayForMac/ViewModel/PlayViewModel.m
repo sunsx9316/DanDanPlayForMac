@@ -57,7 +57,6 @@
 }
 
 
-
 #pragma mark - 私有方法
 - (NSURL *)videoURLWithIndex:(NSInteger)index{
     return [self localVideoModelWithIndex: index].filePath?[self localVideoModelWithIndex: index].filePath:nil;
@@ -88,10 +87,11 @@
     return index<self.videos.count?self.videos[index]:nil;
 }
 
-- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic{
+- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId{
     if (self = [super init]) {
         self.videos = localVideoModels;
         self.danmakusDic = dic;
+        self.episodeId = episodeId;
     }
     return self;
 }

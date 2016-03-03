@@ -16,8 +16,8 @@
  *  @param media           vlc视频模型
  *  @param arr             弹幕数组
  *  @param matchName       精确匹配文件名
- *
+ *  @param episodeId       分集id
  *  @return self
  */
-- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName;
+- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName episodeId:(NSString *)episodeId;
 @end

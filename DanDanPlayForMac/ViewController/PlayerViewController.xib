@@ -8,6 +8,11 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PlayerViewController">
             <connections>
                 <outlet property="danMuControlView" destination="3A9-ng-j0D" id="F1Y-ve-W3i"/>
+                <outlet property="danmakuColorPopUpButton" destination="pak-r4-aVz" id="qby-V8-Alw"/>
+                <outlet property="danmakuModePopUpButton" destination="nFI-d6-5lf" id="5fE-tX-Qj1"/>
+                <outlet property="danmakuTextField" destination="Ri9-Bw-9cl" id="4er-3P-T4h"/>
+                <outlet property="launchDanmakuButton" destination="RtY-T5-zmF" id="L82-Yg-94S"/>
+                <outlet property="launchDanmakuView" destination="xol-ju-x7c" id="M4b-ef-VYI"/>
                 <outlet property="playButton" destination="R7Q-A2-PU1" id="qvH-J2-99H"/>
                 <outlet property="playDanmakuControlButton" destination="IYN-tC-3fl" id="hhl-T8-SUT"/>
                 <outlet property="playHUDButton" destination="cEG-Nr-myi" id="JT2-WG-Q4W"/>
@@ -190,11 +195,11 @@
             </subviews>
             <constraints>
                 <constraint firstItem="3Gh-7C-1J9" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Lzk-2j-59w"/>
+                <constraint firstAttribute="bottom" secondItem="3Gh-7C-1J9" secondAttribute="bottom" id="UQo-B8-Wlh"/>
                 <constraint firstItem="egJ-NC-vhy" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="Wxd-dh-A1j"/>
                 <constraint firstAttribute="trailing" secondItem="3Gh-7C-1J9" secondAttribute="trailing" id="aQo-WN-aEJ"/>
-                <constraint firstItem="3Gh-7C-1J9" firstAttribute="top" secondItem="egJ-NC-vhy" secondAttribute="bottom" id="hpN-Gt-RuM"/>
-                <constraint firstAttribute="bottom" secondItem="3Gh-7C-1J9" secondAttribute="bottom" id="iEP-wr-Z8o"/>
                 <constraint firstItem="egJ-NC-vhy" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="ndT-30-P49"/>
+                <constraint firstItem="3Gh-7C-1J9" firstAttribute="top" secondItem="egJ-NC-vhy" secondAttribute="bottom" id="ojY-ud-Szg"/>
                 <constraint firstAttribute="trailing" secondItem="egJ-NC-vhy" secondAttribute="trailing" id="z72-2y-G0q"/>
             </constraints>
             <point key="canvasLocation" x="36" y="148.5"/>
@@ -518,6 +523,61 @@
             </scroller>
             <point key="canvasLocation" x="937" y="162"/>
         </scrollView>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="xol-ju-x7c">
+            <rect key="frame" x="0.0" y="0.0" width="700" height="35"/>
+            <subviews>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pak-r4-aVz">
+                    <rect key="frame" x="8" y="4" width="34" height="26"/>
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="htz-bZ-SPl">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="bI3-Z1-V5G"/>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="clickDanmakuColorButton:" target="-2" id="IIY-Z0-rZa"/>
+                    </connections>
+                </popUpButton>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nFI-d6-5lf">
+                    <rect key="frame" x="47" y="4" width="34" height="26"/>
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="VG6-oA-r3K">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="BxB-5H-gyg"/>
+                    </popUpButtonCell>
+                </popUpButton>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ri9-Bw-9cl" customClass="RespondKeyboardTextField">
+                    <rect key="frame" x="88" y="6" width="538" height="22"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="回车发送弹幕" drawsBackground="YES" id="mWT-6v-TQK">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RtY-T5-zmF">
+                    <rect key="frame" x="630" y="0.0" width="66" height="32"/>
+                    <buttonCell key="cell" type="push" title="发送" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="A2e-8F-JE0">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clicklaunchDanmakuButton:" target="-2" id="das-gX-1Of"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="nFI-d6-5lf" firstAttribute="leading" secondItem="pak-r4-aVz" secondAttribute="trailing" constant="10" id="TZL-bH-alW"/>
+                <constraint firstItem="RtY-T5-zmF" firstAttribute="leading" secondItem="Ri9-Bw-9cl" secondAttribute="trailing" constant="10" id="gzq-P8-owd"/>
+                <constraint firstItem="Ri9-Bw-9cl" firstAttribute="centerY" secondItem="pak-r4-aVz" secondAttribute="centerY" id="kdg-vS-uFZ"/>
+                <constraint firstItem="Ri9-Bw-9cl" firstAttribute="leading" secondItem="nFI-d6-5lf" secondAttribute="trailing" constant="10" id="mIK-yR-2GP"/>
+                <constraint firstItem="RtY-T5-zmF" firstAttribute="centerY" secondItem="pak-r4-aVz" secondAttribute="centerY" id="ogE-R7-dpp"/>
+                <constraint firstItem="pak-r4-aVz" firstAttribute="leading" secondItem="xol-ju-x7c" secondAttribute="leading" constant="10" id="qAc-S4-0Ku"/>
+                <constraint firstAttribute="trailing" secondItem="RtY-T5-zmF" secondAttribute="trailing" constant="10" id="uh0-dh-fkb"/>
+                <constraint firstAttribute="height" constant="35" id="vlm-j2-XPF"/>
+                <constraint firstItem="nFI-d6-5lf" firstAttribute="centerY" secondItem="pak-r4-aVz" secondAttribute="centerY" id="y7e-c3-I6k"/>
+                <constraint firstItem="Ri9-Bw-9cl" firstAttribute="centerY" secondItem="xol-ju-x7c" secondAttribute="centerY" id="yhb-Z2-zgv"/>
+            </constraints>
+            <point key="canvasLocation" x="36" y="424.5"/>
+        </customView>
     </objects>
     <resources>
         <image name="HUD_danmaku_control" width="20" height="20"/>

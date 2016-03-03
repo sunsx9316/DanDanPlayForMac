@@ -48,4 +48,18 @@
         complete(nil, error);
     }];
 }
+
++ (id)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:path]];
+    request.HTTPMethod = @"PUT";
+    request.HTTPBody = HTTPBody;
+    [request setAllHTTPHeaderFields:@{@"Content-Type":@"application/json"}];
+    AFHTTPRequestOperation *operation = [[self _sharedAFDataManager] HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        complete(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        complete(nil, error);
+    }];
+    [[self _sharedAFDataManager].operationQueue addOperation:operation];
+    return operation;
+}
 @end

@@ -54,15 +54,17 @@
     if (!self.turnonBackFunction) danmaku.appearTime = _currentTime;
     
     DanmakuContainer *con = self.inactiveContainer.firstObject;
+    NSLog(@"%ld", self.inactiveContainer.count);
     if (!con) {
         con = [[DanmakuContainer alloc] initWithDanmaku:danmaku];
     }else{
         [self.inactiveContainer removeObject:con];
         [con setWithDanmaku:danmaku];
     }
+    
+    if (_globalAttributedDic) con.globalAttributedDic = _globalAttributedDic;
+    if (_globalFont) con.globalFont = _globalFont;
 
-    con.globalAttributedDic = _globalAttributedDic;
-    con.globalFont = _globalFont;
     con.originalPosition = [danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:self.canvas.frame danmakuSize:con.frame.size timeDifference:_currentTime - danmaku.appearTime];
     [self.canvas addSubview: con];
     [self.activeContainer addObject:con];

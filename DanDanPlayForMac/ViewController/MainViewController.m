@@ -26,6 +26,7 @@
 @implementation MainViewController
 {
     NSString *_animateTitle;
+    NSString *_episodeId;
 }
 
 - (void)viewDidLoad {
@@ -78,15 +79,18 @@
                 if (!error) {                    
                     [JHProgressHUD updateProgress: 100];
                     [JHProgressHUD updateMessage: @"解析视频..."];
+                    _episodeId = model.episodeId;
                 }else{
                     //快速匹配失败
                     [JHProgressHUD disMiss];
+                    _episodeId = nil;
                     [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
                 }
             }];
         }else{
             //快速匹配失败
             [JHProgressHUD disMiss];
+            _episodeId = nil;
             [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
         }
     }];
@@ -97,9 +101,10 @@
 - (void)presentPlayerViewController:(NSNotification *)notification{
     [JHProgressHUD disMiss];
     
-    PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideos: self.videos danMuDic:notification.userInfo matchName: _animateTitle];
+    PlayerViewController *pvc = [[PlayerViewController alloc] initWithLocaleVideos: self.videos danMuDic:notification.userInfo matchName: _animateTitle episodeId:_episodeId];
     //赋值之后置空
     _animateTitle = nil;
+    _episodeId = nil;
     [self addChildViewController: pvc];
     [self.view addSubview: pvc.view];
     [pvc.view mas_remakeConstraints:^(MASConstraintMaker *make) {

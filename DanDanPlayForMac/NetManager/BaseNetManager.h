@@ -31,4 +31,5 @@ typedef void(^progressCallBackBlock)(NSURLSessionTask *task, id responseObject, 
  */
 + (id)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 
++ (id)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 @end

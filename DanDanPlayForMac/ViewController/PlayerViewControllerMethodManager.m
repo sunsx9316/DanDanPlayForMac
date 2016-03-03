@@ -10,6 +10,8 @@
 #import "PlayerHUDControl.h"
 #import "DanMuDataFormatter.h"
 #import <VLCKit/VLCMediaPlayer.h>
+#import "DanMuNetManager.h"
+#import "DanMuModel.h"
 
 @implementation PlayerViewControllerMethodManager
 + (void)snapShotWithPlayer:(VLCMediaPlayer *)player snapshotName:(NSString *)snapshotName{
@@ -45,14 +47,15 @@
 + (CGFloat)currentTimeWithPlayer:(VLCMediaPlayer *)player{
     return player.time.numberValue.floatValue / 1000;
 }
-+ (void)showCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel{
-    [NSCursor unhide];
++ (void)showCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView{
     HUDPanel.animator.alphaValue = 1;
+    launchDanmakuView.animator.alphaValue = 1;
 }
 
-+ (void)hideCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel{
-    [NSCursor hide];
++ (void)hideCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView{
+    [NSCursor setHiddenUntilMouseMoves:YES];
     HUDPanel.animator.alphaValue = 0;
+    launchDanmakuView.animator.alphaValue = 0;
 }
 
 + (void)showDanMuControllerView:(NSScrollView *)scrollView withRect:(CGRect)scrollViewRect hideButton:(NSButton *)button{
@@ -105,6 +108,17 @@
                 block(dic);
             }
         }];
+}
+
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler{
+    DanMuDataModel *model = [[DanMuDataModel alloc] init];
+    model.color = color;
+    model.time = time;
+    model.mode = mode;
+    model.message = text;
+    [DanMuNetManager launchDanmakuWithModel:model episodeId:episodeId completionHandler:^(NSError *error) {
+        completionHandler(model, error);
+    }];
 }
 
 #pragma mark - 私有方法

@@ -27,6 +27,7 @@
 
 ## build
 1. 请自行编译[VLCKit](https://code.videolan.org/videolan/VLCKit) 直接导入
+2. 发射弹幕功能需要官方的key和IV 需要请向官方索要 填在Config/Config.h中
 
 ## 软件截图
 ![预览图1](https://github.com/sunsx9316/DanDanPlayForMac/blob/master/snapshot/img1.png)

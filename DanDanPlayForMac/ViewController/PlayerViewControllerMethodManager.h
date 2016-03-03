@@ -7,7 +7,7 @@
 //
 #import <Foundation/Foundation.h>
 typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
-@class VLCMediaPlayer, PlayerHUDControl;
+@class VLCMediaPlayer, PlayerHUDControl, DanMuDataModel;
 @interface PlayerViewControllerMethodManager : NSObject
 /**
  *  截图
@@ -33,17 +33,19 @@ typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
  */
 + (CGFloat)currentTimeWithPlayer:(VLCMediaPlayer *)player;
 /**
- *  显示鼠标和hud面板
+ *  显示鼠标 hud面板 弹幕发射面板
  *
  *  @param HUDPanel hud面板
+ *  @param launchDanmakuView 发射弹幕面板
  */
-+ (void)showCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel;
++ (void)showCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView;
 /**
- *  隐藏鼠标和hud面板
+ *  隐藏鼠标 hud面板 弹幕发射面板
  *
- *  @param HUDPanel <#HUDPanel description#>
+ *  @param HUDPanel hud面板
+ *  @param launchDanmakuView 发射弹幕面板
  */
-+ (void)hideCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel;
++ (void)hideCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView;
 /**
  *  显示弹幕控制器
  *
@@ -80,4 +82,15 @@ typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
  *  @param block 回调
  */
 + (void)loadLocaleDanMuWithBlock:(loadLocalDanMuBlock)block;
+/**
+ *  发射弹幕
+ *
+ *  @param text              弹幕内容
+ *  @param color             弹幕颜色
+ *  @param mode              弹幕模式
+ *  @param time              弹幕发射时间
+ *  @param episodeId         节目ID
+ *  @param completionHandler 回调
+ */
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler;
 @end

@@ -26,6 +26,10 @@
  */
 @property (assign, nonatomic) NSInteger currentIndex;
 /**
+ *  节目id
+ */
+@property (strong, nonatomic) NSString *episodeId;
+/**
  *  根据下标获取本地视频名称
  *
  *  @param index 下标
@@ -77,8 +81,8 @@
  *
  *  @param localVideoModel 本地视频模型
  *  @param arr             弹幕数组
- *
+ *  @param episodeId       分集id
  *  @return self
  */
-- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic;
+- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId;
 @end

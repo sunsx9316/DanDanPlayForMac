@@ -7,7 +7,7 @@
 //
 
 #import "BaseNetManager.h"
-
+@class DanMuDataModel;
 @interface DanMuNetManager : BaseNetManager
 /**
  *  下载官方或第三方弹幕库
@@ -54,4 +54,14 @@
  *  @return 任务
  */
 + (id)getAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
+/**
+ *  发射弹幕方法
+ *
+ *  @param model     弹幕模型
+ *  @param episodeId 节目id
+ *  @param complete  回调
+ *
+ *  @return 任务
+ */
++ (id)launchDanmakuWithModel:(DanMuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(NSError *error))complete;
 @end

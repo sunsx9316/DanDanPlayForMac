@@ -7,7 +7,7 @@
 //
 
 #import "BaseModel.h"
-@class DanMuDataModel;
+@class DanMuDataModel, LaunchDanmakuModel;
 /**
  *  弹幕模型
  */
@@ -36,4 +36,25 @@
  *  是否被过滤
  */
 @property (assign, nonatomic, getter=isFilter) BOOL filter;
+/**
+ *  转换成发射用的弹幕模型
+ *
+ *  @return 发射用的弹幕模型
+ */
+- (LaunchDanmakuModel *)launchDanmakuModel;
+@end
+
+/**
+ *  发射用弹幕模型
+ */
+@interface LaunchDanmakuModel : BaseModel
+@property (assign, nonatomic) CGFloat Time;
+@property (assign, nonatomic) NSInteger Mode;
+@property (assign, nonatomic) NSInteger Color;
+@property (assign, nonatomic) NSInteger Timestamp;
+@property (assign, nonatomic) NSInteger Pool;
+@property (assign, nonatomic) NSInteger UId;
+@property (assign, nonatomic) NSInteger CId;
+@property (strong, nonatomic) NSString *Token;
+@property (strong, nonatomic) NSString *Message;
 @end

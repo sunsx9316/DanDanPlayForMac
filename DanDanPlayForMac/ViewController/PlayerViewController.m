@@ -29,8 +29,12 @@
 #import "SliderControlCell.h"
 #import "TimeAxisCell.h"
 #import "OnlyButtonCell.h"
+#import "DanmakuColorMenuItem.h"
+#import "DanmakuModeMenuItem.h"
+#import "RespondKeyboardTextField.h"
 
 #import "VLCMedia+Tools.h"
+#import "NSColor+Tools.h"
 #import "JHDanmakuEngine+Tools.h"
 #import "PlayerViewControllerMethodManager.h"
 #import "JHDanmakuRender.h"
@@ -67,9 +71,17 @@
 @property (weak) IBOutlet NSScrollView *danMuControlView;
 @property (strong) IBOutlet NSScrollView *playListView;
 @property (weak) IBOutlet PlayerListTableView *playerListTableView;
+@property (weak) IBOutlet RespondKeyboardTextField *danmakuTextField;
+@property (weak) IBOutlet NSView *launchDanmakuView;
+@property (weak) IBOutlet NSButton *launchDanmakuButton;
+
 
 @property (strong, nonatomic) NSButton *showDanMuControllerViewButton;
 @property (strong, nonatomic) PlayerHUDMessageView *messageView;
+@property (weak) IBOutlet NSPopUpButton *danmakuColorPopUpButton;
+@property (weak) IBOutlet NSPopUpButton *danmakuModePopUpButton;
+
+
 
 @property (strong, nonatomic) VLCVideoView *playerView;
 @property (nonatomic, strong) VLCMediaPlayer *player;
@@ -81,7 +93,6 @@
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
 //快捷键映射
 @property (strong, nonatomic) NSArray *keyMap;
-@property (strong, nonatomic) NSTimer *HUDControlTimer;
 @end
 
 @implementation PlayerViewController
@@ -92,12 +103,11 @@
     BOOL _fullScreen;
     //时间格式化工具
     NSDateFormatter *_formatter;
-    
 }
 #pragma mark - 方法
-- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName{
+- (instancetype)initWithLocaleVideos:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName episodeId:(NSString *)episodeId{
     if (self = [super initWithNibName: @"PlayerViewController" bundle: nil]) {
-        self.vm = [[PlayViewModel alloc] initWithLocalVideoModels:localVideoModels danMuDic:dic];
+        self.vm = [[PlayViewModel alloc] initWithLocalVideoModels:localVideoModels danMuDic:dic episodeId:episodeId];
         [self postMatchMessageWithMatchName: matchName];
     }
     return self;
@@ -109,7 +119,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillEnterFullScreen:) name:NSWindowWillEnterFullScreenNotification object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object: nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanmakuColor:) name:NSColorPanelColorDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanMuDic:) name:@"danMuChooseOver" object: nil];
     
     self.vm.currentIndex = 0;
@@ -132,9 +142,11 @@
 - (void)mouseMoved:(NSEvent *)theEvent{
     NSPoint point = theEvent.locationInWindow;
     if (_fullScreen) {
-        [PlayerViewControllerMethodManager showCursorAndHUDPanel:self.playerHUDControl];
-        [self.HUDControlTimer invalidate];
-        self.HUDControlTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(hideCursorAndHUDPanel:) userInfo:nil repeats:NO];
+        if (point.y > 10) {
+            [PlayerViewControllerMethodManager showCursorAndHUDPanel:self.playerHUDControl launchDanmakuView:self.launchDanmakuView];
+        }else{
+            [PlayerViewControllerMethodManager hideCursorAndHUDPanel:self.playerHUDControl launchDanmakuView:self.launchDanmakuView];
+        }
     }
     
     if (point.x > self.view.frame.size.width - 50) {
@@ -142,11 +154,6 @@
     }else{
         [self hideDanMuControllerButton];
     }
-}
-
-- (void)hideCursorAndHUDPanel:(NSTimer *)timer{
-    [PlayerViewControllerMethodManager hideCursorAndHUDPanel:self.playerHUDControl];
-    [timer invalidate];
 }
 
 - (void)keyDown:(NSEvent *)theEvent{
@@ -238,6 +245,37 @@
     self.showDanMuControllerViewButton.animator.alphaValue = 0;
 }
 
+- (IBAction)clickDanmakuColorButton:(NSPopUpButton *)sender {
+    if (sender.indexOfSelectedItem == 7) {
+        NSColorPanel *panel = [NSColorPanel sharedColorPanel];
+        [panel setTarget:self];
+        [panel orderFront:self];
+    }
+}
+
+- (IBAction)clicklaunchDanmakuButton:(NSButton *)sender{
+    NSString *text = self.danmakuTextField.stringValue;
+    if (!text || [text isEqualToString:@""]) return;
+    
+    DanmakuModeMenuItem *item = (DanmakuModeMenuItem *)self.danmakuModePopUpButton.selectedItem;
+    DanmakuColorMenuItem *colorItem = (DanmakuColorMenuItem *)self.danmakuColorPopUpButton.selectedItem;
+    
+    NSInteger mode = item.mode;
+    NSInteger color = colorItem.itemColor;
+    [PlayerViewControllerMethodManager launchDanmakuWithText:text color:color mode:mode time:[PlayerViewControllerMethodManager currentTimeWithPlayer:self.player] episodeId:[self.vm episodeId] completionHandler:^(DanMuDataModel *model, NSError *error) {
+        //无错误发射
+        if (!error) {            
+            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithModel:model shadowStyle:[UserDefaultManager danMufontSpecially] fontSize:0 font:[UserDefaultManager danMuFont]];
+            danmaku.appearTime = [PlayerViewControllerMethodManager currentTimeWithPlayer:self.player];
+            NSMutableAttributedString *str = [danmaku.attributedString mutableCopy];
+            [str addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:NSMakeRange(0, str.length)];
+            danmaku.attributedString = str;
+            self.danmakuTextField.stringValue = @"";
+            [self.rander addDanmaku: danmaku];
+        }
+    }];
+}
+
 
 #pragma mark - NSUserNotificationDelegate
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
@@ -253,7 +291,7 @@
     CGRect frame = self.playerHoldView.frame;
     if ([UserDefaultManager turnOnCaptionsProtectArea]) {
         CGFloat offset = frame.size.height * 0.15;
-        frame.origin.y = offset;
+        frame.origin.y += offset;
         frame.size.height -= offset;
     }
     self.rander.canvas.frame = frame;
@@ -279,20 +317,29 @@
                     [JHProgressHUD updateProgress: 100];
                     [JHProgressHUD updateMessage: @"解析视频..."];
                     [JHProgressHUD disMiss];
+                    self.vm.episodeId = dataModel.episodeId;
                     [self postMatchMessageWithMatchName: [NSString stringWithFormat:@"%@-%@", dataModel.animeTitle, dataModel.episodeTitle]];
                 }else{
                     //快速匹配失败
                     [JHProgressHUD disMiss];
+                    self.vm.episodeId = nil;
                     [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: localVideoModel]];
                 }
             }];
         }else{
             //快速匹配失败
             [JHProgressHUD disMiss];
+            self.vm.episodeId = nil;
             [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: localVideoModel]];
         }
     }];
     
+}
+
+- (void)changeDanmakuColor:(NSNotification *)sender{
+    NSColorPanel *panel = sender.object;
+    DanmakuColorMenuItem *item = (DanmakuColorMenuItem *)[self.danmakuColorPopUpButton itemAtIndex:7];
+    [item setItemColor:panel.color];
 }
 
 #pragma mark 全屏相关
@@ -317,15 +364,13 @@
     self.playerUIHeight.constant = 40;
     _fullScreen = NO;
     self.playerHUDControl.hidden = YES;
-    [self.HUDControlTimer invalidate];
-    [NSCursor unhide];
+    //[NSCursor unhide];
 }
 
 
 #pragma mark 更换弹幕字典通知
 - (void)changeDanMuDic:(NSNotification *)notification{
     [self.vm currentVLCMediaWithCompletionHandler:^(VLCMedia *responseObj) {
-        _danMuOffsetTime = 0;
         [self stopPlay];
         [self setupWithMedia: responseObj];
         self.vm.danmakusDic = notification.userInfo;
@@ -424,6 +469,8 @@
     }];
 }
 
+
+
 #pragma mark 快捷键调用的方法
 - (void)targetMethodWithID:(NSNumber *)ID{
     switch (ID.integerValue) {
@@ -483,22 +530,48 @@
         }
     }];
     
+    [self.danmakuTextField setWithBlock:^{
+        [weakSelf clicklaunchDanmakuButton:nil];
+    }];
+    
     [self.playerHoldView addSubview:self.playerView];
     [self.view addSubview: self.playerHUDControl positioned:NSWindowAbove relativeTo:self.rander.canvas];
     [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.rander.canvas];
     [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.rander.canvas];
+    [self.view addSubview: self.launchDanmakuView positioned:NSWindowAbove relativeTo:self.rander.canvas];
     
+    //播放器hud控制面板
     CGSize screenSize = [NSScreen mainScreen].frame.size;
     CGFloat playerHUDControlWidth = screenSize.width * 0.4;
     CGFloat playerHUDControlHeight = playerHUDControlWidth / 5;
     self.playerHUDControl.frame = CGRectMake((screenSize.width - playerHUDControlWidth) / 2, -playerHUDControlHeight, playerHUDControlWidth, playerHUDControlHeight);
     
+    //弹幕控制面板
     self.danMuControlView.frame = NSMakeRect(self.view.frame.size.width, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    //播放列表面板
     self.playListView.frame = NSMakeRect(-300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
-    
+    //发射弹幕面板
+    self.launchDanmakuView.layer.backgroundColor = [NSColor colorWithRGB:0 alpha:0.5].CGColor;
+    [self.launchDanmakuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(0);
+        make.bottom.equalTo(self.playerControl.mas_top);
+        make.height.mas_equalTo(35);
+    }];
+    //播放控制面板
     self.playerControl.layer.backgroundColor = [NSColor windowFrameColor].CGColor;
     self.progressSliderView.delegate = self;
     [self.view addTrackingArea:self.trackingArea];
+    
+    //弹幕控制面板
+    NSArray *colorArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"danmakuColor" ofType:@"plist"]];
+    for (NSDictionary *dic in colorArr) {
+        DanmakuColorMenuItem *item = [[DanmakuColorMenuItem alloc] initWithTitle:dic[@"name"] color:[NSColor colorWithRGB:(uint32_t)[dic[@"value"] integerValue]]];
+        [self.danmakuColorPopUpButton.menu addItem:item];
+    }
+    
+    [self.danmakuModePopUpButton.menu addItem:[[DanmakuModeMenuItem alloc] initWithMode:1 title:@"滚动弹幕"]];
+    [self.danmakuModePopUpButton.menu addItem:[[DanmakuModeMenuItem alloc] initWithMode:4 title:@"顶部弹幕"]];
+    [self.danmakuModePopUpButton.menu addItem:[[DanmakuModeMenuItem alloc] initWithMode:5 title:@"底部弹幕"]];
     
     //初始化视频信息
     self.player = [[VLCMediaPlayer alloc] initWithVideoView:self.playerView];
@@ -538,6 +611,9 @@
     
     //设置其它参数
     [NSApplication sharedApplication].mainWindow.title = [self.vm currentVideoName];
+    _danMuOffsetTime = 0;
+    self.danmakuTextField.enabled = self.vm.episodeId != nil;
+    self.launchDanmakuButton.enabled = self.vm.episodeId != nil;
     
     //初始化音量
     self.player.audio.volume = self.volumeSliderView.intValue * 2;
@@ -633,13 +709,6 @@
             else _danMuOffsetTime += num;
             
             [weakSelf timeOffset: _danMuOffsetTime];
-//            if (num == 0 && _danMuOffsetTime) {
-//                weakSelf.rander.currentTime -= _danMuOffsetTime;
-//                _danMuOffsetTime = 0;
-//            }else if(weakSelf.rander.currentTime + num > 0){
-//                _danMuOffsetTime += num;
-//                weakSelf.rander.currentTime += num;
-//            }
             weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", _danMuOffsetTime >= 0 ? @"+" : @"", (long)_danMuOffsetTime];
             [weakSelf.messageView showHUD];
         }];
@@ -748,7 +817,7 @@
         CGRect frame = self.playerHoldView.frame;
         if ([UserDefaultManager turnOnCaptionsProtectArea]) {
             CGFloat offset = frame.size.height * 0.15;
-            frame.origin.y = offset;
+            frame.origin.y += offset;
             frame.size.height -= offset;
         }
         _rander.canvas.frame = frame;

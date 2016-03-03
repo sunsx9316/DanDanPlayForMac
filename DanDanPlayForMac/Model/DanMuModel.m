@@ -19,7 +19,21 @@
 @end
 
 @implementation DanMuDataModel
+- (LaunchDanmakuModel *)launchDanmakuModel{
+    LaunchDanmakuModel *model = [[LaunchDanmakuModel alloc] init];
+    model.Time = self.time;
+    model.Mode = self.mode;
+    model.Color = self.color;
+    model.Message = self.message;
+    return model;
+}
+
 + (NSDictionary *)modelCustomPropertyMapper{
     return @{@"time":@"Time", @"mode":@"Mode", @"color":@"Color", @"message":@"Message"};
 }
+@end
+
+@implementation LaunchDanmakuModel
+
+
 @end

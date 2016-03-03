@@ -10,10 +10,12 @@
 #import "DanMuModel.h"
 #import "VideoInfoModel.h"
 #import "DanMuDataFormatter.h"
+#import "NSData+DanDanPlay.h"
 
 @implementation DanMuNetManager
 + (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     if (![UserDefaultManager turnOnFastMatch]) {
+        //没开启快速匹配功能 直接进入匹配界面
        return [self getThirdPartyDanMuWithParameters:parameters completionHandler:complete];
     }else{
         return [self downOfficialDanmakuWithParameters:parameters completionHandler:^(id responseObj, NSError *error) {
@@ -93,6 +95,18 @@
         }
         
         complete([AcfunVideoInfoModel yy_modelWithDictionary: @{@"videos":@[responseObj], @"title":responseObj[@"title"]}], error);
+    }];
+}
+
+
++ (id)launchDanmakuWithModel:(DanMuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(NSError *error))complete{
+    if (!model || !episodeId) {
+        complete(kObjNilError);
+        return nil;
+    }
+    
+    return [self PUTWithPath:[NSString stringWithFormat:@"http://acplay.net/api/v1/comment/%@?clientId=ddplaymac", episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] Encrypt] parameters:nil completionHandler:^(id responseObj, NSError *error) {
+        complete(error);
     }];
 }
 
