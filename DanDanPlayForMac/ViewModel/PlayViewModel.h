@@ -10,7 +10,7 @@
 /**
  *  播放视图模型
  */
-@class DanMuDataModel, LocalVideoModel, VLCMedia;
+@class DanMuDataModel, VideoModel;
 @interface PlayViewModel : BaseViewModel
 /**
  *  保存弹幕模型的数组
@@ -26,7 +26,7 @@
  */
 @property (assign, nonatomic) NSInteger currentIndex;
 /**
- *  节目id
+ *  官方节目id 用于发射弹幕给指定节目
  */
 @property (strong, nonatomic) NSString *episodeId;
 /**
@@ -36,13 +36,13 @@
  *
  *  @return 名称
  */
-- (NSString *)localeVideoNameWithIndex:(NSInteger)index;
+- (NSString *)videoNameWithIndex:(NSInteger)index;
 /**
  *  获取视频总数
  *
  *  @return 总数
  */
-- (NSInteger)localeVideoCount;
+- (NSInteger)videoCount;
 /**
  *  是否显示播放图标
  *
@@ -52,11 +52,25 @@
  */
 - (BOOL)showPlayIconWithIndex:(NSInteger)index;
 /**
- *  获取当前LocalVideoModel
+ *  获取当前VideoModel
  *
- *  @return LocalVideoModel
+ *  @return VideoModel
  */
-- (LocalVideoModel *)currentLocalVideoModel;
+- (VideoModel *)currentVideoModel;
+/**
+ *  根据下标获取模型
+ *
+ *  @param index 下标
+ *
+ *  @return VideoModel
+ */
+- (VideoModel *)videoModelWithIndex:(NSInteger)index;
+/**
+ *  当前视频URL
+ *
+ *  @return URL
+ */
+- (NSURL *)currentVideoURL;
 /**
  *  当前视频名称
  *
@@ -64,18 +78,17 @@
  */
 - (NSString *)currentVideoName;
 /**
- *  添加本地视频
+ *  添加视频
  *
  *  @param videosModel 数组
  */
-- (void)addLocalVideosModel:(NSArray *)videosModel;
-
+- (void)addVideosModel:(NSArray *)videosModel;
 /**
- *  获取当前VLCMedia
+ *  根据下标重新刷新弹幕
  *
- *  @param complete 回调
+ *  @param index 下标
  */
-- (void)currentVLCMediaWithCompletionHandler:(void(^)(VLCMedia *responseObj))complete;
+- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(NSInteger progress, NSString *videoMatchName, NSError *error))complete;
 /**
  *  初始化
  *
@@ -84,5 +97,5 @@
  *  @param episodeId       分集id
  *  @return self
  */
-- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId;
+- (instancetype)initWithVideoModels:(NSArray *)videoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId;
 @end

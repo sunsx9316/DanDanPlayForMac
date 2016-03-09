@@ -7,18 +7,11 @@
 //
 
 #import "BaseModel.h"
+#import "VideoModel.h"
 /**
  *  本地视频模型
  */
-@interface LocalVideoModel : BaseModel
-/**
- *  文件名不带格式
- */
-- (NSString *)fileName;
-/**
- *  文件完整路径
- */
-- (NSURL *)filePath;
+@interface LocalVideoModel : VideoModel
 /**
  *  文件哈希值
  */
@@ -27,20 +20,4 @@
  *  文件大小
  */
 - (NSString *)length;
-/**
- *  初始化
- *
- *  @param filePath 文件路径
- *
- *  @return self
- */
-- (instancetype)initWithFilePath:(NSString *)filePath;
-/**
- *  初始化
- *
- *  @param fileURL 文件路径
- *
- *  @return self
- */
-- (instancetype)initWithFileURL:(NSURL *)fileURL;
 @end

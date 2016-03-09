@@ -83,11 +83,11 @@ static UserDefaultManager* manager = nil;
         return manager->_danMuOpacity.floatValue;
     }
     
-    CGFloat value = 100.0;
+    CGFloat value = 1.0;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"danMuOpacity"]) {
         value = [[NSUserDefaults standardUserDefaults] floatForKey: @"danMuOpacity"];
     }else{
-        [self setDanMuOpacity: 100.0];
+        [self setDanMuOpacity: 1.0];
     }
     return value;
 }
@@ -104,11 +104,11 @@ static UserDefaultManager* manager = nil;
         return manager->_danMuSpeed.floatValue;
     }
     
-    CGFloat value = 31.0;
+    CGFloat value = 1.0;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"danMuSpeed"]) {
         value = [[NSUserDefaults standardUserDefaults] floatForKey:@"danMuSpeed"];
     }else{
-        [self setDanMuSpeed: 31.0];
+        [self setDanMuSpeed: 1.0];
     }
     return value;
 }

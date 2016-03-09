@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, scrollDanmakuDirection) {
  *
  *  @return self
  */
-- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(NSColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(NSFont *)font speed:(CGFloat)speed direction:(scrollDanmakuDirection)direction;
+- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(JHColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(JHFont *)font speed:(CGFloat)speed direction:(scrollDanmakuDirection)direction;
 
 - (CGFloat)speed;
 - (scrollDanmakuDirection)direction;

@@ -9,6 +9,13 @@
 #import "ScrollDanmaku.h"
 #import "DanmakuContainer.h"
 
+//当前窗口大小
+#if TARGET_OS_IPHONE
+#define kWindowFrame [UIScreen mainScreen].bounds
+#else
+#define kWindowFrame NSApp.keyWindow.frame
+#endif
+
 @interface ScrollDanmaku()
 @property (assign, nonatomic) CGFloat speed;
 @property (assign, nonatomic) scrollDanmakuDirection direction;
@@ -16,18 +23,29 @@
 
 @implementation ScrollDanmaku
 
-- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(NSColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(NSFont *)font speed:(CGFloat)speed direction:(scrollDanmakuDirection)direction{
+- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(JHColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(JHFont *)font speed:(CGFloat)speed direction:(scrollDanmakuDirection)direction{
     if (self = [super initWithFontSize:fontSize textColor:textColor text:text shadowStyle:shadowStyle font:font]) {
         _speed = speed;
+#if TARGET_OS_IPHONE
+        if (direction == scrollDanmakuDirectionT2B) {
+            _direction = scrollDanmakuDirectionB2T;
+        }else if (direction == scrollDanmakuDirectionB2T) {
+            _direction = scrollDanmakuDirectionT2B;
+        }else{
+            _direction = direction;
+        }
+#else
         _direction = direction;
+#endif
     }
     return self;
 }
 
 - (BOOL)updatePositonWithTime:(NSTimeInterval)time container:(DanmakuContainer *)container{
-    CGRect windowsFrame = NSApp.keyWindow.frame;
+    CGRect windowFrame = kWindowFrame;
     CGRect containerFrame = container.frame;
     CGPoint point = container.originalPosition;
+    
     switch (_direction) {
         case scrollDanmakuDirectionR2L:
         {
@@ -41,7 +59,7 @@
             point.x += _speed * (time - self.appearTime);
             containerFrame.origin = point;
             container.frame = containerFrame;
-            return containerFrame.origin.x <= windowsFrame.size.width;
+            return containerFrame.origin.x <= windowFrame.size.width;
         }
         case scrollDanmakuDirectionT2B:
         {
@@ -54,19 +72,20 @@
             point.y += _speed * (time - self.appearTime);
             containerFrame.origin = point;
             container.frame = containerFrame;
-            return containerFrame.origin.y <= windowsFrame.size.height;
+            return containerFrame.origin.y <= windowFrame.size.height;
     }
     return NO;
 }
 
 /**
- *  遍历所有同方向的弹幕
+ *
+ 遍历所有同方向的弹幕
  如果方向是左右或者右左 channelHeight = 窗口高/channelCount
  如果是上下或者下上 channelHeight = 窗口宽/channelCount
  左右方向按照y/channelHeight 归类
  上下方向按照x/channelHeight 归类
  优先选择没有弹幕的轨道
- 如果都有 选出每条轨道上跑地最慢的弹幕 再从这些弹幕中选出跑地最远的弹幕 它所在的轨道就是所选轨道
+ 如果都有 选出每条轨道上跑得最慢的弹幕 再从这些弹幕中选出跑得最远的弹幕 它所在的轨道就是所选轨道
  */
 - (CGPoint)originalPositonWithContainerArr:(NSArray <DanmakuContainer *>*)arr channelCount:(NSInteger)channelCount contentRect:(CGRect)rect danmakuSize:(CGSize)danmakuSize timeDifference:(NSTimeInterval)timeDifference{
     NSMutableDictionary <NSNumber *, NSMutableArray <DanmakuContainer *>*>*dic = [NSMutableDictionary dictionary];
@@ -101,12 +120,23 @@
             if (firstGreatEqualThanSecond) channel = key.intValue;
         }];
     }else{
+#if TARGET_OS_IPHONE
+        for (NSInteger i = 0; i < channelCount; ++i) {
+            if (!dic[@(i)]) {
+                channel = i;
+                break;
+            }
+        }
+        
+#else
         for (NSInteger i = channelCount - 1; i >= 0; --i) {
             if (!dic[@(i)]) {
                 channel = i;
                 break;
             }
         }
+        
+#endif
     }
     
     switch (_direction) {
@@ -210,5 +240,6 @@
     *firstGreaterEqualThanSecond = NO;
     return CGRectZero;
 }
+
 
 @end

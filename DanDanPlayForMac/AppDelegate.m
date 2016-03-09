@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "OpenStreamInputAidViewController.h"
 
 @interface AppDelegate ()
 
@@ -59,5 +60,11 @@
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     [vc dismissController:vc];
 }
+
+- (IBAction)clickNetButton:(NSMenuItem *)sender {
+    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
+    [vc presentViewControllerAsSheet:[[OpenStreamInputAidViewController alloc] init]];
+}
+
 
 @end

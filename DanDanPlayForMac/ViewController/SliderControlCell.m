@@ -48,15 +48,21 @@
     switch (style) {
         case sliderControlStyleFontSize:
             self.title.stringValue = @"字体缩放";
-            self.slider.floatValue = [UserDefaultManager danMuFont].pointSize / 100;
+            self.slider.minValue = 1;
+            self.slider.maxValue = 100;
+            self.slider.floatValue = [UserDefaultManager danMuFont].pointSize;
             break;
         case sliderControlStyleSpeed:
             self.title.stringValue = @"速度调节";
-            self.slider.floatValue = [UserDefaultManager danMuSpeed] / 100.0;
+            self.slider.minValue = 0.1;
+            self.slider.maxValue = 3.0;
+            self.slider.floatValue = [UserDefaultManager danMuSpeed];
             break;
         case sliderControlStyleOpacity:
             self.title.stringValue = @"弹幕透明度";
-            self.slider.floatValue = [UserDefaultManager danMuOpacity] / 100.0;
+            self.slider.minValue = 0;
+            self.slider.maxValue = 1.0;
+            self.slider.floatValue = [UserDefaultManager danMuOpacity];
             break;
         default:
             break;
@@ -69,14 +75,14 @@
         switch (self.style) {
             case sliderControlStyleFontSize:
             {
-                float value = slider.floatValue * 99 + 1;
+                float value = slider.floatValue;
                 self.block(value);
-                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", value];
+                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", value / 25];
                 break;
             }
             case sliderControlStyleSpeed:
             {
-                float value = slider.floatValue * 2.9 + 0.1;
+                float value = slider.floatValue;
                 self.block(value);
                 if (value == 3.0) {
                     self.valueLabel.textColor = [NSColor redColor];

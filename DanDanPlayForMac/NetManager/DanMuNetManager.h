@@ -39,7 +39,7 @@
 /**
  *  获取b站视频详情
  *
- *  @param parameters 参数
+ *  @param parameters 参数 aid page
  *  @param complete   回调
  *
  *  @return 任务

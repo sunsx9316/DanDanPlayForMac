@@ -30,6 +30,8 @@
 @interface PlayerSlideView : NSView
 @property (weak, nonatomic) id<PlayerSlideViewDelegate> delegate;
 @property (strong, nonatomic) NSColor *backGroundColor;
-@property (strong, nonatomic) NSColor *sliderColor;
-- (void)updateCurrentTime:(CGFloat)currentTime;
+@property (strong, nonatomic) NSColor *progressSliderColor;
+@property (strong, nonatomic) NSColor *bufferSliderColor;
+- (void)updateCurrentProgress:(CGFloat)progress;
+- (void)updateBufferProgress:(CGFloat)progress;
 @end

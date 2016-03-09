@@ -7,28 +7,38 @@
 //
 
 #import "PlayViewModel.h"
-#import "DanMuModel.h"
-#import "DanMuNetManager.h"
 #import "LocalVideoModel.h"
+#import "StreamingVideoModel.h"
+#import "LocalVideoModel.h"
+#import "MatchViewModel.h"
+#import "DanMuChooseViewModel.h"
+
 #import "JHVLCMedia.h"
-#import "VLCMedia+Tools.h"
+#import "DanMuModel.h"
 #import "ParentDanmaku.h"
+#import "MatchModel.h"
+
+#import "VLCMedia+Tools.h"
 #import "JHDanmakuEngine+Tools.h"
+
+#import "DanMuNetManager.h"
+#import "VideoNetManager.h"
+
 @interface PlayViewModel()
 /**
  *  视频模型
  */
-@property (strong, nonatomic) NSArray <LocalVideoModel *>*videos;
+@property (strong, nonatomic) NSArray <VideoModel *>*videos;
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *,VLCMedia *>*VLCMedias;
 @property (strong, nonatomic) JHVLCMedia *media;
 @end
 
 @implementation PlayViewModel
-- (NSString *)localeVideoNameWithIndex:(NSInteger)index{
-    return [self localVideoModelWithIndex: index].fileName;
+- (NSString *)videoNameWithIndex:(NSInteger)index{
+    return [self videoModelWithIndex: index].fileName?[self videoModelWithIndex: index].fileName:@"";
 }
 
-- (NSInteger)localeVideoCount{
+- (NSInteger)videoCount{
     return self.videos.count;
 }
 
@@ -40,56 +50,84 @@
     return [self videoNameWithIndex: self.currentIndex];
 }
 
-- (LocalVideoModel *)currentLocalVideoModel{
-    return [self localVideoModelWithIndex: self.currentIndex];
+- (VideoModel *)currentVideoModel{
+    return [self videoModelWithIndex: self.currentIndex];
+}
+
+- (NSURL *)currentVideoURL{
+    return [self videoURLWithIndex: self.currentIndex];
 }
 
 - (void)setCurrentIndex:(NSInteger)currentIndex{
     _currentIndex = currentIndex>0?currentIndex%self.videos.count:0;
 }
 
-- (void)addLocalVideosModel:(NSArray *)videosModel{
+- (void)addVideosModel:(NSArray *)videosModel{
     self.videos = [self.videos arrayByAddingObjectsFromArray:videosModel];
-}
-
-- (void)currentVLCMediaWithCompletionHandler:(void(^)(VLCMedia *responseObj))complete{
-    [self VLCMediaWithIndex:self.currentIndex completionHandler:complete];
 }
 
 
 #pragma mark - 私有方法
 - (NSURL *)videoURLWithIndex:(NSInteger)index{
-    return [self localVideoModelWithIndex: index].filePath?[self localVideoModelWithIndex: index].filePath:nil;
+    return [self videoModelWithIndex: index].filePath?[self videoModelWithIndex: index].filePath:nil;
 }
 
-- (NSString *)videoNameWithIndex:(NSInteger)index{
-    return [self localVideoModelWithIndex: index].fileName?[self localVideoModelWithIndex: index].fileName:@"";
-}
-
-- (void)VLCMediaWithIndex:(NSInteger)index completionHandler:(void(^)(VLCMedia *responseObj))complete{
-    if (!self.VLCMedias[@(index)]) {
-        self.VLCMedias[@(index)] = [VLCMedia mediaWithURL: [self videoURLWithIndex: index]];
-    }
-    
-    if (self.VLCMedias[@(index)].isParsed) {
-        complete(self.VLCMedias[@(index)]);
-        return;
-    }
-    
-    self.media = [[JHVLCMedia alloc] initWithURL: [self videoURLWithIndex: index]];
-    [self.media parseWithBlock:^(VLCMedia *aMedia) {
-        self.VLCMedias[@(index)] = aMedia;
-        complete(aMedia);
-    }];
-}
-
-- (LocalVideoModel *)localVideoModelWithIndex:(NSInteger)index{
+- (VideoModel *)videoModelWithIndex:(NSInteger)index{
     return index<self.videos.count?self.videos[index]:nil;
 }
 
-- (instancetype)initWithLocalVideoModels:(NSArray *)localVideoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId{
+- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(NSInteger progress, NSString *videoMatchName, NSError *error))complete{
+    id videoModel = [self videoModelWithIndex:index];
+    if ([videoModel isKindOfClass:[LocalVideoModel class]]) {
+        LocalVideoModel *vm = (LocalVideoModel *)videoModel;
+        
+        [[[MatchViewModel alloc] initWithModel:vm] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *dataModel) {
+            //episodeId存在 说明精确匹配
+            if (dataModel.episodeId) {
+                complete(50, nil, error);
+                self.episodeId = dataModel.episodeId;
+                //搜索弹幕
+                [[[DanMuChooseViewModel alloc] initWithVideoID: dataModel.episodeId] refreshCompletionHandler:^(NSError *error) {
+                    //判断官方弹幕是否为空
+                    if (!error) {
+                        complete(100, [NSString stringWithFormat:@"%@-%@", dataModel.animeTitle, dataModel.episodeTitle], error);
+                    }else{
+                        //快速匹配失败
+                        complete(0, nil, kObjNilError);
+                    }
+                }];
+            }else{
+                //快速匹配失败
+                complete(0, nil, kObjNilError);
+                self.episodeId = nil;
+            }
+        }];
+        
+    }else if ([videoModel isKindOfClass:[StreamingVideoModel class]]){
+        StreamingVideoModel *vm = (StreamingVideoModel *)videoModel;
+        NSString *danmaku = vm.danmaku;
+        NSString *danmakuSource = vm.danmakuSource;
+        if (!danmaku || !danmakuSource) {
+            complete(0, nil, kObjNilError);
+            return;
+        }
+        
+        [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(VideoPlayURLModel *responseModel, NSError *error) {
+            complete(50, nil, error);
+            [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
+                self.currentIndex = index;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:nil userInfo:responseObj];
+                complete(100, vm.fileName, error);
+            }];
+        }];
+    }
+    
+
+}
+
+- (instancetype)initWithVideoModels:(NSArray *)videoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId{
     if (self = [super init]) {
-        self.videos = localVideoModels;
+        self.videos = videoModels;
         self.danmakusDic = dic;
         self.episodeId = episodeId;
     }

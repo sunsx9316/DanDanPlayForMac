@@ -6,16 +6,26 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+
 #import "ScrollDanmaku.h"
 #import "FloatDanmaku.h"
+
+#if TARGET_OS_IPHONE
+#define JHLabel UILabel
+#define JHAttributedText attributedText
+#define JHText text
+#else
+#define JHLabel NSTextField
+#define JHAttributedText attributedStringValue
+#define JHText stringValue
+#endif
 /**
  *  弹幕的容器 用来绘制弹幕
  */
-@interface DanmakuContainer : NSTextField
+@interface DanmakuContainer : JHLabel
 @property (assign, nonatomic) CGPoint originalPosition;
 @property (strong, nonatomic) NSDictionary *globalAttributedDic;
-@property (strong, nonatomic) NSFont *globalFont;
+@property (strong, nonatomic) JHFont *globalFont;
 - (ParentDanmaku *)danmaku;
 - (instancetype)initWithDanmaku:(ParentDanmaku *)danmaku;
 - (void)setWithDanmaku:(ParentDanmaku *)danmaku;

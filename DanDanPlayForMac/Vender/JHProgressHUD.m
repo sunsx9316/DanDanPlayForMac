@@ -84,18 +84,28 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
 
 - (void)show{
     self.showing = YES;
+    self.blackBackGroundMask.alphaValue = 0;
     [self.parentView addSubview: self];
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_offset(0);
     }];
-    
     [self.indicator startAnimation: self];
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+        context.duration = 1;
+        self.blackBackGroundMask.animator.alphaValue = 1;
+    } completionHandler:nil];
+    
 }
 
 - (void)disMiss{
-    self.showing = NO;
-    [self.indicator stopAnimation: self];
-    [self removeFromSuperview];
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+        context.duration = 1;
+        self.blackBackGroundMask.animator.alphaValue = 0;
+    } completionHandler:^{
+        self.showing = NO;
+        [self.indicator stopAnimation: self];
+        [self removeFromSuperview];
+    }];
 }
 
 - (BOOL)isShowing{
@@ -155,6 +165,7 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
 
 - (NSView *)blackBackGroundMask {
     if(_blackBackGroundMask == nil) {
+
         _blackBackGroundMask = [[NSView alloc] init];
         [_blackBackGroundMask setWantsLayer: YES];
         [_blackBackGroundMask.layer setBackgroundColor: [NSColor colorWithRed:0 green:0 blue:0 alpha:0.5].CGColor];

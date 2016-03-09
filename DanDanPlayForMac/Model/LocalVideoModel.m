@@ -18,7 +18,7 @@
 }
 
 - (instancetype)initWithFilePath:(NSString *)filePath{
-    return [self initWithFileURL: [NSURL fileURLWithPath: filePath]];
+    return [self initWithFileURL:[NSURL fileURLWithPath:filePath]];
 }
 
 - (instancetype)initWithFileURL:(NSURL *)fileURL{
@@ -38,6 +38,7 @@
 - (NSURL *)filePath{
     return _fileURL;
 }
+
 
 - (NSString *)md5{
     if (_md5 == nil) {
