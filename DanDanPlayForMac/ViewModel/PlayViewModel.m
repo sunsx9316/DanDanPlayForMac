@@ -76,7 +76,7 @@
     return index<self.videos.count?self.videos[index]:nil;
 }
 
-- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(NSInteger progress, NSString *videoMatchName, NSError *error))complete{
+- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, NSError *error))complete{
     id videoModel = [self videoModelWithIndex:index];
     if ([videoModel isKindOfClass:[LocalVideoModel class]]) {
         LocalVideoModel *vm = (LocalVideoModel *)videoModel;
@@ -84,13 +84,13 @@
         [[[MatchViewModel alloc] initWithModel:vm] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *dataModel) {
             //episodeId存在 说明精确匹配
             if (dataModel.episodeId) {
-                complete(50, nil, error);
+                complete(0.5, nil, error);
                 self.episodeId = dataModel.episodeId;
                 //搜索弹幕
                 [[[DanMuChooseViewModel alloc] initWithVideoID: dataModel.episodeId] refreshCompletionHandler:^(NSError *error) {
                     //判断官方弹幕是否为空
                     if (!error) {
-                        complete(100, [NSString stringWithFormat:@"%@-%@", dataModel.animeTitle, dataModel.episodeTitle], error);
+                        complete(1, [NSString stringWithFormat:@"%@-%@", dataModel.animeTitle, dataModel.episodeTitle], error);
                     }else{
                         //快速匹配失败
                         complete(0, nil, kObjNilError);
@@ -104,6 +104,7 @@
         }];
         
     }else if ([videoModel isKindOfClass:[StreamingVideoModel class]]){
+        self.episodeId = nil;
         StreamingVideoModel *vm = (StreamingVideoModel *)videoModel;
         NSString *danmaku = vm.danmaku;
         NSString *danmakuSource = vm.danmakuSource;
@@ -111,17 +112,15 @@
             complete(0, nil, kObjNilError);
             return;
         }
-        
         [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(VideoPlayURLModel *responseModel, NSError *error) {
-            complete(50, nil, error);
+            complete(0.5, nil, error);
             [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
                 self.currentIndex = index;
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:nil userInfo:responseObj];
-                complete(100, vm.fileName, error);
+                complete(1, vm.fileName, error);
             }];
         }];
     }
-    
 
 }
 

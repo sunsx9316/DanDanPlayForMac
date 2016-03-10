@@ -268,13 +268,13 @@
         <!--有新版本-->
         <scene sceneID="5Bl-Xt-asr">
             <objects>
-                <viewController title="有新版本" id="Hjb-dH-2Zd" customClass="UpdateViewController" sceneMemberID="viewController">
+                <viewController title="有新版本" storyboardIdentifier="UpdateViewController" id="Hjb-dH-2Zd" customClass="UpdateViewController" sceneMemberID="viewController">
                     <view key="view" id="OhS-Zj-846">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="220"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="202"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0Ra-B8-7Rg">
-                                <rect key="frame" x="114" y="119" width="222" height="51"/>
+                                <rect key="frame" x="114" y="101" width="222" height="51"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="g4Y-zt-XTb">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">1. 新增blibili视频通过av号播放的功能
@@ -286,7 +286,7 @@
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JVr-RU-JZ6">
                                 <rect key="frame" x="94" y="33" width="82" height="32"/>
-                                <buttonCell key="cell" type="push" title="取消" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8IR-CC-ZHA">
+                                <buttonCell key="cell" type="push" title="取消" bezelStyle="rounded" alignment="center" refusesFirstResponder="YES" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8IR-CC-ZHA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -299,7 +299,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="5RU-RI-9XT"/>
                                 </constraints>
-                                <buttonCell key="cell" type="push" title="确定" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oj7-ea-I0Q">
+                                <buttonCell key="cell" type="push" title="自动更新" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oj7-ea-I0Q">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -307,21 +307,47 @@
                                     <action selector="clickOKButton:" target="Hjb-dH-2Zd" id="Tzh-hF-M3d"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PLj-4S-gyF">
+                                <rect key="frame" x="10" y="0.0" width="56" height="32"/>
+                                <buttonCell key="cell" type="bevel" title="手动更新" bezelStyle="rounded" alignment="center" refusesFirstResponder="YES" imageScaling="proportionallyDown" inset="2" id="yMe-QG-bap">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clickUpdateByUserButton:" target="Hjb-dH-2Zd" id="PYw-vT-wtr"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="7wa-gB-pHS">
+                                <rect key="frame" x="342" y="8" width="100" height="18"/>
+                                <buttonCell key="cell" type="check" title="自动检查你妹" bezelStyle="regularSquare" imagePosition="right" state="on" inset="2" id="UQg-L2-SY4">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clickAutoCheakUpdateInfoButton:" target="Hjb-dH-2Zd" id="s6u-ym-Dbz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0Ra-B8-7Rg" secondAttribute="trailing" id="2ps-Lm-hwa"/>
+                            <constraint firstItem="9D3-93-0Dl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JVr-RU-JZ6" secondAttribute="trailing" constant="10" id="52c-vj-N9k"/>
                             <constraint firstItem="0Ra-B8-7Rg" firstAttribute="top" secondItem="OhS-Zj-846" secondAttribute="top" constant="50" id="E7B-XX-dAN"/>
+                            <constraint firstItem="PLj-4S-gyF" firstAttribute="leading" secondItem="OhS-Zj-846" secondAttribute="leading" constant="10" id="FXM-Wj-89I"/>
+                            <constraint firstAttribute="trailing" secondItem="7wa-gB-pHS" secondAttribute="trailing" constant="10" id="JdS-iJ-bb5"/>
                             <constraint firstAttribute="bottom" secondItem="JVr-RU-JZ6" secondAttribute="bottom" constant="40" id="KbV-ml-tZD"/>
-                            <constraint firstItem="9D3-93-0Dl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="0Ra-B8-7Rg" secondAttribute="bottom" constant="58" id="VAv-Es-GXF"/>
+                            <constraint firstAttribute="bottom" secondItem="7wa-gB-pHS" secondAttribute="bottom" constant="10" id="LGh-o8-cex"/>
+                            <constraint firstItem="9D3-93-0Dl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="0Ra-B8-7Rg" secondAttribute="bottom" constant="40" id="VAv-Es-GXF"/>
                             <constraint firstItem="9D3-93-0Dl" firstAttribute="width" secondItem="JVr-RU-JZ6" secondAttribute="width" id="ZFR-Lc-fJq"/>
                             <constraint firstItem="0Ra-B8-7Rg" firstAttribute="centerX" secondItem="OhS-Zj-846" secondAttribute="centerX" id="bO9-Ec-tF6"/>
                             <constraint firstAttribute="trailing" secondItem="9D3-93-0Dl" secondAttribute="trailing" constant="100" id="bje-vW-GAS"/>
                             <constraint firstItem="0Ra-B8-7Rg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OhS-Zj-846" secondAttribute="leading" id="ddn-om-y15"/>
                             <constraint firstItem="JVr-RU-JZ6" firstAttribute="leading" secondItem="OhS-Zj-846" secondAttribute="leading" constant="100" id="f2S-NP-v1k"/>
+                            <constraint firstAttribute="bottom" secondItem="PLj-4S-gyF" secondAttribute="bottom" id="gvM-EW-QOd"/>
                             <constraint firstItem="9D3-93-0Dl" firstAttribute="centerY" secondItem="JVr-RU-JZ6" secondAttribute="centerY" id="h2Q-po-XQP"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="autoCheakUpdateInfoButton" destination="7wa-gB-pHS" id="nJZ-jf-kJp"/>
                         <outlet property="okButton" destination="9D3-93-0Dl" id="pmD-hs-ilP"/>
                         <outlet property="updateDetailTextField" destination="0Ra-B8-7Rg" id="fUj-fj-ZGz"/>
                     </connections>
@@ -750,7 +776,7 @@
                                     <constraint firstAttribute="width" constant="22" id="kN2-CK-tCM"/>
                                     <constraint firstAttribute="height" constant="22" id="mAt-2n-8Ig"/>
                                 </constraints>
-                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="C149002C-C4AA-4FFC-B295-BA6E1057CD47" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="dQK-ny-h8t">
+                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="1CC2C6EB-F048-4C07-BB30-835A6B9172E3" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="dQK-ny-h8t">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1064,21 +1090,21 @@
             <objects>
                 <viewController storyboardIdentifier="PreferenceViewController" id="fxC-4A-mOP" customClass="PreferenceViewController" sceneMemberID="viewController">
                     <view key="view" id="bYG-kZ-Pw4">
-                        <rect key="frame" x="0.0" y="0.0" width="850" height="500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="850" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <splitView autosaveName="" dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wb0-W0-Otx">
-                                <rect key="frame" x="0.0" y="0.0" width="850" height="468"/>
+                                <rect key="frame" x="0.0" y="0.0" width="850" height="568"/>
                                 <subviews>
                                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="9nZ-Jf-wSw">
-                                        <rect key="frame" x="0.0" y="0.0" width="317" height="468"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="317" height="568"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <clipView key="contentView" drawsBackground="NO" id="htz-Ki-gvv">
-                                            <rect key="frame" x="1" y="1" width="315" height="466"/>
+                                            <rect key="frame" x="1" y="1" width="315" height="566"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <outlineView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="bJu-IX-zua" id="c0I-rI-h8T">
-                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="0.0"/>
+                                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="bJu-IX-zua" id="c0I-rI-h8T">
+                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="566"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="0.0"/>
                                                     <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1139,14 +1165,14 @@
                                         </scroller>
                                     </scrollView>
                                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="321" horizontalPageScroll="10" verticalLineScroll="321" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="qyn-4K-ClD">
-                                        <rect key="frame" x="327" y="0.0" width="523" height="468"/>
+                                        <rect key="frame" x="327" y="0.0" width="523" height="568"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <clipView key="contentView" drawsBackground="NO" id="BT8-2Y-HuM">
-                                            <rect key="frame" x="1" y="1" width="521" height="466"/>
+                                            <rect key="frame" x="1" y="1" width="521" height="566"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="319" rowSizeStyle="automatic" viewBased="YES" id="20F-Uf-FNd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="521" height="0.0"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="521" height="566"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2001,8 +2027,8 @@
                                                                             </textFieldCell>
                                                                         </textField>
                                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cta-2B-Cmf">
-                                                                            <rect key="frame" x="3" y="68" width="70" height="14"/>
-                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="就是弹幕缓存" id="0L6-OW-DY7">
+                                                                            <rect key="frame" x="3" y="68" width="194" height="14"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="就是弹幕缓存 出现问题请手动清除一下" id="0L6-OW-DY7">
                                                                                 <font key="font" size="11" name="STHeitiSC-Light"/>
                                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -2058,6 +2084,76 @@
                                                                         <outlet property="pathTextField" destination="wVZ-pF-giU" id="hMd-8h-lnL"/>
                                                                     </connections>
                                                                 </customView>
+                                                                <customView identifier="AutoUpdateCell" id="nrA-qi-utn" customClass="AutoUpdateCell">
+                                                                    <rect key="frame" x="1" y="1535" width="518" height="107"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <subviews>
+                                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Vr-kN-Ucg">
+                                                                            <rect key="frame" x="10" y="46" width="408" height="22"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Z27-Xe-Kgw">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fF4-Cw-Sng">
+                                                                            <rect key="frame" x="8" y="78" width="124" height="19"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="自动更新下载路径" id="07r-Tw-RoG">
+                                                                                <font key="font" size="15" name="STHeitiSC-Medium"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="AP6-gA-Ulu">
+                                                                            <rect key="frame" x="8" y="20" width="152" height="18"/>
+                                                                            <buttonCell key="cell" type="check" title="每次启动自动检查更新" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nrW-Av-FCg">
+                                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                                <font key="font" metaFont="system"/>
+                                                                            </buttonCell>
+                                                                            <connections>
+                                                                                <action selector="clickAutoCheakUpdateInfoAtStartButton:" target="nrA-qi-utn" id="zy9-lX-zIa"/>
+                                                                            </connections>
+                                                                        </button>
+                                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ihs-1S-kmB">
+                                                                            <rect key="frame" x="422" y="9" width="92" height="32"/>
+                                                                            <buttonCell key="cell" type="push" title="检查更新" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8Cv-N3-gzS">
+                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                <font key="font" metaFont="system"/>
+                                                                            </buttonCell>
+                                                                            <connections>
+                                                                                <action selector="clickCheakUpdateInfoButton:" target="nrA-qi-utn" id="L3d-TX-AhA"/>
+                                                                            </connections>
+                                                                        </button>
+                                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c4E-o0-nbk">
+                                                                            <rect key="frame" x="422" y="40" width="92" height="32"/>
+                                                                            <buttonCell key="cell" type="push" title="更换目录" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9bl-ux-VjD">
+                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                <font key="font" metaFont="system"/>
+                                                                            </buttonCell>
+                                                                            <connections>
+                                                                                <action selector="clickChangeDirectoryButton:" target="nrA-qi-utn" id="2sM-yR-Li4"/>
+                                                                            </connections>
+                                                                        </button>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="Ihs-1S-kmB" firstAttribute="top" secondItem="c4E-o0-nbk" secondAttribute="bottom" constant="10" id="16f-7u-iog"/>
+                                                                        <constraint firstItem="c4E-o0-nbk" firstAttribute="width" secondItem="Ihs-1S-kmB" secondAttribute="width" id="AUu-Rs-Dxb"/>
+                                                                        <constraint firstItem="9Vr-kN-Ucg" firstAttribute="leading" secondItem="fF4-Cw-Sng" secondAttribute="leading" id="AzM-5m-fT2"/>
+                                                                        <constraint firstItem="9Vr-kN-Ucg" firstAttribute="top" secondItem="fF4-Cw-Sng" secondAttribute="bottom" constant="10" id="FmH-Qd-nGK"/>
+                                                                        <constraint firstItem="AP6-gA-Ulu" firstAttribute="top" secondItem="9Vr-kN-Ucg" secondAttribute="bottom" constant="10" id="LNV-YZ-7QY"/>
+                                                                        <constraint firstItem="Ihs-1S-kmB" firstAttribute="centerX" secondItem="c4E-o0-nbk" secondAttribute="centerX" id="Lvw-QC-8wA"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="c4E-o0-nbk" secondAttribute="trailing" constant="10" id="VCh-BM-dxL"/>
+                                                                        <constraint firstItem="fF4-Cw-Sng" firstAttribute="leading" secondItem="nrA-qi-utn" secondAttribute="leading" constant="10" id="VQb-ID-hwV"/>
+                                                                        <constraint firstItem="AP6-gA-Ulu" firstAttribute="leading" secondItem="9Vr-kN-Ucg" secondAttribute="leading" id="boL-R9-mOc"/>
+                                                                        <constraint firstItem="c4E-o0-nbk" firstAttribute="centerY" secondItem="9Vr-kN-Ucg" secondAttribute="centerY" id="fCu-mc-fBG"/>
+                                                                        <constraint firstItem="fF4-Cw-Sng" firstAttribute="top" secondItem="nrA-qi-utn" secondAttribute="top" constant="10" id="k9X-vq-RxH"/>
+                                                                        <constraint firstItem="c4E-o0-nbk" firstAttribute="leading" secondItem="9Vr-kN-Ucg" secondAttribute="trailing" constant="10" id="sIu-Ph-qKf"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <outlet property="autoCheakUpdateInfoOnstartButton" destination="AP6-gA-Ulu" id="78O-1b-rDT"/>
+                                                                        <outlet property="downLoadPathTextField" destination="9Vr-kN-Ucg" id="ESp-53-k9a"/>
+                                                                    </connections>
+                                                                </customView>
                                                             </prototypeCellViews>
                                                         </tableColumn>
                                                     </tableColumns>
@@ -2088,7 +2184,7 @@
                                 </connections>
                             </splitView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oov-IU-Yts">
-                                <rect key="frame" x="0.0" y="468" width="850" height="32"/>
+                                <rect key="frame" x="0.0" y="568" width="850" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="mQH-J0-Qpz"/>
                                 </constraints>
@@ -2119,7 +2215,7 @@
                 </viewController>
                 <customObject id="uG0-zd-fwW" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-589" y="2847"/>
+            <point key="canvasLocation" x="-551" y="2681"/>
         </scene>
         <!--Third Party Dan Mu Choose View Controller-->
         <scene sceneID="xWK-Nu-XRu">
@@ -2434,7 +2530,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="C149002C-C4AA-4FFC-B295-BA6E1057CD47" width="1" height="1">
+        <image name="1CC2C6EB-F048-4C07-BB30-835A6B9172E3" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

@@ -9,7 +9,7 @@
 #import "BaseNetManager.h"
 
 @interface UpdateNetManager : BaseNetManager
-+ (id)latestVersionWithCompletionHandler:(void(^)(NSString *version, NSString *details, NSError *error))complete;
++ (id)latestVersionWithCompletionHandler:(void(^)(NSString *version, NSString *details, NSString *hash, NSError *error))complete;
 
-+ (id)downLatestVersionWithVersion:(NSString *)version progress:(NSProgress *)progress completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (id)downLatestVersionWithVersion:(NSString *)version progress:(NSProgress * __autoreleasing *)progress completionHandler:(void(^)(id responseObj, NSError *error))complete;
 @end

@@ -66,7 +66,6 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
 }
 
 
-
 //a站解析方式
 + (void)danMuWithAcfunArr:(NSArray *)arr block:(callBackBlock)block{
     for (NSArray *arr2 in arr) {

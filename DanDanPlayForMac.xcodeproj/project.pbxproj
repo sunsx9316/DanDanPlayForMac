@@ -79,6 +79,7 @@
 		89761A091C5A5E750046A245 /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A081C5A5E750046A245 /* MatchViewController.m */; };
 		89761A1C1C5A7B8B0046A245 /* ColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89761A1B1C5A7B8B0046A245 /* ColorButton.m */; };
 		89788D361C5E3DB100CA31EF /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89788D351C5E3DB100CA31EF /* SearchViewController.m */; };
+		897CD5B01C914A0100C98310 /* AutoUpdateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897CD5AF1C914A0100C98310 /* AutoUpdateCell.m */; };
 		897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7B81C72056A00E1B03D /* BaseModel.m */; };
 		897EC7C61C72056A00E1B03D /* DanMuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BA1C72056A00E1B03D /* DanMuModel.m */; };
 		897EC7C71C72056A00E1B03D /* LocalVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BC1C72056A00E1B03D /* LocalVideoModel.m */; };
@@ -273,6 +274,8 @@
 		89761A1B1C5A7B8B0046A245 /* ColorButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorButton.m; sourceTree = "<group>"; };
 		89788D341C5E3DB100CA31EF /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		89788D351C5E3DB100CA31EF /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		897CD5AE1C914A0100C98310 /* AutoUpdateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoUpdateCell.h; sourceTree = "<group>"; };
+		897CD5AF1C914A0100C98310 /* AutoUpdateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoUpdateCell.m; sourceTree = "<group>"; };
 		897EC7B71C72056A00E1B03D /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		897EC7B81C72056A00E1B03D /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		897EC7B91C72056A00E1B03D /* DanMuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuModel.h; sourceTree = "<group>"; };
@@ -656,6 +659,7 @@
 		8975D1CF1C6EEFD7003FE797 /* 偏好设置 */ = {
 			isa = PBXGroup;
 			children = (
+				897CD5AD1C9149F000C98310 /* 自动更新 */,
 				89FC23EB1C6F3E82009FD27C /* 缓存管理 */,
 				89FC23EA1C6F3E68009FD27C /* 截图设置 */,
 				8975D1EE1C6F3561003FE797 /* 快捷键设置 */,
@@ -747,6 +751,15 @@
 				89FE1F091C5E57BB00FF4586 /* DanDanSearchViewController.m */,
 			);
 			name = "搜索界面";
+			sourceTree = "<group>";
+		};
+		897CD5AD1C9149F000C98310 /* 自动更新 */ = {
+			isa = PBXGroup;
+			children = (
+				897CD5AE1C914A0100C98310 /* AutoUpdateCell.h */,
+				897CD5AF1C914A0100C98310 /* AutoUpdateCell.m */,
+			);
+			name = "自动更新";
 			sourceTree = "<group>";
 		};
 		897EC7B51C72024A00E1B03D /* 弹幕控制面板 */ = {
@@ -1070,6 +1083,7 @@
 				896370C21C59099C002F32FD /* DanMuDataFormatter.m in Sources */,
 				896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */,
 				8944E6AE1C8F181D005C5DC8 /* JHDanmakuClock.m in Sources */,
+				897CD5B01C914A0100C98310 /* AutoUpdateCell.m in Sources */,
 				899BA8041C8AC9C0007A67A8 /* VideoModel.m in Sources */,
 				8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */,
 				8996A6E31C6CE18200D5AA6E /* TimeAxisCell.m in Sources */,

@@ -65,7 +65,7 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
 
 - (void)updateProgress:(CGFloat)progress{
     if (self.style == JHProgressHUDStyleValue2 || self.style == JHProgressHUDStyleValue4) {
-        [self.indicator incrementBy: progress];
+        self.indicator.doubleValue = progress;
     }
 }
 - (void)updateMessage:(NSString *)message{
@@ -158,14 +158,14 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
     if(_indicator == nil) {
         _indicator = [[NSProgressIndicator alloc] init];
         _indicator.style = NSProgressIndicatorSpinningStyle;
-        
+        _indicator.minValue = 0;
+        _indicator.maxValue = 1;
     }
     return _indicator;
 }
 
 - (NSView *)blackBackGroundMask {
     if(_blackBackGroundMask == nil) {
-
         _blackBackGroundMask = [[NSView alloc] init];
         [_blackBackGroundMask setWantsLayer: YES];
         [_blackBackGroundMask.layer setBackgroundColor: [NSColor colorWithRed:0 green:0 blue:0 alpha:0.5].CGColor];

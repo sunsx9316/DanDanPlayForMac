@@ -23,6 +23,8 @@ static UserDefaultManager* manager = nil;
     NSString *_cachePath;
     NSNumber *_defaultScreenShotType;
     NSNumber *_isTurnOnFastMatch;
+    NSString *_autoDownLoadPath;
+    NSNumber *_cheakDownLoadInfoAtStart;
 }
 + (instancetype)shareUserDefaultManager{
     static dispatch_once_t onceToken;
@@ -275,5 +277,47 @@ static UserDefaultManager* manager = nil;
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_isTurnOnFastMatch = @(fastMatch);
     [[NSUserDefaults standardUserDefaults] setBool:fastMatch forKey:@"turnOnFastMatch"];
+}
+
++ (NSString *)autoDownLoadPath{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    if (manager->_autoDownLoadPath) {
+        return manager->_autoDownLoadPath;
+    }
+    NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:@"autoDownLoadPath"];
+    if (!path) {
+        path = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES).firstObject;
+        [self setAutoDownLoadPath:path];
+    }
+    return path;
+}
++ (void)setAutoDownLoadPath:(NSString *)path{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    if (![[NSFileManager defaultManager] fileExistsAtPath: path]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    manager->_autoDownLoadPath = path;
+    [[NSUserDefaults standardUserDefaults] setValue:path forKey:@"autoDownLoadPath"];
+}
+
++ (BOOL)cheakDownLoadInfoAtStart{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    if (manager->_cheakDownLoadInfoAtStart) {
+        return manager->_cheakDownLoadInfoAtStart.boolValue;
+    }
+    
+    BOOL isCheakDownLoadInfoAtStart = YES;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"cheakDownLoadInfoAtStart"]) {
+        isCheakDownLoadInfoAtStart = [[NSUserDefaults standardUserDefaults] boolForKey:@"cheakDownLoadInfoAtStart"];
+    }else{
+        [self setCheakDownLoadInfoAtStart:YES];
+    }
+    return isCheakDownLoadInfoAtStart;
+}
++ (void)setCheakDownLoadInfoAtStart:(BOOL)cheak{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    manager->_isTurnOnFastMatch = @(cheak);
+    [[NSUserDefaults standardUserDefaults] setBool:cheak forKey:@"cheakDownLoadInfoAtStart"];
 }
 @end

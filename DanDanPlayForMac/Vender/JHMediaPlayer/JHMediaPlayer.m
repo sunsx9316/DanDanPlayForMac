@@ -230,8 +230,8 @@
 
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification{
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
-        if ([self status] == JHMediaPlayerStatusPause && [self currentTime] - [self length] < 1) {
-            [self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusStop];
+        if ([self status] == JHMediaPlayerStatusPause && [self length] - [self currentTime] < 1) {
+            //[self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusStop];
         }else{
             [self.delegate mediaPlayer:self statusChange:[self status]];
         }

@@ -65,6 +65,9 @@
             return [self screenShotTableView:tableView viewForTableColumn:tableColumn row:row];
         case preferenceTableViewStyleCache:
             return [self cacheTableView:tableView viewForTableColumn:tableColumn row:row];
+        case preferenceTableViewStyleUpdate:
+            return [self updateTableView:tableView viewForTableColumn:tableColumn row:row];
+            break;
         default:
             break;
     }
@@ -82,13 +85,14 @@
         case preferenceTableViewStylePlayer:
             return 300;
         case preferenceTableViewStyleFilter:
-            return 500;
         case preferenceTableViewStyleKeyboard:
             return 500;
         case preferenceTableViewStyleScreenShot:
             return 119;
         case preferenceTableViewStyleCache:
             return 91;
+        case preferenceTableViewStyleUpdate:
+            return 107;
         default:
             break;
     }
@@ -188,6 +192,10 @@
 
 - (NSView *)cacheTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     return [tableView makeViewWithIdentifier:@"CacheManagerCell" owner:self];
+}
+
+- (NSView *)updateTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+    return [tableView makeViewWithIdentifier:@"AutoUpdateCell" owner:self];
 }
 
 #pragma mark - 懒加载

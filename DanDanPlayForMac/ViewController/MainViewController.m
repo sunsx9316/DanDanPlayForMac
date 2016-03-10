@@ -35,6 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self updateVersion];
     [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
     [self.view addSubview: self.imgView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"danMuChooseOver" object: nil];
@@ -76,13 +77,13 @@
         //episodeId存在 说明精确匹配
         if (model.episodeId) {
             _animateTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
-            [JHProgressHUD updateProgress: 50];
+            [JHProgressHUD updateProgress: 0.5];
             [JHProgressHUD updateMessage: @"搜索弹幕..."];
             //搜索弹幕
             [[[DanMuChooseViewModel alloc] initWithVideoID: model.episodeId] refreshCompletionHandler:^(NSError *error) {
                 //判断官方弹幕是否为空
                 if (!error) {                    
-                    [JHProgressHUD updateProgress: 100];
+                    [JHProgressHUD updateProgress: 1];
                     [JHProgressHUD updateMessage: @"解析视频..."];
                     _episodeId = model.episodeId;
                 }else{
@@ -104,11 +105,14 @@
 
 #pragma mark - 私有方法
 - (void)updateVersion{
-    [UpdateNetManager latestVersionWithCompletionHandler:^(NSString *version, NSString *details, NSError *error) {
-        float curentVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
+    //没开启自动检查更新功能
+    if (![UserDefaultManager cheakDownLoadInfoAtStart]) return;
+    
+    [UpdateNetManager latestVersionWithCompletionHandler:^(NSString *version, NSString *details, NSString *hash, NSError *error) {
+        CGFloat curentVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
         //判断当前版本是否比现在版本小
         if (curentVersion < [version floatValue]) {
-            [self presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details]];
+            [self presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
         }
     }];
 }

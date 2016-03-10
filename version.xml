@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 <version>1.4</version>
-<build>20160309</build>
-<hash></hash>
+<build>20160310</build>
+<hash>ada052c4b1286ce2a37c053d35b58b99</hash>
 <details>
     1. 新增blibili视频通过av号播放的功能
     2. 修复bug

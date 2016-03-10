@@ -120,7 +120,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanMuDic:) name:@"danMuChooseOver" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"openStreamVCChooseOver" object: nil];
     
-    
     self.vm.currentIndex = 0;
     //初始化播放器相关参数
     [self setupOnce];
@@ -325,11 +324,11 @@
     self.vm.currentIndex = [self.vm videoCount] - 1;
 }
 
-#pragma mark 重新加载弹幕
+#pragma mark 重新加载弹幕 更新进度
 - (void)reloadDanmakuWithIndex:(NSInteger)index{
     [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
     
-    [self.vm reloadDanmakuWithIndex:index completionHandler:^(NSInteger progress, NSString *videoMatchName, NSError *error) {
+    [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
         if (error) {
             [JHProgressHUD disMiss];
             id vm = [self.vm videoModelWithIndex:index];
@@ -338,9 +337,9 @@
             }
         }else{
             [JHProgressHUD updateProgress:progress];
-            if (progress == 50) {
+            if (progress == 0.5) {
                 [JHProgressHUD updateMessage:@"分析视频..."];
-            }else if (progress == 100){
+            }else if (progress == 1){
                 [JHProgressHUD updateMessage:@"下载弹幕..."];
                 [self postMatchMessageWithMatchName: videoMatchName];
                 [JHProgressHUD disMiss];
@@ -677,7 +676,7 @@
             self.playHUDButton.state = NSCancelButton;
             break;
         case JHMediaPlayerStatusStop:
-            [self clickNextButton:nil];
+//            [self clickNextButton:nil];
             self.playButton.state = NSCancelButton;
             self.playHUDButton.state = NSCancelButton;
             break;
@@ -755,8 +754,8 @@
         [cell setWithBlock:^(NSInteger num) {
             if (num == 0) _danMuOffsetTime = 0;
             else _danMuOffsetTime += num;
+            if (!(weakSelf.rander.offsetTime == 0 && num == 0)) [weakSelf timeOffset: _danMuOffsetTime];
             
-            [weakSelf timeOffset: _danMuOffsetTime];
             weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", _danMuOffsetTime >= 0 ? @"+" : @"", (long)_danMuOffsetTime];
             [weakSelf.messageView showHUD];
         }];

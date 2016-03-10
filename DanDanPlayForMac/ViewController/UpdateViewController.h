@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface UpdateViewController : NSViewController
-- (instancetype)initWithVersion:(NSString *)version details:(NSString *)details;
+- (instancetype)initWithVersion:(NSString *)version details:(NSString *)details hash:(NSString *)hash;
 @end
