@@ -89,12 +89,13 @@
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
 //快捷键映射
 @property (strong, nonatomic) NSArray *keyMap;
+@property (assign, nonatomic) NSInteger danMuOffsetTime;
 @end
 
 @implementation PlayerViewController
 {
     //弹幕偏移时间
-    NSInteger _danMuOffsetTime;
+//    NSInteger _danMuOffsetTime;
     //是否处于全屏状态
     BOOL _fullScreen;
     //时间格式化工具
@@ -281,10 +282,11 @@
 
 - (void)dealloc{
     [self.player removeObserver:self forKeyPath:@"volume"];
-    [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"playOver" object: nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [self.view removeTrackingArea:self.trackingArea];
+    
+    [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"playOver" object: nil];
 }
 
 - (void)timeOffset:(NSInteger)time{
@@ -329,22 +331,24 @@
     [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
     
     [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
-        if (error) {
-            [JHProgressHUD disMiss];
-            id vm = [self.vm videoModelWithIndex:index];
-            if ([vm isKindOfClass:[LocalVideoModel class]]) {
-                [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
-            }
-        }else{
-            [JHProgressHUD updateProgress:progress];
-            if (progress == 0.5) {
-                [JHProgressHUD updateMessage:@"分析视频..."];
-            }else if (progress == 1){
-                [JHProgressHUD updateMessage:@"下载弹幕..."];
-                [self postMatchMessageWithMatchName: videoMatchName];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error) {
                 [JHProgressHUD disMiss];
+                id vm = [self.vm videoModelWithIndex:index];
+                if ([vm isKindOfClass:[LocalVideoModel class]]) {
+                    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
+                }
+            }else{
+                [JHProgressHUD updateProgress:progress];
+                if (progress == 0.5) {
+                    [JHProgressHUD updateMessage:@"分析视频..."];
+                }else if (progress == 1){
+                    [JHProgressHUD updateMessage:@"下载弹幕..."];
+                    [self postMatchMessageWithMatchName: videoMatchName];
+                    [JHProgressHUD disMiss];
+                }
             }
-        }
+        });
     }];
 }
 
@@ -389,10 +393,10 @@
 - (void)changeDanMuDic:(NSNotification *)notification{
     [self stopPlay];
     [self.player setMediaURL:[self.vm currentVideoURL]];
+    self.vm.danmakusDic = notification.userInfo;
+    [self.rander addAllDanmakusDic:notification.userInfo];
+    [self.playerListTableView reloadData];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
-        self.vm.danmakusDic = notification.userInfo;
-        [self.rander addAllDanmakusDic:notification.userInfo];
-        [self.playerListTableView reloadData];
         [self setupWithMediaSize:size];
         [self startPlay];
     }];
@@ -630,7 +634,7 @@
     
     //设置其它参数
     [NSApplication sharedApplication].mainWindow.title = [self.vm currentVideoName];
-    _danMuOffsetTime = 0;
+    self.danMuOffsetTime = 0;
     _userPause = NO;
     
     //只有官方弹幕库启用发送弹幕功能
@@ -647,20 +651,24 @@
 
 #pragma mark - JHMediaPlayerDelegate
 - (void)mediaPlayer:(JHMediaPlayer *)player progress:(float)progress formatTime:(NSString *)formatTime{
-    //更新当前时间
-    self.timeLabel.stringValue = formatTime;
-    [self.progressSliderView updateCurrentProgress:progress];
-    
-    //更新hud面板时间
-    NSArray *arr = [formatTime componentsSeparatedByString:@"/"];
-    self.playerHUDVideoTimeLabel.stringValue = arr.lastObject;
-    self.playerHUDCurrentTimeLabel.stringValue = arr.firstObject;
-    [self.playerHUDProgressSliderView updateCurrentProgress:progress];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //更新当前时间
+        self.timeLabel.stringValue = formatTime;
+        [self.progressSliderView updateCurrentProgress:progress];
+        
+        //更新hud面板时间
+        NSArray *arr = [formatTime componentsSeparatedByString:@"/"];
+        self.playerHUDVideoTimeLabel.stringValue = arr.lastObject;
+        self.playerHUDCurrentTimeLabel.stringValue = arr.firstObject;
+        [self.playerHUDProgressSliderView updateCurrentProgress:progress];
+    });
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime{
-    [self.progressSliderView updateBufferProgress:progress];
-    [self.playerHUDProgressSliderView updateBufferProgress:progress];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.progressSliderView updateBufferProgress:progress];
+        [self.playerHUDProgressSliderView updateBufferProgress:progress];
+    });
     if (onceBufferTime > MAXBufferTime && self.player.status == JHMediaPlayerStatusPause && !_userPause) {
         [self videoAndDanMuPlay];
     }
@@ -752,11 +760,11 @@
     }else if (row == 4){
         TimeAxisCell * cell = [tableView makeViewWithIdentifier:@"TimeAxisCell" owner: self];
         [cell setWithBlock:^(NSInteger num) {
-            if (num == 0) _danMuOffsetTime = 0;
-            else _danMuOffsetTime += num;
-            if (!(weakSelf.rander.offsetTime == 0 && num == 0)) [weakSelf timeOffset: _danMuOffsetTime];
+            if (num == 0) weakSelf.danMuOffsetTime = 0;
+            else weakSelf.danMuOffsetTime += num;
+            if (!(weakSelf.rander.offsetTime == 0 && num == 0)) [weakSelf timeOffset: weakSelf.danMuOffsetTime];
             
-            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", _danMuOffsetTime >= 0 ? @"+" : @"", (long)_danMuOffsetTime];
+            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", weakSelf.danMuOffsetTime >= 0 ? @"+" : @"", (long)weakSelf.danMuOffsetTime];
             [weakSelf.messageView showHUD];
         }];
         return cell;

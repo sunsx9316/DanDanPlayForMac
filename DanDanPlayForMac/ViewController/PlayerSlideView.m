@@ -92,7 +92,7 @@
 
 - (NSColor *)progressSliderColor {
     if(_progressSliderColor == nil) {
-        _progressSliderColor = [NSColor darkGrayColor];
+        _progressSliderColor = [NSColor colorWithRed:0.2102 green:0.5623 blue:0.9201 alpha:1];
     }
     return _progressSliderColor;
 }
@@ -106,7 +106,7 @@
 
 - (NSColor *)bufferSliderColor {
     if(_bufferSliderColor == nil) {
-        _bufferSliderColor = [NSColor colorWithRed:0.4612 green:0.6376 blue:0.7464 alpha:1];
+        _bufferSliderColor = [NSColor darkGrayColor];
     }
     return _bufferSliderColor;
 }

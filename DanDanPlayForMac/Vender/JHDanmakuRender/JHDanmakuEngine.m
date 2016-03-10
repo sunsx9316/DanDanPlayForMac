@@ -37,7 +37,7 @@
 - (void)stop{
     [self.clock stop];
     [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
+            [obj removeFromSuperview];
     }];
     [self.activeContainer removeAllObjects];
 }
