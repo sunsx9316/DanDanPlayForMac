@@ -131,11 +131,6 @@
     }
 }
 
-- (void)mouseUp:(NSEvent *)theEvent{
-    
-    RecommendViewController *vc = [[RecommendViewController alloc] init];
-    [self presentViewControllerAsModalWindow:vc];
-}
 
 - (NSArray *)contentsOfDirectoryAtURL:(NSString *)path{
     BOOL isDirectory;
