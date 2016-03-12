@@ -29,6 +29,7 @@
         case preferenceTableViewStyleScreenShot:
         case preferenceTableViewStyleCache:
         case preferenceTableViewStyleUpdate:
+        case preferenceTableViewStyleOther:
             return 1;
         default:
             break;
@@ -38,7 +39,7 @@
 #pragma mark - 懒加载
 - (NSArray *)outlineViewArray {
 	if(_outlineViewArray == nil) {
-        _outlineViewArray = @[@"弹幕设置", @"播放器设置", @"弹幕过滤设置", @"快捷键设置", @"截图设置", @"缓存管理", @"更新设置"];
+        _outlineViewArray = @[@"弹幕设置", @"播放器设置", @"弹幕过滤设置", @"快捷键设置", @"截图设置", @"缓存管理", @"更新设置",@"其它设置"];
 	}
 	return _outlineViewArray;
 }

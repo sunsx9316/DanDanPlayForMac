@@ -67,7 +67,8 @@
             return [self cacheTableView:tableView viewForTableColumn:tableColumn row:row];
         case preferenceTableViewStyleUpdate:
             return [self updateTableView:tableView viewForTableColumn:tableColumn row:row];
-            break;
+        case preferenceTableViewStyleOther:
+            return [self otherTableView:tableView viewForTableColumn:tableColumn row:row];
         default:
             break;
     }
@@ -93,6 +94,8 @@
             return 91;
         case preferenceTableViewStyleUpdate:
             return 107;
+        case preferenceTableViewStyleOther:
+            return 87;
         default:
             break;
     }
@@ -196,6 +199,10 @@
 
 - (NSView *)updateTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     return [tableView makeViewWithIdentifier:@"AutoUpdateCell" owner:self];
+}
+
+- (NSView *)otherTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+    return [tableView makeViewWithIdentifier:@"OtherSettingCell" owner:self];
 }
 
 #pragma mark - 懒加载

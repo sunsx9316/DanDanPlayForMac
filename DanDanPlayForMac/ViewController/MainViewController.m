@@ -11,6 +11,7 @@
 #import "PlayerViewController.h"
 #import "UpdateViewController.h"
 #import "BackGroundImageView.h"
+#import "RecommendViewController.h"
 #import "JHVLCMedia.h"
 
 #import "DanMuModel.h"
@@ -35,7 +36,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self updateVersion];
     [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
     [self.view addSubview: self.imgView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"danMuChooseOver" object: nil];
@@ -43,6 +43,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadOverNotification:) name:@"downloadOver" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"openStreamVCChooseOver" object: nil];
+}
+
+- (void)viewDidAppear{
+    [super viewDidAppear];
+    //推出更新窗口
+    [self updateVersion];
+    //推出推荐窗口
+    [self showRecommedVC];
 }
 
 - (void)dealloc{
@@ -115,6 +123,18 @@
             [self presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
         }
     }];
+}
+
+- (void)showRecommedVC{
+    if ([UserDefaultManager showRecommedInfoAtStart]) {
+        [self presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
+    }
+}
+
+- (void)mouseUp:(NSEvent *)theEvent{
+    
+    RecommendViewController *vc = [[RecommendViewController alloc] init];
+    [self presentViewControllerAsModalWindow:vc];
 }
 
 - (NSArray *)contentsOfDirectoryAtURL:(NSString *)path{

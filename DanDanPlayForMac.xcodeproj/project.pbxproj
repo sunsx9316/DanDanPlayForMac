@@ -92,6 +92,12 @@
 		8983C76D1C8819CC0080C316 /* NSData+DanDanPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */; };
 		8983C7751C8853B40080C316 /* danmakuColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8983C7741C8853B40080C316 /* danmakuColor.plist */; };
 		8984B3561C8C23D800C845AC /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8984B3551C8C23D800C845AC /* JHMediaView.m */; };
+		89880A6B1C92F15E0060916F /* RecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A6A1C92F15E0060916F /* RecommendViewController.m */; };
+		89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A6D1C92F1AA0060916F /* RecommendHeadCell.m */; };
+		89880A711C92F6AD0060916F /* RecommedNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A701C92F6AD0060916F /* RecommedNetManager.m */; };
+		8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8993A87E1C93BA4300CF91D1 /* BangumiModel.m */; };
+		8993A8821C93BA4300CF91D1 /* FeaturedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8993A8801C93BA4300CF91D1 /* FeaturedModel.m */; };
+		8993A8851C93C34E00CF91D1 /* RecommedViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8993A8841C93C34E00CF91D1 /* RecommedViewModel.m */; };
 		8995C9911C648607008C1C02 /* ThirdPartySearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */; };
 		8995C9971C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9961C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m */; };
 		8995C99A1C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */; };
@@ -109,6 +115,8 @@
 		89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */; };
 		89C107181C887EA800090A9A /* RespondKeyboardTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107171C887EA800090A9A /* RespondKeyboardTextField.m */; };
 		89E15F961C81D7320074CB55 /* RespondKeyboardSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */; };
+		89E9DA371C940C8600896977 /* RecommendBangumiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E9DA361C940C8600896977 /* RecommendBangumiCell.m */; };
+		89E9DA3A1C942AB500896977 /* OtherSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E9DA391C942AB500896977 /* OtherSettingCell.m */; };
 		89FC23EE1C6F3EAF009FD27C /* ScreenShotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FC23ED1C6F3EAF009FD27C /* ScreenShotCell.m */; };
 		89FC23F11C6F3EC3009FD27C /* CacheManagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FC23F01C6F3EC3009FD27C /* CacheManagerCell.m */; };
 		89FDFE891C90239C005499B9 /* UpdateNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FDFE881C90239C005499B9 /* UpdateNetManager.m */; };
@@ -299,6 +307,18 @@
 		8983C7741C8853B40080C316 /* danmakuColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = danmakuColor.plist; sourceTree = "<group>"; };
 		8984B3541C8C23D800C845AC /* JHMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaView.h; sourceTree = "<group>"; };
 		8984B3551C8C23D800C845AC /* JHMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaView.m; sourceTree = "<group>"; };
+		89880A691C92F15E0060916F /* RecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendViewController.h; sourceTree = "<group>"; };
+		89880A6A1C92F15E0060916F /* RecommendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendViewController.m; sourceTree = "<group>"; };
+		89880A6C1C92F1AA0060916F /* RecommendHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendHeadCell.h; sourceTree = "<group>"; };
+		89880A6D1C92F1AA0060916F /* RecommendHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendHeadCell.m; sourceTree = "<group>"; };
+		89880A6F1C92F6AD0060916F /* RecommedNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommedNetManager.h; sourceTree = "<group>"; };
+		89880A701C92F6AD0060916F /* RecommedNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommedNetManager.m; sourceTree = "<group>"; };
+		8993A87D1C93BA4300CF91D1 /* BangumiModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BangumiModel.h; sourceTree = "<group>"; };
+		8993A87E1C93BA4300CF91D1 /* BangumiModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BangumiModel.m; sourceTree = "<group>"; };
+		8993A87F1C93BA4300CF91D1 /* FeaturedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeaturedModel.h; sourceTree = "<group>"; };
+		8993A8801C93BA4300CF91D1 /* FeaturedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeaturedModel.m; sourceTree = "<group>"; };
+		8993A8831C93C34E00CF91D1 /* RecommedViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommedViewModel.h; sourceTree = "<group>"; };
+		8993A8841C93C34E00CF91D1 /* RecommedViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommedViewModel.m; sourceTree = "<group>"; };
 		8995C98F1C648607008C1C02 /* ThirdPartySearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartySearchViewController.h; sourceTree = "<group>"; };
 		8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartySearchViewController.m; sourceTree = "<group>"; };
 		8995C9951C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartyDanMuChooseViewController.h; sourceTree = "<group>"; };
@@ -333,6 +353,10 @@
 		89C107171C887EA800090A9A /* RespondKeyboardTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RespondKeyboardTextField.m; sourceTree = "<group>"; };
 		89E15F941C81D7320074CB55 /* RespondKeyboardSearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RespondKeyboardSearchField.h; sourceTree = "<group>"; };
 		89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RespondKeyboardSearchField.m; sourceTree = "<group>"; };
+		89E9DA351C940C8600896977 /* RecommendBangumiCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendBangumiCell.h; sourceTree = "<group>"; };
+		89E9DA361C940C8600896977 /* RecommendBangumiCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendBangumiCell.m; sourceTree = "<group>"; };
+		89E9DA381C942AB500896977 /* OtherSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherSettingCell.h; sourceTree = "<group>"; };
+		89E9DA391C942AB500896977 /* OtherSettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherSettingCell.m; sourceTree = "<group>"; };
 		89FC23EC1C6F3EAF009FD27C /* ScreenShotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenShotCell.h; sourceTree = "<group>"; };
 		89FC23ED1C6F3EAF009FD27C /* ScreenShotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenShotCell.m; sourceTree = "<group>"; };
 		89FC23EF1C6F3EC3009FD27C /* CacheManagerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheManagerCell.h; sourceTree = "<group>"; };
@@ -493,6 +517,8 @@
 				89B5854A1C7E07270076FB26 /* FilterNetManager.m */,
 				89FDFE871C90239C005499B9 /* UpdateNetManager.h */,
 				89FDFE881C90239C005499B9 /* UpdateNetManager.m */,
+				89880A6F1C92F6AD0060916F /* RecommedNetManager.h */,
+				89880A701C92F6AD0060916F /* RecommedNetManager.m */,
 			);
 			path = NetManager;
 			sourceTree = "<group>";
@@ -529,6 +555,7 @@
 				89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */,
 				89C107161C887EA800090A9A /* RespondKeyboardTextField.h */,
 				89C107171C887EA800090A9A /* RespondKeyboardTextField.m */,
+				899BA8881C92CAA10022D159 /* 推荐页面 */,
 				89FDFEAA1C9042E6005499B9 /* 更新界面 */,
 				890B9A531C8B2EC30063986B /* 在线播放 */,
 				8975D1CF1C6EEFD7003FE797 /* 偏好设置 */,
@@ -556,6 +583,8 @@
 				897619EA1C59E8520046A245 /* PlayViewModel.m */,
 				890B9A4D1C8B259C0063986B /* OpenStreamVideoViewModel.h */,
 				890B9A4E1C8B259C0063986B /* OpenStreamVideoViewModel.m */,
+				8993A8831C93C34E00CF91D1 /* RecommedViewModel.h */,
+				8993A8841C93C34E00CF91D1 /* RecommedViewModel.m */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -659,6 +688,7 @@
 		8975D1CF1C6EEFD7003FE797 /* 偏好设置 */ = {
 			isa = PBXGroup;
 			children = (
+				89E9DA3B1C942ABB00896977 /* 其它设置 */,
 				897CD5AD1C9149F000C98310 /* 自动更新 */,
 				89FC23EB1C6F3E82009FD27C /* 缓存管理 */,
 				89FC23EA1C6F3E68009FD27C /* 截图设置 */,
@@ -795,6 +825,10 @@
 				897EC7C41C72056A00E1B03D /* VideoInfoModel.m */,
 				890B9A4A1C8B1E9D0063986B /* VideoPlayURLModel.h */,
 				890B9A4B1C8B1E9D0063986B /* VideoPlayURLModel.m */,
+				8993A87D1C93BA4300CF91D1 /* BangumiModel.h */,
+				8993A87E1C93BA4300CF91D1 /* BangumiModel.m */,
+				8993A87F1C93BA4300CF91D1 /* FeaturedModel.h */,
+				8993A8801C93BA4300CF91D1 /* FeaturedModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -812,6 +846,19 @@
 				8984B3551C8C23D800C845AC /* JHMediaView.m */,
 			);
 			path = JHMediaPlayer;
+			sourceTree = "<group>";
+		};
+		899BA8881C92CAA10022D159 /* 推荐页面 */ = {
+			isa = PBXGroup;
+			children = (
+				89880A691C92F15E0060916F /* RecommendViewController.h */,
+				89880A6A1C92F15E0060916F /* RecommendViewController.m */,
+				89880A6C1C92F1AA0060916F /* RecommendHeadCell.h */,
+				89880A6D1C92F1AA0060916F /* RecommendHeadCell.m */,
+				89E9DA351C940C8600896977 /* RecommendBangumiCell.h */,
+				89E9DA361C940C8600896977 /* RecommendBangumiCell.m */,
+			);
+			name = "推荐页面";
 			sourceTree = "<group>";
 		};
 		89E3A7191C60FEC50030C44A /* 播放界面 */ = {
@@ -852,6 +899,15 @@
 				8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */,
 			);
 			name = "弹幕选择界面";
+			sourceTree = "<group>";
+		};
+		89E9DA3B1C942ABB00896977 /* 其它设置 */ = {
+			isa = PBXGroup;
+			children = (
+				89E9DA381C942AB500896977 /* OtherSettingCell.h */,
+				89E9DA391C942AB500896977 /* OtherSettingCell.m */,
+			);
+			name = "其它设置";
 			sourceTree = "<group>";
 		};
 		89FC23EA1C6F3E68009FD27C /* 截图设置 */ = {
@@ -1015,7 +1071,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8973680A1C70483000B9B765 /* GetKeyViewController.m in Sources */,
+				89880A6B1C92F15E0060916F /* RecommendViewController.m in Sources */,
 				8975A0AC1C60A03A009BD30F /* PlayerSlideView.m in Sources */,
+				8993A8851C93C34E00CF91D1 /* RecommedViewModel.m in Sources */,
+				89880A711C92F6AD0060916F /* RecommedNetManager.m in Sources */,
 				897EC7C91C72056A00E1B03D /* SearchModel.m in Sources */,
 				890B9A4F1C8B259C0063986B /* OpenStreamVideoViewModel.m in Sources */,
 				8975D1D91C6EF4DF003FE797 /* SliderWithTickCell.m in Sources */,
@@ -1029,8 +1088,10 @@
 				897619ED1C59E8520046A245 /* BaseViewModel.m in Sources */,
 				8975D1ED1C6F355D003FE797 /* KeyboardSettingCell.m in Sources */,
 				897EC7C61C72056A00E1B03D /* DanMuModel.m in Sources */,
+				89E9DA371C940C8600896977 /* RecommendBangumiCell.m in Sources */,
 				89E15F961C81D7320074CB55 /* RespondKeyboardSearchField.m in Sources */,
 				8975D1E31C6F2434003FE797 /* ChangeBackGroundImgCell.m in Sources */,
+				89E9DA3A1C942AB500896977 /* OtherSettingCell.m in Sources */,
 				895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */,
 				8963705A1C59028C002F32FD /* SearchNetManager.m in Sources */,
 				897368111C70708A00B9B765 /* NSString+KeyEvent.m in Sources */,
@@ -1060,10 +1121,12 @@
 				89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */,
 				8975D1E61C6F2A20003FE797 /* DanMuFilterCell.m in Sources */,
 				897ECC571C749233008AA5DB /* PlayerListTableView.m in Sources */,
+				89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */,
 				8975A0B11C60A8EA009BD30F /* DanMuChooseViewController.m in Sources */,
 				89B5854B1C7E07270076FB26 /* FilterNetManager.m in Sources */,
 				89FC23F11C6F3EC3009FD27C /* CacheManagerCell.m in Sources */,
 				897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */,
+				8993A8821C93BA4300CF91D1 /* FeaturedModel.m in Sources */,
 				897619F91C59EDBC0046A245 /* DanMuChooseViewModel.m in Sources */,
 				8984B3561C8C23D800C845AC /* JHMediaView.m in Sources */,
 				8975485D1C625B3B0075436B /* PlayerHUDControl.m in Sources */,
@@ -1094,6 +1157,7 @@
 				890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */,
 				890B9A461C8B1BB60063986B /* OpenStreamInputAidViewController.m in Sources */,
 				899BA7FE1C8AA7D6007A67A8 /* VLCMedia+Tools.m in Sources */,
+				8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */,
 				896156811C6C50570016792B /* PlayerHUDMessageView.m in Sources */,
 				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,

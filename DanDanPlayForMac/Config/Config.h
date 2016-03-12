@@ -29,8 +29,8 @@ typedef NS_ENUM(NSInteger, JHDanMuSource){
 #define kNoFoundDanmaku @"・_ゝ・并没有找到弹幕"
 
 //官方的key
-#define kDanDanPlayKey @"hWfrNe2edWO6orxZYXHnJzwkIYIvoy3vtCrHu7OCz8k="
+#define kDanDanPlayKey @""
 //官方的IV
-#define kDanDanPlayIV @"dzweYfq6KUb3/BWny4IHxA=="
+#define kDanDanPlayIV @""
 
 #endif /* Config_h */

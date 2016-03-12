@@ -25,6 +25,7 @@ static UserDefaultManager* manager = nil;
     NSNumber *_isTurnOnFastMatch;
     NSString *_autoDownLoadPath;
     NSNumber *_cheakDownLoadInfoAtStart;
+    NSNumber *_showRecommedInfo;
 }
 + (instancetype)shareUserDefaultManager{
     static dispatch_once_t onceToken;
@@ -319,5 +320,24 @@ static UserDefaultManager* manager = nil;
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_isTurnOnFastMatch = @(cheak);
     [[NSUserDefaults standardUserDefaults] setBool:cheak forKey:@"cheakDownLoadInfoAtStart"];
+}
++ (BOOL)showRecommedInfoAtStart{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    if (manager->_showRecommedInfo) {
+        return manager->_showRecommedInfo.boolValue;
+    }
+    
+    BOOL isShowRecommedInfo = YES;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"showRecommedInfoAtStart"]) {
+        isShowRecommedInfo = [[NSUserDefaults standardUserDefaults] boolForKey:@"showRecommedInfoAtStart"];
+    }else{
+        [self setShowRecommedInfoAtStart:YES];
+    }
+    return isShowRecommedInfo;
+}
++ (void)setShowRecommedInfoAtStart:(BOOL)show{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    manager->_showRecommedInfo = @(show);
+    [[NSUserDefaults standardUserDefaults] setBool:show forKey:@"showRecommedInfoAtStart"];
 }
 @end

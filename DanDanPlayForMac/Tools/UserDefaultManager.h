@@ -50,4 +50,7 @@
 
 + (BOOL)cheakDownLoadInfoAtStart;
 + (void)setCheakDownLoadInfoAtStart:(BOOL)cheak;
+
++ (BOOL)showRecommedInfoAtStart;
++ (void)setShowRecommedInfoAtStart:(BOOL)show;
 @end
