@@ -12,14 +12,16 @@
 @implementation UpdateNetManager
 
 + (id)latestVersionWithCompletionHandler:(void(^)(NSString *version, NSString *details, NSString *hash,NSError *error))complete{
-    return [self GETDataWithPath:@"http://dandanmac.b0.upaiyun.com/version.xml" parameters:nil completionHandler:^(id responseObj, NSError *error) {
-        GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:responseObj error:nil];
+    NSURLSessionDataTask *task = [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]] dataTaskWithURL:[NSURL URLWithString:@"http://dandanmac.b0.upaiyun.com/version.xml"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:data error:nil];
         GDataXMLElement *rootElement = document.rootElement;
         NSString *version = [[rootElement elementsForName:@"version"].firstObject stringValue];
         NSString *details = [[rootElement elementsForName:@"details"].firstObject stringValue];
         NSString *hash = [[rootElement elementsForName:@"hash"].firstObject stringValue];
         complete(version, details, hash, error);
     }];
+    [task resume];
+    return task;
 }
 
 + (id)downLatestVersionWithVersion:(NSString *)version progress:(NSProgress * __autoreleasing *)progress completionHandler:(void(^)(id responseObj, NSError *error))complete{
