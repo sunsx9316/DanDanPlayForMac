@@ -9,21 +9,21 @@
 #import "JHDanmakuCanvas.h"
 
 @implementation JHDanmakuCanvas
-
-- (NSView *)hitTest:(NSPoint)aPoint{
+- (JHView *)hitTest:(CGPoint)aPoint{
     return nil;
 }
 
-- (void)layoutSubviews
-{
-    [self resizeSubviewsWithOldSize:[self frame].size];
-    if (self.superview && !CGRectEqualToRect(self.frame, self.superview.bounds)) {
-        self.frame = self.superview.bounds;
+- (instancetype)init{
+    if (self = [super init]) {
+#if TARGET_OS_IPHONE
+        self.userInteractionEnabled = NO;
+        self.backgroundColor = [UIColor clearColor];
+        self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+#else
+        [self setWantsLayer:YES];
+        self.autoresizingMask = NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin | NSViewHeightSizable | NSViewWidthSizable;
+#endif
     }
-}
-
-- (void)didMoveToSuperview
-{
-    [self resizeSubviewsWithOldSize:[self frame].size];
+    return self;
 }
 @end

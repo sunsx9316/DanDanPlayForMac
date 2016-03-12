@@ -65,7 +65,7 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
 
 - (void)updateProgress:(CGFloat)progress{
     if (self.style == JHProgressHUDStyleValue2 || self.style == JHProgressHUDStyleValue4) {
-        [self.indicator incrementBy: progress];
+        self.indicator.doubleValue = progress;
     }
 }
 - (void)updateMessage:(NSString *)message{
@@ -84,18 +84,28 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
 
 - (void)show{
     self.showing = YES;
+    self.blackBackGroundMask.alphaValue = 0;
     [self.parentView addSubview: self];
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_offset(0);
     }];
-    
     [self.indicator startAnimation: self];
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+        context.duration = 1;
+        self.blackBackGroundMask.animator.alphaValue = 1;
+    } completionHandler:nil];
+    
 }
 
 - (void)disMiss{
-    self.showing = NO;
-    [self.indicator stopAnimation: self];
-    [self removeFromSuperview];
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+        context.duration = 1;
+        self.blackBackGroundMask.animator.alphaValue = 0;
+    } completionHandler:^{
+        self.showing = NO;
+        [self.indicator stopAnimation: self];
+        [self removeFromSuperview];
+    }];
 }
 
 - (BOOL)isShowing{
@@ -148,7 +158,8 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
     if(_indicator == nil) {
         _indicator = [[NSProgressIndicator alloc] init];
         _indicator.style = NSProgressIndicatorSpinningStyle;
-        
+        _indicator.minValue = 0;
+        _indicator.maxValue = 1;
     }
     return _indicator;
 }

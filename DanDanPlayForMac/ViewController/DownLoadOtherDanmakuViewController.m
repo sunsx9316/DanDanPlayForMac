@@ -67,7 +67,7 @@
     }
     
     NSArray* operations = [AFURLConnectionOperation batchOfRequestOperations:taskArr progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
-        NSLog(@"%ld %ld",numberOfFinishedOperations,totalNumberOfOperations);
+       // NSLog(@"%ld %ld",numberOfFinishedOperations,totalNumberOfOperations);
     }completionBlock:^(NSArray *operations) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadOver" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", operations.count]}];
     }];

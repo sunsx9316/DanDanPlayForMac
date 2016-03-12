@@ -6,7 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+#import <CoreVideo/CoreVideo.h>
+#import <Foundation/Foundation.h>
 
 @protocol JHDisplayLinkDelegate;
 
@@ -14,8 +15,6 @@
 
 @property (nonatomic, weak) id <JHDisplayLinkDelegate> delegate;
 
-/// The queue on which delegate callbacks will be delivered; defaults to the
-/// main queue
 @property (nonatomic) dispatch_queue_t dispatchQueue;
 
 - (void)start;

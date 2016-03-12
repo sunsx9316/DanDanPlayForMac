@@ -7,14 +7,24 @@
 //
 
 #import "ParentDanmaku.h"
+#if TARGET_OS_IPHONE
+#define JHColorBrightness(color) ({ \
+CGFloat b;\
+[color getHue:nil saturation:nil brightness:&b alpha:nil];\
+b;\
+})
+#else
+#define JHColorBrightness(color) color.brightnessComponent
+#endif
 
 @implementation ParentDanmaku
 
-- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(NSColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(NSFont *)font{
+- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(JHColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(JHFont *)font{
     if (self = [super init]) {
-        if (!font) font = [NSFont systemFontOfSize: fontSize];
+        //字体为空根据fontSize初始化
+        if (!font) font = [JHFont systemFontOfSize: fontSize];
         if (!text) text = @"";
-        if (!textColor) textColor = [NSColor colorWithRed:0 green:0 blue:0 alpha:1];
+        if (!textColor) textColor = [JHColor colorWithRed:0 green:0 blue:0 alpha:1];
         
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         dic[NSFontAttributeName] = font;
@@ -68,26 +78,28 @@
 - (NSString *)text{
     return _attributedString.string;
 }
-- (NSColor *)textColor{
-    return [_attributedString attributesAtIndex:0 effectiveRange:nil][NSForegroundColorAttributeName];
+- (JHColor *)textColor{
+    if (_attributedString.length <= 0) return nil;
+    
+    return [_attributedString attribute:NSForegroundColorAttributeName atIndex:0 effectiveRange:nil];
 }
 - (NSAttributedString *)attributedString{
     return _attributedString;
 }
 
 #pragma mark - 私有方法
-- (NSShadow *)shadowWithTextColor:(NSColor *)textColor{
+- (NSShadow *)shadowWithTextColor:(JHColor *)textColor{
     NSShadow *shadow = [[NSShadow alloc] init];
     shadow.shadowOffset = CGSizeMake(1, -1);
     shadow.shadowColor = [self shadowColorWithTextColor:textColor];
     return shadow;
 }
-
-- (NSColor *)shadowColorWithTextColor:(NSColor *)textColor{
-    if (textColor.brightnessComponent > 0.5) {
-        return [NSColor colorWithRed:0 green:0 blue:0 alpha:1];
-    }else{
-        return [NSColor colorWithRed:1 green:1 blue:1 alpha:1];
+- (JHColor *)shadowColorWithTextColor:(JHColor *)textColor{
+    if (JHColorBrightness(textColor) > 0.5) {
+        return [JHColor colorWithRed:0 green:0 blue:0 alpha:1];
     }
+    return [JHColor colorWithRed:1 green:1 blue:1 alpha:1];
 }
+
+
 @end

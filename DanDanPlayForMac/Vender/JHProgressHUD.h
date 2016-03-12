@@ -76,3 +76,4 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick;
 - (void)updateMessage:(NSString *)message;
 - (BOOL)isShowing;
 @end
+

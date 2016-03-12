@@ -15,7 +15,8 @@
 @end
 
 @implementation FloatDanmaku
-- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(NSColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(NSFont *)font during:(CGFloat)during direction:(floatDanmakuDirection)direction{
+- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(JHColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(JHFont *)font during:(CGFloat)during direction:(floatDanmakuDirection)direction{
+    
     if (self = [super initWithFontSize:fontSize textColor:textColor text:text shadowStyle:shadowStyle font:font]) {
         _direction = direction;
         _during = during;
@@ -52,6 +53,7 @@
     }
     
     __block NSInteger channel = channelCount - 1;
+    //每条轨道都有弹幕
     if (dic.count == channelCount) {
         __block NSInteger minCount = dic[@(0)].count;
         [dic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableArray<DanmakuContainer *> * _Nonnull obj, BOOL * _Nonnull stop) {
@@ -61,6 +63,8 @@
             }
         }];
     }else{
+        
+        //弹幕方向为上到下 按从上到下的顺序找轨道
         if (_direction == floatDanmakuDirectionT2B) {
             for (NSInteger i = 0; i < channelCount; ++i) {
                 if (!dic[@(i)]) {
@@ -68,6 +72,7 @@
                     break;
                 }
             }
+        //弹幕方向为下到上 按从下到上的顺序找轨道
         }else{
             for (NSInteger i = channelCount - 1; i >= 0; --i) {
                 if (!dic[@(i)]) {

@@ -5,7 +5,6 @@
 //  Created by JimHuang on 16/2/22.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
-
 #import "ParentDanmaku.h"
 typedef NS_ENUM(NSUInteger, floatDanmakuDirection) {
     floatDanmakuDirectionB2T = 100,
@@ -25,7 +24,7 @@ typedef NS_ENUM(NSUInteger, floatDanmakuDirection) {
  *
  *  @return self
  */
-- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(NSColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(NSFont *)font during:(CGFloat)during direction:(floatDanmakuDirection)direction;
+- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(JHColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(JHFont *)font during:(CGFloat)during direction:(floatDanmakuDirection)direction;
 - (CGFloat)during;
 - (floatDanmakuDirection)direction;
 @end

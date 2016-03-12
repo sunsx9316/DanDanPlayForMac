@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "OpenStreamInputAidViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,8 +17,9 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    //NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+   // NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
    // [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+
     self.mainWindowController = kViewControllerWithId(@"MainWindowController");
     [self.mainWindowController showWindow: self];
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
@@ -60,4 +62,13 @@
     [vc dismissController:vc];
 }
 
+- (IBAction)clickNetButton:(NSMenuItem *)sender {
+    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
+    [vc presentViewControllerAsSheet:[[OpenStreamInputAidViewController alloc] init]];
+}
+
+- (void)firstRun{
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:nil];
+}
 @end

@@ -23,6 +23,9 @@ static UserDefaultManager* manager = nil;
     NSString *_cachePath;
     NSNumber *_defaultScreenShotType;
     NSNumber *_isTurnOnFastMatch;
+    NSString *_autoDownLoadPath;
+    NSNumber *_cheakDownLoadInfoAtStart;
+    NSNumber *_showRecommedInfo;
 }
 + (instancetype)shareUserDefaultManager{
     static dispatch_once_t onceToken;
@@ -83,11 +86,11 @@ static UserDefaultManager* manager = nil;
         return manager->_danMuOpacity.floatValue;
     }
     
-    CGFloat value = 100.0;
+    CGFloat value = 1.0;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"danMuOpacity"]) {
         value = [[NSUserDefaults standardUserDefaults] floatForKey: @"danMuOpacity"];
     }else{
-        [self setDanMuOpacity: 100.0];
+        [self setDanMuOpacity: 1.0];
     }
     return value;
 }
@@ -104,11 +107,11 @@ static UserDefaultManager* manager = nil;
         return manager->_danMuSpeed.floatValue;
     }
     
-    CGFloat value = 31.0;
+    CGFloat value = 1.0;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"danMuSpeed"]) {
         value = [[NSUserDefaults standardUserDefaults] floatForKey:@"danMuSpeed"];
     }else{
-        [self setDanMuSpeed: 31.0];
+        [self setDanMuSpeed: 1.0];
     }
     return value;
 }
@@ -275,5 +278,66 @@ static UserDefaultManager* manager = nil;
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_isTurnOnFastMatch = @(fastMatch);
     [[NSUserDefaults standardUserDefaults] setBool:fastMatch forKey:@"turnOnFastMatch"];
+}
+
++ (NSString *)autoDownLoadPath{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    if (manager->_autoDownLoadPath) {
+        return manager->_autoDownLoadPath;
+    }
+    NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:@"autoDownLoadPath"];
+    if (!path) {
+        path = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES).firstObject;
+        [self setAutoDownLoadPath:path];
+    }
+    return path;
+}
++ (void)setAutoDownLoadPath:(NSString *)path{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    if (![[NSFileManager defaultManager] fileExistsAtPath: path]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    manager->_autoDownLoadPath = path;
+    [[NSUserDefaults standardUserDefaults] setValue:path forKey:@"autoDownLoadPath"];
+}
+
++ (BOOL)cheakDownLoadInfoAtStart{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    if (manager->_cheakDownLoadInfoAtStart) {
+        return manager->_cheakDownLoadInfoAtStart.boolValue;
+    }
+    
+    BOOL isCheakDownLoadInfoAtStart = YES;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"cheakDownLoadInfoAtStart"]) {
+        isCheakDownLoadInfoAtStart = [[NSUserDefaults standardUserDefaults] boolForKey:@"cheakDownLoadInfoAtStart"];
+    }else{
+        [self setCheakDownLoadInfoAtStart:YES];
+    }
+    return isCheakDownLoadInfoAtStart;
+}
++ (void)setCheakDownLoadInfoAtStart:(BOOL)cheak{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    manager->_isTurnOnFastMatch = @(cheak);
+    [[NSUserDefaults standardUserDefaults] setBool:cheak forKey:@"cheakDownLoadInfoAtStart"];
+}
++ (BOOL)showRecommedInfoAtStart{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    if (manager->_showRecommedInfo) {
+        return manager->_showRecommedInfo.boolValue;
+    }
+    
+    BOOL isShowRecommedInfo = YES;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"showRecommedInfoAtStart"]) {
+        isShowRecommedInfo = [[NSUserDefaults standardUserDefaults] boolForKey:@"showRecommedInfoAtStart"];
+    }else{
+        [self setShowRecommedInfoAtStart:YES];
+    }
+    return isShowRecommedInfo;
+}
++ (void)setShowRecommedInfoAtStart:(BOOL)show{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    manager->_showRecommedInfo = @(show);
+    [[NSUserDefaults standardUserDefaults] setBool:show forKey:@"showRecommedInfoAtStart"];
 }
 @end

@@ -44,4 +44,13 @@
 
 + (BOOL)turnOnFastMatch;
 + (void)setTurnOnFastMatch:(BOOL)fastMatch;
+
++ (NSString *)autoDownLoadPath;
++ (void)setAutoDownLoadPath:(NSString *)path;
+
++ (BOOL)cheakDownLoadInfoAtStart;
++ (void)setCheakDownLoadInfoAtStart:(BOOL)cheak;
+
++ (BOOL)showRecommedInfoAtStart;
++ (void)setShowRecommedInfoAtStart:(BOOL)show;
 @end

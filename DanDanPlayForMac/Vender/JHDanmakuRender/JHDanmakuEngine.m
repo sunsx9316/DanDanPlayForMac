@@ -20,7 +20,6 @@
 
 @implementation JHDanmakuEngine
 {
-//    NSTimeInterval _currentTime;
     //用于记录当前时间的整数值
     NSInteger _intTime;
 }
@@ -38,7 +37,7 @@
 - (void)stop{
     [self.clock stop];
     [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
+            [obj removeFromSuperview];
     }];
     [self.activeContainer removeAllObjects];
 }
@@ -54,7 +53,6 @@
     if (!self.turnonBackFunction) danmaku.appearTime = _currentTime;
     
     DanmakuContainer *con = self.inactiveContainer.firstObject;
-    NSLog(@"%ld", self.inactiveContainer.count);
     if (!con) {
         con = [[DanmakuContainer alloc] initWithDanmaku:danmaku];
     }else{
@@ -89,31 +87,18 @@
 - (void)setOffsetTime:(NSTimeInterval)offsetTime{
     _offsetTime = offsetTime;
     [self.clock setOffsetTime:offsetTime];
+    [self reloadPreDanmaku];
 }
 
 - (void)setCurrentTime:(NSTimeInterval)currentTime{
     if (currentTime < 0) return;
     _currentTime = currentTime;
     [self.clock setCurrentTime:currentTime];
-    
-    if (self.turnonBackFunction) {
-        [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [obj removeFromSuperview];
-        }];
-        [self.activeContainer removeAllObjects];
-        //预加载前5秒的弹幕
-        for (NSInteger i = 1; i <= 5; ++i) {
-            NSInteger time = _currentTime - i;
-            NSArray *danmakus = [self.danmakusCache objectForKey:@(time)];
-            for (ParentDanmaku *danmaku in danmakus) {
-                [self addDanmaku:danmaku];
-            }
-        }
-    }
+    [self reloadPreDanmaku];
 }
 
 - (void)setChannelCount:(NSInteger)channelCount{
-    if (channelCount > 0) {
+    if (channelCount >= 0) {
         _channelCount = channelCount;
         [self setCurrentTime:_currentTime];
     }
@@ -124,7 +109,8 @@
 }
 
 - (void)setGlobalAttributedDic:(NSDictionary *)globalAttributedDic{
-    if (![_globalAttributedDic isEqualTo:globalAttributedDic]) {
+
+    if (![_globalAttributedDic isEqualToDictionary:globalAttributedDic]) {
         _globalAttributedDic = globalAttributedDic;
         NSArray *activeContainer = self.activeContainer;
         [activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -133,13 +119,31 @@
     }
 }
 
-- (void)setGlobalFont:(NSFont *)globalFont{
-    if (![_globalFont isEqualTo: globalFont]){
+- (void)setGlobalFont:(JHFont *)globalFont{
+    if (![_globalFont isEqual: globalFont]){
         _globalFont = globalFont;
         NSArray *activeContainer = self.activeContainer;
         [activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             obj.globalFont = globalFont;
         }];
+    }
+}
+
+#pragma mark - 私有方法
+//预加载前5秒的弹幕
+- (void)reloadPreDanmaku{
+    if (self.turnonBackFunction) {
+        [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [obj removeFromSuperview];
+        }];
+        [self.activeContainer removeAllObjects];
+        for (NSInteger i = 1; i <= 5; ++i) {
+            NSInteger time = _currentTime - i;
+            NSArray *danmakus = [self.danmakusCache objectForKey:@(time)];
+            for (ParentDanmaku *danmaku in danmakus) {
+                [self addDanmaku:danmaku];
+            }
+        }
     }
 }
 

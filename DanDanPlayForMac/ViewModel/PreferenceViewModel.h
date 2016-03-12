@@ -12,7 +12,9 @@ typedef NS_ENUM(NSUInteger, preferenceTableViewStyle) {
     preferenceTableViewStyleFilter,
     preferenceTableViewStyleKeyboard,
     preferenceTableViewStyleScreenShot,
-    preferenceTableViewStyleCache
+    preferenceTableViewStyleCache,
+    preferenceTableViewStyleUpdate,
+    preferenceTableViewStyleOther
 };
 
 #import "BaseViewModel.h"

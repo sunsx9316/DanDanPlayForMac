@@ -111,6 +111,11 @@
 }
 
 + (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler{
+    if (!episodeId) {
+        completionHandler(nil, kObjNilError);
+        return;
+    }
+    
     DanMuDataModel *model = [[DanMuDataModel alloc] init];
     model.color = color;
     model.time = time;

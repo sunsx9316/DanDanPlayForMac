@@ -14,9 +14,11 @@
 }
 - (instancetype)initWithDanmaku:(ParentDanmaku *)danmaku{
     if (self = [super init]) {
+#if !TARGET_OS_IPHONE
         self.editable = NO;
         self.drawsBackground = NO;
         self.bordered = NO;
+#endif
         [self setWithDanmaku:danmaku];
     }
     return self;
@@ -24,10 +26,9 @@
 
 - (void)setWithDanmaku:(ParentDanmaku *)danmaku{
     _danmaku = danmaku;
-    self.stringValue = danmaku.text?danmaku.text:@"";
     self.textColor = danmaku.textColor;
-    //self.font = danmaku.font;
-    self.attributedStringValue = danmaku.attributedString;
+    self.JHText = danmaku.text?danmaku.text:@"";
+    self.JHAttributedText = danmaku.attributedString;
     [self sizeToFit];
 }
 
@@ -49,15 +50,15 @@
 - (void)setGlobalAttributedDic:(NSDictionary *)globalAttributedDic{
     if (globalAttributedDic) {
         _globalAttributedDic = globalAttributedDic;
-        self.attributedStringValue = [[NSMutableAttributedString alloc] initWithString:self.attributedStringValue.string attributes:globalAttributedDic];
+        self.JHAttributedText = [[NSMutableAttributedString alloc] initWithString:self.JHAttributedText.string attributes:globalAttributedDic];
         [self sizeToFit];
     }
 }
 
-- (void)setGlobalFont:(NSFont *)globalFont{
+- (void)setGlobalFont:(JHFont *)globalFont{
     if (globalFont) {
         _globalFont = globalFont;
-        NSMutableDictionary *dic = [[self.attributedStringValue attributesAtIndex:0 effectiveRange:nil] mutableCopy];
+        NSMutableDictionary *dic = [[self.JHAttributedText attributesAtIndex:0 effectiveRange:nil] mutableCopy];
         dic[NSFontAttributeName] = globalFont;
         [self setGlobalAttributedDic:dic];
     }

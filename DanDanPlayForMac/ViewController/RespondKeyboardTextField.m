@@ -10,7 +10,6 @@
 @interface RespondKeyboardTextField()
 @property (copy, nonatomic) respondBlock block;
 @end
-
 @implementation RespondKeyboardTextField
 - (void)keyUp:(NSEvent *)theEvent{
     if (([theEvent keyCode] == 0x24 || [theEvent keyCode] == 0x4c) && self.block)

@@ -7,14 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#define JHColor UIColor
+#define JHFont UIFont
+#else
 #import <Cocoa/Cocoa.h>
+#define JHColor NSColor
+#define JHFont NSFont
+#endif
 #import "BaseModel.h"
 
 @class DanmakuContainer;
 typedef NS_ENUM(NSUInteger, danmakuShadowStyle) {
+    //啥也没有
     danmakuShadowStyleNone = 100,
+    //描边
     danmakuShadowStyleStroke,
+    //投影
     danmakuShadowStyleShadow,
+    //模糊阴影
     danmakuShadowStyleGlow,
 };
 
@@ -25,7 +38,7 @@ typedef NS_ENUM(NSUInteger, danmakuShadowStyle) {
 //弹幕是否被过滤
 @property (assign, nonatomic, getter=isFilter) BOOL filter;
 - (NSString *)text;
-- (NSColor *)textColor;
+- (JHColor *)textColor;
 - (CGPoint)originalPositonWithContainerArr:(NSArray <DanmakuContainer *>*)arr channelCount:(NSInteger)channelCount contentRect:(CGRect)rect danmakuSize:(CGSize)danmakuSize timeDifference:(NSTimeInterval)timeDifference;
 /**
  *  更新位置
@@ -39,7 +52,7 @@ typedef NS_ENUM(NSUInteger, danmakuShadowStyle) {
 /**
  *  父类方法 不要使用
  */
-- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(NSColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(NSFont *)font;
+- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(JHColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(JHFont *)font;
 
 
 @end

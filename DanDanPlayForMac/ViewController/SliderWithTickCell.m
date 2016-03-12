@@ -19,6 +19,8 @@
     switch (style) {
         case sliderWithTickCellStyleSpeed:
         {
+            self.slider.minValue = 0.1;
+            self.slider.maxValue = 3.0;
             self.slider.floatValue = [UserDefaultManager danMuSpeed];
             
             [self clickSlider: self.slider];
@@ -26,6 +28,8 @@
         }
         case sliderWithTickCellStyleOpacity:
         {
+            self.slider.minValue = 0;
+            self.slider.maxValue = 1.0;
             self.slider.floatValue = [UserDefaultManager danMuOpacity];
             
             [self clickSlider: self.slider];
@@ -40,7 +44,7 @@
     switch (self.style) {
         case sliderWithTickCellStyleSpeed:
         {
-            float value = sender.floatValue * 0.029 + 0.1;
+            float value = sender.floatValue;
             if (value == 3.0) {
                 [self.valueTextField setTextColor: [NSColor redColor]];
             }else{
@@ -53,7 +57,7 @@
         case sliderWithTickCellStyleOpacity:
         {
             float value = sender.floatValue;
-            self.valueTextField.stringValue = [NSString stringWithFormat:@"%.1f%%", value];
+            self.valueTextField.stringValue = [NSString stringWithFormat:@"%.1f%%", value * 100];
             [UserDefaultManager setDanMuOpacity: value];
             break;
         }

@@ -63,7 +63,14 @@
 
 + (id)getBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     //http://biliproxy.chinacloudsites.cn/av/46431/1?list=1
-    return [self GETWithPath:[NSString stringWithFormat:@"http://biliproxy.chinacloudsites.cn/av/%@/1?list=1", parameters[@"aid"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+    if (!parameters[@"aid"]) {
+        complete(nil, kObjNilError);
+        return nil;
+    }
+    //分页 可选参数
+    NSString *page = ([parameters[@"page"] intValue])?parameters[@"page"]:@"1";
+    
+    return [self GETWithPath:[NSString stringWithFormat:@"http://biliproxy.chinacloudsites.cn/av/%@/%@?list=1", parameters[@"aid"], page] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
         if ([responseObj isKindOfClass:[NSDictionary class]] && responseObj.count) {
             NSDictionary *dic = responseObj[@"parts"];
             if (!dic) {
