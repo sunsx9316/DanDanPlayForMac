@@ -24,13 +24,14 @@
 * [YYModel](https://github.com/ibireme/YYModel)
 * [VLCKit](https://code.videolan.org/videolan/VLCKit)
 * [GDataXML-HTML](https://github.com/graetzer/GDataXML-HTML)
+* [JHDanmakuRender](https://github.com/sunsx9316/JHDanmakuRender)
 
 ## thank
 * [Bilibili Mac Client](https://github.com/typcn/bilibili-mac-client)
 * [BarrageRenderer](https://github.com/unash/BarrageRenderer)
 
 ## build
-1. 请自行编译[VLCKit](https://code.videolan.org/videolan/VLCKit) 放入根目录 或者自行导入 [编译教程](https://wiki.videolan.org/VLCKit/#Building_the_framework_for_OS_X) 
+1. 请自行编译[VLCKit](https://code.videolan.org/videolan/VLCKit) 放入根目录 或者自行导入 ( [编译教程](https://wiki.videolan.org/VLCKit/#Building_the_framework_for_OS_X) )
 2. 发射弹幕功能需要官方的key和IV 需要请向官方索要 填在Config/Config.h中
 
 ## 软件截图
@@ -40,7 +41,7 @@
 
 ![预览图3](https://github.com/sunsx9316/DanDanPlayForMac/blob/master/snapshot/img3.png)
 
-## 微博
+## 联系我
 [O浪微博](http://weibo.com/u/2996607392)
 
 ## 许可证
