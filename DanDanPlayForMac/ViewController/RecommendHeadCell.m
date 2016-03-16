@@ -8,6 +8,8 @@
 
 #import "RecommendHeadCell.h"
 #import "RespondKeyboardSearchField.h"
+#import "NSString+Tools.h"
+
 @interface RecommendHeadCell()
 @property (weak) IBOutlet NSImageView *coverImg;
 @property (weak) IBOutlet NSButton *titleButton;
@@ -37,7 +39,11 @@
 - (IBAction)clickSearchButton:(NSButton *)sender {
     NSString *searchKeyWord = self.searchField.stringValue;
     if (!searchKeyWord || [searchKeyWord isEqualToString:@""]) return;
-    
+    searchKeyWord = [searchKeyWord stringByURLEncode];
+    //这破软件迟早药丸
+    if ([searchKeyWord isEqualToString:@"%E9%95%BF%E8%80%85"] || [searchKeyWord isEqualToString:@"%E8%86%9C%E8%9B%A4"] || [searchKeyWord isEqualToString:@"%E8%9B%A4%E8%9B%A4"] || [searchKeyWord isEqualToString:@"%E8%B5%9B%E8%89%87"]) {
+        system("open http://baike.baidu.com/view/1781.htm");
+    }
     system([[NSString stringWithFormat:self.searchPath, searchKeyWord] cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
@@ -70,6 +76,8 @@
     }
     return _searchPath;
 }
+
+
 
 
 @end

@@ -9,6 +9,7 @@
 #import "AutoUpdateCell.h"
 #import "UpdateNetManager.h"
 #import "UpdateViewController.h"
+#import "NSAlert+Tools.h"
 
 @interface AutoUpdateCell()
 @property (weak) IBOutlet NSTextField *downLoadPathTextField;
@@ -50,9 +51,7 @@
             NSViewController *vc = NSApp.keyWindow.contentViewController;
             [vc presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
         }else{
-            NSAlert *alert = [[NSAlert alloc] init];
-            alert.messageText = @"作者忙着补番 并没有更新ㄟ( ▔, ▔ )ㄏ";
-            [alert runModal];
+            [[NSAlert alertWithMessageText:@"作者忙着补番 并没有更新ㄟ( ▔, ▔ )ㄏ" informativeText:nil] runModal];
         }
     }];
 }

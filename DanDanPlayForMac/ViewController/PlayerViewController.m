@@ -15,6 +15,7 @@
 #import "PlayerListTableView.h"
 #import "PlayerHUDMessageView.h"
 #import "PlayerHoldView.h"
+#import "PlayLastWatchVideoTimeView.h"
 
 #import "MatchModel.h"
 #import "LocalVideoModel.h"
@@ -74,11 +75,12 @@
 @property (weak) IBOutlet RespondKeyboardTextField *danmakuTextField;
 @property (weak) IBOutlet NSView *launchDanmakuView;
 @property (weak) IBOutlet NSButton *launchDanmakuButton;
-
 @property (strong, nonatomic) NSButton *showDanMuControllerViewButton;
 @property (strong, nonatomic) PlayerHUDMessageView *messageView;
 @property (weak) IBOutlet NSPopUpButton *danmakuColorPopUpButton;
 @property (weak) IBOutlet NSPopUpButton *danmakuModePopUpButton;
+@property (strong) IBOutlet PlayLastWatchVideoTimeView *lastWatchVideoTimeView;
+
 
 @property (strong, nonatomic) JHMediaPlayer *player;
 
@@ -94,13 +96,13 @@
 
 @implementation PlayerViewController
 {
-    //弹幕偏移时间
-//    NSInteger _danMuOffsetTime;
     //是否处于全屏状态
     BOOL _fullScreen;
+    //判断用户是否点击了暂停
+    BOOL _userPause;
     //时间格式化工具
     NSDateFormatter *_formatter;
-    BOOL _userPause;
+    NSTimer *_autoHideTimer;
 }
 #pragma mark - 方法
 - (instancetype)initWithVideos:(NSArray *)videoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName episodeId:(NSString *)episodeId{
@@ -141,12 +143,13 @@
 - (void)mouseMoved:(NSEvent *)theEvent{
     NSPoint point = theEvent.locationInWindow;
     if (_fullScreen) {
-        if (point.y > 10) {
-            [PlayerViewControllerMethodManager showCursorAndHUDPanel:self.playerHUDControl launchDanmakuView:self.launchDanmakuView];
-        }else{
-            [PlayerViewControllerMethodManager hideCursorAndHUDPanel:self.playerHUDControl launchDanmakuView:self.launchDanmakuView];
+        [PlayerViewControllerMethodManager showHUDPanel:self.playerHUDControl launchDanmakuView:self.launchDanmakuView];
+        [_autoHideTimer invalidate];
+        if (point.y > self.playerHUDControl.frame.size.height) {
+            _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(autoHideMouseAndHUDView) userInfo:nil repeats:NO];
         }
     }
+    
     
     if (point.x > self.view.frame.size.width - 50) {
         [self showDanMuControllerButton];
@@ -247,7 +250,7 @@
     }
 }
 
-- (IBAction)clicklaunchDanmakuButton:(NSButton *)sender{
+- (IBAction)clickLaunchDanmakuButton:(NSButton *)sender{
     NSString *text = self.danmakuTextField.stringValue;
     if (!text || [text isEqualToString:@""]) return;
     
@@ -256,16 +259,21 @@
     
     NSInteger mode = item.mode;
     NSInteger color = colorItem.itemColor;
-    [PlayerViewControllerMethodManager launchDanmakuWithText:text color:color mode:mode time:self.player.currentTime episodeId:self.vm.episodeId completionHandler:^(DanMuDataModel *model, NSError *error) {
+    [PlayerViewControllerMethodManager launchDanmakuWithText:text color:color mode:mode time:self.rander.currentTime + self.rander.offsetTime episodeId:self.vm.episodeId completionHandler:^(DanMuDataModel *model, NSError *error) {
         //无错误发射
         if (!error) {
             ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithModel:model shadowStyle:[UserDefaultManager danMufontSpecially] fontSize:0 font:[UserDefaultManager danMuFont]];
-            danmaku.appearTime = self.player.currentTime;
+            danmaku.appearTime = self.rander.currentTime + self.rander.offsetTime;
             NSMutableAttributedString *str = [danmaku.attributedString mutableCopy];
             [str addAttributes:@{NSUnderlineColorAttributeName:[NSColor greenColor], NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)} range:NSMakeRange(0, str.length)];
             danmaku.attributedString = str;
             self.danmakuTextField.stringValue = @"";
+            self.messageView.text.stringValue = @"发射成功";
+            [self.messageView showHUD];
             [self.rander addDanmaku: danmaku];
+        }else{
+            self.messageView.text.stringValue = @"发射失败";
+            [self.messageView showHUD];
         }
     }];
 }
@@ -281,6 +289,11 @@
 }
 
 - (void)dealloc{
+    //如果当前播放的是本地视频 保存进度
+    if (self.player.status == JHMediaTypeLocaleMedia) {
+        [UserDefaultManager setVideoLastWatchTimeWithHash:[self.vm currentVideoHash] time:[self.player currentTime]];
+    }
+    
     [self.player removeObserver:self forKeyPath:@"volume"];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [self.view removeTrackingArea:self.trackingArea];
@@ -291,6 +304,11 @@
 
 - (void)timeOffset:(NSInteger)time{
     self.rander.offsetTime = time;
+}
+
+- (void)autoHideMouseAndHUDView{
+    [NSCursor setHiddenUntilMouseMoves:YES];
+    [PlayerViewControllerMethodManager hideHUDPanel:self.playerHUDControl launchDanmakuView:self.launchDanmakuView];
 }
 
 #pragma mark view尺寸变化相关
@@ -384,8 +402,9 @@
 //退出全屏通知
 - (void)windowWillExitFullScreen:(NSNotification *)notification{
     self.playerUIHeight.constant = 40;
-    _fullScreen = NO;
     self.playerHUDControl.hidden = YES;
+    _fullScreen = NO;
+    [_autoHideTimer invalidate];
 }
 
 
@@ -553,7 +572,7 @@
     }];
     
     [self.danmakuTextField setWithBlock:^{
-        [weakSelf clicklaunchDanmakuButton:nil];
+        [weakSelf clickLaunchDanmakuButton:nil];
     }];
     
     [self.view addSubview: self.playerHUDControl positioned:NSWindowAbove relativeTo:self.rander.canvas];
@@ -601,6 +620,15 @@
     //其它
     [self.view addTrackingArea:self.trackingArea];
     self.playerHUDControl.hidden = !_fullScreen;
+    //上次观看时间视图
+    [self.view addSubview:self.lastWatchVideoTimeView positioned:NSWindowAbove relativeTo:self.rander.canvas];
+    [self.lastWatchVideoTimeView setContinusBlock:^(NSTimeInterval time) {
+        [weakSelf.player setPosition:time / weakSelf.player.length];
+    }];
+    [self.lastWatchVideoTimeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(57);
+        make.left.centerY.mas_equalTo(0);
+    }];
 }
 
 - (void)setupWithMediaSize:(CGSize)aMediaSize{
@@ -640,6 +668,13 @@
     //只有官方弹幕库启用发送弹幕功能
     self.danmakuTextField.enabled = self.vm.episodeId != nil;
     self.launchDanmakuButton.enabled = self.vm.episodeId != nil;
+    
+    NSInteger time = [self.vm currentVideoLastVideoTime];
+    if (time > 0) {
+        self.lastWatchVideoTimeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %ld:%ld",time / 60, time % 60];
+        self.lastWatchVideoTimeView.time = time;
+        [self.lastWatchVideoTimeView show];
+    }
 }
 
 #pragma mark - NSUserNotificationDelegate
@@ -701,11 +736,11 @@
 #pragma mark - PlayerSlideViewDelegate
 - (void)playerSliderTouchEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView{
     [self.player setPosition: endValue];
-    self.rander.currentTime = self.player.currentTime;
+    self.rander.currentTime = self.player.length * endValue;
 }
 - (void)playerSliderDraggedEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView{
     [self.player setPosition: endValue];
-    self.rander.currentTime = self.player.currentTime;
+    self.rander.currentTime = self.player.length * endValue;
 }
 
 #pragma mark - NSTableView

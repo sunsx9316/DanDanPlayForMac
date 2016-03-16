@@ -26,6 +26,7 @@ static UserDefaultManager* manager = nil;
     NSString *_autoDownLoadPath;
     NSNumber *_cheakDownLoadInfoAtStart;
     NSNumber *_showRecommedInfo;
+    NSMutableDictionary *_lastWatchTimeDic;
 }
 + (instancetype)shareUserDefaultManager{
     static dispatch_once_t onceToken;
@@ -339,5 +340,39 @@ static UserDefaultManager* manager = nil;
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_showRecommedInfo = @(show);
     [[NSUserDefaults standardUserDefaults] setBool:show forKey:@"showRecommedInfoAtStart"];
+}
+
++ (NSTimeInterval)videoLastWatchTimeWithHash:(NSString *)hash{
+    //-1表示没有播放过
+    if (!hash) return -1;
+    
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    NSDictionary *tempDic = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"lastWatchVideosTime"];
+    if (!tempDic) {
+        manager->_lastWatchTimeDic = [@{} mutableCopy];
+        [[NSUserDefaults standardUserDefaults] setObject:manager->_lastWatchTimeDic forKey:@"lastWatchVideosTime"];
+    }else{
+        manager->_lastWatchTimeDic = [tempDic mutableCopy];
+    }
+    if (manager->_lastWatchTimeDic[hash]) {
+        return [manager->_lastWatchTimeDic[hash] floatValue];
+    }
+    return -1;
+
+}
++ (void)setVideoLastWatchTimeWithHash:(NSString *)hash time:(NSTimeInterval)time{
+    if (!hash) return;
+    
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    
+    if (!manager->_lastWatchTimeDic) {
+        manager->_lastWatchTimeDic = [@{} mutableCopy];
+    }
+    if (time < 0) {
+        manager->_lastWatchTimeDic[hash] = nil;
+    }else{
+        manager->_lastWatchTimeDic[hash] = @(time);
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:manager->_lastWatchTimeDic forKey:@"lastWatchVideosTime"];
 }
 @end

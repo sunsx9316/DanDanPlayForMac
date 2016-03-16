@@ -7,8 +7,12 @@
 //
 
 #import "CacheManagerCell.h"
+#import "NSAlert+Tools.h"
+
 @interface CacheManagerCell()
 @property (weak) IBOutlet NSTextField *pathTextField;
+@property (weak) IBOutlet NSTextField *cacheTextField;
+@property (weak) IBOutlet NSProgressIndicator *progressIndicator;
 
 @end
 
@@ -16,6 +20,16 @@
 - (void)awakeFromNib{
     [super awakeFromNib];
     self.pathTextField.placeholderString = [UserDefaultManager cachePath];
+    [self.progressIndicator startAnimation:self];
+    self.progressIndicator.displayedWhenStopped = NO;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        float size = [self folderSizeAtPath:[UserDefaultManager cachePath]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.cacheTextField.stringValue = [NSString stringWithFormat:@"缓存大小: %.1fM", size];
+            [self.progressIndicator stopAnimation:self];
+        });
+    });
 }
 
 - (IBAction)clickClearCacheButton:(NSButton *)sender {
@@ -31,12 +45,10 @@
         else errorStr = @"清除失败";
     }else{
         errorStr = @"清除成功";
+        self.cacheTextField.stringValue = @"缓存大小: 0.0M";
     }
     
-    NSAlert *alert = [[NSAlert alloc] init];
-    alert.messageText = errorStr;
-    alert.informativeText = inforStr;
-    [alert runModal];
+    [[NSAlert alertWithMessageText:errorStr informativeText:inforStr] runModal];
 }
 - (IBAction)clickChangeCachePathButton:(NSButton *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
@@ -53,7 +65,26 @@
     }];
 }
 
-
-
+#pragma mark - 私有方法
+- (NSInteger)fileSizeAtPath:(NSString*)filePath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:filePath]){
+        return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
+    }
+    return 0;
+}
+//遍历文件夹获得文件夹大小，返回多少M
+- (float)folderSizeAtPath:(NSString*)folderPath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:folderPath]) return 0;
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:folderPath] objectEnumerator];
+    NSString* fileName;
+    long long folderSize = 0;
+    while ((fileName = [childFilesEnumerator nextObject]) != nil){
+        NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+        folderSize += [self fileSizeAtPath:fileAbsolutePath];
+    }
+    return folderSize/(1024.0*1024.0);
+}
 
 @end

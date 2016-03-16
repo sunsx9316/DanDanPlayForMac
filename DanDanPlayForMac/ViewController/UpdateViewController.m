@@ -9,6 +9,8 @@
 #import "UpdateViewController.h"
 #import "NSButton+Tools.h"
 #import "UpdateNetManager.h"
+#import "NSData+Tools.h"
+#import "NSAlert+Tools.h"
 
 @interface UpdateViewController ()
 @property (weak) IBOutlet NSTextField *updateDetailTextField;
@@ -45,16 +47,24 @@
     [UpdateNetManager downLatestVersionWithVersion:self.version progress:&_progress completionHandler:^(NSString *responseObj, NSError *error) {
         [self.progressHUD disMiss];
         if (!responseObj) {
-            NSAlert *alert = [[NSAlert alloc] init];
-            alert.messageText = @"并没有找到下载的文件";
-            alert.informativeText = @"→_→可能是下载路径有误 可以尝试手动更新";
-            [alert runModal];
+            [[NSAlert alertWithMessageText:@"并没有找到下载的文件" informativeText:@"→_→可能是下载路径有误 可以尝试手动更新"] runModal];
             return;
         }
         
-        system([[NSString stringWithFormat:@"open %@", responseObj] cStringUsingEncoding:NSUTF8StringEncoding]);
-        [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
-        [self dismissViewController:self];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSData *fileData = [[NSData alloc] initWithContentsOfFile:responseObj];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([[fileData md5String] isEqualToString:self.fileHash]) {
+                    system([[NSString stringWithFormat:@"open %@", responseObj] cStringUsingEncoding:NSUTF8StringEncoding]);
+                }else{
+                    NSAlert *alert = [NSAlert alertWithMessageText:@"文件似乎损坏了" informativeText:@"可以重新下载或者尝试手♂动下载"];
+                    [alert runModal];
+                }
+                [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
+                [self dismissViewController:self];
+            });
+        });
+        
     }];
     [_progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
 }
@@ -79,10 +89,10 @@
 
 #pragma mark - 懒加载
 - (JHProgressHUD *)progressHUD {
-	if(_progressHUD == nil) {
-		_progressHUD = [[JHProgressHUD alloc] initWithMessage:@"下载中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
-	}
-	return _progressHUD;
+    if(_progressHUD == nil) {
+        _progressHUD = [[JHProgressHUD alloc] initWithMessage:@"下载中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+    }
+    return _progressHUD;
 }
 
 @end

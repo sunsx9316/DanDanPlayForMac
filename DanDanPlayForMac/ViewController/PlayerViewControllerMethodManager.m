@@ -14,46 +14,13 @@
 #import "DanMuModel.h"
 
 @implementation PlayerViewControllerMethodManager
-+ (void)snapShotWithPlayer:(VLCMediaPlayer *)player snapshotName:(NSString *)snapshotName{
-    NSString *path = [UserDefaultManager screenShotPath];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    
-    path = [path stringByAppendingPathComponent:snapshotName];
-    [player saveVideoSnapshotAt:path withWidth:0 andHeight:0];
-    
-    switch ([UserDefaultManager defaultScreenShotType]) {
-        case 0:
-            [self transformImgWithPath:path imgFileType:NSJPEGFileType suffixName:@".jpg"];
-            break;
-        case 1:
-            [self transformImgWithPath:path imgFileType:NSPNGFileType suffixName:@".png"];
-            break;
-        case 2:
-            [self transformImgWithPath:path imgFileType:NSBMPFileType suffixName:@".bmp"];
-            break;
-        case 3:
-            [self transformImgWithPath:path imgFileType:NSTIFFFileType suffixName:@".tiff"];
-            break;
-        default:
-            break;
-    }
-}
 
-+ (CGFloat)videoTimeWithPlayer:(VLCMediaPlayer *)player{
-    return player.media.length.numberValue.floatValue / 1000;
-}
-+ (CGFloat)currentTimeWithPlayer:(VLCMediaPlayer *)player{
-    return player.time.numberValue.floatValue / 1000;
-}
-+ (void)showCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView{
++ (void)showHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView{
     HUDPanel.animator.alphaValue = 1;
     launchDanmakuView.animator.alphaValue = 1;
 }
 
-+ (void)hideCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView{
-    [NSCursor setHiddenUntilMouseMoves:YES];
++ (void)hideHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView{
     HUDPanel.animator.alphaValue = 0;
     launchDanmakuView.animator.alphaValue = 0;
 }

@@ -201,7 +201,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="248" rowSizeStyle="automatic" viewBased="YES" id="C6S-Ul-cpl">
-                                            <rect key="frame" x="0.0" y="0.0" width="468" height="363"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="468" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -619,7 +619,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="p8m-V8-c6P" viewBased="YES" id="vbe-2T-n9N">
-                                            <rect key="frame" x="0.0" y="0.0" width="450" height="283"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="450" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -907,7 +907,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowHeight="18" rowSizeStyle="automatic" headerView="jce-s7-XBn" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Mag-vv-2B7" id="NnX-Lq-Aoh">
-                                            <rect key="frame" x="0.0" y="0.0" width="339" height="191"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="339" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -931,7 +931,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="zfh-6C-EIe">
-                                                                    <rect key="frame" x="-2" y="0.0" width="341" height="18"/>
+                                                                    <rect key="frame" x="-2" y="0.0" width="340" height="18"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="PLt-U8-kig">
                                                                         <font key="font" size="15" name=".HelveticaNeueDeskInterface-Regular"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -1024,7 +1024,7 @@
                                     <constraint firstAttribute="width" constant="22" id="kN2-CK-tCM"/>
                                     <constraint firstAttribute="height" constant="22" id="mAt-2n-8Ig"/>
                                 </constraints>
-                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="C0D4519A-DC7E-4619-964F-2E41697CDF9B" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="dQK-ny-h8t">
+                                <buttonCell key="cell" type="bevel" title="↵" bezelStyle="regularSquare" image="6B39480A-96DF-41BA-97FD-81466BD2280F" imagePosition="above" alignment="center" refusesFirstResponder="YES" borderStyle="border" inset="2" id="dQK-ny-h8t">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1090,7 +1090,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="48" rowSizeStyle="automatic" viewBased="YES" id="Hnm-MY-GOs">
-                                            <rect key="frame" x="0.0" y="0.0" width="255" height="225"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="255" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="deviceWhite"/>
@@ -1352,10 +1352,10 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="bJu-IX-zua" id="c0I-rI-h8T">
-                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="566"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="0.0"/>
-                                                    <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
                                                         <tableColumn width="312" minWidth="16" maxWidth="1000" id="bJu-IX-zua">
@@ -1377,7 +1377,7 @@
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="eXQ-L9-xn0">
                                                                             <rect key="frame" x="0.0" y="-1" width="103" height="18"/>
-                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="tAn-7x-wGh">
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Table View Cell" id="tAn-7x-wGh">
                                                                                 <font key="font" size="14" name=".HelveticaNeueDeskInterface-Regular"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1420,7 +1420,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="319" rowSizeStyle="automatic" viewBased="YES" id="20F-Uf-FNd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="521" height="566"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="521" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2016,7 +2016,7 @@
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="uST-uh-cxe" viewBased="YES" id="c8u-WK-eJd">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="506" height="245"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="506" height="0.0"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2300,6 +2300,17 @@
                                                                                 <action selector="clickClearCacheButton:" target="gp4-X0-aAg" id="gQh-B5-BRM"/>
                                                                             </connections>
                                                                         </button>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HPs-67-rzN">
+                                                                            <rect key="frame" x="287" y="68" width="63" height="17"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="缓存大小: " id="Duq-Hg-IQN">
+                                                                                <font key="font" size="13" name="STHeitiSC-Light"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Ul9-X2-R1L">
+                                                                            <rect key="frame" x="358" y="69" width="16" height="16"/>
+                                                                        </progressIndicator>
                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jqP-Q0-Y8G">
                                                                             <rect key="frame" x="432" y="30" width="82" height="32"/>
                                                                             <constraints>
@@ -2317,19 +2328,25 @@
                                                                     <constraints>
                                                                         <constraint firstItem="Cta-2B-Cmf" firstAttribute="top" secondItem="1u4-EY-pL1" secondAttribute="bottom" constant="5" id="1Hj-uW-otU"/>
                                                                         <constraint firstItem="wVZ-pF-giU" firstAttribute="top" secondItem="Cta-2B-Cmf" secondAttribute="bottom" constant="10" id="45G-bv-qEZ"/>
+                                                                        <constraint firstItem="Ul9-X2-R1L" firstAttribute="leading" secondItem="HPs-67-rzN" secondAttribute="trailing" constant="10" id="BY2-fU-BU1"/>
+                                                                        <constraint firstItem="HPs-67-rzN" firstAttribute="bottom" secondItem="Cta-2B-Cmf" secondAttribute="bottom" id="Cfo-Na-65D"/>
                                                                         <constraint firstItem="wVZ-pF-giU" firstAttribute="leading" secondItem="Cta-2B-Cmf" secondAttribute="leading" id="HBc-rT-t7o"/>
                                                                         <constraint firstItem="far-2a-WRI" firstAttribute="leading" secondItem="wVZ-pF-giU" secondAttribute="trailing" constant="10" id="VPk-8p-73S"/>
                                                                         <constraint firstItem="jqP-Q0-Y8G" firstAttribute="centerY" secondItem="wVZ-pF-giU" secondAttribute="centerY" id="XcE-0X-yeX"/>
+                                                                        <constraint firstItem="HPs-67-rzN" firstAttribute="trailing" secondItem="wVZ-pF-giU" secondAttribute="trailing" id="ZEL-Fj-tvX"/>
                                                                         <constraint firstItem="Cta-2B-Cmf" firstAttribute="leading" secondItem="1u4-EY-pL1" secondAttribute="leading" id="ZQU-Kc-jtJ"/>
                                                                         <constraint firstItem="jqP-Q0-Y8G" firstAttribute="leading" secondItem="far-2a-WRI" secondAttribute="trailing" constant="10" id="Zwm-kG-GpK"/>
                                                                         <constraint firstItem="1u4-EY-pL1" firstAttribute="leading" secondItem="gp4-X0-aAg" secondAttribute="leading" constant="5" id="cho-Yg-mZe"/>
                                                                         <constraint firstAttribute="trailing" secondItem="jqP-Q0-Y8G" secondAttribute="trailing" constant="10" id="jDe-nX-fSB"/>
+                                                                        <constraint firstItem="Ul9-X2-R1L" firstAttribute="centerY" secondItem="HPs-67-rzN" secondAttribute="centerY" id="mfk-2S-CvM"/>
                                                                         <constraint firstItem="far-2a-WRI" firstAttribute="centerY" secondItem="wVZ-pF-giU" secondAttribute="centerY" id="o43-KD-hCX"/>
                                                                         <constraint firstItem="jqP-Q0-Y8G" firstAttribute="width" secondItem="far-2a-WRI" secondAttribute="width" id="woB-vq-PCq"/>
                                                                         <constraint firstItem="1u4-EY-pL1" firstAttribute="top" secondItem="gp4-X0-aAg" secondAttribute="top" constant="5" id="xDS-Sb-421"/>
                                                                     </constraints>
                                                                     <connections>
+                                                                        <outlet property="cacheTextField" destination="HPs-67-rzN" id="4U3-Lk-srX"/>
                                                                         <outlet property="pathTextField" destination="wVZ-pF-giU" id="hMd-8h-lnL"/>
+                                                                        <outlet property="progressIndicator" destination="Ul9-X2-R1L" id="rGq-aO-0e4"/>
                                                                     </connections>
                                                                 </customView>
                                                                 <customView identifier="AutoUpdateCell" id="nrA-qi-utn" customClass="AutoUpdateCell">
@@ -2634,7 +2651,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView identifier="shiBanTableView" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Lpc-ea-nMC" viewBased="YES" id="eUJ-Dk-QL5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="213" height="210"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="213" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2719,7 +2736,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView identifier="episodeTableView" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="bLD-yW-WgZ" viewBased="YES" id="pEw-hm-8Mi">
-                                                            <rect key="frame" x="0.0" y="0.0" width="168" height="183"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="168" height="0.0"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2833,7 +2850,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="C0D4519A-DC7E-4619-964F-2E41697CDF9B" width="1" height="1">
+        <image name="6B39480A-96DF-41BA-97FD-81466BD2280F" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

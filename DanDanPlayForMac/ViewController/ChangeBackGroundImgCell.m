@@ -7,6 +7,8 @@
 //
 
 #import "ChangeBackGroundImgCell.h"
+#import "NSAlert+Tools.h"
+
 @interface ChangeBackGroundImgCell()
 @property (strong, nonatomic) NSImageView *imageView;
 @property (strong, nonatomic) NSImageView *BGImgView;
@@ -43,9 +45,7 @@
             NSURL *imgURL = [openPanel URLs].firstObject;
             NSImage *img = [[NSImage alloc] initWithContentsOfURL: imgURL];
             if (img == nil) {
-                NSAlert *alert = [[NSAlert alloc] init];
-                alert.messageText = @"然而这并不是图片";
-                [alert runModal];
+                [[NSAlert alertWithMessageText:@"然而这并不是图片" informativeText:nil] runModal];
             }else{
                 self.imageView.image = img;
                 [UserDefaultManager setHomeImgPath:imgURL.path];

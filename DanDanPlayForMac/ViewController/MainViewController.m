@@ -197,7 +197,7 @@
 }
 
 - (void)openStreamVCChooseOver:(NSNotification *)notification{
-    self.videos = notification.userInfo[@"videos"];
+    self.videos = [notification.userInfo[@"videos"] mutableCopy];
     _animateTitle = self.videos.firstObject.fileName;
 }
 

@@ -53,4 +53,7 @@
 
 + (BOOL)showRecommedInfoAtStart;
 + (void)setShowRecommedInfoAtStart:(BOOL)show;
+
++ (NSTimeInterval)videoLastWatchTimeWithHash:(NSString *)hash;
++ (void)setVideoLastWatchTimeWithHash:(NSString *)hash time:(NSTimeInterval)time;
 @end

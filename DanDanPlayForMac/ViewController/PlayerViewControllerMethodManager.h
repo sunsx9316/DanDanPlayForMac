@@ -10,42 +10,19 @@ typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
 @class VLCMediaPlayer, PlayerHUDControl, DanMuDataModel;
 @interface PlayerViewControllerMethodManager : NSObject
 /**
- *  截图
- *
- *  @param player       播放器
- *  @param snapshotName 截图名称
- */
-+ (void)snapShotWithPlayer:(VLCMediaPlayer *)player snapshotName:(NSString *)snapshotName;
-/**
- *  获取视频当前时间
- *
- *  @param player 视频播放器
- *
- *  @return 当前时间浮点值
- */
-+ (CGFloat)videoTimeWithPlayer:(VLCMediaPlayer *)player;
-/**
- *  获取视频总时间
- *
- *  @param player 当前播放器
- *
- *  @return 总时间浮点值
- */
-+ (CGFloat)currentTimeWithPlayer:(VLCMediaPlayer *)player;
-/**
- *  显示鼠标 hud面板 弹幕发射面板
+ *  hud面板 弹幕发射面板
  *
  *  @param HUDPanel hud面板
  *  @param launchDanmakuView 发射弹幕面板
  */
-+ (void)showCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView;
++ (void)showHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView;
 /**
- *  隐藏鼠标 hud面板 弹幕发射面板
+ *  hud面板 弹幕发射面板
  *
  *  @param HUDPanel hud面板
  *  @param launchDanmakuView 发射弹幕面板
  */
-+ (void)hideCursorAndHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView;
++ (void)hideHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView;
 /**
  *  显示弹幕控制器
  *

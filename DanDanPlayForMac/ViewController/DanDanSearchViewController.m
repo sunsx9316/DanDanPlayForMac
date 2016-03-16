@@ -9,6 +9,8 @@
 #import "DanDanSearchViewController.h"
 #import "DanMuChooseViewController.h"
 
+#import "NSAlert+Tools.h"
+
 #import "SearchViewModel.h"
 #import "SearchModel.h"
 
@@ -33,9 +35,7 @@
     [self.hud show];
     [self.vm refreshWithKeyWord:keyWord completionHandler:^(NSError *error) {
         if (error) {
-            NSAlert *alert = [[NSAlert alloc] init];
-            alert.messageText = @"连接出错";
-            [alert runModal];
+            [[NSAlert alertWithMessageText:@"连接出错" informativeText:nil] runModal];
         }
         
         [self.hud disMiss];

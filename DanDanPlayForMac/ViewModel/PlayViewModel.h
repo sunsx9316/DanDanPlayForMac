@@ -58,6 +58,19 @@
  */
 - (VideoModel *)currentVideoModel;
 /**
+ *  获取当前视频上次播放时间
+ *
+ *  @return 时间
+ */
+- (NSTimeInterval)currentVideoLastVideoTime;
+/**
+ *  获取当前视频hash
+ *
+ *  @return hash
+ */
+- (NSString *)currentVideoHash;
+
+/**
  *  根据下标获取模型
  *
  *  @param index 下标
@@ -65,6 +78,7 @@
  *  @return VideoModel
  */
 - (VideoModel *)videoModelWithIndex:(NSInteger)index;
+
 /**
  *  当前视频URL
  *

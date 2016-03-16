@@ -92,6 +92,7 @@
 		8983C76D1C8819CC0080C316 /* NSData+DanDanPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */; };
 		8983C7751C8853B40080C316 /* danmakuColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8983C7741C8853B40080C316 /* danmakuColor.plist */; };
 		8984B3561C8C23D800C845AC /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8984B3551C8C23D800C845AC /* JHMediaView.m */; };
+		898732811C9701E50019F8BA /* PlayLastWatchVideoTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898732801C9701E50019F8BA /* PlayLastWatchVideoTimeView.m */; };
 		89880A6B1C92F15E0060916F /* RecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A6A1C92F15E0060916F /* RecommendViewController.m */; };
 		89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A6D1C92F1AA0060916F /* RecommendHeadCell.m */; };
 		89880A711C92F6AD0060916F /* RecommedNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A701C92F6AD0060916F /* RecommedNetManager.m */; };
@@ -108,6 +109,7 @@
 		899BA7FD1C8AA7D6007A67A8 /* JHVLCMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 899BA7F91C8AA7D6007A67A8 /* JHVLCMedia.m */; };
 		899BA7FE1C8AA7D6007A67A8 /* VLCMedia+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 899BA7FB1C8AA7D6007A67A8 /* VLCMedia+Tools.m */; };
 		899BA8041C8AC9C0007A67A8 /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 899BA8031C8AC9C0007A67A8 /* VideoModel.m */; };
+		89A5B1C61C9998AB007869C9 /* NSAlert+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A5B1C51C9998AB007869C9 /* NSAlert+Tools.m */; };
 		89B585211C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B585201C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m */; };
 		89B5854B1C7E07270076FB26 /* FilterNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B5854A1C7E07270076FB26 /* FilterNetManager.m */; };
 		89C04B761C591E5700225ABA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B751C591E5700225ABA /* MainViewController.m */; };
@@ -307,6 +309,8 @@
 		8983C7741C8853B40080C316 /* danmakuColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = danmakuColor.plist; sourceTree = "<group>"; };
 		8984B3541C8C23D800C845AC /* JHMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaView.h; sourceTree = "<group>"; };
 		8984B3551C8C23D800C845AC /* JHMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaView.m; sourceTree = "<group>"; };
+		8987327F1C9701E50019F8BA /* PlayLastWatchVideoTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayLastWatchVideoTimeView.h; sourceTree = "<group>"; };
+		898732801C9701E50019F8BA /* PlayLastWatchVideoTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayLastWatchVideoTimeView.m; sourceTree = "<group>"; };
 		89880A691C92F15E0060916F /* RecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendViewController.h; sourceTree = "<group>"; };
 		89880A6A1C92F15E0060916F /* RecommendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendViewController.m; sourceTree = "<group>"; };
 		89880A6C1C92F1AA0060916F /* RecommendHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendHeadCell.h; sourceTree = "<group>"; };
@@ -339,6 +343,9 @@
 		899BA7FB1C8AA7D6007A67A8 /* VLCMedia+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VLCMedia+Tools.m"; sourceTree = "<group>"; };
 		899BA8021C8AC9C0007A67A8 /* VideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoModel.h; sourceTree = "<group>"; };
 		899BA8031C8AC9C0007A67A8 /* VideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoModel.m; sourceTree = "<group>"; };
+		89A5B1C41C9998AB007869C9 /* NSAlert+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+Tools.h"; sourceTree = "<group>"; };
+		89A5B1C51C9998AB007869C9 /* NSAlert+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+Tools.m"; sourceTree = "<group>"; };
+		89A5B1C71C999DFE007869C9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		89B5851F1C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JHDanmakuEngine+Tools.h"; sourceTree = "<group>"; };
 		89B585201C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JHDanmakuEngine+Tools.m"; sourceTree = "<group>"; };
 		89B585491C7E07270076FB26 /* FilterNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterNetManager.h; sourceTree = "<group>"; };
@@ -622,6 +629,8 @@
 				8963478F1C6860A000EF63E5 /* NSButton+Tools.m */,
 				89B5851F1C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.h */,
 				89B585201C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m */,
+				89A5B1C41C9998AB007869C9 /* NSAlert+Tools.h */,
+				89A5B1C51C9998AB007869C9 /* NSAlert+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -833,6 +842,25 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8987327E1C9701760019F8BA /* 控件 */ = {
+			isa = PBXGroup;
+			children = (
+				8975A0A71C60A03A009BD30F /* PlayerSlideView.h */,
+				8975A0A81C60A03A009BD30F /* PlayerSlideView.m */,
+				8961567F1C6C50570016792B /* PlayerHUDMessageView.h */,
+				896156801C6C50570016792B /* PlayerHUDMessageView.m */,
+				8975485B1C625B3B0075436B /* PlayerHUDControl.h */,
+				8975485C1C625B3B0075436B /* PlayerHUDControl.m */,
+				89C107101C885B8100090A9A /* DanmakuColorMenuItem.h */,
+				89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */,
+				89C107131C885FB200090A9A /* DanmakuModeMenuItem.h */,
+				89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */,
+				8987327F1C9701E50019F8BA /* PlayLastWatchVideoTimeView.h */,
+				898732801C9701E50019F8BA /* PlayLastWatchVideoTimeView.m */,
+			);
+			name = "控件";
+			sourceTree = "<group>";
+		};
 		899BA7F51C8AA7C6007A67A8 /* JHMediaPlayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -864,22 +892,13 @@
 		89E3A7191C60FEC50030C44A /* 播放界面 */ = {
 			isa = PBXGroup;
 			children = (
+				8987327E1C9701760019F8BA /* 控件 */,
 				897EC7B51C72024A00E1B03D /* 弹幕控制面板 */,
-				8975A0A71C60A03A009BD30F /* PlayerSlideView.h */,
-				8975A0A81C60A03A009BD30F /* PlayerSlideView.m */,
 				8975A0A91C60A03A009BD30F /* PlayerViewController.h */,
 				8975A0AA1C60A03A009BD30F /* PlayerViewController.m */,
 				8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */,
 				896AEA911C7CB8680011E046 /* PlayerViewControllerMethodManager.h */,
 				896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */,
-				89C107101C885B8100090A9A /* DanmakuColorMenuItem.h */,
-				89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */,
-				89C107131C885FB200090A9A /* DanmakuModeMenuItem.h */,
-				89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */,
-				8961567F1C6C50570016792B /* PlayerHUDMessageView.h */,
-				896156801C6C50570016792B /* PlayerHUDMessageView.m */,
-				8975485B1C625B3B0075436B /* PlayerHUDControl.h */,
-				8975485C1C625B3B0075436B /* PlayerHUDControl.m */,
 				897ECC551C749233008AA5DB /* PlayerListTableView.h */,
 				897ECC561C749233008AA5DB /* PlayerListTableView.m */,
 				897345B21C7571EC00F64D39 /* PlayerHoldView.h */,
@@ -988,7 +1007,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = 89636FC31C58C40A002F32FD;
@@ -1079,6 +1097,7 @@
 				890B9A4F1C8B259C0063986B /* OpenStreamVideoViewModel.m in Sources */,
 				8975D1D91C6EF4DF003FE797 /* SliderWithTickCell.m in Sources */,
 				8944E6AB1C8F181D005C5DC8 /* ScrollDanmaku.m in Sources */,
+				898732811C9701E50019F8BA /* PlayLastWatchVideoTimeView.m in Sources */,
 				8975D1EA1C6F2B59003FE797 /* UseFilterExpressionCell.m in Sources */,
 				89FDFE891C90239C005499B9 /* UpdateNetManager.m in Sources */,
 				897ECC5A1C74C9F9008AA5DB /* DanMuFastMatchCell.m in Sources */,
@@ -1123,6 +1142,7 @@
 				897ECC571C749233008AA5DB /* PlayerListTableView.m in Sources */,
 				89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */,
 				8975A0B11C60A8EA009BD30F /* DanMuChooseViewController.m in Sources */,
+				89A5B1C61C9998AB007869C9 /* NSAlert+Tools.m in Sources */,
 				89B5854B1C7E07270076FB26 /* FilterNetManager.m in Sources */,
 				89FC23F11C6F3EC3009FD27C /* CacheManagerCell.m in Sources */,
 				897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */,
@@ -1187,6 +1207,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				89636FDB1C58C40B002F32FD /* Base */,
+				89A5B1C71C999DFE007869C9 /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			path = ..;
@@ -1324,7 +1345,7 @@
 				89636FDF1C58C40B002F32FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		89636FE01C58C40B002F32FD /* Build configuration list for PBXNativeTarget "DanDanPlayForMac" */ = {
 			isa = XCConfigurationList;
@@ -1333,7 +1354,7 @@
 				89636FE21C58C40B002F32FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

@@ -1,0 +1,516 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "操作"; ObjectID = "04t-u2-EaU"; */
+"04t-u2-EaU.headerCell.title" = "操作";
+
+/* Class = "NSTextFieldCell"; title = "自动更新下载路径"; ObjectID = "07r-Tw-RoG"; */
+"07r-Tw-RoG.title" = "自动更新下载路径";
+
+/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "08E-3y-Gie"; */
+"08E-3y-Gie.title" = "Label";
+
+/* Class = "NSTextFieldCell"; title = "就是弹幕缓存 出现问题请手动清除一下"; ObjectID = "0L6-OW-DY7"; */
+"0L6-OW-DY7.title" = "就是弹幕缓存 出现问题请手动清除一下";
+
+/* Class = "NSMenu"; title = "文件"; ObjectID = "0jj-6R-rxd"; */
+"0jj-6R-rxd.title" = "文件";
+
+/* Class = "NSMenuItem"; title = "bilibili"; ObjectID = "12n-18-iI9"; */
+"12n-18-iI9.title" = "bilibili";
+
+/* Class = "NSTextFieldCell"; title = "分集名"; ObjectID = "1Ed-kh-f6u"; */
+"1Ed-kh-f6u.title" = "分集名";
+
+/* Class = "NSButtonCell"; title = "启用"; ObjectID = "1Et-VT-8VT"; */
+"1Et-VT-8VT.title" = "启用";
+
+/* Class = "NSTextFieldCell"; title = "截图设置"; ObjectID = "1Hq-MV-W1s"; */
+"1Hq-MV-W1s.title" = "截图设置";
+
+/* Class = "NSMenuItem"; title = "弹弹play"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "弹弹play";
+
+/* Class = "NSTextFieldCell"; title = "搜索结果"; ObjectID = "2Qg-MX-TcV"; */
+"2Qg-MX-TcV.title" = "搜索结果";
+
+/* Class = "NSTableColumn"; headerCell.title = "选择分集"; ObjectID = "4hh-B7-RTy"; */
+"4hh-B7-RTy.headerCell.title" = "选择分集";
+
+/* Class = "NSMenuItem"; title = "关闭"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "关闭";
+
+/* Class = "NSButtonCell"; title = "Check"; ObjectID = "55L-56-gwG"; */
+"55L-56-gwG.title" = "Check";
+
+/* Class = "NSTextFieldCell"; placeholderString = "屏蔽关键字"; ObjectID = "5ja-2j-kyt"; */
+"5ja-2j-kyt.placeholderString" = "屏蔽关键字";
+
+/* Class = "NSMenuItem"; title = "关于 弹弹play"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "关于 弹弹play";
+
+/* Class = "NSTextFieldCell"; title = "今日推荐"; ObjectID = "6DB-uE-LWB"; */
+"6DB-uE-LWB.title" = "今日推荐";
+
+/* Class = "NSButtonCell"; title = "选择弹幕"; ObjectID = "6do-gX-2ur"; */
+"6do-gX-2ur.title" = "选择弹幕";
+
+/* Class = "NSTextFieldCell"; title = "现在你看到的播放器应该也是这个样子"; ObjectID = "6du-eP-58j"; */
+"6du-eP-58j.title" = "现在你看到的播放器应该也是这个样子";
+
+/* Class = "NSTextFieldCell"; title = "字体会按照这个基准进行缩放"; ObjectID = "6jI-mt-uGf"; */
+"6jI-mt-uGf.title" = "字体会按照这个基准进行缩放";
+
+/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "6rI-IN-RlY"; */
+"6rI-IN-RlY.title" = "Label";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "72o-CH-90e"; */
+"72o-CH-90e.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "7Ex-Z2-5sW"; */
+"7Ex-Z2-5sW.title" = "Table View Cell";
+
+/* Class = "NSButtonCell"; title = "确认"; ObjectID = "7af-aG-Z7F"; */
+"7af-aG-Z7F.title" = "确认";
+
+/* Class = "NSButtonCell"; title = "选择字体"; ObjectID = "7kj-th-fv6"; */
+"7kj-th-fv6.title" = "选择字体";
+
+/* Class = "NSButtonCell"; title = "检查更新"; ObjectID = "8Cv-N3-gzS"; */
+"8Cv-N3-gzS.title" = "检查更新";
+
+/* Class = "NSButtonCell"; title = "取消"; ObjectID = "8IR-CC-ZHA"; */
+"8IR-CC-ZHA.title" = "取消";
+
+/* Class = "NSMenu"; title = "最近打开"; ObjectID = "8SX-KA-v0X"; */
+"8SX-KA-v0X.title" = "最近打开";
+
+/* Class = "NSButtonCell"; title = "更换图片"; ObjectID = "8fv-FA-qyj"; */
+"8fv-FA-qyj.title" = "更换图片";
+
+/* Class = "NSButtonCell"; title = "更换目录"; ObjectID = "9bl-ux-VjD"; */
+"9bl-ux-VjD.title" = "更换目录";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "9gu-tY-aaF"; */
+"9gu-tY-aaF.title" = "Table View Cell";
+
+/* Class = "NSTextFieldCell"; title = "标题"; ObjectID = "9hN-va-u97"; */
+"9hN-va-u97.title" = "标题";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "A0K-YZ-nPa"; */
+"A0K-YZ-nPa.title" = "Table View Cell";
+
+/* Class = "NSViewController"; title = "第三方"; ObjectID = "AB8-Kk-9Yp"; */
+"AB8-Kk-9Yp.title" = "第三方";
+
+/* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
+"AYu-sK-qS6.title" = "Main Menu";
+
+/* Class = "NSMenuItem"; title = "偏好设置"; ObjectID = "BOF-NM-1cW"; */
+"BOF-NM-1cW.title" = "偏好设置";
+
+/* Class = "NSMenuItem"; title = "Clear Menu"; ObjectID = "BgN-ov-1ru"; */
+"BgN-ov-1ru.title" = "Clear Menu";
+
+/* Class = "NSSearchFieldCell"; placeholderString = "搜索番剧"; ObjectID = "C3Q-AN-ukQ"; */
+"C3Q-AN-ukQ.placeholderString" = "搜索番剧";
+
+/* Class = "NSButtonCell"; title = "启用"; ObjectID = "CvB-51-fPP"; */
+"CvB-51-fPP.title" = "启用";
+
+/* Class = "NSTextFieldCell"; title = "缓存大小: "; ObjectID = "Duq-Hg-IQN"; */
+"Duq-Hg-IQN.title" = "缓存大小: ";
+
+/* Class = "NSTextFieldCell"; title = "100%"; ObjectID = "DwF-iq-IR4"; */
+"DwF-iq-IR4.title" = "100%";
+
+/* Class = "NSTextFieldCell"; title = "如果卡在第一屏可以尝试关掉它"; ObjectID = "E0Y-uO-r5I"; */
+"E0Y-uO-r5I.title" = "如果卡在第一屏可以尝试关掉它";
+
+/* Class = "NSButtonCell"; title = "还原默认"; ObjectID = "EQQ-jP-saT"; */
+"EQQ-jP-saT.title" = "还原默认";
+
+/* Class = "NSMenu"; title = "帮助"; ObjectID = "F2S-fz-NVQ"; */
+"F2S-fz-NVQ.title" = "帮助";
+
+/* Class = "NSButtonCell"; title = "每日推荐"; ObjectID = "FD5-je-lA0"; */
+"FD5-je-lA0.title" = "每日推荐";
+
+/* Class = "NSMenuItem"; title = "复制"; ObjectID = "FGn-99-a4L"; */
+"FGn-99-a4L.title" = "复制";
+
+/* Class = "NSMenuItem"; title = "DanDanPlayForMac Help"; ObjectID = "FKE-Sm-Kum"; */
+"FKE-Sm-Kum.title" = "DanDanPlayForMac Help";
+
+/* Class = "NSMenuItem"; title = "打开文件/文件夹…"; ObjectID = "FXB-Hk-T5d"; */
+"FXB-Hk-T5d.title" = "打开文件/文件夹…";
+
+/* Class = "NSButtonCell"; title = "搜索"; ObjectID = "G6S-KT-4ZV"; */
+"G6S-KT-4ZV.title" = "搜索";
+
+/* Class = "NSViewController"; title = "缓存弹幕"; ObjectID = "Gq5-OX-JaE"; */
+"Gq5-OX-JaE.title" = "缓存弹幕";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "HSa-tD-l9O"; */
+"HSa-tD-l9O.title" = "Text Cell";
+
+/* Class = "NSViewController"; title = "有新版本"; ObjectID = "Hjb-dH-2Zd"; */
+"Hjb-dH-2Zd.title" = "有新版本";
+
+/* Class = "NSWindow"; title = "弹弹play"; ObjectID = "IQv-IB-iLA"; */
+"IQv-IB-iLA.title" = "弹弹play";
+
+/* Class = "NSButtonCell"; title = "缓存其它弹幕"; ObjectID = "IY6-pw-CvF"; */
+"IY6-pw-CvF.title" = "缓存其它弹幕";
+
+/* Class = "NSButtonCell"; title = "恢复默认"; ObjectID = "Iee-WX-Fpz"; */
+"Iee-WX-Fpz.title" = "恢复默认";
+
+/* Class = "NSTextFieldCell"; title = "在画面底部大约15%的区域中禁止弹幕出现"; ObjectID = "J4k-Mz-8m0"; */
+"J4k-Mz-8m0.title" = "在画面底部大约15%的区域中禁止弹幕出现";
+
+/* Class = "NSTableColumn"; headerCell.title = "使用正则表达式"; ObjectID = "Jeg-mg-Swj"; */
+"Jeg-mg-Swj.headerCell.title" = "使用正则表达式";
+
+/* Class = "NSTextFieldCell"; title = "弹幕快速匹配"; ObjectID = "JoH-oG-Ja1"; */
+"JoH-oG-Ja1.title" = "弹幕快速匹配";
+
+/* Class = "NSTextFieldCell"; title = "字幕保护区域"; ObjectID = "Joh-zr-XIn"; */
+"Joh-zr-XIn.title" = "字幕保护区域";
+
+/* Class = "NSMenuItem"; title = "剪切"; ObjectID = "Js5-52-LYG"; */
+"Js5-52-LYG.title" = "剪切";
+
+/* Class = "NSTextFieldCell"; title = "键盘设置"; ObjectID = "KSx-1o-PII"; */
+"KSx-1o-PII.title" = "键盘设置";
+
+/* Class = "NSMenuItem"; title = "显示全部窗口"; ObjectID = "Kd2-mp-pUS"; */
+"Kd2-mp-pUS.title" = "显示全部窗口";
+
+/* Class = "NSTextFieldCell"; title = "猛点左键新建规则，右键删除规则，别忘记点更新规则"; ObjectID = "KoN-SQ-VMM"; */
+"KoN-SQ-VMM.title" = "猛点左键新建规则，右键删除规则，别忘记点更新规则";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "L7c-hU-u3Q"; */
+"L7c-hU-u3Q.title" = "Text Cell";
+
+/* Class = "NSMenuItem"; title = "前置全部窗口"; ObjectID = "LE2-aR-0XJ"; */
+"LE2-aR-0XJ.title" = "前置全部窗口";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "LzW-X6-QaF"; */
+"LzW-X6-QaF.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "搜索"; ObjectID = "MO5-Tu-JAN"; */
+"MO5-Tu-JAN.title" = "搜索";
+
+/* Class = "NSTableColumn"; headerCell.title = "选择节目"; ObjectID = "Mag-vv-2B7"; */
+"Mag-vv-2B7.headerCell.title" = "选择节目";
+
+/* Class = "NSMenuItem"; title = "系统偏好设置"; ObjectID = "NMo-om-nkz"; */
+"NMo-om-nkz.title" = "系统偏好设置";
+
+/* Class = "NSTextFieldCell"; title = "字体特效"; ObjectID = "NZZ-J5-3g7"; */
+"NZZ-J5-3g7.title" = "字体特效";
+
+/* Class = "NSMenuItem"; title = "最小化"; ObjectID = "OY7-WF-poV"; */
+"OY7-WF-poV.title" = "最小化";
+
+/* Class = "NSButtonCell"; title = "自动更新"; ObjectID = "Oj7-ea-I0Q"; */
+"Oj7-ea-I0Q.title" = "自动更新";
+
+/* Class = "NSMenuItem"; title = "隐藏"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "隐藏";
+
+/* Class = "NSMenuItem"; title = "输入av号"; ObjectID = "P0Z-co-CtZ"; */
+"P0Z-co-CtZ.title" = "输入av号";
+
+/* Class = "NSTableColumn"; headerCell.title = "选择节目"; ObjectID = "PCq-2g-CPI"; */
+"PCq-2g-CPI.headerCell.title" = "选择节目";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "PLt-U8-kig"; */
+"PLt-U8-kig.title" = "Table View Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "节目名"; ObjectID = "PNy-EE-wk0"; */
+"PNy-EE-wk0.headerCell.title" = "节目名";
+
+/* Class = "NSButtonCell"; title = "云屏蔽列表"; ObjectID = "Q7k-2v-7zn"; */
+"Q7k-2v-7zn.title" = "云屏蔽列表";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "QV0-Zk-GJB"; */
+"QV0-Zk-GJB.title" = "Table View Cell";
+
+/* Class = "NSButtonCell"; title = "确认"; ObjectID = "Qjr-sx-QWL"; */
+"Qjr-sx-QWL.title" = "确认";
+
+/* Class = "NSMenuItem"; title = "缩放"; ObjectID = "R4o-n2-Eq4"; */
+"R4o-n2-Eq4.title" = "缩放";
+
+/* Class = "NSTextFieldCell"; title = "设置弹幕文字所使用特效"; ObjectID = "RfL-vg-GLm"; */
+"RfL-vg-GLm.title" = "设置弹幕文字所使用特效";
+
+/* Class = "NSSearchFieldCell"; placeholderString = "手♂动搜索"; ObjectID = "Ryp-iG-tyq"; */
+"Ryp-iG-tyq.placeholderString" = "手♂动搜索";
+
+/* Class = "NSButtonCell"; title = "无特效"; ObjectID = "SRX-Ll-D1E"; */
+"SRX-Ll-D1E.title" = "无特效";
+
+/* Class = "NSTextFieldCell"; title = "设置键盘快捷键"; ObjectID = "SdP-eh-MBE"; */
+"SdP-eh-MBE.title" = "设置键盘快捷键";
+
+/* Class = "NSButtonCell"; title = "影评"; ObjectID = "Su1-oY-4Hn"; */
+"Su1-oY-4Hn.title" = "影评";
+
+/* Class = "NSMenu"; title = "窗口"; ObjectID = "Td7-aD-5lo"; */
+"Td7-aD-5lo.title" = "窗口";
+
+/* Class = "NSButtonCell"; title = "自动检查你妹"; ObjectID = "UQg-L2-SY4"; */
+"UQg-L2-SY4.title" = "自动检查你妹";
+
+/* Class = "NSTextFieldCell"; title = "将截图文件保存到："; ObjectID = "Uac-GI-n1f"; */
+"Uac-GI-n1f.title" = "将截图文件保存到：";
+
+/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "Ud0-Hk-Nst"; */
+"Ud0-Hk-Nst.title" = "Label";
+
+/* Class = "NSMenuItem"; title = "返回"; ObjectID = "VbW-a5-1hZ"; */
+"VbW-a5-1hZ.title" = "返回";
+
+/* Class = "NSMenuItem"; title = "隐藏其他窗口"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "隐藏其他窗口";
+
+/* Class = "NSTextFieldCell"; title = "首页背景图片"; ObjectID = "VpF-GX-xo9"; */
+"VpF-GX-xo9.title" = "首页背景图片";
+
+/* Class = "NSTextFieldCell"; title = "设置弹幕透明度"; ObjectID = "Vwc-WO-RKG"; */
+"Vwc-WO-RKG.title" = "设置弹幕透明度";
+
+/* Class = "NSButtonCell"; title = "全选"; ObjectID = "W6D-h0-Z80"; */
+"W6D-h0-Z80.title" = "全选";
+
+/* Class = "NSTextFieldCell"; title = "首页的每日推荐"; ObjectID = "WQ8-tZ-HqV"; */
+"WQ8-tZ-HqV.title" = "首页的每日推荐";
+
+/* Class = "NSButtonCell"; title = "返回"; ObjectID = "WRi-ly-s3e"; */
+"WRi-ly-s3e.title" = "返回";
+
+/* Class = "NSButtonCell"; title = "反选"; ObjectID = "XBY-zj-Eh5"; */
+"XBY-zj-Eh5.title" = "反选";
+
+/* Class = "NSButtonCell"; title = "启动显示每日推荐"; ObjectID = "XTw-1M-YSv"; */
+"XTw-1M-YSv.title" = "启动显示每日推荐";
+
+/* Class = "NSTextFieldCell"; title = "过滤规则"; ObjectID = "Yau-a6-vqD"; */
+"Yau-a6-vqD.title" = "过滤规则";
+
+/* Class = "NSMenuItem"; title = "关闭"; ObjectID = "Ygr-rV-blW"; */
+"Ygr-rV-blW.title" = "关闭";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "YwA-DG-kFd"; */
+"YwA-DG-kFd.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "字幕组"; ObjectID = "Zes-Y2-JXl"; */
+"Zes-Y2-JXl.title" = "字幕组";
+
+/* Class = "NSTableColumn"; headerCell.title = "过滤规则"; ObjectID = "a5T-PL-mBM"; */
+"a5T-PL-mBM.headerCell.title" = "过滤规则";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "aDj-2i-kzR"; */
+"aDj-2i-kzR.title" = "Text Cell";
+
+/* Class = "NSMenuItem"; title = "窗口"; ObjectID = "aUF-d1-5bR"; */
+"aUF-d1-5bR.title" = "窗口";
+
+/* Class = "NSMenuItem"; title = "删除"; ObjectID = "adJ-Tj-HXQ"; */
+"adJ-Tj-HXQ.title" = "删除";
+
+/* Class = "NSButtonCell"; title = "删除"; ObjectID = "an5-IZ-2TL"; */
+"an5-IZ-2TL.title" = "删除";
+
+/* Class = "NSTableColumn"; headerCell.title = "快捷键"; ObjectID = "b14-DH-wP5"; */
+"b14-DH-wP5.headerCell.title" = "快捷键";
+
+/* Class = "NSButtonCell"; title = "全部重置"; ObjectID = "bWq-ZJ-lQc"; */
+"bWq-ZJ-lQc.title" = "全部重置";
+
+/* Class = "NSTextFieldCell"; title = "更换首页背景图片"; ObjectID = "bcT-Mu-dWw"; */
+"bcT-Mu-dWw.title" = "更换首页背景图片";
+
+/* Class = "NSMenuItem"; title = "编辑"; ObjectID = "cAD-Bt-vqE"; */
+"cAD-Bt-vqE.title" = "编辑";
+
+/* Class = "NSButtonCell"; title = "直接看"; ObjectID = "cML-5r-Mxg"; */
+"cML-5r-Mxg.title" = "直接看";
+
+/* Class = "NSButtonCell"; title = "投影"; ObjectID = "d1W-OG-7go"; */
+"d1W-OG-7go.title" = "投影";
+
+/* Class = "NSButtonCell"; title = "↵"; ObjectID = "dQK-ny-h8t"; */
+"dQK-ny-h8t.title" = "↵";
+
+/* Class = "NSButtonCell"; title = "选择目录"; ObjectID = "dV7-Yi-dRl"; */
+"dV7-Yi-dRl.title" = "选择目录";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "dbt-d3-bcm"; */
+"dbt-d3-bcm.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "弹幕缓存"; ObjectID = "dsf-ed-bDh"; */
+"dsf-ed-bDh.title" = "弹幕缓存";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "eYb-uE-8Om"; */
+"eYb-uE-8Om.title" = "Table View Cell";
+
+/* Class = "NSButtonCell"; title = "导出规则"; ObjectID = "epS-XW-2Qb"; */
+"epS-XW-2Qb.title" = "导出规则";
+
+/* Class = "NSMenuItem"; title = ".png"; ObjectID = "ezu-jJ-Eue"; */
+"ezu-jJ-Eue.title" = ".png";
+
+/* Class = "NSButtonCell"; title = "缓存其他弹幕"; ObjectID = "f23-Xd-lOU"; */
+"f23-Xd-lOU.title" = "缓存其他弹幕";
+
+/* Class = "NSButtonCell"; title = "缓存其它弹幕"; ObjectID = "f2c-vc-wVD"; */
+"f2c-vc-wVD.title" = "缓存其它弹幕";
+
+/* Class = "NSTextFieldCell"; title = "番剧名"; ObjectID = "f9u-PY-sR7"; */
+"f9u-PY-sR7.title" = "番剧名";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "fLl-l9-yfd"; */
+"fLl-l9-yfd.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "fQK-TM-qou"; */
+"fQK-TM-qou.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "1. 新增blibili视频通过av号播放的功能\n2. 修复bug\n3. 改善用户体验"; ObjectID = "g4Y-zt-XTb"; */
+"g4Y-zt-XTb.title" = "1. 新增blibili视频通过av号播放的功能\n2. 修复bug\n3. 改善用户体验";
+
+/* Class = "NSSearchFieldCell"; placeholderString = "手♂动搜索"; ObjectID = "gR3-ov-p7J"; */
+"gR3-ov-p7J.placeholderString" = "手♂动搜索";
+
+/* Class = "NSMenu"; title = "编辑"; ObjectID = "hgR-Vc-gun"; */
+"hgR-Vc-gun.title" = "编辑";
+
+/* Class = "NSButtonCell"; title = "返回"; ObjectID = "hkX-RE-aid"; */
+"hkX-RE-aid.title" = "返回";
+
+/* Class = "NSMenu"; title = "系统偏好设置"; ObjectID = "hz9-B4-Xy5"; */
+"hz9-B4-Xy5.title" = "系统偏好设置";
+
+/* Class = "NSTableColumn"; headerCell.title = "选择分集"; ObjectID = "i3D-66-eUP"; */
+"i3D-66-eUP.headerCell.title" = "选择分集";
+
+/* Class = "NSMenuItem"; title = "文件"; ObjectID = "ipp-wL-jxK"; */
+"ipp-wL-jxK.title" = "文件";
+
+/* Class = "NSTextFieldCell"; title = "透明度"; ObjectID = "j0W-ab-lNt"; */
+"j0W-ab-lNt.title" = "透明度";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "j2n-lW-XMu"; */
+"j2n-lW-XMu.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "视频名称"; ObjectID = "jaf-Y0-Nxo"; */
+"jaf-Y0-Nxo.headerCell.title" = "视频名称";
+
+/* Class = "NSMenuItem"; title = ".jpg"; ObjectID = "k61-82-bQT"; */
+"k61-82-bQT.title" = ".jpg";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "ktr-iU-Ssq"; */
+"ktr-iU-Ssq.title" = "Table View Cell";
+
+/* Class = "NSTextFieldCell"; title = "字体"; ObjectID = "kvx-YP-3UO"; */
+"kvx-YP-3UO.title" = "字体";
+
+/* Class = "NSButtonCell"; title = "更新规则"; ObjectID = "lCb-Zr-hbc"; */
+"lCb-Zr-hbc.title" = "更新规则";
+
+/* Class = "NSMenuItem"; title = "粘贴"; ObjectID = "liC-Yn-ARz"; */
+"liC-Yn-ARz.title" = "粘贴";
+
+/* Class = "NSTextFieldCell"; title = "弹幕源"; ObjectID = "lz2-0W-doZ"; */
+"lz2-0W-doZ.title" = "弹幕源";
+
+/* Class = "NSButtonCell"; title = "描边"; ObjectID = "mWD-Or-rZU"; */
+"mWD-Or-rZU.title" = "描边";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "n8g-VV-HOj"; */
+"n8g-VV-HOj.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "模糊阴影"; ObjectID = "nal-Mq-OAn"; */
+"nal-Mq-OAn.title" = "模糊阴影";
+
+/* Class = "NSButtonCell"; title = "每次启动自动检查更新"; ObjectID = "nrW-Av-FCg"; */
+"nrW-Av-FCg.title" = "每次启动自动检查更新";
+
+/* Class = "NSButtonCell"; title = "⬆︎"; ObjectID = "oK2-oA-ukX"; */
+"oK2-oA-ukX.title" = "⬆︎";
+
+/* Class = "NSButtonCell"; title = "导入规则"; ObjectID = "oU4-Lf-uWL"; */
+"oU4-Lf-uWL.title" = "导入规则";
+
+/* Class = "NSButtonCell"; title = "恢复默认"; ObjectID = "pU8-X1-8uw"; */
+"pU8-X1-8uw.title" = "恢复默认";
+
+/* Class = "NSViewController"; title = "官方"; ObjectID = "psb-AS-X4u"; */
+"psb-AS-X4u.title" = "官方";
+
+/* Class = "NSMenuItem"; title = "粘贴并匹配样式"; ObjectID = "qgC-Dj-AEm"; */
+"qgC-Dj-AEm.title" = "粘贴并匹配样式";
+
+/* Class = "NSTextFieldCell"; placeholderString = "视频ID+分页(可选) 如:av10086 2"; ObjectID = "qoR-dY-Cqx"; */
+"qoR-dY-Cqx.placeholderString" = "视频ID+分页(可选) 如:av10086 2";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "qrG-NV-SuP"; */
+"qrG-NV-SuP.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "搜索"; ObjectID = "s4Y-uZ-ubT"; */
+"s4Y-uZ-ubT.title" = "搜索";
+
+/* Class = "NSButtonCell"; title = "确定"; ObjectID = "s4j-4R-JEa"; */
+"s4j-4R-JEa.title" = "确定";
+
+/* Class = "NSMenuItem"; title = ".tiff"; ObjectID = "sPl-cB-VDs"; */
+"sPl-cB-VDs.title" = ".tiff";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "sp3-Of-ibH"; */
+"sp3-Of-ibH.title" = "Table View Cell";
+
+/* Class = "NSTextFieldCell"; title = "推荐信息"; ObjectID = "srB-nC-huw"; */
+"srB-nC-huw.title" = "推荐信息";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "tAn-7x-wGh"; */
+"tAn-7x-wGh.title" = "Table View Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "uKL-ZV-MWf"; */
+"uKL-ZV-MWf.title" = "Text Cell";
+
+/* Class = "NSMenu"; title = "弹弹play"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "弹弹play";
+
+/* Class = "NSMenuItem"; title = ".bmp"; ObjectID = "vAW-23-lm7"; */
+"vAW-23-lm7.title" = ".bmp";
+
+/* Class = "NSButtonCell"; title = "更换目录"; ObjectID = "wGp-vH-KbJ"; */
+"wGp-vH-KbJ.title" = "更换目录";
+
+/* Class = "NSMenuItem"; title = "全选"; ObjectID = "wS4-ml-u1y"; */
+"wS4-ml-u1y.title" = "全选";
+
+/* Class = "NSMenuItem"; title = "帮助"; ObjectID = "wpr-3q-Mcd"; */
+"wpr-3q-Mcd.title" = "帮助";
+
+/* Class = "NSButtonCell"; title = "清除缓存"; ObjectID = "xXW-cm-BLU"; */
+"xXW-cm-BLU.title" = "清除缓存";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "xy4-Qq-Jpu"; */
+"xy4-Qq-Jpu.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "分集名"; ObjectID = "yGA-yq-gcz"; */
+"yGA-yq-gcz.title" = "分集名";
+
+/* Class = "NSButtonCell"; title = "手动更新"; ObjectID = "yMe-QG-bap"; */
+"yMe-QG-bap.title" = "手动更新";
+
+/* Class = "NSMenuItem"; title = "最近打开"; ObjectID = "z55-AF-3fn"; */
+"z55-AF-3fn.title" = "最近打开";
+
+/* Class = "NSButtonCell"; title = "选择弹幕"; ObjectID = "zCG-Ih-k7p"; */
+"zCG-Ih-k7p.title" = "选择弹幕";
+
+/* Class = "NSButtonCell"; title = "标题"; ObjectID = "zwi-Tv-NB0"; */
+"zwi-Tv-NB0.title" = "标题";

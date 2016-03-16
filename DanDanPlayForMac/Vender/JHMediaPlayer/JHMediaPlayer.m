@@ -169,6 +169,7 @@
 
 #pragma mark 功能
 - (void)saveVideoSnapshotAt:(NSString *)path withWidth:(NSInteger)width andHeight:(NSInteger)height format:(JHSnapshotType)format{
+    //vlc截图方式
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         NSString *directoryPath = [path stringByDeletingLastPathComponent];
         if (![[NSFileManager defaultManager] fileExistsAtPath:directoryPath]) {
@@ -176,23 +177,8 @@
         }
         
         [self.localMediaPlayer saveVideoSnapshotAt:path withWidth:0 andHeight:0];
-        
-        switch (format) {
-            case JHSnapshotTypeJPG:
-                [self transformImgWithPath:path imgFileType:NSJPEGFileType suffixName:@".jpg"];
-                break;
-            case JHSnapshotTypePNG:
-                [self transformImgWithPath:path imgFileType:NSPNGFileType suffixName:@".png"];
-                break;
-            case JHSnapshotTypeBMP:
-                [self transformImgWithPath:path imgFileType:NSBMPFileType suffixName:@".bmp"];
-                break;
-            case JHSnapshotTypeTIFF:
-                [self transformImgWithPath:path imgFileType:NSTIFFFileType suffixName:@".tiff"];
-                break;
-            default:
-                break;
-        }
+        NSDictionary *dic = [self imgSuffixNameAndFIleTypeWithformat:format];
+        [self transformImgWithPath:path imgFileType:[dic[@"imgFileType"] integerValue] suffixName:dic[@"suffixName"]];
     }
 }
 
@@ -275,13 +261,45 @@
         NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
         if (!image) return;
         CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
-        NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
-        [newRep setSize:[image size]];
-        NSData *pngData = [newRep representationUsingType:imgFileType properties: @{}];
-        [pngData writeToFile:[NSString stringWithFormat:@"%@%@",path,suffixName] atomically:YES];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [[self imgDataWithImageRef:cgRef size:[image size] imgFileType:imgFileType] writeToFile:[NSString stringWithFormat:@"%@%@",path,suffixName] atomically:YES];
+        });
     }
     [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
 }
+
+#pragma mark 获取图片数据
+- (NSData *)imgDataWithImageRef:(CGImageRef)imageRef size:(CGSize)size imgFileType:(NSBitmapImageFileType)imgFileType{
+    NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:imageRef];
+    [newRep setSize:size];
+    return [newRep representationUsingType:imgFileType properties: @{}];
+}
+
+#pragma mark 获取图片格式和后缀名
+- (NSDictionary *)imgSuffixNameAndFIleTypeWithformat:(JHSnapshotType)format{
+    NSBitmapImageFileType imgFileType = NSPNGFileType;
+    NSString *suffixName = @".png";
+    switch (format) {
+        case JHSnapshotTypeJPG:
+            imgFileType = NSJPEGFileType;
+            suffixName = @".jpg";
+            break;
+        case JHSnapshotTypePNG:
+            break;
+        case JHSnapshotTypeBMP:
+            imgFileType = NSBMPFileType;
+            suffixName = @".bmp";
+            break;
+        case JHSnapshotTypeTIFF:
+            imgFileType = NSTIFFFileType;
+            suffixName = @".tiff";
+            break;
+        default:
+            break;
+    }
+    return @{@"suffixName":suffixName, @"imgFileType":@(imgFileType)};
+}
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
     //缓冲时间

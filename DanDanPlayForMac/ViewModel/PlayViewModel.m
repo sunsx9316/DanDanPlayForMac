@@ -54,6 +54,22 @@
     return [self videoModelWithIndex: self.currentIndex];
 }
 
+- (NSTimeInterval)currentVideoLastVideoTime{
+    if ([[self currentVideoModel] isKindOfClass:[LocalVideoModel class]]) {
+        LocalVideoModel *model = (LocalVideoModel *)[self currentVideoModel];
+        return [UserDefaultManager videoLastWatchTimeWithHash:model.md5];
+    }
+    return -1;
+}
+
+- (NSString *)currentVideoHash{
+    if ([[self currentVideoModel] isKindOfClass:[LocalVideoModel class]]) {
+        LocalVideoModel *model = (LocalVideoModel *)[self currentVideoModel];
+        return model.md5;
+    }
+    return nil;
+}
+
 - (NSURL *)currentVideoURL{
     return [self videoURLWithIndex: self.currentIndex];
 }

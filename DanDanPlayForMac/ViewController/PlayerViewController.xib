@@ -11,6 +11,7 @@
                 <outlet property="danmakuColorPopUpButton" destination="pak-r4-aVz" id="qby-V8-Alw"/>
                 <outlet property="danmakuModePopUpButton" destination="nFI-d6-5lf" id="5fE-tX-Qj1"/>
                 <outlet property="danmakuTextField" destination="Ri9-Bw-9cl" id="4er-3P-T4h"/>
+                <outlet property="lastWatchVideoTimeView" destination="uRo-xP-2CG" id="oPT-UN-dXN"/>
                 <outlet property="launchDanmakuButton" destination="RtY-T5-zmF" id="L82-Yg-94S"/>
                 <outlet property="launchDanmakuView" destination="xol-ju-x7c" id="M4b-ef-VYI"/>
                 <outlet property="playButton" destination="R7Q-A2-PU1" id="qvH-J2-99H"/>
@@ -558,7 +559,7 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="clicklaunchDanmakuButton:" target="-2" id="das-gX-1Of"/>
+                        <action selector="clickLaunchDanmakuButton:" target="-2" id="xLW-66-3l2"/>
                     </connections>
                 </button>
             </subviews>
@@ -575,6 +576,56 @@
                 <constraint firstItem="Ri9-Bw-9cl" firstAttribute="centerY" secondItem="xol-ju-x7c" secondAttribute="centerY" id="yhb-Z2-zgv"/>
             </constraints>
             <point key="canvasLocation" x="36" y="424.5"/>
+        </customView>
+        <customView id="uRo-xP-2CG" customClass="PlayLastWatchVideoTimeView">
+            <rect key="frame" x="0.0" y="0.0" width="323" height="57"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rvt-hW-hhh">
+                    <rect key="frame" x="8" y="19" width="156" height="19"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="上次播放时间: 999:999" id="h6a-fd-Lkj">
+                        <font key="font" size="15" name="STHeitiSC-Light"/>
+                        <color key="textColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p3d-y2-gRC">
+                    <rect key="frame" x="182" y="16" width="86" height="25"/>
+                    <buttonCell key="cell" type="squareTextured" title="继续上次播放" bezelStyle="texturedSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vUh-t4-TiZ">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clickContinusButton:" target="uRo-xP-2CG" id="PNy-eP-q9y"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QKh-3w-PYi">
+                    <rect key="frame" x="278" y="16" width="35" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="luz-IR-h9m"/>
+                    </constraints>
+                    <buttonCell key="cell" type="squareTextured" title="X" bezelStyle="texturedSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Baw-kG-Znl">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clickCloseButton:" target="uRo-xP-2CG" id="54F-tt-n1c"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="p3d-y2-gRC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rvt-hW-hhh" secondAttribute="trailing" constant="20" id="Aae-t8-yj5"/>
+                <constraint firstAttribute="trailing" secondItem="QKh-3w-PYi" secondAttribute="trailing" constant="10" id="Bhv-Rn-i1V"/>
+                <constraint firstItem="p3d-y2-gRC" firstAttribute="centerY" secondItem="rvt-hW-hhh" secondAttribute="centerY" id="D7g-mG-z3D"/>
+                <constraint firstItem="rvt-hW-hhh" firstAttribute="leading" secondItem="uRo-xP-2CG" secondAttribute="leading" constant="10" id="Gmn-bU-EeT"/>
+                <constraint firstItem="rvt-hW-hhh" firstAttribute="centerY" secondItem="uRo-xP-2CG" secondAttribute="centerY" id="NbY-T8-tUe"/>
+                <constraint firstItem="QKh-3w-PYi" firstAttribute="centerY" secondItem="rvt-hW-hhh" secondAttribute="centerY" id="Ruf-Nu-mnK"/>
+                <constraint firstItem="QKh-3w-PYi" firstAttribute="leading" secondItem="p3d-y2-gRC" secondAttribute="trailing" constant="10" id="Zy3-Go-TQu"/>
+            </constraints>
+            <connections>
+                <outlet property="videoTimeTextField" destination="rvt-hW-hhh" id="Ss9-SW-P0t"/>
+            </connections>
+            <point key="canvasLocation" x="-179.5" y="514.5"/>
         </customView>
     </objects>
     <resources>
