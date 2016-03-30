@@ -17,8 +17,7 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-   // NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
-   // [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+
 
     self.mainWindowController = kViewControllerWithId(@"MainWindowController");
     [self.mainWindowController showWindow: self];

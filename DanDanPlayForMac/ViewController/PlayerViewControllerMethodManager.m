@@ -7,7 +7,6 @@
 //
 
 #import "PlayerViewControllerMethodManager.h"
-#import "PlayerHUDControl.h"
 #import "DanMuDataFormatter.h"
 #import <VLCKit/VLCMediaPlayer.h>
 #import "DanMuNetManager.h"
@@ -16,12 +15,12 @@
 @implementation PlayerViewControllerMethodManager
 
 + (void)showHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView{
-    HUDPanel.animator.alphaValue = 1;
+    //HUDPanel.animator.alphaValue = 1;
     launchDanmakuView.animator.alphaValue = 1;
 }
 
 + (void)hideHUDPanel:(PlayerHUDControl *)HUDPanel launchDanmakuView:(NSView *)launchDanmakuView{
-    HUDPanel.animator.alphaValue = 0;
+   // HUDPanel.animator.alphaValue = 0;
     launchDanmakuView.animator.alphaValue = 0;
 }
 

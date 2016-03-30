@@ -7,7 +7,6 @@
 //
 
 #import "BaseNetManager.h"
-#import "VideoPlayURLModel.h"
 
 @interface VideoNetManager : BaseNetManager
 + (id)bilibiliVideoURLWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;

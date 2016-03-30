@@ -24,9 +24,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backButtonDown:) name:@"disMissViewController" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backButtonDown:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
     __weak typeof(self)weakSelf = self;
-    [self.searchTextField setWithBlock:^{
+    [self.searchTextField setRespondBlock:^{
         [weakSelf searchButtonDown:nil];
     }];
     self.searchTextField.stringValue = self.searchText;
@@ -53,7 +53,7 @@
 }
 
 - (IBAction)searchButtonDown:(NSButton *)sender {
-    if (!self.searchTextField.stringValue  || [self.searchTextField.stringValue  isEqualToString: @""]) return;
+    if (!self.searchTextField.stringValue.length) return;
     
     NSInteger index = [self.tabView indexOfTabViewItem:self.tabView.selectedTabViewItem];
     //刷新官方页

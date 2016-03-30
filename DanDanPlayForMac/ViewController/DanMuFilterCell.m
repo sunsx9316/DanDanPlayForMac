@@ -64,7 +64,7 @@
         UseFilterExpressionCell *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
         cell.OKButton.state = [self.userFilterArr[row][@"state"] boolValue];
         __weak typeof(self)weakSelf = self;
-        [cell setWithBlock:^(NSInteger state) {
+        [cell setClickBlock:^(NSInteger state) {
             NSMutableDictionary *dic = [weakSelf.userFilterArr[row] mutableCopy];
             dic[@"state"] = @(state);
             weakSelf.userFilterArr[row] = dic;

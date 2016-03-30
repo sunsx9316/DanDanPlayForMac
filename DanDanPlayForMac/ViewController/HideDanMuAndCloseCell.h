@@ -6,10 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 #import <Cocoa/Cocoa.h>
-typedef void(^closeBlock)();
-typedef void(^selectBlock)(NSInteger num, NSInteger status);
 
 @interface HideDanMuAndCloseCell : NSView
-
-- (void)setWithCloseBlock:(closeBlock)closeBlock selectBlock:(selectBlock)selectBlock;
+@property (copy, nonatomic) void(^closeBlock)();
+@property (copy, nonatomic) void(^selectBlock)(NSInteger num, NSInteger status);
 @end

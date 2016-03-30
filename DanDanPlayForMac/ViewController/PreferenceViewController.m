@@ -20,6 +20,9 @@
 #import "KeyboardSettingCell.h"
 #import "ScreenShotCell.h"
 #import "CacheManagerCell.h"
+#import "OtherOnlyButtonCell.h"
+#import "QualityCell.h"
+#import "NSAlert+Tools.h"
 
 @interface PreferenceViewController ()<NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate, NSTableViewDataSource, NSSplitViewDelegate>
 @property (weak) IBOutlet NSSplitView *splitView;
@@ -53,7 +56,7 @@
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     switch (self.tableViewStyle) {
-        case preferenceTableViewStyleDanMu:
+        case preferenceTableViewStyleDamaku:
             return [self danMuSurfaceTableView:tableView viewForTableColumn:tableColumn row:row];
         case preferenceTableViewStylePlayer:
             return [self playerTableView:tableView viewForTableColumn:tableColumn row:row];
@@ -76,7 +79,7 @@
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row{
     switch (self.tableViewStyle) {
-        case preferenceTableViewStyleDanMu:
+        case preferenceTableViewStyleDamaku:
             if (row == 0) return 132;
             else if (row == 1 || row == 2) return 108;
             else if (row == 3) return 88;
@@ -202,7 +205,37 @@
 }
 
 - (NSView *)otherTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    return [tableView makeViewWithIdentifier:@"OtherSettingCell" owner:self];
+    switch (row) {
+        case 0:
+            return [tableView makeViewWithIdentifier:@"OtherSettingCell" owner:self];
+        case 1:
+        {
+           OtherOnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OtherOnlyButtonCell" owner:self];
+            [cell setWithTitle:@"清除上次播放时间纪录" info:@"难道你想隐藏什么→_→" buttonText:@"清除播放时间纪录"];
+            [cell setClickButtonCallBackBlock:^{
+                [UserDefaultManager clearPlayHistory];
+                NSAlert *alert = [NSAlert alertWithMessageText:@"清除成功" informativeText:nil];
+                [alert runModal];
+            }];
+            return cell;
+        }
+        case 2:
+            return [tableView makeViewWithIdentifier:@"QualityCell" owner:self];
+        case 3:
+        {
+            OtherOnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OtherOnlyButtonCell" owner:self];
+            [cell setWithTitle:@"恢复默认设置" info:@"就是恢复默认设置" buttonText:@"恢复默认设置"];
+            [cell setClickButtonCallBackBlock:^{
+                NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+                [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+                NSAlert *alert = [NSAlert alertWithMessageText:@"还☆原☆大☆成☆功" informativeText:@"会在下次启动生效"];
+                [alert runModal];
+            }];
+            return cell;
+        }
+            
+    }
+    return nil;
 }
 
 #pragma mark - 懒加载

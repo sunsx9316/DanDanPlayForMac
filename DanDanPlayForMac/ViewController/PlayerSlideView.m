@@ -99,14 +99,14 @@
 
 - (NSColor *)backGroundColor{
     if (_backGroundColor == nil) {
-        _backGroundColor = [NSColor gridColor];
+        _backGroundColor = [NSColor darkGrayColor];
     }
     return _backGroundColor;
 }
 
 - (NSColor *)bufferSliderColor {
     if(_bufferSliderColor == nil) {
-        _bufferSliderColor = [NSColor darkGrayColor];
+        _bufferSliderColor = [NSColor lightGrayColor];
     }
     return _bufferSliderColor;
 }

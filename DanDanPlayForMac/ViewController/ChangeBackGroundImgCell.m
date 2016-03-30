@@ -49,6 +49,7 @@
             }else{
                 self.imageView.image = img;
                 [UserDefaultManager setHomeImgPath:imgURL.path];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_HOME_IMG" object:nil userInfo:@{@"img":img}];
             }
         }
     }];

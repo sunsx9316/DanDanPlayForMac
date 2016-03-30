@@ -54,6 +54,11 @@
 + (BOOL)showRecommedInfoAtStart;
 + (void)setShowRecommedInfoAtStart:(BOOL)show;
 
-+ (NSTimeInterval)videoLastWatchTimeWithHash:(NSString *)hash;
-+ (void)setVideoLastWatchTimeWithHash:(NSString *)hash time:(NSTimeInterval)time;
++ (NSTimeInterval)videoPlayHistoryWithHash:(NSString *)hash;
++ (void)setVideoPlayHistoryWithHash:(NSString *)hash time:(NSTimeInterval)time;
+
++ (NSInteger)defaultQuality;
++ (void)setDefaultQuality:(NSInteger)quality;
+
++ (void)clearPlayHistory;
 @end

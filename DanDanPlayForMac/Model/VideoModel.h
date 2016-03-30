@@ -18,6 +18,10 @@
  */
 - (NSURL *)filePath;
 /**
+ *  文件哈希值
+ */
+- (NSString *)md5;
+/**
  *  初始化
  *
  *  @param filePath 文件路径

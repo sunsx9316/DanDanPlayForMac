@@ -35,9 +35,10 @@
         [JHProgressHUD disMiss];
         
         if (error) return;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"openStreamVCChooseOver" object:nil userInfo:@{@"videos":@[videoModel]}];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:nil userInfo:danmakuDic];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"OPEN_STREAM_VC_CHOOSE_OVER" object:nil userInfo:@{@"videos":[NSMutableArray arrayWithObject:videoModel]}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:danmakuDic];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:nil];
+        
     }];
 }
 
@@ -50,7 +51,7 @@
 
 #pragma mark - NSTableViewDelegate
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
-    static NSString *cellName = @"videoNameCell";
+    static NSString *cellName = @"VideoNameCell";
     NSTableCellView *view = [tableView makeViewWithIdentifier:cellName owner:self];
     view.textField.stringValue = [self.vm videoNameForRow:row];
     return view;

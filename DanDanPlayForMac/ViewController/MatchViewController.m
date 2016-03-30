@@ -29,7 +29,7 @@
     
     __weak typeof(self)weakSelf = self;
     self.searchField.stringValue = [self.vm videoName];
-    [self.searchField setWithBlock:^{
+    [self.searchField setRespondBlock:^{
         [weakSelf searchButtonDown:nil];
     }];
     
@@ -37,13 +37,13 @@
     
     [JHProgressHUD showWithMessage:kLoadMessage parentView:self.view];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"disMissViewController" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
     
     [self.vm refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         [JHProgressHUD disMiss];
         if (model.episodeId && [UserDefaultManager turnOnFastMatch]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
                 [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: model.episodeId]];
         }else{
             [self.tableView reloadData];
@@ -74,7 +74,7 @@
 - (IBAction)backButtonDown:(NSButton *)sender {
     [self dismissController: self];
     //通知开始播放
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo: nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:self userInfo: nil];
 }
 
 #pragma mark - 私有方法

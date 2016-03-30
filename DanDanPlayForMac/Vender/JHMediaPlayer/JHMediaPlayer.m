@@ -37,8 +37,9 @@
 
 - (void)videoSizeWithCompletionHandle:(void(^)(CGSize size))completionHandle{
     if (self.mediaType == JHMediaTypeNetMedia){
-        AVPlayerLayer *layer = (AVPlayerLayer *)_mediaView.layer;
-        completionHandle(layer.videoRect.size);
+//        AVPlayerLayer *layer = (AVPlayerLayer *)_mediaView.layer;
+//        completionHandle(layer.videoRect.size);
+        completionHandle(CGSizeZero);
         return;
     }
     
@@ -316,7 +317,9 @@
 
 - (void)setupNetMediaPlayerWithMediaURL:(NSURL *)mediaURL{
     _netMediaPlayer = [AVPlayer playerWithPlayerItem:[AVPlayerItem playerItemWithURL:mediaURL]];
-    self.mediaView.layer = [AVPlayerLayer playerLayerWithPlayer:_netMediaPlayer];
+    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:_netMediaPlayer];
+    self.mediaView.layer = playerLayer;
+    
     __weak typeof(self)weakSelf = self;
     //监听播放完毕通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];

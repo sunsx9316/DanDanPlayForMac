@@ -8,11 +8,6 @@
 
 #import "PlayerHoldView.h"
 #import "LocalVideoModel.h"
-@interface PlayerHoldView()
-@property (copy, nonatomic) filePickBlock block;
-@end
-
-
 @implementation PlayerHoldView
 - (void)awakeFromNib{
     [super awakeFromNib];
@@ -30,7 +25,7 @@
     NSPasteboard *pboard = [sender draggingPasteboard];
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ){
-        if (self.block) {
+        if (self.filePickBlock) {
             NSArray *pathArr = [pboard propertyListForType:NSFilenamesPboardType];
             NSMutableArray *localVideosArr = [NSMutableArray array];
             NSFileManager *manager = [NSFileManager defaultManager];
@@ -40,15 +35,9 @@
                     [localVideosArr addObject: [[LocalVideoModel alloc] initWithFilePath:path]];
                 }
             }
-            self.block(localVideosArr);
+            self.filePickBlock(localVideosArr);
         }
     }
     return YES;
 }
-
-- (void)setupBlock:(filePickBlock)block{
-    self.block = block;
-}
-
-
 @end

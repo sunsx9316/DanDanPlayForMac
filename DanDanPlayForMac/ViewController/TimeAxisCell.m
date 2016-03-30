@@ -16,7 +16,6 @@
 @property (strong, nonatomic) NSButton *subtractTenButton;
 @property (strong, nonatomic) NSButton *resetButton;
 @property (strong, nonatomic) NSTextField *title;
-@property (copy, nonatomic) timeOffsetBlock block;
 @end
 
 @implementation TimeAxisCell
@@ -75,14 +74,9 @@
     return self;
 }
 
-
-- (void)setWithBlock:(timeOffsetBlock)block{
-    self.block = block;
-}
-
 - (void)clickButton:(NSButton *)button{
-    if (self.block) {
-        self.block(button.tag > 0?button.tag - 100:button.tag + 100);
+    if (self.timeOffsetBlock) {
+        self.timeOffsetBlock(button.tag > 0?button.tag - 100:button.tag + 100);
     }
 }
 

@@ -14,8 +14,7 @@
 @property (strong, nonatomic) NSButton *hideTopDanMuButton;
 @property (strong, nonatomic) NSButton *hideBottomDanMuButton;
 @property (strong, nonatomic) NSTextField *title;
-@property (copy, nonatomic) closeBlock closeHandle;
-@property (copy, nonatomic) selectBlock selectHandle;
+
 @end
 
 @implementation HideDanMuAndCloseCell
@@ -57,20 +56,15 @@
     return self;
 }
 
-- (void)setWithCloseBlock:(closeBlock)closeBlock selectBlock:(selectBlock)selectBlock{
-    self.selectHandle = selectBlock;
-    self.closeHandle = closeBlock;
-}
-
 - (void)clickCloseButton{
-    if (self.closeHandle) {
-        self.closeHandle();
+    if (self.closeBlock) {
+        self.closeBlock();
     }
 }
 
 - (void)clickHideButton:(NSButton *)button{
-    if (self.selectHandle) {
-        self.selectHandle(button.tag, button.state);
+    if (self.selectBlock) {
+        self.selectBlock(button.tag, button.state);
     }
 }
 

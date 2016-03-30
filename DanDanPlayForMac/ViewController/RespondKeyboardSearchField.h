@@ -9,5 +9,5 @@
 typedef void(^respondBlock)();
 
 @interface RespondKeyboardSearchField : NSSearchField
-- (void)setWithBlock:(respondBlock)block;
+@property (copy, nonatomic) void(^respondBlock)();
 @end

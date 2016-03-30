@@ -16,6 +16,10 @@
 - (NSString *)fileName{
     return nil;
 }
+- (NSString *)md5{
+    return nil;
+}
+
 - (instancetype)initWithFilePath:(NSString *)filePath{
     return nil;
 }

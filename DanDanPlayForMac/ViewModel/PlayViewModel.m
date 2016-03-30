@@ -13,13 +13,7 @@
 #import "MatchViewModel.h"
 #import "DanMuChooseViewModel.h"
 
-#import "JHVLCMedia.h"
-#import "DanMuModel.h"
-#import "ParentDanmaku.h"
 #import "MatchModel.h"
-
-#import "VLCMedia+Tools.h"
-#import "JHDanmakuEngine+Tools.h"
 
 #import "DanMuNetManager.h"
 #import "VideoNetManager.h"
@@ -28,12 +22,11 @@
 /**
  *  视频模型
  */
-@property (strong, nonatomic) NSArray <VideoModel *>*videos;
-@property (strong, nonatomic) NSMutableDictionary <NSNumber *,VLCMedia *>*VLCMedias;
-@property (strong, nonatomic) JHVLCMedia *media;
+@property (strong, nonatomic) NSMutableArray <VideoModel *>*videos;
 @end
 
 @implementation PlayViewModel
+
 - (NSString *)videoNameWithIndex:(NSInteger)index{
     return [self videoModelWithIndex: index].fileName?[self videoModelWithIndex: index].fileName:@"";
 }
@@ -55,19 +48,11 @@
 }
 
 - (NSTimeInterval)currentVideoLastVideoTime{
-    if ([[self currentVideoModel] isKindOfClass:[LocalVideoModel class]]) {
-        LocalVideoModel *model = (LocalVideoModel *)[self currentVideoModel];
-        return [UserDefaultManager videoLastWatchTimeWithHash:model.md5];
-    }
-    return -1;
+    return [UserDefaultManager videoPlayHistoryWithHash:[self currentVideoModel].md5];
 }
 
 - (NSString *)currentVideoHash{
-    if ([[self currentVideoModel] isKindOfClass:[LocalVideoModel class]]) {
-        LocalVideoModel *model = (LocalVideoModel *)[self currentVideoModel];
-        return model.md5;
-    }
-    return nil;
+    return [self currentVideoModel].md5;
 }
 
 - (NSURL *)currentVideoURL{
@@ -79,9 +64,26 @@
 }
 
 - (void)addVideosModel:(NSArray *)videosModel{
-    self.videos = [self.videos arrayByAddingObjectsFromArray:videosModel];
+    [self.videos addObjectsFromArray:videosModel];
 }
 
+- (NSInteger)openStreamCountWithQuality:(streamingVideoQuality)quality{
+    StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
+    return [model URLsCountWithQuality:quality];
+}
+
+- (void)setOpenStreamURLWithQuality:(streamingVideoQuality)quality index:(NSInteger)index{
+    StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
+    model.quality = quality;
+    model.URLIndex = index;
+}
+
+- (void)removeVideoAtIndex:(NSInteger)index{
+    if (index < self.currentIndex) {
+        self.currentIndex--;
+    }
+    [self.videos removeObjectAtIndex:index];
+}
 
 #pragma mark - 私有方法
 - (NSURL *)videoURLWithIndex:(NSInteger)index{
@@ -125,37 +127,26 @@
         NSString *danmaku = vm.danmaku;
         NSString *danmakuSource = vm.danmakuSource;
         if (!danmaku || !danmakuSource) {
-            complete(0, nil, kObjNilError);
+            complete(0.5, nil, kObjNilError);
             return;
         }
-        [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(VideoPlayURLModel *responseModel, NSError *error) {
-            complete(0.5, nil, error);
-            [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
-                self.currentIndex = index;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:nil userInfo:responseObj];
-                complete(1, vm.fileName, error);
-            }];
+        
+        [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
+            self.currentIndex = index;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
+            complete(1, vm.fileName, error);
         }];
     }
-
+    
 }
 
 - (instancetype)initWithVideoModels:(NSArray *)videoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId{
     if (self = [super init]) {
-        self.videos = videoModels;
+        self.videos = [videoModels mutableCopy];
         self.danmakusDic = dic;
         self.episodeId = episodeId;
     }
     return self;
-}
-
-#pragma mark - 懒加载
-
-- (NSMutableDictionary <NSNumber *,VLCMedia *> *)VLCMedias {
-	if(_VLCMedias == nil) {
-		_VLCMedias = [[NSMutableDictionary <NSNumber *,VLCMedia *> alloc] init];
-	}
-	return _VLCMedias;
 }
 
 @end

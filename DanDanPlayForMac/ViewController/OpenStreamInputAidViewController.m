@@ -21,10 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     __weak typeof(self)weakSelf = self;
-    [self.inputTextField setWithBlock:^{
+    [self.inputTextField setRespondBlock:^{
         [weakSelf clickOKButton:nil];
     }];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf) name:@"disMissViewController" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
 }
 - (IBAction)clickOKButton:(NSButton *)sender {
     NSString *inputText = self.inputTextField.stringValue;

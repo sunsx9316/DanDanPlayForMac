@@ -7,9 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-typedef void(^buttonDownBlock)();
-
 @interface OnlyButtonCell : NSView
 @property (strong, nonatomic) NSButton *button;
-- (void)setWithBlock:(buttonDownBlock)block;
+@property (copy, nonatomic) void(^buttonDownBlock)();
 @end

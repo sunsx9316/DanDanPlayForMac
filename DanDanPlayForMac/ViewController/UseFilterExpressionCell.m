@@ -7,19 +7,12 @@
 //
 
 #import "UseFilterExpressionCell.h"
-@interface UseFilterExpressionCell()
-@property (copy, nonatomic) clickBlock block;
-@end
 
 @implementation UseFilterExpressionCell
 - (IBAction)clickButton:(NSButton *)sender {
-    if (self.block) {
-        self.block(sender.state);
+    if (self.clickBlock) {
+        self.clickBlock(sender.state);
     }
-}
-
-- (void)setWithBlock:(clickBlock)block{
-    self.block = block;
 }
 
 @end

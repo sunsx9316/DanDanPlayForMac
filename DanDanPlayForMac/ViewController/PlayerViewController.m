@@ -10,25 +10,28 @@
 #import "MatchViewController.h"
 #import "SearchViewController.h"
 
-#import "PlayerHUDControl.h"
-#import "PlayerSlideView.h"
 #import "PlayerListTableView.h"
 #import "PlayerHUDMessageView.h"
 #import "PlayerHoldView.h"
 #import "PlayLastWatchVideoTimeView.h"
+#import "PlayerControlView.h"
+#import "DanmakuColorMenuItem.h"
+#import "DanmakuModeMenuItem.h"
+#import "RespondKeyboardTextField.h"
+#import "AddTrackingAreaButton.h"
+#import "VolumeControlView.h"
 
 #import "MatchModel.h"
 #import "LocalVideoModel.h"
 #import "StreamingVideoModel.h"
 #import "PlayViewModel.h"
 
+#import "VideoNameCell.h"
 #import "HideDanMuAndCloseCell.h"
 #import "SliderControlCell.h"
 #import "TimeAxisCell.h"
 #import "OnlyButtonCell.h"
-#import "DanmakuColorMenuItem.h"
-#import "DanmakuModeMenuItem.h"
-#import "RespondKeyboardTextField.h"
+
 
 #import "NSColor+Tools.h"
 #import "JHDanmakuEngine+Tools.h"
@@ -37,58 +40,40 @@
 #import "JHMediaPlayer.h"
 
 //短跳转时长
-#define shortJump 5
+#define SHORT_JUMP_TIME 5
 //普通跳转时长
-#define mediumJump 10
+#define MEDIUM_JUMP_TIME 10
 
-#define MAXBufferTime 3
+#define MAX_BUFFER_TIME 3
 
 @interface PlayerViewController ()<PlayerSlideViewDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSUserNotificationCenterDelegate, JHMediaPlayerDelegate>
 
-//非全屏状态面板
-@property (weak) IBOutlet NSView *playerControl;
-@property (weak) IBOutlet PlayerSlideView *progressSliderView;
 @property (weak) IBOutlet NSButton *playButton;
-@property (weak) IBOutlet NSSlider *volumeSliderView;
-@property (weak) IBOutlet NSTextField *timeLabel;
-@property (weak) IBOutlet NSLayoutConstraint *playerUIHeight;
-@property (weak) IBOutlet PlayerHoldView *playerHoldView;
 @property (weak) IBOutlet NSButton *playDanmakuControlButton;
+@property (weak) IBOutlet NSButton *volumeButton;
+@property (weak) IBOutlet PlayerControlView *playerControlView;
+@property (weak) IBOutlet NSTextField *timeLabel;
+@property (weak) IBOutlet PlayerHoldView *playerHoldView;
 
-//hud面板
-@property (strong) IBOutlet PlayerHUDControl *playerHUDControl;
-@property (weak) IBOutlet NSTextField *playerHUDCurrentTimeLabel;
-@property (weak) IBOutlet NSTextField *playerHUDVideoTimeLabel;
-
-@property (weak) IBOutlet PlayerSlideView *playerHUDProgressSliderView;
-
-
-@property (weak) IBOutlet NSTextField *videoTitleLabel;
-@property (weak) IBOutlet NSSlider *playerVolumeSlider;
-@property (weak) IBOutlet NSButton *playHUDButton;
-@property (weak) IBOutlet NSButton *playerHUDDanmakuControlButton;
-
-//全屏模式和非全屏模式都存在
 @property (weak) IBOutlet NSScrollView *danMuControlView;
 @property (strong) IBOutlet NSScrollView *playListView;
 @property (weak) IBOutlet PlayerListTableView *playerListTableView;
 @property (weak) IBOutlet RespondKeyboardTextField *danmakuTextField;
-@property (weak) IBOutlet NSView *launchDanmakuView;
-@property (weak) IBOutlet NSButton *launchDanmakuButton;
-@property (strong, nonatomic) NSButton *showDanMuControllerViewButton;
-@property (strong, nonatomic) PlayerHUDMessageView *messageView;
 @property (weak) IBOutlet NSPopUpButton *danmakuColorPopUpButton;
 @property (weak) IBOutlet NSPopUpButton *danmakuModePopUpButton;
 @property (strong) IBOutlet PlayLastWatchVideoTimeView *lastWatchVideoTimeView;
-
+@property (strong) IBOutlet NSMenu *rightClickMenu;
+//最底部的进度条
+@property (weak) IBOutlet PlayerSlideView *smallSlideView;
+@property (strong, nonatomic) AddTrackingAreaButton *showDanMuControllerViewButton;
+@property (strong, nonatomic) PlayerHUDMessageView *messageView;
+@property (strong, nonatomic) VolumeControlView *volumeControlView;
 
 @property (strong, nonatomic) JHMediaPlayer *player;
 
 @property (strong, nonatomic) JHDanmakuEngine *rander;
 
 @property (strong, nonatomic) PlayViewModel *vm;
-//跟踪区域
-@property (strong, nonatomic) NSTrackingArea *trackingArea;
 //快捷键映射
 @property (strong, nonatomic) NSArray *keyMap;
 @property (assign, nonatomic) NSInteger danMuOffsetTime;
@@ -120,8 +105,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanmakuColor:) name:NSColorPanelColorDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanMuDic:) name:@"danMuChooseOver" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"openStreamVCChooseOver" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanMuDic:) name:@"DANMAKU_CHOOSE_OVER" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
     
     self.vm.currentIndex = 0;
     //初始化播放器相关参数
@@ -140,24 +125,11 @@
     }
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent{
-    NSPoint point = theEvent.locationInWindow;
-    if (_fullScreen) {
-        [PlayerViewControllerMethodManager showHUDPanel:self.playerHUDControl launchDanmakuView:self.launchDanmakuView];
-        [_autoHideTimer invalidate];
-        if (point.y > self.playerHUDControl.frame.size.height) {
-            _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(autoHideMouseAndHUDView) userInfo:nil repeats:NO];
-        }
-    }
-    
-    
-    if (point.x > self.view.frame.size.width - 50) {
-        [self showDanMuControllerButton];
-    }else{
-        [self hideDanMuControllerButton];
+- (void)rightMouseDown:(NSEvent *)theEvent{
+    if (self.player.mediaType == JHMediaTypeNetMedia) {
+        [NSMenu popUpContextMenu:self.rightClickMenu withEvent:theEvent forView:self.view];
     }
 }
-
 
 - (void)keyDown:(NSEvent *)theEvent{
     NSUInteger flags = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask;
@@ -190,32 +162,43 @@
 }
 
 - (IBAction)clickNextButton:(NSButton *)sender {
-    self.vm.currentIndex += 1;
-    [self reloadDanmakuWithIndex:self.vm.currentIndex];
-}
-- (IBAction)clickPreButton:(NSButton *)sender {
-    self.vm.currentIndex -= 1;
+    [self changeCurrentIndex:self.vm.currentIndex + 1];
     [self reloadDanmakuWithIndex:self.vm.currentIndex];
 }
 
-- (IBAction)clickFFButton:(NSButton *)sender {
-    [self.player jump:shortJump];
-}
-- (IBAction)clickREWButton:(NSButton *)sender {
-    [self.player jump:-shortJump];
+- (IBAction)clickPreButton:(NSButton *)sender {
+    [self changeCurrentIndex:self.vm.currentIndex - 1];
+    [self reloadDanmakuWithIndex:self.vm.currentIndex];
 }
 
 - (void)clickShowDanMuControllerButton:(NSButton *)button{
-    [PlayerViewControllerMethodManager showDanMuControllerView:self.danMuControlView withRect:NSMakeRect(self.view.frame.size.width - 300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height) hideButton:self.showDanMuControllerViewButton];
+    CGRect frame;
+    if (self.playerControlView.alphaValue == 0) {
+        frame = CGRectMake(self.view.frame.size.width - 300, 0, 300, self.view.frame.size.height);
+    }else{
+        frame = CGRectMake(self.view.frame.size.width - 300, self.playerControlView.frame.size.height, 300, self.view.frame.size.height - self.playerControlView.frame.size.height);
+    }
+    [PlayerViewControllerMethodManager showDanMuControllerView:self.danMuControlView withRect:frame hideButton:self.showDanMuControllerViewButton];
+}
+
+- (IBAction)clickPlayListViewButton:(NSButton *)sender {
+    sender.state?
+    [PlayerViewControllerMethodManager hidePlayerListView:self.playListView withRect:NSMakeRect(-300, self.view.bounds.size.height / 2, 300, 50)]
+    :[PlayerViewControllerMethodManager showPlayerListView:self.playListView withRect:NSMakeRect(0, self.playerControlView.frame.size.height, 300, self.view.frame.size.height - self.playerControlView.frame.size.height)];
 }
 
 - (IBAction)clickStopButton:(NSButton *)sender {
+    [self saveCurrentVideoTime];
     [self stopPlay];
     [self removeFromParentViewController];
     [self.view removeFromSuperview];
 }
-- (IBAction)clickVolumeSlider:(NSSlider *)sender {
-    [self volumeValueAddTo:sender.intValue addBy:0];
+- (void)clickVolumeSlider:(NSSlider *)sender {
+    [self volumeValueAddTo:sender.floatValue addBy:0];
+}
+
+- (void)clickVolumeButton:(NSButton *)button{
+    self.volumeControlView.isHidden ? [self.volumeControlView show] : [self.volumeControlView hide];
 }
 
 - (IBAction)clickFullScreenButton:(NSButton *)sender {
@@ -225,21 +208,6 @@
 - (IBAction)clickDanmakuControlButton:(NSButton *)sender {
     self.rander.canvas.hidden = sender.state;
     self.playDanmakuControlButton.state = sender.state;
-    self.playerHUDDanmakuControlButton.state = sender.state;
-}
-
-- (IBAction)clickPlayListViewButton:(NSButton *)sender {
-    sender.state
-    ?[PlayerViewControllerMethodManager hidePlayerListView:self.playListView withRect:NSMakeRect(-300, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height)]
-    :[PlayerViewControllerMethodManager showPlayerListView:self.playListView withRect:NSMakeRect(0, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height)];
-}
-
-- (void)showDanMuControllerButton{
-    self.showDanMuControllerViewButton.animator.alphaValue = 1;
-}
-
-- (void)hideDanMuControllerButton{
-    self.showDanMuControllerViewButton.animator.alphaValue = 0;
 }
 
 - (IBAction)clickDanmakuColorButton:(NSPopUpButton *)sender {
@@ -250,9 +218,9 @@
     }
 }
 
-- (IBAction)clickLaunchDanmakuButton:(NSButton *)sender{
+- (void)launchDanmaku{
     NSString *text = self.danmakuTextField.stringValue;
-    if (!text || [text isEqualToString:@""]) return;
+    if (!text.length) return;
     
     DanmakuModeMenuItem *item = (DanmakuModeMenuItem *)self.danmakuModePopUpButton.selectedItem;
     DanmakuColorMenuItem *colorItem = (DanmakuColorMenuItem *)self.danmakuColorPopUpButton.selectedItem;
@@ -280,44 +248,41 @@
 
 
 #pragma mark - 私有方法
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"volume"]) {
-        CGFloat volume = [change[@"new"] floatValue];
-        self.volumeSliderView.floatValue = volume;
-        self.playerVolumeSlider.floatValue = volume;
-    }
-}
 
 - (void)dealloc{
-    //如果当前播放的是本地视频 保存进度
-    if (self.player.status == JHMediaTypeLocaleMedia) {
-        [UserDefaultManager setVideoLastWatchTimeWithHash:[self.vm currentVideoHash] time:[self.player currentTime]];
-    }
-    
     [self.player removeObserver:self forKeyPath:@"volume"];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [self.view removeTrackingArea:self.trackingArea];
-    
     [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"playOver" object: nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PLAY_OVER" object: nil];
 }
 
 - (void)timeOffset:(NSInteger)time{
     self.rander.offsetTime = time;
 }
 
-- (void)autoHideMouseAndHUDView{
-    [NSCursor setHiddenUntilMouseMoves:YES];
-    [PlayerViewControllerMethodManager hideHUDPanel:self.playerHUDControl launchDanmakuView:self.launchDanmakuView];
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
+    self.volumeControlView.volumeSlider.floatValue = [change[@"new"] floatValue];
 }
 
 #pragma mark view尺寸变化相关
 - (void)danMuControlViewResize{
-    self.danMuControlView.frame = CGRectMake(self.view.frame.size.width - 300 * !self.danMuControlView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    if (self.danMuControlView.hidden) {
+        self.danMuControlView.frame = CGRectMake(self.view.bounds.size.width - 300 * !self.danMuControlView.hidden, self.view.bounds.size.height / 2, 300, 50);
+    }else{
+        self.danMuControlView.frame = self.playerControlView.alphaValue ?
+        CGRectMake(self.view.bounds.size.width - 300 * !self.danMuControlView.hidden, self.playerControlView.frame.size.height, 300, self.view.bounds.size.height - self.playerControlView.frame.size.height) :
+        CGRectMake(self.view.bounds.size.width - 300 * !self.danMuControlView.hidden, 0, 300, self.view.bounds.size.height);
+    }
 }
 
 - (void)playListViewResize{
-    self.playListView.frame = NSMakeRect(-300 * self.playListView.hidden, self.playerControl.frame.size.height, 300, self.view.frame.size.height - self.playerControl.frame.size.height);
+    if (self.playListView.hidden) {
+        self.playListView.frame = CGRectMake(-300 * self.playListView.hidden, self.view.bounds.size.height / 2, 300, 50);
+    }else{
+        self.playListView.frame = self.playerControlView.alphaValue ?
+        CGRectMake(-300 * self.playListView.hidden, self.playerControlView.frame.size.height, 300, self.view.bounds.size.height - self.playerControlView.frame.size.height) :
+        CGRectMake(-300 * self.playListView.hidden, 0, 300, self.view.bounds.size.height);
+    }
 }
 
 - (void)danmakuCanvasResize{
@@ -329,19 +294,12 @@
     }
     self.rander.canvas.frame = frame;
 }
-
-- (void)playerHUDControlResize{
-    CGSize screenSize = [NSScreen mainScreen].frame.size;
-    CGFloat playerHUDControlWidth = screenSize.width * 0.4;
-    CGFloat playerHUDControlHeight = playerHUDControlWidth / 5;
-    self.playerHUDControl.frame = CGRectMake((screenSize.width - playerHUDControlWidth) / 2, -playerHUDControlHeight, playerHUDControlWidth, playerHUDControlHeight);
-}
-
-
 #pragma mark 加载网络视频
 - (void)openStreamVCChooseOver:(NSNotification *)notification{
     [self.vm addVideosModel:notification.userInfo[@"videos"]];
-    self.vm.currentIndex = [self.vm videoCount] - 1;
+    //网络视频 episode应该为空
+    self.vm.episodeId = nil;
+    [self changeCurrentIndex:[self.vm videoCount] - 1];
 }
 
 #pragma mark 重新加载弹幕 更新进度
@@ -394,15 +352,11 @@
 
 //进入全屏通知
 - (void)windowWillEnterFullScreen:(NSNotification *)notification{
-    self.playerUIHeight.constant = 0;
     _fullScreen = YES;
-    self.playerHUDControl.hidden = NO;
 }
 
 //退出全屏通知
 - (void)windowWillExitFullScreen:(NSNotification *)notification{
-    self.playerUIHeight.constant = 40;
-    self.playerHUDControl.hidden = YES;
     _fullScreen = NO;
     [_autoHideTimer invalidate];
 }
@@ -457,11 +411,23 @@
 - (void)stopPlay{
     [self.rander stop];
     [self.player stop];
-    //停止播放进度归零
-    [self.progressSliderView updateBufferProgress:0];
-    [self.playerHUDProgressSliderView updateBufferProgress:0];
-    [self.progressSliderView updateCurrentProgress:0];
-    [self.playerHUDProgressSliderView updateCurrentProgress:0];
+
+    [self.smallSlideView updateCurrentProgress:0];
+    [self.smallSlideView updateBufferProgress:0];
+    [self.playerControlView.slideView updateBufferProgress:0];
+    [self.playerControlView.slideView updateCurrentProgress:0];
+    self.timeLabel.stringValue = @"00:00 / 00:00";
+}
+
+//更改当前视频
+- (void)changeCurrentIndex:(NSInteger)index{
+    [self saveCurrentVideoTime];
+    [self stopPlay];
+    self.vm.currentIndex = index;
+}
+//保存当前视频时间
+- (void)saveCurrentVideoTime{
+    [UserDefaultManager setVideoPlayHistoryWithHash:[self.vm currentVideoHash] time:[self.player currentTime]];
 }
 
 //播放弹幕和视频
@@ -531,20 +497,20 @@
             [self volumeValueAddTo:0 addBy: 0];
             break;
         case 5:
-            self.rander.currentTime += shortJump;
-            [self.player jump: shortJump];
+            self.rander.currentTime += SHORT_JUMP_TIME;
+            [self.player jump: SHORT_JUMP_TIME];
             break;
         case 6:
-            self.rander.currentTime -= shortJump;
-            [self.player jump: -shortJump];
+            self.rander.currentTime -= SHORT_JUMP_TIME;
+            [self.player jump: -SHORT_JUMP_TIME];
             break;
         case 7:
-            self.rander.currentTime += mediumJump;
-            [self.player jump: mediumJump];
+            self.rander.currentTime += MEDIUM_JUMP_TIME;
+            [self.player jump: MEDIUM_JUMP_TIME];
             break;
         case 8:
-            self.rander.currentTime -= mediumJump;
-            [self.player jump: -mediumJump];
+            self.rander.currentTime -= MEDIUM_JUMP_TIME;
+            [self.player jump: -MEDIUM_JUMP_TIME];
             break;
         case 9:
             [self snapShot];
@@ -561,44 +527,41 @@
     
     //必须设置 不然弹幕无法显示
     [self.view setWantsLayer: YES];
-    
-    [self.playerHoldView setupBlock:^(NSArray *filePaths) {
+    [self.playerControlView setMouseEnteredCallBackBlock:^{
+        weakSelf.playerControlView.animator.alphaValue = 1;
+        [weakSelf danMuControlViewResize];
+        [weakSelf playListViewResize];
+    }];
+
+    [self.playerControlView setMouseExitedCallBackBlock:^{
+        weakSelf.playerControlView.animator.alphaValue = 0;
+        [weakSelf danMuControlViewResize];
+        [weakSelf playListViewResize];
+    }];
+
+    //设置播放页面回调
+    [self.playerHoldView setFilePickBlock:^(NSArray *filePaths) {
         if (filePaths.count > 0) {
             NSInteger oldCount = [weakSelf.vm videoCount];
             [weakSelf.vm addVideosModel:filePaths];
-            weakSelf.vm.currentIndex = oldCount - 1;
+            [weakSelf changeCurrentIndex:oldCount - 1];
             [weakSelf clickNextButton:nil];
         }
     }];
-    
-    [self.danmakuTextField setWithBlock:^{
-        [weakSelf clickLaunchDanmakuButton:nil];
+    //设置发送弹幕输入框回调
+    [self.danmakuTextField setRespondBlock:^{
+        [weakSelf launchDanmaku];
     }];
     
-    [self.view addSubview: self.playerHUDControl positioned:NSWindowAbove relativeTo:self.rander.canvas];
+    //左右两边的页面初始化
     [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.rander.canvas];
     [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.rander.canvas];
-    [self.view addSubview: self.launchDanmakuView positioned:NSWindowAbove relativeTo:self.rander.canvas];
     
-    [self playerHUDControlResize];
-    [self danMuControlViewResize];
-    [self playListViewResize];
-    [self danmakuCanvasResize];
-    
-    //发射弹幕面板
-    self.launchDanmakuView.layer.backgroundColor = [NSColor colorWithRGB:0 alpha:0.5].CGColor;
-    [self.launchDanmakuView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(0);
-        make.bottom.equalTo(self.playerControl.mas_top);
-        make.height.mas_equalTo(35);
-    }];
     //播放控制面板
-    self.playerControl.layer.backgroundColor = [NSColor windowFrameColor].CGColor;
-    //进度条
-    self.progressSliderView.delegate = self;
-    self.playerHUDProgressSliderView.delegate = self;
-    
+    self.playerControlView.slideView.delegate = self;
+    self.smallSlideView.delegate = self;
     //弹幕控制面板
+    self.showDanMuControllerViewButton.alphaValue = 0;
     NSArray *colorArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"danmakuColor" ofType:@"plist"]];
     for (NSDictionary *dic in colorArr) {
         DanmakuColorMenuItem *item = [[DanmakuColorMenuItem alloc] initWithTitle:dic[@"name"] color:[NSColor colorWithRGB:(uint32_t)[dic[@"value"] integerValue]]];
@@ -613,35 +576,49 @@
     self.player = [[JHMediaPlayer alloc] initWithMediaURL:[self.vm currentVideoURL]];
     self.player.delegate = self;
     [self.playerHoldView addSubview:self.player.mediaView];
-    //监听音量变化
+
+    
+    //音量
+    [self.view addSubview:self.volumeControlView positioned:NSWindowAbove relativeTo:self.playerControlView];
     [self.player addObserver:self forKeyPath:@"volume" options:NSKeyValueObservingOptionNew context:nil];
-    //初始化音量
-    self.player.volume = self.volumeSliderView.floatValue;
+    [self.volumeControlView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(150);
+        make.centerX.equalTo(self.volumeButton);
+        make.bottom.equalTo(self.volumeButton.mas_top).mas_offset(-10);
+    }];
+    [self.volumeControlView hide];
+    self.player.volume = self.volumeControlView.volumeSlider.floatValue;
+    [self.volumeButton setTarget:self];
+    [self.volumeButton setAction:@selector(clickVolumeButton:)];
+    
     //其它
-    [self.view addTrackingArea:self.trackingArea];
-    self.playerHUDControl.hidden = !_fullScreen;
     //上次观看时间视图
     [self.view addSubview:self.lastWatchVideoTimeView positioned:NSWindowAbove relativeTo:self.rander.canvas];
     [self.lastWatchVideoTimeView setContinusBlock:^(NSTimeInterval time) {
         [weakSelf.player setPosition:time / weakSelf.player.length];
+        weakSelf.rander.currentTime = time;
     }];
     [self.lastWatchVideoTimeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(57);
         make.left.centerY.mas_equalTo(0);
     }];
+    
+    [self danMuControlViewResize];
+    [self playListViewResize];
+    [self danmakuCanvasResize];
 }
 
 - (void)setupWithMediaSize:(CGSize)aMediaSize{
     CGSize screenSize = [NSScreen mainScreen].frame.size;
-    
-    //宽高有一个为0 使用布满全屏的约束
+//    //宽高有一个为0 使用布满全屏的约束
     if (!aMediaSize.width || !aMediaSize.height) {
         [self.player.mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
         //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
     }else if (screenSize.width * (aMediaSize.height / aMediaSize.width) > screenSize.height) {
-        [self.player.mediaView  mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [self.player.mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.centerX.bottom.mas_equalTo(0);
             make.width.equalTo(self.player.mediaView.mas_height).multipliedBy(aMediaSize.width / aMediaSize.height);
             make.left.mas_greaterThanOrEqualTo(0);
@@ -656,22 +633,22 @@
             make.height.equalTo(self.player.mediaView.mas_width).multipliedBy(aMediaSize.height / aMediaSize.width);
         }];
     }
-    
-    self.playerHUDControl.hidden = !_fullScreen;
-    self.videoTitleLabel.stringValue = [self.vm currentVideoName];
+    self.player.mediaView.layer.position = CGPointZero;
+    self.player.mediaView.layer.bounds = self.playerHoldView.bounds;
     
     //设置其它参数
+    [NSApplication sharedApplication].keyWindow.title = [self.vm currentVideoName];
     [NSApplication sharedApplication].mainWindow.title = [self.vm currentVideoName];
-    self.danMuOffsetTime = 0;
+    _danMuOffsetTime = 0;
     _userPause = NO;
-    
+    self.playerControlView.alphaValue = 0;
     //只有官方弹幕库启用发送弹幕功能
     self.danmakuTextField.enabled = self.vm.episodeId != nil;
-    self.launchDanmakuButton.enabled = self.vm.episodeId != nil;
+    [self resetMenuByOpenStreamDic];
     
     NSInteger time = [self.vm currentVideoLastVideoTime];
     if (time > 0) {
-        self.lastWatchVideoTimeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %ld:%ld",time / 60, time % 60];
+        self.lastWatchVideoTimeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",time / 60, time % 60];
         self.lastWatchVideoTimeView.time = time;
         [self.lastWatchVideoTimeView show];
     }
@@ -689,22 +666,17 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         //更新当前时间
         self.timeLabel.stringValue = formatTime;
-        [self.progressSliderView updateCurrentProgress:progress];
-        
-        //更新hud面板时间
-        NSArray *arr = [formatTime componentsSeparatedByString:@"/"];
-        self.playerHUDVideoTimeLabel.stringValue = arr.lastObject;
-        self.playerHUDCurrentTimeLabel.stringValue = arr.firstObject;
-        [self.playerHUDProgressSliderView updateCurrentProgress:progress];
+        [self.playerControlView.slideView updateCurrentProgress:progress];
+        [self.smallSlideView updateCurrentProgress:progress];
     });
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.progressSliderView updateBufferProgress:progress];
-        [self.playerHUDProgressSliderView updateBufferProgress:progress];
+        [self.playerControlView.slideView updateBufferProgress:progress];
+        [self.smallSlideView updateBufferProgress:progress];
     });
-    if (onceBufferTime > MAXBufferTime && self.player.status == JHMediaPlayerStatusPause && !_userPause) {
+    if (onceBufferTime > MAX_BUFFER_TIME && self.player.status == JHMediaPlayerStatusPause && !_userPause) {
         [self videoAndDanMuPlay];
     }
 }
@@ -716,17 +688,13 @@
         case JHMediaPlayerStatusPause:
             [self.rander pause];
             self.playButton.state = NSCancelButton;
-            self.playHUDButton.state = NSCancelButton;
             break;
         case JHMediaPlayerStatusStop:
-//            [self clickNextButton:nil];
             self.playButton.state = NSCancelButton;
-            self.playHUDButton.state = NSCancelButton;
             break;
         case JHMediaPlayerStatusPlaying:
             [self.rander start];
             self.playButton.state = NSOKButton;
-            self.playHUDButton.state = NSOKButton;
             break;
         default:
             break;
@@ -746,7 +714,7 @@
 #pragma mark - NSTableView
 
 - (IBAction)doubleClickPlayerList:(PlayerListTableView *)sender {
-    self.vm.currentIndex = [sender selectedRow];
+    [self changeCurrentIndex:[sender selectedRow]];
     [self reloadDanmakuWithIndex:self.vm.currentIndex];
 }
 
@@ -758,19 +726,30 @@
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+    __weak typeof(self)weakSelf = self;
     if ([tableView isKindOfClass:[PlayerListTableView class]]) {
-        NSTableCellView *cell = [tableView makeViewWithIdentifier:@"videoNameCell" owner:self];
-        cell.textField.stringValue = [self.vm videoNameWithIndex:row];
-        cell.imageView.hidden = [self.vm showPlayIconWithIndex:row];
+        VideoNameCell *cell = [tableView makeViewWithIdentifier:@"VideoNameCell" owner:self];
+        [cell setTitle:[self.vm videoNameWithIndex:row] iconHide:[self.vm showPlayIconWithIndex:row] callBack:^{
+            //删除的行是当前播放视频 播放下一个视频
+            if (row == weakSelf.vm.currentIndex) {
+                if (weakSelf.vm.videoCount == 1) {
+                    [weakSelf clickStopButton:nil];
+                }else{
+                    [weakSelf clickNextButton:nil];
+                }
+            }
+            [weakSelf.vm removeVideoAtIndex:row];
+            [weakSelf.playerListTableView reloadData];
+        }];
         return cell;
     }
     
-    __weak typeof(self)weakSelf = self;
     if (row == 0) {
         HideDanMuAndCloseCell *cell = [tableView makeViewWithIdentifier:@"HideDanMuAndCloseCell" owner: self];
-        [cell setWithCloseBlock:^{
-            [PlayerViewControllerMethodManager hideDanMuControllerView:weakSelf.danMuControlView withRect:NSMakeRect(weakSelf.view.frame.size.width, weakSelf.playerControl.frame.size.height, 300, weakSelf.view.frame.size.height - weakSelf.playerControl.frame.size.height) showButton:weakSelf.showDanMuControllerViewButton];
-        } selectBlock:^(NSInteger num, NSInteger status) {
+        [cell setCloseBlock:^{
+            [PlayerViewControllerMethodManager hideDanMuControllerView:weakSelf.danMuControlView withRect:CGRectMake(weakSelf.view.frame.size.width, weakSelf.view.bounds.size.height / 2, 300, 50) showButton:weakSelf.showDanMuControllerViewButton];
+        }];
+        [cell setSelectBlock:^(NSInteger num, NSInteger status) {
             status?[weakSelf.rander.globalFilterDanmaku addObject:@(num)]:[weakSelf.rander.globalFilterDanmaku removeObject:@(num)];
         }];
         return cell;
@@ -794,7 +773,7 @@
         return cell;
     }else if (row == 4){
         TimeAxisCell * cell = [tableView makeViewWithIdentifier:@"TimeAxisCell" owner: self];
-        [cell setWithBlock:^(NSInteger num) {
+        [cell setTimeOffsetBlock:^(NSInteger num) {
             if (num == 0) weakSelf.danMuOffsetTime = 0;
             else weakSelf.danMuOffsetTime += num;
             if (!(weakSelf.rander.offsetTime == 0 && num == 0)) [weakSelf timeOffset: weakSelf.danMuOffsetTime];
@@ -802,11 +781,12 @@
             weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", weakSelf.danMuOffsetTime >= 0 ? @"+" : @"", (long)weakSelf.danMuOffsetTime];
             [weakSelf.messageView showHUD];
         }];
+        
         return cell;
     }else if (row == 5){
         OnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OnlyButtonCell" owner:self];
         cell.button.title = @"重新选择弹幕";
-        [cell setWithBlock:^{
+        [cell setButtonDownBlock:^{
             SearchViewController *vc = [[SearchViewController alloc] init];
             vc.searchText = [weakSelf.vm currentVideoName];
             [weakSelf presentViewControllerAsSheet: vc];
@@ -815,7 +795,7 @@
     }else if (row == 6){
         OnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OnlyButtonCell" owner:self];
         cell.button.title = @"加载本地弹幕";
-        [cell setWithBlock:^{
+        [cell setButtonDownBlock:^{
             [weakSelf loadLocaleDanMu];
         }];
         return cell;
@@ -834,6 +814,51 @@
     return 60;
 }
 
+#pragma mark - NSMenu
+- (void)resetMenuByOpenStreamDic{
+    //只有网络视频才显示
+    if (self.player.mediaType == JHMediaTypeLocaleMedia) return;
+    
+    NSArray *arr = [self.rightClickMenu itemArray];
+    NSInteger highCount = [self.vm openStreamCountWithQuality:streamingVideoQualityHigh];
+    NSInteger lowCount = [self.vm openStreamCountWithQuality:streamingVideoQualityLow];
+    for (NSInteger i = 0 ;i < arr.count; ++i) {
+        NSMenuItem *item = arr[i];
+        [item.submenu removeAllItems];
+        //高画质
+        if (i == 0) {
+            for (NSInteger i = 0; i < highCount; ++i) {
+                NSMenuItem *sitem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"备胎线路%ld", i + 1] action:@selector(clickItem:) keyEquivalent:@""];
+                sitem.tag = 20 + i;
+                [item.submenu addItem:sitem];
+            }
+        //渣画质
+        }else{
+            for (NSInteger i = 0; i < lowCount; ++i) {
+                NSMenuItem *sitem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"备胎线路%ld", i + 1] action:@selector(clickItem:) keyEquivalent:@""];
+                sitem.tag = 10 + i;
+                [item.submenu addItem:sitem];
+            }
+        }
+    }
+    
+}
+
+- (void)clickItem:(NSMenuItem *)item{
+    streamingVideoQuality quality;
+    NSInteger index;
+    if (item.tag >= 20) {
+        quality = streamingVideoQualityHigh;
+        index = item.tag - 20;
+    }else{
+        quality = streamingVideoQualityLow;
+        index = item.tag - 10;
+    }
+    [self.vm setOpenStreamURLWithQuality: quality index:index];
+    [self changeCurrentIndex:self.vm.currentIndex - 1];
+    [self clickNextButton:nil];
+}
+
 #pragma mark - 懒加载
 
 - (NSDateFormatter *)formatter{
@@ -844,23 +869,23 @@
     return _formatter;
 }
 
-- (NSTrackingArea *)trackingArea {
-    if(_trackingArea == nil) {
-        _trackingArea = [[NSTrackingArea alloc] initWithRect:[NSScreen mainScreen].frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseMoved | NSTrackingInVisibleRect owner:self userInfo:nil];
-    }
-    return _trackingArea;
-}
 
-
-- (NSButton *)showDanMuControllerViewButton {
+- (AddTrackingAreaButton *)showDanMuControllerViewButton {
     if(_showDanMuControllerViewButton == nil) {
-        _showDanMuControllerViewButton = [[NSButton alloc] init];
+        _showDanMuControllerViewButton = [[AddTrackingAreaButton alloc] init];
         _showDanMuControllerViewButton.bordered = NO;
         _showDanMuControllerViewButton.bezelStyle = NSTexturedRoundedBezelStyle;
+        __weak typeof(_showDanMuControllerViewButton)weakButton = _showDanMuControllerViewButton;
+        [_showDanMuControllerViewButton setMouseExitedCallBackBlock:^{
+            weakButton.animator.alphaValue = 0;
+        }];
+        [_showDanMuControllerViewButton setMouseEnteredCallBackBlock:^{
+            weakButton.animator.alphaValue = 1;
+        }];
         [_showDanMuControllerViewButton setImage: [NSImage imageNamed:@"show_damaku_controller"]];
         [_showDanMuControllerViewButton setTarget: self];
         [_showDanMuControllerViewButton setAction: @selector(clickShowDanMuControllerButton:)];
-        [self.view addSubview: _showDanMuControllerViewButton positioned:NSWindowAbove relativeTo: self.rander.canvas];
+        [self.view addSubview: _showDanMuControllerViewButton positioned:NSWindowAbove relativeTo: self.playerControlView];
         [_showDanMuControllerViewButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(100);
@@ -902,4 +927,14 @@
     }
     return _rander;
 }
+
+- (VolumeControlView *)volumeControlView {
+	if(_volumeControlView == nil) {
+		_volumeControlView = [[VolumeControlView alloc] init];
+        [_volumeControlView.volumeSlider setTarget:self];
+        [_volumeControlView.volumeSlider setAction:@selector(clickVolumeSlider:)];
+	}
+	return _volumeControlView;
+}
+
 @end

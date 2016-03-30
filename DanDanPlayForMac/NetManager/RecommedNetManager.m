@@ -14,12 +14,23 @@
 @implementation RecommedNetManager
 + (id)recommedInfoWithCompletionHandler:(void(^)(id responseObj, NSError *error))complete{
     return [self GETWithPath:@"http://api.acplay.net:8089/api/v1/homepage?userId=0&token=0" parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+        BangumiModel *bangumiModel;
+        FeaturedModel *featuredModel;
+        NSArray *interestListArr = responseObj[@"InterestList"];
+        if (interestListArr.count > 0) {
+            featuredModel = [FeaturedModel yy_modelWithDictionary:interestListArr[1]];
+            if (!featuredModel) featuredModel = [[FeaturedModel alloc] init];
+        }
         
-        NSDictionary *featuredDic = [responseObj[@"InterestList"] firstObject];
-        NSDictionary *bangumiOfDays = 1 < [responseObj[@"InterestList"] count] ? [responseObj[@"InterestList"] objectAtIndex:1] : nil;
-        NSInteger weekDay = [self weekDay];
-        NSDictionary *bangumiDic = weekDay < [bangumiOfDays[@"BangumiOfDays"] count] ?  [bangumiOfDays[@"BangumiOfDays"] objectAtIndex:weekDay] : nil;
-        complete(@{@"featured":[FeaturedModel  yy_modelWithDictionary:featuredDic], @"bangumi":[BangumiModel yy_modelWithDictionary:bangumiDic]}, error);
+        if (interestListArr.count > 1) {
+            NSInteger weekDay = [self weekDay];
+            NSArray *bangumiOfDaysArr = interestListArr[2][@"BangumiOfDays"];
+            if (bangumiOfDaysArr.count > weekDay) {
+                bangumiModel = [BangumiModel yy_modelWithDictionary:bangumiOfDaysArr[weekDay]];
+            }
+            if (!bangumiModel) bangumiModel = [[BangumiModel alloc] init];
+        }
+        complete(@{@"featured":featuredModel, @"bangumi":bangumiModel}, error);
     }];
 }
 

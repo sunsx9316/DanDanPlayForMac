@@ -7,10 +7,11 @@
 //
 
 #import "BaseViewModel.h"
+#import "StreamingVideoModel.h"
 /**
  *  播放视图模型
  */
-@class DanMuDataModel, VideoModel;
+@class DanMuDataModel, VideoModel, StreamingVideoModel;
 @interface PlayViewModel : BaseViewModel
 /**
  *  保存弹幕模型的数组
@@ -29,6 +30,7 @@
  *  官方节目id 用于发射弹幕给指定节目
  */
 @property (strong, nonatomic) NSString *episodeId;
+
 /**
  *  根据下标获取本地视频名称
  *
@@ -97,6 +99,27 @@
  *  @param videosModel 数组
  */
 - (void)addVideosModel:(NSArray *)videosModel;
+/**
+ *  流媒体对应类型个数
+ *
+ *  @param type 类型 (high、low)
+ *
+ *  @return 个数
+ */
+- (NSInteger)openStreamCountWithQuality:(streamingVideoQuality)quality;
+/**
+ *  设置流媒体对应下标和清晰度
+ *
+ *  @param quality 清晰度
+ *  @param index   下标
+ */
+- (void)setOpenStreamURLWithQuality:(streamingVideoQuality)quality index:(NSInteger)index;
+/**
+ *  移除视频
+ *
+ *  @param index 下标
+ */
+- (void)removeVideoAtIndex:(NSInteger)index;
 /**
  *  根据下标重新刷新弹幕
  *

@@ -12,10 +12,7 @@
  *  本地视频模型
  */
 @interface LocalVideoModel : VideoModel
-/**
- *  文件哈希值
- */
-- (NSString *)md5;
+
 /**
  *  文件大小
  */

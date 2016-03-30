@@ -11,8 +11,8 @@
 @implementation NSAlert (Tools)
 + (instancetype)alertWithMessageText:(NSString *)messageText informativeText:(NSString *)informativeText{
     NSAlert *alert = [[NSAlert alloc] init];
-    alert.messageText = messageText ? messageText : @"";
-    alert.informativeText = informativeText ? informativeText : @"";
+    alert.messageText = messageText.length ? messageText : @"";
+    alert.informativeText = informativeText.length ? informativeText : @"";
     return alert;
 }
 @end

@@ -26,6 +26,7 @@
 
 - (IBAction)clickChangeDirectoryButton:(NSButton *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    [openPanel setDirectoryURL:[NSURL fileURLWithPath:[UserDefaultManager autoDownLoadPath]]];
     [openPanel setTitle:@"选取下载目录"];
     [openPanel setCanChooseDirectories: YES];
     [openPanel setCanChooseFiles:NO];

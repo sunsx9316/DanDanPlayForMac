@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-typedef void(^progressCallBackBlock)(NSURLSessionTask *task, id responseObject, NSError *error);
 
 @interface BaseNetManager : NSObject
 /**

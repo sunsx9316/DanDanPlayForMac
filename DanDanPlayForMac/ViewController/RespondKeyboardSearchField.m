@@ -7,17 +7,10 @@
 //
 
 #import "RespondKeyboardSearchField.h"
-@interface RespondKeyboardSearchField()
-@property (copy, nonatomic) respondBlock block;
-@end
 @implementation RespondKeyboardSearchField
 - (void)keyUp:(NSEvent *)theEvent{
-    if (([theEvent keyCode] == 0x24 || [theEvent keyCode] == 0x4c) && self.block)
-        self.block();
-}
-
-- (void)setWithBlock:(respondBlock)block{
-    self.block = block;
+    if (self.respondBlock && ([theEvent keyCode] == 0x24 || [theEvent keyCode] == 0x4c))
+        self.respondBlock();
 }
 
 @end

@@ -7,15 +7,8 @@
 //
 
 #import "OnlyButtonCell.h"
-@interface OnlyButtonCell()
-@property (copy, nonatomic) buttonDownBlock block;
-
-@end
 
 @implementation OnlyButtonCell
-- (void)setWithBlock:(buttonDownBlock)block{
-    self.block = block;
-}
 
 - (instancetype)initWithFrame:(NSRect)frameRect{
     if (self = [super initWithFrame:frameRect]) {
@@ -30,8 +23,8 @@
 }
 
 - (void)clickButton{
-    if (self.block) {
-        self.block();
+    if (self.buttonDownBlock) {
+        self.buttonDownBlock();
     }
 }
 

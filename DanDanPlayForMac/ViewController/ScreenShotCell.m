@@ -26,6 +26,7 @@
 }
 - (IBAction)clickChoosePathButton:(NSButton *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    [openPanel setDirectoryURL:[NSURL fileURLWithPath:[UserDefaultManager screenShotPath]]];
     [openPanel setTitle:@"选取截图目录"];
     [openPanel setCanChooseDirectories: YES];
     [openPanel setCanChooseFiles:NO];

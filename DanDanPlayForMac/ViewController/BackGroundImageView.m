@@ -7,9 +7,6 @@
 //
 
 #import "BackGroundImageView.h"
-@interface BackGroundImageView()
-@property (copy, nonatomic) filePickBlock block;
-@end
 
 @implementation BackGroundImageView
 
@@ -28,16 +25,12 @@
     NSPasteboard *pboard = [sender draggingPasteboard];
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ){
-        if (self.block) {
+        if (self.filePickBlock) {
             NSArray *pathArr = [pboard propertyListForType:NSFilenamesPboardType];
-            self.block(pathArr);
+            self.filePickBlock(pathArr);
         }
     }
     return YES;
-}
-
-- (void)setupBlock:(filePickBlock)block{
-    self.block = block;
 }
 
 @end

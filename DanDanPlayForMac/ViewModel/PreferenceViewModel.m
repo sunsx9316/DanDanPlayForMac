@@ -21,7 +21,7 @@
 
 - (NSInteger)numOfRowWithStyle:(preferenceTableViewStyle)style{
     switch (style) {
-        case preferenceTableViewStyleDanMu:
+        case preferenceTableViewStyleDamaku:
             return 6;
         case preferenceTableViewStylePlayer:
         case preferenceTableViewStyleFilter:
@@ -29,8 +29,9 @@
         case preferenceTableViewStyleScreenShot:
         case preferenceTableViewStyleCache:
         case preferenceTableViewStyleUpdate:
-        case preferenceTableViewStyleOther:
             return 1;
+        case preferenceTableViewStyleOther:
+            return 4;
         default:
             break;
     }

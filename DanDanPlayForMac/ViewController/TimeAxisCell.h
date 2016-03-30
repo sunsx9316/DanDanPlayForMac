@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-typedef void(^timeOffsetBlock)(NSInteger num);
 @interface TimeAxisCell : NSView
-- (void)setWithBlock:(timeOffsetBlock)block;
+@property (copy, nonatomic) void(^timeOffsetBlock)(NSInteger num);
 @end

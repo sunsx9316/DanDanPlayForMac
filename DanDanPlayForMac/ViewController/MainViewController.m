@@ -38,11 +38,12 @@
     [super viewDidLoad];
     [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
     [self.view addSubview: self.imgView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"danMuChooseOver" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMainView) name:@"playOver" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadOverNotification:) name:@"downloadOver" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"openStreamVCChooseOver" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"DANMAKU_CHOOSE_OVER" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMainView) name:@"PLAY_OVER" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"MATCH_VIDEO" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadOverNotification:) name:@"DOWNLOAD_OVER" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeHomgImg:) name:@"CHANGE_HOME_IMG" object:nil];
 }
 
 - (void)viewDidAppear{
@@ -112,6 +113,7 @@
 
 
 #pragma mark - 私有方法
+//检查更新
 - (void)updateVersion{
     //没开启自动检查更新功能
     if (![UserDefaultManager cheakDownLoadInfoAtStart]) return;
@@ -124,7 +126,7 @@
         }
     }];
 }
-
+//显示推荐窗口
 - (void)showRecommedVC{
     if ([UserDefaultManager showRecommedInfoAtStart]) {
         [self presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
@@ -183,22 +185,26 @@
     }];
     
     [self.imgView removeFromSuperview];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"mathchVideo" object: nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"danMuChooseOver" object: nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"openStreamVCChooseOver" object: nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MATCH_VIDEO" object: nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DANMAKU_CHOOSE_OVER" object: nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
 }
 
 - (void)showMainView{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"danMuChooseOver" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"mathchVideo" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"openStreamVCChooseOver" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"DANMAKU_CHOOSE_OVER" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"MATCH_VIDEO" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
     self.imgView.frame = self.view.frame;
     [self.view addSubview: self.imgView];
 }
 
 - (void)openStreamVCChooseOver:(NSNotification *)notification{
-    self.videos = [notification.userInfo[@"videos"] mutableCopy];
+    self.videos = notification.userInfo[@"videos"];
     _animateTitle = self.videos.firstObject.fileName;
+}
+
+- (void)changeHomgImg:(NSNotification *)notification{
+    self.imgView.image = notification.userInfo[@"img"];
 }
 
 #pragma mark - NSUserNotificationDelegate
@@ -216,7 +222,7 @@
         _imgView.image = [UserDefaultManager homeImg];
         
         __weak typeof (self)weakSelf = self;
-        [self.imgView setupBlock:^(NSArray *filePath) {
+        [self.imgView setFilePickBlock:^(NSArray *filePath) {
             [weakSelf setUpWithFilePath: filePath];
         }];
         _imgView.imageScaling = NSImageScaleProportionallyUpOrDown;

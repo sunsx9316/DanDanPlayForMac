@@ -28,7 +28,7 @@
 
 + (id)downLatestVersionWithVersion:(NSString *)version progress:(NSProgress * __autoreleasing *)progress completionHandler:(void(^)(id responseObj, NSError *error))complete{
     //http://dandanmac.b0.upaiyun.com/dandanplay_1.1.dmg
-    if (!version || [version isEqualToString:@""]){
+    if (!version.length){
         complete(nil, kObjNilError);
         return nil;
     }

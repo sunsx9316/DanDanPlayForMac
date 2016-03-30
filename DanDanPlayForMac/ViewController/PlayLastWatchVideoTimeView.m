@@ -8,31 +8,21 @@
 
 #import "PlayLastWatchVideoTimeView.h"
 @interface PlayLastWatchVideoTimeView()
-@property (copy, nonatomic) continusBlock cBlock;
-@property (copy, nonatomic) closeViewBlock cVBlock;
 @property (strong, nonatomic) NSTimer *timer;
 @end
 @implementation PlayLastWatchVideoTimeView
 - (IBAction)clickContinusButton:(NSButton *)sender {
-    if (self.cBlock) {
-        self.cBlock(self.time);
+    if (self.continusBlock) {
+        self.continusBlock(self.time);
     }
     [self hide];
 }
 - (IBAction)clickCloseButton:(NSButton *)sender {
-    if (self.cVBlock) {
-        self.cVBlock();
+    if (self.closeViewBlock) {
+        self.closeViewBlock();
     }
     [self hide];
 }
-
-- (void)setContinusBlock:(continusBlock)block{
-    self.cBlock = block;
-}
-- (void)setCloseViewBlock:(closeViewBlock)block{
-    self.cVBlock = block;
-}
-
 
 - (instancetype)initWithFrame:(NSRect)frameRect{
     if (self = [super initWithFrame:frameRect]) {

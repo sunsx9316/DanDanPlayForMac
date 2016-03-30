@@ -52,6 +52,7 @@
 }
 - (IBAction)clickChangeCachePathButton:(NSButton *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    [openPanel setDirectoryURL:[NSURL fileURLWithPath:[UserDefaultManager cachePath]]];
     [openPanel setTitle:@"选取缓存目录"];
     [openPanel setCanChooseDirectories: YES];
     [openPanel setCanChooseFiles:NO];

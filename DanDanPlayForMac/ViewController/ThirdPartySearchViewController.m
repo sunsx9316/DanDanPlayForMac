@@ -118,11 +118,11 @@
         [JHProgressHUD disMiss];
         
         //通知更新匹配名称
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"mathchVideo" object:self userInfo:@{@"animateTitle": [self.vm episodeTitleForRow:clickRow]}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle": [self.vm episodeTitleForRow:clickRow]}];
         //通知关闭列表视图控制器
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"disMissViewController" object:self userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:self userInfo:nil];
         //通知开始播放
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"danMuChooseOver" object:self userInfo:responseObj];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:self userInfo:responseObj];
     }];
 }
 

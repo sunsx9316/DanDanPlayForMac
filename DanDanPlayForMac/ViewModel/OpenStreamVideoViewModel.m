@@ -30,17 +30,17 @@
 
 - (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, NSDictionary *danmakuDic, NSError *error))complete{
     NSString *danmaku = [self danmakuForRow:row];
-    if (!danmaku) {
+    if (!danmaku.length) {
         complete(nil,nil, kObjNilError);
         return;
     }
     
-    NSString *videoName = [self videoNameForRow:row]?[self videoNameForRow:row]:@"";
-    [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(VideoPlayURLModel *responseModel, NSError *error) {
+    NSString *videoName = [self videoNameForRow:row].length?[self videoNameForRow:row]:@"";
+    [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(NSDictionary *videosDic, NSError *error) {
         [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":@"bilibili", @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
-            
-            StreamingVideoModel *model = [[StreamingVideoModel alloc] initWithFileURL:[NSURL URLWithString:responseModel.URLs.firstObject.URL] fileName:videoName danmaku:danmaku danmakuSource:self.danmakuSource];
-            complete(model,responseObj, error);
+            StreamingVideoModel *vm = [[StreamingVideoModel alloc] initWithFileURLs:videosDic fileName:videoName danmaku:danmaku danmakuSource:self.danmakuSource];
+            vm.quality = [UserDefaultManager defaultQuality];
+            complete(vm,responseObj, error);
         }];
     }];
 }

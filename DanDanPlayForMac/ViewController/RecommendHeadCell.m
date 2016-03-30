@@ -7,7 +7,6 @@
 //
 
 #import "RecommendHeadCell.h"
-#import "RespondKeyboardSearchField.h"
 #import "NSString+Tools.h"
 
 @interface RecommendHeadCell()
@@ -19,17 +18,14 @@
 @property (weak) IBOutlet NSButton *filmReviewButton;
 @property (assign, nonatomic) CGFloat rowHeight;
 @property (weak) IBOutlet NSTextField *todayRecommedTextField;
-@property (weak) IBOutlet RespondKeyboardSearchField *searchField;
+@property (weak) IBOutlet NSSearchField *searchField;
+
 @property (strong, nonatomic) NSString *searchPath;
 @end
 
 @implementation RecommendHeadCell
 - (void)awakeFromNib{
     [super awakeFromNib];
-    __weak typeof(self)weakSelf = self;
-    [self.searchField setWithBlock:^{
-        [weakSelf clickSearchButton:nil];
-    }];
 }
 
 - (IBAction)clickFilmReviewButton:(NSButton *)sender {
@@ -38,7 +34,7 @@
 
 - (IBAction)clickSearchButton:(NSButton *)sender {
     NSString *searchKeyWord = self.searchField.stringValue;
-    if (!searchKeyWord || [searchKeyWord isEqualToString:@""]) return;
+    if (!searchKeyWord.length) return;
     searchKeyWord = [searchKeyWord stringByURLEncode];
     //这破软件迟早药丸
     if ([searchKeyWord isEqualToString:@"%E9%95%BF%E8%80%85"] || [searchKeyWord isEqualToString:@"%E8%86%9C%E8%9B%A4"] || [searchKeyWord isEqualToString:@"%E8%9B%A4%E8%9B%A4"] || [searchKeyWord isEqualToString:@"%E8%B5%9B%E8%89%87"]) {

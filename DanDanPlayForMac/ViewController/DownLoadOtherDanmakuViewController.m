@@ -57,19 +57,15 @@
     for (NSInteger i = 0; i < allDownLoadDanmaku.count; ++i) {
         NSInteger index = [allDownLoadDanmaku[i] integerValue];
         NSString *danmakuID = self.videos[index].danmaku;
-        if (!danmakuID) continue;
-        
-        [taskArr addObject:[DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":self.source, @"danmaku":danmakuID} completionHandler:^(id responseObj, NSError *error) {
-            if ([responseObj count] > 0) {
-                [self writeDanMuCacheWithProvider:self.source danmakuID:danmakuID responseObj:responseObj];
-            }
-        }]];
+        if (!danmakuID.length) continue;
+        id task = [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":self.source, @"danmaku":danmakuID} completionHandler:^(id responseObj, NSError *error) {}];
+        if (task) [taskArr addObject:task];
     }
     
     NSArray* operations = [AFURLConnectionOperation batchOfRequestOperations:taskArr progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
        // NSLog(@"%ld %ld",numberOfFinishedOperations,totalNumberOfOperations);
     }completionBlock:^(NSArray *operations) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadOver" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", operations.count]}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", operations.count]}];
     }];
     [[NSOperationQueue mainQueue] addOperations:@[operations.lastObject] waitUntilFinished:NO];
     [self dismissController:self];
@@ -93,19 +89,6 @@
 }
 
 #pragma mark - 私有方法
-- (void)writeDanMuCacheWithProvider:(NSString *)provider danmakuID:(NSString *)danmakuID responseObj:(id)responseObj{
-    //将弹幕写入缓存
-    NSString *cachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:provider];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if (![fileManager fileExistsAtPath:cachePath]) {
-        [fileManager createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-
-    [[NSOperationQueue mainQueue] addOperation:[NSBlockOperation blockOperationWithBlock:^{
-        [NSKeyedArchiver archiveRootObject:responseObj toFile:[cachePath stringByAppendingPathComponent:danmakuID]];
-    }]];
-    
-}
 
 - (void)buttonDown:(NSButton *)button{
     if ([self.downloadDanmakus containsObject:@(button.tag)]) {
