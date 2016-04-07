@@ -48,20 +48,68 @@
 }
 
 - (void)setGlobalAttributedDic:(NSDictionary *)globalAttributedDic{
-    if (globalAttributedDic) {
+    if (!self.JHAttributedText.length || !globalAttributedDic) return;
         _globalAttributedDic = globalAttributedDic;
         self.JHAttributedText = [[NSMutableAttributedString alloc] initWithString:self.JHAttributedText.string attributes:globalAttributedDic];
         [self sizeToFit];
-    }
 }
 
 - (void)setGlobalFont:(JHFont *)globalFont{
-    if (globalFont) {
+    if (!self.JHAttributedText.length || !globalFont) return;
         _globalFont = globalFont;
         NSMutableDictionary *dic = [[self.JHAttributedText attributesAtIndex:0 effectiveRange:nil] mutableCopy];
         dic[NSFontAttributeName] = globalFont;
         [self setGlobalAttributedDic:dic];
+}
+
+- (void)setGlobalShadowStyle:(NSNumber *)globalShadowStyle{
+    if (!self.JHAttributedText.length || !globalShadowStyle) return;
+    _globalShadowStyle = globalShadowStyle;
+    danmakuShadowStyle shadowStyle = [globalShadowStyle unsignedIntegerValue];
+    NSDictionary *tempDic = [self.JHAttributedText attributesAtIndex:0 effectiveRange:nil];
+    NSColor *textColor = tempDic[NSForegroundColorAttributeName];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    dic[NSFontAttributeName] = tempDic[NSFontAttributeName];
+    dic[NSForegroundColorAttributeName] = textColor;
+    switch (shadowStyle) {
+        case danmakuShadowStyleGlow:
+        {
+            NSShadow *shadow = [self shadowWithTextColor:textColor];
+            shadow.shadowBlurRadius = 3;
+            dic[NSShadowAttributeName] = shadow;
+        }
+            break;
+        case danmakuShadowStyleShadow:
+        {
+            dic[NSShadowAttributeName] = [self shadowWithTextColor:textColor];
+        }
+            break;
+        case danmakuShadowStyleStroke:
+        {
+            dic[NSStrokeColorAttributeName] = [self shadowColorWithTextColor:textColor];
+            dic[NSStrokeWidthAttributeName] = @-3;
+        }
+            break;
+        default:
+            break;
     }
+    
+    
+    [self setGlobalAttributedDic:dic];
+}
+
+#pragma mark - 私有方法
+- (NSShadow *)shadowWithTextColor:(JHColor *)textColor{
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowOffset = CGSizeMake(1, -1);
+    shadow.shadowColor = [self shadowColorWithTextColor:textColor];
+    return shadow;
+}
+- (JHColor *)shadowColorWithTextColor:(JHColor *)textColor{
+    if (JHColorBrightness(textColor) > 0.5) {
+        return [JHColor colorWithRed:0 green:0 blue:0 alpha:1];
+    }
+    return [JHColor colorWithRed:1 green:1 blue:1 alpha:1];
 }
 
 @end

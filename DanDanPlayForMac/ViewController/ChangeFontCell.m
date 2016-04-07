@@ -37,6 +37,8 @@
     self.showTextField.stringValue = [NSString stringWithFormat: @"%@: %.1f", self.font.familyName, self.font.pointSize];
     self.showTextField.font = [sender convertFont: self.font toSize:self.showTextField.font.pointSize];
     [UserDefaultManager setDanMuFont: self.font];
+    if (!_font) return;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_DANMAKU_FONT" object:nil userInfo:@{@"font":_font}];
 }
 
 

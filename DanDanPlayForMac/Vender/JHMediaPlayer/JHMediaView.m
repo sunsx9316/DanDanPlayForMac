@@ -14,9 +14,9 @@
     return YES;
 }
 
-- (void)resizeWithOldSuperviewSize:(NSSize)oldSize{
-    [CATransaction setDisableActions:YES];
-    [super resizeWithOldSuperviewSize:oldSize];
-    self.layer.bounds = CGRectMake(0, 0, oldSize.width, oldSize.height);
-}
+//- (void)resizeWithOldSuperviewSize:(NSSize)oldSize{
+//    [CATransaction setDisableActions:YES];
+//    [super resizeWithOldSuperviewSize:oldSize];
+//    self.layer.bounds = CGRectMake(0, 0, oldSize.width, oldSize.height);
+//}
 @end

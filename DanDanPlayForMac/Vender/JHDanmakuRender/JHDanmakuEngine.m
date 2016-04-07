@@ -62,6 +62,7 @@
     
     if (_globalAttributedDic) con.globalAttributedDic = _globalAttributedDic;
     if (_globalFont) con.globalFont = _globalFont;
+    if (_globalShadowStyle) con.globalShadowStyle = _globalShadowStyle;
 
     con.originalPosition = [danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:self.canvas.frame danmakuSize:con.frame.size timeDifference:_currentTime - danmaku.appearTime];
     [self.canvas addSubview: con];
@@ -109,7 +110,6 @@
 }
 
 - (void)setGlobalAttributedDic:(NSDictionary *)globalAttributedDic{
-
     if (![_globalAttributedDic isEqualToDictionary:globalAttributedDic]) {
         _globalAttributedDic = globalAttributedDic;
         NSArray *activeContainer = self.activeContainer;
@@ -125,6 +125,16 @@
         NSArray *activeContainer = self.activeContainer;
         [activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             obj.globalFont = globalFont;
+        }];
+    }
+}
+
+- (void)setGlobalShadowStyle:(NSNumber *)globalShadowStyle{
+    if (![globalShadowStyle isEqual: _globalShadowStyle]) {
+        _globalShadowStyle = globalShadowStyle;
+        NSArray *activeContainer = self.activeContainer;
+        [activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.globalShadowStyle = globalShadowStyle;
         }];
     }
 }

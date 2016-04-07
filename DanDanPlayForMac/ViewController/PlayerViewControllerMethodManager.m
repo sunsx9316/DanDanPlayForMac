@@ -37,7 +37,9 @@
         scrollView.animator.hidden = YES;
         scrollView.animator.frame = scrollViewRect;
         button.hidden = NO;
-    } completionHandler:nil];
+    } completionHandler:^{
+        button.animator.alphaValue = 0;
+    }];
 }
 
 + (void)showPlayerListView:(NSScrollView *)playerListView withRect:(CGRect)playerListViewRect{

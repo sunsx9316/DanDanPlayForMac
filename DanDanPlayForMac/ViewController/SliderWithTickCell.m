@@ -52,6 +52,7 @@
             }
             self.valueTextField.stringValue = [NSString stringWithFormat:@"%.1f倍速", value];
             [UserDefaultManager setDanMuSpeed: sender.floatValue];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_DANMAKU_VALUE" object:nil userInfo:@{@"value":@(sender.floatValue)}];
             break;
         }
         case sliderWithTickCellStyleOpacity:
@@ -59,6 +60,7 @@
             float value = sender.floatValue;
             self.valueTextField.stringValue = [NSString stringWithFormat:@"%.1f%%", value * 100];
             [UserDefaultManager setDanMuOpacity: value];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_DANMAKU_VALUE" object:nil userInfo:@{@"value":@(sender.floatValue)}];
             break;
         }
         default:

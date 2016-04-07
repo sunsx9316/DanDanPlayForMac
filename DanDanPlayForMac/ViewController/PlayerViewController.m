@@ -20,6 +20,7 @@
 #import "RespondKeyboardTextField.h"
 #import "AddTrackingAreaButton.h"
 #import "VolumeControlView.h"
+#import "HUDMessageView.h"
 
 #import "MatchModel.h"
 #import "LocalVideoModel.h"
@@ -31,7 +32,6 @@
 #import "SliderControlCell.h"
 #import "TimeAxisCell.h"
 #import "OnlyButtonCell.h"
-
 
 #import "NSColor+Tools.h"
 #import "JHDanmakuEngine+Tools.h"
@@ -68,15 +68,15 @@
 @property (strong, nonatomic) AddTrackingAreaButton *showDanMuControllerViewButton;
 @property (strong, nonatomic) PlayerHUDMessageView *messageView;
 @property (strong, nonatomic) VolumeControlView *volumeControlView;
+@property (strong, nonatomic) HUDMessageView *HUDTimeView;
 
 @property (strong, nonatomic) JHMediaPlayer *player;
-
 @property (strong, nonatomic) JHDanmakuEngine *rander;
-
 @property (strong, nonatomic) PlayViewModel *vm;
 //快捷键映射
 @property (strong, nonatomic) NSArray *keyMap;
 @property (assign, nonatomic) NSInteger danMuOffsetTime;
+@property (strong, nonatomic) NSTrackingArea *trackingArea;
 @end
 
 @implementation PlayerViewController
@@ -87,6 +87,7 @@
     BOOL _userPause;
     //时间格式化工具
     NSDateFormatter *_formatter;
+    NSDateFormatter *_snapshotFormatter;
     NSTimer *_autoHideTimer;
 }
 #pragma mark - 方法
@@ -105,8 +106,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanmakuColor:) name:NSColorPanelColorDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanMuDic:) name:@"DANMAKU_CHOOSE_OVER" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanmakuDic:) name:@"DANMAKU_CHOOSE_OVER" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeFontSpecially:) name:@"CHANGE_FONT_SPECIALLY" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanmakuFont:) name:@"CHANGE_DANMAKU_FONT" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(danmakuCanvasResize) name:@"CHANGE_CAPTIONS_PROTECT_AREA" object:nil];
     
     self.vm.currentIndex = 0;
     //初始化播放器相关参数
@@ -117,12 +121,27 @@
     }];
 }
 
+- (void)dealloc{
+    [self.player removeObserver:self forKeyPath:@"volume"];
+    [self.view removeTrackingArea:self.trackingArea];
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PLAY_OVER" object: nil];
+}
+
+
 
 //全屏
 - (void)mouseDown:(NSEvent *)theEvent{
     if (theEvent.clickCount == 2) {
         [self toggleFullScreen];
     }
+}
+
+- (void)mouseMoved:(NSEvent *)theEvent{
+    if (!_fullScreen) return;
+    [_autoHideTimer invalidate];
+    _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoHideMouse) userInfo:nil repeats:NO];
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent{
@@ -147,7 +166,7 @@
     [self volumeValueAddTo:0 addBy:theEvent.scrollingDeltaY];
 }
 
-#pragma mark 播放器相关
+#pragma mark -------- 播放器相关 --------
 - (IBAction)clickPlayButton:(NSButton *)sender {
     if (self.player.status == JHMediaPlayerStatusStop) {
         [self startPlay];
@@ -248,14 +267,6 @@
 
 
 #pragma mark - 私有方法
-
-- (void)dealloc{
-    [self.player removeObserver:self forKeyPath:@"volume"];
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-    [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"PLAY_OVER" object: nil];
-}
-
 - (void)timeOffset:(NSInteger)time{
     self.rander.offsetTime = time;
 }
@@ -264,7 +275,67 @@
     self.volumeControlView.volumeSlider.floatValue = [change[@"new"] floatValue];
 }
 
-#pragma mark view尺寸变化相关
+- (void)autoHideMouse{
+    [NSCursor setHiddenUntilMouseMoves:YES];
+}
+
+#pragma mark 重新加载弹幕 更新进度
+- (void)reloadDanmakuWithIndex:(NSInteger)index{
+    [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    
+    [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error) {
+                [JHProgressHUD disMiss];
+                id vm = [self.vm videoModelWithIndex:index];
+                if ([vm isKindOfClass:[LocalVideoModel class]]) {
+                    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
+                }
+            }else{
+                [JHProgressHUD updateProgress:progress];
+                if (progress == 0.5) {
+                    [JHProgressHUD updateMessage:@"分析视频..."];
+                }else if (progress == 1){
+                    [JHProgressHUD updateMessage:@"下载弹幕..."];
+                    [self postMatchMessageWithMatchName: videoMatchName];
+                    [JHProgressHUD disMiss];
+                }
+            }
+        });
+    }];
+}
+
+//进入全屏方法
+- (void)toggleFullScreen{
+    NSWindow *windows = [NSApplication sharedApplication].keyWindow;
+    windows.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
+    [windows toggleFullScreen: nil];
+}
+
+#pragma mark 截图
+- (void)snapShot{
+    [self.player saveVideoSnapshotAt:[[UserDefaultManager screenShotPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [self.snapshotFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]] withWidth:0 andHeight:0 format:[UserDefaultManager defaultScreenShotType]];
+}
+
+#pragma mark 推送
+- (void)postMatchMessageWithMatchName:(NSString *)matchName{
+    //删除已经显示过的通知(已经存在用户的通知列表中的)
+    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
+    
+    //删除已经在执行的通知(比如那些循环递交的通知)
+    for (NSUserNotification *notify in [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications]){
+        [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
+    }
+    
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    notification.title = @"弹弹play";
+    notification.informativeText = matchName?[NSString stringWithFormat:@"视频自动匹配为 %@", matchName]:@"并没有匹配到视频";
+    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+}
+
+
+#pragma mark -------- view尺寸变化相关 --------
 - (void)danMuControlViewResize{
     if (self.danMuControlView.hidden) {
         self.danMuControlView.frame = CGRectMake(self.view.bounds.size.width - 300 * !self.danMuControlView.hidden, self.view.bounds.size.height / 2, 300, 50);
@@ -294,6 +365,7 @@
     }
     self.rander.canvas.frame = frame;
 }
+#pragma mark -------- 通知 --------
 #pragma mark 加载网络视频
 - (void)openStreamVCChooseOver:(NSNotification *)notification{
     [self.vm addVideosModel:notification.userInfo[@"videos"]];
@@ -302,60 +374,35 @@
     [self changeCurrentIndex:[self.vm videoCount] - 1];
 }
 
-#pragma mark 重新加载弹幕 更新进度
-- (void)reloadDanmakuWithIndex:(NSInteger)index{
-    [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
-    
-    [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (error) {
-                [JHProgressHUD disMiss];
-                id vm = [self.vm videoModelWithIndex:index];
-                if ([vm isKindOfClass:[LocalVideoModel class]]) {
-                    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
-                }
-            }else{
-                [JHProgressHUD updateProgress:progress];
-                if (progress == 0.5) {
-                    [JHProgressHUD updateMessage:@"分析视频..."];
-                }else if (progress == 1){
-                    [JHProgressHUD updateMessage:@"下载弹幕..."];
-                    [self postMatchMessageWithMatchName: videoMatchName];
-                    [JHProgressHUD disMiss];
-                }
-            }
-        });
-    }];
-}
-
 #pragma mark 改变发送弹幕颜色
 - (void)changeDanmakuColor:(NSNotification *)sender{
     NSColorPanel *panel = sender.object;
     DanmakuColorMenuItem *item = (DanmakuColorMenuItem *)[self.danmakuColorPopUpButton itemAtIndex:7];
     [item setItemColor:panel.color];
 }
-
-#pragma mark 窗口相关
-//进入全屏方法
-- (void)toggleFullScreen{
-    NSWindow *windows = [NSApplication sharedApplication].keyWindow;
-    windows.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
-    [windows toggleFullScreen: nil];
+#pragma mark 改变发送弹幕字体
+- (void)changeDanmakuFont:(NSNotification *)sender{
+    self.rander.globalFont = sender.userInfo[@"font"];
 }
 
-//窗口大小变化
+#pragma mark 更改字体边缘特效
+- (void)changeFontSpecially:(NSNotification *)sender{
+    self.rander.globalShadowStyle = sender.userInfo[@"fontSpecially"];
+}
+
+#pragma make 窗口大小变化
 - (void)windowDidResize:(NSNotification *)notification{
     [self danMuControlViewResize];
     [self playListViewResize];
     [self danmakuCanvasResize];
 }
 
-//进入全屏通知
+#pragma make 进入全屏通知
 - (void)windowWillEnterFullScreen:(NSNotification *)notification{
     _fullScreen = YES;
 }
 
-//退出全屏通知
+#pragma make 退出全屏通知
 - (void)windowWillExitFullScreen:(NSNotification *)notification{
     _fullScreen = NO;
     [_autoHideTimer invalidate];
@@ -363,7 +410,7 @@
 
 
 #pragma mark 更换弹幕字典通知
-- (void)changeDanMuDic:(NSNotification *)notification{
+- (void)changeDanmakuDic:(NSNotification *)notification{
     [self stopPlay];
     [self.player setMediaURL:[self.vm currentVideoURL]];
     self.vm.danmakusDic = notification.userInfo;
@@ -375,31 +422,7 @@
     }];
 }
 
-#pragma mark 截图
-- (void)snapShot{
-    NSDateFormatter *forematter = [NSDateFormatter new];
-    [forematter setDateFormat:@"YYYY_MM_dd HH_mm_ss"];
-    [self.player saveVideoSnapshotAt:[[UserDefaultManager screenShotPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [forematter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]] withWidth:0 andHeight:0 format:[UserDefaultManager defaultScreenShotType]];
-}
-
-#pragma mark 推送
-- (void)postMatchMessageWithMatchName:(NSString *)matchName{
-    //删除已经显示过的通知(已经存在用户的通知列表中的)
-    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
-    
-    //删除已经在执行的通知(比如那些循环递交的通知)
-    for (NSUserNotification *notify in [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications]){
-        [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
-    }
-    
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = @"弹弹play";
-    notification.informativeText = matchName?[NSString stringWithFormat:@"视频自动匹配为 %@", matchName]:@"并没有匹配到视频";
-    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
-    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
-}
-
-#pragma mark 播放相关
+#pragma mark -------- 播放相关 --------
 //开始播放
 - (void)startPlay{
     [self videoAndDanMuPlay];
@@ -520,7 +543,7 @@
     }
 }
 
-#pragma mark 初始化相关
+#pragma mark -------- 初始化相关 --------
 //只需要初始化一次的属性
 - (void)setupOnce{
     __weak typeof(self)weakSelf = self;
@@ -604,6 +627,17 @@
         make.left.centerY.mas_equalTo(0);
     }];
     
+    //时间缩略图
+    [self.view addSubview:self.HUDTimeView positioned:NSWindowAbove relativeTo:self.playerControlView];
+    [self.playerControlView.slideView setMouseExitedCallBackBlock:^{
+        [weakSelf.HUDTimeView hide];
+    }];
+    [self.playerControlView.slideView setMouseEnteredCallBackBlock:^{
+        [weakSelf.HUDTimeView show];
+    }];
+    
+    [self.view addTrackingArea:self.trackingArea];
+    
     [self danMuControlViewResize];
     [self playListViewResize];
     [self danmakuCanvasResize];
@@ -611,7 +645,7 @@
 
 - (void)setupWithMediaSize:(CGSize)aMediaSize{
     CGSize screenSize = [NSScreen mainScreen].frame.size;
-//    //宽高有一个为0 使用布满全屏的约束
+    //宽高有一个为0 使用布满全屏的约束
     if (!aMediaSize.width || !aMediaSize.height) {
         [self.player.mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
@@ -633,8 +667,6 @@
             make.height.equalTo(self.player.mediaView.mas_width).multipliedBy(aMediaSize.height / aMediaSize.width);
         }];
     }
-    self.player.mediaView.layer.position = CGPointZero;
-    self.player.mediaView.layer.bounds = self.playerHoldView.bounds;
     
     //设置其它参数
     [NSApplication sharedApplication].keyWindow.title = [self.vm currentVideoName];
@@ -711,6 +743,13 @@
     self.rander.currentTime = self.player.length * endValue;
 }
 
+- (void)playerSliderMoveEnd:(CGPoint)endPoint endValue:(CGFloat)endValue playerSliderView:(PlayerSlideView *)PlayerSliderView{
+    self.HUDTimeView.frame = CGRectMake(endPoint.x, PlayerSliderView.frame.origin.y + 10, 60, 34);
+    NSInteger time = endValue * self.player.length;
+    [self.HUDTimeView updateMessage:[NSString stringWithFormat:@"%.2ld:%.2ld",time / 60, time % 60]];
+}
+
+
 #pragma mark - NSTableView
 
 - (IBAction)doubleClickPlayerList:(PlayerListTableView *)sender {
@@ -727,6 +766,7 @@
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     __weak typeof(self)weakSelf = self;
+    //视频列表
     if ([tableView isKindOfClass:[PlayerListTableView class]]) {
         VideoNameCell *cell = [tableView makeViewWithIdentifier:@"VideoNameCell" owner:self];
         [cell setTitle:[self.vm videoNameWithIndex:row] iconHide:[self.vm showPlayIconWithIndex:row] callBack:^{
@@ -744,6 +784,7 @@
         return cell;
     }
     
+    //弹幕控制列表
     if (row == 0) {
         HideDanMuAndCloseCell *cell = [tableView makeViewWithIdentifier:@"HideDanMuAndCloseCell" owner: self];
         [cell setCloseBlock:^{
@@ -828,14 +869,14 @@
         //高画质
         if (i == 0) {
             for (NSInteger i = 0; i < highCount; ++i) {
-                NSMenuItem *sitem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"备胎线路%ld", i + 1] action:@selector(clickItem:) keyEquivalent:@""];
+                NSMenuItem *sitem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"备胎线路 %ld", i + 1] action:@selector(clickItem:) keyEquivalent:@""];
                 sitem.tag = 20 + i;
                 [item.submenu addItem:sitem];
             }
         //渣画质
         }else{
             for (NSInteger i = 0; i < lowCount; ++i) {
-                NSMenuItem *sitem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"备胎线路%ld", i + 1] action:@selector(clickItem:) keyEquivalent:@""];
+                NSMenuItem *sitem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"备胎线路 %ld", i + 1] action:@selector(clickItem:) keyEquivalent:@""];
                 sitem.tag = 10 + i;
                 [item.submenu addItem:sitem];
             }
@@ -867,6 +908,14 @@
         [_formatter setDateFormat:@"mm:ss"];
     }
     return _formatter;
+}
+
+- (NSDateFormatter *)snapshotFormatter{
+    if (_snapshotFormatter == nil) {
+        _snapshotFormatter = [[NSDateFormatter alloc] init];
+        [_snapshotFormatter setDateFormat:@"YYYY_MM_dd HH_mm_ss"];
+    }
+    return _snapshotFormatter;
 }
 
 
@@ -935,6 +984,22 @@
         [_volumeControlView.volumeSlider setAction:@selector(clickVolumeSlider:)];
 	}
 	return _volumeControlView;
+}
+
+
+- (NSTrackingArea *)trackingArea {
+    if(_trackingArea == nil) {
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.view.frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseMoved | NSTrackingInVisibleRect owner:self userInfo:nil];
+    }
+    return _trackingArea;
+}
+
+- (HUDMessageView *)HUDTimeView {
+	if(_HUDTimeView == nil) {
+		_HUDTimeView = [[HUDMessageView alloc] initWithFrame:CGRectMake(0, self.playerControlView.slideView.frame.origin.y + 10, 60, 34)];
+        _HUDTimeView.alphaValue = 0;
+	}
+	return _HUDTimeView;
 }
 
 @end

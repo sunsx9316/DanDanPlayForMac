@@ -48,6 +48,7 @@
 		896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */; };
 		896A71771C66421500280B79 /* AcFunDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */; };
 		896AEA931C7CB8680011E046 /* PlayerViewControllerMethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */; };
+		896BE9111CAEC478005BE0D1 /* HUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BE9101CAEC478005BE0D1 /* HUDMessageView.m */; };
 		896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896CF1F01C8C66010080019F /* StreamingVideoModel.m */; };
 		897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B31C7571EC00F64D39 /* PlayerHoldView.m */; };
 		897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B61C759CB200F64D39 /* NSArray+Tools.m */; };
@@ -228,6 +229,8 @@
 		896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcFunDanMuChooseViewModel.m; sourceTree = "<group>"; };
 		896AEA911C7CB8680011E046 /* PlayerViewControllerMethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewControllerMethodManager.h; sourceTree = "<group>"; };
 		896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewControllerMethodManager.m; sourceTree = "<group>"; };
+		896BE90F1CAEC478005BE0D1 /* HUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDMessageView.h; sourceTree = "<group>"; };
+		896BE9101CAEC478005BE0D1 /* HUDMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDMessageView.m; sourceTree = "<group>"; };
 		896CF1EF1C8C66010080019F /* StreamingVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamingVideoModel.h; sourceTree = "<group>"; };
 		896CF1F01C8C66010080019F /* StreamingVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamingVideoModel.m; sourceTree = "<group>"; };
 		897345B21C7571EC00F64D39 /* PlayerHoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHoldView.h; sourceTree = "<group>"; };
@@ -871,6 +874,8 @@
 				897D7F741CA7F94400FAC53A /* AddTrackingAreaButton.m */,
 				8950C9841CA95D04000C863B /* VolumeControlView.h */,
 				8950C9851CA95D04000C863B /* VolumeControlView.m */,
+				896BE90F1CAEC478005BE0D1 /* HUDMessageView.h */,
+				896BE9101CAEC478005BE0D1 /* HUDMessageView.m */,
 			);
 			name = "控件";
 			sourceTree = "<group>";
@@ -1212,6 +1217,7 @@
 				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,
 				8950C9891CA97B1E000C863B /* QualityCell.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,
+				896BE9111CAEC478005BE0D1 /* HUDMessageView.m in Sources */,
 				8944E6AD1C8F181D005C5DC8 /* JHDanmakuCanvas.m in Sources */,
 				899BA7FD1C8AA7D6007A67A8 /* JHVLCMedia.m in Sources */,
 				8944E67A1C8F09FA005C5DC8 /* JHProgressHUD.m in Sources */,

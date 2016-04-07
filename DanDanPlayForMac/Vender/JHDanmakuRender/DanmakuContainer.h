@@ -26,6 +26,7 @@
 @property (assign, nonatomic) CGPoint originalPosition;
 @property (strong, nonatomic) NSDictionary *globalAttributedDic;
 @property (strong, nonatomic) JHFont *globalFont;
+@property (assign, nonatomic) NSNumber *globalShadowStyle;
 - (ParentDanmaku *)danmaku;
 - (instancetype)initWithDanmaku:(ParentDanmaku *)danmaku;
 - (void)setWithDanmaku:(ParentDanmaku *)danmaku;

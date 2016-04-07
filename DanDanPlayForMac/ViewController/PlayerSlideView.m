@@ -10,6 +10,7 @@
 @interface PlayerSlideView()
 @property (strong, nonatomic) NSView *progressSliderView;
 @property (strong, nonatomic) NSView *bufferSliderView;
+@property (strong, nonatomic) NSTrackingArea *trackingArea;
 @end
 
 
@@ -23,6 +24,7 @@
 }
 #pragma mark - 方法
 - (void)updateCurrentProgress:(CGFloat)progress{
+    if (isnan(progress))  progress = 0;
     CGSize size = self.frame.size;
     size.width *= progress;
     _progress = progress;
@@ -30,6 +32,7 @@
 }
 
 - (void)updateBufferProgress:(CGFloat)progress{
+    if (isnan(progress)) progress = 0;
     CGSize size = self.frame.size;
     size.width *= progress;
     _bufferProgress = progress;
@@ -52,6 +55,26 @@
     }
 }
 
+- (void)mouseMoved:(NSEvent *)theEvent{
+    CGPoint point = [self convertPoint:theEvent.locationInWindow fromView:[NSApp keyWindow].contentView];
+    CGFloat value = point.x / self.frame.size.width;
+    if ([self.delegate respondsToSelector:@selector(playerSliderMoveEnd:endValue:playerSliderView:)]) {
+            [self.delegate playerSliderMoveEnd:point endValue:value playerSliderView:self];
+        }
+}
+
+- (void)mouseExited:(NSEvent *)theEvent{
+    if (self.mouseExitedCallBackBlock) {
+        self.mouseExitedCallBackBlock();
+    }
+}
+
+- (void)mouseEntered:(NSEvent *)theEvent{
+    if (self.mouseEnteredCallBackBlock) {
+        self.mouseEnteredCallBackBlock();
+    }
+}
+
 - (void)mouseDown:(NSEvent *)theEvent{
     CGFloat value = [self progressValueWithPoint:theEvent.locationInWindow];
     if (value >= 0 && value <= 1){
@@ -66,6 +89,11 @@
     [super awakeFromNib];
     [self setWantsLayer: YES];
     self.layer.backgroundColor = self.backGroundColor.CGColor;
+    [self addTrackingArea:self.trackingArea];
+}
+
+- (void)dealloc{
+    [self removeTrackingArea:self.trackingArea];
 }
 
 - (void)setBackGroundColor:(NSColor *)backGroundColor{
@@ -129,6 +157,13 @@
         [self addSubview: _bufferSliderView positioned:NSWindowBelow relativeTo:self.progressSliderView];
 	}
 	return _bufferSliderView;
+}
+
+- (NSTrackingArea *)trackingArea {
+    if(_trackingArea == nil) {
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseMoved | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited owner:self userInfo:nil];
+    }
+    return _trackingArea;
 }
 
 @end

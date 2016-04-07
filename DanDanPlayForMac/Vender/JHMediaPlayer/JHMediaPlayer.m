@@ -12,7 +12,7 @@
 #import <VLCKit/VLCKit.h>
 #import <AVFoundation/AVFoundation.h>
 //最大音量
-#define MAXVolume 200.0
+#define MAX_VOLUME 200.0
 
 @interface JHMediaPlayer()<VLCMediaPlayerDelegate>
 @property (strong, nonatomic) VLCMediaPlayer *localMediaPlayer;
@@ -37,8 +37,6 @@
 
 - (void)videoSizeWithCompletionHandle:(void(^)(CGSize size))completionHandle{
     if (self.mediaType == JHMediaTypeNetMedia){
-//        AVPlayerLayer *layer = (AVPlayerLayer *)_mediaView.layer;
-//        completionHandle(layer.videoRect.size);
         completionHandle(CGSizeZero);
         return;
     }
@@ -88,7 +86,7 @@
         return _status;
     }
     
-    _status = (self.netMediaPlayer.rate == 0) ? JHMediaPlayerStatusPause : JHMediaPlayerStatusPlaying;
+    _status = (self.netMediaPlayer.rate == 0 || isnan([self netMediaBufferOnceTime])) ? JHMediaPlayerStatusPause : JHMediaPlayerStatusPlaying;
     return _status;
 }
 
@@ -101,17 +99,17 @@
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         return self.localMediaPlayer.audio.volume;
     }
-    return self.netMediaPlayer.volume * MAXVolume;
+    return self.netMediaPlayer.volume * MAX_VOLUME;
 }
 
 - (void)setVolume:(CGFloat)volume{
     if (volume < 0) volume = 0;
-    if (volume > MAXVolume) volume = MAXVolume;
+    if (volume > MAX_VOLUME) volume = MAX_VOLUME;
     
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         self.localMediaPlayer.audio.volume = volume;
     }else{
-        self.netMediaPlayer.volume = volume / MAXVolume;
+        self.netMediaPlayer.volume = volume / MAX_VOLUME;
     }
 }
 
@@ -304,13 +302,13 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
     //缓冲时间
-    if ([object isKindOfClass:[AVPlayerItem class]] && [self.delegate respondsToSelector:@selector(mediaPlayer:bufferTimeProgress:onceBufferTime:)]) {
+    if ([keyPath isEqualToString:@"loadedTimeRanges"] && [self.delegate respondsToSelector:@selector(mediaPlayer:bufferTimeProgress:onceBufferTime:)]) {
         
         [self.delegate mediaPlayer:self bufferTimeProgress:[self netMediaBufferTime] / [self length] onceBufferTime:[self netMediaBufferOnceTime]];
 
     }
     //播放状态
-    if ([object isKindOfClass:[AVPlayer class]] && [self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]){
+    if ([keyPath isEqualToString:@"rate"] && [self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]){
         [self.delegate mediaPlayer:self statusChange:[self status]];
     }
 }

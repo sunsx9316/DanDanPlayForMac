@@ -14,12 +14,11 @@
 @implementation RecommedNetManager
 + (id)recommedInfoWithCompletionHandler:(void(^)(id responseObj, NSError *error))complete{
     return [self GETWithPath:@"http://api.acplay.net:8089/api/v1/homepage?userId=0&token=0" parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
-        BangumiModel *bangumiModel;
-        FeaturedModel *featuredModel;
+        BangumiModel *bangumiModel = [[BangumiModel alloc] init];
+        FeaturedModel *featuredModel = [[FeaturedModel alloc] init];
         NSArray *interestListArr = responseObj[@"InterestList"];
         if (interestListArr.count > 0) {
             featuredModel = [FeaturedModel yy_modelWithDictionary:interestListArr[1]];
-            if (!featuredModel) featuredModel = [[FeaturedModel alloc] init];
         }
         
         if (interestListArr.count > 1) {
@@ -28,7 +27,6 @@
             if (bangumiOfDaysArr.count > weekDay) {
                 bangumiModel = [BangumiModel yy_modelWithDictionary:bangumiOfDaysArr[weekDay]];
             }
-            if (!bangumiModel) bangumiModel = [[BangumiModel alloc] init];
         }
         complete(@{@"featured":featuredModel, @"bangumi":bangumiModel}, error);
     }];

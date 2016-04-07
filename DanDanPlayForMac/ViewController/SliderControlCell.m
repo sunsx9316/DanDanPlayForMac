@@ -21,6 +21,7 @@
         [self addSubview: self.title];
         [self addSubview: self.valueLabel];
         [self addSubview: self.slider];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanmakuValue:) name:@"CHANGE_DANMAKU_VALUE" object:nil];
         
         [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_offset(5);
@@ -101,6 +102,16 @@
                 break;
         }
     }
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - 私有方法
+- (void)changeDanmakuValue:(NSNotification *)sender{
+    self.slider.floatValue = [sender.userInfo[@"value"] floatValue];
+    [self clickSlider:self.slider];
 }
 
 #pragma mark - 懒加载

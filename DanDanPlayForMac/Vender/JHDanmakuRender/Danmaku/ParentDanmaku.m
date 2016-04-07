@@ -7,15 +7,7 @@
 //
 
 #import "ParentDanmaku.h"
-#if TARGET_OS_IPHONE
-#define JHColorBrightness(color) ({ \
-CGFloat b;\
-[color getHue:nil saturation:nil brightness:&b alpha:nil];\
-b;\
-})
-#else
-#define JHColorBrightness(color) color.brightnessComponent
-#endif
+
 
 @implementation ParentDanmaku
 
@@ -79,7 +71,7 @@ b;\
     return _attributedString.string;
 }
 - (JHColor *)textColor{
-    if (_attributedString.length <= 0) return nil;
+    if (!_attributedString.length) return nil;
     
     return [_attributedString attribute:NSForegroundColorAttributeName atIndex:0 effectiveRange:nil];
 }

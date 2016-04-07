@@ -12,11 +12,18 @@
 #import <UIKit/UIKit.h>
 #define JHColor UIColor
 #define JHFont UIFont
+#define JHColorBrightness(color) ({ \
+CGFloat b;\
+[color getHue:nil saturation:nil brightness:&b alpha:nil];\
+b;\
+})
 #else
 #import <Cocoa/Cocoa.h>
 #define JHColor NSColor
 #define JHFont NSFont
+#define JHColorBrightness(color) color.brightnessComponent
 #endif
+
 #import "BaseModel.h"
 
 @class DanmakuContainer;

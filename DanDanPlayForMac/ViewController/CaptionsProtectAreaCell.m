@@ -20,6 +20,7 @@
 
 - (IBAction)clickButton:(NSButton *)sender {
     [UserDefaultManager setTurnOnCaptionsProtectArea: sender.state];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_CAPTIONS_PROTECT_AREA" object:nil];
 }
 
 @end

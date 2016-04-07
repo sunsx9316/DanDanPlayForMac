@@ -55,6 +55,7 @@
 
 - (IBAction)clickButton:(NSButton *)sender {
     [UserDefaultManager setDanMuFontSpecially:sender.tag];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_FONT_SPECIALLY" object:nil userInfo:@{@"fontSpecially": @(sender.tag)}];
 }
 
 @end
