@@ -12,6 +12,7 @@
 #import "LocalVideoModel.h"
 #import "MatchViewModel.h"
 #import "DanMuChooseViewModel.h"
+#import "OpenStreamVideoViewModel.h"
 
 #import "MatchModel.h"
 
@@ -72,6 +73,15 @@
     return [model URLsCountWithQuality:quality];
 }
 
+- (NSInteger)openStreamIndex{
+    StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
+    return model.URLIndex;
+}
+- (streamingVideoQuality)openStreamQuality{
+    StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
+    return model.quality;
+}
+
 - (void)setOpenStreamURLWithQuality:(streamingVideoQuality)quality index:(NSInteger)index{
     StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
     model.quality = quality;
@@ -95,7 +105,7 @@
 }
 
 - (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, NSError *error))complete{
-    id videoModel = [self videoModelWithIndex:index];
+    VideoModel *videoModel = [self videoModelWithIndex:index];
     if ([videoModel isKindOfClass:[LocalVideoModel class]]) {
         LocalVideoModel *vm = (LocalVideoModel *)videoModel;
         
@@ -127,17 +137,35 @@
         NSString *danmaku = vm.danmaku;
         NSString *danmakuSource = vm.danmakuSource;
         if (!danmaku || !danmakuSource) {
-            complete(0.5, nil, kObjNilError);
+            complete(0, nil, kObjNilError);
             return;
         }
         
-        [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
-            self.currentIndex = index;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
-            complete(1, vm.fileName, error);
-        }];
+        complete(0.5, nil, nil);
+        //没有请求过的视频
+        if (![vm URLsCountWithQuality:streamingVideoQualityHigh] && ![vm URLsCountWithQuality:streamingVideoQualityLow]) {
+            [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:vm.fileName danmaku:vm.danmaku danmakuSource:vm.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
+                if (index < self.videos.count) {
+                    self.videos[index] = videoModel;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
+                    complete(1, vm.fileName, error);
+                }
+            }];
+        }else{
+            if (vm.danmakuDic.count) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
+                complete(1, vm.fileName, nil);
+            }else{
+                [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
+//                    self.currentIndex = index;
+                    vm.danmakuDic = responseObj;
+                    self.videos[index] = vm;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
+                    complete(1, vm.fileName, error);
+                }];
+            }
+        }
     }
-    
 }
 
 - (instancetype)initWithVideoModels:(NSArray *)videoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId{

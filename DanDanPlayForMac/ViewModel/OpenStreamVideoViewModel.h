@@ -33,12 +33,21 @@
  */
 - (NSString *)danmakuForRow:(NSInteger)row;
 /**
- *  获取视频url 弹幕
+ *  获取视频模型 弹幕
  *
  *  @param row      下标
  *  @param complete 回调
  */
-- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, NSDictionary *danmakuDic, NSError *error))complete;
+- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, NSError *error))complete;
+/**
+ *  获取视频模型 弹幕
+ *
+ *  @param videoName     视频名称
+ *  @param danmaku       弹幕id
+ *  @param danmakuSource 弹幕源
+ *  @param complete      回调
+ */
+- (void)getVideoURLAndDanmakuForVideoName:(NSString *)videoName danmaku:(NSString *)danmaku danmakuSource:(NSString *)danmakuSource completionHandler:(void(^)(StreamingVideoModel *videoModel, NSError *error))complete;
 /**
  *  刷新
  *

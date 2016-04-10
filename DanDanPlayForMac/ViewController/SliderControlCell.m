@@ -110,8 +110,10 @@
 
 #pragma mark - 私有方法
 - (void)changeDanmakuValue:(NSNotification *)sender{
-    self.slider.floatValue = [sender.userInfo[@"value"] floatValue];
-    [self clickSlider:self.slider];
+    if ([sender.userInfo[@"type"] unsignedIntegerValue] == self.style) {
+        self.slider.floatValue = [sender.userInfo[@"value"] floatValue];
+        [self clickSlider:self.slider];
+    }
 }
 
 #pragma mark - 懒加载

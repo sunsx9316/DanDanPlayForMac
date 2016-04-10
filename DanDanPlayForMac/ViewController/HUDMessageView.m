@@ -38,6 +38,7 @@
 	if(_imgView == nil) {
 		_imgView = [[NSImageView alloc] init];
         _imgView.image = [NSImage imageNamed:@"hud_message_frame"];
+        [_imgView.image setCapInsets:NSEdgeInsetsMake(10, 10, 10, 10)];
 	}
 	return _imgView;
 }

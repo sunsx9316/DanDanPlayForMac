@@ -110,7 +110,7 @@ static NSString *acfun = @"acfun";
                 complete([BiliBiliVideoInfoModel yy_modelWithDictionary: @{@"title":title, @"videos":@[@{@"title":title, @"danmaku":danmaku}]}], error);
             }else{
                 NSArray *allSortedKeys = [dic.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString * _Nonnull obj1, NSString * _Nonnull obj2) {
-                    return obj1.integerValue < obj2.integerValue;
+                    return obj1.integerValue > obj2.integerValue;
                 }];
                 NSInteger danmaku = [responseObj[@"cid"] integerValue];
                 NSMutableArray *videosArr = [NSMutableArray array];

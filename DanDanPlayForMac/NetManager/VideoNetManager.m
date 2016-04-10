@@ -46,13 +46,14 @@
  *  @return 播放地址数组
  */
 + (NSArray *)bilibiliURLsWithResponseObj:(NSDictionary *)responseObj{
+
     NSMutableArray *URLArr = [NSMutableArray array];
     NSDictionary *URLs = [responseObj[@"durl"] firstObject];
     NSString *firstURL = URLs[@"url"];
-    if (firstURL.length) [URLArr addObject:[NSURL URLWithString:firstURL]];
+    if (![firstURL containsString:@".flv?"]) [URLArr addObject:[NSURL URLWithString:firstURL]];
     
     for (NSString *url in URLs[@"backup_url"]) {
-        if (url.length) [URLArr addObject:[NSURL URLWithString:url]];
+        if (![url containsString:@".flv?"]) [URLArr addObject:[NSURL URLWithString:url]];
     }
     return URLArr;
 }

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "OpenStreamInputAidViewController.h"
+#import "AboutViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,11 +18,13 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-
-
     self.mainWindowController = kViewControllerWithId(@"MainWindowController");
     [self.mainWindowController showWindow: self];
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+    
+    NSButton *closeButton = [self.mainWindowController.window standardWindowButton:NSWindowCloseButton];
+    [closeButton setTarget:self];
+    [closeButton setAction:@selector(closeApplication)];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -65,6 +68,15 @@
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     [vc presentViewControllerAsSheet:[[OpenStreamInputAidViewController alloc] init]];
 }
+- (IBAction)clickAboutButton:(NSMenuItem *)sender {
+    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
+    [vc presentViewControllerAsModalWindow:kViewControllerWithId(@"AboutViewController")];
+}
+
+- (void)closeApplication{
+    [[NSApplication sharedApplication] terminate:nil];
+}
+
 
 - (void)firstRun{
     

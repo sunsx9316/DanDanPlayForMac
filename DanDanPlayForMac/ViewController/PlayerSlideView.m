@@ -8,8 +8,8 @@
 
 #import "PlayerSlideView.h"
 @interface PlayerSlideView()
-@property (strong, nonatomic) NSView *progressSliderView;
-@property (strong, nonatomic) NSView *bufferSliderView;
+@property (strong, nonatomic) NSImageView *progressSliderImgView;
+@property (strong, nonatomic) NSImageView *bufferSliderImgView;
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
 @end
 
@@ -25,22 +25,20 @@
 #pragma mark - 方法
 - (void)updateCurrentProgress:(CGFloat)progress{
     if (isnan(progress))  progress = 0;
-    CGSize size = self.frame.size;
-    size.width *= progress;
     _progress = progress;
-    self.progressSliderView.frame = CGRectMake(0, 0, size.width, size.height);
+    self.progressSliderImgView.image = [self drawProgressImgWithProgressValue:progress color:self.progressSliderColor];
 }
 
 - (void)updateBufferProgress:(CGFloat)progress{
     if (isnan(progress)) progress = 0;
-    CGSize size = self.frame.size;
-    size.width *= progress;
     _bufferProgress = progress;
-    self.bufferSliderView.frame = CGRectMake(0, 0, size.width, size.height);
+    self.bufferSliderImgView.image = [self drawProgressImgWithProgressValue:progress color:self.bufferSliderColor];
 }
 
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize{
     [super resizeWithOldSuperviewSize:oldSize];
+    self.bufferSliderImgView.frame = self.bounds;
+    self.progressSliderImgView.frame = self.bounds;
     [self updateCurrentProgress:_progress];
     [self updateBufferProgress:_bufferProgress];
 }
@@ -101,33 +99,39 @@
     self.layer.backgroundColor = backGroundColor.CGColor;
 }
 
-- (void)setProgressSliderColor:(NSColor *)progressSliderColor{
-    _progressSliderColor = progressSliderColor;
-    self.progressSliderView.layer.backgroundColor = progressSliderColor.CGColor;
-}
-
-- (void)setBufferSliderColor:(NSColor *)bufferSliderColor{
-    _bufferSliderColor = bufferSliderColor;
-    self.bufferSliderView.layer.backgroundColor = bufferSliderColor.CGColor;
-}
-
+#pragma mark - 私有方法
 - (CGFloat)progressValueWithPoint:(CGPoint)point{
     point = [self convertPoint:point fromView:[NSApp keyWindow].contentView];
     return point.x / self.frame.size.width;
+}
+
+- (NSImage *)drawProgressImgWithProgressValue:(float)value color:(NSColor *)color{
+    CGSize size = self.bounds.size;
+    float progressValue = size.width * value;
+    NSImage *img = [[NSImage alloc] initWithSize:size];
+    [img lockFocus];
+    [color setFill];
+    NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:CGRectMake(progressValue - size.height, 0, size.height, size.height)];
+    [path fill];
+    if (progressValue - size.height / 2 > 0) {
+        [NSBezierPath fillRect:CGRectMake(0, 0, progressValue - size.height / 2, size.height)];
+    }
+    [img unlockFocus];
+    return img;
 }
 
 #pragma mark - 懒加载
 
 - (NSColor *)progressSliderColor {
     if(_progressSliderColor == nil) {
-        _progressSliderColor = [NSColor colorWithRed:0.2102 green:0.5623 blue:0.9201 alpha:1];
+        _progressSliderColor = [NSColor colorWithRed:230 / 255.0 green:25 / 255.0 blue:73 / 255.0 alpha:1];
     }
     return _progressSliderColor;
 }
 
 - (NSColor *)backGroundColor{
     if (_backGroundColor == nil) {
-        _backGroundColor = [NSColor darkGrayColor];
+        _backGroundColor = [NSColor colorWithRed:51 / 255.0 green:55 / 255.0 blue:69  /255.0 alpha:1];
     }
     return _backGroundColor;
 }
@@ -139,29 +143,25 @@
     return _bufferSliderColor;
 }
 
-- (NSView *)progressSliderView {
-	if(_progressSliderView == nil) {
-		_progressSliderView = [[NSView alloc] init];
-        [_progressSliderView setWantsLayer: YES];
-        _progressSliderView.layer.backgroundColor = self.progressSliderColor.CGColor;
-        [self addSubview: _progressSliderView];
-	}
-	return _progressSliderView;
+- (NSImageView *)progressSliderImgView {
+    if(_progressSliderImgView == nil) {
+        _progressSliderImgView = [[NSImageView alloc] initWithFrame:self.bounds];
+        [self addSubview:_progressSliderImgView];
+    }
+    return _progressSliderImgView;
 }
 
-- (NSView *)bufferSliderView {
-	if(_bufferSliderView == nil) {
-		_bufferSliderView = [[NSView alloc] init];
-        [_bufferSliderView setWantsLayer: YES];
-        _bufferSliderView.layer.backgroundColor = self.bufferSliderColor.CGColor;
-        [self addSubview: _bufferSliderView positioned:NSWindowBelow relativeTo:self.progressSliderView];
-	}
-	return _bufferSliderView;
+- (NSImageView *)bufferSliderImgView {
+    if(_bufferSliderImgView == nil) {
+        _bufferSliderImgView = [[NSImageView alloc] initWithFrame:self.bounds];
+        [self addSubview:_bufferSliderImgView];
+    }
+    return _bufferSliderImgView;
 }
 
 - (NSTrackingArea *)trackingArea {
     if(_trackingArea == nil) {
-        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseMoved | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited owner:self userInfo:nil];
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingActiveInKeyWindow | NSTrackingMouseMoved | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited owner:self userInfo:nil];
     }
     return _trackingArea;
 }

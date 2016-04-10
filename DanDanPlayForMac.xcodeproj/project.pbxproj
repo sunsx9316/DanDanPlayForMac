@@ -24,6 +24,7 @@
 		8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9851CA95D04000C863B /* VolumeControlView.m */; };
 		8950C9891CA97B1E000C863B /* QualityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9881CA97B1E000C863B /* QualityCell.m */; };
 		8951A1DA1C8073AD002472AD /* DownLoadOtherDanmakuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */; };
+		89524B441CB96BB400BDFDBA /* QualityMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89524B431CB96BB400BDFDBA /* QualityMenuItem.m */; };
 		895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */; };
 		895B605F1CA646AE00F4665B /* VideoNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895B605E1CA646AE00F4665B /* VideoNameCell.m */; };
 		896156811C6C50570016792B /* PlayerHUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896156801C6C50570016792B /* PlayerHUDMessageView.m */; };
@@ -47,7 +48,7 @@
 		896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A716C1C66276C00280B79 /* ThirdPartySearchViewModel.m */; };
 		896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */; };
 		896A71771C66421500280B79 /* AcFunDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */; };
-		896AEA931C7CB8680011E046 /* PlayerViewControllerMethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */; };
+		896AEA931C7CB8680011E046 /* PlayerMethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896AEA921C7CB8680011E046 /* PlayerMethodManager.m */; };
 		896BE9111CAEC478005BE0D1 /* HUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BE9101CAEC478005BE0D1 /* HUDMessageView.m */; };
 		896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896CF1F01C8C66010080019F /* StreamingVideoModel.m */; };
 		897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B31C7571EC00F64D39 /* PlayerHoldView.m */; };
@@ -98,6 +99,7 @@
 		8983C7751C8853B40080C316 /* danmakuColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8983C7741C8853B40080C316 /* danmakuColor.plist */; };
 		8984B3561C8C23D800C845AC /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8984B3551C8C23D800C845AC /* JHMediaView.m */; };
 		898732811C9701E50019F8BA /* PlayLastWatchVideoTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898732801C9701E50019F8BA /* PlayLastWatchVideoTimeView.m */; };
+		8987FBE61CBA556D0012A4F2 /* OpenStreamVideoCheakCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8987FBE51CBA556D0012A4F2 /* OpenStreamVideoCheakCell.m */; };
 		89880A6B1C92F15E0060916F /* RecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A6A1C92F15E0060916F /* RecommendViewController.m */; };
 		89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A6D1C92F1AA0060916F /* RecommendHeadCell.m */; };
 		89880A711C92F6AD0060916F /* RecommedNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A701C92F6AD0060916F /* RecommedNetManager.m */; };
@@ -114,6 +116,7 @@
 		899BA7FD1C8AA7D6007A67A8 /* JHVLCMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 899BA7F91C8AA7D6007A67A8 /* JHVLCMedia.m */; };
 		899BA7FE1C8AA7D6007A67A8 /* VLCMedia+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 899BA7FB1C8AA7D6007A67A8 /* VLCMedia+Tools.m */; };
 		899BA8041C8AC9C0007A67A8 /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 899BA8031C8AC9C0007A67A8 /* VideoModel.m */; };
+		89A5345E1CB92FD000F7FE18 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A5345D1CB92FD000F7FE18 /* AboutViewController.m */; };
 		89A5B1C61C9998AB007869C9 /* NSAlert+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A5B1C51C9998AB007869C9 /* NSAlert+Tools.m */; };
 		89B585211C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B585201C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m */; };
 		89B5854B1C7E07270076FB26 /* FilterNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B5854A1C7E07270076FB26 /* FilterNetManager.m */; };
@@ -184,6 +187,8 @@
 		8950C9881CA97B1E000C863B /* QualityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QualityCell.m; sourceTree = "<group>"; };
 		8951A1D81C8073AD002472AD /* DownLoadOtherDanmakuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownLoadOtherDanmakuViewController.h; sourceTree = "<group>"; };
 		8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownLoadOtherDanmakuViewController.m; sourceTree = "<group>"; };
+		89524B421CB96BB400BDFDBA /* QualityMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QualityMenuItem.h; sourceTree = "<group>"; };
+		89524B431CB96BB400BDFDBA /* QualityMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QualityMenuItem.m; sourceTree = "<group>"; };
 		895A2B7A1C6D9E3F000FE343 /* OnlyButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlyButtonCell.h; sourceTree = "<group>"; };
 		895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlyButtonCell.m; sourceTree = "<group>"; };
 		895B605D1CA646AE00F4665B /* VideoNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoNameCell.h; sourceTree = "<group>"; };
@@ -227,8 +232,8 @@
 		896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartyDanMuChooseViewModel.m; sourceTree = "<group>"; };
 		896A71751C66421500280B79 /* AcFunDanMuChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcFunDanMuChooseViewModel.h; sourceTree = "<group>"; };
 		896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcFunDanMuChooseViewModel.m; sourceTree = "<group>"; };
-		896AEA911C7CB8680011E046 /* PlayerViewControllerMethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewControllerMethodManager.h; sourceTree = "<group>"; };
-		896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewControllerMethodManager.m; sourceTree = "<group>"; };
+		896AEA911C7CB8680011E046 /* PlayerMethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerMethodManager.h; sourceTree = "<group>"; };
+		896AEA921C7CB8680011E046 /* PlayerMethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerMethodManager.m; sourceTree = "<group>"; };
 		896BE90F1CAEC478005BE0D1 /* HUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDMessageView.h; sourceTree = "<group>"; };
 		896BE9101CAEC478005BE0D1 /* HUDMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDMessageView.m; sourceTree = "<group>"; };
 		896CF1EF1C8C66010080019F /* StreamingVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamingVideoModel.h; sourceTree = "<group>"; };
@@ -326,6 +331,8 @@
 		8984B3551C8C23D800C845AC /* JHMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaView.m; sourceTree = "<group>"; };
 		8987327F1C9701E50019F8BA /* PlayLastWatchVideoTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayLastWatchVideoTimeView.h; sourceTree = "<group>"; };
 		898732801C9701E50019F8BA /* PlayLastWatchVideoTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayLastWatchVideoTimeView.m; sourceTree = "<group>"; };
+		8987FBE41CBA556D0012A4F2 /* OpenStreamVideoCheakCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStreamVideoCheakCell.h; sourceTree = "<group>"; };
+		8987FBE51CBA556D0012A4F2 /* OpenStreamVideoCheakCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamVideoCheakCell.m; sourceTree = "<group>"; };
 		89880A691C92F15E0060916F /* RecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendViewController.h; sourceTree = "<group>"; };
 		89880A6A1C92F15E0060916F /* RecommendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendViewController.m; sourceTree = "<group>"; };
 		89880A6C1C92F1AA0060916F /* RecommendHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendHeadCell.h; sourceTree = "<group>"; };
@@ -358,6 +365,8 @@
 		899BA7FB1C8AA7D6007A67A8 /* VLCMedia+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VLCMedia+Tools.m"; sourceTree = "<group>"; };
 		899BA8021C8AC9C0007A67A8 /* VideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoModel.h; sourceTree = "<group>"; };
 		899BA8031C8AC9C0007A67A8 /* VideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoModel.m; sourceTree = "<group>"; };
+		89A5345C1CB92FD000F7FE18 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		89A5345D1CB92FD000F7FE18 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		89A5B1C41C9998AB007869C9 /* NSAlert+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+Tools.h"; sourceTree = "<group>"; };
 		89A5B1C51C9998AB007869C9 /* NSAlert+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+Tools.m"; sourceTree = "<group>"; };
 		89A5B1C71C999DFE007869C9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -417,6 +426,8 @@
 		890B9A531C8B2EC30063986B /* 在线播放 */ = {
 			isa = PBXGroup;
 			children = (
+				8987FBE41CBA556D0012A4F2 /* OpenStreamVideoCheakCell.h */,
+				8987FBE51CBA556D0012A4F2 /* OpenStreamVideoCheakCell.m */,
 				890B9A501C8B2E460063986B /* OpenStreamVideoViewController.h */,
 				890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */,
 				890B9A441C8B1BB60063986B /* OpenStreamInputAidViewController.h */,
@@ -585,6 +596,7 @@
 				89E3A71A1C60FEDA0030C44A /* 弹幕选择界面 */,
 				89E3A7191C60FEC50030C44A /* 播放界面 */,
 				89761A161C5A71C10046A245 /* 匹配界面 */,
+				89A5345B1CB92FA700F7FE18 /* 关于界面 */,
 				897619FD1C59EEFD0046A245 /* 主界面 */,
 			);
 			path = ViewController;
@@ -876,6 +888,8 @@
 				8950C9851CA95D04000C863B /* VolumeControlView.m */,
 				896BE90F1CAEC478005BE0D1 /* HUDMessageView.h */,
 				896BE9101CAEC478005BE0D1 /* HUDMessageView.m */,
+				89524B421CB96BB400BDFDBA /* QualityMenuItem.h */,
+				89524B431CB96BB400BDFDBA /* QualityMenuItem.m */,
 			);
 			name = "控件";
 			sourceTree = "<group>";
@@ -917,6 +931,15 @@
 			name = "推荐页面";
 			sourceTree = "<group>";
 		};
+		89A5345B1CB92FA700F7FE18 /* 关于界面 */ = {
+			isa = PBXGroup;
+			children = (
+				89A5345C1CB92FD000F7FE18 /* AboutViewController.h */,
+				89A5345D1CB92FD000F7FE18 /* AboutViewController.m */,
+			);
+			name = "关于界面";
+			sourceTree = "<group>";
+		};
 		89E3A7191C60FEC50030C44A /* 播放界面 */ = {
 			isa = PBXGroup;
 			children = (
@@ -926,8 +949,8 @@
 				8975A0A91C60A03A009BD30F /* PlayerViewController.h */,
 				8975A0AA1C60A03A009BD30F /* PlayerViewController.m */,
 				8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */,
-				896AEA911C7CB8680011E046 /* PlayerViewControllerMethodManager.h */,
-				896AEA921C7CB8680011E046 /* PlayerViewControllerMethodManager.m */,
+				896AEA911C7CB8680011E046 /* PlayerMethodManager.h */,
+				896AEA921C7CB8680011E046 /* PlayerMethodManager.m */,
 				897ECC551C749233008AA5DB /* PlayerListTableView.h */,
 				897ECC561C749233008AA5DB /* PlayerListTableView.m */,
 				897345B21C7571EC00F64D39 /* PlayerHoldView.h */,
@@ -1154,7 +1177,7 @@
 				89761A091C5A5E750046A245 /* MatchViewController.m in Sources */,
 				897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */,
 				897D7F721CA7E64B00FAC53A /* PlayerControlView.m in Sources */,
-				896AEA931C7CB8680011E046 /* PlayerViewControllerMethodManager.m in Sources */,
+				896AEA931C7CB8680011E046 /* PlayerMethodManager.m in Sources */,
 				896370581C59028C002F32FD /* DanMuNetManager.m in Sources */,
 				8975D1DF1C6EF939003FE797 /* CaptionsProtectAreaCell.m in Sources */,
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,
@@ -1178,6 +1201,7 @@
 				89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */,
 				8975A0B11C60A8EA009BD30F /* DanMuChooseViewController.m in Sources */,
 				89A5B1C61C9998AB007869C9 /* NSAlert+Tools.m in Sources */,
+				89524B441CB96BB400BDFDBA /* QualityMenuItem.m in Sources */,
 				89B5854B1C7E07270076FB26 /* FilterNetManager.m in Sources */,
 				89FC23F11C6F3EC3009FD27C /* CacheManagerCell.m in Sources */,
 				897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */,
@@ -1212,6 +1236,7 @@
 				890B9A461C8B1BB60063986B /* OpenStreamInputAidViewController.m in Sources */,
 				8981629D1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m in Sources */,
 				899BA7FE1C8AA7D6007A67A8 /* VLCMedia+Tools.m in Sources */,
+				89A5345E1CB92FD000F7FE18 /* AboutViewController.m in Sources */,
 				8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */,
 				896156811C6C50570016792B /* PlayerHUDMessageView.m in Sources */,
 				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,
@@ -1232,6 +1257,7 @@
 				897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */,
 				897619F01C59E8520046A245 /* MatchViewModel.m in Sources */,
 				8975D1D61C6EF173003FE797 /* FontSpeciallyCell.m in Sources */,
+				8987FBE61CBA556D0012A4F2 /* OpenStreamVideoCheakCell.m in Sources */,
 				89C107121C885B8100090A9A /* DanmakuColorMenuItem.m in Sources */,
 				897EC7C71C72056A00E1B03D /* LocalVideoModel.m in Sources */,
 				89B585211C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m in Sources */,

@@ -26,6 +26,13 @@
     return self;
 }
 
+- (streamingVideoQuality)quality{
+    if (_quality == streamingVideoQualityHigh && ![_URLs[@"high"] count]) {
+        _quality = streamingVideoQualityLow;
+    }
+    return _quality;
+}
+
 - (NSInteger)URLsCountWithQuality:(streamingVideoQuality)quality{
     NSArray *arr = quality == streamingVideoQualityLow ? _URLs[@"low"] : _URLs[@"high"];
     return arr.count;
@@ -59,6 +66,6 @@
  *  @return 地址数组
  */
 - (NSArray *)URLsForQuality{
-    return self.quality == streamingVideoQualityLow ? _URLs[@"low"] : _URLs[@"high"];
+    return self.quality == streamingVideoQualityHigh ? _URLs[@"high"] : _URLs[@"low"];
 }
 @end

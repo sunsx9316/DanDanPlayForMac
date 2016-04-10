@@ -108,6 +108,18 @@
  */
 - (NSInteger)openStreamCountWithQuality:(streamingVideoQuality)quality;
 /**
+ *  流媒体当前播放url下标
+ *
+ *  @return 播放url下标
+ */
+- (NSInteger)openStreamIndex;
+/**
+ *  流媒体清晰度
+ *
+ *  @return 流媒体清晰度
+ */
+- (streamingVideoQuality)openStreamQuality;
+/**
  *  设置流媒体对应下标和清晰度
  *
  *  @param quality 清晰度
