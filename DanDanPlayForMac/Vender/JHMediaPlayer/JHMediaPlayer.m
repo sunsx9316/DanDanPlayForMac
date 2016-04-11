@@ -364,7 +364,7 @@
         VLCVideoLayer *layer = [[VLCVideoLayer alloc] init];
         self.mediaView.layer = layer;
         _localMediaPlayer = [[VLCMediaPlayer alloc] initWithVideoLayer:layer];
-        _localMediaPlayer.libraryInstance.debugLogging = NO;
+       // _localMediaPlayer.libraryInstance.debugLogging = NO;
         _localMediaPlayer.drawable = self.mediaView;
         _localMediaPlayer.delegate = self;
     }

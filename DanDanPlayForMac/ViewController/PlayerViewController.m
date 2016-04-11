@@ -419,9 +419,11 @@
 #pragma mark -------- 播放相关 --------
 //开始播放
 - (void)startPlay{
-    [self videoAndDanMuPlay];
-    if (self.player.mediaType == JHMediaTypeNetMedia) {
-        [self videoAndDanMuPause];
+    if (![self.vm currentVideoURL]) {
+        [self videoAndDanMuPlay];
+        if (self.player.mediaType == JHMediaTypeNetMedia) {
+            [self videoAndDanMuPause];
+        }
     }
 }
 //结束播放
@@ -652,6 +654,11 @@
     [self resetMenuByOpenStreamDic];
     //显示上次播放进度
     [PlayerMethodManager showPlayLastWatchVideoTimeView:self.lastWatchVideoTimeView time:[self.vm currentVideoLastVideoTime]];
+    
+    if (![self.vm currentVideoURL]) {
+        self.messageView.text.stringValue = @"∑(￣□￣)视频不存在";
+        [self.messageView showHUD];
+    }
 }
 
 #pragma mark - NSUserNotificationDelegate
@@ -884,8 +891,8 @@
         index = item.tag - 10;
     }
     [self.vm setOpenStreamURLWithQuality: quality index:index];
-    [self changeCurrentIndex:self.vm.currentIndex - 1];
-    [self clickNextButton:nil];
+    [self changeCurrentIndex:self.vm.currentIndex];
+    [self reloadDanmakuWithIndex:self.vm.currentIndex];
 }
 
 #pragma mark - 懒加载
