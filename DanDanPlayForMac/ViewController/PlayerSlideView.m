@@ -54,10 +54,9 @@
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent{
-    CGPoint point = [self convertPoint:theEvent.locationInWindow fromView:[NSApp keyWindow].contentView];
-    CGFloat value = point.x / self.frame.size.width;
+    CGFloat value = [self convertPoint:theEvent.locationInWindow fromView:[NSApp keyWindow].contentView].x / self.frame.size.width;
     if ([self.delegate respondsToSelector:@selector(playerSliderMoveEnd:endValue:playerSliderView:)]) {
-            [self.delegate playerSliderMoveEnd:point endValue:value playerSliderView:self];
+            [self.delegate playerSliderMoveEnd:theEvent.locationInWindow endValue:value playerSliderView:self];
         }
 }
 
@@ -73,7 +72,7 @@
     }
 }
 
-- (void)mouseDown:(NSEvent *)theEvent{
+- (void)mouseUp:(NSEvent *)theEvent{
     CGFloat value = [self progressValueWithPoint:theEvent.locationInWindow];
     if (value >= 0 && value <= 1){
         if ([self.delegate respondsToSelector:@selector(playerSliderTouchEnd:playerSliderView:)]) {

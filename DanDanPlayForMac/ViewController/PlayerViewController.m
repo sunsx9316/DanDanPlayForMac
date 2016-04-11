@@ -141,8 +141,8 @@
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent{
-    if (!_fullScreen) return;
     [_autoHideTimer invalidate];
+    if (!_fullScreen || self.playerControlView.alphaValue) return;
     _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoHideMouse) userInfo:nil repeats:NO];
 }
 
@@ -419,11 +419,13 @@
 #pragma mark -------- 播放相关 --------
 //开始播放
 - (void)startPlay{
-    if (![self.vm currentVideoURL]) {
-        [self videoAndDanMuPlay];
-        if (self.player.mediaType == JHMediaTypeNetMedia) {
+    if (self.player.mediaType == JHMediaTypeNetMedia) {
+        if (![self.vm currentVideoURL]) {
+            [self videoAndDanMuPlay];
             [self videoAndDanMuPause];
         }
+    }else {
+        [self videoAndDanMuPlay];
     }
 }
 //结束播放
@@ -716,7 +718,14 @@
 }
 
 - (void)playerSliderMoveEnd:(CGPoint)endPoint endValue:(CGFloat)endValue playerSliderView:(PlayerSlideView *)PlayerSliderView{
-    self.HUDTimeView.frame = CGRectMake(endPoint.x, PlayerSliderView.frame.origin.y + 10, 60, 34);
+    CGRect frame = CGRectMake(endPoint.x, PlayerSliderView.frame.origin.y + 10, 60, 34);
+    if (frame.origin.x + frame.size.width >= self.view.frame.size.width) {
+        self.HUDTimeView.reverse = YES;
+        frame.origin.x -= frame.size.width;
+    }else {
+        self.HUDTimeView.reverse = NO;
+    }
+    self.HUDTimeView.frame = frame;
     NSInteger time = endValue * self.player.length;
     if (time < 0) time = 0;
     [self.HUDTimeView updateMessage:[NSString stringWithFormat:@"%.2ld:%.2ld",time / 60, time % 60]];
@@ -728,7 +737,7 @@
 - (IBAction)doubleClickPlayerList:(PlayerListTableView *)sender {
     NSInteger selectedIndex = [sender selectedRow];
     if (selectedIndex >= 0) {
-        [self changeCurrentIndex:[sender selectedRow]];
+        [self changeCurrentIndex:selectedIndex];
         [self reloadDanmakuWithIndex:self.vm.currentIndex];        
     }
 }

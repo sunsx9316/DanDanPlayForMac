@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface HUDMessageView : NSView
+@property (assign, nonatomic, getter=isReverse) BOOL reverse;
 - (void)updateMessage:(NSString *)message;
 - (void)show;
 - (void)hide;

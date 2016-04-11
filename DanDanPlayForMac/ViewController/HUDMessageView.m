@@ -34,10 +34,20 @@
     self.animator.alphaValue = 0;
 }
 
+- (void)setFrame:(NSRect)frame {
+    [super setFrame:frame];
+    if (_reverse) {
+        _imgView.image = [NSImage imageNamed:@"hud_message_frame_right"];
+    }else {
+        _imgView.image = [NSImage imageNamed:@"hud_message_frame_left"];
+    }
+}
+
+#pragma mark - 懒加载
 - (NSImageView *)imgView {
 	if(_imgView == nil) {
 		_imgView = [[NSImageView alloc] init];
-        _imgView.image = [NSImage imageNamed:@"hud_message_frame"];
+        _imgView.image = [NSImage imageNamed:@"hud_message_frame_left"];
         [_imgView.image setCapInsets:NSEdgeInsetsMake(10, 10, 10, 10)];
 	}
 	return _imgView;

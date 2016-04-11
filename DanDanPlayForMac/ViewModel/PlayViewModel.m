@@ -157,7 +157,7 @@
                 complete(1, vm.fileName, nil);
             }else{
                 [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
-//                    self.currentIndex = index;
+                    self.currentIndex = index;
                     vm.danmakuDic = responseObj;
                     self.videos[index] = vm;
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
