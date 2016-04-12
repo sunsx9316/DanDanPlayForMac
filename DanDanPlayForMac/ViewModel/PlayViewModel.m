@@ -142,36 +142,28 @@
         }
         
         complete(0.5, nil, nil);
-        //没有请求过的视频
         if (![vm URLsCountWithQuality:streamingVideoQualityHigh] && ![vm URLsCountWithQuality:streamingVideoQualityLow]) {
+            //没有请求过的视频
             [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:vm.fileName danmaku:vm.danmaku danmakuSource:vm.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
                 if (index < self.videos.count) {
-                    self.videos[index] = videoModel;
+                    if (videoModel) self.videos[index] = videoModel;
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
                     complete(1, vm.fileName, error);
                 }
             }];
         }else{
-            [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
-                self.currentIndex = index;
-                vm.danmakuDic = responseObj;
-                self.videos[index] = vm;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
-                complete(1, vm.fileName, error);
-            }];
-            
-//            if (vm.danmakuDic.count) {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
-//                complete(1, vm.fileName, nil);
-//            }else{
-//                [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
-//                    self.currentIndex = index;
-//                    vm.danmakuDic = responseObj;
-//                    self.videos[index] = vm;
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
-//                    complete(1, vm.fileName, error);
-//                }];
-//            }
+            if (vm.danmakuDic.count) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
+                complete(1, vm.fileName, nil);
+            }else{
+                [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
+                    self.currentIndex = index;
+                    vm.danmakuDic = responseObj;
+                    self.videos[index] = vm;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
+                    complete(1, vm.fileName, error);
+                }];
+            }
         }
     }
 }

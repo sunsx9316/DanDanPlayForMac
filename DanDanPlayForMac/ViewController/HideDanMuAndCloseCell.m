@@ -14,7 +14,6 @@
 @property (strong, nonatomic) NSButton *hideTopDanMuButton;
 @property (strong, nonatomic) NSButton *hideBottomDanMuButton;
 @property (strong, nonatomic) NSTextField *title;
-
 @end
 
 @implementation HideDanMuAndCloseCell

@@ -24,7 +24,7 @@
 {
     NSTimeInterval _length;
     NSTimeInterval _currentTime;
-    id timeObj;
+    id _timeObj;
     JHMediaPlayerStatus _status;
     BOOL _isBuffer;
 }
@@ -330,7 +330,7 @@
     [self.netMediaPlayer addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
     
     //监听时间变化
-    timeObj = [self.netMediaPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+    _timeObj = [self.netMediaPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         [weakSelf mediaPlayerTimeChanged:nil];
     }];
     
@@ -344,7 +344,7 @@
         if (_netMediaPlayer) {
             [_netMediaPlayer removeObserver:self forKeyPath:@"rate"];
             [_netMediaPlayer.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-            [_netMediaPlayer removeTimeObserver:timeObj];
+            [_netMediaPlayer removeTimeObserver:_timeObj];
             [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
             _netMediaPlayer = nil;
         }
@@ -354,10 +354,11 @@
 }
 
 - (void)dealloc{
-    [_netMediaPlayer removeTimeObserver:timeObj];
+    [_netMediaPlayer removeTimeObserver:_timeObj];
     [_mediaView removeFromSuperview];
     [_netMediaPlayer removeObserver:self forKeyPath:@"rate"];
     [_netMediaPlayer.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+    _netMediaPlayer = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

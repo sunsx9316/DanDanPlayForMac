@@ -137,7 +137,7 @@
 
 - (NSColor *)bufferSliderColor {
     if(_bufferSliderColor == nil) {
-        _bufferSliderColor = [NSColor lightGrayColor];
+        _bufferSliderColor = [NSColor grayColor];
     }
     return _bufferSliderColor;
 }

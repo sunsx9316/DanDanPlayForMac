@@ -104,6 +104,7 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
     } completionHandler:^{
         self.showing = NO;
         [self.indicator stopAnimation: self];
+        [self updateProgress:0];
         [self removeFromSuperview];
     }];
 }

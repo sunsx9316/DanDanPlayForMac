@@ -143,7 +143,7 @@
 - (void)mouseMoved:(NSEvent *)theEvent{
     [_autoHideTimer invalidate];
     if (!_fullScreen || self.playerControlView.alphaValue) return;
-    _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoHideMouse) userInfo:nil repeats:NO];
+    _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoHideMouseControlView) userInfo:nil repeats:NO];
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent{
@@ -284,12 +284,13 @@
     if ([keyPath isEqualToString:@"volume"]) {
         self.volumeControlView.volumeSlider.floatValue = [change[@"new"] floatValue];
     }else if ([keyPath isEqualToString:@"state"]) {
-        self.rander.canvas.hidden = [change[@"new"] intValue];
+        self.rander.canvas.animator.hidden = [change[@"new"] intValue];
     }
 }
 
-- (void)autoHideMouse{
+- (void)autoHideMouseControlView{
     [NSCursor setHiddenUntilMouseMoves:YES];
+    self.playerControlView.animator.alphaValue = 0;
 }
 
 #pragma mark 重新加载弹幕 更新进度
@@ -315,7 +316,6 @@
                     [JHProgressHUD updateMessage:@"下载弹幕..."];
                     [PlayerMethodManager postMatchMessageWithMatchName:videoMatchName delegate:self];
                     [JHProgressHUD disMiss];
-                    [JHProgressHUD updateProgress:0];
                 }
             }
         });
@@ -365,10 +365,11 @@
 #pragma mark -------- 通知 --------
 #pragma mark 加载网络视频
 - (void)openStreamVCChooseOver:(NSNotification *)notification{
-    [self.vm addVideosModel:notification.userInfo[@"videos"]];
+    NSArray *arr = notification.userInfo[@"videos"];
+    [self.vm addVideosModel:arr];
     //网络视频 episode应该为空
     self.vm.episodeId = nil;
-    [self changeCurrentIndex:[self.vm videoCount] - 1];
+    [self changeCurrentIndex:[self.vm videoCount] - arr.count];
 }
 
 #pragma mark 改变发送弹幕颜色
@@ -577,8 +578,8 @@
         if (filePaths.count > 0) {
             NSInteger oldCount = [weakSelf.vm videoCount];
             [weakSelf.vm addVideosModel:filePaths];
-            [weakSelf changeCurrentIndex:oldCount - 1];
-            [weakSelf clickNextButton:nil];
+            [weakSelf changeCurrentIndex:oldCount];
+            [weakSelf reloadDanmakuWithIndex:oldCount];
         }
     }];
     //设置发送弹幕输入框回调
@@ -695,7 +696,7 @@
         [self.playerControlView.slideView updateCurrentProgress:progress];
         [self.smallSlideView updateCurrentProgress:progress];
     });
-//    NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
+    NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime{
@@ -759,11 +760,10 @@
 
 - (IBAction)doubleClickPlayerList:(PlayerListTableView *)sender {
     NSInteger selectedIndex = [sender selectedRow];
-    NSLog(@"%ld", selectedIndex);
-//    if (selectedIndex >= 0) {
-//        [self changeCurrentIndex:selectedIndex];
-//        [self reloadDanmakuWithIndex:self.vm.currentIndex];        
-//    }
+    if (selectedIndex >= 0) {
+        [self changeCurrentIndex:selectedIndex];
+        [self reloadDanmakuWithIndex:self.vm.currentIndex];        
+    }
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{

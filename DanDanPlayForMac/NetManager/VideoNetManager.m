@@ -50,10 +50,10 @@
     NSMutableArray *URLArr = [NSMutableArray array];
     NSDictionary *URLs = [responseObj[@"durl"] firstObject];
     NSString *firstURL = URLs[@"url"];
-    if (![firstURL containsString:@".flv?"]) [URLArr addObject:[NSURL URLWithString:firstURL]];
+    if (firstURL.length && ![firstURL containsString:@".flv?"]) [URLArr addObject:[NSURL URLWithString:firstURL]];
     
     for (NSString *url in URLs[@"backup_url"]) {
-        if (![url containsString:@".flv?"]) [URLArr addObject:[NSURL URLWithString:url]];
+        if (url.length && ![url containsString:@".flv?"]) [URLArr addObject:[NSURL URLWithString:url]];
     }
     return URLArr;
 }

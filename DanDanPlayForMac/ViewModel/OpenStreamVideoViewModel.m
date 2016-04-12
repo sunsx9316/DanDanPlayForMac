@@ -39,7 +39,7 @@
     
     [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(NSDictionary *videosDic, NSError *error) {
         [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
-            StreamingVideoModel *vm = [[StreamingVideoModel alloc] initWithFileURLs:videosDic fileName:videoName danmaku:danmaku danmakuSource:self.danmakuSource];
+            StreamingVideoModel *vm = [[StreamingVideoModel alloc] initWithFileURLs:videosDic fileName:videoName danmaku:danmaku danmakuSource:danmakuSource];
             vm.danmakuDic = responseObj;
             vm.quality = [UserDefaultManager defaultQuality];
             complete(vm, error);
