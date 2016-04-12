@@ -17,7 +17,7 @@
  *
  *  @return 任务
  */
-+ (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(SearchModel* responseObj, NSError *error))complete;
++ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(SearchModel* responseObj, NSError *error))complete;
 /**
  *  搜索b站结果
  *

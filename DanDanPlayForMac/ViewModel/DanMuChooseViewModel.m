@@ -43,7 +43,7 @@
 
 
 - (void)refreshCompletionHandler:(void (^)(NSError *))complete{
-    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
+    [DanMuNetManager GETWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
         //对象第一个key不是NSNumber类型说明没有官方弹幕
         if (![[responseObj allKeys].firstObject isKindOfClass:[NSNumber class]]) {
             self.contentDic = responseObj;

@@ -33,10 +33,7 @@
 }
 
 - (void)getVideoURLAndDanmakuForVideoName:(NSString *)videoName danmaku:(NSString *)danmaku danmakuSource:(NSString *)danmakuSource completionHandler:(void(^)(StreamingVideoModel *videoModel, NSError *error))complete {
-    if (!danmaku.length) {
-        complete(nil, kObjNilError);
-        return;
-    }
+    if (!danmaku.length) danmaku = @"";
     
     if (!videoName.length) videoName = @"";
     
@@ -51,7 +48,7 @@
 }
 
 - (void)refreshWithcompletionHandler:(void(^)(NSError *error))complete{
-    [DanMuNetManager getBiliBiliDanMuWithParameters:@{@"aid":self.aid?self.aid:@"", @"page":self.page?self.page:@""} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
+    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid?self.aid:@"", @"page":self.page?self.page:@""} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
         self.models = responseObj.videos;
         complete(error);
     }];

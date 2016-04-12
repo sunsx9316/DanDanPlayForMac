@@ -114,20 +114,24 @@
 }
 
 #pragma mark 播放位置
-- (void)jump:(int)value{
-    [self setPosition:([self currentTime] + value) / [self length]];
+- (void)jump:(int)value completionHandler:(void(^)(NSTimeInterval time))completionHandler{
+    [self setPosition:([self currentTime] + value) / [self length] completionHandler:completionHandler];
 }
 
-- (void)setPosition:(CGFloat)position{
+- (void)setPosition:(CGFloat)position completionHandler:(void(^)(NSTimeInterval time))completionHandler{
     if (position < 0) position = 0;
     if (position > 1) position = 1;
     
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         self.localMediaPlayer.position = position;
+        if (completionHandler) completionHandler([self length] * position);
     }else{
         CMTime time = self.netMediaPlayer.currentTime;
         time.value = time.timescale * position * [self length];
-        [self.netMediaPlayer seekToTime:time];
+        __weak typeof(self)weakSelf = self;
+        [self.netMediaPlayer seekToTime:time completionHandler:^(BOOL finished) {
+            if (completionHandler) completionHandler([weakSelf currentTime]);
+        }];
     }
 }
 

@@ -17,17 +17,17 @@ static NSString *bilibili = @"bilibili";
 static NSString *acfun = @"acfun";
 
 @implementation DanMuNetManager
-+ (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
++ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     if (![UserDefaultManager turnOnFastMatch]) {
         //没开启快速匹配功能 直接进入匹配界面
-       return [self getThirdPartyDanMuWithParameters:parameters completionHandler:complete];
+       return [self GETThirdPartyDanMuWithParameters:parameters completionHandler:complete];
     }else{
         return [self downOfficialDanmakuWithParameters:parameters completionHandler:^(id responseObj, NSError *error) {
             //如果返回的对象不为空 说明有官方弹幕库 同时开启了快速匹配 直接返回 否则请求第三方弹幕库
             if ([responseObj count]) {
                 complete(responseObj, error);
             }else{
-                [self getThirdPartyDanMuWithParameters:parameters completionHandler:complete];
+                [self GETThirdPartyDanMuWithParameters:parameters completionHandler:complete];
             }
         }];
     }
@@ -55,7 +55,7 @@ static NSString *acfun = @"acfun";
 + (id)downThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     // danmaku:弹幕库id provider 提供者
     if (![parameters[@"danmaku"] length] || ![parameters[@"provider"] length]) {
-        complete(nil, nil);
+        complete(nil, kObjNilError);
         return nil;
     }
     
@@ -92,7 +92,7 @@ static NSString *acfun = @"acfun";
 }
 
 
-+ (id)getBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
++ (id)GETBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     //http://biliproxy.chinacloudsites.cn/av/46431/1?list=1
     if (!parameters[@"aid"]) {
         complete(nil, kObjNilError);
@@ -123,7 +123,7 @@ static NSString *acfun = @"acfun";
     }];
 }
 
-+ (id)getAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
++ (id)GETAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     //http://www.talkshowcn.com/video/getVideo.aspx?id=435639 黑科技
     return [self GETWithPath:[NSString stringWithFormat:@"http://www.talkshowcn.com/video/getVideo.aspx?id=%@", parameters[@"aid"]] parameters:nil completionHandler:^(id responseObj, NSError *error) {
         //黑科技只解析单个视频的信息 故把字典封装成数组才可解析
@@ -142,7 +142,7 @@ static NSString *acfun = @"acfun";
         complete(kObjNilError);
         return nil;
     }
-    return [self PUTWithPath:[NSString stringWithFormat:@"http://acplay.net/api/v1/comment/%@?clientId=ddplaymac", episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] Encrypt] parameters:nil completionHandler:^(id responseObj, NSError *error) {
+    return [self PUTWithPath:[NSString stringWithFormat:@"http://acplay.net/api/v1/comment/%@?clientId=ddplaymac", episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] Encrypt] completionHandler:^(id responseObj, NSError *error) {
         complete(error);
     }];
 }
@@ -156,7 +156,7 @@ static NSString *acfun = @"acfun";
  *
  *  @return 任务
  */
-+ (id)getThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
++ (id)GETThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     //http://acplay.net/api/v1/related/111240001
     return [self GETWithPath:[@"http://acplay.net/api/v1/related/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
         NSArray <NSDictionary *>*relateds = responseObj[@"Relateds"];
@@ -167,13 +167,13 @@ static NSString *acfun = @"acfun";
         for (NSDictionary *obj in relateds) {
             //视频提供者是a站
             if ([obj[@"Provider"] isEqualToString:@"Acfun.tv"]) {
-                [requestArr addObject: [self getAcfunDanMuWithParameters:[self acfunAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, NSError *error) {
+                [requestArr addObject: [self GETAcfunDanMuWithParameters:[self acfunAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, NSError *error) {
                     if (!videoInfoDic[@"acfun"]) videoInfoDic[@"acfun"] = [NSMutableArray array];
                     if (responseObj) [videoInfoDic[@"acfun"] addObject: responseObj];
                 }]];
                 //视频提供者是b站
             }else if ([obj[@"Provider"] isEqualToString:@"BiliBili.com"]){
-                [requestArr addObject: [self getBiliBiliDanMuWithParameters:[self bilibiliAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, NSError *error) {
+                [requestArr addObject: [self GETBiliBiliDanMuWithParameters:[self bilibiliAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, NSError *error) {
                     if (!videoInfoDic[@"bilibili"]) videoInfoDic[@"bilibili"] = [NSMutableArray array];
                     if (responseObj) [videoInfoDic[@"bilibili"] addObject: responseObj];
                 }]];

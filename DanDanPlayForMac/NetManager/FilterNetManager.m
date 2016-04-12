@@ -17,7 +17,7 @@
         NSArray *dataArr = [document.rootElement elementsForName:@"FilterItem"];
         for (GDataXMLElement *dataElement in dataArr) {
             NSString *string = dataElement.stringValue;
-            if (string) [arr addObject:@{@"text":string, @"state":@([[[dataElement attributeForName:@"IsRegex"] stringValue] isEqualToString:@"true"])}];
+            if (string.length) [arr addObject:@{@"text":string, @"state":@([[[dataElement attributeForName:@"IsRegex"] stringValue] isEqualToString:@"true"])}];
         }
         complete(arr, error);
     }];

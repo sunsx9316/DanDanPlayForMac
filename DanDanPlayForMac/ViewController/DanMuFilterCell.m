@@ -10,6 +10,7 @@
 #import "UseFilterExpressionCell.h"
 #import "FilterNetManager.h"
 #import "NSButton+Tools.h"
+#import "NSOpenPanel+Tools.h"
 
 @interface DanMuFilterCell()<NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
 @property (weak) IBOutlet NSButton *importButton;
@@ -76,11 +77,7 @@
 
 #pragma mark - 私有方法
 - (IBAction)importRules:(NSButton *)sender {
-    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-    [openPanel setTitle:@"导入屏蔽列表"];
-    [openPanel setCanChooseDirectories: NO];
-    [openPanel setCanChooseFiles:YES];
-    [openPanel setAllowsMultipleSelection: NO];
+    NSOpenPanel* openPanel = [NSOpenPanel chooseFilePanelWithTitle:@"导入屏蔽列表" defaultURL:nil];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton){
             NSArray *arr = [NSArray arrayWithContentsOfURL: openPanel.URL];

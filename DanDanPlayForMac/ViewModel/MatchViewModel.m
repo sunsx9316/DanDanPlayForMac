@@ -52,7 +52,7 @@
         return;
     }
     
-    [MatchNetManager getWithParameters:@{@"fileName":self.videoModel.fileName, @"hash": self.videoModel.md5, @"length": self.videoModel.length} completionHandler:^(MatchModel *responseObj, NSError *error) {
+    [MatchNetManager GETWithParameters:@{@"fileName":self.videoModel.fileName, @"hash": self.videoModel.md5, @"length": self.videoModel.length} completionHandler:^(MatchModel *responseObj, NSError *error) {
         //精确匹配
         if (responseObj.matches.count == 1) {
             complete(error, responseObj.matches.firstObject);

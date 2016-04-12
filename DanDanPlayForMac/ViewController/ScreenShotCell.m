@@ -7,6 +7,8 @@
 //
 
 #import "ScreenShotCell.h"
+#import "NSOpenPanel+Tools.h"
+
 @interface ScreenShotCell()
 @property (weak) IBOutlet NSTextField *pathTextField;
 @property (weak) IBOutlet NSPopUpButton *screenShotTypeButton;
@@ -25,12 +27,7 @@
     self.pathTextField.placeholderString = [UserDefaultManager screenShotPath];
 }
 - (IBAction)clickChoosePathButton:(NSButton *)sender {
-    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-    [openPanel setDirectoryURL:[NSURL fileURLWithPath:[UserDefaultManager screenShotPath]]];
-    [openPanel setTitle:@"选取截图目录"];
-    [openPanel setCanChooseDirectories: YES];
-    [openPanel setCanChooseFiles:NO];
-    [openPanel setAllowsMultipleSelection: NO];
+    NSOpenPanel* openPanel = [NSOpenPanel chooseDirectoriesPanelWithTitle:@"选取截图目录" defaultURL:[NSURL fileURLWithPath:[UserDefaultManager screenShotPath]]];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton){
             self.pathTextField.placeholderString = openPanel.URL.path;

@@ -11,6 +11,7 @@
 #import <VLCKit/VLCMediaPlayer.h>
 #import "DanMuNetManager.h"
 #import "DanMuModel.h"
+#import "NSOpenPanel+Tools.h"
 
 @implementation PlayerMethodManager
 
@@ -22,25 +23,21 @@
 }
 
 + (void)loadLocaleDanMuWithBlock:(loadLocalDanMuBlock)block{
-        NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-        [openPanel setTitle:@"选取弹幕"];
-        [openPanel setCanChooseDirectories: NO];
-        [openPanel setCanChooseFiles:YES];
-        [openPanel setAllowsMultipleSelection: NO];
-        [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
-            if (result == NSFileHandlingPanelOKButton){
-                //acfun：json解析方式
-                id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
-                NSDictionary *dic = nil;
-                if (obj) {
-                    dic = [DanMuDataFormatter dicWithObj:obj source:JHDanMuSourceAcfun];
-                }else{
+    NSOpenPanel* openPanel = [NSOpenPanel chooseFilePanelWithTitle:@"选取弹幕" defaultURL:nil];
+    [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
+        if (result == NSFileHandlingPanelOKButton){
+            //acfun：json解析方式
+            id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
+            NSDictionary *dic = nil;
+            if (obj) {
+                dic = [DanMuDataFormatter dicWithObj:obj source:JHDanMuSourceAcfun];
+            }else{
                 //bilibili：xml解析方式
-                    dic = [DanMuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:JHDanMuSourceBilibili];
-                }
-                block(dic);
+                dic = [DanMuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:JHDanMuSourceBilibili];
             }
-        }];
+            block(dic);
+        }
+    }];
 }
 
 + (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler{

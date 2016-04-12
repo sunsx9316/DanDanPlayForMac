@@ -14,9 +14,9 @@
 
 @interface OpenStreamVideoViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
+@property (weak) IBOutlet NSButton *selectedAllButton;
 @property (strong, nonatomic) OpenStreamVideoViewModel *vm;
 @property (strong, nonatomic) NSMutableSet *selectedSet;
-@property (weak) IBOutlet NSButton *selectedAllButton;
 @end
 
 @implementation OpenStreamVideoViewController
@@ -76,6 +76,11 @@
     }];
     [self streamingVideoModelWithRow:i];
 }
+
+- (IBAction)clickBackButton:(NSButton *)sender {
+    [self dismissViewController:self];
+}
+
 
 - (instancetype)initWithAid:(NSString *)aid danmakuSource:(NSString *)danmakuSource{
     if ((self = kViewControllerWithId(@"OpenStreamVideoViewController"))) {

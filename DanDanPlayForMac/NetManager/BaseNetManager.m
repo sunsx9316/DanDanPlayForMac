@@ -49,7 +49,7 @@
     }];
 }
 
-+ (id)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
++ (id)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody completionHandler:(void(^)(id responseObj, NSError *error))complete{
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:path]];
     request.HTTPMethod = @"PUT";

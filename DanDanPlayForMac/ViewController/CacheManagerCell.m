@@ -8,6 +8,7 @@
 
 #import "CacheManagerCell.h"
 #import "NSAlert+Tools.h"
+#import "NSOpenPanel+Tools.h"
 
 @interface CacheManagerCell()
 @property (weak) IBOutlet NSTextField *pathTextField;
@@ -36,7 +37,7 @@
     NSError *err = nil;
     [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:&err];
     NSString *errorStr = nil;
-    NSString *inforStr = @"";
+    NSString *inforStr = nil;
     if (err) {
         if (err.code == NSFileNoSuchFileError) {
             errorStr = @"(╬ﾟдﾟ)并没有这个文件夹";
@@ -51,12 +52,7 @@
     [[NSAlert alertWithMessageText:errorStr informativeText:inforStr] runModal];
 }
 - (IBAction)clickChangeCachePathButton:(NSButton *)sender {
-    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-    [openPanel setDirectoryURL:[NSURL fileURLWithPath:[UserDefaultManager cachePath]]];
-    [openPanel setTitle:@"选取缓存目录"];
-    [openPanel setCanChooseDirectories: YES];
-    [openPanel setCanChooseFiles:NO];
-    [openPanel setAllowsMultipleSelection: NO];
+    NSOpenPanel* openPanel = [NSOpenPanel chooseDirectoriesPanelWithTitle:@"选取缓存目录" defaultURL:[NSURL fileURLWithPath:[UserDefaultManager cachePath]]];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton){
             NSString *path = [openPanel.URL.path stringByAppendingPathComponent:@"dandanplay"];

@@ -24,7 +24,7 @@
            self.coverImgView.image = img;
        });
     });
-    self.titleTextField.stringValue = title?title:@"";
+    self.titleTextField.stringValue = title.length?title:@"";
     self.groupModels = captionsGroup;
     self.keyWord = keyWord;
     [captionsGroup enumerateObjectsUsingBlock:^(BangumiGroupModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

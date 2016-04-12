@@ -9,5 +9,12 @@
 #import "BaseNetManager.h"
 
 @interface FilterNetManager : BaseNetManager
+/**
+ *  获取云过滤列表
+ *
+ *  @param complete 回调
+ *
+ *  @return 任务
+ */
 + (id)filterWithCompletionHandler:(void(^)(id responseObj, NSError *error))complete;
 @end

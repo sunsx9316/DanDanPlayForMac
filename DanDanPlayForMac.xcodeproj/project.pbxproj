@@ -11,6 +11,7 @@
 		890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A481C8B1E770063986B /* VideoNetManager.m */; };
 		890B9A4F1C8B259C0063986B /* OpenStreamVideoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A4E1C8B259C0063986B /* OpenStreamVideoViewModel.m */; };
 		890B9A521C8B2E460063986B /* OpenStreamVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */; };
+		89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */; };
 		8944E67A1C8F09FA005C5DC8 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */; };
 		8944E6A91C8F181D005C5DC8 /* FloatDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6991C8F181D005C5DC8 /* FloatDanmaku.m */; };
 		8944E6AA1C8F181D005C5DC8 /* ParentDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E69B1C8F181D005C5DC8 /* ParentDanmaku.m */; };
@@ -160,6 +161,8 @@
 		890B9A4E1C8B259C0063986B /* OpenStreamVideoViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamVideoViewModel.m; sourceTree = "<group>"; };
 		890B9A501C8B2E460063986B /* OpenStreamVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStreamVideoViewController.h; sourceTree = "<group>"; };
 		890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamVideoViewController.m; sourceTree = "<group>"; };
+		89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOpenPanel+Tools.h"; sourceTree = "<group>"; };
+		89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOpenPanel+Tools.m"; sourceTree = "<group>"; };
 		8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHProgressHUD.h; sourceTree = "<group>"; };
 		8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHProgressHUD.m; sourceTree = "<group>"; };
 		8944E6981C8F181D005C5DC8 /* FloatDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatDanmaku.h; sourceTree = "<group>"; };
@@ -658,6 +661,8 @@
 				89B585201C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m */,
 				89A5B1C41C9998AB007869C9 /* NSAlert+Tools.h */,
 				89A5B1C51C9998AB007869C9 /* NSAlert+Tools.m */,
+				89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */,
+				89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -1173,6 +1178,7 @@
 				897368111C70708A00B9B765 /* NSString+KeyEvent.m in Sources */,
 				89FC23EE1C6F3EAF009FD27C /* ScreenShotCell.m in Sources */,
 				897EC7C81C72056A00E1B03D /* MatchModel.m in Sources */,
+				89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */,
 				897368141C70974400B9B765 /* UserDefaultManager.m in Sources */,
 				89761A091C5A5E750046A245 /* MatchViewController.m in Sources */,
 				897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */,

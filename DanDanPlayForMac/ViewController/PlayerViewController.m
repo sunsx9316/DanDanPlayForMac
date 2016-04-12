@@ -303,6 +303,9 @@
                 id vm = [self.vm videoModelWithIndex:index];
                 if ([vm isKindOfClass:[LocalVideoModel class]]) {
                     [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
+                }else {
+                    self.messageView.text.stringValue = @"∑(￣□￣)视频不存在";
+                    [self.messageView showHUD];
                 }
             }else{
                 [JHProgressHUD updateProgress:progress];
@@ -488,7 +491,7 @@
         if (dic.count > 0) {
             self.vm.danmakusDic = dic;
             [self.rander addAllDanmakusDic:dic];
-            [self.player setPosition:0];
+            [self.player setPosition:0 completionHandler:nil];
         }else{
             [[NSAlert alertWithMessageText:kNoFoundDanmaku informativeText:nil] runModal];
         }
@@ -499,6 +502,7 @@
 
 #pragma mark 快捷键调用的方法
 - (void)targetMethodWithID:(NSNumber *)ID{
+    __weak typeof(self)weakSelf = self;
     switch (ID.integerValue) {
         case 0:
             [self toggleFullScreen];
@@ -517,20 +521,33 @@
             [self volumeValueAddTo:0 addBy: 0];
             break;
         case 5:
-            [self.player jump: SHORT_JUMP_TIME];
-            self.rander.currentTime = self.player.currentTime;
+        {
+            [self.player jump: SHORT_JUMP_TIME completionHandler:^(NSTimeInterval time) {
+                weakSelf.rander.currentTime = time;
+            }];
+        }
             break;
         case 6:
-            [self.player jump: -SHORT_JUMP_TIME];
-            self.rander.currentTime = self.player.currentTime;
+        {
+            [self.player jump: -SHORT_JUMP_TIME completionHandler:^(NSTimeInterval time) {
+                weakSelf.rander.currentTime = time;
+            }];
+            
+        }
             break;
         case 7:
-            [self.player jump: MEDIUM_JUMP_TIME];
-            self.rander.currentTime = self.player.currentTime;
+        {
+            [self.player jump: MEDIUM_JUMP_TIME completionHandler:^(NSTimeInterval time) {
+                weakSelf.rander.currentTime = time;
+            }];
+        }
             break;
         case 8:
-            [self.player jump: -MEDIUM_JUMP_TIME];
-            self.rander.currentTime = self.player.currentTime;
+        {
+            [self.player jump: -MEDIUM_JUMP_TIME completionHandler:^(NSTimeInterval time) {
+                weakSelf.rander.currentTime = time;
+            }];
+        }
             break;
         case 9:
             [self snapShot];
@@ -612,8 +629,9 @@
     //上次观看时间视图
     [self.view addSubview:self.lastWatchVideoTimeView positioned:NSWindowAbove relativeTo:self.rander.canvas];
     [self.lastWatchVideoTimeView setContinusBlock:^(NSTimeInterval time) {
-        [weakSelf.player setPosition:time / weakSelf.player.length];
-        weakSelf.rander.currentTime = time;
+        [weakSelf.player setPosition:time / weakSelf.player.length completionHandler:^(NSTimeInterval time) {
+            weakSelf.rander.currentTime = time;
+        }];
     }];
     [self.lastWatchVideoTimeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(57);
@@ -677,6 +695,7 @@
         [self.playerControlView.slideView updateCurrentProgress:progress];
         [self.smallSlideView updateCurrentProgress:progress];
     });
+//    NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime{
@@ -709,12 +728,16 @@
 
 #pragma mark - PlayerSlideViewDelegate
 - (void)playerSliderTouchEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView{
-    [self.player setPosition: endValue];
-    self.rander.currentTime = self.player.length * endValue;
+    __weak typeof(self)weakSelf = self;
+    [self.player setPosition: endValue completionHandler:^(NSTimeInterval time) {
+        weakSelf.rander.currentTime = time;
+    }];
 }
 - (void)playerSliderDraggedEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView{
-    [self.player setPosition: endValue];
-    self.rander.currentTime = self.player.length * endValue;
+    __weak typeof(self)weakSelf = self;
+    [self.player setPosition: endValue completionHandler:^(NSTimeInterval time) {
+        weakSelf.rander.currentTime = time;
+    }];
 }
 
 - (void)playerSliderMoveEnd:(CGPoint)endPoint endValue:(CGFloat)endValue playerSliderView:(PlayerSlideView *)PlayerSliderView{
@@ -736,10 +759,11 @@
 
 - (IBAction)doubleClickPlayerList:(PlayerListTableView *)sender {
     NSInteger selectedIndex = [sender selectedRow];
-    if (selectedIndex >= 0) {
-        [self changeCurrentIndex:selectedIndex];
-        [self reloadDanmakuWithIndex:self.vm.currentIndex];        
-    }
+    NSLog(@"%ld", selectedIndex);
+//    if (selectedIndex >= 0) {
+//        [self changeCurrentIndex:selectedIndex];
+//        [self reloadDanmakuWithIndex:self.vm.currentIndex];        
+//    }
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{

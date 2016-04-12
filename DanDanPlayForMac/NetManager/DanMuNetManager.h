@@ -17,7 +17,7 @@
  *
  *  @return 任务
  */
-+ (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 /**
  *  下载官方弹幕
  *
@@ -44,7 +44,7 @@
  *
  *  @return 任务
  */
-+ (id)getBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (id)GETBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 /**
  *  获取a站视频详情
  *
@@ -53,7 +53,7 @@
  *
  *  @return 任务
  */
-+ (id)getAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (id)GETAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 /**
  *  发射弹幕方法
  *

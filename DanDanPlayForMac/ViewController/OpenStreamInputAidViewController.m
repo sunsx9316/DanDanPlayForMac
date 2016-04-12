@@ -24,15 +24,16 @@
     [self.inputTextField setRespondBlock:^{
         [weakSelf clickOKButton:nil];
     }];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
 }
+
 - (IBAction)clickOKButton:(NSButton *)sender {
     NSString *inputText = self.inputTextField.stringValue;
     if (!inputText || [inputText isEqualToString:@""]) return;
     [self presentViewControllerAsSheet:[[OpenStreamVideoViewController alloc] initWithAid:inputText danmakuSource:[self.danmakuSourcePopUpButton titleOfSelectedItem]]];
 }
 
-- (void)disMissSelf{
+- (IBAction)disMissSelf:(NSButton *)sender{
     [self dismissController:self];
 }
 

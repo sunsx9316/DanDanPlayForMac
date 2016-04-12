@@ -152,18 +152,26 @@
                 }
             }];
         }else{
-            if (vm.danmakuDic.count) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
-                complete(1, vm.fileName, nil);
-            }else{
-                [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
-                    self.currentIndex = index;
-                    vm.danmakuDic = responseObj;
-                    self.videos[index] = vm;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
-                    complete(1, vm.fileName, error);
-                }];
-            }
+            [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
+                self.currentIndex = index;
+                vm.danmakuDic = responseObj;
+                self.videos[index] = vm;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
+                complete(1, vm.fileName, error);
+            }];
+            
+//            if (vm.danmakuDic.count) {
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
+//                complete(1, vm.fileName, nil);
+//            }else{
+//                [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
+//                    self.currentIndex = index;
+//                    vm.danmakuDic = responseObj;
+//                    self.videos[index] = vm;
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
+//                    complete(1, vm.fileName, error);
+//                }];
+//            }
         }
     }
 }

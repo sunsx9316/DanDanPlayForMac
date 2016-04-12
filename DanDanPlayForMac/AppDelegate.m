@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "OpenStreamInputAidViewController.h"
 #import "AboutViewController.h"
+#import "NSOpenPanel+Tools.h"
 
 @interface AppDelegate ()
 
@@ -41,10 +42,8 @@
     
     if (window != self.mainWindowController.window || [self.mainWindowController.window.contentViewController childViewControllers].count) return;
     
-    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-    [openPanel setCanChooseDirectories: YES];
-    [openPanel setCanChooseFiles:YES];
-    [openPanel setAllowsMultipleSelection: YES];
+    ;
+    NSOpenPanel* openPanel = [NSOpenPanel chooseFileAndDirectoriesPanelWithTitle:@"选择文件/文件夹" defaultURL:nil allowsMultipleSelection:YES];
     
     [openPanel beginSheetModalForWindow:window completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {

@@ -26,8 +26,8 @@
 @implementation UpdateViewController
 - (instancetype)initWithVersion:(NSString *)version details:(NSString *)details hash:(NSString *)hash{
     if ((self = kViewControllerWithId(@"UpdateViewController"))) {
-        self.version = version?version:@"";
-        self.details = details?details:@"";
+        self.version = version.length?version:@"";
+        self.details = details.length?details:@"";
         self.fileHash = hash;
     }
     return self;
@@ -47,7 +47,7 @@
     [UpdateNetManager downLatestVersionWithVersion:self.version progress:&_progress completionHandler:^(NSString *responseObj, NSError *error) {
         [self.progressHUD disMiss];
         if (!responseObj) {
-            [[NSAlert alertWithMessageText:@"并没有找到下载的文件" informativeText:@"→_→可能是下载路径有误 可以尝试手动更新"] runModal];
+            [[NSAlert alertWithMessageText:@"并没有找到下载的文件" informativeText:@"→_→可能是下载路径有误 可以尝试手♂动更新"] runModal];
             return;
         }
         
@@ -68,8 +68,10 @@
     }];
     [_progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
 }
+
 - (IBAction)clickCancelButton:(NSButton *)sender {
     [self dismissViewController:self];
+    
 }
 
 - (IBAction)clickUpdateByUserButton:(NSButton *)sender {

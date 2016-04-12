@@ -10,7 +10,7 @@
 #import "MatchModel.h"
 
 @implementation MatchNetManager
-+ (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(MatchModel* responseObj, NSError *error))complete{
++ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(MatchModel* responseObj, NSError *error))complete{
     if (!parameters) return nil;
     return [self GETWithPath:@"http://acplay.net/api/v1/match" parameters:parameters completionHandler:^(id responseObj, NSError *error) {
         complete([MatchModel yy_modelWithDictionary: responseObj], error);
