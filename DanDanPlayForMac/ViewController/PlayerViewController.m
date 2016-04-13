@@ -390,10 +390,12 @@
 
 #pragma make 窗口大小变化
 - (void)windowDidResize:(NSNotification *)notification{
-    [self danMuControlViewResize];
-    [self playListViewResize];
-    [self danmakuCanvasResize];
-    [self.rander resetOriginalPosition:self.rander.canvas.bounds];
+    if (notification.object == NSApp.mainWindow) {
+        [self danMuControlViewResize];
+        [self playListViewResize];
+        [self danmakuCanvasResize];
+        [self.rander resetOriginalPosition:self.rander.canvas.bounds];
+    }
 }
 
 #pragma make 进入全屏通知
@@ -697,7 +699,7 @@
         [self.playerControlView.slideView updateCurrentProgress:progress];
         [self.smallSlideView updateCurrentProgress:progress];
     });
-   // NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
+  //  NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime{
