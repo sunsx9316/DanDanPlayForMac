@@ -50,12 +50,9 @@
             self.providerArr = [responseObj allKeys];
             self.shiBanArr = responseObj[self.providerArr.firstObject];
             self.episodeTitleArr = self.shiBanArr.firstObject.videos;
-            error = [NSError errorWithDomain:@"noDanMu" code:200 userInfo:nil];
-            complete(error);
+            complete(kNoMatchError);
         }else{
-            if (![responseObj count]) {
-                error = [NSError errorWithDomain:@"noDanMu" code:200 userInfo:nil];
-            }
+            if (![responseObj count]) error = kNoMatchError;
             complete(error);
             //发通知
             [self postNotificationWithDanMuObj:responseObj];

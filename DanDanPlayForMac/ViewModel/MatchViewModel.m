@@ -61,8 +61,8 @@
         //没有找到
         if (responseObj.matches.count == 0){
             MatchDataModel *model = [MatchDataModel new];
-            model.animeTitle = kNoFoundDanmaku;
-            model.episodeTitle = @"可以尝试手♂动搜索";
+            model.animeTitle = kNoFoundDanmakuString;
+            model.episodeTitle = kSearchByUserString;
             responseObj.matches = @[model];
         }
         

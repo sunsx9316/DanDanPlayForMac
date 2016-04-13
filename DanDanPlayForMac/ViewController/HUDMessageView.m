@@ -1,69 +1,74 @@
 //
-//  HUDMessageView.m
+//  PlayerHUDMessageView.m
 //  DanDanPlayForMac
 //
-//  Created by JimHuang on 16/4/1.
+//  Created by JimHuang on 16/2/11.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
 #import "HUDMessageView.h"
+
 @interface HUDMessageView()
-@property (strong, nonatomic) NSImageView *imgView;
-@property (strong, nonatomic) NSTextField *textField;
+@property (strong, nonatomic) NSImageView *bgImg;
+@property (strong, nonatomic) NSTimer *timer;
 @end
+
 @implementation HUDMessageView
-- (instancetype)initWithFrame:(NSRect)frameRect{
-    if (self = [super initWithFrame:frameRect]) {
-        [self addSubview:self.imgView];
-        [self addSubview:self.textField];
-        _imgView.frame = self.bounds;
-        _textField.frame = CGRectMake((self.bounds.size.width - _textField.frame.size.width) / 2, (self.bounds.size.height + 6 - _textField.frame.size.height) / 2, _textField.bounds.size.width, _textField.bounds.size.height);
+- (instancetype)init{
+    if (self = [super init]) {
+        self.hidden = YES;
+        self.frame = CGRectMake(0, 0, 200, 40);
     }
     return self;
 }
 
-- (void)updateMessage:(NSString *)message{
-    _textField.stringValue = message;
+- (void)showHUD{
+    [self.timer invalidate];
+    self.center = self.superview.center;
+    self.animator.hidden = NO;
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(hideHUD) userInfo:nil repeats:NO];
+}
+- (void)hideHUD{
+    self.animator.hidden = YES;
 }
 
-- (void)show{
-    self.animator.alphaValue = 1;
+- (void)dealloc{
+    [self.timer invalidate];
 }
 
-- (void)hide{
-    self.animator.alphaValue = 0;
-}
-
-- (void)setFrame:(NSRect)frame {
-    [super setFrame:frame];
-    if (_reverse) {
-        _imgView.image = [NSImage imageNamed:@"hud_message_frame_right"];
-    }else {
-        _imgView.image = [NSImage imageNamed:@"hud_message_frame_left"];
-    }
+- (void)resizeWithOldSuperviewSize:(NSSize)oldSize {
+    [super resizeWithOldSuperviewSize:oldSize];
+    self.center = self.superview.center;
 }
 
 #pragma mark - 懒加载
-- (NSImageView *)imgView {
-	if(_imgView == nil) {
-		_imgView = [[NSImageView alloc] init];
-        _imgView.image = [NSImage imageNamed:@"hud_message_frame_left"];
-        [_imgView.image setCapInsets:NSEdgeInsetsMake(10, 10, 10, 10)];
-	}
-	return _imgView;
+- (NSTextField *)text {
+    if(_text == nil) {
+        _text = [[NSTextField alloc] init];
+        _text.bordered = NO;
+        _text.drawsBackground = NO;
+        _text.editable = NO;
+        _text.textColor = [NSColor whiteColor];
+        _text.font = [NSFont systemFontOfSize: 17];
+        [self addSubview: _text positioned:NSWindowAbove relativeTo:self.bgImg];
+        [_text mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.mas_equalTo(0);
+        }];
+    }
+    return _text;
 }
 
-- (NSTextField *)textField {
-	if(_textField == nil) {
-		_textField = [[NSTextField alloc] init];
-        _textField.stringValue = @"00:00";
-        [_textField setTextColor:[NSColor whiteColor]];
-        _textField.editable = NO;
-        _textField.bordered = NO;
-        _textField.drawsBackground = NO;
-        [_textField sizeToFit];
+- (NSImageView *)bgImg {
+	if(_bgImg == nil) {
+		_bgImg = [[NSImageView alloc] init];
+        _bgImg.image = [NSImage imageNamed:@"HUD_message"];
+        _bgImg.imageScaling = NSImageScaleProportionallyUpOrDown;
+        [self addSubview: _bgImg];
+        [_bgImg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
+        }];
 	}
-	return _textField;
+	return _bgImg;
 }
 
 @end

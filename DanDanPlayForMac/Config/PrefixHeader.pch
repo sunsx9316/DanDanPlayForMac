@@ -14,8 +14,11 @@
 #import <Masonry.h>
 #import "JHProgressHUD.h"
 #import "UserDefaultManager.h"
+#import "NSView+Tools.h"
 
 //配置头文件
 #import "Config.h"
+//工具头文件
+#import "Tools.h"
 
 #endif /* PrefixHeader_pch */

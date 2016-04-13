@@ -11,22 +11,27 @@
 #import "OpenStreamVideoViewModel.h"
 #import "StreamingVideoModel.h"
 #import "OpenStreamVideoCheakCell.h"
+#import "HUDMessageView.h"
 
 @interface OpenStreamVideoViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet NSButton *selectedAllButton;
 @property (strong, nonatomic) OpenStreamVideoViewModel *vm;
 @property (strong, nonatomic) NSMutableSet *selectedSet;
+@property (strong, nonatomic) HUDMessageView *messageView;
 @end
 
 @implementation OpenStreamVideoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:kLoadMessage parentView:self.view];
+    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
     [self.vm refreshWithcompletionHandler:^(NSError *error) {
         [self.tableView reloadData];
         [JHProgressHUD disMiss];
+        if (error) {
+            [self.messageView showHUD];
+        }
     }];
 }
 
@@ -111,11 +116,14 @@
 - (void)streamingVideoModelWithRow:(NSInteger)row{
     if (![self.vm danmakuForRow:row].length) return;
     
-    [JHProgressHUD showWithMessage:kLoadMessage parentView:self.view];
+    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
     [self.vm getVideoURLAndDanmakuForRow:row completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
         [JHProgressHUD disMiss];
         
-        if (error) return;
+        if (error) {
+            [self.messageView showHUD];
+            return;
+        }
         
         NSMutableArray *arr = [NSMutableArray arrayWithObject:videoModel];
         NSInteger videoCount = [self.vm numOfVideos];
@@ -137,6 +145,15 @@
 		_selectedSet = [[NSMutableSet alloc] init];
 	}
 	return _selectedSet;
+}
+
+- (HUDMessageView *)messageView {
+	if(_messageView == nil) {
+		_messageView = [[HUDMessageView alloc] init];
+        _messageView.text.stringValue = kNoFoundDanmakuString;
+        [self.view addSubview:_messageView];
+	}
+	return _messageView;
 }
 
 @end

@@ -91,7 +91,7 @@
         NSMutableArray *tempArr = [responseObj.result mutableCopy];
         if (!tempArr.count) {
             BiliBiliSearchDataModel *dataModel = [[BiliBiliSearchDataModel alloc] init];
-            dataModel.title = kNoFoundDanmaku;
+            dataModel.title = kNoFoundDanmakuString;
             tempArr = [@[dataModel] mutableCopy];
         }else{
             [responseObj.result enumerateObjectsUsingBlock:^(BiliBiliSearchDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

@@ -11,7 +11,7 @@
 #import "SearchViewController.h"
 
 #import "PlayerListTableView.h"
-#import "PlayerHUDMessageView.h"
+#import "HUDMessageView.h"
 #import "PlayerHoldView.h"
 #import "PlayerControlView.h"
 #import "DanmakuColorMenuItem.h"
@@ -19,7 +19,7 @@
 #import "RespondKeyboardTextField.h"
 #import "AddTrackingAreaButton.h"
 #import "VolumeControlView.h"
-#import "HUDMessageView.h"
+#import "TimeHUDMessageView.h"
 
 #import "MatchModel.h"
 #import "LocalVideoModel.h"
@@ -66,9 +66,9 @@
 //最底部的进度条
 @property (weak) IBOutlet PlayerSlideView *smallSlideView;
 @property (strong, nonatomic) AddTrackingAreaButton *showDanMuControllerViewButton;
-@property (strong, nonatomic) PlayerHUDMessageView *messageView;
+@property (strong, nonatomic) HUDMessageView *messageView;
 @property (strong, nonatomic) VolumeControlView *volumeControlView;
-@property (strong, nonatomic) HUDMessageView *HUDTimeView;
+@property (strong, nonatomic) TimeHUDMessageView *HUDTimeView;
 @property (weak) IBOutlet NSLayoutConstraint *playerControlViewLeftConstraint;
 @property (weak) IBOutlet NSLayoutConstraint *playerControlViewRightConstraint;
 
@@ -264,11 +264,11 @@
             [str addAttributes:@{NSUnderlineColorAttributeName:[NSColor greenColor], NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)} range:NSMakeRange(0, str.length)];
             danmaku.attributedString = str;
             self.danmakuTextField.stringValue = @"";
-            self.messageView.text.stringValue = @"发射成功";
+            self.messageView.text.stringValue = kLaunchDanmakuSuccessString;
             [self.messageView showHUD];
             [self.rander addDanmaku: danmaku];
         }else{
-            self.messageView.text.stringValue = @"发射失败";
+            self.messageView.text.stringValue = kLaunchDanmakuFailString;
             [self.messageView showHUD];
         }
     }];
@@ -295,7 +295,7 @@
 
 #pragma mark 重新加载弹幕 更新进度
 - (void)reloadDanmakuWithIndex:(NSInteger)index{
-    [JHProgressHUD showWithMessage:@"解析中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    [JHProgressHUD showWithMessage:kAnalyzeString style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
     
     [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -305,15 +305,15 @@
                 if ([vm isKindOfClass:[LocalVideoModel class]]) {
                     [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
                 }else {
-                    self.messageView.text.stringValue = @"∑(￣□￣)视频不存在";
+                    self.messageView.text.stringValue = kVideoNoFoundString;
                     [self.messageView showHUD];
                 }
             }else{
                 [JHProgressHUD updateProgress:progress];
                 if (progress == 0.5) {
-                    [JHProgressHUD updateMessage:@"分析视频..."];
+                    [JHProgressHUD updateMessage:kAnalyzeVideoString];
                 }else if (progress == 1){
-                    [JHProgressHUD updateMessage:@"下载弹幕..."];
+                    [JHProgressHUD updateMessage:kDownLoadingDanmakuString];
                     [PlayerMethodManager postMatchMessageWithMatchName:videoMatchName delegate:self];
                     [JHProgressHUD disMiss];
                 }
@@ -393,6 +393,7 @@
     [self danMuControlViewResize];
     [self playListViewResize];
     [self danmakuCanvasResize];
+    [self.rander resetOriginalPosition:self.rander.canvas.bounds];
 }
 
 #pragma make 进入全屏通知
@@ -494,7 +495,7 @@
             [self.rander addAllDanmakusDic:dic];
             [self.player setPosition:0 completionHandler:nil];
         }else{
-            [[NSAlert alertWithMessageText:kNoFoundDanmaku informativeText:nil] runModal];
+            [[NSAlert alertWithMessageText:kNoFoundDanmakuString informativeText:nil] runModal];
         }
     }];
 }
@@ -677,7 +678,7 @@
     [PlayerMethodManager showPlayLastWatchVideoTimeView:self.lastWatchVideoTimeView time:[self.vm currentVideoLastVideoTime]];
     
     if (![self.vm currentVideoURL]) {
-        self.messageView.text.stringValue = @"∑(￣□￣)视频不存在";
+        self.messageView.text.stringValue = kVideoNoFoundString;
         [self.messageView showHUD];
     }
 }
@@ -696,7 +697,7 @@
         [self.playerControlView.slideView updateCurrentProgress:progress];
         [self.smallSlideView updateCurrentProgress:progress];
     });
-    NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
+   // NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime{
@@ -734,6 +735,7 @@
         weakSelf.rander.currentTime = time;
     }];
 }
+
 - (void)playerSliderDraggedEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView{
     __weak typeof(self)weakSelf = self;
     [self.player setPosition: endValue completionHandler:^(NSTimeInterval time) {
@@ -972,15 +974,10 @@
     return _showDanMuControllerViewButton;
 }
 
-- (PlayerHUDMessageView *)messageView {
+- (HUDMessageView *)messageView {
     if(_messageView == nil) {
-        _messageView = [[PlayerHUDMessageView alloc] init];
+        _messageView = [[HUDMessageView alloc] init];
         [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo: self.rander.canvas];
-        [_messageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(200);
-            make.height.mas_equalTo(40);
-            make.center.mas_equalTo(0);
-        }];
     }
     return _messageView;
 }
@@ -999,7 +996,6 @@
         [_rander addAllDanmakusDic:self.vm.danmakusDic];
         [_rander setSpeed: [UserDefaultManager danMuSpeed]];
         _rander.canvas.alphaValue = [UserDefaultManager danMuOpacity];
-        
         [self.view addSubview:_rander.canvas positioned:NSWindowAbove relativeTo:self.playerHoldView];
     }
     return _rander;
@@ -1022,9 +1018,9 @@
     return _trackingArea;
 }
 
-- (HUDMessageView *)HUDTimeView {
+- (TimeHUDMessageView *)HUDTimeView {
 	if(_HUDTimeView == nil) {
-		_HUDTimeView = [[HUDMessageView alloc] initWithFrame:CGRectMake(0, self.playerControlView.slideView.frame.origin.y + 10, 60, 34)];
+		_HUDTimeView = [[TimeHUDMessageView alloc] initWithFrame:CGRectMake(0, self.playerControlView.slideView.frame.origin.y + 10, 60, 34)];
         _HUDTimeView.alphaValue = 0;
 	}
 	return _HUDTimeView;

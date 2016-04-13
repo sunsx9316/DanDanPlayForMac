@@ -11,16 +11,17 @@
 		890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A481C8B1E770063986B /* VideoNetManager.m */; };
 		890B9A4F1C8B259C0063986B /* OpenStreamVideoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A4E1C8B259C0063986B /* OpenStreamVideoViewModel.m */; };
 		890B9A521C8B2E460063986B /* OpenStreamVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */; };
+		890FDDDE1CBDF5F600BFFACC /* NSView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */; };
+		890FDE201CBE1C7200BFFACC /* FloatDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE101CBE1C7200BFFACC /* FloatDanmaku.m */; };
+		890FDE211CBE1C7200BFFACC /* ParentDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE121CBE1C7200BFFACC /* ParentDanmaku.m */; };
+		890FDE221CBE1C7200BFFACC /* ScrollDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE141CBE1C7200BFFACC /* ScrollDanmaku.m */; };
+		890FDE231CBE1C7200BFFACC /* DanmakuContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE161CBE1C7200BFFACC /* DanmakuContainer.m */; };
+		890FDE241CBE1C7200BFFACC /* JHDanmakuCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE181CBE1C7200BFFACC /* JHDanmakuCanvas.m */; };
+		890FDE251CBE1C7200BFFACC /* JHDanmakuClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE1A1CBE1C7200BFFACC /* JHDanmakuClock.m */; };
+		890FDE261CBE1C7200BFFACC /* JHDanmakuEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE1C1CBE1C7200BFFACC /* JHDanmakuEngine.m */; };
+		890FDE271CBE1C7200BFFACC /* JHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE1F1CBE1C7200BFFACC /* JHDisplayLink.m */; };
 		89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */; };
 		8944E67A1C8F09FA005C5DC8 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */; };
-		8944E6A91C8F181D005C5DC8 /* FloatDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6991C8F181D005C5DC8 /* FloatDanmaku.m */; };
-		8944E6AA1C8F181D005C5DC8 /* ParentDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E69B1C8F181D005C5DC8 /* ParentDanmaku.m */; };
-		8944E6AB1C8F181D005C5DC8 /* ScrollDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E69D1C8F181D005C5DC8 /* ScrollDanmaku.m */; };
-		8944E6AC1C8F181D005C5DC8 /* DanmakuContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E69F1C8F181D005C5DC8 /* DanmakuContainer.m */; };
-		8944E6AD1C8F181D005C5DC8 /* JHDanmakuCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6A11C8F181D005C5DC8 /* JHDanmakuCanvas.m */; };
-		8944E6AE1C8F181D005C5DC8 /* JHDanmakuClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6A31C8F181D005C5DC8 /* JHDanmakuClock.m */; };
-		8944E6AF1C8F181D005C5DC8 /* JHDanmakuEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6A51C8F181D005C5DC8 /* JHDanmakuEngine.m */; };
-		8944E6B01C8F181D005C5DC8 /* JHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6A81C8F181D005C5DC8 /* JHDisplayLink.m */; };
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; };
 		8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9851CA95D04000C863B /* VolumeControlView.m */; };
 		8950C9891CA97B1E000C863B /* QualityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9881CA97B1E000C863B /* QualityCell.m */; };
@@ -28,7 +29,7 @@
 		89524B441CB96BB400BDFDBA /* QualityMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89524B431CB96BB400BDFDBA /* QualityMenuItem.m */; };
 		895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */; };
 		895B605F1CA646AE00F4665B /* VideoNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895B605E1CA646AE00F4665B /* VideoNameCell.m */; };
-		896156811C6C50570016792B /* PlayerHUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896156801C6C50570016792B /* PlayerHUDMessageView.m */; };
+		896156811C6C50570016792B /* HUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896156801C6C50570016792B /* HUDMessageView.m */; };
 		896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963478F1C6860A000EF63E5 /* NSButton+Tools.m */; };
 		89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FD01C58C40B002F32FD /* AppDelegate.m */; };
 		89636FD41C58C40B002F32FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FD31C58C40B002F32FD /* main.m */; };
@@ -50,7 +51,7 @@
 		896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */; };
 		896A71771C66421500280B79 /* AcFunDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */; };
 		896AEA931C7CB8680011E046 /* PlayerMethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896AEA921C7CB8680011E046 /* PlayerMethodManager.m */; };
-		896BE9111CAEC478005BE0D1 /* HUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BE9101CAEC478005BE0D1 /* HUDMessageView.m */; };
+		896BE9111CAEC478005BE0D1 /* TimeHUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BE9101CAEC478005BE0D1 /* TimeHUDMessageView.m */; };
 		896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896CF1F01C8C66010080019F /* StreamingVideoModel.m */; };
 		897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B31C7571EC00F64D39 /* PlayerHoldView.m */; };
 		897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B61C759CB200F64D39 /* NSArray+Tools.m */; };
@@ -161,27 +162,30 @@
 		890B9A4E1C8B259C0063986B /* OpenStreamVideoViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamVideoViewModel.m; sourceTree = "<group>"; };
 		890B9A501C8B2E460063986B /* OpenStreamVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStreamVideoViewController.h; sourceTree = "<group>"; };
 		890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamVideoViewController.m; sourceTree = "<group>"; };
+		890FDDD61CBDEBAB00BFFACC /* Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
+		890FDDDC1CBDF5F600BFFACC /* NSView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+Tools.h"; sourceTree = "<group>"; };
+		890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+Tools.m"; sourceTree = "<group>"; };
+		890FDE0F1CBE1C7200BFFACC /* FloatDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatDanmaku.h; sourceTree = "<group>"; };
+		890FDE101CBE1C7200BFFACC /* FloatDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatDanmaku.m; sourceTree = "<group>"; };
+		890FDE111CBE1C7200BFFACC /* ParentDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDanmaku.h; sourceTree = "<group>"; };
+		890FDE121CBE1C7200BFFACC /* ParentDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentDanmaku.m; sourceTree = "<group>"; };
+		890FDE131CBE1C7200BFFACC /* ScrollDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollDanmaku.h; sourceTree = "<group>"; };
+		890FDE141CBE1C7200BFFACC /* ScrollDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollDanmaku.m; sourceTree = "<group>"; };
+		890FDE151CBE1C7200BFFACC /* DanmakuContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuContainer.h; sourceTree = "<group>"; };
+		890FDE161CBE1C7200BFFACC /* DanmakuContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuContainer.m; sourceTree = "<group>"; };
+		890FDE171CBE1C7200BFFACC /* JHDanmakuCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuCanvas.h; sourceTree = "<group>"; };
+		890FDE181CBE1C7200BFFACC /* JHDanmakuCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuCanvas.m; sourceTree = "<group>"; };
+		890FDE191CBE1C7200BFFACC /* JHDanmakuClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuClock.h; sourceTree = "<group>"; };
+		890FDE1A1CBE1C7200BFFACC /* JHDanmakuClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuClock.m; sourceTree = "<group>"; };
+		890FDE1B1CBE1C7200BFFACC /* JHDanmakuEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuEngine.h; sourceTree = "<group>"; };
+		890FDE1C1CBE1C7200BFFACC /* JHDanmakuEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuEngine.m; sourceTree = "<group>"; };
+		890FDE1D1CBE1C7200BFFACC /* JHDanmakuRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuRender.h; sourceTree = "<group>"; };
+		890FDE1E1CBE1C7200BFFACC /* JHDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDisplayLink.h; sourceTree = "<group>"; };
+		890FDE1F1CBE1C7200BFFACC /* JHDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDisplayLink.m; sourceTree = "<group>"; };
 		89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOpenPanel+Tools.h"; sourceTree = "<group>"; };
 		89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOpenPanel+Tools.m"; sourceTree = "<group>"; };
 		8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHProgressHUD.h; sourceTree = "<group>"; };
 		8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHProgressHUD.m; sourceTree = "<group>"; };
-		8944E6981C8F181D005C5DC8 /* FloatDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatDanmaku.h; sourceTree = "<group>"; };
-		8944E6991C8F181D005C5DC8 /* FloatDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatDanmaku.m; sourceTree = "<group>"; };
-		8944E69A1C8F181D005C5DC8 /* ParentDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDanmaku.h; sourceTree = "<group>"; };
-		8944E69B1C8F181D005C5DC8 /* ParentDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentDanmaku.m; sourceTree = "<group>"; };
-		8944E69C1C8F181D005C5DC8 /* ScrollDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollDanmaku.h; sourceTree = "<group>"; };
-		8944E69D1C8F181D005C5DC8 /* ScrollDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollDanmaku.m; sourceTree = "<group>"; };
-		8944E69E1C8F181D005C5DC8 /* DanmakuContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuContainer.h; sourceTree = "<group>"; };
-		8944E69F1C8F181D005C5DC8 /* DanmakuContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuContainer.m; sourceTree = "<group>"; };
-		8944E6A01C8F181D005C5DC8 /* JHDanmakuCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuCanvas.h; sourceTree = "<group>"; };
-		8944E6A11C8F181D005C5DC8 /* JHDanmakuCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuCanvas.m; sourceTree = "<group>"; };
-		8944E6A21C8F181D005C5DC8 /* JHDanmakuClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuClock.h; sourceTree = "<group>"; };
-		8944E6A31C8F181D005C5DC8 /* JHDanmakuClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuClock.m; sourceTree = "<group>"; };
-		8944E6A41C8F181D005C5DC8 /* JHDanmakuEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuEngine.h; sourceTree = "<group>"; };
-		8944E6A51C8F181D005C5DC8 /* JHDanmakuEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuEngine.m; sourceTree = "<group>"; };
-		8944E6A61C8F181D005C5DC8 /* JHDanmakuRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuRender.h; sourceTree = "<group>"; };
-		8944E6A71C8F181D005C5DC8 /* JHDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDisplayLink.h; sourceTree = "<group>"; };
-		8944E6A81C8F181D005C5DC8 /* JHDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDisplayLink.m; sourceTree = "<group>"; };
 		8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliSearchViewModel.h; sourceTree = "<group>"; };
 		8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliBiliSearchViewModel.m; sourceTree = "<group>"; };
 		8950C9841CA95D04000C863B /* VolumeControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeControlView.h; sourceTree = "<group>"; };
@@ -196,8 +200,8 @@
 		895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlyButtonCell.m; sourceTree = "<group>"; };
 		895B605D1CA646AE00F4665B /* VideoNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoNameCell.h; sourceTree = "<group>"; };
 		895B605E1CA646AE00F4665B /* VideoNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoNameCell.m; sourceTree = "<group>"; };
-		8961567F1C6C50570016792B /* PlayerHUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHUDMessageView.h; sourceTree = "<group>"; };
-		896156801C6C50570016792B /* PlayerHUDMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerHUDMessageView.m; sourceTree = "<group>"; };
+		8961567F1C6C50570016792B /* HUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDMessageView.h; sourceTree = "<group>"; };
+		896156801C6C50570016792B /* HUDMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDMessageView.m; sourceTree = "<group>"; };
 		8963478E1C6860A000EF63E5 /* NSButton+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSButton+Tools.h"; sourceTree = "<group>"; };
 		8963478F1C6860A000EF63E5 /* NSButton+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSButton+Tools.m"; sourceTree = "<group>"; };
 		89636FCC1C58C40B002F32FD /* DanDanPlayForMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanDanPlayForMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,8 +241,8 @@
 		896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcFunDanMuChooseViewModel.m; sourceTree = "<group>"; };
 		896AEA911C7CB8680011E046 /* PlayerMethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerMethodManager.h; sourceTree = "<group>"; };
 		896AEA921C7CB8680011E046 /* PlayerMethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerMethodManager.m; sourceTree = "<group>"; };
-		896BE90F1CAEC478005BE0D1 /* HUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDMessageView.h; sourceTree = "<group>"; };
-		896BE9101CAEC478005BE0D1 /* HUDMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDMessageView.m; sourceTree = "<group>"; };
+		896BE90F1CAEC478005BE0D1 /* TimeHUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeHUDMessageView.h; sourceTree = "<group>"; };
+		896BE9101CAEC478005BE0D1 /* TimeHUDMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeHUDMessageView.m; sourceTree = "<group>"; };
 		896CF1EF1C8C66010080019F /* StreamingVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamingVideoModel.h; sourceTree = "<group>"; };
 		896CF1F01C8C66010080019F /* StreamingVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamingVideoModel.m; sourceTree = "<group>"; };
 		897345B21C7571EC00F64D39 /* PlayerHoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHoldView.h; sourceTree = "<group>"; };
@@ -439,34 +443,34 @@
 			name = "在线播放";
 			sourceTree = "<group>";
 		};
-		8944E6961C8F181D005C5DC8 /* JHDanmakuRender */ = {
+		890FDE0D1CBE1C7200BFFACC /* JHDanmakuRender */ = {
 			isa = PBXGroup;
 			children = (
-				8944E6971C8F181D005C5DC8 /* Danmaku */,
-				8944E69E1C8F181D005C5DC8 /* DanmakuContainer.h */,
-				8944E69F1C8F181D005C5DC8 /* DanmakuContainer.m */,
-				8944E6A01C8F181D005C5DC8 /* JHDanmakuCanvas.h */,
-				8944E6A11C8F181D005C5DC8 /* JHDanmakuCanvas.m */,
-				8944E6A21C8F181D005C5DC8 /* JHDanmakuClock.h */,
-				8944E6A31C8F181D005C5DC8 /* JHDanmakuClock.m */,
-				8944E6A41C8F181D005C5DC8 /* JHDanmakuEngine.h */,
-				8944E6A51C8F181D005C5DC8 /* JHDanmakuEngine.m */,
-				8944E6A61C8F181D005C5DC8 /* JHDanmakuRender.h */,
-				8944E6A71C8F181D005C5DC8 /* JHDisplayLink.h */,
-				8944E6A81C8F181D005C5DC8 /* JHDisplayLink.m */,
+				890FDE0E1CBE1C7200BFFACC /* Danmaku */,
+				890FDE151CBE1C7200BFFACC /* DanmakuContainer.h */,
+				890FDE161CBE1C7200BFFACC /* DanmakuContainer.m */,
+				890FDE171CBE1C7200BFFACC /* JHDanmakuCanvas.h */,
+				890FDE181CBE1C7200BFFACC /* JHDanmakuCanvas.m */,
+				890FDE191CBE1C7200BFFACC /* JHDanmakuClock.h */,
+				890FDE1A1CBE1C7200BFFACC /* JHDanmakuClock.m */,
+				890FDE1B1CBE1C7200BFFACC /* JHDanmakuEngine.h */,
+				890FDE1C1CBE1C7200BFFACC /* JHDanmakuEngine.m */,
+				890FDE1D1CBE1C7200BFFACC /* JHDanmakuRender.h */,
+				890FDE1E1CBE1C7200BFFACC /* JHDisplayLink.h */,
+				890FDE1F1CBE1C7200BFFACC /* JHDisplayLink.m */,
 			);
 			path = JHDanmakuRender;
 			sourceTree = "<group>";
 		};
-		8944E6971C8F181D005C5DC8 /* Danmaku */ = {
+		890FDE0E1CBE1C7200BFFACC /* Danmaku */ = {
 			isa = PBXGroup;
 			children = (
-				8944E6981C8F181D005C5DC8 /* FloatDanmaku.h */,
-				8944E6991C8F181D005C5DC8 /* FloatDanmaku.m */,
-				8944E69A1C8F181D005C5DC8 /* ParentDanmaku.h */,
-				8944E69B1C8F181D005C5DC8 /* ParentDanmaku.m */,
-				8944E69C1C8F181D005C5DC8 /* ScrollDanmaku.h */,
-				8944E69D1C8F181D005C5DC8 /* ScrollDanmaku.m */,
+				890FDE0F1CBE1C7200BFFACC /* FloatDanmaku.h */,
+				890FDE101CBE1C7200BFFACC /* FloatDanmaku.m */,
+				890FDE111CBE1C7200BFFACC /* ParentDanmaku.h */,
+				890FDE121CBE1C7200BFFACC /* ParentDanmaku.m */,
+				890FDE131CBE1C7200BFFACC /* ScrollDanmaku.h */,
+				890FDE141CBE1C7200BFFACC /* ScrollDanmaku.m */,
 			);
 			path = Danmaku;
 			sourceTree = "<group>";
@@ -532,6 +536,7 @@
 				89636FEF1C58FAD1002F32FD /* Info.plist */,
 				8963705B1C590424002F32FD /* PrefixHeader.pch */,
 				89761A151C5A6F190046A245 /* Config.h */,
+				890FDDD61CBDEBAB00BFFACC /* Tools.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -573,9 +578,9 @@
 		89636FF21C58FAD1002F32FD /* Vender */ = {
 			isa = PBXGroup;
 			children = (
-				8944E6961C8F181D005C5DC8 /* JHDanmakuRender */,
 				8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */,
 				8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */,
+				890FDE0D1CBE1C7200BFFACC /* JHDanmakuRender */,
 				899BA7F51C8AA7C6007A67A8 /* JHMediaPlayer */,
 				896370391C58FCDF002F32FD /* VLCKit.framework */,
 			);
@@ -591,6 +596,8 @@
 				89E15F951C81D7320074CB55 /* RespondKeyboardSearchField.m */,
 				89C107161C887EA800090A9A /* RespondKeyboardTextField.h */,
 				89C107171C887EA800090A9A /* RespondKeyboardTextField.m */,
+				8961567F1C6C50570016792B /* HUDMessageView.h */,
+				896156801C6C50570016792B /* HUDMessageView.m */,
 				899BA8881C92CAA10022D159 /* 推荐页面 */,
 				89FDFEAA1C9042E6005499B9 /* 更新界面 */,
 				890B9A531C8B2EC30063986B /* 在线播放 */,
@@ -663,6 +670,8 @@
 				89A5B1C51C9998AB007869C9 /* NSAlert+Tools.m */,
 				89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */,
 				89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */,
+				890FDDDC1CBDF5F600BFFACC /* NSView+Tools.h */,
+				890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -879,8 +888,6 @@
 				8975A0A81C60A03A009BD30F /* PlayerSlideView.m */,
 				897D7F701CA7E64B00FAC53A /* PlayerControlView.h */,
 				897D7F711CA7E64B00FAC53A /* PlayerControlView.m */,
-				8961567F1C6C50570016792B /* PlayerHUDMessageView.h */,
-				896156801C6C50570016792B /* PlayerHUDMessageView.m */,
 				89C107101C885B8100090A9A /* DanmakuColorMenuItem.h */,
 				89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */,
 				89C107131C885FB200090A9A /* DanmakuModeMenuItem.h */,
@@ -891,8 +898,8 @@
 				897D7F741CA7F94400FAC53A /* AddTrackingAreaButton.m */,
 				8950C9841CA95D04000C863B /* VolumeControlView.h */,
 				8950C9851CA95D04000C863B /* VolumeControlView.m */,
-				896BE90F1CAEC478005BE0D1 /* HUDMessageView.h */,
-				896BE9101CAEC478005BE0D1 /* HUDMessageView.m */,
+				896BE90F1CAEC478005BE0D1 /* TimeHUDMessageView.h */,
+				896BE9101CAEC478005BE0D1 /* TimeHUDMessageView.m */,
 				89524B421CB96BB400BDFDBA /* QualityMenuItem.h */,
 				89524B431CB96BB400BDFDBA /* QualityMenuItem.m */,
 			);
@@ -1149,6 +1156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				890FDDDE1CBDF5F600BFFACC /* NSView+Tools.m in Sources */,
 				8973680A1C70483000B9B765 /* GetKeyViewController.m in Sources */,
 				89880A6B1C92F15E0060916F /* RecommendViewController.m in Sources */,
 				8975A0AC1C60A03A009BD30F /* PlayerSlideView.m in Sources */,
@@ -1157,12 +1165,10 @@
 				897EC7C91C72056A00E1B03D /* SearchModel.m in Sources */,
 				890B9A4F1C8B259C0063986B /* OpenStreamVideoViewModel.m in Sources */,
 				8975D1D91C6EF4DF003FE797 /* SliderWithTickCell.m in Sources */,
-				8944E6AB1C8F181D005C5DC8 /* ScrollDanmaku.m in Sources */,
 				898732811C9701E50019F8BA /* PlayLastWatchVideoTimeView.m in Sources */,
 				8975D1EA1C6F2B59003FE797 /* UseFilterExpressionCell.m in Sources */,
 				89FDFE891C90239C005499B9 /* UpdateNetManager.m in Sources */,
 				897ECC5A1C74C9F9008AA5DB /* DanMuFastMatchCell.m in Sources */,
-				8944E6AA1C8F181D005C5DC8 /* ParentDanmaku.m in Sources */,
 				897D7F751CA7F94400FAC53A /* AddTrackingAreaButton.m in Sources */,
 				89C04B761C591E5700225ABA /* MainViewController.m in Sources */,
 				89636FD41C58C40B002F32FD /* main.m in Sources */,
@@ -1188,13 +1194,13 @@
 				8975D1DF1C6EF939003FE797 /* CaptionsProtectAreaCell.m in Sources */,
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,
 				89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */,
+				890FDE251CBE1C7200BFFACC /* JHDanmakuClock.m in Sources */,
 				89FDFEAD1C9042FD005499B9 /* UpdateViewController.m in Sources */,
 				899BA7FC1C8AA7D6007A67A8 /* JHMediaPlayer.m in Sources */,
 				89761A1C1C5A7B8B0046A245 /* ColorButton.m in Sources */,
-				8944E6B01C8F181D005C5DC8 /* JHDisplayLink.m in Sources */,
 				897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */,
+				890FDE211CBE1C7200BFFACC /* ParentDanmaku.m in Sources */,
 				890B9A521C8B2E460063986B /* OpenStreamVideoViewController.m in Sources */,
-				8944E6A91C8F181D005C5DC8 /* FloatDanmaku.m in Sources */,
 				897619F21C59E8520046A245 /* SearchViewModel.m in Sources */,
 				8983C76D1C8819CC0080C316 /* NSData+DanDanPlay.m in Sources */,
 				896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */,
@@ -1216,9 +1222,9 @@
 				8984B3561C8C23D800C845AC /* JHMediaView.m in Sources */,
 				8965EE3A1C6DBCDD0089E187 /* PreferenceViewModel.m in Sources */,
 				89788D361C5E3DB100CA31EF /* SearchViewController.m in Sources */,
+				890FDE201CBE1C7200BFFACC /* FloatDanmaku.m in Sources */,
 				8996A6DA1C6CC03000D5AA6E /* HideDanMuAndCloseCell.m in Sources */,
 				897EC7CA1C72056A00E1B03D /* ShiBanModel.m in Sources */,
-				8944E6AF1C8F181D005C5DC8 /* JHDanmakuEngine.m in Sources */,
 				8965EE371C6DB8590089E187 /* PreferenceViewController.m in Sources */,
 				89651E3D1C5F81E4002F23A2 /* BackGroundImageView.m in Sources */,
 				896A716A1C66248800280B79 /* AcFunSearchViewModel.m in Sources */,
@@ -1227,29 +1233,31 @@
 				897EC7CB1C72056A00E1B03D /* VideoInfoModel.m in Sources */,
 				896370591C59028C002F32FD /* MatchNetManager.m in Sources */,
 				896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */,
+				890FDE271CBE1C7200BFFACC /* JHDisplayLink.m in Sources */,
 				896370C21C59099C002F32FD /* DanMuDataFormatter.m in Sources */,
 				896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */,
-				8944E6AE1C8F181D005C5DC8 /* JHDanmakuClock.m in Sources */,
+				890FDE261CBE1C7200BFFACC /* JHDanmakuEngine.m in Sources */,
 				897CD5B01C914A0100C98310 /* AutoUpdateCell.m in Sources */,
 				899BA8041C8AC9C0007A67A8 /* VideoModel.m in Sources */,
 				8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */,
 				8996A6E31C6CE18200D5AA6E /* TimeAxisCell.m in Sources */,
 				897619F11C59E8520046A245 /* PlayViewModel.m in Sources */,
 				8995C9971C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m in Sources */,
-				8944E6AC1C8F181D005C5DC8 /* DanmakuContainer.m in Sources */,
 				896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */,
 				890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */,
 				890B9A461C8B1BB60063986B /* OpenStreamInputAidViewController.m in Sources */,
+				890FDE241CBE1C7200BFFACC /* JHDanmakuCanvas.m in Sources */,
 				8981629D1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m in Sources */,
 				899BA7FE1C8AA7D6007A67A8 /* VLCMedia+Tools.m in Sources */,
 				89A5345E1CB92FD000F7FE18 /* AboutViewController.m in Sources */,
+				890FDE221CBE1C7200BFFACC /* ScrollDanmaku.m in Sources */,
 				8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */,
-				896156811C6C50570016792B /* PlayerHUDMessageView.m in Sources */,
+				890FDE231CBE1C7200BFFACC /* DanmakuContainer.m in Sources */,
+				896156811C6C50570016792B /* HUDMessageView.m in Sources */,
 				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,
 				8950C9891CA97B1E000C863B /* QualityCell.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,
-				896BE9111CAEC478005BE0D1 /* HUDMessageView.m in Sources */,
-				8944E6AD1C8F181D005C5DC8 /* JHDanmakuCanvas.m in Sources */,
+				896BE9111CAEC478005BE0D1 /* TimeHUDMessageView.m in Sources */,
 				899BA7FD1C8AA7D6007A67A8 /* JHVLCMedia.m in Sources */,
 				8944E67A1C8F09FA005C5DC8 /* JHProgressHUD.m in Sources */,
 				8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */,

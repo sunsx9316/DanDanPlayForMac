@@ -21,7 +21,7 @@
     [super viewDidLoad];
     [self setPreferredContentSize:self.view.bounds.size];
     [self.view setWantsLayer:YES];
-    self.view.layer.backgroundColor = [NSColor colorWithRed:51 / 255.0 green:51 / 255.0 blue:51 / 255.0 alpha:1].CGColor;
+    self.view.layer.backgroundColor = RGBColor(51, 51, 51).CGColor;
     [self.contactMeButton setTitleColor:[NSColor whiteColor]];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *copyRight = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"NSHumanReadableCopyright"];

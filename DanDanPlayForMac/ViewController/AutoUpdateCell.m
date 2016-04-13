@@ -48,7 +48,7 @@
             NSViewController *vc = NSApp.keyWindow.contentViewController;
             [vc presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
         }else{
-            [[NSAlert alertWithMessageText:@"作者忙着补番 并没有更新ㄟ( ▔, ▔ )ㄏ" informativeText:nil] runModal];
+            [[NSAlert alertWithMessageText:kNoUpdateInfoString informativeText:nil] runModal];
         }
     }];
 }

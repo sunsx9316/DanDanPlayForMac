@@ -95,7 +95,7 @@
         //没有找到
         if (!arr.count) {
             AcFunSearchListModel *listModel = [[AcFunSearchListModel alloc] init];
-            listModel.title = kNoFoundDanmaku;
+            listModel.title = kNoFoundDanmakuString;
             [arr addObject:listModel];
         }
         

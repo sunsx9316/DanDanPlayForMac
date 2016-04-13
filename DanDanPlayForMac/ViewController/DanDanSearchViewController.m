@@ -8,16 +8,15 @@
 
 #import "DanDanSearchViewController.h"
 #import "DanMuChooseViewController.h"
-
-#import "NSAlert+Tools.h"
-
 #import "SearchViewModel.h"
 #import "SearchModel.h"
+#import "HUDMessageView.h"
 
 @interface DanDanSearchViewController ()<NSOutlineViewDelegate, NSOutlineViewDataSource>
 @property (weak) IBOutlet NSOutlineView *outlineView;
 @property (strong, nonatomic) SearchViewModel *vm;
 @property (strong, nonatomic) JHProgressHUD *hud;
+@property (strong, nonatomic) HUDMessageView *messageView;
 @end
 
 @implementation DanDanSearchViewController
@@ -35,7 +34,7 @@
     [self.hud show];
     [self.vm refreshWithKeyWord:keyWord completionHandler:^(NSError *error) {
         if (error) {
-            [[NSAlert alertWithMessageText:@"连接出错" informativeText:nil] runModal];
+            [self.messageView showHUD];
         }
         
         [self.hud disMiss];
@@ -85,9 +84,18 @@
 
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = [[JHProgressHUD alloc] initWithMessage:kLoadMessage style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = [[JHProgressHUD alloc] initWithMessage:kLoadMessageString style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _hud;
+}
+
+- (HUDMessageView *)messageView {
+    if(_messageView == nil) {
+        _messageView = [[HUDMessageView alloc] init];
+        _messageView.text.stringValue = kConnectFailString;
+        [self.view addSubview: _messageView];
+    }
+    return _messageView;
 }
 
 @end

@@ -27,7 +27,7 @@
 
 - (void)viewDidAppear{
     [super viewDidAppear];
-    [JHProgressHUD showWithMessage:kLoadMessage parentView: self.view];
+    [JHProgressHUD showWithMessage:kLoadMessageString parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
         [self reloadData];
@@ -45,7 +45,7 @@
 - (IBAction)clickOKButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
     
-    [JHProgressHUD showWithMessage:@"挖坟中..." parentView:self.view];
+    [JHProgressHUD showWithMessage:kSearchDamakuLoadingString parentView:self.view];
     [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(id responseObj) {
         [JHProgressHUD disMiss];
         NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem]?[self.shiBanBurron titleOfSelectedItem]:@"";

@@ -9,7 +9,7 @@
 #import "DanMuFilterCell.h"
 #import "UseFilterExpressionCell.h"
 #import "FilterNetManager.h"
-#import "NSButton+Tools.h"
+#import "ColorButton.h"
 #import "NSOpenPanel+Tools.h"
 
 @interface DanMuFilterCell()<NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
@@ -17,7 +17,7 @@
 @property (weak) IBOutlet NSButton *exportButton;
 @property (strong, nonatomic) NSMutableArray <NSDictionary *>*userFilterArr;
 @property (weak) IBOutlet NSTableView *tableView;
-@property (weak) IBOutlet NSButton *updateRuleButton;
+@property (weak) IBOutlet ColorButton *updateRuleButton;
 
 @end
 
@@ -45,7 +45,6 @@
     [colorTitle addAttributes:@{NSForegroundColorAttributeName:[NSColor blueColor], NSUnderlineStyleAttributeName:@2} range:titleRange];
     
     [self.exportButton setAttributedTitle: colorTitle];
-    [self.updateRuleButton setTitleColor:[NSColor colorWithRed:0.12 green:0.48 blue:0.98 alpha:1]];
 }
 
 #pragma mark - NSTableViewDataSource

@@ -29,7 +29,7 @@
 @implementation PlayViewModel
 
 - (NSString *)videoNameWithIndex:(NSInteger)index{
-    return [self videoModelWithIndex: index].fileName?[self videoModelWithIndex: index].fileName:@"";
+    return [self videoModelWithIndex: index].fileName.length ? [self videoModelWithIndex: index].fileName : @"";
 }
 
 - (NSInteger)videoCount{
@@ -61,7 +61,7 @@
 }
 
 - (void)setCurrentIndex:(NSInteger)currentIndex{
-    _currentIndex = currentIndex>0?currentIndex%self.videos.count:0;
+    _currentIndex = currentIndex > 0 ? currentIndex%self.videos.count : 0;
 }
 
 - (void)addVideosModel:(NSArray *)videosModel{
@@ -97,11 +97,11 @@
 
 #pragma mark - 私有方法
 - (NSURL *)videoURLWithIndex:(NSInteger)index{
-    return [self videoModelWithIndex: index].filePath?[self videoModelWithIndex: index].filePath:nil;
+    return [self videoModelWithIndex: index].filePath ? [self videoModelWithIndex: index].filePath : nil;
 }
 
 - (VideoModel *)videoModelWithIndex:(NSInteger)index{
-    return index<self.videos.count?self.videos[index]:nil;
+    return index<self.videos.count ? self.videos[index] : nil;
 }
 
 - (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, NSError *error))complete{

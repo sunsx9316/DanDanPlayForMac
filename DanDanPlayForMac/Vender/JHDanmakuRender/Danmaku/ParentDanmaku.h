@@ -24,8 +24,6 @@ b;\
 #define JHColorBrightness(color) color.brightnessComponent
 #endif
 
-#import "BaseModel.h"
-
 @class DanmakuContainer;
 typedef NS_ENUM(NSUInteger, danmakuShadowStyle) {
     //啥也没有
@@ -38,9 +36,11 @@ typedef NS_ENUM(NSUInteger, danmakuShadowStyle) {
     danmakuShadowStyleGlow,
 };
 
-@interface ParentDanmaku : BaseModel
+@interface ParentDanmaku : NSObject
 @property (assign, nonatomic) NSTimeInterval appearTime;
 @property (assign, nonatomic) NSTimeInterval disappearTime;
+//额外的速度 用于调节全局速度时更改个体速度 目前只影响滚动弹幕
+@property (assign, nonatomic) float extraSpeed;
 @property (strong, nonatomic) NSAttributedString *attributedString;
 //弹幕是否被过滤
 @property (assign, nonatomic, getter=isFilter) BOOL filter;

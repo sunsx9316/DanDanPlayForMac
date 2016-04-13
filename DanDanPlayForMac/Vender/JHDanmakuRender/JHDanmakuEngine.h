@@ -28,13 +28,17 @@
 @property (strong, nonatomic) NSNumber *globalShadowStyle;
 //全局屏蔽弹幕类型 @[方向] 比如@[@(scrollDanmakuDirectionR2L),@(floatDanmakuDirectionT2B)]
 @property (strong, nonatomic) NSMutableSet *globalFilterDanmaku;
-
+//设置是否在画布尺寸变化时重新计算弹幕的初始位置 默认NO 只在OSX有效
+#if !TARGET_OS_IPHONE
+@property (assign, nonatomic, getter=isResetDanmakuPositionWhenCanvasSizeChange) BOOL resetDanmakuPositionWhenCanvasSizeChange;
+#endif
 //全局速度 默认1.0
-- (void)setSpeed:(CGFloat)speed;
+- (void)setSpeed:(float)speed;
 //暂停状态就是恢复运动
 - (void)start;
 - (void)stop;
 - (void)pause;
+- (void)resetOriginalPosition:(CGRect)bounds;
 /**
  *  不需要回退功能时使用
  *

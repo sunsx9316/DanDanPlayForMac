@@ -123,14 +123,14 @@
 
 - (NSColor *)progressSliderColor {
     if(_progressSliderColor == nil) {
-        _progressSliderColor = [NSColor colorWithRed:230 / 255.0 green:25 / 255.0 blue:73 / 255.0 alpha:1];
+        _progressSliderColor = RGBColor(230, 25, 73);
     }
     return _progressSliderColor;
 }
 
 - (NSColor *)backGroundColor{
     if (_backGroundColor == nil) {
-        _backGroundColor = [NSColor colorWithRed:51 / 255.0 green:55 / 255.0 blue:69  /255.0 alpha:1];
+        _backGroundColor = RGBColor(51, 55, 69);
     }
     return _backGroundColor;
 }

@@ -14,7 +14,6 @@
 typedef void(^timeBlock)(NSTimeInterval time);
 
 @interface JHDanmakuClock : NSObject
-@property(nonatomic,assign)CGFloat speed;
 + (instancetype)clockWithHandler:(timeBlock)block;
 - (void)setCurrentTime:(NSTimeInterval)currentTime;
 - (void)setOffsetTime:(NSTimeInterval)offsetTime;

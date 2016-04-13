@@ -42,7 +42,7 @@
             NSURL *imgURL = [openPanel URLs].firstObject;
             NSImage *img = [[NSImage alloc] initWithContentsOfURL: imgURL];
             if (img == nil) {
-                [[NSAlert alertWithMessageText:@"然而这并不是图片" informativeText:nil] runModal];
+                [[NSAlert alertWithMessageText:kFileISNOTIMGString informativeText:nil] runModal];
             }else{
                 self.imageView.image = img;
                 [UserDefaultManager setHomeImgPath:imgURL.path];

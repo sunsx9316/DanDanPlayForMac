@@ -40,12 +40,12 @@
     NSString *inforStr = nil;
     if (err) {
         if (err.code == NSFileNoSuchFileError) {
-            errorStr = @"(╬ﾟдﾟ)并没有这个文件夹";
-            inforStr = @"你想怎样";
+            errorStr = kNoFoundCacheDirectoriesString;
+            inforStr = kNoFoundCacheDirectoriesInformativeString;
         }
-        else errorStr = @"清除失败";
+        else errorStr = kClearFailString;
     }else{
-        errorStr = @"清除成功";
+        errorStr = kClearSuccessString;
         self.cacheTextField.stringValue = @"缓存大小: 0.0M";
     }
     
