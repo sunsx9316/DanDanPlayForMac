@@ -52,7 +52,7 @@
         return;
     }
     
-    [MatchNetManager getWithParameters:@{@"fileName":self.videoModel.fileName, @"hash": self.videoModel.md5, @"length": self.videoModel.length} completionHandler:^(MatchModel *responseObj, NSError *error) {
+    [MatchNetManager GETWithParameters:@{@"fileName":self.videoModel.fileName, @"hash": self.videoModel.md5, @"length": self.videoModel.length} completionHandler:^(MatchModel *responseObj, NSError *error) {
         //精确匹配
         if (responseObj.matches.count == 1) {
             complete(error, responseObj.matches.firstObject);
@@ -61,8 +61,8 @@
         //没有找到
         if (responseObj.matches.count == 0){
             MatchDataModel *model = [MatchDataModel new];
-            model.animeTitle = kNoFoundDanmaku;
-            model.episodeTitle = @"可以尝试手♂动搜索";
+            model.animeTitle = kNoFoundDanmakuString;
+            model.episodeTitle = kSearchByUserString;
             responseObj.matches = @[model];
         }
         

@@ -17,7 +17,7 @@
         return;
     }
     
-    [DanMuNetManager getBiliBiliDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
+    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];

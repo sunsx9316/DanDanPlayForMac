@@ -26,8 +26,8 @@
 @implementation UpdateViewController
 - (instancetype)initWithVersion:(NSString *)version details:(NSString *)details hash:(NSString *)hash{
     if ((self = kViewControllerWithId(@"UpdateViewController"))) {
-        self.version = version?version:@"";
-        self.details = details?details:@"";
+        self.version = version.length?version:@"";
+        self.details = details.length?details:@"";
         self.fileHash = hash;
     }
     return self;
@@ -47,7 +47,7 @@
     [UpdateNetManager downLatestVersionWithVersion:self.version progress:&_progress completionHandler:^(NSString *responseObj, NSError *error) {
         [self.progressHUD disMiss];
         if (!responseObj) {
-            [[NSAlert alertWithMessageText:@"并没有找到下载的文件" informativeText:@"→_→可能是下载路径有误 可以尝试手动更新"] runModal];
+            [[NSAlert alertWithMessageText:kNoFoundDownLoadFileString informativeText:kNoFoundDownLoadFileInformativeString] runModal];
             return;
         }
         
@@ -57,7 +57,7 @@
                 if ([[fileData md5String] isEqualToString:self.fileHash]) {
                     system([[NSString stringWithFormat:@"open %@", responseObj] cStringUsingEncoding:NSUTF8StringEncoding]);
                 }else{
-                    NSAlert *alert = [NSAlert alertWithMessageText:@"文件似乎损坏了" informativeText:@"可以重新下载或者尝试手♂动下载"];
+                    NSAlert *alert = [NSAlert alertWithMessageText:kDownLoadFileDamageString informativeText:kDownLoadFileDamageInformativeString];
                     [alert runModal];
                 }
                 [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
@@ -68,8 +68,10 @@
     }];
     [_progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
 }
+
 - (IBAction)clickCancelButton:(NSButton *)sender {
     [self dismissViewController:self];
+    
 }
 
 - (IBAction)clickUpdateByUserButton:(NSButton *)sender {
@@ -90,7 +92,7 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)progressHUD {
     if(_progressHUD == nil) {
-        _progressHUD = [[JHProgressHUD alloc] initWithMessage:@"下载中..." style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _progressHUD = [[JHProgressHUD alloc] initWithMessage:kDownLoadingString style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _progressHUD;
 }

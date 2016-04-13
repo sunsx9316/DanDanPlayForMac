@@ -27,7 +27,7 @@
 - (instancetype)initWithFrame:(NSRect)frameRect{
     if (self = [super initWithFrame:frameRect]) {
         [self setWantsLayer:YES];
-        self.layer.backgroundColor = [NSColor colorWithRed:0 green:0 blue:0 alpha:0.5].CGColor;
+        self.layer.backgroundColor = RGBAColor(0, 0, 0, 0.5).CGColor;
         [self hide];
     }
     return self;

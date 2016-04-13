@@ -15,7 +15,7 @@
 {
     [super awakeFromNib];
     //默认颜色
-    [self setTitleColor: [NSColor blueColor]];
+    [self setTitleColor: RGBColor(48, 131, 251)];
 }
 
 

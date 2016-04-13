@@ -60,11 +60,11 @@
 }
 
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
-    [SearchNetManager getWithParameters:@{@"anime": keyWord} completionHandler:^(SearchModel *responseObj, NSError *error) {
+    [SearchNetManager GETWithParameters:@{@"anime": keyWord} completionHandler:^(SearchModel *responseObj, NSError *error) {
         NSMutableArray *arr = [self classifyModel: responseObj.animes];
         if (!arr.count) {
             SearchDataModel *model = [[SearchDataModel alloc] init];
-            model.title = kNoFoundDanmaku;
+            model.title = kNoFoundDanmakuString;
             [arr addObject:model];
         }
         self.models = arr;

@@ -43,19 +43,16 @@
 
 
 - (void)refreshCompletionHandler:(void (^)(NSError *))complete{
-    [DanMuNetManager getWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
+    [DanMuNetManager GETWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
         //对象第一个key不是NSNumber类型说明没有官方弹幕
         if (![[responseObj allKeys].firstObject isKindOfClass:[NSNumber class]]) {
             self.contentDic = responseObj;
             self.providerArr = [responseObj allKeys];
             self.shiBanArr = responseObj[self.providerArr.firstObject];
             self.episodeTitleArr = self.shiBanArr.firstObject.videos;
-            error = [NSError errorWithDomain:@"noDanMu" code:200 userInfo:nil];
-            complete(error);
+            complete(kNoMatchError);
         }else{
-            if (![responseObj count]) {
-                error = [NSError errorWithDomain:@"noDanMu" code:200 userInfo:nil];
-            }
+            if (![responseObj count]) error = kNoMatchError;
             complete(error);
             //发通知
             [self postNotificationWithDanMuObj:responseObj];

@@ -7,40 +7,85 @@
 //
 
 #import "OpenStreamVideoViewController.h"
-#import "OpenStreamVideoViewModel.h"
 #import "PlayerViewController.h"
+#import "OpenStreamVideoViewModel.h"
 #import "StreamingVideoModel.h"
+#import "OpenStreamVideoCheakCell.h"
+#import "HUDMessageView.h"
 
 @interface OpenStreamVideoViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
+@property (weak) IBOutlet NSButton *selectedAllButton;
 @property (strong, nonatomic) OpenStreamVideoViewModel *vm;
+@property (strong, nonatomic) NSMutableSet *selectedSet;
+@property (strong, nonatomic) HUDMessageView *messageView;
 @end
 
 @implementation OpenStreamVideoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:kLoadMessage parentView:self.view];
+    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
     [self.vm refreshWithcompletionHandler:^(NSError *error) {
         [self.tableView reloadData];
         [JHProgressHUD disMiss];
+        if (error) {
+            [self.messageView showHUD];
+        }
     }];
 }
-- (IBAction)doubleClickRow:(NSTableView *)sender {
-    NSInteger row = [sender selectedRow];
-    if (![self.vm danmakuForRow:row]) return;
-    
-    [JHProgressHUD showWithMessage:kLoadMessage parentView:self.view];
-    [self.vm getVideoURLAndDanmakuForRow:row completionHandler:^(StreamingVideoModel *videoModel, NSDictionary *danmakuDic, NSError *error) {
-        [JHProgressHUD disMiss];
-        
-        if (error) return;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"OPEN_STREAM_VC_CHOOSE_OVER" object:nil userInfo:@{@"videos":[NSMutableArray arrayWithObject:videoModel]}];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:danmakuDic];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:nil];
-        
-    }];
+
+- (IBAction)clickRow:(NSTableView *)sender {
+    NSInteger selectRow = [sender selectedRow];
+    if (selectRow < [self.vm numOfVideos]) {
+        if ([self.selectedSet containsObject:@(selectRow)]) {
+            [self.selectedSet removeObject:@(selectRow)];
+        }else{
+            [self.selectedSet addObject:@(selectRow)];
+        }
+    }
+    [self.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:selectRow] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
 }
+
+- (IBAction)clickSelectedAllButton:(NSButton *)sender {
+    NSInteger count = [self.vm numOfVideos];
+    if (sender.state) {
+        for (NSInteger i = 0; i < count; ++i) {
+            [self.selectedSet addObject:@(i)];
+        }
+    }else{
+        [self.selectedSet removeAllObjects];
+    }
+    [self.tableView reloadData];
+}
+
+- (IBAction)clickReverseButton:(NSButton *)sender {
+    NSInteger count = [self.vm numOfVideos];
+    for (NSInteger i = 0; i < count; ++i) {
+        if ([self.selectedSet containsObject:@(i)]) {
+            [self.selectedSet removeObject:@(i)];
+        }else{
+            [self.selectedSet addObject:@(i)];
+        }
+    }
+    self.selectedAllButton.state = self.selectedSet.count == count;
+    [self.tableView reloadData];
+}
+
+- (IBAction)clickOKButton:(NSButton *)sender {
+    __block NSInteger i = [[self.selectedSet anyObject] integerValue];
+    //选出最小者
+    [self.selectedSet enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, BOOL * _Nonnull stop) {
+        NSInteger intValue = [obj integerValue];
+        if (i > intValue) i = intValue;
+    }];
+    [self streamingVideoModelWithRow:i];
+}
+
+- (IBAction)clickBackButton:(NSButton *)sender {
+    [self dismissViewController:self];
+}
+
 
 - (instancetype)initWithAid:(NSString *)aid danmakuSource:(NSString *)danmakuSource{
     if ((self = kViewControllerWithId(@"OpenStreamVideoViewController"))) {
@@ -51,14 +96,64 @@
 
 #pragma mark - NSTableViewDelegate
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
-    static NSString *cellName = @"VideoNameCell";
-    NSTableCellView *view = [tableView makeViewWithIdentifier:cellName owner:self];
-    view.textField.stringValue = [self.vm videoNameForRow:row];
-    return view;
+    static NSString *cellName = @"OpenStreamVideoCheakCell";
+    OpenStreamVideoCheakCell *button = [tableView makeViewWithIdentifier:cellName owner:self];
+    button.state = [self.selectedSet containsObject:@(row)];
+    __weak typeof(self)weakSelf = self;
+    [button setWithTitle:[self.vm videoNameForRow:row] callBackHandle:^(NSInteger state) {
+        state ? [weakSelf.selectedSet addObject:@(row)]:[weakSelf.selectedSet removeObject:@(row)];
+        weakSelf.selectedAllButton.state = weakSelf.selectedSet.count == [weakSelf.vm numOfVideos];
+    }];
+    return button;
 }
 
 #pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [self.vm numOfVideos];
 }
+
+#pragma mark - 私有方法
+- (void)streamingVideoModelWithRow:(NSInteger)row{
+    if (![self.vm danmakuForRow:row].length) return;
+    
+    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
+    [self.vm getVideoURLAndDanmakuForRow:row completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
+        [JHProgressHUD disMiss];
+        
+        if (error) {
+            [self.messageView showHUD];
+            return;
+        }
+        
+        NSMutableArray *arr = [NSMutableArray arrayWithObject:videoModel];
+        NSInteger videoCount = [self.vm numOfVideos];
+        for (NSInteger i = 0; i < videoCount; ++i) {
+            if ([self.selectedSet containsObject:@(i)] && row != i) {
+                StreamingVideoModel *tvm = [[StreamingVideoModel alloc] initWithFileURLs:nil fileName:[self.vm videoNameForRow:i] danmaku:[self.vm danmakuForRow:i] danmakuSource:videoModel.danmakuSource];
+                [arr addObject:tvm];
+            }
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"OPEN_STREAM_VC_CHOOSE_OVER" object:nil userInfo:@{@"videos":arr}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:videoModel.danmakuDic];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:nil];
+        
+    }];
+}
+- (NSMutableSet *)selectedSet {
+	if(_selectedSet == nil) {
+		_selectedSet = [[NSMutableSet alloc] init];
+	}
+	return _selectedSet;
+}
+
+- (HUDMessageView *)messageView {
+	if(_messageView == nil) {
+		_messageView = [[HUDMessageView alloc] init];
+        _messageView.text.stringValue = kNoFoundDanmakuString;
+        [self.view addSubview:_messageView];
+	}
+	return _messageView;
+}
+
 @end

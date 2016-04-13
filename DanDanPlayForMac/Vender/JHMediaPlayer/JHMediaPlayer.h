@@ -49,7 +49,14 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
 /**
  *  位置 0 ~ 1
  */
-@property (assign, nonatomic) CGFloat position;
+- (CGFloat)position;
+/**
+ *  设置媒体位置
+ *
+ *  @param position          位置 0 ~ 1
+ *  @param completionHandler 完成之后的回调
+ */
+- (void)setPosition:(CGFloat)position completionHandler:(void(^)(NSTimeInterval time))completionHandler;
 /**
  *  协议返回的时间格式 默认"mm:ss"
  */
@@ -64,7 +71,7 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
  *
  *  @param value 增加的值
  */
-- (void)jump:(int)value;
+- (void)jump:(int)value completionHandler:(void(^)(NSTimeInterval time))completionHandler;
 /**
  *  音量增加
  *

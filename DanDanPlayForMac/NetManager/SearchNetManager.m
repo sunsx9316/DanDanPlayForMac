@@ -12,7 +12,7 @@
 #import "NSString+Tools.h"
 
 @implementation SearchNetManager
-+ (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(SearchModel* responseObj, NSError *error))complete{
++ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(SearchModel* responseObj, NSError *error))complete{
     if (!parameters[@"anime"]){
         complete(nil, nil);
         return nil;
@@ -106,8 +106,6 @@
  *  @return 处理后的字典
  */
 + (NSDictionary *)encodeKeyWordWithDic:(NSDictionary *)aDic{
-    //对关键词做编码处理
-    
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary: aDic];
     dic[@"keyword"] =  [dic[@"keyword"] stringByURLEncode];
     return dic;

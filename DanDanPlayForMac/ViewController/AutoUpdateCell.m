@@ -10,6 +10,7 @@
 #import "UpdateNetManager.h"
 #import "UpdateViewController.h"
 #import "NSAlert+Tools.h"
+#import "NSOpenPanel+Tools.h"
 
 @interface AutoUpdateCell()
 @property (weak) IBOutlet NSTextField *downLoadPathTextField;
@@ -25,12 +26,7 @@
 }
 
 - (IBAction)clickChangeDirectoryButton:(NSButton *)sender {
-    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-    [openPanel setDirectoryURL:[NSURL fileURLWithPath:[UserDefaultManager autoDownLoadPath]]];
-    [openPanel setTitle:@"选取下载目录"];
-    [openPanel setCanChooseDirectories: YES];
-    [openPanel setCanChooseFiles:NO];
-    [openPanel setAllowsMultipleSelection: NO];
+    NSOpenPanel* openPanel = [NSOpenPanel chooseDirectoriesPanelWithTitle:@"选取下载目录" defaultURL:[NSURL fileURLWithPath:[UserDefaultManager autoDownLoadPath]]];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton){
             NSString *path = openPanel.URL.path;
@@ -47,12 +43,12 @@
 - (IBAction)clickCheakUpdateInfoButton:(NSButton *)sender {
     [UpdateNetManager latestVersionWithCompletionHandler:^(NSString *version, NSString *details, NSString *hash, NSError *error) {
         CGFloat curentVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
-        //判断当前版本是否比现在版本小
+        //判断当前版本是否比最新版本小
         if (curentVersion < [version floatValue]) {
             NSViewController *vc = NSApp.keyWindow.contentViewController;
             [vc presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
         }else{
-            [[NSAlert alertWithMessageText:@"作者忙着补番 并没有更新ㄟ( ▔, ▔ )ㄏ" informativeText:nil] runModal];
+            [[NSAlert alertWithMessageText:kNoUpdateInfoString informativeText:nil] runModal];
         }
     }];
 }

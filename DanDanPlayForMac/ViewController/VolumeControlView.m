@@ -51,7 +51,7 @@
 	if(_imgView == nil) {
 		_imgView = [[NSImageView alloc] init];
         _imgView.imageScaling = NSImageScaleAxesIndependently;
-        _imgView.image = [NSImage imageNamed:@"HUD_panel"];
+        _imgView.image = [NSImage imageNamed:@"HUD_message"];
         _imgView.image.capInsets = NSEdgeInsetsMake(10, 10, 10, 10);
 	}
 	return _imgView;

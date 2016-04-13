@@ -31,6 +31,10 @@ typedef NS_ENUM(NSUInteger, streamingVideoQuality) {
  */
 @property (assign, nonatomic) NSInteger URLIndex;
 /**
+ *  弹幕
+ */
+@property (strong, nonatomic) NSDictionary *danmakuDic;
+/**
  *  所有地址数 
  *
  *  @return 备用路径数

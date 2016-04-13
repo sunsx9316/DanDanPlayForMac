@@ -15,5 +15,7 @@
 #endif
 
 @interface JHDanmakuCanvas : JHView
-
+#if !TARGET_OS_IPHONE
+@property (copy, nonatomic) void(^resizeCallBackBlock)(CGRect bounds);
+#endif
 @end

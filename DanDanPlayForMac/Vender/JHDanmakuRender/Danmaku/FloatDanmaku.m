@@ -30,8 +30,8 @@
 
 /**
  *  找出同方向的弹幕 按照所在轨道归类弹幕
-    优先选择没有弹幕的轨道
-    如果都有 选择弹幕最少的轨道
+ 优先选择没有弹幕的轨道
+ 如果都有 选择弹幕最少的轨道
  *
  */
 - (CGPoint)originalPositonWithContainerArr:(NSArray <DanmakuContainer *>*)arr channelCount:(NSInteger)channelCount contentRect:(CGRect)rect danmakuSize:(CGSize)danmakuSize timeDifference:(NSTimeInterval)timeDifference{
@@ -72,7 +72,7 @@
                     break;
                 }
             }
-        //弹幕方向为下到上 按从下到上的顺序找轨道
+            //弹幕方向为下到上 按从下到上的顺序找轨道
         }else{
             for (NSInteger i = channelCount - 1; i >= 0; --i) {
                 if (!dic[@(i)]) {
@@ -82,7 +82,7 @@
             }
         }
     }
-
+    
     return CGPointMake((rect.size.width - danmakuSize.width) / 2, channelHeight * channel);
 }
 

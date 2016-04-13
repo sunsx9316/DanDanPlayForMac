@@ -49,17 +49,17 @@
 
 - (void)setGlobalAttributedDic:(NSDictionary *)globalAttributedDic{
     if (!self.JHAttributedText.length || !globalAttributedDic) return;
-        _globalAttributedDic = globalAttributedDic;
-        self.JHAttributedText = [[NSMutableAttributedString alloc] initWithString:self.JHAttributedText.string attributes:globalAttributedDic];
-        [self sizeToFit];
+    _globalAttributedDic = globalAttributedDic;
+    self.JHAttributedText = [[NSMutableAttributedString alloc] initWithString:self.JHAttributedText.string attributes:globalAttributedDic];
+    [self sizeToFit];
 }
 
 - (void)setGlobalFont:(JHFont *)globalFont{
     if (!self.JHAttributedText.length || !globalFont) return;
-        _globalFont = globalFont;
-        NSMutableDictionary *dic = [[self.JHAttributedText attributesAtIndex:0 effectiveRange:nil] mutableCopy];
-        dic[NSFontAttributeName] = globalFont;
-        [self setGlobalAttributedDic:dic];
+    _globalFont = globalFont;
+    NSMutableDictionary *dic = [[self.JHAttributedText attributesAtIndex:0 effectiveRange:nil] mutableCopy];
+    dic[NSFontAttributeName] = globalFont;
+    [self setGlobalAttributedDic:dic];
 }
 
 - (void)setGlobalShadowStyle:(NSNumber *)globalShadowStyle{
@@ -67,7 +67,7 @@
     _globalShadowStyle = globalShadowStyle;
     danmakuShadowStyle shadowStyle = [globalShadowStyle unsignedIntegerValue];
     NSDictionary *tempDic = [self.JHAttributedText attributesAtIndex:0 effectiveRange:nil];
-    NSColor *textColor = tempDic[NSForegroundColorAttributeName];
+    JHColor *textColor = tempDic[NSForegroundColorAttributeName];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     dic[NSFontAttributeName] = tempDic[NSFontAttributeName];
     dic[NSForegroundColorAttributeName] = textColor;

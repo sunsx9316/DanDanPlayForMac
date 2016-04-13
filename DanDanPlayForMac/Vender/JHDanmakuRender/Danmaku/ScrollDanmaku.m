@@ -49,30 +49,32 @@
     switch (_direction) {
         case scrollDanmakuDirectionR2L:
         {
-            point.x -= _speed * (time - self.appearTime);
+            point.x -= (_speed * self.extraSpeed) * (time - self.appearTime);
             containerFrame.origin = point;
             container.frame = containerFrame;
             return containerFrame.origin.x + containerFrame.size.width >= 0;
         }
         case scrollDanmakuDirectionL2R:
         {
-            point.x += _speed * (time - self.appearTime);
+            point.x += (_speed * self.extraSpeed) * (time - self.appearTime);
             containerFrame.origin = point;
             container.frame = containerFrame;
             return containerFrame.origin.x <= windowFrame.size.width;
         }
         case scrollDanmakuDirectionT2B:
         {
-            point.y -= _speed * (time - self.appearTime);
+            point.y -= (_speed * self.extraSpeed) * (time - self.appearTime);
             containerFrame.origin = point;
             container.frame = containerFrame;
             return containerFrame.origin.y + containerFrame.size.height >= 0;
         }
         case scrollDanmakuDirectionB2T:
-            point.y += _speed * (time - self.appearTime);
+        {
+            point.y += (_speed * self.extraSpeed) * (time - self.appearTime);
             containerFrame.origin = point;
             container.frame = containerFrame;
             return containerFrame.origin.y <= windowFrame.size.height;
+        }
     }
     return NO;
 }
@@ -141,13 +143,13 @@
     
     switch (_direction) {
         case scrollDanmakuDirectionR2L:
-            return CGPointMake(rect.size.width - timeDifference * _speed, channelHeight * channel);
+            return CGPointMake(rect.size.width - timeDifference * (_speed * self.extraSpeed), channelHeight * channel);
         case scrollDanmakuDirectionL2R:
-            return CGPointMake(-danmakuSize.width + timeDifference * _speed, channelHeight * channel);
+            return CGPointMake(-danmakuSize.width + timeDifference * (_speed * self.extraSpeed), channelHeight * channel);
         case scrollDanmakuDirectionB2T:
-            return CGPointMake(channelHeight * channel, -danmakuSize.height + timeDifference * _speed);
+            return CGPointMake(channelHeight * channel, -danmakuSize.height + timeDifference * (_speed * self.extraSpeed));
         case scrollDanmakuDirectionT2B:
-            return CGPointMake(channelHeight * channel, rect.size.height - timeDifference * _speed);
+            return CGPointMake(channelHeight * channel, rect.size.height - timeDifference * (_speed * self.extraSpeed));
     }
     return CGPointMake(rect.size.width, rect.size.height);
 }

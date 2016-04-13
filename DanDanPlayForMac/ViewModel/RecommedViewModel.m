@@ -46,6 +46,7 @@
     return [self dataModelForRow:row].keyWord;
 }
 - (NSArray *)groupsForRow:(NSInteger)row{
+
     return [self dataModelForRow:row].groups;
 }
 

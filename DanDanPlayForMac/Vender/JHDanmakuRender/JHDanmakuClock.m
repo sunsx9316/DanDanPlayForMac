@@ -16,7 +16,7 @@
 
 @implementation JHDanmakuClock
 {
-    CGFloat _originalSpeed;
+    BOOL _isStart;
     NSTimeInterval _currentTime;
     NSTimeInterval _offsetTime;
 }
@@ -26,7 +26,7 @@
 }
 
 - (void)start{
-    _speed = _originalSpeed;
+    _isStart = YES;
     [self.displayLink start];
 }
 
@@ -37,17 +37,7 @@
 }
 
 - (void)pause{
-    _speed = 0.0;
-}
-
-- (void)setSpeed:(CGFloat)speed{
-    //非暂停状态下
-    if (_speed > 0) {
-        _speed = speed;
-    }
-    if (speed >= 0) {
-        _originalSpeed = speed;
-    }
+    _isStart = NO;
 }
 
 - (void)setCurrentTime:(NSTimeInterval)currentTime{
@@ -62,7 +52,7 @@
 
 - (void)updateTime{
     NSDate *date = [NSDate date];
-    _currentTime += [date timeIntervalSinceDate:self.previousDate] * self.speed;
+    _currentTime += [date timeIntervalSinceDate:self.previousDate] * _isStart;
     self.previousDate = date;
     
     if (self.block) {
@@ -85,18 +75,18 @@
 #pragma mark - 懒加载
 
 - (NSDate *)previousDate {
-	if(_previousDate == nil) {
-		_previousDate = [NSDate date];
-	}
-	return _previousDate;
+    if(_previousDate == nil) {
+        _previousDate = [NSDate date];
+    }
+    return _previousDate;
 }
 
 - (JHDisplayLink *)displayLink {
-	if(_displayLink == nil) {
-		_displayLink = [[JHDisplayLink alloc] init];
+    if(_displayLink == nil) {
+        _displayLink = [[JHDisplayLink alloc] init];
         _displayLink.delegate = self;
-	}
-	return _displayLink;
+    }
+    return _displayLink;
 }
 
 @end

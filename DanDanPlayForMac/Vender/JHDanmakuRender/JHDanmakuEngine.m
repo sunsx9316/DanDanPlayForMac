@@ -13,8 +13,17 @@
 #import "FloatDanmaku.h"
 @interface JHDanmakuEngine()
 @property (strong, nonatomic) JHDanmakuClock *clock;
+/**
+ *  当前未激活的弹幕
+ */
 @property (strong, nonatomic) NSMutableArray <DanmakuContainer *>*inactiveContainer;
+/**
+ *  当前激活的弹幕
+ */
 @property (strong, nonatomic) NSMutableArray <DanmakuContainer *>*activeContainer;
+/**
+ *  弹幕缓存 开启回退功能时启用
+ */
 @property (strong, nonatomic) NSDictionary *danmakusCache;
 @end
 
@@ -22,6 +31,7 @@
 {
     //用于记录当前时间的整数值
     NSInteger _intTime;
+    float _extraSpeed;
 }
 - (instancetype)init{
     if (self = [super init]) {
@@ -34,13 +44,15 @@
 - (void)start{
     [self.clock start];
 }
+
 - (void)stop{
     [self.clock stop];
     [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [obj removeFromSuperview];
+        [obj removeFromSuperview];
     }];
     [self.activeContainer removeAllObjects];
 }
+
 - (void)pause{
     [self.clock pause];
 }
@@ -51,6 +63,7 @@
     
     //没有开启回退功能 将当前时间作为弹幕的发射时间
     if (!self.turnonBackFunction) danmaku.appearTime = _currentTime;
+    danmaku.extraSpeed = _extraSpeed;
     
     DanmakuContainer *con = self.inactiveContainer.firstObject;
     if (!con) {
@@ -63,8 +76,8 @@
     if (_globalAttributedDic) con.globalAttributedDic = _globalAttributedDic;
     if (_globalFont) con.globalFont = _globalFont;
     if (_globalShadowStyle) con.globalShadowStyle = _globalShadowStyle;
-
-    con.originalPosition = [danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:self.canvas.frame danmakuSize:con.frame.size timeDifference:_currentTime - danmaku.appearTime];
+    
+    con.originalPosition = [danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:self.canvas.bounds danmakuSize:con.bounds.size timeDifference:_currentTime - danmaku.appearTime];
     [self.canvas addSubview: con];
     [self.activeContainer addObject:con];
 }
@@ -105,8 +118,11 @@
     }
 }
 
-- (void)setSpeed:(CGFloat)speed{
-    self.clock.speed = speed;
+- (void)setSpeed:(float)speed{
+    _extraSpeed = speed > 0 ? speed : 0.1;
+    [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        obj.danmaku.extraSpeed = _extraSpeed;
+    }];
 }
 
 - (void)setGlobalAttributedDic:(NSDictionary *)globalAttributedDic{
@@ -156,6 +172,15 @@
         }
     }
 }
+
+#if !TARGET_OS_IPHONE
+//重设当前弹幕初始位置
+- (void)resetOriginalPosition:(CGRect)bounds {
+    [self.activeContainer enumerateObjectsUsingBlock:^(DanmakuContainer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        obj.originalPosition = [obj.danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:bounds danmakuSize:obj.bounds.size timeDifference:_currentTime - obj.danmaku.appearTime];
+    }];
+}
+#endif
 
 #pragma mark - 懒加载
 - (JHDanmakuClock *)clock {
@@ -213,6 +238,14 @@
 - (JHDanmakuCanvas *)canvas {
     if(_canvas == nil) {
         _canvas = [[JHDanmakuCanvas alloc] init];
+#if !TARGET_OS_IPHONE
+        __weak typeof(self)weakSelf = self;
+        [_canvas setResizeCallBackBlock:^(CGRect bounds) {
+            if (weakSelf.resetDanmakuPositionWhenCanvasSizeChange) {
+                [weakSelf resetOriginalPosition:bounds];
+            }
+        }];
+#endif
     }
     return _canvas;
 }

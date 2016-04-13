@@ -24,7 +24,7 @@
 {
     NSTimeInterval _length;
     NSTimeInterval _currentTime;
-    id timeObj;
+    id _timeObj;
     JHMediaPlayerStatus _status;
     BOOL _isBuffer;
 }
@@ -114,20 +114,24 @@
 }
 
 #pragma mark 播放位置
-- (void)jump:(int)value{
-    [self setPosition:([self currentTime] + value) / [self length]];
+- (void)jump:(int)value completionHandler:(void(^)(NSTimeInterval time))completionHandler{
+    [self setPosition:([self currentTime] + value) / [self length] completionHandler:completionHandler];
 }
 
-- (void)setPosition:(CGFloat)position{
+- (void)setPosition:(CGFloat)position completionHandler:(void(^)(NSTimeInterval time))completionHandler{
     if (position < 0) position = 0;
     if (position > 1) position = 1;
     
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         self.localMediaPlayer.position = position;
+        if (completionHandler) completionHandler([self length] * position);
     }else{
         CMTime time = self.netMediaPlayer.currentTime;
         time.value = time.timescale * position * [self length];
-        [self.netMediaPlayer seekToTime:time];
+        __weak typeof(self)weakSelf = self;
+        [self.netMediaPlayer seekToTime:time completionHandler:^(BOOL finished) {
+            if (completionHandler) completionHandler([weakSelf currentTime]);
+        }];
     }
 }
 
@@ -326,7 +330,7 @@
     [self.netMediaPlayer addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
     
     //监听时间变化
-    timeObj = [self.netMediaPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+    _timeObj = [self.netMediaPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         [weakSelf mediaPlayerTimeChanged:nil];
     }];
     
@@ -340,7 +344,7 @@
         if (_netMediaPlayer) {
             [_netMediaPlayer removeObserver:self forKeyPath:@"rate"];
             [_netMediaPlayer.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-            [_netMediaPlayer removeTimeObserver:timeObj];
+            [_netMediaPlayer removeTimeObserver:_timeObj];
             [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
             _netMediaPlayer = nil;
         }
@@ -350,10 +354,11 @@
 }
 
 - (void)dealloc{
-    [_netMediaPlayer removeTimeObserver:timeObj];
+    [_netMediaPlayer removeTimeObserver:_timeObj];
     [_mediaView removeFromSuperview];
     [_netMediaPlayer removeObserver:self forKeyPath:@"rate"];
     [_netMediaPlayer.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+    _netMediaPlayer = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

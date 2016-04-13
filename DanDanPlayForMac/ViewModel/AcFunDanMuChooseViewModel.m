@@ -18,7 +18,7 @@
         return;
     }
     
-    [DanMuNetManager getAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, NSError *error) {
+    [DanMuNetManager GETAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, NSError *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];

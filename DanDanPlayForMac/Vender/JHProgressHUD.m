@@ -104,6 +104,7 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
     } completionHandler:^{
         self.showing = NO;
         [self.indicator stopAnimation: self];
+        [self updateProgress:0];
         [self removeFromSuperview];
     }];
 }
@@ -168,7 +169,7 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
     if(_blackBackGroundMask == nil) {
         _blackBackGroundMask = [[NSView alloc] init];
         [_blackBackGroundMask setWantsLayer: YES];
-        [_blackBackGroundMask.layer setBackgroundColor: [NSColor colorWithRed:0 green:0 blue:0 alpha:0.5].CGColor];
+        [_blackBackGroundMask.layer setBackgroundColor: RGBAColor(0, 0, 0, 0.5).CGColor];
         [_blackBackGroundMask addGestureRecognizer:[[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(clickBlackView)]];
     }
     return _blackBackGroundMask;

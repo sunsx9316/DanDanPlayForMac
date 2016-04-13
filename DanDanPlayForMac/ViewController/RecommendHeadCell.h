@@ -19,5 +19,10 @@
  *  @param filmReviewURL 影评路径
  */
 - (void)setWithTitle:(NSString *)title info:(NSString *)info brief:(NSString *)brief imgURL:(NSURL *)imgURL FilmReviewURL:(NSString *)filmReviewURL;
+/**
+ *  cell高计算获取
+ *
+ *  @return cell高
+ */
 - (CGFloat)cellHeight;
 @end

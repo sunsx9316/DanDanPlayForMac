@@ -35,7 +35,7 @@
     
     [self.tableView setDoubleAction: @selector(doubleClickRow)];
     
-    [JHProgressHUD showWithMessage:kLoadMessage parentView:self.view];
+    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
     
@@ -71,11 +71,16 @@
     vc.searchText = self.searchField.stringValue;
     [self presentViewControllerAsSheet: vc];
 }
-- (IBAction)backButtonDown:(NSButton *)sender {
+- (IBAction)clickPlayButton:(NSButton *)sender {
     [self dismissController: self];
     //通知开始播放
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:self userInfo: nil];
 }
+
+- (IBAction)clickBackButton:(NSButton *)sender {
+    [self dismissViewController:self];
+}
+
 
 #pragma mark - 私有方法
 

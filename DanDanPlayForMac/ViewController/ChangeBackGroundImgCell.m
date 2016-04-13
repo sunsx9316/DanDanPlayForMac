@@ -8,6 +8,7 @@
 
 #import "ChangeBackGroundImgCell.h"
 #import "NSAlert+Tools.h"
+#import "NSOpenPanel+Tools.h"
 
 @interface ChangeBackGroundImgCell()
 @property (strong, nonatomic) NSImageView *imageView;
@@ -35,17 +36,13 @@
 }
 
 - (IBAction)clickChangeBackGroundButton:(NSButton *)sender {
-    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-    [openPanel setCanChooseDirectories: NO];
-    [openPanel setCanChooseFiles:YES];
-    [openPanel setAllowsMultipleSelection: NO];
-    
+    NSOpenPanel* openPanel = [NSOpenPanel chooseFilePanelWithTitle:@"选择背景图" defaultURL:nil];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             NSURL *imgURL = [openPanel URLs].firstObject;
             NSImage *img = [[NSImage alloc] initWithContentsOfURL: imgURL];
             if (img == nil) {
-                [[NSAlert alertWithMessageText:@"然而这并不是图片" informativeText:nil] runModal];
+                [[NSAlert alertWithMessageText:kFileISNOTIMGString informativeText:nil] runModal];
             }else{
                 self.imageView.image = img;
                 [UserDefaultManager setHomeImgPath:imgURL.path];

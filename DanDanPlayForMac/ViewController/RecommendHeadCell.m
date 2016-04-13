@@ -14,16 +14,18 @@
 @property (weak) IBOutlet NSButton *titleButton;
 @property (weak) IBOutlet NSTextField *infoTextField;
 @property (weak) IBOutlet NSTextField *briefTextField;
-@property (strong, nonatomic) NSString *filmReviewURL;
 @property (weak) IBOutlet NSButton *filmReviewButton;
-@property (assign, nonatomic) CGFloat rowHeight;
 @property (weak) IBOutlet NSTextField *todayRecommedTextField;
 @property (weak) IBOutlet NSSearchField *searchField;
-
+@property (strong, nonatomic) NSString *filmReviewURL;
 @property (strong, nonatomic) NSString *searchPath;
 @end
 
 @implementation RecommendHeadCell
+{
+    CGFloat _cellHeight;
+}
+
 - (void)awakeFromNib{
     [super awakeFromNib];
 }
@@ -58,11 +60,11 @@
     if (imgURL) {
         [self.filmReviewButton setHidden:NO];
     }
-    self.rowHeight = 130 + self.titleButton.frame.size.height + self.infoTextField.frame.size.height + self.briefTextField.frame.size.height + self.filmReviewButton.frame.size.height + self.todayRecommedTextField.frame.size.height + self.searchField.frame.size.height;
+    _cellHeight = 130 + self.titleButton.frame.size.height + self.infoTextField.frame.size.height + self.briefTextField.frame.size.height + self.filmReviewButton.frame.size.height + self.todayRecommedTextField.frame.size.height + self.searchField.frame.size.height;
 }
 
 - (CGFloat)cellHeight{
-    return self.rowHeight;
+    return _cellHeight;
 }
 
 #pragma mark - 懒加载

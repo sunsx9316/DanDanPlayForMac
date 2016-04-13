@@ -28,24 +28,27 @@
     return [self modelForRow:row].danmaku;
 }
 
-- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, NSDictionary *danmakuDic, NSError *error))complete{
-    NSString *danmaku = [self danmakuForRow:row];
-    if (!danmaku.length) {
-        complete(nil,nil, kObjNilError);
-        return;
-    }
+- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, NSError *error))complete{
+    [self getVideoURLAndDanmakuForVideoName:[self videoNameForRow:row] danmaku:[self danmakuForRow:row] danmakuSource:self.danmakuSource completionHandler:complete];
+}
+
+- (void)getVideoURLAndDanmakuForVideoName:(NSString *)videoName danmaku:(NSString *)danmaku danmakuSource:(NSString *)danmakuSource completionHandler:(void(^)(StreamingVideoModel *videoModel, NSError *error))complete {
+    if (!danmaku.length) danmaku = @"";
     
-    NSString *videoName = [self videoNameForRow:row].length?[self videoNameForRow:row]:@"";
+    if (!videoName.length) videoName = @"";
+    
     [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(NSDictionary *videosDic, NSError *error) {
-        [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":@"bilibili", @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
-            StreamingVideoModel *vm = [[StreamingVideoModel alloc] initWithFileURLs:videosDic fileName:videoName danmaku:danmaku danmakuSource:self.danmakuSource];
+        [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
+            StreamingVideoModel *vm = [[StreamingVideoModel alloc] initWithFileURLs:videosDic fileName:videoName danmaku:danmaku danmakuSource:danmakuSource];
+            vm.danmakuDic = responseObj;
             vm.quality = [UserDefaultManager defaultQuality];
-            complete(vm,responseObj, error);
+            complete(vm, error);
         }];
     }];
 }
+
 - (void)refreshWithcompletionHandler:(void(^)(NSError *error))complete{
-    [DanMuNetManager getBiliBiliDanMuWithParameters:@{@"aid":self.aid?self.aid:@"", @"page":self.page?self.page:@""} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
+    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid?self.aid:@"", @"page":self.page?self.page:@""} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
         self.models = responseObj.videos;
         complete(error);
     }];

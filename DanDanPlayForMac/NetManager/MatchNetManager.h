@@ -20,5 +20,5 @@
  *
  *  @return 任务
  */
-+ (id)getWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(MatchModel* responseObj, NSError *error))complete;
++ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(MatchModel* responseObj, NSError *error))complete;
 @end

@@ -105,7 +105,7 @@
 "AYu-sK-qS6.title" = "Main Menu";
 
 /* Class = "NSMenuItem"; title = "偏好设置"; ObjectID = "BOF-NM-1cW"; */
-"BOF-NM-1cW.title" = "偏好设置";
+"BOF-NM-1cW.title" = "弹弹play 设置";
 
 /* Class = "NSMenuItem"; title = "Clear Menu"; ObjectID = "BgN-ov-1ru"; */
 "BgN-ov-1ru.title" = "Clear Menu";
@@ -219,7 +219,7 @@
 "Olw-nP-bQN.title" = "隐藏";
 
 /* Class = "NSMenuItem"; title = "输入av号"; ObjectID = "P0Z-co-CtZ"; */
-"P0Z-co-CtZ.title" = "输入av号";
+"P0Z-co-CtZ.title" = "在线视频";
 
 /* Class = "NSTableColumn"; headerCell.title = "选择节目"; ObjectID = "PCq-2g-CPI"; */
 "PCq-2g-CPI.headerCell.title" = "选择节目";

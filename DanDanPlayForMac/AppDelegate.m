@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "OpenStreamInputAidViewController.h"
+#import "AboutViewController.h"
+#import "NSOpenPanel+Tools.h"
 
 @interface AppDelegate ()
 
@@ -17,11 +19,13 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-
-
     self.mainWindowController = kViewControllerWithId(@"MainWindowController");
     [self.mainWindowController showWindow: self];
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+    
+    NSButton *closeButton = [self.mainWindowController.window standardWindowButton:NSWindowCloseButton];
+    [closeButton setTarget:self];
+    [closeButton setAction:@selector(closeApplication)];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -38,10 +42,8 @@
     
     if (window != self.mainWindowController.window || [self.mainWindowController.window.contentViewController childViewControllers].count) return;
     
-    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-    [openPanel setCanChooseDirectories: YES];
-    [openPanel setCanChooseFiles:YES];
-    [openPanel setAllowsMultipleSelection: YES];
+    ;
+    NSOpenPanel* openPanel = [NSOpenPanel chooseFileAndDirectoriesPanelWithTitle:@"选择文件/文件夹" defaultURL:nil allowsMultipleSelection:YES];
     
     [openPanel beginSheetModalForWindow:window completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
@@ -65,6 +67,15 @@
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     [vc presentViewControllerAsSheet:[[OpenStreamInputAidViewController alloc] init]];
 }
+- (IBAction)clickAboutButton:(NSMenuItem *)sender {
+    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
+    [vc presentViewControllerAsModalWindow:kViewControllerWithId(@"AboutViewController")];
+}
+
+- (void)closeApplication{
+    [[NSApplication sharedApplication] terminate:nil];
+}
+
 
 - (void)firstRun{
     

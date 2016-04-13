@@ -12,11 +12,13 @@
 #import "ThirdPartySearchVideoInfoView.h"
 #import "BiliBiliSearchViewModel.h"
 #import "AcFunSearchViewModel.h"
+#import "HUDMessageView.h"
 
 @interface ThirdPartySearchViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet ThirdPartySearchVideoInfoView *videoInfoView;
 @property (strong, nonatomic) ThirdPartySearchViewModel *vm;
 @property (strong, nonatomic) JHProgressHUD *hud;
+@property (strong, nonatomic) HUDMessageView *messageView;
 @property (strong, nonatomic) JHProgressHUD *shiBanEpisodeHUD;
 //记录当前点击的行
 @property (assign, nonatomic) NSInteger currentRow;
@@ -50,11 +52,7 @@
     
     [self.hud show];
     [self.vm refreshWithKeyWord:keyWord completionHandler:^(NSError *error) {
-        if (error) {
-            NSAlert *alert = [[NSAlert alloc] init];
-            alert.messageText = @"连接出错";
-            [alert runModal];
-        }
+        if (error) [self.messageView showHUD];
         //刷新的时候重置视频详情
         self.videoInfoView.coverImg.image = [NSImage imageNamed:@"img_hold"];
         self.videoInfoView.animaTitleTextField.stringValue = @"";
@@ -112,7 +110,7 @@
 
 - (void)episodeTableViewDoubleClickRow{
     if (![self.vm infoArrCount]) return;
-    [JHProgressHUD showWithMessage:kLoadMessage parentView: self.view];
+    [JHProgressHUD showWithMessage:kLoadMessageString parentView: self.view];
     NSInteger clickRow = [self.episodeTableView clickedRow];
     [self.vm downDanMuWithRow:clickRow completionHandler:^(id responseObj,NSError *error) {
         [JHProgressHUD disMiss];
@@ -158,18 +156,29 @@
     return nil;
 }
 
+
+#pragma mark - 懒加载
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = _hud = [[JHProgressHUD alloc] initWithMessage:kLoadMessage style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = _hud = [[JHProgressHUD alloc] initWithMessage:kLoadMessageString style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _hud;
 }
 
 - (JHProgressHUD *)shiBanEpisodeHUD {
 	if(_shiBanEpisodeHUD == nil) {
-		_shiBanEpisodeHUD = [[JHProgressHUD alloc] initWithMessage:kLoadMessage style:JHProgressHUDStyleValue1 parentView:self.episodeTableView dismissWhenClick:NO];
+		_shiBanEpisodeHUD = [[JHProgressHUD alloc] initWithMessage:kLoadMessageString style:JHProgressHUDStyleValue1 parentView:self.episodeTableView dismissWhenClick:NO];
 	}
 	return _shiBanEpisodeHUD;
+}
+
+- (HUDMessageView *)messageView {
+    if(_messageView == nil) {
+        _messageView = [[HUDMessageView alloc] init];
+        _messageView.text.stringValue = kConnectFailString;
+        [self.view addSubview: _messageView];
+    }
+    return _messageView;
 }
 
 @end

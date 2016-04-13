@@ -46,7 +46,7 @@
     [super awakeFromNib];
     [self addTrackingArea:self.trackingArea];
     [self setWantsLayer:YES];
-    self.layer.backgroundColor = [NSColor windowBackgroundColor].CGColor;
+    self.layer.backgroundColor = RGBColor(27, 29, 37).CGColor;
 }
 
 @end
