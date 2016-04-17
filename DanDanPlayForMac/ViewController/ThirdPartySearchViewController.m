@@ -160,7 +160,7 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = _hud = [[JHProgressHUD alloc] initWithMessage:kLoadMessageString style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = [[JHProgressHUD alloc] initWithMessage:kLoadMessageString style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _hud;
 }
@@ -176,7 +176,7 @@
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
         _messageView.text.stringValue = kConnectFailString;
-        [self.view addSubview: _messageView];
+        [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo:self.episodeTableView];
     }
     return _messageView;
 }

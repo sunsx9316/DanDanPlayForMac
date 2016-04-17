@@ -7,10 +7,13 @@
 //
 
 #import "PlayerSlideView.h"
+#import <POP.h>
+
 @interface PlayerSlideView()
 @property (strong, nonatomic) NSImageView *progressSliderImgView;
 @property (strong, nonatomic) NSImageView *bufferSliderImgView;
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
+
 @end
 
 

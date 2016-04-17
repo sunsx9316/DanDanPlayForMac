@@ -20,22 +20,41 @@
 @implementation PlayerControlView
 
 - (void)mouseEntered:(NSEvent *)theEvent{
-    if (self.mouseEnteredCallBackBlock) {
-        self.mouseEnteredCallBackBlock();
-    }
+    self.status = PlayerControlViewStatusActive;
 }
 
 - (void)mouseExited:(NSEvent *)theEvent{
-    if (self.mouseExitedCallBackBlock) {
-        self.mouseExitedCallBackBlock();
+    self.status = PlayerControlViewStatusHalfActive;
+}
+
+- (void)setLeftExpansion:(BOOL)leftExpansion {
+    _leftExpansion = leftExpansion;
+    if (self.leftCallBackBlock) {
+        self.leftCallBackBlock(leftExpansion);
     }
 }
 
-- (NSTrackingArea *)trackingArea {
-    if(_trackingArea == nil) {
-        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseEnteredAndExited | NSTrackingInVisibleRect owner:self userInfo:nil];
+- (void)setRightExpansion:(BOOL)rightExpansion {
+    _rightExpansion = rightExpansion;
+    if (self.rightCallBackBlock) {
+        self.rightCallBackBlock(rightExpansion);
     }
-    return _trackingArea;
+}
+
+- (void)setStatus:(PlayerControlViewStatus)status {
+    _status = status;
+    if (self.statusCallBackBlock) {
+        self.statusCallBackBlock(status);
+    }
+//    if (status == PlayerControlViewStatusInActive && self.inActiveCallBackBlock) {
+//        self.inActiveCallBackBlock();
+//    }
+//    else if (status == PlayerControlViewStatusActive && self.activeBackBlock) {
+//        self.activeBackBlock();
+//    }
+//    else if (status == PlayerControlViewStatusHalfActive && self.halfActiveCallBackBlock) {
+//        self.halfActiveCallBackBlock();
+//    }
 }
 
 - (void)dealloc{
@@ -47,6 +66,14 @@
     [self addTrackingArea:self.trackingArea];
     [self setWantsLayer:YES];
     self.layer.backgroundColor = RGBColor(27, 29, 37).CGColor;
+}
+
+#pragma mark - 懒加载
+- (NSTrackingArea *)trackingArea {
+    if(_trackingArea == nil) {
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingActiveInKeyWindow | NSTrackingMouseEnteredAndExited | NSTrackingInVisibleRect owner:self userInfo:nil];
+    }
+    return _trackingArea;
 }
 
 @end

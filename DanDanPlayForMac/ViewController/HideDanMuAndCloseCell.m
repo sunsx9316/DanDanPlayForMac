@@ -9,7 +9,6 @@
 #import "HideDanMuAndCloseCell.h"
 #import "NSButton+Tools.h"
 @interface HideDanMuAndCloseCell()
-@property (strong, nonatomic) NSButton *closeButton;
 @property (strong, nonatomic) NSButton *hideScrollDanMuButton;
 @property (strong, nonatomic) NSButton *hideTopDanMuButton;
 @property (strong, nonatomic) NSButton *hideBottomDanMuButton;
@@ -19,18 +18,17 @@
 @implementation HideDanMuAndCloseCell
 - (instancetype)initWithFrame:(NSRect)frameRect{
     if (self = [super initWithFrame:frameRect]) {
-        [self addSubview: self.closeButton];
         [self addSubview: self.title];
         [self addSubview: self.hideScrollDanMuButton];
         [self addSubview: self.hideTopDanMuButton];
         [self addSubview: self.hideBottomDanMuButton];
         
-        [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_offset(-10);
-            make.top.mas_offset(5);
-            make.width.height.mas_equalTo(30);
-            make.bottom.equalTo(self.title.mas_top).mas_offset(-5);
-        }];
+//        [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.mas_offset(-10);
+//            make.top.mas_offset(5);
+//            make.width.height.mas_equalTo(30);
+//            make.bottom.equalTo(self.title.mas_top).mas_offset(-5);
+//        }];
         
         [self.hideScrollDanMuButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
@@ -50,15 +48,10 @@
         [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.hideScrollDanMuButton);
             make.bottom.equalTo(self.hideScrollDanMuButton.mas_top).mas_offset(-10);
+            make.top.mas_offset(5);
         }];
     }
     return self;
-}
-
-- (void)clickCloseButton{
-    if (self.closeBlock) {
-        self.closeBlock();
-    }
 }
 
 - (void)clickHideButton:(NSButton *)button{
@@ -69,18 +62,6 @@
 
 
 #pragma mark - 懒加载
-- (NSButton *)closeButton {
-	if(_closeButton == nil) {
-		_closeButton = [[NSButton alloc] init];
-        _closeButton.title = @"x";
-        _closeButton.font = [NSFont systemFontOfSize: 20];
-        _closeButton.bordered = NO;
-        [_closeButton setTitleColor: [NSColor whiteColor]];
-        [_closeButton setTarget: self];
-        [_closeButton setAction:@selector(clickCloseButton)];
-    }
-	return _closeButton;
-}
 
 - (NSButton *)hideScrollDanMuButton {
 	if(_hideScrollDanMuButton == nil) {

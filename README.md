@@ -25,6 +25,7 @@
 * [VLCKit](https://code.videolan.org/videolan/VLCKit)
 * [GDataXML-HTML](https://github.com/graetzer/GDataXML-HTML)
 * [JHDanmakuRender](https://github.com/sunsx9316/JHDanmakuRender)
+* [pop](https://github.com/facebook/pop)
 
 ## thank
 * [Bilibili Mac Client](https://github.com/typcn/bilibili-mac-client)

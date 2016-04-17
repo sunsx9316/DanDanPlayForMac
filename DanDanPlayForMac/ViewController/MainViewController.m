@@ -63,12 +63,8 @@
     //路径为文件夹时 扫描文件夹下第一级目录
     for (NSString *fileURL in filePaths) {
         NSArray *contents = [self contentsOfDirectoryAtURL: fileURL];
-        if (contents) {
-            for (NSURL *url in contents) {
-                [self.videos addObject: [[LocalVideoModel alloc] initWithFileURL:url]];
-            }
-        }else{
-            [self.videos addObject: [[LocalVideoModel alloc] initWithFilePath: fileURL]];
+        if (contents.count) {
+            [self.videos addObjectsFromArray:contents];
         }
     }
     //啥也没有
@@ -137,15 +133,18 @@
 - (NSArray *)contentsOfDirectoryAtURL:(NSString *)path{
     BOOL isDirectory;
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    [fileManager fileExistsAtPath: path isDirectory:&isDirectory];
-    if (!isDirectory) return nil;
+    if ([fileManager fileExistsAtPath: path isDirectory:&isDirectory]) {
+        if (!isDirectory) return @[[[LocalVideoModel alloc] initWithFilePath:path]];
+    }
     NSMutableArray *arr = [[fileManager contentsOfDirectoryAtURL:[NSURL fileURLWithPath:path] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants error:nil] mutableCopy];
     
     //移除一级目录下的文件夹
     for (NSInteger i = arr.count - 1; i >= 0; --i) {
         NSURL *url = arr[i];
-        [fileManager fileExistsAtPath: url.path isDirectory:&isDirectory];
-        if (isDirectory) [arr removeObjectAtIndex: i];
+        if ([fileManager fileExistsAtPath: url.path isDirectory:&isDirectory]) {
+            if (isDirectory) [arr removeObjectAtIndex: i];
+            else arr[i] = [[LocalVideoModel alloc] initWithFileURL:url];
+        }
     }
     return arr;
 }

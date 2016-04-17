@@ -72,8 +72,8 @@
 }
 
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
-    if (!keyWord) {
-        complete(nil);
+    if (!keyWord.length) {
+        complete(kObjNilError);
         return;
     }
     
@@ -97,6 +97,7 @@
             AcFunSearchListModel *listModel = [[AcFunSearchListModel alloc] init];
             listModel.title = kNoFoundDanmakuString;
             [arr addObject:listModel];
+            error = kObjNilError;
         }
         
         _listArr = arr;

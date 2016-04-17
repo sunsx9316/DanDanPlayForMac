@@ -373,6 +373,7 @@ static UserDefaultManager* manager = nil;
         [[NSUserDefaults standardUserDefaults] setObject:manager->_lastWatchTimeDic forKey:@"lastWatchVideosTime"];
     }else{
         manager->_lastWatchTimeDic = [tempDic mutableCopy];
+        return [manager->_lastWatchTimeDic[hash] floatValue];
     }
     
     return -1;

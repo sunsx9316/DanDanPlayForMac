@@ -146,7 +146,11 @@
             //没有请求过的视频
             [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:vm.fileName danmaku:vm.danmaku danmakuSource:vm.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
                 if (index < self.videos.count) {
-                    if (videoModel) self.videos[index] = videoModel;
+                    if (videoModel) {
+                        vm.danmakuDic = videoModel.danmakuDic;
+                        self.videos[index] = vm;
+                    }
+                    
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
                     complete(1, vm.fileName, error);
                 }
