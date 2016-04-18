@@ -8,15 +8,14 @@
 
 #import "LocalVideoModel.h"
 #import "NSData+Tools.h"
+@interface LocalVideoModel()
+@property (strong, nonatomic) NSURL *fileURL;
+@property (strong, nonatomic) NSString *fileName;
+@property (strong, nonatomic) NSString *length;
+@property (strong, nonatomic) NSString *md5;
+@end
 
 @implementation LocalVideoModel
-{
-    NSURL *_fileURL;
-    NSString *_fileName;
-    NSString *_length;
-    NSString *_md5;
-}
-
 - (instancetype)initWithFilePath:(NSString *)filePath{
     return [self initWithFileURL:[NSURL fileURLWithPath:filePath]];
 }

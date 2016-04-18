@@ -8,14 +8,14 @@
 
 #import "StreamingVideoModel.h"
 #import "NSString+Tools.h"
+@interface StreamingVideoModel()
+@property (strong, nonatomic) NSString *fileName;
+@property (strong, nonatomic) NSString *danmaku;
+@property (strong, nonatomic) NSString *danmakuSource;
+@property (strong, nonatomic) NSDictionary *URLs;
+@end
 
 @implementation StreamingVideoModel
-{
-    NSString *_fileName;
-    NSString *_danmaku;
-    NSString *_danmakuSource;
-    NSDictionary *_URLs;
-}
 - (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(NSString *)danmakuSource{
     if (self = [super init]) {
         _URLs = fileURLs;

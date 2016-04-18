@@ -133,6 +133,10 @@
  */
 - (void)removeVideoAtIndex:(NSInteger)index;
 /**
+ *  同步播放列表
+ */
+- (void)synchronizeVideoList;
+/**
  *  根据下标重新刷新弹幕
  *
  *  @param index 下标

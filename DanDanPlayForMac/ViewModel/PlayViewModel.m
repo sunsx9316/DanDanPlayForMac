@@ -66,6 +66,15 @@
 
 - (void)addVideosModel:(NSArray *)videosModel{
     [self.videos addObjectsFromArray:videosModel];
+    [self synchronizeVideoList];
+}
+
+- (void)removeVideoAtIndex:(NSInteger)index{
+    if (index < self.currentIndex) {
+        self.currentIndex--;
+    }
+    [self.videos removeObjectAtIndex:index];
+    [self synchronizeVideoList];
 }
 
 - (NSInteger)openStreamCountWithQuality:(streamingVideoQuality)quality{
@@ -88,11 +97,8 @@
     model.URLIndex = index;
 }
 
-- (void)removeVideoAtIndex:(NSInteger)index{
-    if (index < self.currentIndex) {
-        self.currentIndex--;
-    }
-    [self.videos removeObjectAtIndex:index];
+- (void)synchronizeVideoList {
+    [UserDefaultManager setVideoListArr:self.videos];
 }
 
 #pragma mark - 私有方法
@@ -174,7 +180,12 @@
 
 - (instancetype)initWithVideoModels:(NSArray *)videoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId{
     if (self = [super init]) {
+        NSArray *listArr = [UserDefaultManager videoList];
+        if (listArr.count) {
+            videoModels = [videoModels arrayByAddingObjectsFromArray:listArr];
+        }
         self.videos = [videoModels mutableCopy];
+        [self synchronizeVideoList];
         self.danmakusDic = dic;
         self.episodeId = episodeId;
     }

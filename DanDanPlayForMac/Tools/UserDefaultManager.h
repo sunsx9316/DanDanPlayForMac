@@ -61,4 +61,7 @@
 + (void)setDefaultQuality:(NSInteger)quality;
 
 + (void)clearPlayHistory;
+
++ (void)setVideoListArr:(NSArray *)videosArr;
++ (NSArray *)videoList;
 @end

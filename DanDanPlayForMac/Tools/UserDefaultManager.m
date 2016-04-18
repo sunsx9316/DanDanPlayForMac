@@ -424,4 +424,13 @@ static UserDefaultManager* manager = nil;
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"lastWatchVideosTime"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
++ (void)setVideoListArr:(NSArray *)videosArr{
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:videosArr] forKey:@"videoList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSArray *)videoList{
+    return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"videoList"]];
+}
 @end
