@@ -66,6 +66,7 @@
 @interface PlayerViewController ()<PlayerSlideViewDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSUserNotificationCenterDelegate, JHMediaPlayerDelegate>
 
 @property (weak) IBOutlet NSButton *playButton;
+//弹幕隐藏/显示按钮
 @property (weak) IBOutlet NSButton *playDanmakuShowButton;
 @property (weak) IBOutlet NSButton *volumeButton;
 @property (weak) IBOutlet PlayerControlView *playerControlView;
@@ -151,7 +152,16 @@
 
 //全屏
 - (void)mouseDown:(NSEvent *)theEvent {
-    if (theEvent.clickCount == 2) {
+    if (theEvent.clickCount == 1) {
+        if (self.playerControlView.leftExpansion) {
+            self.playerControlView.leftExpansion = NO;
+        }
+        
+        if (self.playerControlView.rightExpansion) {
+            self.playerControlView.rightExpansion = NO;
+        }
+    }
+    else if (theEvent.clickCount == 2) {
         [self toggleFullScreen];
     }
 }
@@ -212,26 +222,17 @@
 }
 
 - (void)clickDanMuControllerButton:(NSButton *)sender {
-    if (self.playerControlView.rightExpansion) {
-        self.playerControlView.rightExpansion = NO;
-        sender.animator.alphaValue = 0;
-    }else {
-        self.playerControlView.rightExpansion = YES;
-    }
+    self.playerControlView.rightExpansion = !self.playerControlView.rightExpansion;
 }
 
 - (void)clickPlayListViewButton:(NSButton *)sender {
-    if (self.playerControlView.leftExpansion) {
-        self.playerControlView.leftExpansion = NO;
-        sender.animator.alphaValue = 0;
-    }else {
-        self.playerControlView.leftExpansion = YES;
-    }
+    self.playerControlView.leftExpansion = !self.playerControlView.leftExpansion;
 }
 
 - (IBAction)clickStopButton:(NSButton *)sender {
     [self saveCurrentVideoTime];
     [self stopPlay];
+    //全屏状态自动退出
     if (_fullScreen) [self toggleFullScreen];
     [self removeFromParentViewController];
     [self.view removeFromSuperview];
@@ -604,6 +605,7 @@
             [weakSelf.playerControlViewLeftConstraint pop_addAnimation:[weakSelf springAnimateWithToValue:PLAY_CONTROL_LEFT_EXPANSION_CONSTRAINT propertyNamed:nil] forKey:@"danmaku_control_view_show_animate"];
         }else {
             [weakSelf.playerControlViewLeftConstraint pop_addAnimation:[weakSelf springAnimateWithToValue:PLAY_CONTROL_LEFT_CONTRACT_CONSTRAINT propertyNamed:nil] forKey:@"danmaku_control_view_hide_animate"];
+            weakSelf.controlPlayListControllerViewButton.animator.alphaValue = 0;
         }
     }];
     
@@ -612,6 +614,7 @@
             [weakSelf.playerControlViewRightConstraint pop_addAnimation:[weakSelf springAnimateWithToValue:PLAY_CONTROL_RIGHT_EXPANSION_CONSTRAINT propertyNamed:nil] forKey:@"play_list_view_show_animate"];
         }else {
             [weakSelf.playerControlViewRightConstraint pop_addAnimation:[weakSelf springAnimateWithToValue:PLAY_CONTROL_RIGHT_CONTRACT_CONSTRAINT propertyNamed:nil] forKey:@"play_list_view_hide_animate"];
+            weakSelf.controlDanMakuControllerViewButton.animator.alphaValue = 0;
         }
     }];
     self.playerControlView.slideView.delegate = self;
