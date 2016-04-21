@@ -9,6 +9,22 @@
 #ifndef Config_h
 #define Config_h
 
+static NSString *official = @"official";
+static NSString *bilibili = @"bilibili";
+static NSString *acfun = @"acfun";
+
+//来源枚举
+typedef NS_ENUM(NSInteger, JHDanMuSource){
+    //官方
+    JHDanMuSourceOfficial,
+    //b站
+    JHDanMuSourceBilibili,
+    //a站
+    JHDanMuSourceAcfun,
+    //发送缓存
+    JHDanMuSourceCache
+};
+
 //错误
 #define kNoMatchError [NSError errorWithDomain:@"nomatchdanmaku" code:200 userInfo: nil]
 #define kObjNilError [NSError errorWithDomain:@"objnil" code:201 userInfo: nil]

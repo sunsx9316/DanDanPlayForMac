@@ -8,13 +8,14 @@
 
 #import "JHMediaPlayer.h"
 #import "JHVLCMedia.h"
+#import "JHPlayerItem.h"
 #import "VLCMedia+Tools.h"
 #import <VLCKit/VLCKit.h>
 #import <AVFoundation/AVFoundation.h>
 //最大音量
 #define MAX_VOLUME 200.0
 
-@interface JHMediaPlayer()<VLCMediaPlayerDelegate>
+@interface JHMediaPlayer()<VLCMediaPlayerDelegate, JHPlayerItemDelegate>
 @property (strong, nonatomic) VLCMediaPlayer *localMediaPlayer;
 @property (strong, nonatomic) AVPlayer *netMediaPlayer;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
@@ -37,7 +38,16 @@
 
 - (void)videoSizeWithCompletionHandle:(void(^)(CGSize size))completionHandle{
     if (self.mediaType == JHMediaTypeNetMedia){
+        if (!self.mediaURL) {
+            completionHandle(CGSizeMake(-1, -1));
+            return;
+        }
         completionHandle(CGSizeZero);
+        return;
+    }
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:self.mediaURL.path]) {
+        completionHandle(CGSizeMake(-1, -1));
         return;
     }
     
@@ -46,7 +56,6 @@
         completionHandle([media videoSize]);
         return;
     }
-    
     [media parseWithBlock:^(VLCMedia *aMedia) {
         completionHandle([aMedia videoSize]);
     }];
@@ -162,10 +171,11 @@
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         [_localMediaPlayer stop];
     }else{
-        CMTime time = _netMediaPlayer.currentTime;
-        time.value = 0;
-        [_netMediaPlayer seekToTime:time];
-        [_netMediaPlayer pause];
+//        CMTime time = _netMediaPlayer.currentTime;
+//        time.value = 0;
+//        [_netMediaPlayer seekToTime:time];
+//        [_netMediaPlayer pause];
+        [_netMediaPlayer replaceCurrentItemWithPlayerItem:nil];
     }
 }
 
@@ -187,7 +197,6 @@
 
 - (void)setMediaURL:(NSURL *)mediaURL{
     [self stop];
-    [self removeLastTimeVideoPlayer];
     _mediaURL = mediaURL;
     if ([_mediaURL isFileURL]) {
         self.localMediaPlayer.media = [[JHVLCMedia alloc] initWithURL:mediaURL];
@@ -227,24 +236,19 @@
     }
 }
 
-#pragma mark - 私有方法
-
-#pragma mark 缓冲总时长
-- (NSTimeInterval)netMediaBufferTime{
-    CMTimeRange range = self.netMediaPlayer.currentItem.loadedTimeRanges.firstObject.CMTimeRangeValue;
-    return CMTimeGetSeconds(range.duration) + CMTimeGetSeconds(range.start);
+#pragma mark - JHPlayerItemDelegate
+- (void)JHPlayerItem:(JHPlayerItem *)item bufferStartTime:(NSTimeInterval)bufferStartTime bufferOnceTime:(NSTimeInterval)bufferOnceTime {
+    [self.delegate mediaPlayer:self bufferTimeProgress:(bufferStartTime + bufferOnceTime) / [self length] onceBufferTime:bufferOnceTime];
 }
+
+#pragma mark - 私有方法
 
 #pragma mark 单次缓冲时长
 - (NSTimeInterval)netMediaBufferOnceTime{
     CMTimeRange range = self.netMediaPlayer.currentItem.loadedTimeRanges.firstObject.CMTimeRangeValue;
     return CMTimeGetSeconds(range.duration);
 }
-#pragma mark 缓冲开始时间
-- (NSTimeInterval)netMediaBufferStartTime{
-    CMTimeRange range = self.netMediaPlayer.currentItem.loadedTimeRanges.firstObject.CMTimeRangeValue;
-    return CMTimeGetSeconds(range.start);
-}
+
 #pragma mark 播放结束
 - (void)playEnd{
     if (self.mediaType == JHMediaTypeNetMedia) {
@@ -305,12 +309,6 @@
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
-    //缓冲时间
-    if ([keyPath isEqualToString:@"loadedTimeRanges"] && [self.delegate respondsToSelector:@selector(mediaPlayer:bufferTimeProgress:onceBufferTime:)]) {
-        
-        [self.delegate mediaPlayer:self bufferTimeProgress:[self netMediaBufferTime] / [self length] onceBufferTime:[self netMediaBufferOnceTime]];
-
-    }
     //播放状态
     if ([keyPath isEqualToString:@"rate"] && [self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]){
         [self.delegate mediaPlayer:self statusChange:[self status]];
@@ -318,47 +316,31 @@
 }
 
 - (void)setupNetMediaPlayerWithMediaURL:(NSURL *)mediaURL{
-    _netMediaPlayer = [AVPlayer playerWithPlayerItem:[AVPlayerItem playerItemWithURL:mediaURL]];
+    JHPlayerItem *item = [[JHPlayerItem alloc] initWithURL:mediaURL];
+    item.delegate = self;
+    if (_netMediaPlayer) {
+        [_netMediaPlayer replaceCurrentItemWithPlayerItem:item];
+    }else {
+        _netMediaPlayer = [AVPlayer playerWithPlayerItem:item];
+        __weak typeof(self)weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+        //监听状态变化
+        [_netMediaPlayer addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
+        //监听时间变化
+        _timeObj = [_netMediaPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+            [weakSelf mediaPlayerTimeChanged:nil];
+        }];
+    }
     AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:_netMediaPlayer];
     self.mediaView.layer = playerLayer;
     
-    __weak typeof(self)weakSelf = self;
-    //监听播放完毕通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
-    
-    //监听状态变化
-    [self.netMediaPlayer addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
-    
-    //监听时间变化
-    _timeObj = [self.netMediaPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        [weakSelf mediaPlayerTimeChanged:nil];
-    }];
-    
-    //缓冲时间变化
-    [self.netMediaPlayer.currentItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
-}
-
-- (void)removeLastTimeVideoPlayer{
-    if (![_mediaURL isFileURL]) {
-        //如果上一次播放的是网络视频 移除
-        if (_netMediaPlayer) {
-            [_netMediaPlayer removeObserver:self forKeyPath:@"rate"];
-            [_netMediaPlayer.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-            [_netMediaPlayer removeTimeObserver:_timeObj];
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
-            _netMediaPlayer = nil;
-        }
-    }else{
-        _localMediaPlayer = nil;
-    }
 }
 
 - (void)dealloc{
     [_netMediaPlayer removeTimeObserver:_timeObj];
     [_mediaView removeFromSuperview];
     [_netMediaPlayer removeObserver:self forKeyPath:@"rate"];
-    [_netMediaPlayer.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-    _netMediaPlayer = nil;
+    [_netMediaPlayer replaceCurrentItemWithPlayerItem:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -369,9 +351,10 @@
         VLCVideoLayer *layer = [[VLCVideoLayer alloc] init];
         self.mediaView.layer = layer;
         _localMediaPlayer = [[VLCMediaPlayer alloc] initWithVideoLayer:layer];
-      //  _localMediaPlayer.libraryInstance.debugLogging = NO;
+        //  _localMediaPlayer.libraryInstance.debugLogging = NO;
         _localMediaPlayer.drawable = self.mediaView;
         _localMediaPlayer.delegate = self;
+        
     }
     return _localMediaPlayer;
 }

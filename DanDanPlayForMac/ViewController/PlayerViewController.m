@@ -33,6 +33,7 @@
 #import "QualityMenuItem.h"
 
 #import "NSColor+Tools.h"
+#import "NSButton+Tools.h"
 #import "NSAlert+Tools.h"
 #import "JHDanmakuEngine+Tools.h"
 #import "PlayerMethodManager.h"
@@ -73,8 +74,8 @@
 @property (weak) IBOutlet NSTextField *timeLabel;
 @property (weak) IBOutlet PlayerHoldView *playerHoldView;
 
-@property (weak) IBOutlet NSScrollView *danMuControlView;
-@property (strong) IBOutlet NSScrollView *playListView;
+@property (weak) IBOutlet NSView *danMuControlView;
+@property (strong) IBOutlet NSView *playListView;
 @property (weak) IBOutlet PlayerListTableView *playerListTableView;
 @property (weak) IBOutlet RespondKeyboardTextField *danmakuTextField;
 @property (weak) IBOutlet NSPopUpButton *danmakuColorPopUpButton;
@@ -83,6 +84,8 @@
 @property (strong) IBOutlet NSMenu *rightClickMenu;
 @property (strong, nonatomic) AddTrackingAreaButton *controlDanMakuControllerViewButton;
 @property (strong, nonatomic) AddTrackingAreaButton *controlPlayListControllerViewButton;
+@property (weak) IBOutlet NSButton *clearAllPlayHistoryButton;
+
 
 @property (strong, nonatomic) HUDMessageView *messageView;
 @property (strong, nonatomic) VolumeControlView *volumeControlView;
@@ -136,6 +139,11 @@
     //初始化播放器相关参数
     [self setupOnce];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
+        if (size.width < 0 || size.height < 0) {
+            self.messageView.text.stringValue = kVideoNoFoundString;
+            [self.messageView showHUD];
+            return;
+        }
         [self setupWithMediaSize:size];
         [self startPlay];
     }];
@@ -196,6 +204,7 @@
 - (void)scrollWheel:(NSEvent *)theEvent{
     [self volumeValueAddTo:0 addBy:theEvent.scrollingDeltaY];
 }
+
 
 #pragma mark -------- 播放器相关 --------
 - (IBAction)clickPlayButton:(NSButton *)sender {
@@ -263,6 +272,12 @@
     }
 }
 
+- (IBAction)clickClearAllHistoryButton:(NSButton *)sender {
+    [self.vm removeVideoAtIndex:-1];
+    [self.playerListTableView reloadData];
+}
+
+
 - (void)launchDanmaku{
     NSString *text = self.danmakuTextField.stringValue;
     if (!text.length) return;
@@ -284,6 +299,7 @@
             self.messageView.text.stringValue = kLaunchDanmakuSuccessString;
             [self.messageView showHUD];
             [self.rander addDanmaku: danmaku];
+            [self.vm saveUserDanmaku:model];
         }else{
             self.messageView.text.stringValue = kLaunchDanmakuFailString;
             [self.messageView showHUD];
@@ -341,11 +357,13 @@
                 [JHProgressHUD disMiss];
                 id vm = [self.vm videoModelWithIndex:index];
                 if ([vm isKindOfClass:[LocalVideoModel class]]) {
-                    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
-                }else {
-                    self.messageView.text.stringValue = kVideoNoFoundString;
-                    [self.messageView showHUD];
+                    if ([error isEqual:kNoMatchError]) {
+                        [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
+                        return;
+                    }
                 }
+                 self.messageView.text.stringValue = kVideoNoFoundString;
+                [self.messageView showHUD];
             }else{
                 [JHProgressHUD updateProgress:progress];
                 if (progress == 0.5) {
@@ -439,6 +457,11 @@
     [self.rander addAllDanmakusDic:notification.userInfo];
     [self.playerListTableView reloadData];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
+        if (size.width < 0 || size.height < 0) {
+            self.messageView.text.stringValue = kVideoNoFoundString;
+            [self.messageView showHUD];
+            return;
+        }
         [self setupWithMediaSize:size];
         [self startPlay];
     }];
@@ -460,7 +483,7 @@
 - (void)stopPlay{
     [self.rander stop];
     [self.player stop];
-
+    
     [self.playerControlView.slideView updateBufferProgress:0];
     [self.playerControlView.slideView updateCurrentProgress:0];
     self.timeLabel.stringValue = @"00:00 / 00:00";
@@ -617,10 +640,18 @@
             weakSelf.controlDanMakuControllerViewButton.animator.alphaValue = 0;
         }
     }];
+    
+    [self.playerControlView.slideView setMouseExitedCallBackBlock:^{
+        [weakSelf.HUDTimeView hide];
+    }];
+    [self.playerControlView.slideView setMouseEnteredCallBackBlock:^{
+        [weakSelf.HUDTimeView show];
+    }];
     self.playerControlView.slideView.delegate = self;
     
     //左右两边的页面
     [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.playerControlView];
+    self.danMuControlView.layer.backgroundColor = RGBAColor(0, 0, 0, 0.5).CGColor;
     [self.danMuControlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(300);
         make.bottom.top.mas_equalTo(0);
@@ -628,12 +659,14 @@
     }];
     
     [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.playerControlView];
+    self.playListView.layer.backgroundColor = RGBAColor(0, 0, 0, 0.5).CGColor;
     [self.playListView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(300);
         make.top.bottom.mas_equalTo(0);
         make.right.equalTo(self.playerControlView.mas_left);
     }];
-
+    [self.clearAllPlayHistoryButton setTitleColor:[NSColor whiteColor]];
+    
     self.controlDanMakuControllerViewButton.alphaValue = 0;
     self.controlPlayListControllerViewButton.alphaValue = 0;
     
@@ -651,7 +684,7 @@
     [self.danmakuTextField setRespondBlock:^{
         [weakSelf launchDanmaku];
     }];
-
+    
     //弹幕颜色、样式按钮
     NSArray *colorArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"danmakuColor" ofType:@"plist"]];
     for (NSDictionary *dic in colorArr) {
@@ -667,7 +700,7 @@
     self.player = [[JHMediaPlayer alloc] initWithMediaURL:[self.vm currentVideoURL]];
     self.player.delegate = self;
     [self.playerHoldView addSubview:self.player.mediaView];
-
+    
     
     //音量
     [self.view addSubview:self.volumeControlView positioned:NSWindowAbove relativeTo:self.playerControlView];
@@ -728,11 +761,7 @@
     [self resetMenuByOpenStreamDic];
     //显示上次播放进度
     [PlayerMethodManager showPlayLastWatchVideoTimeView:self.lastWatchVideoTimeView time:[self.vm currentVideoLastVideoTime]];
-    //视频不存在显示提示信息
-    if (![self.vm currentVideoURL]) {
-        self.messageView.text.stringValue = kVideoNoFoundString;
-        [self.messageView showHUD];
-    }
+    
 }
 
 #pragma mark - NSUserNotificationDelegate
@@ -748,7 +777,7 @@
         self.timeLabel.stringValue = formatTime;
         [self.playerControlView.slideView updateCurrentProgress:progress];
     });
-  //  NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
+    //  NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime{
@@ -814,7 +843,7 @@
     NSInteger selectedIndex = [sender selectedRow];
     if (selectedIndex >= 0) {
         [self changeCurrentIndex:selectedIndex];
-        [self reloadDanmakuWithIndex:self.vm.currentIndex];        
+        [self reloadDanmakuWithIndex:self.vm.currentIndex];
     }
 }
 
@@ -833,11 +862,7 @@
         [cell setTitle:[self.vm videoNameWithIndex:row] iconHide:[self.vm showPlayIconWithIndex:row] callBack:^{
             //删除的行是当前播放视频 播放下一个视频
             if (row == weakSelf.vm.currentIndex) {
-                if (weakSelf.vm.videoCount == 1) {
-                    [weakSelf clickStopButton:nil];
-                }else{
-                    [weakSelf clickNextButton:nil];
-                }
+                [weakSelf clickNextButton:nil];
             }
             [weakSelf.vm removeVideoAtIndex:row];
             [weakSelf.playerListTableView reloadData];
@@ -848,11 +873,6 @@
     //弹幕控制列表
     if (row == 0) {
         HideDanMuAndCloseCell *cell = [tableView makeViewWithIdentifier:@"HideDanMuAndCloseCell" owner: self];
-//        [cell setCloseBlock:^{
-////            weakSelf.showDanMuControllerViewButton.alphaValue = 0;
-////            weakSelf.showDanMuControllerViewButton.hidden = NO;
-//            [weakSelf.playerControlViewRightConstraint pop_addAnimation:[weakSelf animateWithToValue:0] forKey:@"danmaku_control_view_show_animate"];
-//        }];
         [cell setSelectBlock:^(NSInteger num, NSInteger status) {
             status?[weakSelf.rander.globalFilterDanmaku addObject:@(num)]:[weakSelf.rander.globalFilterDanmaku removeObject:@(num)];
         }];
@@ -929,7 +949,7 @@
     NSInteger lowCount = [self.vm openStreamCountWithQuality:streamingVideoQualityLow];
     if (highCount) [arr addObject:[self menuItemWithTitle:@"良心画质" quality:streamingVideoQualityHigh]];
     if (lowCount) [arr addObject:[self menuItemWithTitle:@"渣画质" quality:streamingVideoQualityLow]];
-
+    
     streamingVideoQuality quality = [self.vm openStreamQuality];
     NSUInteger openStreamIndex = [self.vm openStreamIndex];
     for (NSInteger i = 0 ;i < arr.count; ++i) {
@@ -943,7 +963,7 @@
                 sitem.state = item.state && openStreamIndex == i;
                 [item.submenu addItem:sitem];
             }
-        //渣画质
+            //渣画质
         }else{
             for (NSInteger i = 0; i < lowCount; ++i) {
                 NSMenuItem *sitem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"备胎线路 %ld", i + 1] action:@selector(clickItem:) keyEquivalent:@""];
@@ -1049,7 +1069,7 @@
             make.size.centerY.equalTo(self.controlDanMakuControllerViewButton);
             make.left.equalTo(self.playListView.mas_right);
         }];
-
+        
     }
     return _controlPlayListControllerViewButton;
 }
@@ -1083,12 +1103,12 @@
 }
 
 - (VolumeControlView *)volumeControlView {
-	if(_volumeControlView == nil) {
-		_volumeControlView = [[VolumeControlView alloc] init];
+    if(_volumeControlView == nil) {
+        _volumeControlView = [[VolumeControlView alloc] init];
         [_volumeControlView.volumeSlider setTarget:self];
         [_volumeControlView.volumeSlider setAction:@selector(clickVolumeSlider:)];
-	}
-	return _volumeControlView;
+    }
+    return _volumeControlView;
 }
 
 
@@ -1100,11 +1120,11 @@
 }
 
 - (TimeHUDMessageView *)HUDTimeView {
-	if(_HUDTimeView == nil) {
-		_HUDTimeView = [[TimeHUDMessageView alloc] initWithFrame:CGRectMake(0, self.playerControlView.slideView.frame.origin.y + 10, 60, 34)];
+    if(_HUDTimeView == nil) {
+        _HUDTimeView = [[TimeHUDMessageView alloc] initWithFrame:CGRectMake(0, self.playerControlView.slideView.frame.origin.y + 10, 60, 34)];
         _HUDTimeView.alphaValue = 0;
-	}
-	return _HUDTimeView;
+    }
+    return _HUDTimeView;
 }
 
 @end

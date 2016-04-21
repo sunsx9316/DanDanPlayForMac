@@ -16,6 +16,9 @@
 @end
 
 @implementation StreamingVideoModel
+{
+    NSDictionary *_danmakuDic;
+}
 - (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(NSString *)danmakuSource{
     if (self = [super init]) {
         _URLs = fileURLs;
@@ -36,6 +39,13 @@
 - (NSInteger)URLsCountWithQuality:(streamingVideoQuality)quality{
     NSArray *arr = quality == streamingVideoQualityLow ? _URLs[@"low"] : _URLs[@"high"];
     return arr.count;
+}
+
+- (void)setDanmakuDic:(NSDictionary *)danmakuDic {
+    _danmakuDic = danmakuDic;
+}
+- (NSDictionary *)danmakuDic {
+    return _danmakuDic;
 }
 
 - (NSString *)fileName{

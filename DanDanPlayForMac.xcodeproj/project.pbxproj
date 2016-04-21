@@ -100,6 +100,7 @@
 		8983C76D1C8819CC0080C316 /* NSData+DanDanPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */; };
 		8983C7751C8853B40080C316 /* danmakuColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8983C7741C8853B40080C316 /* danmakuColor.plist */; };
 		8984B3561C8C23D800C845AC /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8984B3551C8C23D800C845AC /* JHMediaView.m */; };
+		8985A5B31CC913DA00B5936D /* JHPlayerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8985A5B21CC913DA00B5936D /* JHPlayerItem.m */; };
 		898732811C9701E50019F8BA /* PlayLastWatchVideoTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898732801C9701E50019F8BA /* PlayLastWatchVideoTimeView.m */; };
 		8987FBE61CBA556D0012A4F2 /* OpenStreamVideoCheakCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8987FBE51CBA556D0012A4F2 /* OpenStreamVideoCheakCell.m */; };
 		89880A6B1C92F15E0060916F /* RecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A6A1C92F15E0060916F /* RecommendViewController.m */; };
@@ -336,6 +337,8 @@
 		8983C7741C8853B40080C316 /* danmakuColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = danmakuColor.plist; sourceTree = "<group>"; };
 		8984B3541C8C23D800C845AC /* JHMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaView.h; sourceTree = "<group>"; };
 		8984B3551C8C23D800C845AC /* JHMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaView.m; sourceTree = "<group>"; };
+		8985A5B11CC913DA00B5936D /* JHPlayerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHPlayerItem.h; sourceTree = "<group>"; };
+		8985A5B21CC913DA00B5936D /* JHPlayerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHPlayerItem.m; sourceTree = "<group>"; };
 		8987327F1C9701E50019F8BA /* PlayLastWatchVideoTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayLastWatchVideoTimeView.h; sourceTree = "<group>"; };
 		898732801C9701E50019F8BA /* PlayLastWatchVideoTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayLastWatchVideoTimeView.m; sourceTree = "<group>"; };
 		8987FBE41CBA556D0012A4F2 /* OpenStreamVideoCheakCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStreamVideoCheakCell.h; sourceTree = "<group>"; };
@@ -926,6 +929,8 @@
 				899BA7FB1C8AA7D6007A67A8 /* VLCMedia+Tools.m */,
 				8984B3541C8C23D800C845AC /* JHMediaView.h */,
 				8984B3551C8C23D800C845AC /* JHMediaView.m */,
+				8985A5B11CC913DA00B5936D /* JHPlayerItem.h */,
+				8985A5B21CC913DA00B5936D /* JHPlayerItem.m */,
 			);
 			path = JHMediaPlayer;
 			sourceTree = "<group>";
@@ -1260,6 +1265,7 @@
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,
 				896BE9111CAEC478005BE0D1 /* TimeHUDMessageView.m in Sources */,
 				899BA7FD1C8AA7D6007A67A8 /* JHVLCMedia.m in Sources */,
+				8985A5B31CC913DA00B5936D /* JHPlayerItem.m in Sources */,
 				8944E67A1C8F09FA005C5DC8 /* JHProgressHUD.m in Sources */,
 				8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */,
 				89651E491C5FA837002F23A2 /* NSColor+Tools.m in Sources */,

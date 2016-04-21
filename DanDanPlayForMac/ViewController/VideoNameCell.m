@@ -20,6 +20,7 @@
 @implementation VideoNameCell
 - (void)awakeFromNib{
     [super awakeFromNib];
+    [self setWantsLayer:YES];
     [self.button setTitleColor:[NSColor whiteColor]];
     [self addTrackingArea:self.trackingArea];
 }

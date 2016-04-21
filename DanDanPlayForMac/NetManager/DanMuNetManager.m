@@ -11,10 +11,8 @@
 #import "VideoInfoModel.h"
 #import "DanMuDataFormatter.h"
 #import "NSData+DanDanPlay.h"
+#import "ParentDanmaku.h"
 
-static NSString *official = @"official";
-static NSString *bilibili = @"bilibili";
-static NSString *acfun = @"acfun";
 
 @implementation DanMuNetManager
 + (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
@@ -39,9 +37,23 @@ static NSString *acfun = @"acfun";
         return nil;
     }
     //找缓存
-    id cache = [self danMuCacheWithDanmakuID:parameters[@"id"] provider:official];
+    id cache = [self danMuCacheWithDanmakuID:parameters[@"id"] provider:official isCache:NO];
     if (cache) {
-        complete([DanMuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: cache].comments source:JHDanMuSourceOfficial], nil);
+        cache = [DanMuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: cache].comments source:JHDanMuSourceOfficial];
+        //找用户发送缓存
+        id userCache = [self danMuCacheWithDanmakuID:parameters[@"id"] provider:official isCache:YES];
+        if (userCache) {
+            userCache = [DanMuDataFormatter arrWithObj:userCache source:JHDanMuSourceCache];
+            [userCache enumerateObjectsUsingBlock:^(ParentDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSInteger time = obj.appearTime;
+                if (!cache[@(time)]) {
+                    cache[@(time)] = [NSMutableArray array];
+                }
+                [cache[@(time)] addObject:obj];
+            }];
+        }
+        
+        complete(cache, nil);
         return nil;
     }
     
@@ -61,7 +73,7 @@ static NSString *acfun = @"acfun";
     
     if ([parameters[@"provider"] isEqualToString: bilibili]) {
         //找缓存
-        id cache = [self danMuCacheWithDanmakuID:parameters[@"danmaku"] provider:bilibili];
+        id cache = [self danMuCacheWithDanmakuID:parameters[@"danmaku"] provider:bilibili isCache:NO];
         if (cache) {
             complete([DanMuDataFormatter dicWithObj:cache source:JHDanMuSourceBilibili], nil);
             return nil;
@@ -75,7 +87,7 @@ static NSString *acfun = @"acfun";
         }];
     }else if ([parameters[@"provider"] isEqualToString: acfun]){
         //找缓存
-        id cache = [self danMuCacheWithDanmakuID:parameters[@"danmaku"] provider:acfun];
+        id cache = [self danMuCacheWithDanmakuID:parameters[@"danmaku"] provider:acfun isCache:NO];
         if (cache) {
             complete([DanMuDataFormatter dicWithObj:cache source:JHDanMuSourceAcfun], nil);
             return nil;
@@ -249,9 +261,10 @@ static NSString *acfun = @"acfun";
  *
  *  @return 弹幕缓存
  */
-+ (id)danMuCacheWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider{
++ (id)danMuCacheWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider isCache:(BOOL)isCache{
+    NSString *danMuCachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:[provider stringByAppendingPathComponent:!isCache ? danmakuID : [NSString stringWithFormat:@"%@_user", danmakuID]]];
     
-    NSString *danMuCachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:[provider stringByAppendingPathComponent:danmakuID]];
     return [NSKeyedUnarchiver unarchiveObjectWithFile: danMuCachePath];
 }
+
 @end

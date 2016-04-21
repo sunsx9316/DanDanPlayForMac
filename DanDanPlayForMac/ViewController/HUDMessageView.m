@@ -7,6 +7,7 @@
 //
 
 #import "HUDMessageView.h"
+#import <POP.h>
 
 @interface HUDMessageView()
 @property (strong, nonatomic) NSImageView *bgImg;
@@ -16,7 +17,8 @@
 @implementation HUDMessageView
 - (instancetype)init{
     if (self = [super init]) {
-        self.hidden = YES;
+//        self.hidden = YES;
+        self.alphaValue = 0;
         self.frame = CGRectMake(0, 0, 200, 40);
     }
     return self;
@@ -25,11 +27,19 @@
 - (void)showHUD{
     [self.timer invalidate];
     self.center = self.superview.center;
-    self.animator.hidden = NO;
+//    self.animator.hidden = NO;
+    POPBasicAnimation *anima = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlphaValue];
+    anima.beginTime = CACurrentMediaTime();
+    anima.toValue = @1;
+    [self pop_addAnimation:anima forKey:@"HUD_message_view_show"];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(hideHUD) userInfo:nil repeats:NO];
 }
 - (void)hideHUD{
-    self.animator.hidden = YES;
+    POPBasicAnimation *anima = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlphaValue];
+    anima.beginTime = CACurrentMediaTime();
+    anima.toValue = @0;
+    [self pop_addAnimation:anima forKey:@"HUD_message_view_hide"];
+//    self.animator.hidden = YES;
 }
 
 - (void)dealloc{
