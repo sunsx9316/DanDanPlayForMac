@@ -33,7 +33,8 @@ typedef NS_ENUM(NSUInteger, streamingVideoQuality) {
 /**
  *  弹幕
  */
-@property (strong, nonatomic) NSDictionary *danmakuDic;
+- (void)setDanmakuDic:(NSDictionary *)danmakuDic;
+- (NSDictionary *)danmakuDic;
 /**
  *  所有地址数 
  *

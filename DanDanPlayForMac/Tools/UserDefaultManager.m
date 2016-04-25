@@ -373,6 +373,7 @@ static UserDefaultManager* manager = nil;
         [[NSUserDefaults standardUserDefaults] setObject:manager->_lastWatchTimeDic forKey:@"lastWatchVideosTime"];
     }else{
         manager->_lastWatchTimeDic = [tempDic mutableCopy];
+        return [manager->_lastWatchTimeDic[hash] floatValue];
     }
     
     return -1;
@@ -422,5 +423,14 @@ static UserDefaultManager* manager = nil;
     manager->_lastWatchTimeDic = [NSMutableDictionary dictionary];
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"lastWatchVideosTime"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (void)setVideoListArr:(NSArray *)videosArr{
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:videosArr] forKey:@"videoList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSArray *)videoList{
+    return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"videoList"]];
 }
 @end

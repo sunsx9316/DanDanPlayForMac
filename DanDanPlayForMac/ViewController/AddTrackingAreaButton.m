@@ -25,13 +25,6 @@
     }
 }
 
-- (NSTrackingArea *)trackingArea {
-    if(_trackingArea == nil) {
-        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseEnteredAndExited | NSTrackingInVisibleRect owner:self userInfo:nil];
-    }
-    return _trackingArea;
-}
-
 - (void)dealloc{
     [self removeTrackingArea:self.trackingArea];
 }
@@ -41,6 +34,15 @@
         [self addTrackingArea:self.trackingArea];
     }
     return self;
+}
+
+
+#pragma mark - 懒加载
+- (NSTrackingArea *)trackingArea {
+    if(_trackingArea == nil) {
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseEnteredAndExited | NSTrackingInVisibleRect owner:self userInfo:nil];
+    }
+    return _trackingArea;
 }
 
 @end

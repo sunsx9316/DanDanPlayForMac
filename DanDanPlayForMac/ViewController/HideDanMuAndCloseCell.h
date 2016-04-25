@@ -8,6 +8,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface HideDanMuAndCloseCell : NSView
-@property (copy, nonatomic) void(^closeBlock)();
 @property (copy, nonatomic) void(^selectBlock)(NSInteger num, NSInteger status);
 @end

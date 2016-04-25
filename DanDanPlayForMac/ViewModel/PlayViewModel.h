@@ -132,6 +132,17 @@
  *  @param index 下标
  */
 - (void)removeVideoAtIndex:(NSInteger)index;
+
+/**
+ *  同步播放列表
+ */
+- (void)synchronizeVideoList;
+/**
+ *  保存用户发送弹幕
+ *
+ *  @param danmakuModel 弹幕模型
+ */
+- (void)saveUserDanmaku:(DanMuDataModel *)danmakuModel;
 /**
  *  根据下标重新刷新弹幕
  *

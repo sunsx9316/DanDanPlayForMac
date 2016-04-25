@@ -9,5 +9,6 @@ pod 'AFNetworking', '~> 2.6.3'
 pod 'Masonry'
 pod 'YYModel'
 pod 'GDataXML-HTML'
+pod 'pop'
 end
 

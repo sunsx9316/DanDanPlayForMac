@@ -16,35 +16,37 @@
 
 typedef void(^callBackBlock)(DanMuDataModel *model);
 @implementation DanMuDataFormatter
-+ (NSDictionary *)dicWithObj:(id)obj source:(JHDanMuSource)source{
++ (NSMutableDictionary *)dicWithObj:(id)obj source:(JHDanMuSource)source{
     NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *> *> *dic = [NSMutableDictionary dictionary];
-    
-    NSFont *font = [UserDefaultManager danMuFont];
-    NSInteger danMufontSpecially = [UserDefaultManager danMufontSpecially];
-    
-    [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
-        NSInteger time = model.time;
-        if (!dic[@(time)]) dic[@(time)] = [NSMutableArray array];
-        ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize: font.pointSize font:font];
-        danmaku.appearTime = model.time;
-        danmaku.filter = model.isFilter;
-        [dic[@(time)] addObject: danmaku];
-    }];
+    if (obj) {
+        NSFont *font = [UserDefaultManager danMuFont];
+        NSInteger danMufontSpecially = [UserDefaultManager danMufontSpecially];
+        
+        [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
+            NSInteger time = model.time;
+            if (!dic[@(time)]) dic[@(time)] = [NSMutableArray array];
+            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize: font.pointSize font:font];
+            danmaku.appearTime = model.time;
+            danmaku.filter = model.isFilter;
+            [dic[@(time)] addObject: danmaku];
+        }];
+    }
     return dic;
 }
 
-+ (NSArray *)arrWithObj:(id)obj source:(JHDanMuSource)source{
++ (NSMutableArray *)arrWithObj:(id)obj source:(JHDanMuSource)source{
     NSMutableArray *arr = [NSMutableArray array];
-    
-    NSFont *font = [UserDefaultManager danMuFont];
-    NSInteger danMufontSpecially = [UserDefaultManager danMufontSpecially];
-    
-    [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
-        ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize:font.pointSize font:font];
-        danmaku.appearTime = model.time;
-        danmaku.filter = model.isFilter;
-        [arr addObject: danmaku];
-    }];
+    if (obj) {
+        NSFont *font = [UserDefaultManager danMuFont];
+        NSInteger danMufontSpecially = [UserDefaultManager danMufontSpecially];
+        
+        [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
+            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize:font.pointSize font:font];
+            danmaku.appearTime = model.time;
+            danmaku.filter = model.isFilter;
+            [arr addObject: danmaku];
+        }];
+    }
     return arr;
 }
 
@@ -60,6 +62,8 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
         case JHDanMuSourceOfficial:
             [self danMuWithOfficialArr:obj block:block];
             break;
+        case JHDanMuSourceCache:
+            [self danMuWithOfficialArr:obj block:block];
         default:
             break;
     }
@@ -109,6 +113,7 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
             if (block) block(model);
     }
 }
+
 
 //过滤弹幕
 + (BOOL)filterWithDanMudataModel:(DanMuDataModel *)model{

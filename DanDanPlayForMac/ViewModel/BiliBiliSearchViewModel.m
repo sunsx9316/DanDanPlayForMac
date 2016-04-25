@@ -80,8 +80,8 @@
 }
 
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
-    if (!keyWord) {
-        complete(nil);
+    if (!keyWord.length) {
+        complete(kObjNilError);
         return;
     }
     
@@ -93,6 +93,7 @@
             BiliBiliSearchDataModel *dataModel = [[BiliBiliSearchDataModel alloc] init];
             dataModel.title = kNoFoundDanmakuString;
             tempArr = [@[dataModel] mutableCopy];
+            error = kObjNilError;
         }else{
             [responseObj.result enumerateObjectsUsingBlock:^(BiliBiliSearchDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if (!obj.isBangumi && obj.seasonID){
