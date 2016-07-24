@@ -24,7 +24,7 @@
 }
 
 - (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:@"bilibili" completionHandler:complete];
+    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:bilibili completionHandler:complete];
 }
 
 

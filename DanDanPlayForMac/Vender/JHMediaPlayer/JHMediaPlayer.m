@@ -33,7 +33,7 @@
 #pragma mark 属性
 
 - (JHMediaType)mediaType{
-    return [self.mediaURL isFileURL]?JHMediaTypeLocaleMedia:JHMediaTypeNetMedia;
+    return [self.mediaURL isFileURL] ? JHMediaTypeLocaleMedia : JHMediaTypeNetMedia;
 }
 
 - (void)videoSizeWithCompletionHandle:(void(^)(CGSize size))completionHandle{
@@ -61,25 +61,26 @@
     }];
 }
 
-- (NSTimeInterval)length{
+- (NSTimeInterval)length {
     if (_length >= 0) return _length;
     
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         _length = self.localMediaPlayer.media.length.numberValue.floatValue / 1000;
-    }else{
+    }
+    else{
         _length = CMTimeGetSeconds(self.netMediaPlayer.currentItem.duration);
     }
     return _length;
 }
 
-- (NSTimeInterval)currentTime{
+- (NSTimeInterval)currentTime {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         return self.localMediaPlayer.time.numberValue.floatValue / 1000;
     }
     return CMTimeGetSeconds(self.netMediaPlayer.currentTime);
 }
 
-- (JHMediaPlayerStatus)status{
+- (JHMediaPlayerStatus)status {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         switch (self.localMediaPlayer.state) {
             case VLCMediaPlayerStateStopped:
@@ -100,41 +101,43 @@
 }
 
 #pragma mark 音量
-- (void)volumeJump:(CGFloat)value{
+- (void)volumeJump:(CGFloat)value {
     [self setVolume: self.volume + value];
 }
 
-- (CGFloat)volume{
+- (CGFloat)volume {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         return self.localMediaPlayer.audio.volume;
     }
     return self.netMediaPlayer.volume * MAX_VOLUME;
 }
 
-- (void)setVolume:(CGFloat)volume{
+- (void)setVolume:(CGFloat)volume {
     if (volume < 0) volume = 0;
     if (volume > MAX_VOLUME) volume = MAX_VOLUME;
     
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         self.localMediaPlayer.audio.volume = volume;
-    }else{
+    }
+    else {
         self.netMediaPlayer.volume = volume / MAX_VOLUME;
     }
 }
 
 #pragma mark 播放位置
-- (void)jump:(int)value completionHandler:(void(^)(NSTimeInterval time))completionHandler{
+- (void)jump:(int)value completionHandler:(void(^)(NSTimeInterval time))completionHandler {
     [self setPosition:([self currentTime] + value) / [self length] completionHandler:completionHandler];
 }
 
-- (void)setPosition:(CGFloat)position completionHandler:(void(^)(NSTimeInterval time))completionHandler{
+- (void)setPosition:(CGFloat)position completionHandler:(void(^)(NSTimeInterval time))completionHandler {
     if (position < 0) position = 0;
     if (position > 1) position = 1;
     
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         self.localMediaPlayer.position = position;
         if (completionHandler) completionHandler([self length] * position);
-    }else{
+    }
+    else {
         CMTime time = self.netMediaPlayer.currentTime;
         time.value = time.timescale * position * [self length];
         __weak typeof(self)weakSelf = self;
@@ -144,7 +147,7 @@
     }
 }
 
-- (CGFloat)position{
+- (CGFloat)position {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         return self.localMediaPlayer.position;
     }
@@ -153,35 +156,36 @@
 
 
 #pragma mark 播放器控制
-- (void)play{
+- (void)play {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         [self.localMediaPlayer play];
-    }else{
+    }
+    else {
         [self.netMediaPlayer play];
     }
 }
-- (void)pause{
+
+- (void)pause {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         [self.localMediaPlayer pause];
-    }else{
+    }
+    else {
         [self.netMediaPlayer pause];
     }
 }
-- (void)stop{
+
+- (void)stop {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         [_localMediaPlayer stop];
-    }else{
-//        CMTime time = _netMediaPlayer.currentTime;
-//        time.value = 0;
-//        [_netMediaPlayer seekToTime:time];
-//        [_netMediaPlayer pause];
+    }
+    else {
         [_netMediaPlayer replaceCurrentItemWithPlayerItem:nil];
     }
 }
 
 
 #pragma mark 功能
-- (void)saveVideoSnapshotAt:(NSString *)path withWidth:(NSInteger)width andHeight:(NSInteger)height format:(JHSnapshotType)format{
+- (void)saveVideoSnapshotAt:(NSString *)path withWidth:(NSInteger)width andHeight:(NSInteger)height format:(JHSnapshotType)format {
     //vlc截图方式
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         NSString *directoryPath = [path stringByDeletingLastPathComponent];
@@ -195,19 +199,24 @@
     }
 }
 
-- (void)setMediaURL:(NSURL *)mediaURL{
+- (void)setMediaURL:(NSURL *)mediaURL {
     [self stop];
+    if (!mediaURL.path.length) return;
     _mediaURL = mediaURL;
     if ([_mediaURL isFileURL]) {
-        self.localMediaPlayer.media = [[JHVLCMedia alloc] initWithURL:mediaURL];
+        //不自动寻找字幕
+        JHVLCMedia *media = [[JHVLCMedia alloc] initWithURL:mediaURL];
+        [media addOptions:@{@"sub-file": @"no-sub-autodetect-file"}];
+        self.localMediaPlayer.media = media;
         self.localMediaPlayer.delegate = self;
-    }else{
+    }
+    else {
         [self setupNetMediaPlayerWithMediaURL:_mediaURL];
     }
     _length = -1;
 }
 
-- (instancetype)initWithMediaURL:(NSURL *)mediaURL{
+- (instancetype)initWithMediaURL:(NSURL *)mediaURL {
     if (self = [super init]) {
         [self setMediaURL:mediaURL];
     }
@@ -215,7 +224,7 @@
 }
 
 #pragma mark - VLCMediaPlayerDelegate
-- (void)mediaPlayerTimeChanged:(NSNotification *)aNotification{
+- (void)mediaPlayerTimeChanged:(NSNotification *)aNotification {
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:progress:formatTime:)]) {
         NSTimeInterval nowTime = [self currentTime];
         NSTimeInterval videoTime = [self length];
@@ -226,7 +235,7 @@
     }
 }
 
-- (void)mediaPlayerStateChanged:(NSNotification *)aNotification{
+- (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
         if ([self status] == JHMediaPlayerStatusPause && [self length] - [self currentTime] < 1) {
             //[self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusStop];
@@ -250,7 +259,7 @@
 }
 
 #pragma mark 播放结束
-- (void)playEnd{
+- (void)playEnd {
     if (self.mediaType == JHMediaTypeNetMedia) {
         _status = JHMediaPlayerStatusStop;
         if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
@@ -260,11 +269,11 @@
 }
 
 #pragma mark 转换图片格式
-- (void)transformImgWithPath:(NSString *)path imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName{
-    
+- (void)transformImgWithPath:(NSString *)path imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName {
     if (imgFileType == NSPNGFileType) {
         [[NSFileManager defaultManager] moveItemAtPath:path toPath:[path stringByAppendingPathExtension:@"png"] error:nil];
-    }else{
+    }
+    else {
         NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
         if (!image) return;
         CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
@@ -276,14 +285,14 @@
 }
 
 #pragma mark 获取图片数据
-- (NSData *)imgDataWithImageRef:(CGImageRef)imageRef size:(CGSize)size imgFileType:(NSBitmapImageFileType)imgFileType{
+- (NSData *)imgDataWithImageRef:(CGImageRef)imageRef size:(CGSize)size imgFileType:(NSBitmapImageFileType)imgFileType {
     NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:imageRef];
     [newRep setSize:size];
     return [newRep representationUsingType:imgFileType properties: @{}];
 }
 
 #pragma mark 获取图片格式和后缀名
-- (NSDictionary *)imgSuffixNameAndFIleTypeWithformat:(JHSnapshotType)format{
+- (NSDictionary *)imgSuffixNameAndFIleTypeWithformat:(JHSnapshotType)format {
     NSBitmapImageFileType imgFileType = NSPNGFileType;
     NSString *suffixName = @".png";
     switch (format) {
@@ -308,19 +317,20 @@
 }
 
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     //播放状态
-    if ([keyPath isEqualToString:@"rate"] && [self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]){
+    if ([keyPath isEqualToString:@"rate"] && [self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
         [self.delegate mediaPlayer:self statusChange:[self status]];
     }
 }
 
-- (void)setupNetMediaPlayerWithMediaURL:(NSURL *)mediaURL{
+- (void)setupNetMediaPlayerWithMediaURL:(NSURL *)mediaURL {
     JHPlayerItem *item = [[JHPlayerItem alloc] initWithURL:mediaURL];
     item.delegate = self;
     if (_netMediaPlayer) {
         [_netMediaPlayer replaceCurrentItemWithPlayerItem:item];
-    }else {
+    }
+    else {
         _netMediaPlayer = [AVPlayer playerWithPlayerItem:item];
         __weak typeof(self)weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
@@ -336,7 +346,7 @@
     
 }
 
-- (void)dealloc{
+- (void)dealloc {
     [_netMediaPlayer removeTimeObserver:_timeObj];
     [_mediaView removeFromSuperview];
     [_netMediaPlayer removeObserver:self forKeyPath:@"rate"];
@@ -351,7 +361,7 @@
         VLCVideoLayer *layer = [[VLCVideoLayer alloc] init];
         self.mediaView.layer = layer;
         _localMediaPlayer = [[VLCMediaPlayer alloc] initWithVideoLayer:layer];
-        //  _localMediaPlayer.libraryInstance.debugLogging = NO;
+//        _localMediaPlayer.libraryInstance.debugLogging = NO;
         _localMediaPlayer.drawable = self.mediaView;
         _localMediaPlayer.delegate = self;
         
@@ -359,7 +369,7 @@
     return _localMediaPlayer;
 }
 
-- (JHMediaView *)mediaView{
+- (JHMediaView *)mediaView {
     if (_mediaView == nil) {
         _mediaView = [[JHMediaView alloc] init];
         [_mediaView setWantsLayer:YES];

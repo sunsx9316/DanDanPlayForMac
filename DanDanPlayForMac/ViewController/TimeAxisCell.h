@@ -8,5 +8,5 @@
 
 #import <Cocoa/Cocoa.h>
 @interface TimeAxisCell : NSView
-@property (copy, nonatomic) void(^timeOffsetBlock)(NSInteger num);
+@property (copy, nonatomic) void(^timeOffsetBlock)(NSInteger value);
 @end

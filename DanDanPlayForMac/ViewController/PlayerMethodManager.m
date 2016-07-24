@@ -12,6 +12,7 @@
 #import "DanMuNetManager.h"
 #import "DanMuModel.h"
 #import "NSOpenPanel+Tools.h"
+#import "JHSubtitleParser.h"
 
 @implementation PlayerMethodManager
 
@@ -22,16 +23,17 @@
     } completionHandler:completionHandler];
 }
 
-+ (void)loadLocaleDanMuWithBlock:(loadLocalDanMuBlock)block{
++ (void)loadLocaleDanMuWithBlock:(loadLocalDanMuBlock)block {
     NSOpenPanel* openPanel = [NSOpenPanel chooseFilePanelWithTitle:@"选取弹幕" defaultURL:nil];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
-        if (result == NSFileHandlingPanelOKButton){
+        if (result == NSFileHandlingPanelOKButton) {
             //acfun：json解析方式
             id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
             NSDictionary *dic = nil;
             if (obj) {
                 dic = [DanMuDataFormatter dicWithObj:obj source:JHDanMuSourceAcfun];
-            }else{
+            }
+            else{
                 //bilibili：xml解析方式
                 dic = [DanMuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:JHDanMuSourceBilibili];
             }
@@ -40,7 +42,17 @@
     }];
 }
 
-+ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler{
++ (void)loadLocaleSubtitleWithBlock:(loadLocalSubtitleBlock)block {
+    NSOpenPanel* openPanel = [NSOpenPanel chooseFilePanelWithTitle:@"选取字幕" defaultURL:nil];
+    openPanel.allowedFileTypes = @[@"ass", @"srt"];
+    [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
+        if (result == NSFileHandlingPanelOKButton) {
+            block(openPanel.URL.path);
+        }
+    }];
+}
+
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler {
     if (!episodeId) {
         completionHandler(nil, kObjNilError);
         return;
@@ -56,7 +68,7 @@
     }];
 }
 
-+ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate{
++ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate {
     //删除已经显示过的通知(已经存在用户的通知列表中的)
     [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
     
@@ -72,7 +84,7 @@
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }
 
-+ (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size{
++ (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size {
     CGSize screenSize = [NSScreen mainScreen].frame.size;
     //宽高有一个为0 使用布满全屏的约束
     if (!size.width || !size.height) {
@@ -80,7 +92,8 @@
             make.edges.mas_equalTo(0);
         }];
         //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
-    }else if (screenSize.width * (size.height / size.width) > screenSize.height) {
+    }
+    else if (screenSize.width * (size.height / size.width) > screenSize.height) {
         [mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.centerX.bottom.mas_equalTo(0);
             make.width.equalTo(mediaView.mas_height).multipliedBy(size.width / size.height);
@@ -88,7 +101,8 @@
             make.right.mas_lessThanOrEqualTo(0);
         }];
         //没超过 使用这个约束
-    }else{
+    }
+    else{
         [mediaView  mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.right.centerY.mas_equalTo(0);
             make.top.mas_greaterThanOrEqualTo(0);
@@ -98,7 +112,7 @@
     }
 }
 
-+ (void)showPlayLastWatchVideoTimeView:(PlayLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time{
++ (void)showPlayLastWatchVideoTimeView:(PlayLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time {
     NSUInteger intTime = time;
     if (time > 0) {
         timeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",intTime / 60, intTime % 60];
@@ -108,11 +122,12 @@
 }
 
 #pragma mark - 私有方法
-+ (void)transformImgWithPath:(NSString *)path imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName{
++ (void)transformImgWithPath:(NSString *)path imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName {
     
     if (imgFileType == NSPNGFileType) {
         [[NSFileManager defaultManager] moveItemAtPath:path toPath:[path stringByAppendingPathExtension:@"png"] error:nil];
-    }else{
+    }
+    else{
         NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
         if (!image) return;
         CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];

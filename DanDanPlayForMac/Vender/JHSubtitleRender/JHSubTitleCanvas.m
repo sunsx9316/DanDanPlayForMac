@@ -6,14 +6,14 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "JHDanmakuCanvas.h"
+#import "JHSubTitleCanvas.h"
 
-@implementation JHDanmakuCanvas
-- (JHView *)hitTest:(CGPoint)aPoint{
+@implementation JHSubTitleCanvas
+- (JHView *)hitTest:(CGPoint)aPoint {
     return nil;
 }
 
-- (instancetype)init{
+- (instancetype)init {
     if (self = [super init]) {
 #if TARGET_OS_IPHONE
         self.userInteractionEnabled = NO;

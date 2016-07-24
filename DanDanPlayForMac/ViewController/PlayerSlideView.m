@@ -126,7 +126,7 @@
 
 - (NSColor *)progressSliderColor {
     if(_progressSliderColor == nil) {
-        _progressSliderColor = RGBColor(230, 25, 73);
+        _progressSliderColor = MAIN_COLOR;
     }
     return _progressSliderColor;
 }

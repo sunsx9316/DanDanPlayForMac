@@ -9,8 +9,9 @@
 #import "PlayerViewController.h"
 #import "MatchViewController.h"
 #import "SearchViewController.h"
+#import "PlayerListViewController.h"
+#import "PlayerDanmakuAndSubtitleViewController.h"
 
-#import "PlayerListTableView.h"
 #import "HUDMessageView.h"
 #import "PlayerHoldView.h"
 #import "PlayerControlView.h"
@@ -25,11 +26,6 @@
 #import "LocalVideoModel.h"
 #import "PlayViewModel.h"
 
-#import "VideoNameCell.h"
-#import "HideDanMuAndCloseCell.h"
-#import "SliderControlCell.h"
-#import "TimeAxisCell.h"
-#import "OnlyButtonCell.h"
 #import "QualityMenuItem.h"
 
 #import "NSColor+Tools.h"
@@ -38,6 +34,7 @@
 #import "JHDanmakuEngine+Tools.h"
 #import "PlayerMethodManager.h"
 #import "JHDanmakuRender.h"
+#import "JHSubTitleEngine.h"
 #import "JHMediaPlayer.h"
 
 #import <POP.h>
@@ -55,11 +52,11 @@
 //播放控制面板激活状态约束
 #define PLAY_CONTROL_ACTIVA_CONSTRAINT @0
 //视频列表展开约束
-#define PLAY_CONTROL_LEFT_EXPANSION_CONSTRAINT @(weakSelf.playListView.frame.size.width)
+#define PLAY_CONTROL_LEFT_EXPANSION_CONSTRAINT @(weakSelf.playerListViewController.view.frame.size.width)
 //视频列表收缩约束
 #define PLAY_CONTROL_LEFT_CONTRACT_CONSTRAINT @0
 //弹幕列表展开约束
-#define PLAY_CONTROL_RIGHT_EXPANSION_CONSTRAINT @(weakSelf.danMuControlView.frame.size.width)
+#define PLAY_CONTROL_RIGHT_EXPANSION_CONSTRAINT @(weakSelf.self.playerDanmakuAndSubtitleViewController.view.frame.size.width)
 //弹幕列表收缩约束
 #define PLAY_CONTROL_RIGHT_CONTRACT_CONSTRAINT @0
 
@@ -74,18 +71,18 @@
 @property (weak) IBOutlet NSTextField *timeLabel;
 @property (weak) IBOutlet PlayerHoldView *playerHoldView;
 
-@property (weak) IBOutlet NSView *danMuControlView;
-@property (strong) IBOutlet NSView *playListView;
-@property (weak) IBOutlet PlayerListTableView *playerListTableView;
+//弹幕和字幕控制器
+@property (strong, nonatomic) PlayerDanmakuAndSubtitleViewController *playerDanmakuAndSubtitleViewController;
+//播放列表控制器
+@property (strong, nonatomic) PlayerListViewController *playerListViewController;
+
 @property (weak) IBOutlet RespondKeyboardTextField *danmakuTextField;
 @property (weak) IBOutlet NSPopUpButton *danmakuColorPopUpButton;
 @property (weak) IBOutlet NSPopUpButton *danmakuModePopUpButton;
 @property (strong) IBOutlet PlayLastWatchVideoTimeView *lastWatchVideoTimeView;
 @property (strong) IBOutlet NSMenu *rightClickMenu;
-@property (strong, nonatomic) AddTrackingAreaButton *controlDanMakuControllerViewButton;
-@property (strong, nonatomic) AddTrackingAreaButton *controlPlayListControllerViewButton;
-@property (weak) IBOutlet NSButton *clearAllPlayHistoryButton;
-
+@property (strong, nonatomic) NSButton *controlDanMakuControllerViewButton;
+@property (strong, nonatomic) NSButton *controlPlayListControllerViewButton;
 
 @property (strong, nonatomic) HUDMessageView *messageView;
 @property (strong, nonatomic) VolumeControlView *volumeControlView;
@@ -96,11 +93,11 @@
 @property (weak) IBOutlet NSLayoutConstraint *playerControlViewBottomConstraint;
 
 @property (strong, nonatomic) JHMediaPlayer *player;
-@property (strong, nonatomic) JHDanmakuEngine *rander;
+@property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
+@property (strong, nonatomic) JHSubTitleEngine *subTitleEngine;
 @property (strong, nonatomic) PlayViewModel *vm;
 //快捷键映射
 @property (strong, nonatomic) NSArray *keyMap;
-@property (assign, nonatomic) NSInteger danMuOffsetTime;
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
 @end
 
@@ -115,7 +112,7 @@
     NSDateFormatter *_snapshotFormatter;
     NSTimer *_autoHideTimer;
 }
-#pragma mark - 方法
+
 - (instancetype)initWithVideos:(NSArray *)videoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName episodeId:(NSString *)episodeId {
     if (self = [super initWithNibName: @"PlayerViewController" bundle: nil]) {
         self.vm = [[PlayViewModel alloc] initWithVideoModels:videoModels danMuDic:dic episodeId:episodeId];
@@ -134,7 +131,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeFontSpecially:) name:@"CHANGE_FONT_SPECIALLY" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeDanmakuFont:) name:@"CHANGE_DANMAKU_FONT" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(danmakuCanvasResize) name:@"CHANGE_CAPTIONS_PROTECT_AREA" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(danmakuCanvasResizeWithAnimate) name:@"CHANGE_CAPTIONS_PROTECT_AREA" object:nil];
     
     //初始化播放器相关参数
     [self setupOnce];
@@ -175,21 +172,26 @@
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
+    //只移动 并没有进入播放面板 进入半激活状态
     if (!CGRectContainsPoint(self.playerControlView.frame, theEvent.locationInWindow) && self.playerControlView.status == PlayerControlViewStatusInActive) {
         self.playerControlView.status = PlayerControlViewStatusHalfActive;
     }
+    self.controlDanMakuControllerViewButton.animator.alphaValue = 1;
+    self.controlPlayListControllerViewButton.animator.alphaValue = 1;
     [_autoHideTimer invalidate];
-    if (!_fullScreen || self.playerControlView.status == PlayerControlViewStatusActive) return;
+    //进入激活状态让定时器失活
+    if (self.playerControlView.status == PlayerControlViewStatusActive) return;
+    
     _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoHideMouseControlView) userInfo:nil repeats:NO];
 }
 
-- (void)rightMouseDown:(NSEvent *)theEvent{
+- (void)rightMouseDown:(NSEvent *)theEvent {
     if (self.player.mediaType == JHMediaTypeNetMedia) {
         [NSMenu popUpContextMenu:self.rightClickMenu withEvent:theEvent forView:self.view];
     }
 }
 
-- (void)keyDown:(NSEvent *)theEvent{
+- (void)keyDown:(NSEvent *)theEvent {
     NSUInteger flags = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask;
     int code = theEvent.keyCode;
     NSArray *arr = self.keyMap;
@@ -201,20 +203,30 @@
     }
 }
 
-- (void)scrollWheel:(NSEvent *)theEvent{
+- (void)scrollWheel:(NSEvent *)theEvent {
     [self volumeValueAddTo:0 addBy:theEvent.scrollingDeltaY];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"volume"]) {
+        self.volumeControlView.volumeSlider.floatValue = [change[@"new"] floatValue];
+    }else if ([keyPath isEqualToString:@"state"]) {
+        self.danmakuEngine.canvas.animator.hidden = [change[@"new"] intValue];
+    }
+}
 
+#pragma mark - 私有方法
 #pragma mark -------- 播放器相关 --------
 - (IBAction)clickPlayButton:(NSButton *)sender {
     if (self.player.status == JHMediaPlayerStatusStop) {
         [self startPlay];
         _userPause = NO;
-    }else if (sender.state){
+    }
+    else if (sender.state) {
         [self videoAndDanMuPlay];
         _userPause = NO;
-    }else{
+    }
+    else {
         [self videoAndDanMuPause];
         _userPause = YES;
     }
@@ -256,7 +268,7 @@
     self.playDanmakuShowButton.state = sender.state;
 }
 
-- (void)clickVolumeButton:(NSButton *)button{
+- (void)clickVolumeButton:(NSButton *)button {
     self.volumeControlView.isHidden ? [self.volumeControlView show] : [self.volumeControlView hide];
 }
 
@@ -272,13 +284,13 @@
     }
 }
 
-- (IBAction)clickClearAllHistoryButton:(NSButton *)sender {
-    [self.vm removeVideoAtIndex:-1];
-    [self.playerListTableView reloadData];
-}
+//- (IBAction)clickClearAllHistoryButton:(NSButton *)sender {
+//    [self.vm removeVideoAtIndex:-1];
+//    [self.playerListTableView reloadData];
+//}
 
 
-- (void)launchDanmaku{
+- (void)launchDanmaku {
     NSString *text = self.danmakuTextField.stringValue;
     if (!text.length) return;
     
@@ -287,68 +299,114 @@
     
     NSInteger mode = item.mode;
     NSInteger color = colorItem.itemColor;
-    [PlayerMethodManager launchDanmakuWithText:text color:color mode:mode time:self.rander.currentTime + self.rander.offsetTime episodeId:self.vm.episodeId completionHandler:^(DanMuDataModel *model, NSError *error) {
+    [PlayerMethodManager launchDanmakuWithText:text color:color mode:mode time:self.danmakuEngine.currentTime + self.danmakuEngine.offsetTime episodeId:self.vm.episodeId completionHandler:^(DanMuDataModel *model, NSError *error) {
         //无错误发射
         if (!error) {
             ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithModel:model shadowStyle:[UserDefaultManager danMufontSpecially] fontSize:0 font:[UserDefaultManager danMuFont]];
-            danmaku.appearTime = self.rander.currentTime + self.rander.offsetTime;
+            danmaku.appearTime = self.danmakuEngine.currentTime + self.danmakuEngine.offsetTime;
             NSMutableAttributedString *str = [danmaku.attributedString mutableCopy];
             [str addAttributes:@{NSUnderlineColorAttributeName:[NSColor greenColor], NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)} range:NSMakeRange(0, str.length)];
             danmaku.attributedString = str;
             self.danmakuTextField.stringValue = @"";
             self.messageView.text.stringValue = kLaunchDanmakuSuccessString;
             [self.messageView showHUD];
-            [self.rander addDanmaku: danmaku];
+            [self.danmakuEngine addDanmaku: danmaku];
             [self.vm saveUserDanmaku:model];
-        }else{
+        }
+        else {
             self.messageView.text.stringValue = kLaunchDanmakuFailString;
             [self.messageView showHUD];
         }
     }];
 }
 
-
-#pragma mark - 私有方法
-- (void)timeOffset:(NSInteger)time{
-    self.rander.offsetTime = time;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"volume"]) {
-        self.volumeControlView.volumeSlider.floatValue = [change[@"new"] floatValue];
-    }else if ([keyPath isEqualToString:@"state"]) {
-        self.rander.canvas.animator.hidden = [change[@"new"] intValue];
+#pragma mark -------- 播放控制相关 --------
+//开始播放
+- (void)startPlay {
+    if (self.player.mediaType == JHMediaTypeNetMedia) {
+        if (![self.vm currentVideoURL]) {
+            [self videoAndDanMuPlay];
+            [self videoAndDanMuPause];
+        }
+    }
+    else {
+        [self videoAndDanMuPlay];
     }
 }
 
-- (void)autoHideMouseControlView{
-    [NSCursor setHiddenUntilMouseMoves:YES];
-    self.playerControlView.status = PlayerControlViewStatusInActive;
+//结束播放
+- (void)stopPlay {
+    [self.danmakuEngine stop];
+    [self.player stop];
+    [self.subTitleEngine stop];
+    
+    [self.playerControlView.slideView updateBufferProgress:0];
+    [self.playerControlView.slideView updateCurrentProgress:0];
+    self.timeLabel.stringValue = @"00:00 / 00:00";
 }
 
-- (POPSpringAnimation *)springAnimateWithToValue:(id)value propertyNamed:(NSString *)propertyNamed{
-    if (!propertyNamed.length) {
-        propertyNamed = kPOPLayoutConstraintConstant;
-    }
-    POPSpringAnimation *animate = [POPSpringAnimation animationWithPropertyNamed:propertyNamed];
-    animate.beginTime = CACurrentMediaTime();
-    animate.springBounciness = 10;
-    animate.toValue = value;
-    return animate;
+//更改当前视频
+- (void)changeCurrentIndex:(NSInteger)index {
+    [self saveCurrentVideoTime];
+    [self stopPlay];
+    self.vm.currentIndex = index;
 }
 
-- (POPBasicAnimation*)basicAnimateWithToValue:(id)value propertyNamed:(NSString *)propertyNamed{
-    if (!propertyNamed.length) {
-        propertyNamed = kPOPLayoutConstraintConstant;
-    }
-    POPBasicAnimation *animate = [POPBasicAnimation animationWithPropertyNamed:propertyNamed];
-    animate.beginTime = CACurrentMediaTime();
-    animate.toValue = value;
-    return animate;
+//保存当前视频时间
+- (void)saveCurrentVideoTime {
+    [UserDefaultManager setVideoPlayHistoryWithHash:[self.vm currentVideoHash] time:[self.player currentTime]];
 }
+
+//播放弹幕和视频
+- (void)videoAndDanMuPlay {
+    [self.danmakuEngine start];
+    [self.player play];
+    [self.subTitleEngine start];
+}
+
+//暂停弹幕和视频
+- (void)videoAndDanMuPause {
+    [self.danmakuEngine pause];
+    [self.player pause];
+    [self.subTitleEngine pause];
+}
+
+
+/**
+ *  改音量
+ *
+ *  @param addTo 增加到
+ *  @param addBy 增加
+ */
+- (void)volumeValueAddTo:(CGFloat)addTo addBy:(CGFloat)addBy {
+    if (addTo == 0 && addBy == 0) {
+        self.player.volume = 0;
+    }
+    else if (addTo) {
+        self.player.volume = addTo;
+    }
+    else if (addBy){
+        [self.player volumeJump:addBy];
+    }
+    self.messageView.text.stringValue = [NSString stringWithFormat:@"音量: %ld", (long)self.player.volume];
+    [self.messageView showHUD];
+}
+
+//- (void)loadLocaleDanMaku {
+//    [PlayerMethodManager loadLocaleDanMuWithBlock:^(NSDictionary *dic) {
+//        if (dic.count > 0) {
+//            self.vm.danmakusDic = dic;
+//            [self.danmakuEngine addAllDanmakusDic:dic];
+//            [self.player setPosition:0 completionHandler:nil];
+//        }
+//        else {
+//            [[NSAlert alertWithMessageText:kNoFoundDanmakuString informativeText:nil] runModal];
+//        }
+//    }];
+//}
 
 #pragma mark 重新加载弹幕 更新进度
-- (void)reloadDanmakuWithIndex:(NSInteger)index{
+- (void)reloadDanmakuWithIndex:(NSInteger)index {
     [JHProgressHUD showWithMessage:kAnalyzeString style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
     
     [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
@@ -356,19 +414,19 @@
             if (error) {
                 [JHProgressHUD disMiss];
                 id vm = [self.vm videoModelWithIndex:index];
-                if ([vm isKindOfClass:[LocalVideoModel class]]) {
-                    if ([error isEqual:kNoMatchError]) {
-                        [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
-                        return;
-                    }
+                if ([vm isKindOfClass:[LocalVideoModel class]] && [error isEqual:kNoMatchError]) {
+                    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
+                    return;
                 }
                  self.messageView.text.stringValue = kVideoNoFoundString;
                 [self.messageView showHUD];
-            }else{
+            }
+            else {
                 [JHProgressHUD updateProgress:progress];
                 if (progress == 0.5) {
                     [JHProgressHUD updateMessage:kAnalyzeVideoString];
-                }else if (progress == 1){
+                }
+                else if (progress == 1){
                     [JHProgressHUD updateMessage:kDownLoadingDanmakuString];
                     [PlayerMethodManager postMatchMessageWithMatchName:videoMatchName delegate:self];
                     [JHProgressHUD disMiss];
@@ -379,33 +437,46 @@
 }
 
 //进入全屏方法
-- (void)toggleFullScreen{
+- (void)toggleFullScreen {
     NSWindow *windows = [NSApplication sharedApplication].keyWindow;
     windows.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
     [windows toggleFullScreen: nil];
 }
 
 #pragma mark 截图
-- (void)snapShot{
+- (void)snapShot {
     [self.player saveVideoSnapshotAt:[[UserDefaultManager screenShotPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [self.snapshotFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]] withWidth:0 andHeight:0 format:[UserDefaultManager defaultScreenShotType]];
 }
 
 
 #pragma mark -------- view尺寸变化相关 --------
 
-- (void)danmakuCanvasResize{
+- (void)danmakuCanvasResizeWithAnimate:(BOOL)isAnimate {
     CGRect frame = self.playerHoldView.frame;
     if ([UserDefaultManager turnOnCaptionsProtectArea]) {
         CGFloat offset = frame.size.height * 0.15;
         frame.origin.y += offset;
         frame.size.height -= offset;
     }
-    [self.rander.canvas pop_addAnimation:[self basicAnimateWithToValue:[NSValue valueWithRect:frame] propertyNamed:kPOPViewFrame] forKey:@"danmaku_canvas_frame_anima"];
+    if (isAnimate) {
+        [self.danmakuEngine.canvas pop_addAnimation:[self basicAnimateWithToValue:[NSValue valueWithRect:frame] propertyNamed:kPOPViewFrame] forKey:@"danmaku_canvas_frame_anima"];
+    }
+    else {
+        self.danmakuEngine.canvas.frame = frame;
+    }
+}
+
+- (void)danmakuCanvasResizeWithAnimate {
+    [self danmakuCanvasResizeWithAnimate:YES];
+}
+
+- (void)subTitleCanvasResize {
+    self.subTitleEngine.canvas.frame = self.playerHoldView.frame;
 }
 
 #pragma mark -------- 通知 --------
 #pragma mark 加载网络视频
-- (void)openStreamVCChooseOver:(NSNotification *)notification{
+- (void)openStreamVCChooseOver:(NSNotification *)notification {
     NSArray *arr = notification.userInfo[@"videos"];
     [self.vm addVideosModel:arr];
     //网络视频 episode应该为空
@@ -414,48 +485,50 @@
 }
 
 #pragma mark 改变发送弹幕颜色
-- (void)changeDanmakuColor:(NSNotification *)sender{
+- (void)changeDanmakuColor:(NSNotification *)sender {
     NSColorPanel *panel = sender.object;
     DanmakuColorMenuItem *item = (DanmakuColorMenuItem *)[self.danmakuColorPopUpButton itemAtIndex:7];
     [item setItemColor:panel.color];
 }
 #pragma mark 改变发送弹幕字体
-- (void)changeDanmakuFont:(NSNotification *)sender{
-    self.rander.globalFont = sender.userInfo[@"font"];
+- (void)changeDanmakuFont:(NSNotification *)sender {
+    self.danmakuEngine.globalFont = sender.userInfo[@"font"];
 }
 
 #pragma mark 更改字体边缘特效
-- (void)changeFontSpecially:(NSNotification *)sender{
-    self.rander.globalShadowStyle = sender.userInfo[@"fontSpecially"];
+- (void)changeFontSpecially:(NSNotification *)sender {
+    self.danmakuEngine.globalShadowStyle = sender.userInfo[@"fontSpecially"];
 }
 
 #pragma make 窗口大小变化
-- (void)windowDidResize:(NSNotification *)notification{
+- (void)windowDidResize:(NSNotification *)notification {
     if (notification.object == NSApp.mainWindow) {
-        [self danmakuCanvasResize];
-        [self.rander resetOriginalPosition:self.rander.canvas.bounds];
+        [self danmakuCanvasResizeWithAnimate:NO];
+        [self subTitleCanvasResize];
+//        [self.rander resetOriginalPosition:self.rander.canvas.bounds];
     }
 }
 
 #pragma make 进入全屏通知
-- (void)windowWillEnterFullScreen:(NSNotification *)notification{
+- (void)windowWillEnterFullScreen:(NSNotification *)notification {
     _fullScreen = YES;
 }
 
 #pragma make 退出全屏通知
-- (void)windowWillExitFullScreen:(NSNotification *)notification{
+- (void)windowWillExitFullScreen:(NSNotification *)notification {
     _fullScreen = NO;
     [_autoHideTimer invalidate];
 }
 
 
 #pragma mark 更换弹幕字典通知
-- (void)changeDanmakuDic:(NSNotification *)notification{
+- (void)changeDanmakuDic:(NSNotification *)notification {
     [self stopPlay];
     [self.player setMediaURL:[self.vm currentVideoURL]];
     self.vm.danmakusDic = notification.userInfo;
-    [self.rander addAllDanmakusDic:notification.userInfo];
-    [self.playerListTableView reloadData];
+    [self.danmakuEngine addAllDanmakusDic:notification.userInfo];
+//    [self.playerListTableView reloadData];
+    [self.playerListViewController.tableView reloadData];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
         if (size.width < 0 || size.height < 0) {
             self.messageView.text.stringValue = kVideoNoFoundString;
@@ -467,87 +540,9 @@
     }];
 }
 
-#pragma mark -------- 播放相关 --------
-//开始播放
-- (void)startPlay{
-    if (self.player.mediaType == JHMediaTypeNetMedia) {
-        if (![self.vm currentVideoURL]) {
-            [self videoAndDanMuPlay];
-            [self videoAndDanMuPause];
-        }
-    }else {
-        [self videoAndDanMuPlay];
-    }
-}
-//结束播放
-- (void)stopPlay{
-    [self.rander stop];
-    [self.player stop];
-    
-    [self.playerControlView.slideView updateBufferProgress:0];
-    [self.playerControlView.slideView updateCurrentProgress:0];
-    self.timeLabel.stringValue = @"00:00 / 00:00";
-}
-
-//更改当前视频
-- (void)changeCurrentIndex:(NSInteger)index{
-    [self saveCurrentVideoTime];
-    [self stopPlay];
-    self.vm.currentIndex = index;
-}
-
-//保存当前视频时间
-- (void)saveCurrentVideoTime{
-    [UserDefaultManager setVideoPlayHistoryWithHash:[self.vm currentVideoHash] time:[self.player currentTime]];
-}
-
-//播放弹幕和视频
-- (void)videoAndDanMuPlay{
-    [self.rander start];
-    [self.player play];
-}
-
-//暂停弹幕和视频
-- (void)videoAndDanMuPause{
-    [self.rander pause];
-    [self.player pause];
-}
-
-
-/**
- *  改音量
- *
- *  @param addTo 增加到
- *  @param addBy 增加
- */
-- (void)volumeValueAddTo:(CGFloat)addTo addBy:(CGFloat)addBy{
-    if (addTo == 0 && addBy == 0) {
-        self.player.volume = 0;
-    }else if (addTo) {
-        self.player.volume = addTo;
-    }else if (addBy){
-        [self.player volumeJump:addBy];
-    }
-    self.messageView.text.stringValue = [NSString stringWithFormat:@"音量: %ld", (long)self.player.volume];
-    [self.messageView showHUD];
-}
-
-- (void)loadLocaleDanMaku{
-    [PlayerMethodManager loadLocaleDanMuWithBlock:^(NSDictionary *dic) {
-        if (dic.count > 0) {
-            self.vm.danmakusDic = dic;
-            [self.rander addAllDanmakusDic:dic];
-            [self.player setPosition:0 completionHandler:nil];
-        }else{
-            [[NSAlert alertWithMessageText:kNoFoundDanmakuString informativeText:nil] runModal];
-        }
-    }];
-}
-
-
 
 #pragma mark 快捷键调用的方法
-- (void)targetMethodWithID:(NSNumber *)ID{
+- (void)targetMethodWithID:(NSNumber *)ID {
     __weak typeof(self)weakSelf = self;
     switch (ID.integerValue) {
         case 0:
@@ -569,14 +564,16 @@
         case 5:
         {
             [self.player jump: SHORT_JUMP_TIME completionHandler:^(NSTimeInterval time) {
-                weakSelf.rander.currentTime = time;
+                weakSelf.danmakuEngine.currentTime = time;
+                weakSelf.subTitleEngine.currentTime = time;
             }];
         }
             break;
         case 6:
         {
             [self.player jump: -SHORT_JUMP_TIME completionHandler:^(NSTimeInterval time) {
-                weakSelf.rander.currentTime = time;
+                weakSelf.danmakuEngine.currentTime = time;
+                weakSelf.subTitleEngine.currentTime = time;
             }];
             
         }
@@ -584,14 +581,16 @@
         case 7:
         {
             [self.player jump: MEDIUM_JUMP_TIME completionHandler:^(NSTimeInterval time) {
-                weakSelf.rander.currentTime = time;
+                weakSelf.danmakuEngine.currentTime = time;
+                weakSelf.subTitleEngine.currentTime = time;
             }];
         }
             break;
         case 8:
         {
             [self.player jump: -MEDIUM_JUMP_TIME completionHandler:^(NSTimeInterval time) {
-                weakSelf.rander.currentTime = time;
+                weakSelf.danmakuEngine.currentTime = time;
+                weakSelf.subTitleEngine.currentTime = time;
             }];
         }
             break;
@@ -605,7 +604,7 @@
 
 #pragma mark -------- 初始化相关 --------
 //只需要初始化一次的属性
-- (void)setupOnce{
+- (void)setupOnce {
     __weak typeof(self)weakSelf = self;
     
     //必须设置 不然弹幕无法显示
@@ -623,10 +622,12 @@
         }
     }];
     
+    
     [self.playerControlView setLeftCallBackBlock:^(BOOL isExpansion) {
         if (isExpansion) {
             [weakSelf.playerControlViewLeftConstraint pop_addAnimation:[weakSelf springAnimateWithToValue:PLAY_CONTROL_LEFT_EXPANSION_CONSTRAINT propertyNamed:nil] forKey:@"danmaku_control_view_show_animate"];
-        }else {
+        }
+        else {
             [weakSelf.playerControlViewLeftConstraint pop_addAnimation:[weakSelf springAnimateWithToValue:PLAY_CONTROL_LEFT_CONTRACT_CONSTRAINT propertyNamed:nil] forKey:@"danmaku_control_view_hide_animate"];
             weakSelf.controlPlayListControllerViewButton.animator.alphaValue = 0;
         }
@@ -635,7 +636,8 @@
     [self.playerControlView setRightCallBackBlock:^(BOOL isExpansion) {
         if (isExpansion) {
             [weakSelf.playerControlViewRightConstraint pop_addAnimation:[weakSelf springAnimateWithToValue:PLAY_CONTROL_RIGHT_EXPANSION_CONSTRAINT propertyNamed:nil] forKey:@"play_list_view_show_animate"];
-        }else {
+        }
+        else {
             [weakSelf.playerControlViewRightConstraint pop_addAnimation:[weakSelf springAnimateWithToValue:PLAY_CONTROL_RIGHT_CONTRACT_CONSTRAINT propertyNamed:nil] forKey:@"play_list_view_hide_animate"];
             weakSelf.controlDanMakuControllerViewButton.animator.alphaValue = 0;
         }
@@ -650,22 +652,18 @@
     self.playerControlView.slideView.delegate = self;
     
     //左右两边的页面
-    [self.view addSubview: self.danMuControlView positioned:NSWindowAbove relativeTo:self.playerControlView];
-    self.danMuControlView.layer.backgroundColor = RGBAColor(0, 0, 0, 0.5).CGColor;
-    [self.danMuControlView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(300);
+    
+    [self.playerDanmakuAndSubtitleViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(500);
         make.bottom.top.mas_equalTo(0);
         make.left.equalTo(self.playerControlView.mas_right);
     }];
     
-    [self.view addSubview: self.playListView positioned:NSWindowAbove relativeTo:self.playerControlView];
-    self.playListView.layer.backgroundColor = RGBAColor(0, 0, 0, 0.5).CGColor;
-    [self.playListView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.playerListViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(300);
         make.top.bottom.mas_equalTo(0);
         make.right.equalTo(self.playerControlView.mas_left);
     }];
-    [self.clearAllPlayHistoryButton setTitleColor:[NSColor whiteColor]];
     
     self.controlDanMakuControllerViewButton.alphaValue = 0;
     self.controlPlayListControllerViewButton.alphaValue = 0;
@@ -718,10 +716,10 @@
     
     //其它
     //上次观看时间视图
-    [self.view addSubview:self.lastWatchVideoTimeView positioned:NSWindowAbove relativeTo:self.rander.canvas];
+    [self.view addSubview:self.lastWatchVideoTimeView positioned:NSWindowAbove relativeTo:self.danmakuEngine.canvas];
     [self.lastWatchVideoTimeView setContinusBlock:^(NSTimeInterval time) {
         [weakSelf.player setPosition:time / weakSelf.player.length completionHandler:^(NSTimeInterval time) {
-            weakSelf.rander.currentTime = time;
+            weakSelf.danmakuEngine.currentTime = time;
         }];
     }];
     [self.lastWatchVideoTimeView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -736,24 +734,24 @@
     [self.view addSubview:self.HUDTimeView positioned:NSWindowAbove relativeTo:self.playerControlView];
     [self.view addTrackingArea:self.trackingArea];
     
-    [self danmakuCanvasResize];
 }
 
-- (void)setupWithMediaSize:(CGSize)aMediaSize{
+- (void)setupWithMediaSize:(CGSize)aMediaSize {
     //重设mediaView的约束
     [PlayerMethodManager remakeConstraintsPlayerMediaView:self.player.mediaView size:aMediaSize];
     
     //设置其它参数
     [NSApplication sharedApplication].keyWindow.title = [self.vm currentVideoName];
     [NSApplication sharedApplication].mainWindow.title = [self.vm currentVideoName];
-    _danMuOffsetTime = 0;
+//    _danMuOffsetTime = 0;
     _userPause = NO;
     self.playerControlView.status = PlayerControlViewStatusHalfActive;
     //只有官方弹幕库启用发送弹幕功能
     if (!self.vm.episodeId.length) {
         self.danmakuTextField.enabled = NO;
         self.danmakuTextField.placeholderString = kCannotLaunchDanmakuPlaceHoldString;
-    }else {
+    }
+    else {
         self.danmakuTextField.enabled = YES;
         self.danmakuTextField.placeholderString = kCanLaunchDanmakuPlaceHoldString;
     }
@@ -761,17 +759,49 @@
     [self resetMenuByOpenStreamDic];
     //显示上次播放进度
     [PlayerMethodManager showPlayLastWatchVideoTimeView:self.lastWatchVideoTimeView time:[self.vm currentVideoLastVideoTime]];
-    
+    [self.subTitleEngine addSubTitleWithMediaPath:self.player.mediaURL.path];
+    //重设视图尺寸
+    [self danmakuCanvasResizeWithAnimate:NO];
+    [self subTitleCanvasResize];
+}
+
+#pragma mark 其它
+- (void)autoHideMouseControlView {
+    [NSCursor setHiddenUntilMouseMoves:YES];
+    self.playerControlView.status = PlayerControlViewStatusInActive;
+    self.controlDanMakuControllerViewButton.animator.alphaValue = 0;
+    self.controlPlayListControllerViewButton.animator.alphaValue = 0;
+}
+
+- (POPSpringAnimation *)springAnimateWithToValue:(id)value propertyNamed:(NSString *)propertyNamed {
+    if (!propertyNamed.length) {
+        propertyNamed = kPOPLayoutConstraintConstant;
+    }
+    POPSpringAnimation *animate = [POPSpringAnimation animationWithPropertyNamed:propertyNamed];
+    animate.beginTime = CACurrentMediaTime();
+    animate.springBounciness = 10;
+    animate.toValue = value;
+    return animate;
+}
+
+- (POPBasicAnimation*)basicAnimateWithToValue:(id)value propertyNamed:(NSString *)propertyNamed {
+    if (!propertyNamed.length) {
+        propertyNamed = kPOPLayoutConstraintConstant;
+    }
+    POPBasicAnimation *animate = [POPBasicAnimation animationWithPropertyNamed:propertyNamed];
+    animate.beginTime = CACurrentMediaTime();
+    animate.toValue = value;
+    return animate;
 }
 
 #pragma mark - NSUserNotificationDelegate
-- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification {
     //强制显示
     return YES;
 }
 
 #pragma mark - JHMediaPlayerDelegate
-- (void)mediaPlayer:(JHMediaPlayer *)player progress:(float)progress formatTime:(NSString *)formatTime{
+- (void)mediaPlayer:(JHMediaPlayer *)player progress:(float)progress formatTime:(NSString *)formatTime {
     dispatch_async(dispatch_get_main_queue(), ^{
         //更新当前时间
         self.timeLabel.stringValue = formatTime;
@@ -780,7 +810,7 @@
     //  NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
 }
 
-- (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime{
+- (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.playerControlView.slideView updateBufferProgress:progress];
     });
@@ -789,17 +819,17 @@
     }
 }
 
-- (void)mediaPlayer:(JHMediaPlayer *)player statusChange:(JHMediaPlayerStatus)status{
+- (void)mediaPlayer:(JHMediaPlayer *)player statusChange:(JHMediaPlayerStatus)status {
     switch (status) {
         case JHMediaPlayerStatusPause:
-            [self.rander pause];
+            [self.danmakuEngine pause];
             self.playButton.state = NSCancelButton;
             break;
         case JHMediaPlayerStatusStop:
             self.playButton.state = NSCancelButton;
             break;
         case JHMediaPlayerStatusPlaying:
-            [self.rander start];
+            [self.danmakuEngine start];
             self.playButton.state = NSOKButton;
             break;
         default:
@@ -808,21 +838,23 @@
 }
 
 #pragma mark - PlayerSlideViewDelegate
-- (void)playerSliderTouchEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView{
+- (void)playerSliderTouchEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView {
     __weak typeof(self)weakSelf = self;
     [self.player setPosition: endValue completionHandler:^(NSTimeInterval time) {
-        weakSelf.rander.currentTime = time;
+        weakSelf.danmakuEngine.currentTime = time;
+        weakSelf.subTitleEngine.currentTime = time;
     }];
 }
 
-- (void)playerSliderDraggedEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView{
+- (void)playerSliderDraggedEnd:(CGFloat)endValue playerSliderView:(PlayerSlideView*)PlayerSliderView {
     __weak typeof(self)weakSelf = self;
     [self.player setPosition: endValue completionHandler:^(NSTimeInterval time) {
-        weakSelf.rander.currentTime = time;
+        weakSelf.danmakuEngine.currentTime = time;
+        weakSelf.subTitleEngine.currentTime = time;
     }];
 }
 
-- (void)playerSliderMoveEnd:(CGPoint)endPoint endValue:(CGFloat)endValue playerSliderView:(PlayerSlideView *)PlayerSliderView{
+- (void)playerSliderMoveEnd:(CGPoint)endPoint endValue:(CGFloat)endValue playerSliderView:(PlayerSlideView *)PlayerSliderView {
     CGRect frame = CGRectMake(endPoint.x, PlayerSliderView.frame.origin.y + 10, 60, 34);
     if (frame.origin.x + frame.size.width >= self.view.frame.size.width) {
         self.HUDTimeView.reverse = YES;
@@ -836,110 +868,8 @@
     [self.HUDTimeView updateMessage:[NSString stringWithFormat:@"%.2ld:%.2ld",time / 60, time % 60]];
 }
 
-
-#pragma mark - NSTableView
-
-- (IBAction)doubleClickPlayerList:(PlayerListTableView *)sender {
-    NSInteger selectedIndex = [sender selectedRow];
-    if (selectedIndex >= 0) {
-        [self changeCurrentIndex:selectedIndex];
-        [self reloadDanmakuWithIndex:self.vm.currentIndex];
-    }
-}
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    if ([tableView isKindOfClass:[PlayerListTableView class]]) {
-        return [self.vm videoCount];
-    }
-    return 7;
-}
-
-- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    __weak typeof(self)weakSelf = self;
-    //视频列表
-    if ([tableView isKindOfClass:[PlayerListTableView class]]) {
-        VideoNameCell *cell = [tableView makeViewWithIdentifier:@"VideoNameCell" owner:self];
-        [cell setTitle:[self.vm videoNameWithIndex:row] iconHide:[self.vm showPlayIconWithIndex:row] callBack:^{
-            //删除的行是当前播放视频 播放下一个视频
-            if (row == weakSelf.vm.currentIndex) {
-                [weakSelf clickNextButton:nil];
-            }
-            [weakSelf.vm removeVideoAtIndex:row];
-            [weakSelf.playerListTableView reloadData];
-        }];
-        return cell;
-    }
-    
-    //弹幕控制列表
-    if (row == 0) {
-        HideDanMuAndCloseCell *cell = [tableView makeViewWithIdentifier:@"HideDanMuAndCloseCell" owner: self];
-        [cell setSelectBlock:^(NSInteger num, NSInteger status) {
-            status?[weakSelf.rander.globalFilterDanmaku addObject:@(num)]:[weakSelf.rander.globalFilterDanmaku removeObject:@(num)];
-        }];
-        return cell;
-    }else if (row == 1){
-        SliderControlCell *cell = [tableView makeViewWithIdentifier:@"SliderControlCell" owner:self];
-        [cell setWithBlock:^(CGFloat value) {
-            weakSelf.rander.globalFont = [[NSFontManager sharedFontManager] convertFont:[UserDefaultManager danMuFont] toSize:value];
-        } sliderControlStyle: sliderControlStyleFontSize];
-        return cell;
-    }else if (row == 2){
-        SliderControlCell *cell = [tableView makeViewWithIdentifier:@"SliderControlCell" owner:self];
-        [cell setWithBlock:^(CGFloat value) {
-            [weakSelf.rander setSpeed: value];
-        } sliderControlStyle: sliderControlStyleSpeed];
-        return cell;
-    }else if (row == 3){
-        SliderControlCell *cell = [tableView makeViewWithIdentifier:@"SliderControlCell" owner:self];
-        [cell setWithBlock:^(CGFloat value) {
-            weakSelf.rander.canvas.alphaValue = value;
-        } sliderControlStyle: sliderControlStyleOpacity];
-        return cell;
-    }else if (row == 4){
-        TimeAxisCell * cell = [tableView makeViewWithIdentifier:@"TimeAxisCell" owner: self];
-        [cell setTimeOffsetBlock:^(NSInteger num) {
-            if (num == 0) weakSelf.danMuOffsetTime = 0;
-            else weakSelf.danMuOffsetTime += num;
-            if (!(weakSelf.rander.offsetTime == 0 && num == 0)) [weakSelf timeOffset: weakSelf.danMuOffsetTime];
-            
-            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"%@%ld秒", weakSelf.danMuOffsetTime >= 0 ? @"+" : @"", (long)weakSelf.danMuOffsetTime];
-            [weakSelf.messageView showHUD];
-        }];
-        
-        return cell;
-    }else if (row == 5){
-        OnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OnlyButtonCell" owner:self];
-        cell.button.title = @"重新选择弹幕";
-        [cell setButtonDownBlock:^{
-            SearchViewController *vc = [[SearchViewController alloc] init];
-            vc.searchText = [weakSelf.vm currentVideoName];
-            [weakSelf presentViewControllerAsSheet: vc];
-        }];
-        return cell;
-    }else if (row == 6){
-        OnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OnlyButtonCell" owner:self];
-        cell.button.title = @"加载本地弹幕";
-        [cell setButtonDownBlock:^{
-            [weakSelf loadLocaleDanMaku];
-        }];
-        return cell;
-    }
-    return nil;
-}
-
-- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row{
-    if ([tableView isKindOfClass:[PlayerListTableView class]]) {
-        return 30;
-    }
-    
-    if (row == 0 || row == 4) {
-        return 120;
-    }
-    return 60;
-}
-
 #pragma mark - NSMenu
-- (void)resetMenuByOpenStreamDic{
+- (void)resetMenuByOpenStreamDic {
     //只有网络视频才显示
     if (self.player.mediaType == JHMediaTypeLocaleMedia) return;
     
@@ -964,7 +894,8 @@
                 [item.submenu addItem:sitem];
             }
             //渣画质
-        }else{
+        }
+        else {
             for (NSInteger i = 0; i < lowCount; ++i) {
                 NSMenuItem *sitem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"备胎线路 %ld", i + 1] action:@selector(clickItem:) keyEquivalent:@""];
                 sitem.tag = 10 + i;
@@ -975,7 +906,7 @@
     }
 }
 
-- (QualityMenuItem *)menuItemWithTitle:(NSString *)title quality:(streamingVideoQuality)quality{
+- (QualityMenuItem *)menuItemWithTitle:(NSString *)title quality:(streamingVideoQuality)quality {
     QualityMenuItem *item = [[QualityMenuItem alloc] initWithTitle:title action:nil keyEquivalent:@""];
     item.submenu = [[NSMenu alloc] initWithTitle:item.title];
     [self.rightClickMenu addItem:item];
@@ -983,13 +914,14 @@
     return item;
 }
 
-- (void)clickItem:(NSMenuItem *)item{
+- (void)clickItem:(NSMenuItem *)item {
     streamingVideoQuality quality;
     NSInteger index;
     if (item.tag >= 20) {
         quality = streamingVideoQualityHigh;
         index = item.tag - 20;
-    }else{
+    }
+    else {
         quality = streamingVideoQualityLow;
         index = item.tag - 10;
     }
@@ -1000,7 +932,7 @@
 
 #pragma mark - 懒加载
 
-- (NSDateFormatter *)formatter{
+- (NSDateFormatter *)formatter {
     if(_formatter == nil) {
         _formatter = [[NSDateFormatter alloc] init];
         [_formatter setDateFormat:@"mm:ss"];
@@ -1008,7 +940,7 @@
     return _formatter;
 }
 
-- (NSDateFormatter *)snapshotFormatter{
+- (NSDateFormatter *)snapshotFormatter {
     if (_snapshotFormatter == nil) {
         _snapshotFormatter = [[NSDateFormatter alloc] init];
         [_snapshotFormatter setDateFormat:@"YYYY_MM_dd HH_mm_ss"];
@@ -1017,21 +949,11 @@
 }
 
 
-- (AddTrackingAreaButton *)controlDanMakuControllerViewButton {
+- (NSButton *)controlDanMakuControllerViewButton {
     if(_controlDanMakuControllerViewButton == nil) {
         _controlDanMakuControllerViewButton = [[AddTrackingAreaButton alloc] init];
         _controlDanMakuControllerViewButton.bordered = NO;
         _controlDanMakuControllerViewButton.bezelStyle = NSTexturedRoundedBezelStyle;
-        __weak typeof(_controlDanMakuControllerViewButton)weakButton = _controlDanMakuControllerViewButton;
-        __weak typeof(self)weakSelf = self;
-        [_controlDanMakuControllerViewButton setMouseExitedCallBackBlock:^{
-            if (weakSelf.playerControlViewRightConstraint.constant == 0) {
-                weakButton.animator.alphaValue = 0;
-            }
-        }];
-        [_controlDanMakuControllerViewButton setMouseEnteredCallBackBlock:^{
-            weakButton.animator.alphaValue = 1;
-        }];
         [_controlDanMakuControllerViewButton setImage: [NSImage imageNamed:@"show_damaku_controller"]];
         [_controlDanMakuControllerViewButton setTarget: self];
         [_controlDanMakuControllerViewButton setAction: @selector(clickDanMuControllerButton:)];
@@ -1040,45 +962,35 @@
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(100);
             make.centerY.mas_equalTo(0);
-            make.right.equalTo(self.danMuControlView.mas_left);
+            make.right.equalTo(self.playerDanmakuAndSubtitleViewController.view.mas_left);
         }];
     }
     return _controlDanMakuControllerViewButton;
 }
 
-- (AddTrackingAreaButton *)controlPlayListControllerViewButton {
+- (NSButton *)controlPlayListControllerViewButton {
     if(_controlPlayListControllerViewButton == nil) {
         _controlPlayListControllerViewButton = [[AddTrackingAreaButton alloc] init];
         _controlPlayListControllerViewButton.bordered = NO;
         _controlPlayListControllerViewButton.bezelStyle = NSTexturedRoundedBezelStyle;
-        __weak typeof(_controlPlayListControllerViewButton)weakButton = _controlPlayListControllerViewButton;
-        __weak typeof(self)weakSelf = self;
-        [_controlPlayListControllerViewButton setMouseExitedCallBackBlock:^{
-            if (weakSelf.playerControlViewLeftConstraint.constant == 0) {
-                weakButton.animator.alphaValue = 0;
-            }
-        }];
-        [_controlPlayListControllerViewButton setMouseEnteredCallBackBlock:^{
-            weakButton.animator.alphaValue = 1;
-        }];
+
         [_controlPlayListControllerViewButton setImage: [NSImage imageNamed:@"show_play_list_controller"]];
         [_controlPlayListControllerViewButton setTarget: self];
         [_controlPlayListControllerViewButton setAction: @selector(clickPlayListViewButton:)];
         [self.view addSubview: _controlPlayListControllerViewButton positioned:NSWindowAbove relativeTo: self.playerControlView];
         [_controlPlayListControllerViewButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.centerY.equalTo(self.controlDanMakuControllerViewButton);
-            make.left.equalTo(self.playListView.mas_right);
+            make.left.equalTo(self.playerListViewController.view.mas_right);
         }];
         
     }
     return _controlPlayListControllerViewButton;
 }
 
-
 - (HUDMessageView *)messageView {
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
-        [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo: self.rander.canvas];
+        [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo: self.danmakuEngine.canvas];
     }
     return _messageView;
 }
@@ -1090,17 +1002,25 @@
     return _keyMap;
 }
 
-- (JHDanmakuEngine *)rander {
-    if(_rander == nil) {
-        _rander = [[JHDanmakuEngine alloc] init];
-        _rander.turnonBackFunction = YES;
-        [_rander addAllDanmakusDic:self.vm.danmakusDic];
-        [_rander setSpeed: [UserDefaultManager danMuSpeed]];
-        _rander.canvas.alphaValue = [UserDefaultManager danMuOpacity];
-        [self.view addSubview:_rander.canvas positioned:NSWindowAbove relativeTo:self.playerHoldView];
+- (JHDanmakuEngine *)danmakuEngine {
+    if(_danmakuEngine == nil) {
+        _danmakuEngine = [[JHDanmakuEngine alloc] init];
+        _danmakuEngine.turnonBackFunction = YES;
+        [_danmakuEngine addAllDanmakusDic:self.vm.danmakusDic];
+        [_danmakuEngine setSpeed: [UserDefaultManager danMuSpeed]];
+        _danmakuEngine.canvas.alphaValue = [UserDefaultManager danMuOpacity];
+        [self.view addSubview:_danmakuEngine.canvas positioned:NSWindowAbove relativeTo:self.playerHoldView];
     }
-    return _rander;
+    return _danmakuEngine;
 }
+
+//- (JHSubTitleEngine *)subTitleEngine {
+//    if(_subTitleEngine == nil) {
+//        _subTitleEngine = [[JHSubTitleEngine alloc] init];
+//        [self.view addSubview:_subTitleEngine.canvas positioned:NSWindowAbove relativeTo:self.playerHoldView];
+//    }
+//    return _subTitleEngine;
+//}
 
 - (VolumeControlView *)volumeControlView {
     if(_volumeControlView == nil) {
@@ -1125,6 +1045,106 @@
         _HUDTimeView.alphaValue = 0;
     }
     return _HUDTimeView;
+}
+
+- (PlayerListViewController *)playerListViewController {
+	if(_playerListViewController == nil) {
+            __weak typeof(self)weakSelf = self;
+		_playerListViewController = [[PlayerListViewController alloc] initWithNibName:@"PlayerListViewController" bundle:nil];
+        
+        _playerListViewController.vm = self.vm;
+        [_playerListViewController setDeleteRowCallBack:^(NSUInteger row) {
+            if (row == weakSelf.vm.currentIndex) {
+                [weakSelf clickNextButton:nil];
+            }
+        }];
+        
+        [_playerListViewController setDoubleClickRowCallBack:^(NSUInteger row) {
+            [weakSelf changeCurrentIndex:row];
+            [weakSelf reloadDanmakuWithIndex:weakSelf.vm.currentIndex];
+        }];
+        [self addChildViewController:_playerListViewController];
+        [self.view addSubview: _playerListViewController.view positioned:NSWindowAbove relativeTo:self.playerControlView];
+	}
+	return _playerListViewController;
+}
+
+- (PlayerDanmakuAndSubtitleViewController *)playerDanmakuAndSubtitleViewController {
+	if(_playerDanmakuAndSubtitleViewController == nil) {
+		_playerDanmakuAndSubtitleViewController = [[PlayerDanmakuAndSubtitleViewController alloc] init];
+        
+        __weak typeof(self)weakSelf = self;
+        
+        [_playerDanmakuAndSubtitleViewController.danmakuVC setHideDanMuAndCloseCallBack:^(NSInteger num, NSInteger status) {
+            status ? [weakSelf.danmakuEngine.globalFilterDanmaku addObject:@(num)] : [weakSelf.danmakuEngine.globalFilterDanmaku removeObject:@(num)];
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.danmakuVC setAdjustDanmakuFontSizeCallBack:^(CGFloat value) {
+            weakSelf.danmakuEngine.globalFont = [[NSFontManager sharedFontManager] convertFont:[UserDefaultManager danMuFont] toSize:value];
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.danmakuVC setAdjustDanmakuSpeedCallBack:^(CGFloat value) {
+            [weakSelf.danmakuEngine setSpeed: value];
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.danmakuVC setAdjustDanmakuOpacityCallBack:^(CGFloat value) {
+            weakSelf.danmakuEngine.canvas.alphaValue = value;
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.danmakuVC setAdjustDanmakuTimeOffsetCallBack:^(NSInteger value) {
+            weakSelf.danmakuEngine.offsetTime = value;
+            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"弹幕：%@%ld秒", weakSelf.danmakuEngine.offsetTime >= 0 ? @"+" : @"", (long)weakSelf.danmakuEngine.offsetTime];
+            [weakSelf.messageView showHUD];
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.danmakuVC setShowSearchViewControllerCallBack:^{
+            SearchViewController *vc = [[SearchViewController alloc] init];
+            vc.searchText = [weakSelf.vm currentVideoName];
+            [weakSelf presentViewControllerAsSheet: vc];
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.danmakuVC setReloadLocaleDanmakuCallBack:^{
+            [PlayerMethodManager loadLocaleDanMuWithBlock:^(NSDictionary *dic) {
+                if (dic.count > 0) {
+                    weakSelf.vm.danmakusDic = dic;
+                    [weakSelf.danmakuEngine addAllDanmakusDic:dic];
+//                    [weakSelf.player setPosition:0 completionHandler:nil];
+                }
+                else {
+                    [[NSAlert alertWithMessageText:kNoFoundDanmakuString informativeText:nil] runModal];
+                }
+            }];
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.subtitleVC setTimeOffsetCallBack:^(NSInteger value) {
+            weakSelf.subTitleEngine.offsetTime = value;
+            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"字幕：%@%ld秒", weakSelf.subTitleEngine.offsetTime >= 0 ? @"+" : @"", (long)weakSelf.subTitleEngine.offsetTime];
+            [weakSelf.messageView showHUD];
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.subtitleVC setFontSizeChangeCallBack:^(CGFloat value) {
+            NSMutableDictionary *dic = [UserDefaultManager subtitleAttDic];
+            dic[NSFontAttributeName] = [NSFont systemFontOfSize:value];
+            [UserDefaultManager setSubtitleAttDic:dic];
+            weakSelf.subTitleEngine.globalAttributedDic = dic;
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.subtitleVC setChooseLoactionFileCallBack:^{
+            [PlayerMethodManager loadLocaleSubtitleWithBlock:^(NSString *path) {
+                if (path.length > 0) {
+                    [weakSelf.subTitleEngine addSubTitleWithPath:path];
+//                    [weakSelf.player setPosition:0 completionHandler:nil];
+                }
+                else {
+                    [[NSAlert alertWithMessageText:kNoFoundSubtitleString informativeText:nil] runModal];
+                }
+            }];
+        }];
+        
+        [self addChildViewController:_playerDanmakuAndSubtitleViewController];
+        [self.view addSubview: _playerDanmakuAndSubtitleViewController.view positioned:NSWindowAbove relativeTo:self.playerControlView];
+	}
+	return _playerDanmakuAndSubtitleViewController;
 }
 
 @end

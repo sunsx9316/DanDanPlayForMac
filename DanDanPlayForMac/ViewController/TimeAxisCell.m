@@ -7,27 +7,28 @@
 //
 
 #import "TimeAxisCell.h"
+#import "NSString+Tools.h"
+
 @interface TimeAxisCell()
 @property (strong, nonatomic) NSButton *plusOneButton;
-@property (strong, nonatomic) NSButton *plusFiveButton;
-@property (strong, nonatomic) NSButton *plusTenButton;
 @property (strong, nonatomic) NSButton *subtractOneButton;
-@property (strong, nonatomic) NSButton *subtractFiveButton;
-@property (strong, nonatomic) NSButton *subtractTenButton;
 @property (strong, nonatomic) NSButton *resetButton;
 @property (strong, nonatomic) NSTextField *title;
+@property (strong, nonatomic) NSTextField *inputTextField;
 @end
 
 @implementation TimeAxisCell
+{
+    //记录原来的时间偏移量
+    NSInteger _originalOffsetTime;
+}
 - (instancetype)initWithFrame:(NSRect)frameRect{
     if (self = [super initWithFrame:frameRect]) {
+        
         [self addSubview: self.title];
         [self addSubview: self.plusOneButton];
-        [self addSubview: self.plusFiveButton];
-        [self addSubview: self.plusTenButton];
         [self addSubview: self.subtractOneButton];
-        [self addSubview: self.subtractFiveButton];
-        [self addSubview: self.subtractTenButton];
+        [self addSubview: self.inputTextField];
         [self addSubview: self.resetButton];
         
         [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -35,50 +36,62 @@
             make.left.mas_offset(10);
         }];
         
-        [self.plusOneButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.subtractOneButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(15);
             make.top.equalTo(self.title.mas_bottom).mas_offset(10);
         }];
         
-        [self.plusFiveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(0);
-            make.centerY.equalTo(self.plusOneButton);
-        }];
-        
-        [self.plusTenButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.plusOneButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_offset(-10);
-            make.centerY.equalTo(self.plusFiveButton);
-        }];
-        
-        [self.subtractOneButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.plusOneButton);
-            make.top.equalTo(self.plusOneButton.mas_bottom).mas_offset(10);
-        }];
-        
-        [self.subtractFiveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.plusFiveButton);
             make.centerY.equalTo(self.subtractOneButton);
         }];
-        
-        [self.subtractTenButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_offset(-10);
-            make.centerY.equalTo(self.subtractFiveButton);
+
+        [self.inputTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.plusOneButton);
+            make.right.equalTo(self.plusOneButton.mas_left).mas_offset(-20);
+            make.left.equalTo(self.subtractOneButton.mas_right).mas_offset(20);
         }];
         
         [self.resetButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.plusOneButton);
-            make.right.equalTo(self.plusTenButton);
-            make.top.equalTo(self.subtractOneButton.mas_bottom).mas_offset(10);
+            make.left.equalTo(self.subtractOneButton);
+            make.right.equalTo(self.plusOneButton);
+            make.top.equalTo(self.subtractOneButton.mas_bottom).mas_offset(20);
         }];
+        
     }
     return self;
 }
 
-- (void)clickButton:(NSButton *)button{
-    if (self.timeOffsetBlock) {
-        self.timeOffsetBlock(button.tag > 0?button.tag - 100:button.tag + 100);
+#pragma mark - 私有方法
+- (void)clickInputTextField:(NSTextField *)sender {
+    NSString *str = [sender.stringValue stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([str isPureInt]) {
+        sender.stringValue = str;
+        _originalOffsetTime = str.integerValue;
+        if (self.timeOffsetBlock) {
+            self.timeOffsetBlock(_originalOffsetTime);
+        }
+    }
+    else {
+        sender.stringValue = [NSString stringWithFormat:@"%ld", _originalOffsetTime];
     }
 }
+
+- (void)clickButton:(NSButton *)button{
+    if (self.timeOffsetBlock) {
+        NSInteger num = button.tag - 100;
+        if (num == 0) {
+            _originalOffsetTime = 0;
+        }
+        else {
+            _originalOffsetTime += num;
+        }
+        self.inputTextField.stringValue = [NSString stringWithFormat:@"%ld", _originalOffsetTime];
+        self.timeOffsetBlock(_originalOffsetTime);
+    }
+}
+
+#pragma mark - 懒加载
 
 - (NSButton *)plusOneButton {
 	if(_plusOneButton == nil) {
@@ -92,30 +105,6 @@
 	return _plusOneButton;
 }
 
-- (NSButton *)plusFiveButton {
-	if(_plusFiveButton == nil) {
-		_plusFiveButton = [[NSButton alloc] init];
-        [_plusFiveButton setBezelStyle: NSInlineBezelStyle];
-        [_plusFiveButton setTarget: self];
-        [_plusFiveButton setAction: @selector(clickButton:)];
-        _plusFiveButton.title = @"+5秒";
-        _plusFiveButton.tag = 105;
-	}
-	return _plusFiveButton;
-}
-
-- (NSButton *)plusTenButton {
-	if(_plusTenButton == nil) {
-		_plusTenButton = [[NSButton alloc] init];
-        [_plusTenButton setBezelStyle: NSInlineBezelStyle];
-        [_plusTenButton setTarget: self];
-        [_plusTenButton setAction: @selector(clickButton:)];
-        _plusTenButton.title = @"+10秒";
-        _plusTenButton.tag = 110;
-	}
-	return _plusTenButton;
-}
-
 - (NSButton *)subtractOneButton {
 	if(_subtractOneButton == nil) {
 		_subtractOneButton = [[NSButton alloc] init];
@@ -123,33 +112,9 @@
         [_subtractOneButton setTarget: self];
         [_subtractOneButton setAction: @selector(clickButton:)];
         _subtractOneButton.title = @"-1秒";
-        _subtractOneButton.tag = -101;
+        _subtractOneButton.tag = 99;
 	}
 	return _subtractOneButton;
-}
-
-- (NSButton *)subtractFiveButton {
-	if(_subtractFiveButton == nil) {
-		_subtractFiveButton = [[NSButton alloc] init];
-        [_subtractFiveButton setBezelStyle: NSInlineBezelStyle];
-        [_subtractFiveButton setTarget: self];
-        [_subtractFiveButton setAction: @selector(clickButton:)];
-        _subtractFiveButton.title = @"-5秒";
-        _subtractFiveButton.tag = -105;
-	}
-	return _subtractFiveButton;
-}
-
-- (NSButton *)subtractTenButton {
-	if(_subtractTenButton == nil) {
-		_subtractTenButton = [[NSButton alloc] init];
-        [_subtractTenButton setBezelStyle: NSInlineBezelStyle];
-        [_subtractTenButton setTarget: self];
-        [_subtractTenButton setAction: @selector(clickButton:)];
-        _subtractTenButton.title = @"-10秒";
-        _subtractTenButton.tag = -110;
-	}
-	return _subtractTenButton;
 }
 
 - (NSButton *)resetButton {
@@ -176,5 +141,18 @@
 	return _title;
 }
 
+
+- (NSTextField *)inputTextField {
+	if(_inputTextField == nil) {
+		_inputTextField = [[NSTextField alloc] init];
+        _inputTextField.alignment = NSTextAlignmentCenter;
+        _inputTextField.stringValue = @"0";
+        _inputTextField.editable = YES;
+        _inputTextField.target = self;
+        _inputTextField.placeholderString = @"输入偏移的时间";
+        _inputTextField.action = @selector(clickInputTextField:);
+	}
+	return _inputTextField;
+}
 
 @end

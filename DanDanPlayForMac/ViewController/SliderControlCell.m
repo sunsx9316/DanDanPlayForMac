@@ -78,7 +78,7 @@
             {
                 float value = slider.floatValue;
                 self.block(value);
-                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", value / 25];
+                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", value / DANMAKU_FONT_SIZE];
                 break;
             }
             case sliderControlStyleSpeed:

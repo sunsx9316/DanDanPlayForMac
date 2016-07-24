@@ -7,6 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+//弹幕默认字体大小
+#define DANMAKU_FONT_SIZE 25
+//字幕默认字体大小
+#define SUBTITLE_FONT_SIZE 25
 
 @interface UserDefaultManager : NSObject
 + (BOOL)turnOnCaptionsProtectArea;
@@ -14,6 +18,9 @@
 
 + (NSFont *)danMuFont;
 + (void)setDanMuFont:(NSFont *)danMuFont;
+
++ (NSMutableDictionary *)subtitleAttDic;
++ (void)setSubtitleAttDic:(NSDictionary *)subtitleAttDic;
 
 + (CGFloat)danMuOpacity;
 + (void)setDanMuOpacity:(CGFloat)danMuOpacity;

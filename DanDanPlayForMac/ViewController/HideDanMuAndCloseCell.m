@@ -23,12 +23,6 @@
         [self addSubview: self.hideTopDanMuButton];
         [self addSubview: self.hideBottomDanMuButton];
         
-//        [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.right.mas_offset(-10);
-//            make.top.mas_offset(5);
-//            make.width.height.mas_equalTo(30);
-//            make.bottom.equalTo(self.title.mas_top).mas_offset(-5);
-//        }];
         
         [self.hideScrollDanMuButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);

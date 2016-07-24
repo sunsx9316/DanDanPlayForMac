@@ -5,8 +5,9 @@
 //  Created by JimHuang on 16/2/14.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
-static UserDefaultManager* manager = nil;
+
 #import "UserDefaultManager.h"
+
 
 @implementation UserDefaultManager
 {
@@ -28,11 +29,14 @@ static UserDefaultManager* manager = nil;
     NSNumber *_showRecommedInfo;
     NSNumber *_quality;
     NSMutableDictionary *_lastWatchTimeDic;
+    NSMutableDictionary *_subtitleAttDic;
 }
+
 + (instancetype)shareUserDefaultManager{
     static dispatch_once_t onceToken;
+    static UserDefaultManager* manager = nil;
     dispatch_once(&onceToken, ^{
-        manager = [UserDefaultManager new];
+        manager = [[UserDefaultManager alloc] init];
     });
     return manager;
 }
@@ -51,6 +55,7 @@ static UserDefaultManager* manager = nil;
     }
     return captionsProtectArea;
 }
+
 + (void)setTurnOnCaptionsProtectArea:(BOOL)captionsProtectArea{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_isTurnOnCaptionsProtectArea = @(captionsProtectArea);
@@ -67,21 +72,33 @@ static UserDefaultManager* manager = nil;
     NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"danMuFont"];
     NSFont *font = nil;
     if (!data) {
-        font = [NSFont systemFontOfSize: 25];
+        font = [NSFont systemFontOfSize: DANMAKU_FONT_SIZE];
         [self setDanMuFont: font];
-    }else{
+    }
+    else {
         font = [NSKeyedUnarchiver unarchiveObjectWithData: data];
     }
     return font;
 }
+
 + (void)setDanMuFont:(NSFont *)danMuFont{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_danMuFont = danMuFont;
     if (!danMuFont) {
-        danMuFont = [NSFont systemFontOfSize: 25];
+        danMuFont = [NSFont systemFontOfSize: DANMAKU_FONT_SIZE];
     }
     [[NSUserDefaults standardUserDefaults] setObject: [NSKeyedArchiver archivedDataWithRootObject: danMuFont] forKey: @"danMuFont"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSMutableDictionary *)subtitleAttDic {
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    return manager->_subtitleAttDic ? manager->_subtitleAttDic : [NSMutableDictionary dictionary];
+}
+
++ (void)setSubtitleAttDic:(NSDictionary *)subtitleAttDic {
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    manager->_subtitleAttDic = [subtitleAttDic mutableCopy];
 }
 
 + (CGFloat)danMuOpacity{
@@ -98,6 +115,7 @@ static UserDefaultManager* manager = nil;
     }
     return value;
 }
+
 + (void)setDanMuOpacity:(CGFloat)danMuOpacity{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_danMuOpacity = @(danMuOpacity);
@@ -120,6 +138,7 @@ static UserDefaultManager* manager = nil;
     }
     return value;
 }
+
 + (void)setDanMuSpeed:(CGFloat)danMuSpeed{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_danMuSpeed = @(danMuSpeed);
@@ -142,6 +161,7 @@ static UserDefaultManager* manager = nil;
     }
     return specially;
 }
+
 + (void)setDanMuFontSpecially:(NSInteger)fontSpecially{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_danMufontSpecially = @(fontSpecially);
@@ -162,6 +182,7 @@ static UserDefaultManager* manager = nil;
     }
     return img;
 }
+
 + (void)setHomeImgPath:(NSString *)homeImgPath{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_homeImg = [[NSImage alloc] initWithContentsOfFile:homeImgPath];
@@ -179,6 +200,7 @@ static UserDefaultManager* manager = nil;
     NSMutableArray *arr = [[[NSUserDefaults standardUserDefaults] arrayForKey: @"userFilter"] mutableCopy];
     return arr?arr:[NSMutableArray array];
 }
+
 + (void)setUserFilter:(NSMutableArray *)userFilter{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_userFilter = userFilter;
@@ -200,6 +222,7 @@ static UserDefaultManager* manager = nil;
     }
     return arr;
 }
+
 + (void)setCustomKeyMap:(NSMutableArray *)customKeyMap{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_customKeyMap = customKeyMap;
@@ -221,6 +244,7 @@ static UserDefaultManager* manager = nil;
     }
     return str;
 }
+
 + (void)setScreenShotPath:(NSString *)screenShotPath{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_screenShotPath = screenShotPath;
@@ -265,6 +289,7 @@ static UserDefaultManager* manager = nil;
     }
     return type;
 }
+
 + (void)setDefaultScreenShotType:(NSInteger)type{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_defaultScreenShotType = @(type);
@@ -287,6 +312,7 @@ static UserDefaultManager* manager = nil;
     }
     return isTurnOnFastMatch;
 }
+
 + (void)setTurnOnFastMatch:(BOOL)fastMatch{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_isTurnOnFastMatch = @(fastMatch);
@@ -306,6 +332,7 @@ static UserDefaultManager* manager = nil;
     }
     return path;
 }
+
 + (void)setAutoDownLoadPath:(NSString *)path{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     if (![[NSFileManager defaultManager] fileExistsAtPath: path]) {
@@ -331,12 +358,14 @@ static UserDefaultManager* manager = nil;
     }
     return isCheakDownLoadInfoAtStart;
 }
+
 + (void)setCheakDownLoadInfoAtStart:(BOOL)cheak{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_isTurnOnFastMatch = @(cheak);
     [[NSUserDefaults standardUserDefaults] setBool:cheak forKey:@"cheakDownLoadInfoAtStart"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 + (BOOL)showRecommedInfoAtStart{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     if (manager->_showRecommedInfo) {
@@ -351,6 +380,7 @@ static UserDefaultManager* manager = nil;
     }
     return isShowRecommedInfo;
 }
+
 + (void)setShowRecommedInfoAtStart:(BOOL)show{
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_showRecommedInfo = @(show);
@@ -379,6 +409,7 @@ static UserDefaultManager* manager = nil;
     return -1;
 
 }
+
 + (void)setVideoPlayHistoryWithHash:(NSString *)hash time:(NSTimeInterval)time{
     if (!hash.length) return;
     
@@ -420,6 +451,7 @@ static UserDefaultManager* manager = nil;
 }
 
 + (void)clearPlayHistory{
+    UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_lastWatchTimeDic = [NSMutableDictionary dictionary];
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"lastWatchVideosTime"];
     [[NSUserDefaults standardUserDefaults] synchronize];

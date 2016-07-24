@@ -153,12 +153,13 @@
             }
         }];
         
-    }else if ([videoModel isKindOfClass:[StreamingVideoModel class]]){
+    }
+    else if ([videoModel isKindOfClass:[StreamingVideoModel class]]){
         self.episodeId = nil;
         StreamingVideoModel *vm = (StreamingVideoModel *)videoModel;
         NSString *danmaku = vm.danmaku;
         NSString *danmakuSource = vm.danmakuSource;
-        if (!danmaku || !danmakuSource) {
+        if (!danmaku.length || !danmakuSource.length) {
             complete(0, nil, kObjNilError);
             return;
         }
@@ -166,22 +167,24 @@
         complete(0.5, nil, nil);
         if (![vm URLsCountWithQuality:streamingVideoQualityHigh] && ![vm URLsCountWithQuality:streamingVideoQualityLow]) {
             //没有请求过的视频
-            [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:vm.fileName danmaku:vm.danmaku danmakuSource:vm.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
-                if (index < self.videos.count) {
-                    if (videoModel) {
-                        vm.danmakuDic = videoModel.danmakuDic;
-                        self.videos[index] = vm;
-                    }
-                    
+            [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:vm.fileName danmaku:danmaku danmakuSource:danmakuSource completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
+                if (index < self.videos.count && videoModel) {
+                    vm.danmakuDic = videoModel.danmakuDic;
+                    self.videos[index] = vm;
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
                     complete(1, vm.fileName, error);
                 }
+                else {
+                    complete(0, nil, kObjNilError);
+                }
             }];
-        }else{
+        }
+        else{
             if (vm.danmakuDic.count) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:vm.danmakuDic];
                 complete(1, vm.fileName, nil);
-            }else{
+            }
+            else{
                 [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
                     self.currentIndex = index;
                     vm.danmakuDic = responseObj;

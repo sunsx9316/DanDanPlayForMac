@@ -9,9 +9,15 @@
 #import "JHPlayerItem.h"
 
 @implementation JHPlayerItem
+{
+    NSURL *_URL;
+}
 - (instancetype)initWithURL:(NSURL *)URL {
     if (self = [super initWithURL:URL]) {
-        [self addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+        _URL = URL;
+        if (_URL.path.length) {
+            [self addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+        }
     }
     return self;
 }
@@ -24,7 +30,7 @@
 }
 
 - (void)dealloc {
-    if (self.loadedTimeRanges.firstObject) {
+    if (_URL.path.length && self.loadedTimeRanges.firstObject) {
         [self removeObserver:self forKeyPath:@"loadedTimeRanges"];
     }
 }

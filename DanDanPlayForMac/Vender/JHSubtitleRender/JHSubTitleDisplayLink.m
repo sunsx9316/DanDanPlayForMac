@@ -6,7 +6,7 @@
 //
 //
 
-#import "JHDisplayLink.h"
+#import "JHSubTitleDisplayLink.h"
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 
@@ -36,7 +36,7 @@ typedef enum : unsigned {
 } JHDisplayLinkAtomicFlags;
 
 
-@interface JHDisplayLink () {
+@interface JHSubTitleDisplayLink () {
 #if TARGET_OS_IPHONE
     CADisplayLink *_IOSDisplayLink;
 #else
@@ -58,7 +58,7 @@ typedef enum : unsigned {
 
 @end
 
-@implementation JHDisplayLink
+@implementation JHSubTitleDisplayLink
 
 @synthesize dispatchQueue = _clientDispatchQueue;
 
@@ -148,7 +148,7 @@ JHDisplayLinkCallback(CVDisplayLinkRef displayLink,
                       CVOptionFlags flagsIn,
                       CVOptionFlags *flagsOut,
                       void *ctx) {
-    JHDisplayLink *self = (__bridge JHDisplayLink*)ctx;
+    JHSubTitleDisplayLink *self = (__bridge JHSubTitleDisplayLink*)ctx;
     
     if (!self->_isRunning) {
         CVDisplayLinkStop(displayLink);
@@ -168,7 +168,7 @@ JHDisplayLinkCallback(CVDisplayLinkRef displayLink,
 
 static void
 JHDisplayLinkRender(void *ctx) {
-    JHDisplayLink *self = CFBridgingRelease(ctx);
+    JHSubTitleDisplayLink *self = CFBridgingRelease(ctx);
     if (self->_isRunning) {
         [self->_delegate displayLink:self
               didRequestFrameForTime:&self->_timeStamp];

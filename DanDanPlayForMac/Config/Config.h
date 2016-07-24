@@ -25,6 +25,9 @@ typedef NS_ENUM(NSInteger, JHDanMuSource){
     JHDanMuSourceCache
 };
 
+//项目主色调
+#define MAIN_COLOR RGBColor(49, 169, 226)
+
 //错误
 #define kNoMatchError [NSError errorWithDomain:@"nomatchdanmaku" code:200 userInfo: nil]
 #define kObjNilError [NSError errorWithDomain:@"objnil" code:201 userInfo: nil]
@@ -32,6 +35,7 @@ typedef NS_ENUM(NSInteger, JHDanMuSource){
 //提示文本
 #define kLoadMessageString @"你不能让我加载 我就加载"
 #define kNoFoundDanmakuString @"( ´_ゝ｀)并没有找到弹幕"
+#define kNoFoundSubtitleString @"( ´_ゝ｀)并没有找到字幕"
 #define kSearchByUserString @"可以尝试手♂动搜索"
 #define kDownLoadingString @"下载中..."
 #define kNoFoundDownLoadFileString @"并没有找到下载的文件"

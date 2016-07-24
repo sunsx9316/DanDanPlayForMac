@@ -6,9 +6,9 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-#import "JHDanmakuHeader.h"
+#import "JHSubtitleHeader.h"
 
-@interface JHDanmakuCanvas : JHView
+@interface JHSubTitleCanvas : JHView
 #if !TARGET_OS_IPHONE
 @property (copy, nonatomic) void(^resizeCallBackBlock)(CGRect bounds);
 #endif

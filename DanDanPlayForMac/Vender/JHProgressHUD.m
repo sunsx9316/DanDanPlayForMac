@@ -24,6 +24,7 @@ static JHProgressHUD *_hud = nil;
     JHProgressHUD *hud = [self shareHUD];
     [hud setMessage:message style:style parentView:parentView indicatorSize:size fontSize: fontSize dismissWhenClick: dismissWhenClick];
     [hud show];
+    
 }
 + (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick{
     [self showWithMessage:message style:style parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:dismissWhenClick];

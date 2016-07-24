@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "PlayLastWatchVideoTimeView.h"
 typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
+typedef void(^loadLocalSubtitleBlock)(NSString *path);
 @class VLCMediaPlayer, PlayerHUDControl, DanMuDataModel;
 @interface PlayerMethodManager : NSObject
 /**
@@ -25,6 +26,12 @@ typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
  *  @param block 回调
  */
 + (void)loadLocaleDanMuWithBlock:(loadLocalDanMuBlock)block;
+/**
+ *  加载本地字幕
+ *
+ *  @param block 回调
+ */
++ (void)loadLocaleSubtitleWithBlock:(loadLocalSubtitleBlock)block;
 /**
  *  发射弹幕
  *
