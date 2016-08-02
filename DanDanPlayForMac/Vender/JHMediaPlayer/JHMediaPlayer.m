@@ -39,6 +39,7 @@
 - (void)videoSizeWithCompletionHandle:(void(^)(CGSize size))completionHandle{
     if (self.mediaType == JHMediaTypeNetMedia){
         if (!self.mediaURL) {
+            self.localMediaPlayer.currentVideoSubTitleDelay = 0;
             completionHandle(CGSizeMake(-1, -1));
             return;
         }
@@ -52,13 +53,15 @@
     }
     
     JHVLCMedia *media = (JHVLCMedia *)self.localMediaPlayer.media;
-    if (media.isParsed) {
+    if (media.parsedStatus == VLCMediaParsedStatusInit) {
+        [media parseWithBlock:^(VLCMedia *aMedia) {
+            completionHandle([aMedia videoSize]);
+        }];
+    }
+    else {
         completionHandle([media videoSize]);
         return;
     }
-    [media parseWithBlock:^(VLCMedia *aMedia) {
-        completionHandle([aMedia videoSize]);
-    }];
 }
 
 - (NSTimeInterval)length {
@@ -154,6 +157,17 @@
     return [self currentTime] / [self length];
 }
 
+#pragma mark 字幕
+- (void)setSubtitleDelay:(NSInteger)subtitleDelay {
+    if (self.mediaType == JHMediaTypeLocaleMedia) {
+//        self.localMediaPlayer.currentVideoSubTitleDelay = subtitleDelay;
+    }
+}
+
+- (NSInteger)subtitleDelay {
+    return self.localMediaPlayer.currentVideoSubTitleDelay;
+}
+
 
 #pragma mark 播放器控制
 - (void)play {
@@ -185,7 +199,7 @@
 
 
 #pragma mark 功能
-- (void)saveVideoSnapshotAt:(NSString *)path withWidth:(NSInteger)width andHeight:(NSInteger)height format:(JHSnapshotType)format {
+- (void)saveVideoSnapshotAt:(NSString *)path withSize:(CGSize)size format:(JHSnapshotType)format {
     //vlc截图方式
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         NSString *directoryPath = [path stringByDeletingLastPathComponent];
@@ -193,10 +207,17 @@
             [[NSFileManager defaultManager] createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
         
-        [self.localMediaPlayer saveVideoSnapshotAt:path withWidth:0 andHeight:0];
+        [self.localMediaPlayer saveVideoSnapshotAt:path withWidth:size.width andHeight:size.height];
         NSDictionary *dic = [self imgSuffixNameAndFIleTypeWithformat:format];
         [self transformImgWithPath:path imgFileType:[dic[@"imgFileType"] integerValue] suffixName:dic[@"suffixName"]];
     }
+}
+
+- (NSInteger)openVideoSubTitlesFromFile:(NSString *)path {
+    if (self.mediaType == JHMediaTypeLocaleMedia) {
+        return [self.localMediaPlayer addPlaybackSlave:[NSURL URLWithString:path] type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
+    }
+    return 0;
 }
 
 - (void)setMediaURL:(NSURL *)mediaURL {
@@ -204,9 +225,8 @@
     if (!mediaURL.path.length) return;
     _mediaURL = mediaURL;
     if ([_mediaURL isFileURL]) {
-        //不自动寻找字幕
         JHVLCMedia *media = [[JHVLCMedia alloc] initWithURL:mediaURL];
-        [media addOptions:@{@"sub-file": @"no-sub-autodetect-file"}];
+//        [media addOptions:@{@"sub-file": @"no-sub-autodetect-file"}];
         self.localMediaPlayer.media = media;
         self.localMediaPlayer.delegate = self;
     }

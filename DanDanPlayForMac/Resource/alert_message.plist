@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>kLoadMessageString</key>
+	<string>你不能让我加载 我就加载</string>
+	<key>kNoFoundDanmakuString</key>
+	<string>( ´_ゝ｀)并没有找到弹幕</string>
+	<key>kLoadSubtitleErrorString</key>
+	<string>( ´_ゝ｀)加载字幕失败</string>
+	<key>kSearchByUserString</key>
+	<string>可以尝试手♂动搜索</string>
+	<key>kNoFoundDownLoadFileString</key>
+	<string>@&quot;并没有找到下载的文件&quot;</string>
+	<key>kNoFoundDownLoadFileInformativeString</key>
+	<string>→_→可能是下载路径有误 可以尝试手♂动更新</string>
+	<key>kDownLoadFileDamageString</key>
+	<string>文件似乎损坏了</string>
+	<key>kDownLoadFileDamageInformativeString</key>
+	<string>可以重新下载或者尝试手♂动下载</string>
+	<key>kNoUpdateInfoString</key>
+	<string>作者忙着补番 并没有更新ㄟ( ▔, ▔ )ㄏ</string>
+	<key>kNoFoundCacheDirectoriesString</key>
+	<string>(╬ﾟдﾟ)并没有这个文件夹</string>
+	<key>kNoFoundCacheDirectoriesInformativeString</key>
+	<string>你想怎样</string>
+	<key>kClearSuccessString</key>
+	<string>清除成功</string>
+	<key>kClearFailString</key>
+	<string>清除失败</string>
+	<key>kFileISNOTIMGString</key>
+	<string>然而这并不是图片</string>
+	<key>kResetSuccessString</key>
+	<string>还☆原☆大☆成☆功</string>
+	<key>kResetSuccessInformativeString</key>
+	<string>会在下次启动生效</string>
+	<key>kConnectFailString</key>
+	<string>连接出错</string>
+	<key>kSearchDamakuLoadingString</key>
+	<string>挖坟中...</string>
+	<key>kVideoNoFoundString</key>
+	<string>∑(￣□￣)视频不存在</string>
+	<key>kAnalyzeString</key>
+	<string>解析中...</string>
+	<key>kAnalyzeVideoString</key>
+	<string>分析视频...</string>
+	<key>kDownLoadingDanmakuString</key>
+	<string>下载弹幕...</string>
+	<key>kDownLoadingString</key>
+	<string>下载中...</string>
+	<key>kLaunchDanmakuSuccessString</key>
+	<string>发射成功</string>
+	<key>kLaunchDanmakuFailString</key>
+	<string>发射失败</string>
+	<key>kNoMatchVideoString</key>
+	<string>并没有匹配到视频</string>
+	<key>kCanLaunchDanmakuPlaceHoldString</key>
+	<string>回车发送弹幕</string>
+	<key>kCannotLaunchDanmakuPlaceHoldString</key>
+	<string>不支持发送弹幕</string>
+</dict>
+</plist>

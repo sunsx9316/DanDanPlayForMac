@@ -47,8 +47,9 @@
         if (curentVersion < [version floatValue]) {
             NSViewController *vc = NSApp.keyWindow.contentViewController;
             [vc presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
-        }else{
-            [[NSAlert alertWithMessageText:kNoUpdateInfoString informativeText:nil] runModal];
+        }
+        else {
+            [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kNoUpdateInfoString"] informativeText:nil] runModal];
         }
     }];
 }

@@ -47,7 +47,7 @@
     [UpdateNetManager downLatestVersionWithVersion:self.version progress:&_progress completionHandler:^(NSString *responseObj, NSError *error) {
         [self.progressHUD disMiss];
         if (!responseObj) {
-            [[NSAlert alertWithMessageText:kNoFoundDownLoadFileString informativeText:kNoFoundDownLoadFileInformativeString] runModal];
+            [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDownLoadFileString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDownLoadFileInformativeString"]] runModal];
             return;
         }
         
@@ -56,8 +56,9 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([[fileData md5String] isEqualToString:self.fileHash]) {
                     system([[NSString stringWithFormat:@"open %@", responseObj] cStringUsingEncoding:NSUTF8StringEncoding]);
-                }else{
-                    NSAlert *alert = [NSAlert alertWithMessageText:kDownLoadFileDamageString informativeText:kDownLoadFileDamageInformativeString];
+                }
+                else {
+                    NSAlert *alert = [NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kDownLoadFileDamageString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kDownLoadFileDamageInformativeString"]];
                     [alert runModal];
                 }
                 [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
@@ -77,11 +78,10 @@
 - (IBAction)clickUpdateByUserButton:(NSButton *)sender {
     system("open http://pan.baidu.com/s/1kUnnfGr");
 }
+
 - (IBAction)clickAutoCheakUpdateInfoButton:(NSButton *)sender {
     [UserDefaultManager setCheakDownLoadInfoAtStart:sender.state];
 }
-
-
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -92,7 +92,7 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)progressHUD {
     if(_progressHUD == nil) {
-        _progressHUD = [[JHProgressHUD alloc] initWithMessage:kDownLoadingString style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _progressHUD = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithKey:@"kDownLoadingString"] style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _progressHUD;
 }

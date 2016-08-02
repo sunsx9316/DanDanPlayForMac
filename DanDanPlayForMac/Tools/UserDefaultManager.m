@@ -30,6 +30,7 @@
     NSNumber *_quality;
     NSMutableDictionary *_lastWatchTimeDic;
     NSMutableDictionary *_subtitleAttDic;
+    NSDictionary *_alertMessageDic;
 }
 
 + (instancetype)shareUserDefaultManager{
@@ -217,7 +218,7 @@
     
     NSMutableArray *arr = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"customKeyMap"] mutableCopy];
     if (!arr) {
-        arr = [[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultKeyMap" ofType:@"plist"]] mutableCopy];
+        arr = [[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_key_map" ofType:@"plist"]] mutableCopy];
         [self setCustomKeyMap: arr];
     }
     return arr;
@@ -464,5 +465,15 @@
 
 + (NSArray *)videoList{
     return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"videoList"]];
+}
+
++ (NSString *)alertMessageWithKey:(NSString *)key {
+    UserDefaultManager *manager = [self shareUserDefaultManager];
+    NSDictionary *dic = manager->_alertMessageDic;
+    if (!dic) {
+        dic = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"alert_message" ofType:@"plist"]];
+        manager->_alertMessageDic = dic;
+    }
+    return dic[key];
 }
 @end

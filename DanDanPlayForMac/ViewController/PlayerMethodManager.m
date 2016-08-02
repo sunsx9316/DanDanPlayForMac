@@ -12,7 +12,6 @@
 #import "DanMuNetManager.h"
 #import "DanMuModel.h"
 #import "NSOpenPanel+Tools.h"
-#import "JHSubtitleParser.h"
 
 @implementation PlayerMethodManager
 
@@ -79,7 +78,7 @@
     
     NSUserNotification *notification = [[NSUserNotification alloc] init];
     notification.title = @"弹弹play";
-    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : kNoMatchVideoString;
+    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [UserDefaultManager alertMessageWithKey:@"kNoMatchVideoString"];
     [NSUserNotificationCenter defaultUserNotificationCenter].delegate = delegate;
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }

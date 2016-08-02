@@ -40,12 +40,15 @@
     NSString *inforStr = nil;
     if (err) {
         if (err.code == NSFileNoSuchFileError) {
-            errorStr = kNoFoundCacheDirectoriesString;
-            inforStr = kNoFoundCacheDirectoriesInformativeString;
+            errorStr = [UserDefaultManager alertMessageWithKey:@"kNoFoundCacheDirectoriesString"];
+            inforStr = [UserDefaultManager alertMessageWithKey:@"kNoFoundCacheDirectoriesInformativeString"];
         }
-        else errorStr = kClearFailString;
-    }else{
-        errorStr = kClearSuccessString;
+        else {
+            errorStr = [UserDefaultManager alertMessageWithKey:@"kClearFailString"];
+        }
+    }
+    else{
+        errorStr = [UserDefaultManager alertMessageWithKey:@"kClearSuccessString"];
         self.cacheTextField.stringValue = @"缓存大小: 0.0M";
     }
     
@@ -70,6 +73,7 @@
     }
     return 0;
 }
+
 //遍历文件夹获得文件夹大小，返回多少M
 - (float)folderSizeAtPath:(NSString*)folderPath{
     NSFileManager* manager = [NSFileManager defaultManager];

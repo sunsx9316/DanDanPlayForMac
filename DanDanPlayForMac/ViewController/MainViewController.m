@@ -76,20 +76,20 @@
     }
     
     
-    [JHProgressHUD showWithMessage:kAnalyzeString style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kAnalyzeString"] style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
     
     [[[MatchViewModel alloc] initWithModel:self.videos.firstObject] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         if (model.episodeId) {
             _animateTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
             [JHProgressHUD updateProgress: 0.5];
-            [JHProgressHUD updateMessage: kAnalyzeVideoString];
+            [JHProgressHUD updateMessage: [UserDefaultManager alertMessageWithKey:@"kAnalyzeVideoString"]];
             //搜索弹幕
             [[[DanMuChooseViewModel alloc] initWithVideoID: model.episodeId] refreshCompletionHandler:^(NSError *error) {
                 //判断官方弹幕是否为空
                 if (!error) {                    
                     [JHProgressHUD updateProgress: 1];
-                    [JHProgressHUD updateMessage: kDownLoadingDanmakuString];
+                    [JHProgressHUD updateMessage: [UserDefaultManager alertMessageWithKey:@"kDownLoadingDanmakuString"]];
                     _episodeId = model.episodeId;
                 }else{
                     //快速匹配失败

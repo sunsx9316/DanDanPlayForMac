@@ -91,7 +91,7 @@
         NSMutableArray *tempArr = [responseObj.result mutableCopy];
         if (!tempArr.count) {
             BiliBiliSearchDataModel *dataModel = [[BiliBiliSearchDataModel alloc] init];
-            dataModel.title = kNoFoundDanmakuString;
+            dataModel.title = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
             tempArr = [@[dataModel] mutableCopy];
             error = kObjNilError;
         }else{

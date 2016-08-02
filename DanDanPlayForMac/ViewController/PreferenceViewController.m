@@ -228,7 +228,7 @@
             [cell setClickButtonCallBackBlock:^{
                 NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
                 [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
-                NSAlert *alert = [NSAlert alertWithMessageText:kResetSuccessString informativeText:kResetSuccessInformativeString];
+                NSAlert *alert = [NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kResetSuccessString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kResetSuccessInformativeString"]];
                 [alert runModal];
             }];
             return cell;

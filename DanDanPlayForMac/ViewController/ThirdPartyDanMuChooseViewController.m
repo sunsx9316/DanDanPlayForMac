@@ -20,7 +20,7 @@
 #pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:kLoadMessageString parentView: self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
         [self reloadData];
@@ -42,8 +42,7 @@
 - (IBAction)clickChooseDanMuButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
     
-    
-    [JHProgressHUD showWithMessage:kSearchDamakuLoadingString parentView:self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kSearchDamakuLoadingString"] parentView:self.view];
     
     [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(id responseObj, NSError *error) {
         [JHProgressHUD disMiss];

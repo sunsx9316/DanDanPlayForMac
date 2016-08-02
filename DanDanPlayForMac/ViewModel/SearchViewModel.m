@@ -64,7 +64,7 @@
         NSMutableArray *arr = [self classifyModel: responseObj.animes];
         if (!arr.count) {
             SearchDataModel *model = [[SearchDataModel alloc] init];
-            model.title = kNoFoundDanmakuString;
+            model.title = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
             [arr addObject:model];
         }
         self.models = arr;

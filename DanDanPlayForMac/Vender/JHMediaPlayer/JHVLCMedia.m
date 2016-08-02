@@ -14,7 +14,7 @@
 - (void)parseWithBlock:(complete)block{
     self.returnBlock = block;
     self.delegate = self;
-    [self synchronousParse];
+    [self parseWithOptions:VLCMediaParseLocal];
 }
 
 - (void)mediaDidFinishParsing:(VLCMedia *)aMedia{

@@ -71,7 +71,7 @@
 
 - (JHProgressHUD *)progressHUD {
 	if(_progressHUD == nil) {
-		_progressHUD = [[JHProgressHUD alloc] initWithMessage:kLoadMessageString style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
+		_progressHUD = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
 	}
 	return _progressHUD;
 }

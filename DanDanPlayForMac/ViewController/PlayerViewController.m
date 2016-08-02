@@ -34,7 +34,6 @@
 #import "JHDanmakuEngine+Tools.h"
 #import "PlayerMethodManager.h"
 #import "JHDanmakuRender.h"
-#import "JHSubTitleEngine.h"
 #import "JHMediaPlayer.h"
 
 #import <POP.h>
@@ -94,7 +93,6 @@
 
 @property (strong, nonatomic) JHMediaPlayer *player;
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
-@property (strong, nonatomic) JHSubTitleEngine *subTitleEngine;
 @property (strong, nonatomic) PlayViewModel *vm;
 //快捷键映射
 @property (strong, nonatomic) NSArray *keyMap;
@@ -137,7 +135,7 @@
     [self setupOnce];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
         if (size.width < 0 || size.height < 0) {
-            self.messageView.text.stringValue = kVideoNoFoundString;
+            self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
             [self.messageView showHUD];
             return;
         }
@@ -308,13 +306,13 @@
             [str addAttributes:@{NSUnderlineColorAttributeName:[NSColor greenColor], NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)} range:NSMakeRange(0, str.length)];
             danmaku.attributedString = str;
             self.danmakuTextField.stringValue = @"";
-            self.messageView.text.stringValue = kLaunchDanmakuSuccessString;
+            self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kLaunchDanmakuSuccessString"];
             [self.messageView showHUD];
             [self.danmakuEngine addDanmaku: danmaku];
             [self.vm saveUserDanmaku:model];
         }
         else {
-            self.messageView.text.stringValue = kLaunchDanmakuFailString;
+            self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kLaunchDanmakuFailString"];
             [self.messageView showHUD];
         }
     }];
@@ -338,7 +336,6 @@
 - (void)stopPlay {
     [self.danmakuEngine stop];
     [self.player stop];
-    [self.subTitleEngine stop];
     
     [self.playerControlView.slideView updateBufferProgress:0];
     [self.playerControlView.slideView updateCurrentProgress:0];
@@ -361,14 +358,12 @@
 - (void)videoAndDanMuPlay {
     [self.danmakuEngine start];
     [self.player play];
-    [self.subTitleEngine start];
 }
 
 //暂停弹幕和视频
 - (void)videoAndDanMuPause {
     [self.danmakuEngine pause];
     [self.player pause];
-    [self.subTitleEngine pause];
 }
 
 
@@ -407,7 +402,7 @@
 
 #pragma mark 重新加载弹幕 更新进度
 - (void)reloadDanmakuWithIndex:(NSInteger)index {
-    [JHProgressHUD showWithMessage:kAnalyzeString style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kAnalyzeString"] style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
     
     [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -418,16 +413,16 @@
                     [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
                     return;
                 }
-                 self.messageView.text.stringValue = kVideoNoFoundString;
+                 self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
                 [self.messageView showHUD];
             }
             else {
                 [JHProgressHUD updateProgress:progress];
                 if (progress == 0.5) {
-                    [JHProgressHUD updateMessage:kAnalyzeVideoString];
+                    [JHProgressHUD updateMessage:[UserDefaultManager alertMessageWithKey:@"kAnalyzeVideoString"]];
                 }
-                else if (progress == 1){
-                    [JHProgressHUD updateMessage:kDownLoadingDanmakuString];
+                else if (progress == 1) {
+                    [JHProgressHUD updateMessage:[UserDefaultManager alertMessageWithKey:@"kDownLoadingDanmakuString"]];
                     [PlayerMethodManager postMatchMessageWithMatchName:videoMatchName delegate:self];
                     [JHProgressHUD disMiss];
                 }
@@ -445,7 +440,7 @@
 
 #pragma mark 截图
 - (void)snapShot {
-    [self.player saveVideoSnapshotAt:[[UserDefaultManager screenShotPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [self.snapshotFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]] withWidth:0 andHeight:0 format:[UserDefaultManager defaultScreenShotType]];
+    [self.player saveVideoSnapshotAt:[[UserDefaultManager screenShotPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [self.snapshotFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]] withSize:CGSizeZero format:[UserDefaultManager defaultScreenShotType]];
 }
 
 
@@ -468,10 +463,6 @@
 
 - (void)danmakuCanvasResizeWithAnimate {
     [self danmakuCanvasResizeWithAnimate:YES];
-}
-
-- (void)subTitleCanvasResize {
-    self.subTitleEngine.canvas.frame = self.playerHoldView.frame;
 }
 
 #pragma mark -------- 通知 --------
@@ -504,7 +495,6 @@
 - (void)windowDidResize:(NSNotification *)notification {
     if (notification.object == NSApp.mainWindow) {
         [self danmakuCanvasResizeWithAnimate:NO];
-        [self subTitleCanvasResize];
 //        [self.rander resetOriginalPosition:self.rander.canvas.bounds];
     }
 }
@@ -531,7 +521,7 @@
     [self.playerListViewController.tableView reloadData];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
         if (size.width < 0 || size.height < 0) {
-            self.messageView.text.stringValue = kVideoNoFoundString;
+            self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
             [self.messageView showHUD];
             return;
         }
@@ -565,7 +555,6 @@
         {
             [self.player jump: SHORT_JUMP_TIME completionHandler:^(NSTimeInterval time) {
                 weakSelf.danmakuEngine.currentTime = time;
-                weakSelf.subTitleEngine.currentTime = time;
             }];
         }
             break;
@@ -573,7 +562,6 @@
         {
             [self.player jump: -SHORT_JUMP_TIME completionHandler:^(NSTimeInterval time) {
                 weakSelf.danmakuEngine.currentTime = time;
-                weakSelf.subTitleEngine.currentTime = time;
             }];
             
         }
@@ -582,7 +570,6 @@
         {
             [self.player jump: MEDIUM_JUMP_TIME completionHandler:^(NSTimeInterval time) {
                 weakSelf.danmakuEngine.currentTime = time;
-                weakSelf.subTitleEngine.currentTime = time;
             }];
         }
             break;
@@ -590,7 +577,6 @@
         {
             [self.player jump: -MEDIUM_JUMP_TIME completionHandler:^(NSTimeInterval time) {
                 weakSelf.danmakuEngine.currentTime = time;
-                weakSelf.subTitleEngine.currentTime = time;
             }];
         }
             break;
@@ -684,7 +670,7 @@
     }];
     
     //弹幕颜色、样式按钮
-    NSArray *colorArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"danmakuColor" ofType:@"plist"]];
+    NSArray *colorArr = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"danmaku_color" ofType:@"plist"]];
     for (NSDictionary *dic in colorArr) {
         DanmakuColorMenuItem *item = [[DanmakuColorMenuItem alloc] initWithTitle:dic[@"name"] color:[NSColor colorWithRGB:(uint32_t)[dic[@"value"] integerValue]]];
         [self.danmakuColorPopUpButton.menu addItem:item];
@@ -749,20 +735,18 @@
     //只有官方弹幕库启用发送弹幕功能
     if (!self.vm.episodeId.length) {
         self.danmakuTextField.enabled = NO;
-        self.danmakuTextField.placeholderString = kCannotLaunchDanmakuPlaceHoldString;
+        self.danmakuTextField.placeholderString = [UserDefaultManager alertMessageWithKey:@"kCannotLaunchDanmakuPlaceHoldString"];
     }
     else {
         self.danmakuTextField.enabled = YES;
-        self.danmakuTextField.placeholderString = kCanLaunchDanmakuPlaceHoldString;
+        self.danmakuTextField.placeholderString = [UserDefaultManager alertMessageWithKey:@"kCanLaunchDanmakuPlaceHoldString"];
     }
     //重设右键菜单
     [self resetMenuByOpenStreamDic];
     //显示上次播放进度
     [PlayerMethodManager showPlayLastWatchVideoTimeView:self.lastWatchVideoTimeView time:[self.vm currentVideoLastVideoTime]];
-    [self.subTitleEngine addSubTitleWithMediaPath:self.player.mediaURL.path];
     //重设视图尺寸
     [self danmakuCanvasResizeWithAnimate:NO];
-    [self subTitleCanvasResize];
 }
 
 #pragma mark 其它
@@ -842,7 +826,6 @@
     __weak typeof(self)weakSelf = self;
     [self.player setPosition: endValue completionHandler:^(NSTimeInterval time) {
         weakSelf.danmakuEngine.currentTime = time;
-        weakSelf.subTitleEngine.currentTime = time;
     }];
 }
 
@@ -850,7 +833,6 @@
     __weak typeof(self)weakSelf = self;
     [self.player setPosition: endValue completionHandler:^(NSTimeInterval time) {
         weakSelf.danmakuEngine.currentTime = time;
-        weakSelf.subTitleEngine.currentTime = time;
     }];
 }
 
@@ -1111,32 +1093,29 @@
 //                    [weakSelf.player setPosition:0 completionHandler:nil];
                 }
                 else {
-                    [[NSAlert alertWithMessageText:kNoFoundDanmakuString informativeText:nil] runModal];
+                    [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"] informativeText:nil] runModal];
                 }
             }];
         }];
-        
+        #warning 字幕时间调整
         [_playerDanmakuAndSubtitleViewController.subtitleVC setTimeOffsetCallBack:^(NSInteger value) {
-            weakSelf.subTitleEngine.offsetTime = value;
-            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"字幕：%@%ld秒", weakSelf.subTitleEngine.offsetTime >= 0 ? @"+" : @"", (long)weakSelf.subTitleEngine.offsetTime];
+            weakSelf.player.subtitleDelay = value * 10;
+//            weakSelf.subTitleEngine.offsetTime = value;
+            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"字幕：%@%ld秒", value >= 0 ? @"+" : @"", value];
             [weakSelf.messageView showHUD];
         }];
-        
+        #warning 字幕字体调整
         [_playerDanmakuAndSubtitleViewController.subtitleVC setFontSizeChangeCallBack:^(CGFloat value) {
             NSMutableDictionary *dic = [UserDefaultManager subtitleAttDic];
             dic[NSFontAttributeName] = [NSFont systemFontOfSize:value];
             [UserDefaultManager setSubtitleAttDic:dic];
-            weakSelf.subTitleEngine.globalAttributedDic = dic;
+//            weakSelf.subTitleEngine.globalAttributedDic = dic;
         }];
         
         [_playerDanmakuAndSubtitleViewController.subtitleVC setChooseLoactionFileCallBack:^{
             [PlayerMethodManager loadLocaleSubtitleWithBlock:^(NSString *path) {
-                if (path.length > 0) {
-                    [weakSelf.subTitleEngine addSubTitleWithPath:path];
-//                    [weakSelf.player setPosition:0 completionHandler:nil];
-                }
-                else {
-                    [[NSAlert alertWithMessageText:kNoFoundSubtitleString informativeText:nil] runModal];
+                if (![weakSelf.player openVideoSubTitlesFromFile:path]) {
+                    [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kLoadSubtitleErrorString"] informativeText:nil] runModal];
                 }
             }];
         }];

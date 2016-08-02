@@ -46,6 +46,7 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
 @property (strong, nonatomic) JHMediaView *mediaView;
 @property (strong, nonatomic) NSURL *mediaURL;
 @property (assign, nonatomic) CGFloat volume;
+@property (assign, nonatomic) NSInteger subtitleDelay;
 /**
  *  位置 0 ~ 1
  */
@@ -85,11 +86,19 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
  *  保存截图
  *
  *  @param path   路径
- *  @param width  宽 如果填0则为原视频宽
+ *  @param size  宽 如果为 CGSizeZero则为原视频的宽高
  *  @param height 高 如果填0则为原视频高
  *  @param format 图片格式
  */
-- (void)saveVideoSnapshotAt:(NSString *)path withWidth:(NSInteger)width andHeight:(NSInteger)height format:(JHSnapshotType)format;
+- (void)saveVideoSnapshotAt:(NSString *)path withSize:(CGSize)size format:(JHSnapshotType)format;
+/**
+ *  加载字幕文件
+ *
+ *  @param path 字幕路径
+ *
+ *  @return 是否成功
+ */
+- (NSInteger)openVideoSubTitlesFromFile:(NSString *)path;
 /**
  *  初始化
  *

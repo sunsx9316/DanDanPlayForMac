@@ -95,7 +95,7 @@
         //没有找到
         if (!arr.count) {
             AcFunSearchListModel *listModel = [[AcFunSearchListModel alloc] init];
-            listModel.title = kNoFoundDanmakuString;
+            listModel.title = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
             [arr addObject:listModel];
             error = kObjNilError;
         }

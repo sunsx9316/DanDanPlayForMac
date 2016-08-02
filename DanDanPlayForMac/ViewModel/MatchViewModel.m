@@ -60,9 +60,9 @@
         }
         //没有找到
         if (responseObj.matches.count == 0){
-            MatchDataModel *model = [MatchDataModel new];
-            model.animeTitle = kNoFoundDanmakuString;
-            model.episodeTitle = kSearchByUserString;
+            MatchDataModel *model = [[MatchDataModel alloc] init];
+            model.animeTitle = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
+            model.episodeTitle = [UserDefaultManager alertMessageWithKey:@"kSearchByUserString"];
             responseObj.matches = @[model];
         }
         

@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] parentView:self.view];
     [self.vm refreshWithcompletionHandler:^(NSError *error) {
         [self.tableView reloadData];
         [JHProgressHUD disMiss];
@@ -116,7 +116,7 @@
 - (void)streamingVideoModelWithRow:(NSInteger)row{
     if (![self.vm danmakuForRow:row].length) return;
     
-    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] parentView:self.view];
     [self.vm getVideoURLAndDanmakuForRow:row completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
         [JHProgressHUD disMiss];
         
@@ -150,7 +150,7 @@
 - (HUDMessageView *)messageView {
 	if(_messageView == nil) {
 		_messageView = [[HUDMessageView alloc] init];
-        _messageView.text.stringValue = kNoFoundDanmakuString;
+        _messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
         [self.view addSubview:_messageView];
 	}
 	return _messageView;

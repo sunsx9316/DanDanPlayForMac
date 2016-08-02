@@ -110,7 +110,7 @@
 
 - (void)episodeTableViewDoubleClickRow{
     if (![self.vm infoArrCount]) return;
-    [JHProgressHUD showWithMessage:kLoadMessageString parentView: self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] parentView: self.view];
     NSInteger clickRow = [self.episodeTableView clickedRow];
     [self.vm downDanMuWithRow:clickRow completionHandler:^(id responseObj,NSError *error) {
         [JHProgressHUD disMiss];
@@ -160,14 +160,14 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = [[JHProgressHUD alloc] initWithMessage:kLoadMessageString style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _hud;
 }
 
 - (JHProgressHUD *)shiBanEpisodeHUD {
 	if(_shiBanEpisodeHUD == nil) {
-		_shiBanEpisodeHUD = [[JHProgressHUD alloc] initWithMessage:kLoadMessageString style:JHProgressHUDStyleValue1 parentView:self.episodeTableView dismissWhenClick:NO];
+		_shiBanEpisodeHUD = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] style:JHProgressHUDStyleValue1 parentView:self.episodeTableView dismissWhenClick:NO];
 	}
 	return _shiBanEpisodeHUD;
 }
@@ -175,7 +175,7 @@
 - (HUDMessageView *)messageView {
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
-        _messageView.text.stringValue = kConnectFailString;
+        _messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kConnectFailString"];
         [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo:self.episodeTableView];
     }
     return _messageView;

@@ -13,6 +13,10 @@
 		890B9A521C8B2E460063986B /* OpenStreamVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */; };
 		890FDDDE1CBDF5F600BFFACC /* NSView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */; };
 		89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */; };
+		8916809B1D50776D00B215D1 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; };
+		8916809C1D50779700B215D1 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; };
+		8916809D1D50779700B215D1 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8916809F1D5080DE00B215D1 /* alert_message.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8916809E1D5080DE00B215D1 /* alert_message.plist */; };
 		8944E67A1C8F09FA005C5DC8 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */; };
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; };
 		8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9851CA95D04000C863B /* VolumeControlView.m */; };
@@ -27,8 +31,6 @@
 		89636FD41C58C40B002F32FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FD31C58C40B002F32FD /* main.m */; };
 		89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89636FD81C58C40B002F32FD /* Assets.xcassets */; };
 		89636FDC1C58C40B002F32FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89636FDA1C58C40B002F32FD /* Main.storyboard */; };
-		8963703A1C58FCDF002F32FD /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 896370391C58FCDF002F32FD /* VLCKit.framework */; };
-		8963703B1C58FCDF002F32FD /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 896370391C58FCDF002F32FD /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		896370571C59028C002F32FD /* BaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370501C59028C002F32FD /* BaseNetManager.m */; };
 		896370581C59028C002F32FD /* DanMuNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370521C59028C002F32FD /* DanMuNetManager.m */; };
 		896370591C59028C002F32FD /* MatchNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370541C59028C002F32FD /* MatchNetManager.m */; };
@@ -51,7 +53,7 @@
 		897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B81C759CB200F64D39 /* NSData+Tools.m */; };
 		897345BF1C759CB200F64D39 /* NSDictionary+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */; };
 		897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345BC1C759CB200F64D39 /* NSString+Tools.m */; };
-		897368031C70392000B9B765 /* defaultKeyMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897368021C70392000B9B765 /* defaultKeyMap.plist */; };
+		897368031C70392000B9B765 /* default_key_map.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897368021C70392000B9B765 /* default_key_map.plist */; };
 		8973680A1C70483000B9B765 /* GetKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897368081C70483000B9B765 /* GetKeyViewController.m */; };
 		8973680B1C70483000B9B765 /* GetKeyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897368091C70483000B9B765 /* GetKeyViewController.xib */; };
 		897368111C70708A00B9B765 /* NSString+KeyEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 897368101C70708A00B9B765 /* NSString+KeyEvent.m */; };
@@ -104,16 +106,8 @@
 		897EC7CB1C72056A00E1B03D /* VideoInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7C41C72056A00E1B03D /* VideoInfoModel.m */; };
 		897ECC5A1C74C9F9008AA5DB /* DanMuFastMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */; };
 		8981629D1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981629C1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m */; };
-		8981A8A31D1D863F0055F5DA /* JHSubTitleCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981A8911D1D863F0055F5DA /* JHSubTitleCanvas.m */; };
-		8981A8A41D1D863F0055F5DA /* JHSubTitleClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981A8931D1D863F0055F5DA /* JHSubTitleClock.m */; };
-		8981A8A51D1D863F0055F5DA /* JHSubTitleContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981A8951D1D863F0055F5DA /* JHSubTitleContainer.m */; };
-		8981A8A61D1D863F0055F5DA /* JHSubTitleDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981A8971D1D863F0055F5DA /* JHSubTitleDisplayLink.m */; };
-		8981A8A71D1D863F0055F5DA /* JHSubTitleEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981A8991D1D863F0055F5DA /* JHSubTitleEngine.m */; };
-		8981A8A81D1D863F0055F5DA /* JHSubtitleParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981A89C1D1D863F0055F5DA /* JHSubtitleParser.m */; };
-		8981A8A91D1D863F0055F5DA /* JHSubtitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981A89F1D1D863F0055F5DA /* JHSubtitle.m */; };
-		8981A8AA1D1D863F0055F5DA /* JHColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981A8A21D1D863F0055F5DA /* JHColor+Tools.m */; };
 		8983C76D1C8819CC0080C316 /* NSData+DanDanPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */; };
-		8983C7751C8853B40080C316 /* danmakuColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8983C7741C8853B40080C316 /* danmakuColor.plist */; };
+		8983C7751C8853B40080C316 /* danmaku_color.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8983C7741C8853B40080C316 /* danmaku_color.plist */; };
 		8984B3561C8C23D800C845AC /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8984B3551C8C23D800C845AC /* JHMediaView.m */; };
 		8985A5B31CC913DA00B5936D /* JHPlayerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8985A5B21CC913DA00B5936D /* JHPlayerItem.m */; };
 		898732811C9701E50019F8BA /* PlayLastWatchVideoTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898732801C9701E50019F8BA /* PlayLastWatchVideoTimeView.m */; };
@@ -162,7 +156,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8963703B1C58FCDF002F32FD /* VLCKit.framework in Embed Frameworks */,
+				8916809D1D50779700B215D1 /* VLCKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,6 +179,8 @@
 		890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+Tools.m"; sourceTree = "<group>"; };
 		89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOpenPanel+Tools.h"; sourceTree = "<group>"; };
 		89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOpenPanel+Tools.m"; sourceTree = "<group>"; };
+		8916809A1D50776D00B215D1 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VLCKit.framework; sourceTree = "<group>"; };
+		8916809E1D5080DE00B215D1 /* alert_message.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = alert_message.plist; sourceTree = "<group>"; };
 		8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHProgressHUD.h; sourceTree = "<group>"; };
 		8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHProgressHUD.m; sourceTree = "<group>"; };
 		8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliSearchViewModel.h; sourceTree = "<group>"; };
@@ -212,7 +208,6 @@
 		89636FD81C58C40B002F32FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
 		89636FDB1C58C40B002F32FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		89636FEF1C58FAD1002F32FD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		896370391C58FCDF002F32FD /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VLCKit.framework; path = ../../VLCKit.framework; sourceTree = "<group>"; };
 		8963704F1C59028C002F32FD /* BaseNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNetManager.h; sourceTree = "<group>"; };
 		896370501C59028C002F32FD /* BaseNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNetManager.m; sourceTree = "<group>"; };
 		896370511C59028C002F32FD /* DanMuNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuNetManager.h; sourceTree = "<group>"; };
@@ -258,7 +253,7 @@
 		897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Tools.m"; sourceTree = "<group>"; };
 		897345BB1C759CB200F64D39 /* NSString+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tools.h"; sourceTree = "<group>"; };
 		897345BC1C759CB200F64D39 /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tools.m"; sourceTree = "<group>"; };
-		897368021C70392000B9B765 /* defaultKeyMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaultKeyMap.plist; sourceTree = "<group>"; };
+		897368021C70392000B9B765 /* default_key_map.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = default_key_map.plist; sourceTree = "<group>"; };
 		897368071C70483000B9B765 /* GetKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetKeyViewController.h; sourceTree = "<group>"; };
 		897368081C70483000B9B765 /* GetKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetKeyViewController.m; sourceTree = "<group>"; };
 		897368091C70483000B9B765 /* GetKeyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetKeyViewController.xib; sourceTree = "<group>"; };
@@ -361,26 +356,9 @@
 		897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuFastMatchCell.m; sourceTree = "<group>"; };
 		8981629B1CA58C0A0098B5E6 /* OtherOnlyButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherOnlyButtonCell.h; sourceTree = "<group>"; };
 		8981629C1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherOnlyButtonCell.m; sourceTree = "<group>"; };
-		8981A8901D1D863F0055F5DA /* JHSubTitleCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSubTitleCanvas.h; sourceTree = "<group>"; };
-		8981A8911D1D863F0055F5DA /* JHSubTitleCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSubTitleCanvas.m; sourceTree = "<group>"; };
-		8981A8921D1D863F0055F5DA /* JHSubTitleClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSubTitleClock.h; sourceTree = "<group>"; };
-		8981A8931D1D863F0055F5DA /* JHSubTitleClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSubTitleClock.m; sourceTree = "<group>"; };
-		8981A8941D1D863F0055F5DA /* JHSubTitleContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSubTitleContainer.h; sourceTree = "<group>"; };
-		8981A8951D1D863F0055F5DA /* JHSubTitleContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSubTitleContainer.m; sourceTree = "<group>"; };
-		8981A8961D1D863F0055F5DA /* JHSubTitleDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSubTitleDisplayLink.h; sourceTree = "<group>"; };
-		8981A8971D1D863F0055F5DA /* JHSubTitleDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSubTitleDisplayLink.m; sourceTree = "<group>"; };
-		8981A8981D1D863F0055F5DA /* JHSubTitleEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSubTitleEngine.h; sourceTree = "<group>"; };
-		8981A8991D1D863F0055F5DA /* JHSubTitleEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSubTitleEngine.m; sourceTree = "<group>"; };
-		8981A89A1D1D863F0055F5DA /* JHSubtitleHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSubtitleHeader.h; sourceTree = "<group>"; };
-		8981A89B1D1D863F0055F5DA /* JHSubtitleParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSubtitleParser.h; sourceTree = "<group>"; };
-		8981A89C1D1D863F0055F5DA /* JHSubtitleParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSubtitleParser.m; sourceTree = "<group>"; };
-		8981A89E1D1D863F0055F5DA /* JHSubtitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSubtitle.h; sourceTree = "<group>"; };
-		8981A89F1D1D863F0055F5DA /* JHSubtitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSubtitle.m; sourceTree = "<group>"; };
-		8981A8A11D1D863F0055F5DA /* JHColor+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JHColor+Tools.h"; sourceTree = "<group>"; };
-		8981A8A21D1D863F0055F5DA /* JHColor+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JHColor+Tools.m"; sourceTree = "<group>"; };
 		8983C76B1C8819CC0080C316 /* NSData+DanDanPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DanDanPlay.h"; sourceTree = "<group>"; };
 		8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+DanDanPlay.m"; sourceTree = "<group>"; };
-		8983C7741C8853B40080C316 /* danmakuColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = danmakuColor.plist; sourceTree = "<group>"; };
+		8983C7741C8853B40080C316 /* danmaku_color.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = danmaku_color.plist; sourceTree = "<group>"; };
 		8984B3541C8C23D800C845AC /* JHMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaView.h; sourceTree = "<group>"; };
 		8984B3551C8C23D800C845AC /* JHMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaView.m; sourceTree = "<group>"; };
 		8985A5B11CC913DA00B5936D /* JHPlayerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHPlayerItem.h; sourceTree = "<group>"; };
@@ -465,8 +443,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8916809C1D50779700B215D1 /* VLCKit.framework in Frameworks */,
 				CA0DE9BDBB94BB3A6117693A /* libPods-DanDanPlayForMac.a in Frameworks */,
-				8963703A1C58FCDF002F32FD /* VLCKit.framework in Frameworks */,
+				8916809B1D50776D00B215D1 /* VLCKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,8 +568,9 @@
 			children = (
 				89636FD81C58C40B002F32FD /* Assets.xcassets */,
 				89636FDA1C58C40B002F32FD /* Main.storyboard */,
-				897368021C70392000B9B765 /* defaultKeyMap.plist */,
-				8983C7741C8853B40080C316 /* danmakuColor.plist */,
+				897368021C70392000B9B765 /* default_key_map.plist */,
+				8983C7741C8853B40080C316 /* danmaku_color.plist */,
+				8916809E1D5080DE00B215D1 /* alert_message.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -600,10 +580,9 @@
 			children = (
 				8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */,
 				8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */,
-				8981A88F1D1D863F0055F5DA /* JHSubtitleRender */,
+				8916809A1D50776D00B215D1 /* VLCKit.framework */,
 				897CCE931D18496800E27AD5 /* JHDanmakuRender */,
 				899BA7F51C8AA7C6007A67A8 /* JHMediaPlayer */,
-				896370391C58FCDF002F32FD /* VLCKit.framework */,
 			);
 			path = Vender;
 			sourceTree = "<group>";
@@ -956,46 +935,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		8981A88F1D1D863F0055F5DA /* JHSubtitleRender */ = {
-			isa = PBXGroup;
-			children = (
-				8981A8901D1D863F0055F5DA /* JHSubTitleCanvas.h */,
-				8981A8911D1D863F0055F5DA /* JHSubTitleCanvas.m */,
-				8981A8921D1D863F0055F5DA /* JHSubTitleClock.h */,
-				8981A8931D1D863F0055F5DA /* JHSubTitleClock.m */,
-				8981A8941D1D863F0055F5DA /* JHSubTitleContainer.h */,
-				8981A8951D1D863F0055F5DA /* JHSubTitleContainer.m */,
-				8981A8961D1D863F0055F5DA /* JHSubTitleDisplayLink.h */,
-				8981A8971D1D863F0055F5DA /* JHSubTitleDisplayLink.m */,
-				8981A8981D1D863F0055F5DA /* JHSubTitleEngine.h */,
-				8981A8991D1D863F0055F5DA /* JHSubTitleEngine.m */,
-				8981A89A1D1D863F0055F5DA /* JHSubtitleHeader.h */,
-				8981A89B1D1D863F0055F5DA /* JHSubtitleParser.h */,
-				8981A89C1D1D863F0055F5DA /* JHSubtitleParser.m */,
-				8981A89D1D1D863F0055F5DA /* Subtitle */,
-				8981A8A01D1D863F0055F5DA /* Tools */,
-			);
-			path = JHSubtitleRender;
-			sourceTree = "<group>";
-		};
-		8981A89D1D1D863F0055F5DA /* Subtitle */ = {
-			isa = PBXGroup;
-			children = (
-				8981A89E1D1D863F0055F5DA /* JHSubtitle.h */,
-				8981A89F1D1D863F0055F5DA /* JHSubtitle.m */,
-			);
-			path = Subtitle;
-			sourceTree = "<group>";
-		};
-		8981A8A01D1D863F0055F5DA /* Tools */ = {
-			isa = PBXGroup;
-			children = (
-				8981A8A11D1D863F0055F5DA /* JHColor+Tools.h */,
-				8981A8A21D1D863F0055F5DA /* JHColor+Tools.m */,
-			);
-			path = Tools;
-			sourceTree = "<group>";
-		};
 		8987327E1C9701760019F8BA /* 控件 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1211,10 +1150,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8983C7751C8853B40080C316 /* danmakuColor.plist in Resources */,
+				8983C7751C8853B40080C316 /* danmaku_color.plist in Resources */,
 				89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */,
+				8916809F1D5080DE00B215D1 /* alert_message.plist in Resources */,
 				897DBA611D3E538E00479126 /* PlayerDanmakuAndSubtitleViewController.xib in Resources */,
-				897368031C70392000B9B765 /* defaultKeyMap.plist in Resources */,
+				897368031C70392000B9B765 /* default_key_map.plist in Resources */,
 				89636FDC1C58C40B002F32FD /* Main.storyboard in Resources */,
 				8975A0AE1C60A03A009BD30F /* PlayerViewController.xib in Resources */,
 				897DBA661D3E544A00479126 /* PlayerSubtitleViewController.xib in Resources */,
@@ -1321,7 +1261,6 @@
 				896370581C59028C002F32FD /* DanMuNetManager.m in Sources */,
 				8975D1DF1C6EF939003FE797 /* CaptionsProtectAreaCell.m in Sources */,
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,
-				8981A8A51D1D863F0055F5DA /* JHSubTitleContainer.m in Sources */,
 				89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */,
 				89FDFEAD1C9042FD005499B9 /* UpdateViewController.m in Sources */,
 				899BA7FC1C8AA7D6007A67A8 /* JHMediaPlayer.m in Sources */,
@@ -1353,7 +1292,6 @@
 				897EC7CA1C72056A00E1B03D /* ShiBanModel.m in Sources */,
 				8965EE371C6DB8590089E187 /* PreferenceViewController.m in Sources */,
 				89651E3D1C5F81E4002F23A2 /* BackGroundImageView.m in Sources */,
-				8981A8A31D1D863F0055F5DA /* JHSubTitleCanvas.m in Sources */,
 				897DBA651D3E544A00479126 /* PlayerSubtitleViewController.m in Sources */,
 				897CCEA91D18496800E27AD5 /* ScrollDanmaku.m in Sources */,
 				896A716A1C66248800280B79 /* AcFunSearchViewModel.m in Sources */,
@@ -1371,11 +1309,9 @@
 				897619F11C59E8520046A245 /* PlayViewModel.m in Sources */,
 				8995C9971C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m in Sources */,
 				896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */,
-				8981A8A91D1D863F0055F5DA /* JHSubtitle.m in Sources */,
 				890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */,
 				890B9A461C8B1BB60063986B /* OpenStreamInputAidViewController.m in Sources */,
 				897CCEA71D18496800E27AD5 /* FloatDanmaku.m in Sources */,
-				8981A8A61D1D863F0055F5DA /* JHSubTitleDisplayLink.m in Sources */,
 				8981629D1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m in Sources */,
 				899BA7FE1C8AA7D6007A67A8 /* VLCMedia+Tools.m in Sources */,
 				89A5345E1CB92FD000F7FE18 /* AboutViewController.m in Sources */,
@@ -1383,7 +1319,6 @@
 				896156811C6C50570016792B /* HUDMessageView.m in Sources */,
 				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,
 				8950C9891CA97B1E000C863B /* QualityCell.m in Sources */,
-				8981A8A81D1D863F0055F5DA /* JHSubtitleParser.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,
 				896BE9111CAEC478005BE0D1 /* TimeHUDMessageView.m in Sources */,
 				899BA7FD1C8AA7D6007A67A8 /* JHVLCMedia.m in Sources */,
@@ -1398,10 +1333,8 @@
 				8975D1DC1C6EF634003FE797 /* ChangeFontCell.m in Sources */,
 				897CCEAC1D18496800E27AD5 /* JHDanmakuClock.m in Sources */,
 				8996A6E01C6CD95A00D5AA6E /* SliderControlCell.m in Sources */,
-				8981A8A71D1D863F0055F5DA /* JHSubTitleEngine.m in Sources */,
 				897345BF1C759CB200F64D39 /* NSDictionary+Tools.m in Sources */,
 				897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */,
-				8981A8AA1D1D863F0055F5DA /* JHColor+Tools.m in Sources */,
 				897CCEAD1D18496800E27AD5 /* JHDanmakuEngine.m in Sources */,
 				897619F01C59E8520046A245 /* MatchViewModel.m in Sources */,
 				897AE8801D3D05B900143B9F /* PlayerListViewController.m in Sources */,
@@ -1410,7 +1343,6 @@
 				896D0C011D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.m in Sources */,
 				89C107121C885B8100090A9A /* DanmakuColorMenuItem.m in Sources */,
 				897EC7C71C72056A00E1B03D /* LocalVideoModel.m in Sources */,
-				8981A8A41D1D863F0055F5DA /* JHSubTitleClock.m in Sources */,
 				89B585211C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1520,6 +1452,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/DanDanPlayForMac/Vender",
 				);
 				GCC_PREFIX_HEADER = DanDanPlayForMac/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";
@@ -1540,6 +1473,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/DanDanPlayForMac/Vender",
 				);
 				GCC_PREFIX_HEADER = DanDanPlayForMac/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";
