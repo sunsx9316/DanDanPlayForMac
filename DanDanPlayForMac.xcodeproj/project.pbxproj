@@ -21,6 +21,8 @@
 		890FDE261CBE1C7200BFFACC /* JHDanmakuEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE1C1CBE1C7200BFFACC /* JHDanmakuEngine.m */; };
 		890FDE271CBE1C7200BFFACC /* JHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDE1F1CBE1C7200BFFACC /* JHDisplayLink.m */; };
 		89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */; };
+		892A12E11D4EE0DE007C1C17 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892A12DF1D4EE0CE007C1C17 /* VLCKit.framework */; };
+		892A12E21D4EE0DE007C1C17 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 892A12DF1D4EE0CE007C1C17 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8944E67A1C8F09FA005C5DC8 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */; };
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; };
 		8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9851CA95D04000C863B /* VolumeControlView.m */; };
@@ -35,8 +37,6 @@
 		89636FD41C58C40B002F32FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89636FD31C58C40B002F32FD /* main.m */; };
 		89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89636FD81C58C40B002F32FD /* Assets.xcassets */; };
 		89636FDC1C58C40B002F32FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89636FDA1C58C40B002F32FD /* Main.storyboard */; };
-		8963703A1C58FCDF002F32FD /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 896370391C58FCDF002F32FD /* VLCKit.framework */; };
-		8963703B1C58FCDF002F32FD /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 896370391C58FCDF002F32FD /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		896370571C59028C002F32FD /* BaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370501C59028C002F32FD /* BaseNetManager.m */; };
 		896370581C59028C002F32FD /* DanMuNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370521C59028C002F32FD /* DanMuNetManager.m */; };
 		896370591C59028C002F32FD /* MatchNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370541C59028C002F32FD /* MatchNetManager.m */; };
@@ -139,13 +139,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		896370381C58FCBF002F32FD /* Embed Frameworks */ = {
+		892A12DE1D4EE044007C1C17 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8963703B1C58FCDF002F32FD /* VLCKit.framework in Embed Frameworks */,
+				892A12E21D4EE0DE007C1C17 /* VLCKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,6 +185,7 @@
 		890FDE1F1CBE1C7200BFFACC /* JHDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDisplayLink.m; sourceTree = "<group>"; };
 		89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOpenPanel+Tools.h"; sourceTree = "<group>"; };
 		89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOpenPanel+Tools.m"; sourceTree = "<group>"; };
+		892A12DF1D4EE0CE007C1C17 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VLCKit.framework; sourceTree = "<group>"; };
 		8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHProgressHUD.h; sourceTree = "<group>"; };
 		8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHProgressHUD.m; sourceTree = "<group>"; };
 		8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliSearchViewModel.h; sourceTree = "<group>"; };
@@ -212,7 +213,6 @@
 		89636FD81C58C40B002F32FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
 		89636FDB1C58C40B002F32FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		89636FEF1C58FAD1002F32FD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		896370391C58FCDF002F32FD /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VLCKit.framework; path = ../../VLCKit.framework; sourceTree = "<group>"; };
 		8963704F1C59028C002F32FD /* BaseNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNetManager.h; sourceTree = "<group>"; };
 		896370501C59028C002F32FD /* BaseNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNetManager.m; sourceTree = "<group>"; };
 		896370511C59028C002F32FD /* DanMuNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuNetManager.h; sourceTree = "<group>"; };
@@ -417,7 +417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA0DE9BDBB94BB3A6117693A /* libPods-DanDanPlayForMac.a in Frameworks */,
-				8963703A1C58FCDF002F32FD /* VLCKit.framework in Frameworks */,
+				892A12E11D4EE0DE007C1C17 /* VLCKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,11 +581,11 @@
 		89636FF21C58FAD1002F32FD /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				892A12DF1D4EE0CE007C1C17 /* VLCKit.framework */,
 				8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */,
 				8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */,
 				890FDE0D1CBE1C7200BFFACC /* JHDanmakuRender */,
 				899BA7F51C8AA7C6007A67A8 /* JHMediaPlayer */,
-				896370391C58FCDF002F32FD /* VLCKit.framework */,
 			);
 			path = Vender;
 			sourceTree = "<group>";
@@ -1050,7 +1050,7 @@
 				89636FCA1C58C40B002F32FD /* Resources */,
 				4003360A5724A7A0B01CBECA /* Embed Pods Frameworks */,
 				422792AA4E212602E2DAC710 /* Copy Pods Resources */,
-				896370381C58FCBF002F32FD /* Embed Frameworks */,
+				892A12DE1D4EE044007C1C17 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1390,6 +1390,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/DanDanPlayForMac/Vender",
 				);
 				GCC_PREFIX_HEADER = DanDanPlayForMac/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";
@@ -1410,6 +1411,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/DanDanPlayForMac/Vender",
 				);
 				GCC_PREFIX_HEADER = DanDanPlayForMac/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";

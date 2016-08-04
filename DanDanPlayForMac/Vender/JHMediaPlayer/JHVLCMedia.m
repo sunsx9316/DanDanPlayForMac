@@ -14,19 +14,27 @@
 - (void)parseWithBlock:(complete)block{
     self.returnBlock = block;
     self.delegate = self;
-    [self synchronousParse];
+    [self parseWithOptions:VLCMediaParseLocal];
 }
 
-- (void)mediaDidFinishParsing:(VLCMedia *)aMedia{
+#pragma mark - VLCMediaDelegate
+- (void)mediaDidFinishParsing:(VLCMedia *)aMedia {
     self.returnBlock(aMedia);
 }
 
+- (void)media:(VLCMedia *)aMedia metaValueChangedFrom:(id)oldValue forKey:(NSString *)key {
+    
+}
 
-- (instancetype)initWithURL:(NSURL *)anURL{
+- (void)mediaMetaDataDidChange:(VLCMedia *)aMedia {
+    
+}
+
+- (instancetype)initWithURL:(NSURL *)anURL {
     return (self = [super initWithURL:anURL]);
 }
 
-- (instancetype)initWithPath:(NSString *)aPath{
+- (instancetype)initWithPath:(NSString *)aPath {
     return [self initWithURL: [NSURL fileURLWithPath: aPath]];
 }
 @end
