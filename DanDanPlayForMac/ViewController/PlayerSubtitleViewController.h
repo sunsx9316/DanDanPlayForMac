@@ -12,4 +12,5 @@
 @property (copy, nonatomic) void(^timeOffsetCallBack)(NSInteger time);
 @property (copy, nonatomic) void(^fontSizeChangeCallBack)(CGFloat value);
 @property (copy, nonatomic) void(^chooseLoactionFileCallBack)();
+@property (copy, nonatomic) void(^touchSwitchButtonCallBack)(BOOL status);
 @end

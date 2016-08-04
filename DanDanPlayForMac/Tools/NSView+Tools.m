@@ -19,4 +19,16 @@
     frame.origin.y = center.y - frame.size.height / 2;
     self.frame = frame;
 }
+
+- (void)setBackgroundColor:(NSColor *)color {
+    self.wantsLayer = YES;
+    self.layer.backgroundColor = color.CGColor;
+}
+
+- (NSColor *)backgroundColor {
+    if (self.layer.backgroundColor) {
+        return [NSColor colorWithCGColor:self.layer.backgroundColor];
+    }
+    return nil;
+}
 @end

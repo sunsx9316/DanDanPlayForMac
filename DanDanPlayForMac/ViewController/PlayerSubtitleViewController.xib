@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PlayerSubtitleViewController">
@@ -16,14 +16,14 @@
             <rect key="frame" x="0.0" y="0.0" width="284" height="348"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="104" horizontalPageScroll="10" verticalLineScroll="104" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SYM-36-KDD">
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="98" horizontalPageScroll="10" verticalLineScroll="98" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SYM-36-KDD">
                     <rect key="frame" x="0.0" y="0.0" width="284" height="348"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="05e-TM-IXs">
                         <rect key="frame" x="0.0" y="0.0" width="284" height="348"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="102" rowSizeStyle="automatic" viewBased="YES" id="HbZ-DJ-tXk">
-                                <rect key="frame" x="0.0" y="0.0" width="284" height="348"/>
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="96" rowSizeStyle="automatic" viewBased="YES" id="HbZ-DJ-tXk">
+                                <rect key="frame" x="0.0" y="0.0" width="284" height="0.0"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -42,8 +42,12 @@
                                         </textFieldCell>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
+                                            <customView identifier="PlayerSubtitleSwitchCell" id="TMH-9d-EcA" customClass="PlayerSubtitleSwitchCell">
+                                                <rect key="frame" x="1" y="1" width="281" height="96"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            </customView>
                                             <customView identifier="PlayerSubtitleFontSizeCell" id="y79-xx-Qdn" customClass="PlayerSubtitleFontSizeCell">
-                                                <rect key="frame" x="1" y="1" width="281" height="84"/>
+                                                <rect key="frame" x="1" y="99" width="281" height="84"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Twj-ud-0aZ">
@@ -54,7 +58,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8cM-Hj-wVh">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8cM-Hj-wVh">
                                                         <rect key="frame" x="249" y="30" width="24" height="17"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1.0" id="eQy-KS-clM">
                                                             <font key="font" metaFont="system"/>
@@ -62,7 +66,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NPp-7V-rko">
+                                                    <slider verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NPp-7V-rko">
                                                         <rect key="frame" x="8" y="28" width="235" height="21"/>
                                                         <sliderCell key="cell" state="on" alignment="left" minValue="1" maxValue="100" doubleValue="25" tickMarkPosition="above" sliderType="linear" id="XH7-k3-yZn"/>
                                                         <connections>
@@ -84,7 +88,7 @@
                                                 </connections>
                                             </customView>
                                             <customView identifier="PlayerSubtitleTimeOffsetCell" id="ngr-ey-fwz" customClass="PlayerSubtitleTimeOffsetCell">
-                                                <rect key="frame" x="1" y="87" width="281" height="102"/>
+                                                <rect key="frame" x="1" y="185" width="281" height="102"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VYn-qe-EH8">
@@ -156,7 +160,7 @@
                                                 </connections>
                                             </customView>
                                             <customView identifier="OnlyButtonCell" id="2yy-q8-0on" customClass="OnlyButtonCell">
-                                                <rect key="frame" x="1" y="191" width="281" height="96"/>
+                                                <rect key="frame" x="1" y="289" width="281" height="96"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                         </prototypeCellViews>

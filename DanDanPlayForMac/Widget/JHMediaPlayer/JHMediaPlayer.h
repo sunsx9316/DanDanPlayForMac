@@ -48,6 +48,10 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
 @property (assign, nonatomic) CGFloat volume;
 @property (assign, nonatomic) NSInteger subtitleDelay;
 /**
+ *  是否打开字幕
+ */
+@property (assign, nonatomic) BOOL openSutitle;
+/**
  *  位置 0 ~ 1
  */
 - (CGFloat)position;

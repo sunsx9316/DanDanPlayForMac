@@ -1097,6 +1097,11 @@
                 }
             }];
         }];
+        
+        [_playerDanmakuAndSubtitleViewController.subtitleVC setTouchSwitchButtonCallBack:^(BOOL status) {
+            weakSelf.player.openSutitle = status;
+        }];
+        
         #warning 字幕时间调整
         [_playerDanmakuAndSubtitleViewController.subtitleVC setTimeOffsetCallBack:^(NSInteger value) {
             weakSelf.player.subtitleDelay = value * 10;

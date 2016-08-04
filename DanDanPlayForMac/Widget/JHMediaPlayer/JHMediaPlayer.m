@@ -168,6 +168,15 @@
     return self.localMediaPlayer.currentVideoSubTitleDelay;
 }
 
+- (void)setOpenSutitle:(BOOL)openSutitle {
+    if (self.mediaType == JHMediaTypeLocaleMedia) {
+        self.localMediaPlayer.currentVideoSubTitleIndex = openSutitle ? 0 : -1;
+    }
+}
+
+- (BOOL)openSutitle {
+    return self.localMediaPlayer.currentVideoSubTitleIndex == 0;
+}
 
 #pragma mark 播放器控制
 - (void)play {
