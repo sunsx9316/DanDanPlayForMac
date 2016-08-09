@@ -94,13 +94,15 @@
                 [self.episodeTableView reloadData];
             }];
         }
-    }else{
+    }
+    else{
         NSString *aid = [self.vm aidForRow: row];
         if (aid) {
             if ([self.vm isKindOfClass: [BiliBiliSearchViewModel class]]) {
                 ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: JHDanMuSourceBilibili];
                 [self presentViewControllerAsSheet: vc];
-            }else if ([self.vm isKindOfClass: [AcFunSearchViewModel class]]){
+            }
+            else if ([self.vm isKindOfClass: [AcFunSearchViewModel class]]) {
                 ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: JHDanMuSourceAcfun];
                 [self presentViewControllerAsSheet: vc];
             }
@@ -108,11 +110,12 @@
     }
 }
 
-- (void)episodeTableViewDoubleClickRow{
+- (void)episodeTableViewDoubleClickRow {
     if (![self.vm infoArrCount]) return;
+    
     [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] parentView: self.view];
     NSInteger clickRow = [self.episodeTableView clickedRow];
-    [self.vm downDanMuWithRow:clickRow completionHandler:^(id responseObj,NSError *error) {
+    [self.vm downDanMuWithRow:clickRow completionHandler:^(id responseObj, NSError *error) {
         [JHProgressHUD disMiss];
         
         //通知更新匹配名称
@@ -137,18 +140,20 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([tableView.identifier isEqualToString:@"shiBanTableView"]) {
         return [self.vm shiBanArrCount];
-    }else{
+    }
+    else {
         return [self.vm infoArrCount];
     }
 }
 
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
-    if ([tableColumn.identifier isEqualToString:@"shiBanCell"]){
+    if ([tableColumn.identifier isEqualToString:@"shiBanCell"]) {
         NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
         cell.textField.stringValue = [self.vm shiBanTitleForRow: row];
         cell.imageView.image = [self.vm imageForRow: row];
         return cell;
-    }else if ([tableColumn.identifier isEqualToString:@"episodeCell"]){
+    }
+    else if ([tableColumn.identifier isEqualToString:@"episodeCell"]){
         NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
         cell.textField.stringValue = [self.vm episodeTitleForRow: row];
         return cell;

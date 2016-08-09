@@ -51,6 +51,7 @@
 - (void)layout {
     [super layout];
     [self changeSignViewFrame:NO];
+    self.backgroundView.frame = self.bounds;
 }
 
 - (void)setStatus:(BOOL)status {

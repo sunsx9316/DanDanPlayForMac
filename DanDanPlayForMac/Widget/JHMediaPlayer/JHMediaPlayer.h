@@ -47,6 +47,9 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
 @property (strong, nonatomic) NSURL *mediaURL;
 @property (assign, nonatomic) CGFloat volume;
 @property (assign, nonatomic) NSInteger subtitleDelay;
+@property (strong, nonatomic, readonly) NSArray *subtitleIndexs;
+@property (strong, nonatomic, readonly) NSArray *subtitleTitles;
+@property (assign, nonatomic) int currentSubtitleIndex;
 /**
  *  是否打开字幕
  */

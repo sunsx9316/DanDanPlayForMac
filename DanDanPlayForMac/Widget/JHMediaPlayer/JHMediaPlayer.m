@@ -28,6 +28,7 @@
     id _timeObj;
     JHMediaPlayerStatus _status;
     BOOL _isBuffer;
+    int _currentSubtitleIndex;
 }
 
 #pragma mark 属性
@@ -60,7 +61,6 @@
     }
     else {
         completionHandle([media videoSize]);
-        return;
     }
 }
 
@@ -170,12 +170,37 @@
 
 - (void)setOpenSutitle:(BOOL)openSutitle {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
-        self.localMediaPlayer.currentVideoSubTitleIndex = openSutitle ? 0 : -1;
+        self.localMediaPlayer.currentVideoSubTitleIndex = openSutitle ? _currentSubtitleIndex : -1;
     }
 }
 
 - (BOOL)openSutitle {
-    return self.localMediaPlayer.currentVideoSubTitleIndex == 0;
+    return self.localMediaPlayer.currentVideoSubTitleIndex != -1;
+}
+
+- (NSArray *)subtitleIndexs {
+    if (self.mediaType == JHMediaTypeLocaleMedia) {
+        return self.localMediaPlayer.videoSubTitlesIndexes;
+    }
+    return nil;
+}
+
+- (NSArray *)subtitleTitles {
+    if (self.mediaType == JHMediaTypeLocaleMedia) {
+        return self.localMediaPlayer.videoSubTitlesNames;
+    }
+    return nil;
+}
+
+- (void)setCurrentSubtitleIndex:(int)currentSubtitleIndex {
+    if (self.mediaType == JHMediaTypeLocaleMedia) {
+        _currentSubtitleIndex = currentSubtitleIndex;
+//        self.localMediaPlayer.currentVideoSubTitleIndex = _currentSubtitleIndex;
+    }
+}
+
+- (int)currentSubtitleIndex {
+    return self.mediaType == JHMediaTypeLocaleMedia ? self.localMediaPlayer.currentVideoSubTitleIndex : 0;
 }
 
 #pragma mark 播放器控制
@@ -235,7 +260,6 @@
     _mediaURL = mediaURL;
     if ([_mediaURL isFileURL]) {
         JHVLCMedia *media = [[JHVLCMedia alloc] initWithURL:mediaURL];
-//        [media addOptions:@{@"sub-file": @"no-sub-autodetect-file"}];
         self.localMediaPlayer.media = media;
         self.localMediaPlayer.delegate = self;
     }

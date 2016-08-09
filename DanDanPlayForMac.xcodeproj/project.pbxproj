@@ -82,7 +82,6 @@
 		897DBA611D3E538E00479126 /* PlayerDanmakuAndSubtitleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897DBA601D3E538E00479126 /* PlayerDanmakuAndSubtitleViewController.xib */; };
 		897DBA651D3E544A00479126 /* PlayerSubtitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897DBA631D3E544A00479126 /* PlayerSubtitleViewController.m */; };
 		897DBA661D3E544A00479126 /* PlayerSubtitleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897DBA641D3E544A00479126 /* PlayerSubtitleViewController.xib */; };
-		897DBA6A1D3E576100479126 /* PlayerSubtitleFontSizeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897DBA691D3E576100479126 /* PlayerSubtitleFontSizeCell.m */; };
 		897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7B81C72056A00E1B03D /* BaseModel.m */; };
 		897EC7C61C72056A00E1B03D /* DanMuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BA1C72056A00E1B03D /* DanMuModel.m */; };
 		897EC7C71C72056A00E1B03D /* LocalVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BC1C72056A00E1B03D /* LocalVideoModel.m */; };
@@ -313,8 +312,6 @@
 		897DBA621D3E544A00479126 /* PlayerSubtitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubtitleViewController.h; sourceTree = "<group>"; };
 		897DBA631D3E544A00479126 /* PlayerSubtitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSubtitleViewController.m; sourceTree = "<group>"; };
 		897DBA641D3E544A00479126 /* PlayerSubtitleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerSubtitleViewController.xib; sourceTree = "<group>"; };
-		897DBA681D3E576100479126 /* PlayerSubtitleFontSizeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubtitleFontSizeCell.h; sourceTree = "<group>"; };
-		897DBA691D3E576100479126 /* PlayerSubtitleFontSizeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSubtitleFontSizeCell.m; sourceTree = "<group>"; };
 		897EC7B71C72056A00E1B03D /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		897EC7B81C72056A00E1B03D /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		897EC7B91C72056A00E1B03D /* DanMuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuModel.h; sourceTree = "<group>"; };
@@ -837,8 +834,6 @@
 				8996A6DF1C6CD95A00D5AA6E /* SliderControlCell.m */,
 				8996A6D81C6CC03000D5AA6E /* HideDanMuAndCloseCell.h */,
 				8996A6D91C6CC03000D5AA6E /* HideDanMuAndCloseCell.m */,
-				897DBA681D3E576100479126 /* PlayerSubtitleFontSizeCell.h */,
-				897DBA691D3E576100479126 /* PlayerSubtitleFontSizeCell.m */,
 				896D0BFF1D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.h */,
 				896D0C001D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.m */,
 				89D4034F1D531FCA00AED712 /* PlayerSubtitleSwitchCell.h */,
@@ -1281,7 +1276,6 @@
 				8975A0AC1C60A03A009BD30F /* PlayerSlideView.m in Sources */,
 				897AE8851D3D0EDE00143B9F /* PlayerDanmakuAndSubtitleViewController.m in Sources */,
 				8993A8851C93C34E00CF91D1 /* RecommedViewModel.m in Sources */,
-				897DBA6A1D3E576100479126 /* PlayerSubtitleFontSizeCell.m in Sources */,
 				89880A711C92F6AD0060916F /* RecommedNetManager.m in Sources */,
 				897EC7C91C72056A00E1B03D /* SearchModel.m in Sources */,
 				89D403541D53204900AED712 /* JHSwichButton.m in Sources */,

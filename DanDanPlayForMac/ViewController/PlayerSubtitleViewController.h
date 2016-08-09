@@ -10,7 +10,12 @@
 
 @interface PlayerSubtitleViewController : NSViewController
 @property (copy, nonatomic) void(^timeOffsetCallBack)(NSInteger time);
-@property (copy, nonatomic) void(^fontSizeChangeCallBack)(CGFloat value);
 @property (copy, nonatomic) void(^chooseLoactionFileCallBack)();
 @property (copy, nonatomic) void(^touchSwitchButtonCallBack)(BOOL status);
+@property (copy, nonatomic) void(^touchSubtitleIndexCallBack)(int index);
+
+//字幕标题
+@property (copy, nonatomic) NSArray *subtitleTitles;
+//字幕索引
+@property (copy, nonatomic) NSArray *subtitleIndexs;
 @end

@@ -11,5 +11,11 @@
  *  字幕开关cell
  */
 @interface PlayerSubtitleSwitchCell : NSView
+//字幕标题
+@property (copy, nonatomic) NSArray *subtitleTitles;
+//字幕索引
+@property (copy, nonatomic) NSArray *subtitleIndexs;
+@property (copy, nonatomic) void(^touchSubtitleIndexCallBack)(int index);
+//点击开关
 @property (copy, nonatomic) void(^touchButtonCallBack)(BOOL status);
 @end

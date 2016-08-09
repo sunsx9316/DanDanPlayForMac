@@ -1099,7 +1099,8 @@
         }];
         
         [_playerDanmakuAndSubtitleViewController.subtitleVC setTouchSwitchButtonCallBack:^(BOOL status) {
-            weakSelf.player.openSutitle = status;
+//            weakSelf.player.openSutitle = status;
+            NSLog(@"%d", weakSelf.player.currentSubtitleIndex);
         }];
         
         #warning 字幕时间调整
@@ -1109,13 +1110,6 @@
             weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"字幕：%@%ld秒", value >= 0 ? @"+" : @"", value];
             [weakSelf.messageView showHUD];
         }];
-        #warning 字幕字体调整
-        [_playerDanmakuAndSubtitleViewController.subtitleVC setFontSizeChangeCallBack:^(CGFloat value) {
-            NSMutableDictionary *dic = [UserDefaultManager subtitleAttDic];
-            dic[NSFontAttributeName] = [NSFont systemFontOfSize:value];
-            [UserDefaultManager setSubtitleAttDic:dic];
-//            weakSelf.subTitleEngine.globalAttributedDic = dic;
-        }];
         
         [_playerDanmakuAndSubtitleViewController.subtitleVC setChooseLoactionFileCallBack:^{
             [PlayerMethodManager loadLocaleSubtitleWithBlock:^(NSString *path) {
@@ -1123,6 +1117,10 @@
                     [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kLoadSubtitleErrorString"] informativeText:nil] runModal];
                 }
             }];
+        }];
+        
+        [_playerDanmakuAndSubtitleViewController.subtitleVC setTouchSubtitleIndexCallBack:^(int index) {
+            weakSelf.player.currentSubtitleIndex = index;
         }];
         
         [self addChildViewController:_playerDanmakuAndSubtitleViewController];

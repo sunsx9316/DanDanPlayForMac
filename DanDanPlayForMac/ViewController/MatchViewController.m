@@ -43,9 +43,14 @@
         //episodeId存在 说明精确匹配
         [JHProgressHUD disMiss];
         if (model.episodeId && [UserDefaultManager turnOnFastMatch]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
+            NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
+            //防止崩溃
+            if (self == vc) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
                 [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: model.episodeId]];
-        }else{
+            }
+        }
+        else{
             [self.tableView reloadData];
         }
     }];
@@ -65,7 +70,7 @@
 }
 
 - (IBAction)searchButtonDown:(NSButton *)sender {
-    if (!self.searchField.stringValue || [self.searchField.stringValue isEqualToString: @""]) return;
+    if (!self.searchField.stringValue.length) return;
     
     SearchViewController *vc = [[SearchViewController alloc] init];
     vc.searchText = self.searchField.stringValue;
@@ -84,7 +89,7 @@
 
 #pragma mark - 私有方法
 
-- (void)disMissSelf:(NSNotification *)notification{
+- (void)disMissSelf:(NSNotification *)notification {
     [self dismissController: self];
 }
 
@@ -107,7 +112,8 @@
     NSTableCellView *result = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
     if ([tableColumn.identifier isEqualToString: @"col1"]) {
         result.textField.stringValue = [self.vm modelAnimeTitleIdWithIndex: row];
-    }else{
+    }
+    else{
         result.textField.stringValue = [self.vm modelEpisodeTitleWithIndex: row];
     }
     return result;

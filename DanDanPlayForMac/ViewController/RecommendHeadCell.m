@@ -38,7 +38,7 @@
     NSString *searchKeyWord = self.searchField.stringValue;
     if (!searchKeyWord.length) return;
     searchKeyWord = [searchKeyWord stringByURLEncode];
-    //这破软件迟早药丸
+    //破软件迟早药丸
     if ([searchKeyWord isEqualToString:@"%E9%95%BF%E8%80%85"] || [searchKeyWord isEqualToString:@"%E8%86%9C%E8%9B%A4"] || [searchKeyWord isEqualToString:@"%E8%9B%A4%E8%9B%A4"] || [searchKeyWord isEqualToString:@"%E8%B5%9B%E8%89%87"]) {
         system("open http://baike.baidu.com/view/1781.htm");
     }
@@ -70,7 +70,7 @@
 #pragma mark - 懒加载
 - (NSString *)searchPath {
     if(_searchPath == nil) {
-        _searchPath = @"open http://dmhy.dandanplay.com/topics/list?keyword=%@&from=dandanplay";
+        _searchPath = @"open https://share.dmhy.org/topics/list?keyword=%@&from=dandanplay";
     }
     return _searchPath;
 }

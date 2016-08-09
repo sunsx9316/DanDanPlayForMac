@@ -29,7 +29,7 @@
 
 - (IBAction)clickOKButton:(NSButton *)sender {
     NSString *inputText = self.inputTextField.stringValue;
-    if (!inputText || [inputText isEqualToString:@""]) return;
+    if (!inputText.length) return;
     [self presentViewControllerAsSheet:[[OpenStreamVideoViewController alloc] initWithAid:inputText danmakuSource:[self.danmakuSourcePopUpButton titleOfSelectedItem]]];
 }
 

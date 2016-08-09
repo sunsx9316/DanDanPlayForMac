@@ -21,7 +21,6 @@
     self.returnBlock(aMedia);
 }
 
-
 - (instancetype)initWithURL:(NSURL *)anURL{
     return (self = [super initWithURL:anURL]);
 }
