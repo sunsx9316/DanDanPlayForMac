@@ -30,6 +30,7 @@
         [self.tableView reloadData];
         [JHProgressHUD disMiss];
         if (error) {
+            
             [self.messageView showHUD];
         }
     }];
@@ -151,7 +152,6 @@
 	if(_messageView == nil) {
 		_messageView = [[HUDMessageView alloc] init];
         _messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
-        [self.view addSubview:_messageView];
 	}
 	return _messageView;
 }

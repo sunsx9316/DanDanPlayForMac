@@ -36,7 +36,7 @@
 }
 
 - (NSString *)seasonIDForRow:(NSInteger)row{
-    return (row < _shiBanViewArr.count)?_shiBanViewArr[row].isBangumi? _shiBanViewArr[row].seasonID:_shiBanViewArr[row].aid:@"";
+    return (row < _shiBanViewArr.count)?_shiBanViewArr[row].isBangumi? _shiBanViewArr[row].seasonId:_shiBanViewArr[row].aid:@"";
 }
 
 - (NSString *)aidForRow:(NSInteger)row{
@@ -73,7 +73,7 @@
     [_infoArr enumerateObjectsUsingBlock:^(BiliBiliShiBanDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         VideoInfoDataModel *model = [[VideoInfoDataModel alloc] init];
         model.title = [self episodeTitleForRow: idx];
-        model.danmaku = obj.danmaku;
+//        model.danmaku = obj.danmaku;
         [arr addObject: model];
     }];
     return arr;
@@ -94,9 +94,10 @@
             dataModel.title = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
             tempArr = [@[dataModel] mutableCopy];
             error = kObjNilError;
-        }else{
+        }
+        else{
             [responseObj.result enumerateObjectsUsingBlock:^(BiliBiliSearchDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (!obj.isBangumi && obj.seasonID){
+                if (!obj.isBangumi && obj.seasonId){
                     [tempArr removeObject: obj];
                 }
             }];
@@ -121,21 +122,27 @@
     [SearchNetManager searchBiliBiliSeasonInfoWithParameters:@{@"seasonID": SeasonID} completionHandler:^(BiliBiliShiBanModel *responseObj, NSError *error) {
         _infoArr = responseObj.episodes;
         _coverURL = responseObj.cover;
-        _shiBanTitle = responseObj.title?responseObj.title:@"";
-        _shiBanDetail = responseObj.detail?responseObj.detail:@"";
+        _shiBanTitle = responseObj.title ? responseObj.title : @"";
+        _shiBanDetail = responseObj.detail ? responseObj.detail : @"";
         complete(error);
     }];
 }
 
 - (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete{
-    [super downThirdPartyDanMuWithDanmakuID:[self danmakuIDForRow: row] provider:@"bilibili" completionHandler:complete];
+    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid": [self episodeAidForRow:row]} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
+        [super downThirdPartyDanMuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:@"bilibili" completionHandler:complete];
+    }];
 }
 
 
 #pragma mark - 私有方法
 
-- (NSString *)danmakuIDForRow:(NSInteger)row{
-    return (row < _infoArr.count)?_infoArr[row].danmaku:nil;
+//- (NSString *)danmakuIDForRow:(NSInteger)row {
+//    return (row < _infoArr.count) ? _infoArr[row].danmaku : nil;
+//}
+
+- (NSString *)episodeAidForRow:(NSInteger)row {
+    return (row < _infoArr.count) ? _infoArr[row].aid : nil;
 }
 
 @end

@@ -42,7 +42,7 @@
 
 @implementation BiliBiliSearchDataModel
 + (NSDictionary *)modelCustomPropertyMapper{
-    return @{@"seasonID":@"season_id", @"desc":@"description", @"bangumi":@"is_bangumi"};
+    return @{@"seasonId":@"season_id", @"desc":@"description", @"bangumi":@"is_bangumi"};
 }
 @end
 

@@ -31,8 +31,8 @@
         PlayerSubtitleSwitchCell *cell = [tableView makeViewWithIdentifier:@"PlayerSubtitleSwitchCell" owner:nil];
         cell.subtitleIndexs = self.subtitleIndexs;
         cell.subtitleTitles = self.subtitleTitles;
-        cell.touchButtonCallBack = self.touchSwitchButtonCallBack;
         cell.touchSubtitleIndexCallBack = self.touchSubtitleIndexCallBack;
+        cell.currentSubTitleIndex = self.currentSubtitleIndex;
         return cell;
     }
     else if (row == 1) {
@@ -52,7 +52,7 @@
 #pragma mark - NSTabViewDelegate
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
     if (row == 0) {
-        return 80;
+        return 55;
     }
     else if (row == 1) {
         return 102;

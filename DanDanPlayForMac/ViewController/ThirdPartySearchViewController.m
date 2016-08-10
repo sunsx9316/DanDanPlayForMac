@@ -40,7 +40,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self.shiBantableView setDoubleAction:@selector(shiBanTableViewDoubleClickRow)];
     [self.episodeTableView setDoubleAction:@selector(episodeTableViewDoubleClickRow)];
 }
@@ -52,7 +51,11 @@
     
     [self.hud show];
     [self.vm refreshWithKeyWord:keyWord completionHandler:^(NSError *error) {
-        if (error) [self.messageView showHUD];
+        
+        if (error) {
+            [self.messageView showHUD];
+        }
+        
         //刷新的时候重置视频详情
         self.videoInfoView.coverImg.image = [NSImage imageNamed:@"img_hold"];
         self.videoInfoView.animaTitleTextField.stringValue = @"";
@@ -65,10 +68,7 @@
     }];
 }
 
-
-
 #pragma mark - 私有方法
-
 - (void)loadInfoView{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSImage *img = [[NSImage alloc] initWithContentsOfURL: [self.vm coverImg]];
@@ -80,7 +80,7 @@
     self.videoInfoView.detailTextField.stringValue = [self.vm shiBanDetail];
 }
 
-- (void)shiBanTableViewDoubleClickRow{
+- (void)shiBanTableViewDoubleClickRow {
     NSInteger row = [self.shiBantableView clickedRow];
     //判断该行是否为新番
     if ([self.vm isShiBanForRow: row] && ![self.shiBanEpisodeHUD isShowing] && self.currentRow != row) {
@@ -95,7 +95,7 @@
             }];
         }
     }
-    else{
+    else {
         NSString *aid = [self.vm aidForRow: row];
         if (aid) {
             if ([self.vm isKindOfClass: [BiliBiliSearchViewModel class]]) {
@@ -117,6 +117,11 @@
     NSInteger clickRow = [self.episodeTableView clickedRow];
     [self.vm downDanMuWithRow:clickRow completionHandler:^(id responseObj, NSError *error) {
         [JHProgressHUD disMiss];
+        
+        if (error) {
+            [self.messageView showHUD];
+            return;
+        }
         
         //通知更新匹配名称
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle": [self.vm episodeTitleForRow:clickRow]}];
@@ -181,7 +186,7 @@
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
         _messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kConnectFailString"];
-        [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo:self.episodeTableView];
+//        [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo:self.episodeTableView];
     }
     return _messageView;
 }

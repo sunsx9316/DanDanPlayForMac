@@ -3,7 +3,7 @@
 [弹弹play](http://www.dandanplay.com/)的mac版 
 
 ## 下载
-[http://pan.baidu.com/s/1kUnnfGr](http://pan.baidu.com/s/1kUnnfGr)
+[http://pan.baidu.com/s/1o7FWGCa](http://pan.baidu.com/s/1o7FWGCa)
 
 ## 使用说明
 [http://blog.csdn.net/sun_sx/article/details/50847837](http://blog.csdn.net/sun_sx/article/details/50847837)

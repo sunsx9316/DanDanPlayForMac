@@ -16,6 +16,7 @@
 //字幕索引
 @property (copy, nonatomic) NSArray *subtitleIndexs;
 @property (copy, nonatomic) void(^touchSubtitleIndexCallBack)(int index);
+@property (assign, nonatomic) int currentSubTitleIndex;
 //点击开关
-@property (copy, nonatomic) void(^touchButtonCallBack)(BOOL status);
+//@property (copy, nonatomic) void(^touchButtonCallBack)(BOOL status);
 @end

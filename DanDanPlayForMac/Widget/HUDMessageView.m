@@ -24,20 +24,30 @@
     return self;
 }
 
-- (void)showHUD{
+- (void)showHUD {
     [self.timer invalidate];
+    if (!self.superview) {
+        [NSApp.keyWindow.contentViewController.view addSubview:self];
+    }
+    
     self.center = self.superview.center;
 //    self.animator.hidden = NO;
     POPBasicAnimation *anima = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlphaValue];
-    anima.beginTime = CACurrentMediaTime();
+//    anima.beginTime = CACurrentMediaTime();
     anima.toValue = @1;
     [self pop_addAnimation:anima forKey:@"HUD_message_view_show"];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(hideHUD) userInfo:nil repeats:NO];
 }
+
 - (void)hideHUD{
     POPBasicAnimation *anima = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlphaValue];
-    anima.beginTime = CACurrentMediaTime();
+//    anima.beginTime = CACurrentMediaTime();
     anima.toValue = @0;
+    [anima setCompletionBlock:^(POPAnimation *anima, BOOL finished) {
+        if (finished) {
+            [self removeFromSuperview];
+        }
+    }];
     [self pop_addAnimation:anima forKey:@"HUD_message_view_hide"];
 //    self.animator.hidden = YES;
 }

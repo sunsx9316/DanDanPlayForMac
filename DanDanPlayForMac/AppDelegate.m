@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "OpenStreamInputAidViewController.h"
+#import "RecommendViewController.h"
 #import "AboutViewController.h"
 #import "NSOpenPanel+Tools.h"
 
@@ -32,6 +33,7 @@
     // Insert code here to tear down your application
 }
 
+#pragma mark - 私有方法
 - (IBAction)openPreferencePanel:(NSMenuItem *)sender {
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     [vc presentViewControllerAsSheet:kViewControllerWithId(@"PreferenceViewController")];
@@ -42,7 +44,6 @@
     
     if (window != self.mainWindowController.window || [self.mainWindowController.window.contentViewController childViewControllers].count) return;
     
-    ;
     NSOpenPanel* openPanel = [NSOpenPanel chooseFileAndDirectoriesPanelWithTitle:@"选择文件/文件夹" defaultURL:nil allowsMultipleSelection:YES];
     
     [openPanel beginSheetModalForWindow:window completionHandler:^(NSInteger result) {
@@ -72,13 +73,16 @@
     [vc presentViewControllerAsModalWindow:kViewControllerWithId(@"AboutViewController")];
 }
 
-- (void)closeApplication{
+- (IBAction)clickEverydayRecommendButton:(NSMenuItem *)sender {
+    [[NSApp mainWindow].contentViewController presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
+}
+
+- (void)closeApplication {
     [[NSApplication sharedApplication] terminate:nil];
 }
 
-
-- (void)firstRun{
-    
-    [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:nil];
-}
+//- (void)firstRun{
+//    
+//    [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:nil];
+//}
 @end

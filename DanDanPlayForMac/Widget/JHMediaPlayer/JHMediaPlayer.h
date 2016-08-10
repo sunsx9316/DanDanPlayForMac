@@ -51,10 +51,6 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
 @property (strong, nonatomic, readonly) NSArray *subtitleTitles;
 @property (assign, nonatomic) int currentSubtitleIndex;
 /**
- *  是否打开字幕
- */
-@property (assign, nonatomic) BOOL openSutitle;
-/**
  *  位置 0 ~ 1
  */
 - (CGFloat)position;
@@ -103,9 +99,9 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
  *
  *  @param path 字幕路径
  *
- *  @return 是否成功
+ *  @return 是否成功 0失败 1成功
  */
-- (NSInteger)openVideoSubTitlesFromFile:(NSString *)path;
+- (int)openVideoSubTitlesFromFile:(NSString *)path;
 /**
  *  初始化
  *

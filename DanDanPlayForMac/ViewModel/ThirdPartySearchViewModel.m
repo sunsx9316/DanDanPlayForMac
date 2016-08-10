@@ -52,18 +52,22 @@
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
     
 }
+
 - (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(NSError *error))complete{
     
 }
+
 - (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete{
     
 }
 
 - (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    if (!danmakuID || [danmakuID isEqualToString: @""]){
+    if (!danmakuID.length){
         complete(nil, kNoMatchError);
         return;
     }
+    
+    
     
     [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
         if (![responseObj count]) {

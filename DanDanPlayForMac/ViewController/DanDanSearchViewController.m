@@ -93,7 +93,6 @@
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
         _messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kConnectFailString"];
-        [self.view addSubview: _messageView];
     }
     return _messageView;
 }

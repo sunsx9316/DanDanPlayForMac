@@ -63,7 +63,8 @@
         
         [dvc refreshWithKeyWord: self.searchTextField.stringValue completion: nil];
     //刷新第三方搜索页
-    }else{
+    }
+    else{
         ThirdPartySearchViewController *dvc = (ThirdPartySearchViewController *)self.viewController[index];
         if (!dvc) return;
         

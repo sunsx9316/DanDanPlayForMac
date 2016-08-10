@@ -33,7 +33,7 @@
 + (id)GETWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     return [[self _sharedAFManager] GET:path parameters: parameters success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject)
             {
-            //NSLog(@"%@", operation.response.URL);
+            NSLog(@"%@", operation.response.URL);
                 complete(responseObject, nil);
             } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
                 complete(nil, error);
@@ -42,7 +42,7 @@
 
 + (id)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
     return [[self _sharedAFDataManager] GET:path parameters:parameters success:^(AFHTTPRequestOperation * _Nonnull task, id  _Nonnull responseObject) {
-        //NSLog(@"%@", task.response.URL);
+        NSLog(@"%@", task.response.URL);
         complete(responseObject, nil);
     } failure:^(AFHTTPRequestOperation * _Nullable task, NSError * _Nonnull error) {
         complete(nil, error);

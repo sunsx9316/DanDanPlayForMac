@@ -49,10 +49,17 @@
         complete(nil, nil);
         return nil;
     }
-
-    return [self GETWithPath:[NSString stringWithFormat:@"http://bangumi.bilibili.com/jsonp/seasoninfo/%@.ver?", parameters[@"seasonID"]] parameters: nil completionHandler:^(id responseObj, NSError *error) {
-        responseObj = responseObj[@"result"];
-        complete([BiliBiliShiBanModel yy_modelWithDictionary: responseObj], error);
+    
+    NSString *path = [NSString stringWithFormat:@"http://bangumi.bilibili.com/jsonp/seasoninfo/%@.ver?", parameters[@"seasonID"]];
+    return [self GETDataWithPath:path parameters:nil completionHandler:^(id responseObj, NSError *error) {
+        NSString *tempStr = [[NSString alloc] initWithData:responseObj encoding:NSUTF8StringEncoding];
+        NSRange range = [tempStr rangeOfString:@"\\{.*\\}" options:NSRegularExpressionSearch];
+        if (range.location != NSNotFound) {
+            tempStr = [tempStr substringWithRange:range];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[tempStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
+            dic = dic[@"result"];
+            complete([BiliBiliShiBanModel yy_modelWithDictionary: dic], error);
+        }
     }];
 }
 

@@ -85,7 +85,8 @@
             
             complete([DanMuDataFormatter dicWithObj:responseObj source:JHDanMuSourceBilibili], error);
         }];
-    }else if ([parameters[@"provider"] isEqualToString: acfun]){
+    }
+    else if ([parameters[@"provider"] isEqualToString: acfun]){
         //找缓存
         id cache = [self danMuCacheWithDanmakuID:parameters[@"danmaku"] provider:acfun isCache:NO];
         if (cache) {
@@ -117,10 +118,11 @@
         if ([responseObj isKindOfClass:[NSDictionary class]] && responseObj.count) {
             NSDictionary *dic = responseObj[@"parts"];
             if (!dic) {
-                NSString *title = responseObj[@"title"]?responseObj[@"title"]:@"";
-                NSString *danmaku = responseObj[@"cid"]?responseObj[@"cid"]:@"";
+                NSString *title = responseObj[@"title"] ? responseObj[@"title"] : @"";
+                NSString *danmaku = responseObj[@"cid"] ? responseObj[@"cid"] : @"";
                 complete([BiliBiliVideoInfoModel yy_modelWithDictionary: @{@"title":title, @"videos":@[@{@"title":title, @"danmaku":danmaku}]}], error);
-            }else{
+            }
+            else{
                 NSArray *allSortedKeys = [dic.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString * _Nonnull obj1, NSString * _Nonnull obj2) {
                     return obj1.integerValue > obj2.integerValue;
                 }];
@@ -184,7 +186,8 @@
                     if (responseObj) [videoInfoDic[@"acfun"] addObject: responseObj];
                 }]];
                 //视频提供者是b站
-            }else if ([obj[@"Provider"] isEqualToString:@"BiliBili.com"]){
+            }
+            else if ([obj[@"Provider"] isEqualToString:@"BiliBili.com"]){
                 [requestArr addObject: [self GETBiliBiliDanMuWithParameters:[self bilibiliAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, NSError *error) {
                     if (!videoInfoDic[@"bilibili"]) videoInfoDic[@"bilibili"] = [NSMutableArray array];
                     if (responseObj) [videoInfoDic[@"bilibili"] addObject: responseObj];

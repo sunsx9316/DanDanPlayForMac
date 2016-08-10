@@ -28,7 +28,6 @@
     id _timeObj;
     JHMediaPlayerStatus _status;
     BOOL _isBuffer;
-    int _currentSubtitleIndex;
 }
 
 #pragma mark 属性
@@ -160,22 +159,12 @@
 #pragma mark 字幕
 - (void)setSubtitleDelay:(NSInteger)subtitleDelay {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
-//        self.localMediaPlayer.currentVideoSubTitleDelay = subtitleDelay;
+        self.localMediaPlayer.currentVideoSubTitleDelay = subtitleDelay;
     }
 }
 
 - (NSInteger)subtitleDelay {
     return self.localMediaPlayer.currentVideoSubTitleDelay;
-}
-
-- (void)setOpenSutitle:(BOOL)openSutitle {
-    if (self.mediaType == JHMediaTypeLocaleMedia) {
-        self.localMediaPlayer.currentVideoSubTitleIndex = openSutitle ? _currentSubtitleIndex : -1;
-    }
-}
-
-- (BOOL)openSutitle {
-    return self.localMediaPlayer.currentVideoSubTitleIndex != -1;
 }
 
 - (NSArray *)subtitleIndexs {
@@ -194,8 +183,7 @@
 
 - (void)setCurrentSubtitleIndex:(int)currentSubtitleIndex {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
-        _currentSubtitleIndex = currentSubtitleIndex;
-//        self.localMediaPlayer.currentVideoSubTitleIndex = _currentSubtitleIndex;
+        self.localMediaPlayer.currentVideoSubTitleIndex = currentSubtitleIndex;
     }
 }
 
@@ -247,9 +235,9 @@
     }
 }
 
-- (NSInteger)openVideoSubTitlesFromFile:(NSString *)path {
+- (int)openVideoSubTitlesFromFile:(NSString *)path {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
-        return [self.localMediaPlayer addPlaybackSlave:[NSURL URLWithString:path] type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
+        return [self.localMediaPlayer addPlaybackSlave:[NSURL fileURLWithPath:path] type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
     }
     return 0;
 }
