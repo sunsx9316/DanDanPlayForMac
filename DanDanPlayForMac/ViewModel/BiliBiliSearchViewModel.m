@@ -73,7 +73,7 @@
     [_infoArr enumerateObjectsUsingBlock:^(BiliBiliShiBanDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         VideoInfoDataModel *model = [[VideoInfoDataModel alloc] init];
         model.title = [self episodeTitleForRow: idx];
-//        model.danmaku = obj.danmaku;
+        model.aid = obj.aid;
         [arr addObject: model];
     }];
     return arr;
@@ -102,7 +102,6 @@
                 }
             }];
         }
-        
         
         _shiBanViewArr = tempArr;
         _infoArr = nil;

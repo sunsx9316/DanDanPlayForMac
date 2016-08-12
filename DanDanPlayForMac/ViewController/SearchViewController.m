@@ -25,10 +25,15 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backButtonDown:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
-    __weak typeof(self)weakSelf = self;
+    
+    @weakify(self)
     [self.searchTextField setRespondBlock:^{
-        [weakSelf searchButtonDown:nil];
+        @strongify(self)
+        if (!self) return;
+        
+        [self searchButtonDown:nil];
     }];
+    
     self.searchTextField.stringValue = self.searchText;
     DanDanSearchViewController *dvc = (DanDanSearchViewController *)[self addViewControllerWithViewController:kViewControllerWithId(@"DanDanSearchViewController") title:@"官方"];
     [dvc refreshWithKeyWord: self.searchText completion: nil];
@@ -48,7 +53,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-- (instancetype)init{
+- (instancetype)init {
     return (self = kViewControllerWithId(@"SearchViewController"));
 }
 
@@ -82,13 +87,12 @@
 /**
  *  向tabview添加控制器
  *
- *  @param title 控制器标题
- *  @param ID    控制器storyboardid
+ *  @param vc    控制器
+ *  @param title 控制器名称
  *
  *  @return 控制器
  */
-
-- (NSViewController *)addViewControllerWithViewController:(NSViewController *)vc title:(NSString *)title{
+- (NSViewController *)addViewControllerWithViewController:(NSViewController *)vc title:(NSString *)title {
     NSTabViewItem *tabViewItem = [[NSTabViewItem alloc] init];
     tabViewItem.view = vc.view;
     tabViewItem.label = title;

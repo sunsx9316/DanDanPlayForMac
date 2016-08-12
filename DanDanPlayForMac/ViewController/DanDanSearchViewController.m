@@ -92,7 +92,7 @@
 - (HUDMessageView *)messageView {
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
-        _messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kConnectFailString"];
+        _messageView.text = [UserDefaultManager alertMessageWithKey:@"kConnectFailString"];
     }
     return _messageView;
 }

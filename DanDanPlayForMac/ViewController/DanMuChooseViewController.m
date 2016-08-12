@@ -25,7 +25,7 @@
     [super viewDidLoad];
 }
 
-- (void)viewDidAppear{
+- (void)viewDidAppear {
     [super viewDidAppear];
     [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
@@ -34,21 +34,21 @@
     }];
 }
 
-
 - (instancetype)initWithVideoID:(NSString *)videoID{
     if ((self = kViewControllerWithId(@"DanMuChooseViewController"))) {
         self.vm = [[DanMuChooseViewModel alloc] initWithVideoID: videoID];
     }
     return self;
 }
+
 //点击确认 发送播放通知
 - (IBAction)clickOKButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
     [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kSearchDamakuLoadingString"] parentView:self.view];
     [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(id responseObj) {
         [JHProgressHUD disMiss];
-        NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem]?[self.shiBanBurron titleOfSelectedItem]:@"";
-        NSString *episodeTitle = [self.episodeButton titleOfSelectedItem]?[self.episodeButton titleOfSelectedItem]:@"";
+        NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem] ? [self.shiBanBurron titleOfSelectedItem] : @"";
+        NSString *episodeTitle = [self.episodeButton titleOfSelectedItem] ? [self.episodeButton titleOfSelectedItem] : @"";
         //通知更新匹配名称
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle": [shiBanTitle stringByAppendingString: episodeTitle]}];
         //通知关闭列表视图控制器
@@ -70,8 +70,6 @@
         [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:arr danMuSource:[self.providerButton titleOfSelectedItem]]];
     }
 }
-
-
 
 - (IBAction)selectEpisode:(NSPopUpButton *)sender {
     [sender setTitle: [sender titleOfSelectedItem]];

@@ -52,7 +52,7 @@
 - (NSFontManager *)manager {
 	if(_manager == nil) {
         _manager = [NSFontManager sharedFontManager];
-        [_manager setTarget:self];;
+        [_manager setTarget:self];
 	}
 	return _manager;
 }

@@ -24,6 +24,7 @@
 
 
 @interface VideoInfoDataModel : BaseModel
+@property (copy, nonatomic) NSString *aid;
 /**
  *  弹幕id
  */

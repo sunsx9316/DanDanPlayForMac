@@ -18,7 +18,7 @@
  *
  *  @return 任务
  */
-+ (id)GETWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)GETWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 /**
  *  GET封装 直接获取data
  *
@@ -28,7 +28,7 @@
  *
  *  @return 任务
  */
-+ (id)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
+//+ (NSURLSessionDataTask *)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 /**
  *  PUT封装
  *
@@ -38,5 +38,19 @@
  *
  *  @return 任务
  */
-+ (id)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody completionHandler:(void(^)(id responseObj, NSError *error))complete;
+/**
+ *  下载的封装
+ *
+ *  @param path                  请求路径
+ *  @param downloadProgressBlock 下载回调
+ *  @param destination           下载路径
+ *  @param completionHandler     完成回调
+ *
+ *  @return 任务
+ */
++ (NSURLSessionDownloadTask *)downloadTaskWithPath:(NSString *)path
+                                             progress:(void (^)(NSProgress *downloadProgress)) downloadProgressBlock
+                                          destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
+                                    completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
 @end

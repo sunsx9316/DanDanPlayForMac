@@ -26,13 +26,14 @@
 
 @implementation ThirdPartySearchViewController
 
-- (instancetype)initWithType:(JHDanMuSource)type{
+- (instancetype)initWithType:(JHDanMuSource)type {
     if ((self = kViewControllerWithId(@"ThirdPartySearchViewController"))) {
         self.currentRow = -1;
         if (type == JHDanMuSourceBilibili) {
-            self.vm = [BiliBiliSearchViewModel new];
-        }else if (type == JHDanMuSourceAcfun){
-            self.vm = [AcFunSearchViewModel new];
+            self.vm = [[BiliBiliSearchViewModel alloc] init];
+        }
+        else if (type == JHDanMuSourceAcfun) {
+            self.vm = [[AcFunSearchViewModel alloc] init];
         }
     }
     return self;
@@ -69,7 +70,7 @@
 }
 
 #pragma mark - 私有方法
-- (void)loadInfoView{
+- (void)loadInfoView {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSImage *img = [[NSImage alloc] initWithContentsOfURL: [self.vm coverImg]];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -80,6 +81,7 @@
     self.videoInfoView.detailTextField.stringValue = [self.vm shiBanDetail];
 }
 
+//点击选择节目的行
 - (void)shiBanTableViewDoubleClickRow {
     NSInteger row = [self.shiBantableView clickedRow];
     //判断该行是否为新番
@@ -110,6 +112,7 @@
     }
 }
 
+//点击番剧对应分集的行
 - (void)episodeTableViewDoubleClickRow {
     if (![self.vm infoArrCount]) return;
     
@@ -132,10 +135,11 @@
     }];
 }
 
+//点击缓存其它弹幕按钮
 - (IBAction)clickDownloadOtherDanmakuButton:(NSButton *)sender {
     NSArray *arr = [self.vm videoInfoDataModels];
     if (arr.count) {
-        NSString *danMuSource = [self.vm isKindOfClass:[BiliBiliSearchViewModel class]]?@"bilibili":@"acfun";
+        NSString *danMuSource = [self.vm isKindOfClass:[BiliBiliSearchViewModel class]] ? @"bilibili" : @"acfun";
         [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:arr danMuSource:danMuSource]];
     }
 }
@@ -185,8 +189,7 @@
 - (HUDMessageView *)messageView {
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
-        _messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kConnectFailString"];
-//        [self.view addSubview: _messageView positioned:NSWindowAbove relativeTo:self.episodeTableView];
+        _messageView.text = [UserDefaultManager alertMessageWithKey:@"kConnectFailString"];
     }
     return _messageView;
 }

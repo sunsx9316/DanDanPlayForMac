@@ -52,23 +52,24 @@
 
 
 - (IBAction)clickOKButton:(NSButton *)sender {
-    NSMutableArray *taskArr = [NSMutableArray array];
-    NSArray *allDownLoadDanmaku = self.downloadDanmakus.allObjects;
-    for (NSInteger i = 0; i < allDownLoadDanmaku.count; ++i) {
-        NSInteger index = [allDownLoadDanmaku[i] integerValue];
-        NSString *danmakuID = self.videos[index].danmaku;
-        if (!danmakuID.length) continue;
-        id task = [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":self.source, @"danmaku":danmakuID} completionHandler:^(id responseObj, NSError *error) {}];
-        if (task) [taskArr addObject:task];
-    }
-    
-    NSArray* operations = [AFURLConnectionOperation batchOfRequestOperations:taskArr progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
-       // NSLog(@"%ld %ld",numberOfFinishedOperations,totalNumberOfOperations);
-    }completionBlock:^(NSArray *operations) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", operations.count]}];
-    }];
-    [[NSOperationQueue mainQueue] addOperations:@[operations.lastObject] waitUntilFinished:NO];
-    [self dismissController:self];
+#warning TODO
+//    NSMutableArray *taskArr = [NSMutableArray array];
+//    NSArray *allDownLoadDanmaku = self.downloadDanmakus.allObjects;
+//    for (NSInteger i = 0; i < allDownLoadDanmaku.count; ++i) {
+//        NSInteger index = [allDownLoadDanmaku[i] integerValue];
+//        NSString *danmakuID = self.videos[index].danmaku;
+//        if (!danmakuID.length) continue;
+//        id task = [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":self.source, @"danmaku":danmakuID} completionHandler:^(id responseObj, NSError *error) {}];
+//        if (task) [taskArr addObject:task];
+//    }
+//
+//    NSArray* operations = [AFURLConnectionOperation batchOfRequestOperations:taskArr progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+//       // NSLog(@"%ld %ld",numberOfFinishedOperations,totalNumberOfOperations);
+//    }completionBlock:^(NSArray *operations) {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", operations.count]}];
+//    }];
+//    [[NSOperationQueue mainQueue] addOperations:@[operations.lastObject] waitUntilFinished:NO];
+//    [self dismissController:self];
 }
 
 

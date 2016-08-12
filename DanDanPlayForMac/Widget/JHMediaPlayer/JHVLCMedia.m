@@ -10,22 +10,23 @@
 @interface JHVLCMedia()<VLCMediaDelegate>
 @property (nonatomic, copy) complete returnBlock;
 @end
+
 @implementation JHVLCMedia
-- (void)parseWithBlock:(complete)block{
+- (void)parseWithBlock:(complete)block {
     self.returnBlock = block;
     self.delegate = self;
     [self parseWithOptions:VLCMediaParseLocal];
 }
 
-- (void)mediaDidFinishParsing:(VLCMedia *)aMedia{
+- (void)mediaDidFinishParsing:(VLCMedia *)aMedia {
     self.returnBlock(aMedia);
 }
 
-- (instancetype)initWithURL:(NSURL *)anURL{
+- (instancetype)initWithURL:(NSURL *)anURL {
     return (self = [super initWithURL:anURL]);
 }
 
-- (instancetype)initWithPath:(NSString *)aPath{
+- (instancetype)initWithPath:(NSString *)aPath {
     return [self initWithURL: [NSURL fileURLWithPath: aPath]];
 }
 @end

@@ -21,6 +21,7 @@
 #import "AddTrackingAreaButton.h"
 #import "VolumeControlView.h"
 #import "TimeHUDMessageView.h"
+#import "PlayerDanmakuCountView.h"
 
 #import "MatchModel.h"
 #import "LocalVideoModel.h"
@@ -62,33 +63,55 @@
 
 @interface PlayerViewController ()<PlayerSlideViewDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSUserNotificationCenterDelegate, JHMediaPlayerDelegate>
 
+//放视频的 view
+@property (weak) IBOutlet PlayerHoldView *playerHoldView;
+
+//播放面板
+@property (weak) IBOutlet PlayerControlView *playerControlView;
+//播放按钮
 @property (weak) IBOutlet NSButton *playButton;
+//音量按钮
+@property (weak) IBOutlet NSButton *volumeButton;
 //弹幕隐藏/显示按钮
 @property (weak) IBOutlet NSButton *playDanmakuShowButton;
-@property (weak) IBOutlet NSButton *volumeButton;
-@property (weak) IBOutlet PlayerControlView *playerControlView;
+//显示时间的label
 @property (weak) IBOutlet NSTextField *timeLabel;
-@property (weak) IBOutlet PlayerHoldView *playerHoldView;
+//发送弹幕颜色选择按钮
+@property (weak) IBOutlet NSPopUpButton *danmakuColorPopUpButton;
+//发送弹幕类型按钮
+@property (weak) IBOutlet NSPopUpButton *danmakuModePopUpButton;
+//发送弹幕输入框
+@property (weak) IBOutlet RespondKeyboardTextField *danmakuTextField;
 
 //弹幕和字幕控制器
 @property (strong, nonatomic) PlayerDanmakuAndSubtitleViewController *playerDanmakuAndSubtitleViewController;
 //播放列表控制器
 @property (strong, nonatomic) PlayerListViewController *playerListViewController;
 
-@property (weak) IBOutlet RespondKeyboardTextField *danmakuTextField;
-@property (weak) IBOutlet NSPopUpButton *danmakuColorPopUpButton;
-@property (weak) IBOutlet NSPopUpButton *danmakuModePopUpButton;
-@property (strong) IBOutlet PlayLastWatchVideoTimeView *lastWatchVideoTimeView;
+//上次播放时间的view
+@property (strong) IBOutlet PlayerLastWatchVideoTimeView *lastWatchVideoTimeView;
+//弹幕数view
+@property (strong) IBOutlet PlayerDanmakuCountView *danmakuCountView;
+
+//右键显示的清晰度菜单
 @property (strong) IBOutlet NSMenu *rightClickMenu;
+//控制弹幕控制面板显示/隐藏的按钮
 @property (strong, nonatomic) NSButton *controlDanMakuControllerViewButton;
+//控制播放列表面板显示/隐藏的按钮
 @property (strong, nonatomic) NSButton *controlPlayListControllerViewButton;
 
+//显示消息的 view
 @property (strong, nonatomic) HUDMessageView *messageView;
+//音量控制的 view
 @property (strong, nonatomic) VolumeControlView *volumeControlView;
+//显示在控制面板上面的时间 view
 @property (strong, nonatomic) TimeHUDMessageView *HUDTimeView;
 
+//播放控制面板左边的约束
 @property (weak) IBOutlet NSLayoutConstraint *playerControlViewLeftConstraint;
+//播放控制面板右边的约束
 @property (weak) IBOutlet NSLayoutConstraint *playerControlViewRightConstraint;
+//播放控制面板底部的约束
 @property (weak) IBOutlet NSLayoutConstraint *playerControlViewBottomConstraint;
 
 @property (strong, nonatomic) JHMediaPlayer *player;
@@ -135,7 +158,7 @@
     [self setupOnce];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
         if (size.width < 0 || size.height < 0) {
-            self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
+            self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
             [self.messageView showHUD];
             return;
         }
@@ -242,7 +265,6 @@
         }
     }];
     
-    
     [self.playerControlView setLeftCallBackBlock:^(BOOL isExpansion) {
         if (isExpansion) {
             [weakSelf.playerControlViewLeftConstraint pop_addAnimation:[weakSelf springAnimateWithToValue:PLAY_CONTROL_LEFT_EXPANSION_CONSTRAINT propertyNamed:nil completionBlock:nil] forKey:@"danmaku_control_view_show_animate"];
@@ -322,7 +344,6 @@
     self.player.delegate = self;
     [self.playerHoldView addSubview:self.player.mediaView];
     
-    
     //音量
     [self.view addSubview:self.volumeControlView positioned:NSWindowAbove relativeTo:self.playerControlView];
     [self.player addObserver:self forKeyPath:@"volume" options:NSKeyValueObservingOptionNew context:nil];
@@ -337,17 +358,27 @@
     [self.volumeButton setTarget:self];
     [self.volumeButton setAction:@selector(clickVolumeButton:)];
     
-    //其它
     //上次观看时间视图
     [self.view addSubview:self.lastWatchVideoTimeView positioned:NSWindowAbove relativeTo:self.danmakuEngine.canvas];
+    
     [self.lastWatchVideoTimeView setContinusBlock:^(NSTimeInterval time) {
         [weakSelf.player setPosition:time / weakSelf.player.length completionHandler:^(NSTimeInterval time) {
             weakSelf.danmakuEngine.currentTime = time;
         }];
     }];
+
     [self.lastWatchVideoTimeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(57);
-        make.left.centerY.mas_equalTo(0);
+        make.height.mas_equalTo(40);
+        make.left.mas_equalTo(-self.lastWatchVideoTimeView.frame.size.width);
+        make.centerY.mas_offset(90);
+    }];
+    
+    //弹幕数量视图
+    [self.view addSubview:self.danmakuCountView positioned:NSWindowAbove relativeTo:self.danmakuEngine.canvas];
+    [self.danmakuCountView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.lastWatchVideoTimeView.mas_bottom).mas_offset(10);
+        make.left.mas_equalTo(-self.danmakuCountView.frame.size.width);
+        make.height.equalTo(self.lastWatchVideoTimeView);
     }];
     
     //监听弹幕显示/隐藏按钮状态
@@ -381,7 +412,16 @@
     //重设右键菜单
     [self resetMenuByOpenStreamDic];
     //显示上次播放进度
-    [PlayerMethodManager showPlayLastWatchVideoTimeView:self.lastWatchVideoTimeView time:[self.vm currentVideoLastVideoTime]];
+    NSUInteger intTime = [self.vm currentVideoLastVideoTime];
+    if (intTime > 0) {
+        self.lastWatchVideoTimeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",intTime / 60, intTime % 60];
+        self.lastWatchVideoTimeView.time = intTime;
+        [self.lastWatchVideoTimeView show];
+    }
+    
+    self.danmakuCountView.danmakuCount = self.vm.danmakuCount;
+    [self.danmakuCountView show];
+    
     //重设视图尺寸
     [self danmakuCanvasResizeWithAnimate:NO];
 }
@@ -478,13 +518,13 @@
             [str addAttributes:@{NSUnderlineColorAttributeName:[NSColor greenColor], NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)} range:NSMakeRange(0, str.length)];
             danmaku.attributedString = str;
             self.danmakuTextField.stringValue = @"";
-            self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kLaunchDanmakuSuccessString"];
+            self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kLaunchDanmakuSuccessString"];
             [self.messageView showHUD];
             [self.danmakuEngine addDanmaku: danmaku];
             [self.vm saveUserDanmaku:model];
         }
         else {
-            self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kLaunchDanmakuFailString"];
+            self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kLaunchDanmakuFailString"];
             [self.messageView showHUD];
         }
     }];
@@ -546,7 +586,7 @@
  */
 - (void)volumeValueAddTo:(CGFloat)addTo {
     self.player.volume = addTo;
-    self.messageView.text.stringValue = [NSString stringWithFormat:@"音量: %ld", (long)self.player.volume];
+    self.messageView.text = [NSString stringWithFormat:@"音量: %ld", (long)self.player.volume];
     [self.messageView showHUD];
 }
 
@@ -557,7 +597,7 @@
  */
 - (void)volumeValueAddBy:(CGFloat)addBy {
     [self.player volumeJump:addBy];
-    self.messageView.text.stringValue = [NSString stringWithFormat:@"音量: %ld", (long)self.player.volume];
+    self.messageView.text = [NSString stringWithFormat:@"音量: %ld", (long)self.player.volume];
     [self.messageView showHUD];
 }
 
@@ -587,7 +627,7 @@
                     [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
                     return;
                 }
-                 self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
+                 self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
                 [self.messageView showHUD];
             }
             else {
@@ -669,7 +709,6 @@
 - (void)windowDidResize:(NSNotification *)notification {
     if (notification.object == NSApp.mainWindow) {
         [self danmakuCanvasResizeWithAnimate:NO];
-//        [self.rander resetOriginalPosition:self.rander.canvas.bounds];
     }
 }
 
@@ -695,7 +734,7 @@
     [self.playerListViewController.tableView reloadData];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
         if (size.width < 0 || size.height < 0) {
-            self.messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
+            self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
             [self.messageView showHUD];
             return;
         }
@@ -821,14 +860,14 @@
     switch (status) {
         case JHMediaPlayerStatusPause:
             [self.danmakuEngine pause];
-            self.playButton.state = NSCancelButton;
+            self.playButton.state = NSModalResponseCancel;
             break;
         case JHMediaPlayerStatusStop:
-            self.playButton.state = NSCancelButton;
+            self.playButton.state = NSModalResponseCancel;
             break;
         case JHMediaPlayerStatusPlaying:
             [self.danmakuEngine start];
-            self.playButton.state = NSOKButton;
+            self.playButton.state = NSModalResponseOK;
             break;
         default:
             break;
@@ -878,7 +917,7 @@
     
     streamingVideoQuality quality = [self.vm openStreamQuality];
     NSUInteger openStreamIndex = [self.vm openStreamIndex];
-    for (NSInteger i = 0 ;i < arr.count; ++i) {
+    for (NSInteger i = 0 ; i < arr.count; ++i) {
         QualityMenuItem *item = arr[i];
         item.state = item.quality == quality;
         //良心画质
@@ -889,7 +928,7 @@
                 sitem.state = item.state && openStreamIndex == i;
                 [item.submenu addItem:sitem];
             }
-            //渣画质
+        //渣画质
         }
         else {
             for (NSInteger i = 0; i < lowCount; ++i) {
@@ -1081,7 +1120,7 @@
         
         [_playerDanmakuAndSubtitleViewController.danmakuVC setAdjustDanmakuTimeOffsetCallBack:^(NSInteger value) {
             weakSelf.danmakuEngine.offsetTime = value;
-            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"弹幕：%@%ld秒", weakSelf.danmakuEngine.offsetTime >= 0 ? @"+" : @"", (long)weakSelf.danmakuEngine.offsetTime];
+            weakSelf.messageView.text = [NSString stringWithFormat:@"弹幕：%@%ld秒", weakSelf.danmakuEngine.offsetTime >= 0 ? @"+" : @"", (long)weakSelf.danmakuEngine.offsetTime];
             [weakSelf.messageView showHUD];
         }];
         
@@ -1110,7 +1149,7 @@
         
         [_playerDanmakuAndSubtitleViewController.subtitleVC setTimeOffsetCallBack:^(NSInteger value) {
             weakSelf.player.subtitleDelay = value * 1000000;
-            weakSelf.messageView.text.stringValue = [NSString stringWithFormat:@"字幕：%@%ld秒", value >= 0 ? @"+" : @"", value];
+            weakSelf.messageView.text = [NSString stringWithFormat:@"字幕：%@%ld秒", value >= 0 ? @"+" : @"", value];
             [weakSelf.messageView showHUD];
         }];
         

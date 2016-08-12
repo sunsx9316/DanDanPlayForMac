@@ -11,7 +11,8 @@
  *  提示面板 比如音量
  */
 @interface HUDMessageView : NSView
-@property (strong, nonatomic) NSTextField *text;
+@property (copy, nonatomic) NSString *text;
 - (void)showHUD;
+- (void)showHUDWithAnimateTime:(NSTimeInterval)time;
 - (void)hideHUD;
 @end

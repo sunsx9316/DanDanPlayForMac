@@ -8,6 +8,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PlayerViewController">
             <connections>
                 <outlet property="danmakuColorPopUpButton" destination="Y6w-9H-nM4" id="9fa-q8-zF9"/>
+                <outlet property="danmakuCountView" destination="pdY-7Y-bYd" id="t4q-qX-ZhH"/>
                 <outlet property="danmakuModePopUpButton" destination="xWO-Wo-3VM" id="KoE-Jf-dPe"/>
                 <outlet property="danmakuTextField" destination="pMg-Ks-RkP" id="6Rj-j2-wbD"/>
                 <outlet property="lastWatchVideoTimeView" destination="uRo-xP-2CG" id="oPT-UN-dXN"/>
@@ -208,7 +209,7 @@
             </constraints>
             <point key="canvasLocation" x="3" y="158.5"/>
         </customView>
-        <customView id="uRo-xP-2CG" customClass="PlayLastWatchVideoTimeView">
+        <customView id="uRo-xP-2CG" customClass="PlayerLastWatchVideoTimeView">
             <rect key="frame" x="0.0" y="0.0" width="323" height="58"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
@@ -271,6 +272,54 @@
             </items>
             <point key="canvasLocation" x="77" y="432.5"/>
         </menu>
+        <customView id="pdY-7Y-bYd" customClass="PlayerDanmakuCountView">
+            <rect key="frame" x="0.0" y="0.0" width="144" height="53"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VM1-z4-ZLY">
+                    <rect key="frame" x="8" y="17" width="64" height="19"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="弹幕数：" id="FWk-4I-vxj">
+                        <font key="font" size="15" name="STHeitiSC-Light"/>
+                        <color key="textColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XUw-W6-Lfo">
+                    <rect key="frame" x="68" y="17" width="13" height="19"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="X05-ER-iHV">
+                        <font key="font" size="15" name="STHeitiSC-Light"/>
+                        <color key="textColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jvU-sE-z9i">
+                    <rect key="frame" x="99" y="14" width="35" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="rtj-YU-NNd"/>
+                    </constraints>
+                    <buttonCell key="cell" type="squareTextured" title="X" bezelStyle="texturedSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ahP-8G-qxt">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clickCloseButton:" target="pdY-7Y-bYd" id="Gub-Yv-UnY"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="XUw-W6-Lfo" firstAttribute="leading" secondItem="VM1-z4-ZLY" secondAttribute="trailing" id="DS3-Xj-TYF"/>
+                <constraint firstItem="jvU-sE-z9i" firstAttribute="centerY" secondItem="VM1-z4-ZLY" secondAttribute="centerY" id="EIm-8W-ssu"/>
+                <constraint firstItem="XUw-W6-Lfo" firstAttribute="bottom" secondItem="VM1-z4-ZLY" secondAttribute="bottom" id="Iwr-8W-STp"/>
+                <constraint firstItem="VM1-z4-ZLY" firstAttribute="centerY" secondItem="pdY-7Y-bYd" secondAttribute="centerY" id="fBk-fc-2lz"/>
+                <constraint firstItem="jvU-sE-z9i" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="XUw-W6-Lfo" secondAttribute="trailing" constant="20" id="jGd-1u-RhF"/>
+                <constraint firstItem="VM1-z4-ZLY" firstAttribute="leading" secondItem="pdY-7Y-bYd" secondAttribute="leading" constant="10" id="tEv-c1-dMC"/>
+                <constraint firstAttribute="trailing" secondItem="jvU-sE-z9i" secondAttribute="trailing" constant="10" id="xqX-9o-cUy"/>
+            </constraints>
+            <connections>
+                <outlet property="danmaukuCountTextField" destination="XUw-W6-Lfo" id="RCD-jy-0Ja"/>
+            </connections>
+            <point key="canvasLocation" x="-283" y="545.5"/>
+        </customView>
     </objects>
     <resources>
         <image name="danmaku_hide" width="20" height="20"/>

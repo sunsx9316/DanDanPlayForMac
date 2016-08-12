@@ -9,16 +9,19 @@
 #import "VLCMedia+Tools.h"
 
 @implementation VLCMedia (Tools)
-- (CGSize)videoSize{
+- (CGSize)videoSize {
     NSArray *mediaInfo = self.tracksInformation;
     
-    CGFloat width = .0;
-    CGFloat height = .0;
+    CGSize size = CGSizeZero;
     //获取视频宽高
     for (NSDictionary *dic in mediaInfo) {
-        if (dic[VLCMediaTracksInformationVideoWidth]) width = [dic[VLCMediaTracksInformationVideoWidth] floatValue];
-        if (dic[VLCMediaTracksInformationVideoHeight])  height = [dic[VLCMediaTracksInformationVideoHeight] floatValue];
+        if (dic[VLCMediaTracksInformationVideoWidth]) {
+            size.width = [dic[VLCMediaTracksInformationVideoWidth] floatValue];
+        }
+        if (dic[VLCMediaTracksInformationVideoHeight]) {
+            size.height = [dic[VLCMediaTracksInformationVideoHeight] floatValue];
+        }
     }
-    return CGSizeMake(width, height);
+    return size;
 }
 @end

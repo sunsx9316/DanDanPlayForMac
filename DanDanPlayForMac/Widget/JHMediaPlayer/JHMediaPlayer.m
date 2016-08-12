@@ -55,11 +55,11 @@
     JHVLCMedia *media = (JHVLCMedia *)self.localMediaPlayer.media;
     if (media.parsedStatus == VLCMediaParsedStatusInit) {
         [media parseWithBlock:^(VLCMedia *aMedia) {
-            completionHandle([aMedia videoSize]);
+            completionHandle(aMedia.videoSize);
         }];
     }
     else {
-        completionHandle([media videoSize]);
+        completionHandle(media.videoSize);
     }
 }
 

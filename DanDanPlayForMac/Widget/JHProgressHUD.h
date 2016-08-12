@@ -53,8 +53,7 @@ typedef NS_ENUM(NSUInteger, JHProgressHUDStyle) {
  *  @param parentView       父视图
  *  @param dismissWhenClick 点击时消失
  */
-+ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)
-parentView dismissWhenClick:(BOOL)dismissWhenClick;
++ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *) parentView dismissWhenClick:(BOOL)dismissWhenClick;
 
 /**
  *  显示hud

@@ -50,17 +50,16 @@
                 [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: model.episodeId]];
             }
         }
-        else{
+        else {
             [self.tableView reloadData];
         }
     }];
     
 }
 
-- (void)dealloc{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
-
 
 - (instancetype)initWithVideoModel:(LocalVideoModel *)videoModel{
     if ((self = kViewControllerWithId(@"MatchViewController"))) {
@@ -76,6 +75,7 @@
     vc.searchText = self.searchField.stringValue;
     [self presentViewControllerAsSheet: vc];
 }
+
 - (IBAction)clickPlayButton:(NSButton *)sender {
     [self dismissController: self];
     //通知开始播放
@@ -88,7 +88,6 @@
 
 
 #pragma mark - 私有方法
-
 - (void)disMissSelf:(NSNotification *)notification {
     [self dismissController: self];
 }
@@ -103,7 +102,6 @@
 
 
 #pragma mark - NSTableViewDataSource
-
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [self.vm modelCount];
 }

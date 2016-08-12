@@ -67,8 +67,6 @@
         return;
     }
     
-    
-    
     [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
         if (![responseObj count]) {
             error = kNoMatchError;

@@ -1569,7 +1569,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="96" rowSizeStyle="automatic" viewBased="YES" id="20F-Uf-FNd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="523" height="0.0"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="521" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -3041,9 +3041,9 @@
                                             </scrollView>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3fi-cW-0QP">
                                                 <rect key="frame" x="-3" y="197" width="202" height="32"/>
-                                                <buttonCell key="cell" type="push" title="缓存其他弹幕" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f23-Xd-lOU">
+                                                <buttonCell key="cell" type="push" title="缓存其它弹幕" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f23-Xd-lOU">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" metaFont="system"/>
+                                                    <font key="font" size="13" name=".PingFangSC-Regular"/>
                                                 </buttonCell>
                                                 <connections>
                                                     <action selector="clickDownloadOtherDanmakuButton:" target="AB8-Kk-9Yp" id="GZk-EJ-6Fn"/>

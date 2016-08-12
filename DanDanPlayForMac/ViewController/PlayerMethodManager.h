@@ -6,7 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-#import "PlayLastWatchVideoTimeView.h"
+#import "PlayerLastWatchVideoTimeView.h"
+
 typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
 typedef void(^loadLocalSubtitleBlock)(NSString *path);
 @class VLCMediaPlayer, PlayerHUDControl, DanMuDataModel;
@@ -48,5 +49,5 @@ typedef void(^loadLocalSubtitleBlock)(NSString *path);
 
 + (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size;
 
-+ (void)showPlayLastWatchVideoTimeView:(PlayLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time;
++ (void)showPlayLastWatchVideoTimeView:(PlayerLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time;
 @end

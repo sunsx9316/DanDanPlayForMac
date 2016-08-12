@@ -9,5 +9,5 @@
 #import "BaseNetManager.h"
 
 @interface VideoNetManager : BaseNetManager
-+ (id)bilibiliVideoURLWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (void)bilibiliVideoURLWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
 @end

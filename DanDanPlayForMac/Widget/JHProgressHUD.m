@@ -52,8 +52,7 @@ static JHProgressHUD *_hud = nil;
     return [self initWithMessage:message style:JHProgressHUDStyleValue1 parentView:parentView dismissWhenClick:YES];
 }
 
-- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)
-parentView dismissWhenClick:(BOOL)dismissWhenClick{
+- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *) parentView dismissWhenClick:(BOOL)dismissWhenClick{
     return [self initWithMessage:message style:style parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:YES];
 }
 
@@ -75,7 +74,7 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
 
 #pragma mark - 私有方法
 
-+ (instancetype)shareHUD{
++ (instancetype)shareHUD {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _hud = [[JHProgressHUD alloc] init];
@@ -83,7 +82,7 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
     return _hud;
 }
 
-- (void)show{
+- (void)show {
     self.showing = YES;
     self.blackBackGroundMask.alphaValue = 0;
     [self.parentView addSubview: self];
@@ -98,7 +97,7 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
     
 }
 
-- (void)disMiss{
+- (void)disMiss {
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
         context.duration = 1;
         self.blackBackGroundMask.animator.alphaValue = 0;
@@ -118,7 +117,10 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
     if (self.dismissWhenClick) [self disMiss];
 }
 
-- (void)setMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick{
+- (void)setMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick {
+    if (!parentView) {
+        parentView = NSApp.keyWindow.contentViewController.view;
+    }
     self.parentView = parentView;
     self.dismissWhenClick = dismissWhenClick;
     self.style = style;
@@ -152,8 +154,6 @@ parentView dismissWhenClick:(BOOL)dismissWhenClick{
         make.top.equalTo(self.indicator.mas_bottom).mas_offset(20);
     }];
 }
-
-
 
 #pragma mark - 懒加载
 - (NSProgressIndicator *)indicator {

@@ -151,7 +151,7 @@
 - (HUDMessageView *)messageView {
 	if(_messageView == nil) {
 		_messageView = [[HUDMessageView alloc] init];
-        _messageView.text.stringValue = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
+        _messageView.text = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
 	}
 	return _messageView;
 }

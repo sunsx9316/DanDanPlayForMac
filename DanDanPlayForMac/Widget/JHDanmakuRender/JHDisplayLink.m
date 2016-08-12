@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 #else
-#import <QuartzCore/CVDisplayLink.h>
+#import <QuartzCore/QuartzCore.h>
 #if OS_OBJECT_USE_OBJC_RETAIN_RELEASE
 static void
 JHDispatchRelease(__strong dispatch_object_t *var) {
