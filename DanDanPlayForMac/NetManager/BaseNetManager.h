@@ -18,7 +18,17 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)GETWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)GETWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+/**
+ *  GET data 数据的封装
+ *
+ *  @param path       路径
+ *  @param parameters 参数
+ *  @param complete   回调
+ *
+ *  @return 任务
+ */
++ (NSURLSessionDataTask *)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  GET封装 直接获取data
  *
@@ -38,7 +48,7 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  下载的封装
  *
@@ -52,5 +62,5 @@
 + (NSURLSessionDownloadTask *)downloadTaskWithPath:(NSString *)path
                                              progress:(void (^)(NSProgress *downloadProgress)) downloadProgressBlock
                                           destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
-                                    completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
+                                    completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error))completionHandler;
 @end

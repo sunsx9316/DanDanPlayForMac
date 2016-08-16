@@ -7,15 +7,19 @@
 //
 
 #import "RecommendViewController.h"
+#import "RecommendItemViewController.h"
+
 #import "RecommedViewModel.h"
 
 #import "RecommendHeadCell.h"
 #import "RecommendBangumiCell.h"
 
 @interface RecommendViewController ()<NSTableViewDelegate, NSTableViewDataSource>
-@property (weak) IBOutlet NSTableView *tableView;
 @property (strong, nonatomic) RecommedViewModel *vm;
 @property (strong, nonatomic) JHProgressHUD *progressHUD;
+@property (weak) IBOutlet RecommendHeadCell *headView;
+@property (weak) IBOutlet NSLayoutConstraint *headViewHeightConstraint;
+@property (weak) IBOutlet NSTabView *tabView;
 @end
 
 @implementation RecommendViewController
@@ -23,13 +27,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.progressHUD show];
+    
     [self.vm refreshWithCompletionHandler:^(NSError *error) {
         [self.progressHUD disMiss];
-        [self.tableView reloadData];
+        self.headViewHeightConstraint.constant = [self.headView heightWithModel:self.vm.featuredModel];
+        NSArray *arr = self.vm.bangumis;
+        
+        [arr enumerateObjectsUsingBlock:^(BangumiModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSTabViewItem *item = [NSTabViewItem tabViewItemWithViewController:[[RecommendItemViewController alloc] init]];
+            item.label = obj.weekDayStringValue;
+            [self.tabView addTabViewItem:item];
+        }];
     }];
 }
 
-- (instancetype)init{
+- (instancetype)init {
     if ((self = kViewControllerWithId(@"RecommendViewController"))) {
         self.title = @"番剧推荐";
     }
@@ -37,28 +49,9 @@
 }
 
 #pragma mark - NSTableViewDelegate
-- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
-    if (row == 0) {
-        RecommendHeadCell *headCell = [tableView makeViewWithIdentifier:@"RecommendHeadCell" owner:self];
-        [headCell setWithTitle:[self.vm headTitle] info: [self.vm headCategory] brief:[self.vm headIntroduction] imgURL:[self.vm headImgURL] FilmReviewURL:[self.vm headFileReviewURL]];
-        return headCell;
-    }
-    RecommendBangumiCell *cell = [tableView makeViewWithIdentifier:@"RecommendBangumiCell" owner:self];
-    [cell setWithTitle:[self.vm titleForRow:row] keyWord:[self.vm keyWordForRow:row] imgURL:[self.vm imgURLForRow:row] captionsGroup:[self.vm groupsForRow:row]];
-    return cell;
-}
-
-#pragma mark - NSTableViewDataSource
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return [self.vm numOfRow];
-}
-
-- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row{
-    RecommendHeadCell *cell = (RecommendHeadCell *)[self tableView:tableView viewForTableColumn:nil row:row];
-    if (row == 0) {
-        return [cell cellHeight];
-    }
-    return 80;
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem {
+    RecommendItemViewController *vc = (RecommendItemViewController *)tabViewItem.viewController;
+    vc.model = self.vm.bangumis[[tabView indexOfTabViewItem:tabViewItem]];
 }
 
 #pragma mark - 懒加载
@@ -71,10 +64,10 @@
 
 - (JHProgressHUD *)progressHUD {
 	if(_progressHUD == nil) {
-		_progressHUD = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
+        DanDanPlayMessageModel *model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage];
+		_progressHUD = [[JHProgressHUD alloc] initWithMessage:model.message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
 	}
 	return _progressHUD;
 }
-
 
 @end

@@ -8,18 +8,17 @@
 
 #import "StreamingVideoModel.h"
 #import "NSString+Tools.h"
-@interface StreamingVideoModel()
-@property (strong, nonatomic) NSString *fileName;
-@property (strong, nonatomic) NSString *danmaku;
-@property (strong, nonatomic) NSString *danmakuSource;
-@property (strong, nonatomic) NSDictionary *URLs;
-@end
-
 @implementation StreamingVideoModel
 {
     NSDictionary *_danmakuDic;
+    DanDanPlayDanmakuSource _danmakuSource;
+    NSString *_danmaku;
+    NSString *_danmakuStringValue;
+    NSDictionary *_URLs;
+    NSString *_fileName;
 }
-- (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(NSString *)danmakuSource{
+
+- (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
     if (self = [super init]) {
         _URLs = fileURLs;
         _fileName = fileName;
@@ -29,14 +28,14 @@
     return self;
 }
 
-- (streamingVideoQuality)quality{
+- (streamingVideoQuality)quality {
     if (_quality == streamingVideoQualityHigh && ![_URLs[@"high"] count]) {
         _quality = streamingVideoQualityLow;
     }
     return _quality;
 }
 
-- (NSInteger)URLsCountWithQuality:(streamingVideoQuality)quality{
+- (NSInteger)URLsCountWithQuality:(streamingVideoQuality)quality {
     NSArray *arr = quality == streamingVideoQualityLow ? _URLs[@"low"] : _URLs[@"high"];
     return arr.count;
 }
@@ -61,11 +60,11 @@
     return _URLIndex < arr.count ? arr[_URLIndex] : nil;
 }
 
-- (NSString *)md5{
-    return [[_danmakuSource stringByAppendingString:_danmaku] md5String];
+- (NSString *)md5 {
+    return [[[ToolsManager stringValueWithDanmakuSource:_danmakuSource] stringByAppendingString:_danmaku] md5String];
 }
 
-- (NSString *)danmakuSource{
+- (DanDanPlayDanmakuSource)danmakuSource{
     return _danmakuSource;
 }
 

@@ -16,28 +16,35 @@
 #define NSLog(...)
 #endif
 
-static NSString *official = @"official";
-static NSString *bilibili = @"bilibili";
-static NSString *acfun = @"acfun";
+//static NSString *official = @"official";
+//static NSString *bilibili = @"bilibili";
+//static NSString *acfun = @"acfun";
 
 //来源枚举
-typedef NS_ENUM(NSInteger, JHDanMuSource){
+//typedef NS_ENUM(NSInteger, JHDanMuSource){
+//    //官方
+//    JHDanMuSourceOfficial,
+//    //b站
+//    JHDanMuSourceBilibili,
+//    //a站
+//    JHDanMuSourceAcfun,
+//    //发送缓存
+//    JHDanMuSourceCache
+//};
+
+typedef NS_ENUM(NSInteger, DanDanPlayDanmakuSource){
     //官方
-    JHDanMuSourceOfficial,
+    DanDanPlayDanmakuSourceOfficial,
     //b站
-    JHDanMuSourceBilibili,
+    DanDanPlayDanmakuSourceBilibili,
     //a站
-    JHDanMuSourceAcfun,
+    DanDanPlayDanmakuSourceAcfun,
     //发送缓存
-    JHDanMuSourceCache
+    DanDanPlayDanmakuSourceCache
 };
 
 //项目主色调
 #define MAIN_COLOR RGBColor(49, 169, 226)
-
-//错误
-#define kNoMatchError [NSError errorWithDomain:@"nomatchdanmaku" code:200 userInfo: nil]
-#define kObjNilError [NSError errorWithDomain:@"objnil" code:201 userInfo: nil]
 
 //官方的key
 #define kDanDanPlayKey @""

@@ -11,19 +11,19 @@
 
 @implementation BiliBiliDanMuChooseViewModel
 
-- (void)refreshCompletionHandler:(void(^)(NSError *error))complete{
+- (void)refreshCompletionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
     if (!self.aid) {
         complete(nil);
         return;
     }
     
-    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
+    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, NSError *error))complete{
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
     [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:bilibili completionHandler:complete];
 }
 

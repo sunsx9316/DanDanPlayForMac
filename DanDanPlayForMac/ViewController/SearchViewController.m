@@ -38,12 +38,12 @@
     DanDanSearchViewController *dvc = (DanDanSearchViewController *)[self addViewControllerWithViewController:kViewControllerWithId(@"DanDanSearchViewController") title:@"官方"];
     [dvc refreshWithKeyWord: self.searchText completion: nil];
     
-    ThirdPartySearchViewController *bvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:JHDanMuSourceBilibili] title:@"bilibili"];
+    ThirdPartySearchViewController *bvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:DanDanPlayDanmakuSourceBilibili] title:@"bilibili"];
     [bvc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];
     
-    ThirdPartySearchViewController *avc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:JHDanMuSourceAcfun] title:@"acfun"];
+    ThirdPartySearchViewController *avc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:DanDanPlayDanmakuSourceAcfun] title:@"acfun"];
     [avc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];
@@ -69,7 +69,7 @@
         [dvc refreshWithKeyWord: self.searchTextField.stringValue completion: nil];
     //刷新第三方搜索页
     }
-    else{
+    else {
         ThirdPartySearchViewController *dvc = (ThirdPartySearchViewController *)self.viewController[index];
         if (!dvc) return;
         

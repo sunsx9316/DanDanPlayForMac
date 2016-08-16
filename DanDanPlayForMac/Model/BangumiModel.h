@@ -12,6 +12,7 @@
 
 @interface BangumiModel : BaseModel
 @property (assign, nonatomic) NSInteger weekDay;
+@property (strong, nonatomic, readonly) NSString *weekDayStringValue;
 @property (strong, nonatomic) NSArray <BangumiDataModel *>*bangumis;
 @end
 

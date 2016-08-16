@@ -21,7 +21,7 @@ typedef NS_ENUM(NSUInteger, streamingVideoQuality) {
  *
  *  @return self
  */
-- (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(NSString *)danmakuSource;
+- (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource;
 /**
  *  视频清晰度 设置清晰度 当前url会不同
  */
@@ -52,5 +52,5 @@ typedef NS_ENUM(NSUInteger, streamingVideoQuality) {
  *
  *  @return 弹幕来源
  */
-- (NSString *)danmakuSource;
+- (DanDanPlayDanmakuSource)danmakuSource;
 @end

@@ -158,7 +158,7 @@
     [self setupOnce];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
         if (size.width < 0 || size.height < 0) {
-            self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
+            self.messageView.text = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeVideoNoFound].message;
             [self.messageView showHUD];
             return;
         }
@@ -403,11 +403,11 @@
     //只有官方弹幕库启用发送弹幕功能
     if (!self.vm.episodeId.length) {
         self.danmakuTextField.enabled = NO;
-        self.danmakuTextField.placeholderString = [UserDefaultManager alertMessageWithKey:@"kCannotLaunchDanmakuPlaceHoldString"];
+        self.danmakuTextField.placeholderString = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeCannotLaunchDanmakuPlaceHold].message;
     }
     else {
         self.danmakuTextField.enabled = YES;
-        self.danmakuTextField.placeholderString = [UserDefaultManager alertMessageWithKey:@"kCanLaunchDanmakuPlaceHoldString"];
+        self.danmakuTextField.placeholderString = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeCanLaunchDanmakuPlaceHolder].message;
     }
     //重设右键菜单
     [self resetMenuByOpenStreamDic];
@@ -518,13 +518,13 @@
             [str addAttributes:@{NSUnderlineColorAttributeName:[NSColor greenColor], NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)} range:NSMakeRange(0, str.length)];
             danmaku.attributedString = str;
             self.danmakuTextField.stringValue = @"";
-            self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kLaunchDanmakuSuccessString"];
+            self.messageView.text = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLaunchDanmakuSuccess].message;
             [self.messageView showHUD];
             [self.danmakuEngine addDanmaku: danmaku];
             [self.vm saveUserDanmaku:model];
         }
         else {
-            self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kLaunchDanmakuFailString"];
+            self.messageView.text = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLaunchDanmakuFail].message;
             [self.messageView showHUD];
         }
     }];
@@ -616,27 +616,27 @@
 
 #pragma mark 重新加载弹幕 更新进度
 - (void)reloadDanmakuWithIndex:(NSInteger)index {
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kAnalyzeString"] style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
     
     [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 [JHProgressHUD disMiss];
                 id vm = [self.vm videoModelWithIndex:index];
-                if ([vm isKindOfClass:[LocalVideoModel class]] && [error isEqual:kNoMatchError]) {
+                if ([vm isKindOfClass:[LocalVideoModel class]] && [error isEqual:[DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]]) {
                     [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: (LocalVideoModel *)vm]];
                     return;
                 }
-                 self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
+                 self.messageView.text = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeVideoNoFound].message;
                 [self.messageView showHUD];
             }
             else {
                 [JHProgressHUD updateProgress:progress];
                 if (progress == 0.5) {
-                    [JHProgressHUD updateMessage:[UserDefaultManager alertMessageWithKey:@"kAnalyzeVideoString"]];
+                    [JHProgressHUD updateMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeAnalyzeVideo].message];
                 }
                 else if (progress == 1) {
-                    [JHProgressHUD updateMessage:[UserDefaultManager alertMessageWithKey:@"kDownLoadingDanmakuString"]];
+                    [JHProgressHUD updateMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeDownloadingDanmaku].message];
                     [PlayerMethodManager postMatchMessageWithMatchName:videoMatchName delegate:self];
                     [JHProgressHUD disMiss];
                 }
@@ -734,7 +734,7 @@
     [self.playerListViewController.tableView reloadData];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
         if (size.width < 0 || size.height < 0) {
-            self.messageView.text = [UserDefaultManager alertMessageWithKey:@"kVideoNoFoundString"];
+            self.messageView.text = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeVideoNoFound].message;
             [self.messageView showHUD];
             return;
         }
@@ -1137,7 +1137,7 @@
                     [weakSelf.danmakuEngine addAllDanmakusDic:dic];
                 }
                 else {
-                    [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"] informativeText:nil] runModal];
+                    [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDanmaku].message informativeText:nil] runModal];
                 }
             }];
         }];

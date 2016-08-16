@@ -103,21 +103,21 @@
  *  @param complete 回调
  */
 
-- (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete;
+- (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(DanDanPlayErrorModel *error))complete;
 /**
  *  根据SeasonID刷新 右视图
  *
  *  @param SeasonID SeasonID
  *  @param complete 回调
  */
-- (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(NSError *error))complete;
+- (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(DanDanPlayErrorModel *error))complete;
 /**
  *  根据行数下载弹幕
  *
  *  @param row      行数
  *  @param complete 回调
  */
-- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete;
+- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 
 /**
  *  下载第三方弹幕完整方法
@@ -126,5 +126,5 @@
  *  @param provider  提供者
  *  @param complete  回调
  */
-- (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider completionHandler:(void(^)(id responseObj, NSError *error))complete;
+- (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 @end

@@ -214,7 +214,7 @@
             [cell setWithTitle:@"清除上次播放时间纪录" info:@"难道你想隐藏什么→_→" buttonText:@"清除播放时间纪录"];
             [cell setClickButtonCallBackBlock:^{
                 [UserDefaultManager clearPlayHistory];
-                NSAlert *alert = [NSAlert alertWithMessageText:@"清除成功" informativeText:nil];
+                NSAlert *alert = [NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeClearSuccess].message informativeText:nil];
                 [alert runModal];
             }];
             return cell;
@@ -226,9 +226,13 @@
             OtherOnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OtherOnlyButtonCell" owner:self];
             [cell setWithTitle:@"恢复默认设置" info:@"就是恢复默认设置" buttonText:@"恢复默认设置"];
             [cell setClickButtonCallBackBlock:^{
+                //清除 userDefault
                 NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
                 [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
-                NSAlert *alert = [NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kResetSuccessString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kResetSuccessInformativeString"]];
+                
+                DanDanPlayMessageModel *model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeResetSuccess];
+                
+                NSAlert *alert = [NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage];
                 [alert runModal];
             }];
             return cell;

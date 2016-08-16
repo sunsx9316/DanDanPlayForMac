@@ -467,13 +467,17 @@
     return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"videoList"]];
 }
 
-+ (NSString *)alertMessageWithKey:(NSString *)key {
++ (DanDanPlayMessageModel *)alertMessageWithType:(DanDanPlayMessageType)type {
     UserDefaultManager *manager = [self shareUserDefaultManager];
     NSDictionary *dic = manager->_alertMessageDic;
     if (!dic) {
         dic = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"alert_message" ofType:@"plist"]];
         manager->_alertMessageDic = dic;
     }
-    return dic[key];
+    
+    NSDictionary *tempDic = dic[[NSString stringWithFormat:@"%ld", type]];
+    
+    DanDanPlayMessageModel *model = [[DanDanPlayMessageModel alloc] initWithMessage:tempDic[@"message"] infomationMessage:tempDic[@"infomationMessage"]];
+    return model;
 }
 @end

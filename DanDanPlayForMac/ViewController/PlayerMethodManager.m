@@ -30,11 +30,11 @@
             id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
             NSDictionary *dic = nil;
             if (obj) {
-                dic = [DanMuDataFormatter dicWithObj:obj source:JHDanMuSourceAcfun];
+                dic = [DanMuDataFormatter dicWithObj:obj source:DanDanPlayDanmakuSourceAcfun];
             }
             else{
                 //bilibili：xml解析方式
-                dic = [DanMuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:JHDanMuSourceBilibili];
+                dic = [DanMuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:DanDanPlayDanmakuSourceBilibili];
             }
             block(dic);
         }
@@ -51,9 +51,9 @@
     }];
 }
 
-+ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler {
-    if (!episodeId) {
-        completionHandler(nil, kObjNilError);
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,DanDanPlayErrorModel *error))completionHandler {
+    if (!episodeId.length) {
+        completionHandler(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeEpisodeNoExist]);
         return;
     }
     
@@ -62,7 +62,7 @@
     model.time = time;
     model.mode = mode;
     model.message = text;
-    [DanMuNetManager launchDanmakuWithModel:model episodeId:episodeId completionHandler:^(NSError *error) {
+    [DanMuNetManager launchDanmakuWithModel:model episodeId:episodeId completionHandler:^(DanDanPlayErrorModel *error) {
         completionHandler(model, error);
     }];
 }
@@ -78,7 +78,7 @@
     
     NSUserNotification *notification = [[NSUserNotification alloc] init];
     notification.title = @"弹弹play";
-    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [UserDefaultManager alertMessageWithKey:@"kNoMatchVideoString"];
+    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoMatchVideo].message;
     [NSUserNotificationCenter defaultUserNotificationCenter].delegate = delegate;
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }

@@ -12,10 +12,11 @@
 #import "StreamingVideoModel.h"
 @interface OpenStreamVideoViewModel()
 @property (strong, nonatomic) NSString *aid;
-@property (strong, nonatomic) NSString *page;
-@property (strong, nonatomic) NSString *danmakuSource;
+@property (assign, nonatomic) NSUInteger page;
+@property (assign, nonatomic) DanDanPlayDanmakuSource danmakuSource;
 @property (strong, nonatomic) NSArray <VideoInfoDataModel *>*models;
 @end
+
 @implementation OpenStreamVideoViewModel
 
 - (NSInteger)numOfVideos{
@@ -28,37 +29,42 @@
     return [self modelForRow:row].danmaku;
 }
 
-- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, NSError *error))complete{
+- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error))complete{
     [self getVideoURLAndDanmakuForVideoName:[self videoNameForRow:row] danmaku:[self danmakuForRow:row] danmakuSource:self.danmakuSource completionHandler:complete];
 }
 
-- (void)getVideoURLAndDanmakuForVideoName:(NSString *)videoName danmaku:(NSString *)danmaku danmakuSource:(NSString *)danmakuSource completionHandler:(void(^)(StreamingVideoModel *videoModel, NSError *error))complete {
+- (void)getVideoURLAndDanmakuForVideoName:(NSString *)videoName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource completionHandler:(void(^)(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error))complete {
     if (!danmaku.length) danmaku = @"";
     
     if (!videoName.length) videoName = @"";
     
-    [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(NSDictionary *videosDic, NSError *error) {
-        [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
+    [VideoNetManager bilibiliVideoURLWithDanmaku:danmaku completionHandler:^(NSDictionary *videosDic, DanDanPlayErrorModel *error) {
+        [DanMuNetManager downThirdPartyDanmakuWithDanmaku:danmaku provider:danmakuSource completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
             StreamingVideoModel *vm = [[StreamingVideoModel alloc] initWithFileURLs:videosDic fileName:videoName danmaku:danmaku danmakuSource:danmakuSource];
             vm.danmakuDic = responseObj;
             vm.quality = [UserDefaultManager defaultQuality];
             complete(vm, error);
         }];
     }];
+    
+//    [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(NSDictionary *videosDic, DanDanPlayErrorModel *error) {
+//        [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+//        }];
+//    }];
 }
 
-- (void)refreshWithcompletionHandler:(void(^)(NSError *error))complete{
-    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid?self.aid:@"", @"page":self.page?self.page:@""} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
+- (void)refreshWithcompletionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
+    [DanMuNetManager GETBiliBiliDanmakuWithAid:_aid page:_page completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         self.models = responseObj.videos;
         complete(error);
     }];
 }
 
-- (instancetype)initWithAid:(NSString *)aid danmakuSource:(NSString *)danmakuSource{
+- (instancetype)initWithAid:(NSString *)aid danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
     if (self = [super init]) {
         NSArray *arr = [aid componentsSeparatedByString:@" "];
         self.aid = [arr.firstObject substringFromIndex:2];
-        self.page = arr.count > 1 ? arr.lastObject : nil;
+        self.page = [arr.lastObject integerValue];
         self.danmakuSource = danmakuSource;
     }
     return self;

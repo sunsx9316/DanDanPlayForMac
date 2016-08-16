@@ -84,7 +84,7 @@
 
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _hud;
 }
@@ -92,7 +92,7 @@
 - (HUDMessageView *)messageView {
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
-        _messageView.text = [UserDefaultManager alertMessageWithKey:@"kConnectFailString"];
+        _messageView.text = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeConnectFail].message;
     }
     return _messageView;
 }

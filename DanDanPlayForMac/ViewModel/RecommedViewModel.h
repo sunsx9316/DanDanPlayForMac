@@ -7,20 +7,25 @@
 //
 
 #import "BaseViewModel.h"
-@class BangumiGroupModel;
+#import "FeaturedModel.h"
+#import "BangumiModel.h"
+
 @interface RecommedViewModel : BaseViewModel
-- (NSURL *)headImgURL;
-- (NSString *)headTitle;
-- (NSString *)headCategory;
-- (NSString *)headIntroduction;
-- (NSString *)headFileReviewURL;
-- (NSInteger)numOfRow;
+@property (strong, nonatomic) FeaturedModel *featuredModel;
+@property (strong, nonatomic) NSArray <BangumiModel *>*bangumis;
+//- (BangumiModel *)bangumiModelWithIndex:(NSUInteger)index;
+//- (NSURL *)headImgURL;
+//- (NSString *)headTitle;
+//- (NSString *)headCategory;
+//- (NSString *)headIntroduction;
+//- (NSString *)headFileReviewURL;
+////- (NSInteger)numOfRow;
+//
+////今天推荐的番剧
+//- (NSURL *)imgURLForRow:(NSInteger)row;
+//- (NSString *)titleForRow:(NSInteger)row;
+//- (NSString *)keyWordForRow:(NSInteger)row;
+//- (NSArray *)groupsForRow:(NSInteger)row;
 
-//今天推荐的番剧
-- (NSURL *)imgURLForRow:(NSInteger)row;
-- (NSString *)titleForRow:(NSInteger)row;
-- (NSString *)keyWordForRow:(NSInteger)row;
-- (NSArray *)groupsForRow:(NSInteger)row;
-
-- (void)refreshWithCompletionHandler:(void(^)(NSError *error))completion;
+- (void)refreshWithCompletionHandler:(void(^)(DanDanPlayErrorModel *error))completion;
 @end

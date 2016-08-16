@@ -21,25 +21,25 @@
     return index < self.videos.count?self.videos[index].danmaku:@"";
 }
 
-- (void)refreshCompletionHandler:(void(^)(NSError *error))complete{
+- (void)refreshCompletionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
     
 }
 
-- (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    if (!danmakuID || [danmakuID isEqualToString: @""]){
-        complete(nil, kNoMatchError);
+- (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
+    if (!danmakuID.length){
+        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return;
     }
     
-    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
+    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         if (![responseObj count]) {
-            error = kNoMatchError;
+            error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
         }
         complete(responseObj, error);
     }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, NSError *error))complete{
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
     
 }
 

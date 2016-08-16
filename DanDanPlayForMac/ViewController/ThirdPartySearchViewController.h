@@ -31,5 +31,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithType:(JHDanMuSource)type;
+- (instancetype)initWithType:(DanDanPlayDanmakuSource)type;
 @end

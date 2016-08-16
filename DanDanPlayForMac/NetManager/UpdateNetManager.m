@@ -11,7 +11,7 @@
 
 @implementation UpdateNetManager
 
-+ (id)latestVersionWithCompletionHandler:(void(^)(NSString *version, NSString *details, NSString *hash,NSError *error))complete {
++ (NSURLSessionDataTask *)latestVersionWithCompletionHandler:(void(^)(NSString *version, NSString *details, NSString *hash,NSError *error))complete {
     NSURLSessionDataTask *task = [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]] dataTaskWithURL:[NSURL URLWithString:@"http://dandanmac.b0.upaiyun.com/version.xml"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:data error:nil];
         GDataXMLElement *rootElement = document.rootElement;
@@ -26,18 +26,18 @@
     return task;
 }
 
-+ (NSURLSessionDownloadTask *)downLatestVersionWithVersion:(NSString *)version progress:(void (^)(NSProgress *downloadProgress))progress completionHandler:(void(^)(id responseObj, NSError *error))complete {
-    //http://dandanmac.b0.upaiyun.com/dandanplay_1.1.dmg
++ (NSURLSessionDownloadTask *)downLatestVersionWithVersion:(NSString *)version progress:(void (^)(NSProgress *downloadProgress))progress completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     if (!version.length){
-        complete(nil, kObjNilError);
+        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVersionNoExist]);
         return nil;
     }
+    //http://dandanmac.b0.upaiyun.com/dandanplay_1.1.dmg
     
     NSString *path = [NSString stringWithFormat:@"http://dandanmac.b0.upaiyun.com/dandanplay_%@.dmg", version];
     
     NSURLSessionDownloadTask *task = [self downloadTaskWithPath:path progress:progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         return [NSURL fileURLWithPath: [[UserDefaultManager autoDownLoadPath] stringByAppendingPathComponent:[response suggestedFilename]]];
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error) {
         complete(filePath, error);
     }];
     

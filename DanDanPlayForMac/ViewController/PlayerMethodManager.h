@@ -43,7 +43,7 @@ typedef void(^loadLocalSubtitleBlock)(NSString *path);
  *  @param episodeId         节目ID
  *  @param completionHandler 回调
  */
-+ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler;
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,DanDanPlayErrorModel *error))completionHandler;
 
 + (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate;
 

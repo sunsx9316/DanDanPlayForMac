@@ -47,6 +47,8 @@
 		896BE9111CAEC478005BE0D1 /* TimeHUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BE9101CAEC478005BE0D1 /* TimeHUDMessageView.m */; };
 		896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896CF1F01C8C66010080019F /* StreamingVideoModel.m */; };
 		896D0C011D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 896D0C001D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.m */; };
+		896DD4F61D62F8C00003AFE1 /* RecommendItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 896DD4F51D62F8C00003AFE1 /* RecommendItemViewController.m */; };
+		896DD4FC1D6320C80003AFE1 /* ToolsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896DD4FB1D6320C80003AFE1 /* ToolsManager.m */; };
 		897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B31C7571EC00F64D39 /* PlayerHoldView.m */; };
 		897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B61C759CB200F64D39 /* NSArray+Tools.m */; };
 		897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B81C759CB200F64D39 /* NSData+Tools.m */; };
@@ -143,6 +145,9 @@
 		89D4034A1D52EAFB00AED712 /* RespondKeyboardTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403471D52EAFB00AED712 /* RespondKeyboardTextField.m */; };
 		89D403511D531FCA00AED712 /* PlayerSubtitleSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403501D531FCA00AED712 /* PlayerSubtitleSwitchCell.m */; };
 		89D403541D53204900AED712 /* JHSwichButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403531D53204900AED712 /* JHSwichButton.m */; };
+		89D6A1AA1D61538F00A14469 /* DanDanPlayErrorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D6A1A91D61538F00A14469 /* DanDanPlayErrorModel.m */; };
+		89D6A1AD1D615C3B00A14469 /* DanDanPlayMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D6A1AC1D615C3B00A14469 /* DanDanPlayMessageModel.m */; };
+		89D6A1B01D6198C500A14469 /* AFHTTPDataResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D6A1AF1D6198C500A14469 /* AFHTTPDataResponseSerializer.m */; };
 		89E9DA371C940C8600896977 /* RecommendBangumiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E9DA361C940C8600896977 /* RecommendBangumiCell.m */; };
 		89E9DA3A1C942AB500896977 /* OtherSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E9DA391C942AB500896977 /* OtherSettingCell.m */; };
 		89FC23EE1C6F3EAF009FD27C /* ScreenShotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FC23ED1C6F3EAF009FD27C /* ScreenShotCell.m */; };
@@ -248,6 +253,10 @@
 		896CF1F01C8C66010080019F /* StreamingVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamingVideoModel.m; sourceTree = "<group>"; };
 		896D0BFF1D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubtitleTimeOffsetCell.h; sourceTree = "<group>"; };
 		896D0C001D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSubtitleTimeOffsetCell.m; sourceTree = "<group>"; };
+		896DD4F41D62F8C00003AFE1 /* RecommendItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecommendItemViewController.h; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/ViewController/RecommendItemViewController.h; sourceTree = "<group>"; };
+		896DD4F51D62F8C00003AFE1 /* RecommendItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecommendItemViewController.m; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/ViewController/RecommendItemViewController.m; sourceTree = "<group>"; };
+		896DD4FA1D6320C80003AFE1 /* ToolsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolsManager.h; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/Tools/ToolsManager.h; sourceTree = "<group>"; };
+		896DD4FB1D6320C80003AFE1 /* ToolsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolsManager.m; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/Tools/ToolsManager.m; sourceTree = "<group>"; };
 		897345B21C7571EC00F64D39 /* PlayerHoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHoldView.h; sourceTree = "<group>"; };
 		897345B31C7571EC00F64D39 /* PlayerHoldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerHoldView.m; sourceTree = "<group>"; };
 		897345B51C759CB200F64D39 /* NSArray+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Tools.h"; sourceTree = "<group>"; };
@@ -432,6 +441,12 @@
 		89D403501D531FCA00AED712 /* PlayerSubtitleSwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSubtitleSwitchCell.m; sourceTree = "<group>"; };
 		89D403521D53204900AED712 /* JHSwichButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSwichButton.h; sourceTree = "<group>"; };
 		89D403531D53204900AED712 /* JHSwichButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSwichButton.m; sourceTree = "<group>"; };
+		89D6A1A81D61538F00A14469 /* DanDanPlayErrorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanDanPlayErrorModel.h; sourceTree = "<group>"; };
+		89D6A1A91D61538F00A14469 /* DanDanPlayErrorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanDanPlayErrorModel.m; sourceTree = "<group>"; };
+		89D6A1AB1D615C3B00A14469 /* DanDanPlayMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanDanPlayMessageModel.h; sourceTree = "<group>"; };
+		89D6A1AC1D615C3B00A14469 /* DanDanPlayMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanDanPlayMessageModel.m; sourceTree = "<group>"; };
+		89D6A1AE1D6198C500A14469 /* AFHTTPDataResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPDataResponseSerializer.h; sourceTree = "<group>"; };
+		89D6A1AF1D6198C500A14469 /* AFHTTPDataResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPDataResponseSerializer.m; sourceTree = "<group>"; };
 		89E9DA351C940C8600896977 /* RecommendBangumiCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendBangumiCell.h; sourceTree = "<group>"; };
 		89E9DA361C940C8600896977 /* RecommendBangumiCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendBangumiCell.m; sourceTree = "<group>"; };
 		89E9DA381C942AB500896977 /* OtherSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherSettingCell.h; sourceTree = "<group>"; };
@@ -481,16 +496,6 @@
 				890B9A451C8B1BB60063986B /* OpenStreamInputAidViewController.m */,
 			);
 			name = "在线播放";
-			sourceTree = "<group>";
-		};
-		8946B5B71C63AB480042A370 /* 第三方搜索 */ = {
-			isa = PBXGroup;
-			children = (
-				89D4034E1D52EB3D00AED712 /* View */,
-				8995C98F1C648607008C1C02 /* ThirdPartySearchViewController.h */,
-				8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */,
-			);
-			name = "第三方搜索";
 			sourceTree = "<group>";
 		};
 		89636FC31C58C40A002F32FD = {
@@ -638,8 +643,12 @@
 				896370C11C59099C002F32FD /* DanMuDataFormatter.m */,
 				897368121C70974400B9B765 /* UserDefaultManager.h */,
 				897368131C70974400B9B765 /* UserDefaultManager.m */,
+				896DD4FA1D6320C80003AFE1 /* ToolsManager.h */,
+				896DD4FB1D6320C80003AFE1 /* ToolsManager.m */,
 				89264DA71D5C5F8E004B51BF /* POPMasAnimation.h */,
 				89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */,
+				89D6A1AE1D6198C500A14469 /* AFHTTPDataResponseSerializer.h */,
+				89D6A1AF1D6198C500A14469 /* AFHTTPDataResponseSerializer.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -818,11 +827,13 @@
 		89788D371C5E446500CA31EF /* 搜索界面 */ = {
 			isa = PBXGroup;
 			children = (
-				8946B5B71C63AB480042A370 /* 第三方搜索 */,
+				89D4034E1D52EB3D00AED712 /* View */,
 				89788D341C5E3DB100CA31EF /* SearchViewController.h */,
 				89788D351C5E3DB100CA31EF /* SearchViewController.m */,
 				89FE1F081C5E57BB00FF4586 /* DanDanSearchViewController.h */,
 				89FE1F091C5E57BB00FF4586 /* DanDanSearchViewController.m */,
+				8995C98F1C648607008C1C02 /* ThirdPartySearchViewController.h */,
+				8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */,
 			);
 			name = "搜索界面";
 			sourceTree = "<group>";
@@ -892,6 +903,10 @@
 				8993A87E1C93BA4300CF91D1 /* BangumiModel.m */,
 				8993A87F1C93BA4300CF91D1 /* FeaturedModel.h */,
 				8993A8801C93BA4300CF91D1 /* FeaturedModel.m */,
+				89D6A1A81D61538F00A14469 /* DanDanPlayErrorModel.h */,
+				89D6A1A91D61538F00A14469 /* DanDanPlayErrorModel.m */,
+				89D6A1AB1D615C3B00A14469 /* DanDanPlayMessageModel.h */,
+				89D6A1AC1D615C3B00A14469 /* DanDanPlayMessageModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -942,6 +957,8 @@
 				89D4034B1D52EB0B00AED712 /* View */,
 				89880A691C92F15E0060916F /* RecommendViewController.h */,
 				89880A6A1C92F15E0060916F /* RecommendViewController.m */,
+				896DD4F41D62F8C00003AFE1 /* RecommendItemViewController.h */,
+				896DD4F51D62F8C00003AFE1 /* RecommendItemViewController.m */,
 			);
 			name = "推荐页面";
 			sourceTree = "<group>";
@@ -1291,6 +1308,7 @@
 				89880A6B1C92F15E0060916F /* RecommendViewController.m in Sources */,
 				8975A0AC1C60A03A009BD30F /* PlayerSlideView.m in Sources */,
 				897AE8851D3D0EDE00143B9F /* PlayerDanmakuAndSubtitleViewController.m in Sources */,
+				896DD4F61D62F8C00003AFE1 /* RecommendItemViewController.m in Sources */,
 				8993A8851C93C34E00CF91D1 /* RecommedViewModel.m in Sources */,
 				89880A711C92F6AD0060916F /* RecommedNetManager.m in Sources */,
 				897EC7C91C72056A00E1B03D /* SearchModel.m in Sources */,
@@ -1316,6 +1334,7 @@
 				897368111C70708A00B9B765 /* NSString+KeyEvent.m in Sources */,
 				89FC23EE1C6F3EAF009FD27C /* ScreenShotCell.m in Sources */,
 				897EC7C81C72056A00E1B03D /* MatchModel.m in Sources */,
+				896DD4FC1D6320C80003AFE1 /* ToolsManager.m in Sources */,
 				89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */,
 				897368141C70974400B9B765 /* UserDefaultManager.m in Sources */,
 				89761A091C5A5E750046A245 /* MatchViewController.m in Sources */,
@@ -1365,6 +1384,7 @@
 				897DBA651D3E544A00479126 /* PlayerSubtitleViewController.m in Sources */,
 				896A716A1C66248800280B79 /* AcFunSearchViewModel.m in Sources */,
 				896370571C59028C002F32FD /* BaseNetManager.m in Sources */,
+				89D6A1B01D6198C500A14469 /* AFHTTPDataResponseSerializer.m in Sources */,
 				8951A1DA1C8073AD002472AD /* DownLoadOtherDanmakuViewController.m in Sources */,
 				897EC7CB1C72056A00E1B03D /* VideoInfoModel.m in Sources */,
 				896370591C59028C002F32FD /* MatchNetManager.m in Sources */,
@@ -1374,6 +1394,7 @@
 				896370C21C59099C002F32FD /* DanMuDataFormatter.m in Sources */,
 				89D403371D52EACB00AED712 /* JHDanmakuEngine.m in Sources */,
 				896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */,
+				89D6A1AD1D615C3B00A14469 /* DanDanPlayMessageModel.m in Sources */,
 				897CD5B01C914A0100C98310 /* AutoUpdateCell.m in Sources */,
 				899BA8041C8AC9C0007A67A8 /* VideoModel.m in Sources */,
 				8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */,
@@ -1394,6 +1415,7 @@
 				8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */,
 				89D403341D52EACB00AED712 /* DanmakuContainer.m in Sources */,
 				89D403391D52EACB00AED712 /* JHMediaPlayer.m in Sources */,
+				89D6A1AA1D61538F00A14469 /* DanDanPlayErrorModel.m in Sources */,
 				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,
 				8950C9891CA97B1E000C863B /* QualityCell.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,
@@ -1526,12 +1548,13 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/DanDanPlayForMac/Vender",
 				);
-				GCC_PREFIX_HEADER = DanDanPlayForMac/Config/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = $SRCROOT/DanDanPlayForMac/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jim.DanDanPlayForMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SHARED_PRECOMPS_DIR = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1549,12 +1572,13 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/DanDanPlayForMac/Vender",
 				);
-				GCC_PREFIX_HEADER = DanDanPlayForMac/Config/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = $SRCROOT/DanDanPlayForMac/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jim.DanDanPlayForMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SHARED_PRECOMPS_DIR = "";
 			};
 			name = Release;
 		};

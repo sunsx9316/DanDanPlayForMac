@@ -12,19 +12,19 @@
 
 @implementation AcFunDanMuChooseViewModel
 
-- (void)refreshCompletionHandler:(void(^)(NSError *error))complete{
+- (void)refreshCompletionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
     if (!self.aid) {
         complete(nil);
         return;
     }
     
-    [DanMuNetManager GETAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, NSError *error) {
+    [DanMuNetManager GETAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, NSError *error))complete{
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
     [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:@"acfun" completionHandler:complete];
 }
 

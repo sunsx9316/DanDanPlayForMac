@@ -15,5 +15,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithVideoID:(NSString *)videoID type:(JHDanMuSource)type;
+- (instancetype)initWithVideoID:(NSString *)videoID type:(DanDanPlayDanmakuSource)type;
 @end

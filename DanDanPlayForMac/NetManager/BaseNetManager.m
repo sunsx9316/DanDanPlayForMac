@@ -7,31 +7,32 @@
 //
 
 #import "BaseNetManager.h"
+#import "AFHTTPDataResponseSerializer.h"
 
 @implementation BaseNetManager
-+ (AFHTTPSessionManager *)sharedAFManager {
++ (AFHTTPSessionManager *)sharedHTTPSessionManager {
     static AFHTTPSessionManager* manager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         manager = [AFHTTPSessionManager manager];
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"application/json", nil];
         [manager.requestSerializer setValue:@"1" forHTTPHeaderField:@"deviceType"];
     });
     return manager;
 }
 
-//+ (AFHTTPSessionManager *)sharedAFDataManager{
-//    static AFHTTPSessionManager* dataManager = nil;
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        dataManager = [AFHTTPSessionManager manager];
-//        [dataManager.requestSerializer setValue:@"1" forHTTPHeaderField:@"deviceType"];
-//    });
-//    return dataManager;
-//}
++ (AFHTTPSessionManager *)sharedHTTPSessionDataManager{
+    static AFHTTPSessionManager* dataManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dataManager = [AFHTTPSessionManager manager];
+        dataManager.responseSerializer = [AFHTTPDataResponseSerializer serializer];
+        [dataManager.requestSerializer setValue:@"1" forHTTPHeaderField:@"deviceType"];
+    });
+    return dataManager;
+}
 
-+ (NSURLSessionDataTask *)GETWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete {
-    return [[self sharedAFManager] GET:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
++ (NSURLSessionDataTask *)GETWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
+    return [[self sharedHTTPSessionManager] GET:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"请求成功：%@", path);
         if (complete) {
             complete(responseObject, nil);
@@ -39,7 +40,21 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"请求失败：%@", path);
         if (complete) {
-            complete(nil, error);
+            complete(nil, [DanDanPlayErrorModel ErrorWithError:error]);
+        }
+    }];
+}
+
++ (NSURLSessionDataTask *)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
+    return [[self sharedHTTPSessionDataManager] GET:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"请求成功：%@", path);
+        if (complete) {
+            complete(responseObject, nil);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"请求失败：%@", path);
+        if (complete) {
+            complete(nil, [DanDanPlayErrorModel ErrorWithError:error]);
         }
     }];
 }
@@ -59,15 +74,15 @@
 //    }];
 //}
 
-+ (NSURLSessionDataTask *)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody completionHandler:(void(^)(id responseObj, NSError *error))complete {
++ (NSURLSessionDataTask *)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:path]];
     request.HTTPMethod = @"PUT";
     request.HTTPBody = HTTPBody;
     [request setAllHTTPHeaderFields:@{@"Content-Type":@"application/json"}];
     
-    NSURLSessionDataTask *task = [[self sharedAFManager] dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+    NSURLSessionDataTask *task = [[self sharedHTTPSessionManager] dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         NSLog(@"请求%@：%@", error ? @"失败" : @"成功", path);
-        complete(responseObject, error);
+        complete(responseObject, [DanDanPlayErrorModel ErrorWithError:error]);
     }];
     [task resume];
     return task;
@@ -84,10 +99,10 @@
 + (NSURLSessionDownloadTask *)downloadTaskWithPath:(NSString *)path
                                              progress:(void (^)(NSProgress *downloadProgress)) downloadProgressBlock
                                           destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
-                                    completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler {
-    NSURLSessionDownloadTask *task = [[self sharedAFManager] downloadTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:path]] progress:downloadProgressBlock destination:destination completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+                                    completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error))completionHandler {
+    NSURLSessionDownloadTask *task = [[self sharedHTTPSessionManager] downloadTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:path]] progress:downloadProgressBlock destination:destination completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
         NSLog(@"下载%@：%@", error ? @"失败" : @"成功", path);
-        completionHandler(response, filePath, error);
+        completionHandler(response, filePath, [DanDanPlayErrorModel ErrorWithError:error]);
     }];
     [task resume];
     return task;

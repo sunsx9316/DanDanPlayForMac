@@ -27,7 +27,7 @@
 
 - (void)viewDidAppear {
     [super viewDidAppear];
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] parentView: self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
         [self reloadData];
@@ -44,7 +44,7 @@
 //点击确认 发送播放通知
 - (IBAction)clickOKButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kSearchDamakuLoadingString"] parentView:self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
     [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(id responseObj) {
         [JHProgressHUD disMiss];
         NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem] ? [self.shiBanBurron titleOfSelectedItem] : @"";

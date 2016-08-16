@@ -26,13 +26,13 @@
 
 @implementation ThirdPartySearchViewController
 
-- (instancetype)initWithType:(JHDanMuSource)type {
+- (instancetype)initWithType:(DanDanPlayDanmakuSource)type {
     if ((self = kViewControllerWithId(@"ThirdPartySearchViewController"))) {
         self.currentRow = -1;
-        if (type == JHDanMuSourceBilibili) {
+        if (type == DanDanPlayDanmakuSourceBilibili) {
             self.vm = [[BiliBiliSearchViewModel alloc] init];
         }
-        else if (type == JHDanMuSourceAcfun) {
+        else if (type == DanDanPlayDanmakuSourceAcfun) {
             self.vm = [[AcFunSearchViewModel alloc] init];
         }
     }
@@ -101,11 +101,11 @@
         NSString *aid = [self.vm aidForRow: row];
         if (aid) {
             if ([self.vm isKindOfClass: [BiliBiliSearchViewModel class]]) {
-                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: JHDanMuSourceBilibili];
+                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: DanDanPlayDanmakuSourceBilibili];
                 [self presentViewControllerAsSheet: vc];
             }
             else if ([self.vm isKindOfClass: [AcFunSearchViewModel class]]) {
-                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: JHDanMuSourceAcfun];
+                ThirdPartyDanMuChooseViewController *vc = [[ThirdPartyDanMuChooseViewController alloc] initWithVideoID: aid type: DanDanPlayDanmakuSourceAcfun];
                 [self presentViewControllerAsSheet: vc];
             }
         }
@@ -116,7 +116,7 @@
 - (void)episodeTableViewDoubleClickRow {
     if (![self.vm infoArrCount]) return;
     
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] parentView: self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     NSInteger clickRow = [self.episodeTableView clickedRow];
     [self.vm downDanMuWithRow:clickRow completionHandler:^(id responseObj, NSError *error) {
         [JHProgressHUD disMiss];
@@ -174,14 +174,14 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _hud;
 }
 
 - (JHProgressHUD *)shiBanEpisodeHUD {
 	if(_shiBanEpisodeHUD == nil) {
-		_shiBanEpisodeHUD = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] style:JHProgressHUDStyleValue1 parentView:self.episodeTableView dismissWhenClick:NO];
+		_shiBanEpisodeHUD = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:self.episodeTableView dismissWhenClick:NO];
 	}
 	return _shiBanEpisodeHUD;
 }
@@ -189,7 +189,7 @@
 - (HUDMessageView *)messageView {
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
-        _messageView.text = [UserDefaultManager alertMessageWithKey:@"kConnectFailString"];
+        _messageView.text = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeConnectFail].message;
     }
     return _messageView;
 }

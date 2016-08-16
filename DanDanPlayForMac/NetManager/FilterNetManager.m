@@ -10,30 +10,18 @@
 #import <GDataXMLNode.h>
 
 @implementation FilterNetManager
-+ (id)filterWithCompletionHandler:(void(^)(id responseObj, NSError *error))complete {
++ (NSURLSessionDataTask *)filterWithCompletionHandler:(void(^)(id responseObj, NSError *error))complete {
     NSString *path = @"http://api.acplay.net:8089/config/filter.xml";
-    return [self GETWithPath:path parameters:nil completionHandler:^(id responseObj, NSError *error) {
-        if ([responseObj isKindOfClass:[NSData class]]) {
-            NSMutableArray *arr = [NSMutableArray array];
-            GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:responseObj encoding:NSUTF8StringEncoding error:nil];
-            NSArray *dataArr = [document.rootElement elementsForName:@"FilterItem"];
-            for (GDataXMLElement *dataElement in dataArr) {
-                NSString *string = dataElement.stringValue;
-                if (string.length) [arr addObject:@{@"text":string, @"state":@([[[dataElement attributeForName:@"IsRegex"] stringValue] isEqualToString:@"true"])}];
-            }
-            complete(arr, error);            
-        }
-    }];
     
-//    return [self GETDataWithPath:@"http://api.acplay.net:8089/config/filter.xml" parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
-//        NSMutableArray *arr = [NSMutableArray array];
-//        GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:responseObj encoding:NSUTF8StringEncoding error:nil];
-//        NSArray *dataArr = [document.rootElement elementsForName:@"FilterItem"];
-//        for (GDataXMLElement *dataElement in dataArr) {
-//            NSString *string = dataElement.stringValue;
-//            if (string.length) [arr addObject:@{@"text":string, @"state":@([[[dataElement attributeForName:@"IsRegex"] stringValue] isEqualToString:@"true"])}];
-//        }
-//        complete(arr, error);
-//    }];
+    return [self GETDataWithPath:path parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
+        NSMutableArray *arr = [NSMutableArray array];
+        GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:responseObj encoding:NSUTF8StringEncoding error:nil];
+        NSArray *dataArr = [document.rootElement elementsForName:@"FilterItem"];
+        for (GDataXMLElement *dataElement in dataArr) {
+            NSString *string = dataElement.stringValue;
+            if (string.length) [arr addObject:@{@"text":string, @"state":@([[[dataElement attributeForName:@"IsRegex"] stringValue] isEqualToString:@"true"])}];
+        }
+        complete(arr, error);
+    }];
 }
 @end

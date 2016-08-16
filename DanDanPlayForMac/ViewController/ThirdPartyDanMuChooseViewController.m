@@ -20,18 +20,18 @@
 #pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kLoadMessageString"] parentView: self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
         [self reloadData];
     }];
 }
 
-- (instancetype)initWithVideoID:(NSString *)videoID type:(JHDanMuSource)type{
+- (instancetype)initWithVideoID:(NSString *)videoID type:(DanDanPlayDanmakuSource)type {
     if ((self = kViewControllerWithId(@"ThirdPartyDanMuChooseViewController"))) {
-        if (type == JHDanMuSourceBilibili) {
+        if (type == DanDanPlayDanmakuSourceBilibili) {
             self.vm = [[BiliBiliDanMuChooseViewModel alloc] initWithAid: videoID];
-        }else if (type == JHDanMuSourceAcfun){
+        }else if (type == DanDanPlayDanmakuSourceAcfun){
             self.vm = [[AcFunDanMuChooseViewModel alloc] initWithAid: videoID];
         }
     }
@@ -42,7 +42,7 @@
 - (IBAction)clickChooseDanMuButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
     
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithKey:@"kSearchDamakuLoadingString"] parentView:self.view];
+    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
     
     [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(id responseObj, NSError *error) {
         [JHProgressHUD disMiss];
@@ -65,7 +65,7 @@
 }
 
 - (IBAction)clickDownLoadOtherDanmakuButton:(NSButton *)sender {
-    NSString *danMuSource = [self.vm isKindOfClass:[BiliBiliDanMuChooseViewModel class]]?@"bilibili":@"acfun";
+    NSString *danMuSource = [self.vm isKindOfClass:[BiliBiliDanMuChooseViewModel class]] ? @"bilibili" : @"acfun";
     [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:self.vm.videos danMuSource:danMuSource]];
 }
 

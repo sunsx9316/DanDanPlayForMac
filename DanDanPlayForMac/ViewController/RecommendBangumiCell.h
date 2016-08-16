@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class BangumiGroupModel;
+#import "BangumiModel.h"
+
 @interface RecommendBangumiCell : NSView
-- (void)setWithTitle:(NSString *)title keyWord:(NSString *)keyWord imgURL:(NSURL *)imgURL captionsGroup:(NSArray <BangumiGroupModel *>*)captionsGroup;
+- (void)setWithModel:(BangumiDataModel *)model;
 @end

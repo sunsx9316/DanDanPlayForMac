@@ -79,23 +79,23 @@
     return arr;
 }
 
-- (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
+- (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
     if (!keyWord.length) {
-        complete(kObjNilError);
+        complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
         return;
     }
     
-    [SearchNetManager searchBiliBiliWithParameters:@{@"keyword": keyWord} completionHandler:^(BiliBiliSearchModel *responseObj, NSError *error) {
+    [SearchNetManager searchBiliBiliWithParameters:@{@"keyword": keyWord} completionHandler:^(BiliBiliSearchModel *responseObj, DanDanPlayErrorModel *error) {
         
         //移除掉不是番剧 但是seasonID又不为空的对象
         NSMutableArray *tempArr = [responseObj.result mutableCopy];
         if (!tempArr.count) {
             BiliBiliSearchDataModel *dataModel = [[BiliBiliSearchDataModel alloc] init];
-            dataModel.title = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
-            tempArr = [@[dataModel] mutableCopy];
-            error = kObjNilError;
+            dataModel.title = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+            tempArr = [NSMutableArray arrayWithObject:dataModel];
+            error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject];
         }
-        else{
+        else {
             [responseObj.result enumerateObjectsUsingBlock:^(BiliBiliSearchDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if (!obj.isBangumi && obj.seasonId){
                     [tempArr removeObject: obj];
@@ -112,13 +112,13 @@
     }];
 }
 
-- (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(NSError *error))complete{
+- (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
     if (!SeasonID) {
         complete(nil);
         return;
     }
     
-    [SearchNetManager searchBiliBiliSeasonInfoWithParameters:@{@"seasonID": SeasonID} completionHandler:^(BiliBiliShiBanModel *responseObj, NSError *error) {
+    [SearchNetManager searchBiliBiliSeasonInfoWithParameters:@{@"seasonID": SeasonID} completionHandler:^(BiliBiliShiBanModel *responseObj, DanDanPlayErrorModel *error) {
         _infoArr = responseObj.episodes;
         _coverURL = responseObj.cover;
         _shiBanTitle = responseObj.title ? responseObj.title : @"";
@@ -127,8 +127,8 @@
     }];
 }
 
-- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete{
-    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid": [self episodeAidForRow:row]} completionHandler:^(BiliBiliVideoInfoModel *responseObj, NSError *error) {
+- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,DanDanPlayErrorModel *error))complete{
+    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid": [self episodeAidForRow:row]} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         [super downThirdPartyDanMuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:@"bilibili" completionHandler:complete];
     }];
 }

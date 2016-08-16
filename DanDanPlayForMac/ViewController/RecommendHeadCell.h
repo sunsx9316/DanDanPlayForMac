@@ -7,22 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "FeaturedModel.h"
 
 @interface RecommendHeadCell : NSView
 /**
- *  设置属性
+ *  通过模型获取高度
  *
- *  @param title         标题
- *  @param info          视频信息
- *  @param brief         简介
- *  @param imgURL        视频封面
- *  @param filmReviewURL 影评路径
- */
-- (void)setWithTitle:(NSString *)title info:(NSString *)info brief:(NSString *)brief imgURL:(NSURL *)imgURL FilmReviewURL:(NSString *)filmReviewURL;
-/**
- *  cell高计算获取
+ *  @param model 模型
  *
- *  @return cell高
+ *  @return 高度
  */
-- (CGFloat)cellHeight;
+- (CGFloat)heightWithModel:(FeaturedModel *)model;
 @end

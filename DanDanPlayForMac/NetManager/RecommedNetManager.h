@@ -7,6 +7,7 @@
 //
 
 #import "BaseNetManager.h"
+#import "FeaturedModel.h"
 
 
 @interface RecommedNetManager : BaseNetManager
@@ -17,5 +18,5 @@
  *
  *  @return 任务
  */
-+ (id)recommedInfoWithCompletionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)recommedInfoWithCompletionHandler:(void(^)(FeaturedModel *featuredModel, NSArray *bangumis, DanDanPlayErrorModel *error))complete;
 @end

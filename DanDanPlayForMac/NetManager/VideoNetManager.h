@@ -9,5 +9,5 @@
 #import "BaseNetManager.h"
 
 @interface VideoNetManager : BaseNetManager
-+ (void)bilibiliVideoURLWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (void)bilibiliVideoURLWithDanmaku:(NSString *)danmaku completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 @end

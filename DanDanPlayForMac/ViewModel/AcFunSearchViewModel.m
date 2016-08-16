@@ -71,13 +71,13 @@
     return arr;
 }
 
-- (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(NSError *error))complete{
+- (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(DanDanPlayErrorModel *error))complete {
     if (!keyWord.length) {
-        complete(kObjNilError);
+        complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
         return;
     }
     
-    [SearchNetManager searchAcFunWithParameters:@{@"keyword": keyWord} completionHandler:^(AcFunSearchModel *responseObj, NSError *error) {
+    [SearchNetManager searchAcFunWithParameters:@{@"keyword": keyWord} completionHandler:^(AcFunSearchModel *responseObj, DanDanPlayErrorModel *error) {
         
         //把剧集bangumi属性改为yes
         for (AcFunSearchSpecialModel *model in responseObj.special) {
@@ -95,9 +95,9 @@
         //没有找到
         if (!arr.count) {
             AcFunSearchListModel *listModel = [[AcFunSearchListModel alloc] init];
-            listModel.title = [UserDefaultManager alertMessageWithKey:@"kNoFoundDanmakuString"];
+            listModel.title = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
             [arr addObject:listModel];
-            error = kObjNilError;
+            error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject];
         }
         
         _listArr = arr;
@@ -108,12 +108,12 @@
         complete(error);
     }];
 }
-- (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(NSError *error))complete{
+- (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
     if (!SeasonID) {
         complete(nil);
         return;
     }
-    [SearchNetManager searchAcfunSeasonInfoWithParameters:@{@"seasonID":SeasonID} completionHandler:^(AcFunShiBanModel *responseObj, NSError *error) {
+    [SearchNetManager searchAcfunSeasonInfoWithParameters:@{@"seasonID":SeasonID} completionHandler:^(AcFunShiBanModel *responseObj, DanDanPlayErrorModel *error) {
         _infoArr = responseObj.list;
         AcFunSearchSpecialModel *model = nil;
         for (int i = 0; i < _listArr.count; ++i) {
@@ -129,7 +129,7 @@
         complete(error);
     }];
 }
-- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,NSError *error))complete{
+- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,DanDanPlayErrorModel *error))complete{
     [super downThirdPartyDanMuWithDanmakuID:[self danmakuIDForRow: row] provider:@"acfun" completionHandler:complete];
 }
 

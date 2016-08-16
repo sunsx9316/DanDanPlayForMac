@@ -50,7 +50,8 @@
     } completionHandler:^(id responseObj, NSError *error) {
         [self.progressHUD disMiss];
         if (!responseObj) {
-            [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDownLoadFileString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDownLoadFileInformativeString"]] runModal];
+            DanDanPlayMessageModel *model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDownloadFile];
+            [[NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage] runModal];
             return;
         }
         
@@ -61,7 +62,8 @@
                     system([[NSString stringWithFormat:@"open %@", responseObj] cStringUsingEncoding:NSUTF8StringEncoding]);
                 }
                 else {
-                    NSAlert *alert = [NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kDownLoadFileDamageString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kDownLoadFileDamageInformativeString"]];
+                    DanDanPlayMessageModel *model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeDownloadFileDamage];
+                    NSAlert *alert = [NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage];
                     [alert runModal];
                 }
 //                [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
@@ -118,7 +120,7 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)progressHUD {
     if(_progressHUD == nil) {
-        _progressHUD = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithKey:@"kDownLoadingString"] style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _progressHUD = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeDownloading].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _progressHUD;
 }

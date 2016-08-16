@@ -16,5 +16,5 @@
  *
  *  @return 任务
  */
-+ (id)filterWithCompletionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)filterWithCompletionHandler:(void(^)(id responseObj, NSError *error))complete;
 @end

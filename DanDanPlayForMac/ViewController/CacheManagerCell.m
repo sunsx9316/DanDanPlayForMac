@@ -36,23 +36,21 @@
 - (IBAction)clickClearCacheButton:(NSButton *)sender {
     NSError *err = nil;
     [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:&err];
-    NSString *errorStr = nil;
-    NSString *inforStr = nil;
+    DanDanPlayMessageModel *model;
     if (err) {
         if (err.code == NSFileNoSuchFileError) {
-            errorStr = [UserDefaultManager alertMessageWithKey:@"kNoFoundCacheDirectoriesString"];
-            inforStr = [UserDefaultManager alertMessageWithKey:@"kNoFoundCacheDirectoriesInformativeString"];
+            model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundCacheDirectories];
         }
         else {
-            errorStr = [UserDefaultManager alertMessageWithKey:@"kClearFailString"];
+            model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeClearFail];
         }
     }
-    else{
-        errorStr = [UserDefaultManager alertMessageWithKey:@"kClearSuccessString"];
+    else {
+        model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeClearSuccess];
         self.cacheTextField.stringValue = @"缓存大小: 0.0M";
     }
     
-    [[NSAlert alertWithMessageText:errorStr informativeText:inforStr] runModal];
+    [[NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage] runModal];
 }
 - (IBAction)clickChangeCachePathButton:(NSButton *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel chooseDirectoriesPanelWithTitle:@"选取缓存目录" defaultURL:[NSURL fileURLWithPath:[UserDefaultManager cachePath]]];

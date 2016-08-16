@@ -18,7 +18,7 @@
  *
  *  @return 时间字典
  */
-+ (NSMutableDictionary *)dicWithObj:(id)obj source:(JHDanMuSource)source;
++ (NSMutableDictionary *)dicWithObj:(id)obj source:(DanDanPlayDanmakuSource)source;
 /**
  *  把对象转成数组
  *
@@ -27,5 +27,5 @@
  *
  *  @return 数组
  */
-+ (NSMutableArray *)arrWithObj:(id)obj source:(JHDanMuSource)source;
++ (NSMutableArray *)arrWithObj:(id)obj source:(DanDanPlayDanmakuSource)source;
 @end

@@ -15,36 +15,39 @@
 #import "AFHTTPSessionManager+Batch.h"
 #import "NSString+Tools.h"
 
+#import "AFHTTPDataResponseSerializer.h"
+
 @implementation DanMuNetManager
-+ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
++ (NSURLSessionDataTask *)GETWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     if (![UserDefaultManager turnOnFastMatch]) {
         //没开启快速匹配功能 直接进入匹配界面
-       return [self GETThirdPartyDanMuWithParameters:parameters completionHandler:complete];
-    }else{
-        return [self downOfficialDanmakuWithParameters:parameters completionHandler:^(id responseObj, NSError *error) {
+       return [self GETThirdPartyDanmakuWithProgramId:programId completionHandler:complete];
+    }
+    
+    return [self downOfficialDanmakuWithProgramId:programId completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
             //如果返回的对象不为空 说明有官方弹幕库 同时开启了快速匹配 直接返回 否则请求第三方弹幕库
             if ([responseObj count]) {
                 complete(responseObj, error);
-            }else{
-                [self GETThirdPartyDanMuWithParameters:parameters completionHandler:complete];
             }
-        }];
-    }
+            else {
+                [self GETThirdPartyDanmakuWithProgramId:programId completionHandler:complete];
+            }
+    }];
 }
 
-+ (id)downOfficialDanmakuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    if (![parameters[@"id"] length]) {
-        complete(nil, nil);
++ (id)downOfficialDanmakuWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
+    if (!programId.length) {
+        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return nil;
     }
     //找缓存
-    id cache = [self danMuCacheWithDanmakuID:parameters[@"id"] provider:official isCache:NO];
+    id cache = [self danmakuCacheWithDanmakuID:programId provider:DanDanPlayDanmakuSourceOfficial isCache:NO];
     if (cache) {
-        cache = [DanMuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: cache].comments source:JHDanMuSourceOfficial];
+        cache = [DanMuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: cache].comments source:DanDanPlayDanmakuSourceOfficial];
         //找用户发送缓存
-        id userCache = [self danMuCacheWithDanmakuID:parameters[@"id"] provider:official isCache:YES];
+        id userCache = [self danmakuCacheWithDanmakuID:programId provider:DanDanPlayDanmakuSourceOfficial isCache:YES];
         if (userCache) {
-            userCache = [DanMuDataFormatter arrWithObj:userCache source:JHDanMuSourceCache];
+            userCache = [DanMuDataFormatter arrWithObj:userCache source:DanDanPlayDanmakuSourceCache];
             [userCache enumerateObjectsUsingBlock:^(ParentDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSInteger time = obj.appearTime;
                 if (!cache[@(time)]) {
@@ -58,103 +61,87 @@
         return nil;
     }
     
-    return [self GETWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+    return [self GETWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: programId] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         //写入缓存
-        [self writeDanMuCacheWithProvider:official danmakuID:parameters[@"id"] responseObj:responseObj];
-        complete([DanMuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:JHDanMuSourceOfficial], error);
+        [self writeDanmakuCacheWithProvider:DanDanPlayDanmakuSourceOfficial danmakuID:programId responseObj:responseObj];
+        complete([DanMuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:DanDanPlayDanmakuSourceOfficial], error);
     }];
 }
 
-+ (id)downThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
++ (id)downThirdPartyDanmakuWithDanmaku:(NSString *)danmaku provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     // danmaku:弹幕库id provider 提供者
-    if (![parameters[@"danmaku"] length] || ![parameters[@"provider"] length]) {
-        complete(nil, kObjNilError);
+    if (!danmaku.length) {
+        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return nil;
     }
     
-    if ([parameters[@"provider"] isEqualToString: bilibili]) {
-        //找缓存
-        id cache = [self danMuCacheWithDanmakuID:parameters[@"danmaku"] provider:bilibili isCache:NO];
-        if (cache) {
-            complete([DanMuDataFormatter dicWithObj:cache source:JHDanMuSourceBilibili], nil);
-            return nil;
-        }
-        
-        NSString *path = [@"http://comment.bilibili.com/" stringByAppendingFormat:@"%@.xml",parameters[@"danmaku"]];
-        
-        return [self GETWithPath:path parameters:nil completionHandler:^(id responseObj, NSError *error) {
-            //写入缓存
-            [self writeDanMuCacheWithProvider:bilibili danmakuID:parameters[@"danmaku"] responseObj:responseObj];
-            
-            complete([DanMuDataFormatter dicWithObj:responseObj source:JHDanMuSourceBilibili], error);
-        }];
-        
-//        return [self GETDataWithPath:[@"http://comment.bilibili.com/" stringByAppendingFormat:@"%@.xml",parameters[@"danmaku"]] parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
-//            //写入缓存
-//            [self writeDanMuCacheWithProvider:bilibili danmakuID:parameters[@"danmaku"] responseObj:responseObj];
-//            
-//            complete([DanMuDataFormatter dicWithObj:responseObj source:JHDanMuSourceBilibili], error);
-//        }];
+    //找缓存
+    id cache = [self danmakuCacheWithDanmakuID:danmaku provider:provider isCache:NO];
+    if (cache) {
+        complete([DanMuDataFormatter dicWithObj:cache source:provider], nil);
+        return nil;
     }
-    else if ([parameters[@"provider"] isEqualToString: acfun]){
-        //找缓存
-        id cache = [self danMuCacheWithDanmakuID:parameters[@"danmaku"] provider:acfun isCache:NO];
-        if (cache) {
-            complete([DanMuDataFormatter dicWithObj:cache source:JHDanMuSourceAcfun], nil);
-            return nil;
-        }
-        
-        //http://danmu.aixifan.com/3037718
-        return [self GETWithPath:[@"http://danmu.aixifan.com/" stringByAppendingString: parameters[@"danmaku"]] parameters:nil completionHandler:^(NSArray <NSArray *>*responseObj, NSError *error) {
+    
+    if (provider == DanDanPlayDanmakuSourceBilibili) {
+        NSString *path = [@"http://comment.bilibili.com/" stringByAppendingFormat:@"%@.xml", danmaku];
+        return [self GETDataWithPath:path parameters:nil completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
             //写入缓存
-            [self writeDanMuCacheWithProvider:acfun danmakuID:parameters[@"danmaku"] responseObj:responseObj];
-            complete([DanMuDataFormatter dicWithObj:responseObj source:JHDanMuSourceAcfun], error);
+            [self writeDanmakuCacheWithProvider:provider danmakuID:danmaku responseObj:responseObj];
+            complete([DanMuDataFormatter dicWithObj:responseObj source:provider], error);
+        }];
+    }
+    else if (provider == DanDanPlayDanmakuSourceAcfun){
+        NSString *path = [@"http://danmu.aixifan.com/" stringByAppendingString: danmaku];
+        return [self GETWithPath:path parameters:nil completionHandler:^(NSArray <NSArray *>*responseObj, DanDanPlayErrorModel *error) {
+            //写入缓存
+            [self writeDanmakuCacheWithProvider:provider danmakuID:danmaku responseObj:responseObj];
+            complete([DanMuDataFormatter dicWithObj:responseObj source:provider], error);
         }];
     }
     return nil;
 }
 
 
-+ (id)GETBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete{
++ (NSURLSessionDataTask *)GETBiliBiliDanmakuWithAid:(NSString *)aid page:(NSUInteger)page completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     //http://biliproxy.chinacloudsites.cn/av/46431/1?list=1
-    return [self GETWithPath:[self bilibiliDanmakuInfoRequestPathWithAid:parameters[@"aid"] page:parameters[@"page"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+    return [self GETWithPath:[self bilibiliDanmakuInfoRequestPathWithAid:aid page:[NSString stringWithFormat:@"%lu", page]] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         complete([self pareBiliBiliVideoInfoModelWithDic:responseObj], error);
     }];
 }
 
-+ (id)GETAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete {
++ (NSURLSessionDataTask *)GETAcfunDanmakuWithAid:(NSString *)aid completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     //http://www.talkshowcn.com/video/getVideo.aspx?id=435639 黑科技
-    return [self GETWithPath:[self acfunDanmakuInfoRequestPathWithAid:parameters[@"aid"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+    return [self GETWithPath:[self acfunDanmakuInfoRequestPathWithAid:aid] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         complete([self pareAcfunVideoInfoModelWithDic:responseObj], error);
     }];
 }
 
 
-+ (id)launchDanmakuWithModel:(DanMuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(NSError *error))complete{
-    if (!model || !episodeId) {
-        complete(kObjNilError);
++ (id)launchDanmakuWithModel:(DanMuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
+    if (!model || !episodeId.length) {
+        complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return nil;
     }
-    return [self PUTWithPath:[NSString stringWithFormat:@"http://acplay.net/api/v1/comment/%@?clientId=ddplaymac", episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] Encrypt] completionHandler:^(id responseObj, NSError *error) {
+    return [self PUTWithPath:[NSString stringWithFormat:@"http://acplay.net/api/v1/comment/%@?clientId=ddplaymac", episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] Encrypt] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete(error);
     }];
 }
 
 #pragma mark - 私有方法
 /**
- *  获取第三方弹幕库
+ *  获取第三方弹幕详情
  *
  *  @param parameters 参数字典
  *  @param complete   回调
  *
  *  @return 任务
  */
-+ (id)GETThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete {
++ (id)GETThirdPartyDanmakuWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
 #warning TODO
     //http://acplay.net/api/v1/related/111240001
     
-    NSString *path = [@"http://acplay.net/api/v1/related/" stringByAppendingString: parameters[@"id"]];
-    [self GETWithPath:path parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+    NSString *path = [@"http://acplay.net/api/v1/related/" stringByAppendingString: programId];
+    return [self GETWithPath:path parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         if ([responseObj isKindOfClass:[NSDictionary class]]) {
             NSArray <NSDictionary *>*relateds = responseObj[@"Relateds"];
             NSMutableArray *paths = [NSMutableArray array];
@@ -179,31 +166,33 @@
                 [tasks enumerateObjectsUsingBlock:^(NSURLSessionTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     if ([obj isKindOfClass:[NSURLSessionTask class]]) {
                         if ([obj.currentRequest.URL.path containsString:@"biliproxy"]) {
-                            if (!videoInfoDic[bilibili]) {
-                                videoInfoDic[bilibili] = [NSMutableArray array];
+                            if (!videoInfoDic[@"bilibili"]) {
+                                videoInfoDic[@"bilibili"] = [NSMutableArray array];
                             }
                             BiliBiliVideoInfoModel *model = [self pareBiliBiliVideoInfoModelWithDic:responseObj];
                             if (model) {
-                                [videoInfoDic[bilibili] addObject:model];
+                                [videoInfoDic[@"bilibili"] addObject:model];
                             }
                         }
                         else {
-                            if (!videoInfoDic[acfun]) {
-                                videoInfoDic[acfun] = [NSMutableArray array];
+                            if (!videoInfoDic[@"acfun"]) {
+                                videoInfoDic[@"acfun"] = [NSMutableArray array];
                             }
                             AcfunVideoInfoModel *model = [self pareAcfunVideoInfoModelWithDic:responseObj];
                             if (model) {
-                                [videoInfoDic[acfun] addObject:model];
+                                [videoInfoDic[@"acfun"] addObject:model];
                             }
                         }
                     }
                 }];
+                
+                complete(videoInfoDic, error);
             }];
         }
     }];
     
     
-//    return [self GETWithPath:[@"http://acplay.net/api/v1/related/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, NSError *error) {
+//    return [self GETWithPath:[@"http://acplay.net/api/v1/related/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
 //        NSArray <NSDictionary *>*relateds = responseObj[@"Relateds"];
 //        //装视频详情的字典
 //        NSMutableDictionary <NSString *, NSMutableArray *> *videoInfoDic = [NSMutableDictionary dictionary];
@@ -212,14 +201,14 @@
 //        for (NSDictionary *obj in relateds) {
 //            //视频提供者是a站
 //            if ([obj[@"Provider"] isEqualToString:@"Acfun.tv"]) {
-//                [requestArr addObject: [self GETAcfunDanMuWithParameters:[self acfunAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, NSError *error) {
+//                [requestArr addObject: [self GETAcfunDanMuWithParameters:[self acfunAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
 //                    if (!videoInfoDic[@"acfun"]) videoInfoDic[@"acfun"] = [NSMutableArray array];
 //                    if (responseObj) [videoInfoDic[@"acfun"] addObject: responseObj];
 //                }]];
 //                //视频提供者是b站
 //            }
 //            else if ([obj[@"Provider"] isEqualToString:@"BiliBili.com"]){
-//                [requestArr addObject: [self GETBiliBiliDanMuWithParameters:[self bilibiliAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, NSError *error) {
+//                [requestArr addObject: [self GETBiliBiliDanMuWithParameters:[self bilibiliAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
 //                    if (!videoInfoDic[@"bilibili"]) videoInfoDic[@"bilibili"] = [NSMutableArray array];
 //                    if (responseObj) [videoInfoDic[@"bilibili"] addObject: responseObj];
 //                }]];
@@ -231,7 +220,6 @@
 //        }];
 //        [[NSOperationQueue mainQueue] addOperations:@[operations.lastObject] waitUntilFinished:NO];
 //    }];
-    return nil;
 }
 
 /**
@@ -288,9 +276,25 @@
  *  @param danmakuID   弹幕id
  *  @param responseObj 弹幕内容
  */
-+ (void)writeDanMuCacheWithProvider:(NSString *)provider danmakuID:(NSString *)danmakuID responseObj:(id)responseObj{
++ (void)writeDanmakuCacheWithProvider:(DanDanPlayDanmakuSource)provider danmakuID:(NSString *)danmakuID responseObj:(id)responseObj {
+    NSString *p = @"";
+    
+    switch (provider) {
+        case DanDanPlayDanmakuSourceAcfun:
+            p = @"acfun";
+            break;
+        case DanDanPlayDanmakuSourceBilibili:
+            p = @"bilibili";
+            break;
+        case DanDanPlayDanmakuSourceOfficial:
+            p = @"official";
+            break;
+        default:
+            break;
+    }
+    
     //将弹幕写入缓存
-    NSString *cachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:provider];
+    NSString *cachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:p];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:cachePath]) {
         [fileManager createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
@@ -308,10 +312,12 @@
  *
  *  @return 弹幕缓存
  */
-+ (id)danMuCacheWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider isCache:(BOOL)isCache{
-    NSString *danMuCachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:[provider stringByAppendingPathComponent:!isCache ? danmakuID : [NSString stringWithFormat:@"%@_user", danmakuID]]];
++ (id)danmakuCacheWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider isCache:(BOOL)isCache {
+    NSString *providerStringValue = [ToolsManager stringValueWithDanmakuSource:provider];
     
-    return [NSKeyedUnarchiver unarchiveObjectWithFile: danMuCachePath];
+    NSString *cachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:[providerStringValue stringByAppendingPathComponent:!isCache ? danmakuID : [NSString stringWithFormat:@"%@_user", danmakuID]]];
+    
+    return [NSKeyedUnarchiver unarchiveObjectWithFile: cachePath];
 }
 
 /**
@@ -371,7 +377,7 @@
  *  @return 路径
  */
 + (NSString *)bilibiliDanmakuInfoRequestPathWithAid:(NSString *)aid page:(NSString *)page {
-    if (!page.length) {
+    if (!page.length || [page isEqualToString:@"0"]) {
         page = @"1";
     }
     return [NSString stringWithFormat:@"http://biliproxy.chinacloudsites.cn/av/%@/%@?list=1", aid, page];

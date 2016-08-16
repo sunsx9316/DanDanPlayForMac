@@ -17,16 +17,18 @@
  *
  *  @return 任务
  */
-+ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)GETWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  下载官方弹幕
  *
- *  @param parameters parameters 参数 节目id
+ *  @param programId programId 参数 节目id
  *  @param complete   回调
  *
  *  @return 任务
  */
-+ (id)downOfficialDanmakuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)downOfficialDanmakuWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+
++ (void)batchDownloadThirdPartyDanmakuWithProvider:(NSArray <NSNumber *>*)sources danmakus:(NSArray <NSString *>*)danmakus;
 /**
  *  下载第三方弹幕
  *
@@ -35,25 +37,26 @@
  *
  *  @return 任务
  */
-+ (id)downThirdPartyDanMuWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (id)downThirdPartyDanmakuWithDanmaku:(NSString *)danmaku provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
- *  获取b站视频详情
+ *  获取b站弹幕详情
  *
- *  @param parameters 参数 aid page
+ *  @param aid      视频 aid
+ *  @param page     分页
+ *  @param complete 回调
+ *
+ *  @return 任务
+ */
++ (NSURLSessionDataTask *)GETBiliBiliDanmakuWithAid:(NSString *)aid page:(NSUInteger)page completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+/**
+ *  获取a站弹幕详情
+ *
+ *  @param aid        视频aid
  *  @param complete   回调
  *
  *  @return 任务
  */
-+ (id)GETBiliBiliDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
-/**
- *  获取a站视频详情
- *
- *  @param parameters aid:视频aid
- *  @param complete   回调
- *
- *  @return 任务
- */
-+ (id)GETAcfunDanMuWithParameters:(NSDictionary *)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)GETAcfunDanmakuWithAid:(NSString *)aid completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  发射弹幕方法
  *
@@ -63,5 +66,5 @@
  *
  *  @return 任务
  */
-+ (id)launchDanmakuWithModel:(DanMuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(NSError *error))complete;
++ (id)launchDanmakuWithModel:(DanMuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete;
 @end

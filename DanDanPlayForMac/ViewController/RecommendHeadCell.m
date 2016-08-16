@@ -17,21 +17,24 @@
 @property (weak) IBOutlet NSButton *filmReviewButton;
 @property (weak) IBOutlet NSTextField *todayRecommedTextField;
 @property (weak) IBOutlet NSSearchField *searchField;
-@property (strong, nonatomic) NSString *filmReviewURL;
 @property (strong, nonatomic) NSString *searchPath;
 @end
 
 @implementation RecommendHeadCell
 {
-    CGFloat _cellHeight;
+    FeaturedModel *_model;
 }
 
 - (void)awakeFromNib{
     [super awakeFromNib];
+    self.infoTextField.preferredMaxLayoutWidth = self.frame.size.width;
+    self.briefTextField.preferredMaxLayoutWidth = self.frame.size.width;
 }
 
 - (IBAction)clickFilmReviewButton:(NSButton *)sender {
-    if (self.filmReviewURL) system([[NSString stringWithFormat:@"open %@", self.filmReviewURL] cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (_model.fileReviewURL) {
+        system([[NSString stringWithFormat:@"open %@", _model.fileReviewURL] cStringUsingEncoding:NSUTF8StringEncoding]);
+    }
 }
 
 - (IBAction)clickSearchButton:(NSButton *)sender {
@@ -45,27 +48,25 @@
     system([[NSString stringWithFormat:self.searchPath, searchKeyWord] cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
-
-- (void)setWithTitle:(NSString *)title info:(NSString *)info brief:(NSString *)brief imgURL:(NSURL *)imgURL FilmReviewURL:(NSString *)filmReviewURL{
+- (CGFloat)heightWithModel:(FeaturedModel *)model {
+    _model = model;
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSImage *img = [[NSImage alloc] initWithContentsOfURL:imgURL];
+        NSImage *img = [[NSImage alloc] initWithContentsOfURL:_model.imageURL];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.coverImg.image = img;
         });
     });
-    self.titleButton.title = title?title:@"";
-    self.infoTextField.stringValue = info?info:@"";
-    self.briefTextField.stringValue = brief?brief:@"";
-    self.filmReviewURL = filmReviewURL;
-    if (imgURL) {
+    self.titleButton.title = _model.title.length ? _model.title : @"";
+    self.infoTextField.stringValue = _model.category.length ? _model.category : @"";
+    self.briefTextField.stringValue = _model.introduction.length ? _model.introduction : @"";;
+//    self.filmReviewURL = filmReviewURL;
+    if (_model.fileReviewURL) {
         [self.filmReviewButton setHidden:NO];
     }
-    _cellHeight = 130 + self.titleButton.frame.size.height + self.infoTextField.frame.size.height + self.briefTextField.frame.size.height + self.filmReviewButton.frame.size.height + self.todayRecommedTextField.frame.size.height + self.searchField.frame.size.height;
+    return 130 + self.titleButton.frame.size.height + self.infoTextField.frame.size.height + self.briefTextField.frame.size.height + self.filmReviewButton.frame.size.height + self.todayRecommedTextField.frame.size.height + self.searchField.frame.size.height;
 }
 
-- (CGFloat)cellHeight{
-    return _cellHeight;
-}
 
 #pragma mark - 懒加载
 - (NSString *)searchPath {
@@ -74,8 +75,5 @@
     }
     return _searchPath;
 }
-
-
-
 
 @end

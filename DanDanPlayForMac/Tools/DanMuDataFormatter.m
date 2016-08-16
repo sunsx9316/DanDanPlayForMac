@@ -16,7 +16,7 @@
 
 typedef void(^callBackBlock)(DanMuDataModel *model);
 @implementation DanMuDataFormatter
-+ (NSMutableDictionary *)dicWithObj:(id)obj source:(JHDanMuSource)source{
++ (NSMutableDictionary *)dicWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
     NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *> *> *dic = [NSMutableDictionary dictionary];
     if (obj) {
         NSFont *font = [UserDefaultManager danMuFont];
@@ -34,7 +34,7 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
     return dic;
 }
 
-+ (NSMutableArray *)arrWithObj:(id)obj source:(JHDanMuSource)source{
++ (NSMutableArray *)arrWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
     NSMutableArray *arr = [NSMutableArray array];
     if (obj) {
         NSFont *font = [UserDefaultManager danMuFont];
@@ -51,18 +51,18 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
 }
 
 #pragma mark - 私有方法
-+ (void)switchParseWithSource:(JHDanMuSource)source obj:(id)obj block:(callBackBlock)block{
++ (void)switchParseWithSource:(DanDanPlayDanmakuSource)source obj:(id)obj block:(callBackBlock)block{
     switch (source) {
-        case JHDanMuSourceBilibili:
+        case DanDanPlayDanmakuSourceBilibili:
             [self danMuWithBilibiliData:obj block:block];
             break;
-        case JHDanMuSourceAcfun:
+        case DanDanPlayDanmakuSourceAcfun:
             [self danMuWithAcfunArr:obj block:block];
             break;
-        case JHDanMuSourceOfficial:
+        case DanDanPlayDanmakuSourceOfficial:
             [self danMuWithOfficialArr:obj block:block];
             break;
-        case JHDanMuSourceCache:
+        case DanDanPlayDanmakuSourceCache:
             [self danMuWithOfficialArr:obj block:block];
         default:
             break;
@@ -98,7 +98,7 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
 }
 
 //b站解析方式
-+ (void)danMuWithBilibiliData:(NSData*)data block:(callBackBlock)block{
++ (void)danMuWithBilibiliData:(NSData*)data block:(callBackBlock)block {
     GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:data error:nil];
     GDataXMLElement *rootElement = document.rootElement;
     NSArray *array = [rootElement elementsForName:@"d"];

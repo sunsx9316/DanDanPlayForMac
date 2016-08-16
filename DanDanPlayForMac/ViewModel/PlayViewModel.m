@@ -129,39 +129,43 @@
     _userDanmaukuArr = nil;
 }
 
-- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, NSError *error))complete {
+- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, DanDanPlayErrorModel *error))complete {
     VideoModel *videoModel = [self videoModelWithIndex:index];
     if (!videoModel) {
-        complete(0, nil, kObjNilError);
+//        complete(0, nil, kObjNilError);
+        complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
         return;
     }
     if ([videoModel isKindOfClass:[LocalVideoModel class]]) {
         LocalVideoModel *vm = (LocalVideoModel *)videoModel;
         if (![[NSFileManager defaultManager] fileExistsAtPath:vm.filePath.path]) {
-            complete(0, nil, kObjNilError);
+//            complete(0, nil, kObjNilError);
+            complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
             return;
         }
         
-        [[[MatchViewModel alloc] initWithModel:vm] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *dataModel) {
+        [[[MatchViewModel alloc] initWithModel:vm] refreshWithModelCompletionHandler:^(DanDanPlayErrorModel *error, MatchDataModel *dataModel) {
             //episodeId存在 说明精确匹配
             if (dataModel.episodeId) {
                 complete(0.5, nil, error);
                 self.episodeId = dataModel.episodeId;
                 //搜索弹幕
-                [[[DanMuChooseViewModel alloc] initWithVideoID: dataModel.episodeId] refreshCompletionHandler:^(NSError *error) {
+                [[[DanMuChooseViewModel alloc] initWithVideoID: dataModel.episodeId] refreshCompletionHandler:^(DanDanPlayErrorModel *error) {
                     //判断官方弹幕是否为空
                     if (!error) {
                         complete(1, [NSString stringWithFormat:@"%@-%@", dataModel.animeTitle, dataModel.episodeTitle], error);
                     }
                     else {
                         //快速匹配失败
-                        complete(0, nil, kNoMatchError);
+                        complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
+//                        complete(0, nil, kNoMatchError);
                     }
                 }];
             }
             else {
                 //快速匹配失败
-                complete(0, nil, kNoMatchError);
+//                complete(0, nil, kNoMatchError);
+                complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
                 self.episodeId = nil;
             }
         }];
@@ -173,14 +177,15 @@
         NSString *danmaku = vm.danmaku;
         NSString *danmakuSource = vm.danmakuSource;
         if (!danmaku.length || !danmakuSource.length) {
-            complete(0, nil, kObjNilError);
+//            complete(0, nil, kObjNilError);
+            complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
             return;
         }
         
         complete(0.5, nil, nil);
         if (![vm URLsCountWithQuality:streamingVideoQualityHigh] && ![vm URLsCountWithQuality:streamingVideoQualityLow]) {
             //没有请求过的视频
-            [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:vm.fileName danmaku:danmaku danmakuSource:danmakuSource completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
+            [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:vm.fileName danmaku:danmaku danmakuSource:danmakuSource completionHandler:^(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error) {
                 if (index < self.videos.count && videoModel) {
                     vm.danmakuDic = videoModel.danmakuDic;
                     self.videos[index] = vm;
@@ -188,7 +193,8 @@
                     complete(1, vm.fileName, error);
                 }
                 else {
-                    complete(0, nil, kObjNilError);
+//                    complete(0, nil, kObjNilError);
+                    complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
                 }
             }];
         }
@@ -198,7 +204,7 @@
                 complete(1, vm.fileName, nil);
             }
             else {
-                [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, NSError *error) {
+                [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
                     self.currentIndex = index;
                     vm.danmakuDic = responseObj;
                     self.videos[index] = vm;

@@ -151,7 +151,7 @@
  *
  *  @param index 下标
  */
-- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, NSError *error))complete;
+- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, DanDanPlayErrorModel *error))complete;
 /**
  *  初始化
  *
