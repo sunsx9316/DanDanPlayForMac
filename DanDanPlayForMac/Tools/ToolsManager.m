@@ -22,4 +22,33 @@
     }
     return @"";
 }
+
++ (DanDanPlayDanmakuSource)enumValueWithDanmakuSourceStringValue:(NSString *)source {
+    if ([source isEqualToString: @"acfun"]) {
+        return DanDanPlayDanmakuSourceAcfun;
+    }
+    else if ([source isEqualToString: @"bilibili"]) {
+        return DanDanPlayDanmakuSourceBilibili;
+    }
+    else if ([source isEqualToString: @"official"]) {
+        return DanDanPlayDanmakuSourceOfficial;
+    }
+    return DanDanPlayDanmakuSourceUnknow;
+}
+
++ (NSMutableArray *)userSentDanmaukuArrWithEpisodeId:(NSString *)episodeId {
+    return [NSMutableArray arrayWithArray: [NSKeyedUnarchiver unarchiveObjectWithFile: [self userDanmakuCachePathWithEpisodeId: episodeId]]];
+}
+
++ (void)saveUserSentDanmakus:(NSArray *)sentDanmakus episodeId:(NSString *)episodeId {
+    if (sentDanmakus == nil || episodeId.length == 0) return;
+    
+    [NSKeyedArchiver archiveRootObject:sentDanmakus toFile:[self userDanmakuCachePathWithEpisodeId: episodeId]];
+}
+
+#pragma mark - 私有方法
++ (NSString *)userDanmakuCachePathWithEpisodeId:(NSString *)episodeId {
+    NSString *path = [ToolsManager stringValueWithDanmakuSource:DanDanPlayDanmakuSourceOfficial];
+    return [[UserDefaultManager cachePath] stringByAppendingPathComponent:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_user", episodeId]]];
+}
 @end

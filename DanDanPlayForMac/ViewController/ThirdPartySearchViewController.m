@@ -139,7 +139,7 @@
 - (IBAction)clickDownloadOtherDanmakuButton:(NSButton *)sender {
     NSArray *arr = [self.vm videoInfoDataModels];
     if (arr.count) {
-        NSString *danMuSource = [self.vm isKindOfClass:[BiliBiliSearchViewModel class]] ? @"bilibili" : @"acfun";
+        DanDanPlayDanmakuSource danMuSource = [self.vm isKindOfClass:[BiliBiliSearchViewModel class]] ? DanDanPlayDanmakuSourceBilibili : DanDanPlayDanmakuSourceAcfun;
         [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:arr danMuSource:danMuSource]];
     }
 }

@@ -51,7 +51,7 @@
  *  @param provider  提供者
  *  @param complete  回调
  */
-- (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(NSString *)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+- (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  下载第三方弹幕简单封装
  *

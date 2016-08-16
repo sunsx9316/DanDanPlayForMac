@@ -24,6 +24,7 @@
         _fileName = fileName;
         _danmaku = danmaku;
         _danmakuSource = danmakuSource;
+        _danmakuStringValue = [ToolsManager stringValueWithDanmakuSource:_danmakuSource];
     }
     return self;
 }
@@ -61,7 +62,7 @@
 }
 
 - (NSString *)md5 {
-    return [[[ToolsManager stringValueWithDanmakuSource:_danmakuSource] stringByAppendingString:_danmaku] md5String];
+    return [[_danmakuStringValue stringByAppendingString:_danmaku] md5String];
 }
 
 - (DanDanPlayDanmakuSource)danmakuSource{

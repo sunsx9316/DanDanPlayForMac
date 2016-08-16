@@ -18,14 +18,19 @@
         return;
     }
     
-    [DanMuNetManager GETAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+    [DanMuNetManager GETAcfunDanmakuWithAid:self.aid completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];
+    
+//    [DanMuNetManager GETAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+//    }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
-    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:@"acfun" completionHandler:complete];
+- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
+    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:DanDanPlayDanmakuSourceAcfun completionHandler:complete];
+    
+//    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:@"acfun" completionHandler:complete];
 }
 
 @end

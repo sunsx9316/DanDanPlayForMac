@@ -121,7 +121,8 @@
 - (void)saveUserDanmaku:(DanMuDataModel *)danmakuModel {
     if (!self.episodeId.length) return;
     [self.userDanmaukuArr addObject:danmakuModel];
-    [self saveUserDanmakuCache];
+    [ToolsManager saveUserSentDanmakus:self.userDanmaukuArr episodeId:self.episodeId];
+//    [self saveUserDanmakuCache];
 }
 
 - (void)setEpisodeId:(NSString *)episodeId {
@@ -175,8 +176,8 @@
         self.episodeId = nil;
         StreamingVideoModel *vm = (StreamingVideoModel *)videoModel;
         NSString *danmaku = vm.danmaku;
-        NSString *danmakuSource = vm.danmakuSource;
-        if (!danmaku.length || !danmakuSource.length) {
+//        NSString *danmakuSource = vm.danmakuSource;
+        if (!danmaku.length) {
 //            complete(0, nil, kObjNilError);
             complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
             return;
@@ -185,7 +186,7 @@
         complete(0.5, nil, nil);
         if (![vm URLsCountWithQuality:streamingVideoQualityHigh] && ![vm URLsCountWithQuality:streamingVideoQualityLow]) {
             //没有请求过的视频
-            [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:vm.fileName danmaku:danmaku danmakuSource:danmakuSource completionHandler:^(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error) {
+            [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:vm.fileName danmaku:danmaku danmakuSource:vm.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error) {
                 if (index < self.videos.count && videoModel) {
                     vm.danmakuDic = videoModel.danmakuDic;
                     self.videos[index] = vm;
@@ -204,7 +205,7 @@
                 complete(1, vm.fileName, nil);
             }
             else {
-                [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+                [DanMuNetManager downThirdPartyDanmakuWithDanmaku:danmaku provider:vm.danmakuSource completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
                     self.currentIndex = index;
                     vm.danmakuDic = responseObj;
                     self.videos[index] = vm;
@@ -239,23 +240,24 @@
     return index < self.videos.count ? self.videos[index] : nil;
 }
 
-- (NSString *)userDanmakuCachePath {
-    return [[UserDefaultManager cachePath] stringByAppendingPathComponent:[official stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_user", self.episodeId]]];
-}
+//- (NSString *)userDanmakuCachePath {
+//    NSString *path = [ToolsManager stringValueWithDanmakuSource:DanDanPlayDanmakuSourceOfficial];
+//    return [[UserDefaultManager cachePath] stringByAppendingPathComponent:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_user", self.episodeId]]];
+//}
 
-- (void)saveUserDanmakuCache {
-    [NSKeyedArchiver archiveRootObject:self.userDanmaukuArr toFile:[self userDanmakuCachePath]];
-}
+//- (void)saveUserDanmakuCache {
+//    [NSKeyedArchiver archiveRootObject:self.userDanmaukuArr toFile:[self userDanmakuCachePath]];
+//}
 
 #pragma mark - 懒加载
 - (NSMutableArray *)userDanmaukuArr {
     if(_userDanmaukuArr == nil) {
-        _userDanmaukuArr = [[NSMutableArray alloc] init];
         if (!self.episodeId.length) {
-            NSMutableArray *arr = [[NSKeyedUnarchiver unarchiveObjectWithFile: [self userDanmakuCachePath]] mutableCopy];
-            if (arr) {
-                _userDanmaukuArr = arr;
-            }
+            _userDanmaukuArr = [ToolsManager userSentDanmaukuArrWithEpisodeId:self.episodeId];
+        }
+        
+        if (!_userDanmaukuArr) {
+            _userDanmaukuArr = [[NSMutableArray alloc] init];
         }
     }
     return _userDanmaukuArr;

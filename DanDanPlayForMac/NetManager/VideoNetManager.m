@@ -7,7 +7,6 @@
 //
 
 #import "VideoNetManager.h"
-#import "AFHTTPSessionManager+Batch.h"
 
 @implementation VideoNetManager
 + (void)bilibiliVideoURLWithDanmaku:(NSString *)danmaku completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
@@ -24,7 +23,7 @@
     //渣画质
     NSString *badQualityPath = [NSString stringWithFormat:@"http://interface.bilibili.com/playurl?cid=%@&quality=1&otype=json&appkey=86385cdc024c0f6c&type=mp4&sign=7fed8a9b7b446de4369936b6c1c40c3f", danmaku];
     
-    [AFHTTPSessionManager batchGETWithPaths:@[goodQualityPath, badQualityPath] progressBlock:nil completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
+    [self batchGETWithPaths:@[goodQualityPath, badQualityPath] progressBlock:nil completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
         dic[@"high"] = [self bilibiliURLsWithResponseObj:responseObjects.firstObject];
         dic[@"low"] = [self bilibiliURLsWithResponseObj:responseObjects[1]];
         complete(dic, nil);

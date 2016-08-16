@@ -45,7 +45,11 @@
 - (IBAction)clickOKButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
     [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
-    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] provider:[self.providerButton titleOfSelectedItem] completionHandler:^(id responseObj) {
+    
+    NSUInteger index = [self.episodeButton indexOfSelectedItem];
+    DanDanPlayDanmakuSource source = [ToolsManager enumValueWithDanmakuSourceStringValue:[self.providerButton titleOfSelectedItem]];
+    
+    [self.vm downThirdPartyDanMuWithIndex:index provider:source completionHandler:^(id responseObj) {
         [JHProgressHUD disMiss];
         NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem] ? [self.shiBanBurron titleOfSelectedItem] : @"";
         NSString *episodeTitle = [self.episodeButton titleOfSelectedItem] ? [self.episodeButton titleOfSelectedItem] : @"";

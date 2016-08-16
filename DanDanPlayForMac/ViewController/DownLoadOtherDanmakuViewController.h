@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 @class VideoInfoDataModel;
 @interface DownLoadOtherDanmakuViewController : NSViewController
-- (instancetype)initWithVideos:(NSArray <VideoInfoDataModel *>*)videos danMuSource:(NSString *)danMuSource;
+- (instancetype)initWithVideos:(NSArray <VideoInfoDataModel *>*)videos danMuSource:(DanDanPlayDanmakuSource)danMuSource;
 @end

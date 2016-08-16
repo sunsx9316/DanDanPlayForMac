@@ -33,6 +33,8 @@
 //};
 
 typedef NS_ENUM(NSInteger, DanDanPlayDanmakuSource){
+    //未知来源
+    DanDanPlayDanmakuSourceUnknow,
     //官方
     DanDanPlayDanmakuSourceOfficial,
     //b站

@@ -108,4 +108,79 @@
     return task;
 }
 
++ (void)batchGETWithPaths:(NSArray <NSString *>*)paths
+            progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
+          completionBlock:(void(^)(NSArray *responseObjects, NSArray <NSURLSessionTask *>*tasks))completionBlock {
+    [self batchRequestWithManager:[self sharedHTTPSessionManager] paths:paths progressBlock:progressBlock completionBlock:completionBlock];
+}
+
++ (void)batchGETDataWithPaths:(NSArray <NSString *>*)paths
+                progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
+              completionBlock:(void(^)(NSArray *responseObjects, NSArray <NSURLSessionTask *>*tasks))completionBlock {
+    [self batchRequestWithManager:[self sharedHTTPSessionDataManager] paths:paths progressBlock:progressBlock completionBlock:completionBlock];
+}
+
+#pragma mark - 私有方法
++ (void)batchRequestWithManager:(AFHTTPSessionManager *)manager
+                          paths:(NSArray <NSString *>*)paths
+                progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
+              completionBlock:(void(^)(NSArray *responseObjects, NSArray <NSURLSessionTask *>*tasks))completionBlock {
+    
+    if (!paths.count) {
+        if (completionBlock) {
+            completionBlock(nil, nil);
+        }
+        return;
+    }
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    NSMutableArray *responseObjectArr = [NSMutableArray array];
+    NSMutableArray *taskArr = [NSMutableArray array];
+    
+    for (NSInteger i = 0; i < paths.count ; ++i) {
+        [responseObjectArr addObject:[NSNull null]];
+        [taskArr addObject:[NSNull null]];
+        
+        NSString *path = paths[i];
+        dispatch_group_enter(group);
+        
+        NSURLSessionDataTask *dataTask = [manager GET:path parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+            if (progressBlock) {
+                progressBlock(i, paths.count, &responseObject);
+            }
+            
+            @synchronized (responseObjectArr) {
+                if (responseObject) {
+                    responseObjectArr[i] = responseObject;
+                }
+            }
+            @synchronized (taskArr) {
+                if (task) {
+                    taskArr[i] = task;
+                }
+            }
+            dispatch_group_leave(group);
+        } failure:^(NSURLSessionTask *operation, NSError *error) {
+            if (progressBlock) {
+                progressBlock(i, paths.count, nil);
+            }
+            @synchronized (taskArr) {
+                if (operation) {
+                    taskArr[i] = operation;
+                }
+            }
+            
+            dispatch_group_leave(group);
+        }];
+        [dataTask resume];
+    }
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        if (completionBlock) {
+            completionBlock(responseObjectArr, taskArr);
+        }
+    });
+}
+
 @end

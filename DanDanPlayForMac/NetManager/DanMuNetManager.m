@@ -12,7 +12,6 @@
 #import "DanMuDataFormatter.h"
 #import "NSData+DanDanPlay.h"
 #import "ParentDanmaku.h"
-#import "AFHTTPSessionManager+Batch.h"
 #import "NSString+Tools.h"
 
 #import "AFHTTPDataResponseSerializer.h"
@@ -90,7 +89,7 @@
             complete([DanMuDataFormatter dicWithObj:responseObj source:provider], error);
         }];
     }
-    else if (provider == DanDanPlayDanmakuSourceAcfun){
+    else if (provider == DanDanPlayDanmakuSourceAcfun) {
         NSString *path = [@"http://danmu.aixifan.com/" stringByAppendingString: danmaku];
         return [self GETWithPath:path parameters:nil completionHandler:^(NSArray <NSArray *>*responseObj, DanDanPlayErrorModel *error) {
             //写入缓存
@@ -101,6 +100,64 @@
     return nil;
 }
 
++ (void)batchGETDanmakuInfoWithAids:(NSArray <NSString *>*)aids source:(DanDanPlayDanmakuSource)source completionHandler:(void(^)(NSArray *responseObjs, NSArray <NSURLSessionTask *>*tasks))complete {
+    if (!aids.count) {
+        complete(nil, nil);
+        return;
+    }
+    
+    NSMutableArray *paths = [NSMutableArray array];
+    if (source == DanDanPlayDanmakuSourceBilibili) {
+        [aids enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [paths addObject:[self bilibiliDanmakuInfoRequestPathWithAid:obj page:@"1"]];
+        }];
+    }
+    else if (source == DanDanPlayDanmakuSourceAcfun) {
+        [aids enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [paths addObject:[self acfunDanmakuInfoRequestPathWithAid:obj]];
+        }];
+    }
+    
+    [self batchGETWithPaths:paths progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj) {
+        NSDictionary *dic = *responseObj;
+        if (source == DanDanPlayDanmakuSourceBilibili) {
+            *responseObj = dic[@"cid"];
+        }
+        else if (source == DanDanPlayDanmakuSourceAcfun) {
+            *responseObj = dic[@"danmakuId"];
+        }
+    } completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
+        complete(responseObjects, tasks);
+    }];
+}
+
++ (void)batchDownDanmakuWithDanmakuIds:(NSArray <NSString *>*)danmakuIds
+                                source:(DanDanPlayDanmakuSource)source
+                         progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
+                     completionHandler:(void(^)(NSArray *responseObjs, NSArray <NSURLSessionTask *>*tasks))complete {
+    if (!danmakuIds.count) {
+        complete(nil, nil);
+        return;
+    }
+    
+    NSMutableArray *paths = [NSMutableArray array];
+    if (source == DanDanPlayDanmakuSourceBilibili) {
+        [danmakuIds enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *path = [@"http://comment.bilibili.com/" stringByAppendingFormat:@"%@.xml", obj];
+            [paths addObject:path];
+        }];
+    }
+    else if (source == DanDanPlayDanmakuSourceAcfun) {
+        [danmakuIds enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *path = [@"http://danmu.aixifan.com/" stringByAppendingString: obj];
+            [paths addObject:[self acfunDanmakuInfoRequestPathWithAid:path]];
+        }];
+    }
+    
+    [self batchGETDataWithPaths:paths progressBlock:progressBlock completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
+        complete(responseObjects, tasks);
+    }];
+}
 
 + (NSURLSessionDataTask *)GETBiliBiliDanmakuWithAid:(NSString *)aid page:(NSUInteger)page completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     //http://biliproxy.chinacloudsites.cn/av/46431/1?list=1
@@ -162,7 +219,7 @@
                 }
             }
             
-            [AFHTTPSessionManager batchGETWithPaths:paths progressBlock:nil completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
+            [self batchGETWithPaths:paths progressBlock:nil completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
                 [tasks enumerateObjectsUsingBlock:^(NSURLSessionTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     if ([obj isKindOfClass:[NSURLSessionTask class]]) {
                         if ([obj.currentRequest.URL.path containsString:@"biliproxy"]) {

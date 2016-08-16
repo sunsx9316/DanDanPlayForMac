@@ -11,4 +11,8 @@
 
 @interface ToolsManager : NSObject
 + (NSString *)stringValueWithDanmakuSource:(DanDanPlayDanmakuSource)source;
++ (DanDanPlayDanmakuSource)enumValueWithDanmakuSourceStringValue:(NSString *)source;
+
++ (NSMutableArray *)userSentDanmaukuArrWithEpisodeId:(NSString *)episodeId;
++ (void)saveUserSentDanmakus:(NSArray *)sentDanmakus episodeId:(NSString *)episodeId;
 @end

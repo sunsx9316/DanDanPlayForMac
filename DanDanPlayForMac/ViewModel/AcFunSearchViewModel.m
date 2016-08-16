@@ -129,8 +129,8 @@
         complete(error);
     }];
 }
-- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,DanDanPlayErrorModel *error))complete{
-    [super downThirdPartyDanMuWithDanmakuID:[self danmakuIDForRow: row] provider:@"acfun" completionHandler:complete];
+- (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,DanDanPlayErrorModel *error))complete {
+    [super downThirdPartyDanMuWithDanmakuID:[self danmakuIDForRow: row] provider:DanDanPlayDanmakuSourceAcfun completionHandler:complete];
 }
 
 

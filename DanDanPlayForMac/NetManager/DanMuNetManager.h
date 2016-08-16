@@ -28,7 +28,6 @@
  */
 + (NSURLSessionDataTask *)downOfficialDanmakuWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 
-+ (void)batchDownloadThirdPartyDanmakuWithProvider:(NSArray <NSNumber *>*)sources danmakus:(NSArray <NSString *>*)danmakus;
 /**
  *  下载第三方弹幕
  *
@@ -38,6 +37,26 @@
  *  @return 任务
  */
 + (id)downThirdPartyDanmakuWithDanmaku:(NSString *)danmaku provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+/**
+ *  批量获取视频详情
+ *
+ *  @param aids 视频aid数组
+ *  @param complete 回调
+ */
++ (void)batchGETDanmakuInfoWithAids:(NSArray <NSString *>*)aids source:(DanDanPlayDanmakuSource)source completionHandler:(void(^)(NSArray *responseObjs, NSArray <NSURLSessionTask *>*tasks))complete;
+
+/**
+ *  批量下载弹幕
+ *
+ *  @param danmakuIds    弹幕id
+ *  @param source        来源
+ *  @param progressBlock 进度回调
+ *  @param complete      完成回调
+ */
++ (void)batchDownDanmakuWithDanmakuIds:(NSArray <NSString *>*)danmakuIds
+                                source:(DanDanPlayDanmakuSource)source
+                         progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
+                     completionHandler:(void(^)(NSArray *responseObjs, NSArray <NSURLSessionTask *>*tasks))complete;
 /**
  *  获取b站弹幕详情
  *

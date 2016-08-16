@@ -13,7 +13,7 @@
 @interface DownLoadOtherDanmakuViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
 @property (strong, nonatomic) NSArray <VideoInfoDataModel *>*videos;
-@property (strong, nonatomic) NSString *source;
+@property (assign, nonatomic) DanDanPlayDanmakuSource source;
 @property (strong, nonatomic) NSMutableSet *downloadDanmakus;
 @end
 
@@ -23,11 +23,10 @@
     [super viewDidLoad];
 }
 
-- (instancetype)initWithVideos:(NSArray <VideoInfoDataModel *>*)videos danMuSource:(NSString *)danMuSource{
-    if (!danMuSource) return nil;
+- (instancetype)initWithVideos:(NSArray <VideoInfoDataModel *>*)videos danMuSource:(DanDanPlayDanmakuSource)danMuSource {
     if ((self = kViewControllerWithId(@"DownLoadOtherDanmakuViewController"))) {
-        self.videos = videos;
-        self.source = danMuSource;
+        _videos = videos;
+        _source = danMuSource;
     }
     return self;
 }
@@ -37,7 +36,8 @@
         for (NSInteger i = 0; i < self.videos.count; ++i) {
             [self.downloadDanmakus addObject:@(i)];
         }
-    }else{
+    }
+    else {
         [self.downloadDanmakus removeAllObjects];
     }
     [self.tableView reloadData];
@@ -53,15 +53,35 @@
 
 - (IBAction)clickOKButton:(NSButton *)sender {
 #warning TODO
-//    NSMutableArray *taskArr = [NSMutableArray array];
-//    NSArray *allDownLoadDanmaku = self.downloadDanmakus.allObjects;
-//    for (NSInteger i = 0; i < allDownLoadDanmaku.count; ++i) {
-//        NSInteger index = [allDownLoadDanmaku[i] integerValue];
-//        NSString *danmakuID = self.videos[index].danmaku;
-//        if (!danmakuID.length) continue;
+    //需要请求弹幕详情的任务
+    NSMutableArray *requestAidTaskArr = [NSMutableArray array];
+    NSMutableArray *requestDanmakuTaskArr = [NSMutableArray array];
+    NSArray *allDownLoadDanmaku = self.downloadDanmakus.allObjects;
+    for (NSInteger i = 0; i < allDownLoadDanmaku.count; ++i) {
+        @autoreleasepool {
+            NSInteger index = [allDownLoadDanmaku[i] integerValue];
+            VideoInfoDataModel *model = self.videos[index];
+            NSString *danmakuID = model.danmaku;
+            NSString *aid = model.aid;
+            if (!danmakuID.length && aid.length) {
+                [requestAidTaskArr addObject:aid];
+            }
+            else {
+                [requestDanmakuTaskArr addObject:danmakuID];
+            }
+        }
+        
 //        id task = [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":self.source, @"danmaku":danmakuID} completionHandler:^(id responseObj, NSError *error) {}];
 //        if (task) [taskArr addObject:task];
-//    }
+    }
+    
+    [DanMuNetManager batchGETDanmakuInfoWithAids:requestAidTaskArr source:_source completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
+        [requestDanmakuTaskArr addObjectsFromArray:responseObjs];
+        
+        [DanMuNetManager batchDownDanmakuWithDanmakuIds:requestDanmakuTaskArr source:_source progressBlock:nil completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", responseObjs.count]}];
+        }];
+    }];
 //
 //    NSArray* operations = [AFURLConnectionOperation batchOfRequestOperations:taskArr progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
 //       // NSLog(@"%ld %ld",numberOfFinishedOperations,totalNumberOfOperations);

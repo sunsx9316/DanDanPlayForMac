@@ -17,14 +17,19 @@
         return;
     }
     
-    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+    [DanMuNetManager GETBiliBiliDanmakuWithAid:self.aid page:1 completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];
+    
+//    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+//    }];
 }
 
 - (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
-    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:bilibili completionHandler:complete];
+    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:DanDanPlayDanmakuSourceBilibili completionHandler:complete];
+    
+//    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:bilibili completionHandler:complete];
 }
 
 

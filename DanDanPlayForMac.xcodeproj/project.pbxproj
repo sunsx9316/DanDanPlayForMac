@@ -22,7 +22,6 @@
 		8950C9891CA97B1E000C863B /* QualityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9881CA97B1E000C863B /* QualityCell.m */; };
 		8951A1DA1C8073AD002472AD /* DownLoadOtherDanmakuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */; };
 		89524B441CB96BB400BDFDBA /* QualityMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89524B431CB96BB400BDFDBA /* QualityMenuItem.m */; };
-		8954666B1D5D6E8100A3828F /* AFHTTPSessionManager+Batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954666A1D5D6E8100A3828F /* AFHTTPSessionManager+Batch.m */; };
 		895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */; };
 		895B605F1CA646AE00F4665B /* VideoNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895B605E1CA646AE00F4665B /* VideoNameCell.m */; };
 		896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8963478F1C6860A000EF63E5 /* NSButton+Tools.m */; };
@@ -203,8 +202,6 @@
 		8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownLoadOtherDanmakuViewController.m; sourceTree = "<group>"; };
 		89524B421CB96BB400BDFDBA /* QualityMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QualityMenuItem.h; sourceTree = "<group>"; };
 		89524B431CB96BB400BDFDBA /* QualityMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QualityMenuItem.m; sourceTree = "<group>"; };
-		895466691D5D6E8100A3828F /* AFHTTPSessionManager+Batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFHTTPSessionManager+Batch.h"; sourceTree = "<group>"; };
-		8954666A1D5D6E8100A3828F /* AFHTTPSessionManager+Batch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFHTTPSessionManager+Batch.m"; sourceTree = "<group>"; };
 		895A2B7A1C6D9E3F000FE343 /* OnlyButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlyButtonCell.h; sourceTree = "<group>"; };
 		895A2B7B1C6D9E3F000FE343 /* OnlyButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlyButtonCell.m; sourceTree = "<group>"; };
 		895B605D1CA646AE00F4665B /* VideoNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoNameCell.h; sourceTree = "<group>"; };
@@ -680,8 +677,6 @@
 				89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */,
 				890FDDDC1CBDF5F600BFFACC /* NSView+Tools.h */,
 				890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */,
-				895466691D5D6E8100A3828F /* AFHTTPSessionManager+Batch.h */,
-				8954666A1D5D6E8100A3828F /* AFHTTPSessionManager+Batch.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -1358,7 +1353,6 @@
 				895B605F1CA646AE00F4665B /* VideoNameCell.m in Sources */,
 				89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */,
 				8975D1E61C6F2A20003FE797 /* DanMuFilterCell.m in Sources */,
-				8954666B1D5D6E8100A3828F /* AFHTTPSessionManager+Batch.m in Sources */,
 				89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */,
 				8975A0B11C60A8EA009BD30F /* DanMuChooseViewController.m in Sources */,
 				89D4033B1D52EACB00AED712 /* JHPlayerItem.m in Sources */,
