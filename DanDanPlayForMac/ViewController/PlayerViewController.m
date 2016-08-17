@@ -230,7 +230,7 @@
         [self volumeValueAddBy:-theEvent.deltaY];
     }
     else {
-        [self volumeValueAddBy:theEvent.scrollingDeltaY];
+        [self volumeValueAddBy:-theEvent.scrollingDeltaY];
     }
 }
 

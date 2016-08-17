@@ -15,5 +15,5 @@
 @property (strong, nonatomic) NSURL *imageURL;
 @property (strong, nonatomic) NSString *category;
 @property (strong, nonatomic) NSString *introduction;
-@property (strong, nonatomic) NSString *fileReviewURL;
+@property (strong, nonatomic) NSString *fileReviewPath;
 @end

@@ -60,7 +60,7 @@
             
             if (range.location != NSNotFound) {
                 tempStr = [tempStr substringWithRange:range];
-                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[tempStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[tempStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
                 dic = dic[@"result"];
                 complete([BiliBiliShiBanModel yy_modelWithDictionary: dic], error);
             }
@@ -89,7 +89,7 @@
                 return;
             }
             
-            NSDictionary *parseDic = [NSJSONSerialization JSONObjectWithData:[[responseObjStr substringWithRange:range] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:&error];
+            NSDictionary *parseDic = [NSJSONSerialization JSONObjectWithData:[[responseObjStr substringWithRange:range] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
             
             complete([AcFunSearchModel yy_modelWithDictionary: parseDic[@"data"][@"page"]], error);
         }

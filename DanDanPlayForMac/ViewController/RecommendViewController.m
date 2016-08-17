@@ -8,6 +8,7 @@
 
 #import "RecommendViewController.h"
 #import "RecommendItemViewController.h"
+#import "NSString+Tools.h"
 
 #import "RecommedViewModel.h"
 
@@ -26,6 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self configHeadView];
     [self.progressHUD show];
     
     [self.vm refreshWithCompletionHandler:^(NSError *error) {
@@ -52,6 +54,26 @@
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem {
     RecommendItemViewController *vc = (RecommendItemViewController *)tabViewItem.viewController;
     vc.model = self.vm.bangumis[[tabView indexOfTabViewItem:tabViewItem]];
+}
+
+#pragma mark -  私有方法
+- (void)configHeadView {
+    [self.headView setClickSearchButtonCallBack:^(NSString *keyWord) {
+        if (!keyWord.length) return;
+        
+        keyWord = [keyWord stringByURLEncode];
+        //破软件迟早药丸
+        if ([keyWord isEqualToString:@"%E9%95%BF%E8%80%85"] || [keyWord isEqualToString:@"%E8%86%9C%E8%9B%A4"] || [keyWord isEqualToString:@"%E8%9B%A4%E8%9B%A4"] || [keyWord isEqualToString:@"%E8%B5%9B%E8%89%87"]) {
+            system("open http://baike.baidu.com/view/1781.htm");
+        }
+        
+        system([NSString stringWithFormat:@"open %@%@", SEARCH_PATH, keyWord].UTF8String);
+    }];
+    
+    [self.headView setClickFilmReviewButtonCallBack:^(NSString *path) {
+        system([NSString stringWithFormat:@"open %@", path].UTF8String);
+    }];
+    
 }
 
 #pragma mark - 懒加载

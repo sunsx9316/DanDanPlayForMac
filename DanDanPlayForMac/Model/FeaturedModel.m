@@ -10,6 +10,6 @@
 
 @implementation FeaturedModel
 + (NSDictionary *)modelCustomPropertyMapper{
-    return @{@"title":@"Title",@"imageURL":@"ImageUrl",@"category":@"Category",@"introduction":@"Introduction",@"fileReviewURL":@"Url"};
+    return @{@"title":@"Title",@"imageURL":@"ImageUrl",@"category":@"Category",@"introduction":@"Introduction",@"fileReviewPath":@"Url"};
 }
 @end

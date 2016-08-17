@@ -7,7 +7,7 @@
 //
 
 #import "OpenStreamVideoViewModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 #import "VideoInfoModel.h"
 #import "StreamingVideoModel.h"
 @interface OpenStreamVideoViewModel()
@@ -39,7 +39,7 @@
     if (!videoName.length) videoName = @"";
     
     [VideoNetManager bilibiliVideoURLWithDanmaku:danmaku completionHandler:^(NSDictionary *videosDic, DanDanPlayErrorModel *error) {
-        [DanMuNetManager downThirdPartyDanmakuWithDanmaku:danmaku provider:danmakuSource completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+        [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmaku provider:danmakuSource completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
             StreamingVideoModel *vm = [[StreamingVideoModel alloc] initWithFileURLs:videosDic fileName:videoName danmaku:danmaku danmakuSource:danmakuSource];
             vm.danmakuDic = responseObj;
             vm.quality = [UserDefaultManager defaultQuality];
@@ -48,13 +48,13 @@
     }];
     
 //    [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(NSDictionary *videosDic, DanDanPlayErrorModel *error) {
-//        [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+//        [DanmakuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
 //        }];
 //    }];
 }
 
 - (void)refreshWithcompletionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
-    [DanMuNetManager GETBiliBiliDanmakuWithAid:_aid page:_page completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+    [DanmakuNetManager GETBiliBiliDanmakuInfoWithAid:_aid page:_page completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         self.models = responseObj.videos;
         complete(error);
     }];

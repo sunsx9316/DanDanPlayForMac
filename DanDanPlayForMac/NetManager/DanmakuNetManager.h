@@ -1,5 +1,5 @@
 //
-//  DanMuNetManager.h
+//  DanmakuNetManager.h
 //  DanWanPlayer
 //
 //  Created by JimHuang on 15/12/24.
@@ -8,7 +8,7 @@
 
 #import "BaseNetManager.h"
 @class DanMuDataModel;
-@interface DanMuNetManager : BaseNetManager
+@interface DanmakuNetManager : BaseNetManager
 /**
  *  下载官方或第三方弹幕库
  *
@@ -66,7 +66,7 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)GETBiliBiliDanmakuWithAid:(NSString *)aid page:(NSUInteger)page completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
++ (NSURLSessionDataTask *)GETBiliBiliDanmakuInfoWithAid:(NSString *)aid page:(NSUInteger)page completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  获取a站弹幕详情
  *
@@ -75,7 +75,7 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)GETAcfunDanmakuWithAid:(NSString *)aid completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
++ (NSURLSessionDataTask *)GETAcfunDanmakuInfoWithAid:(NSString *)aid completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  发射弹幕方法
  *

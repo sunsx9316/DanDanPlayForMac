@@ -10,7 +10,7 @@
 #import "SearchNetManager.h"
 #import "SearchModel.h"
 #import "ShiBanModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 #import "VideoInfoModel.h"
 
 @implementation BiliBiliSearchViewModel
@@ -128,12 +128,11 @@
 }
 
 - (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,DanDanPlayErrorModel *error))complete {
-    [DanMuNetManager GETBiliBiliDanmakuWithAid:[self episodeAidForRow:row] page:1 completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
-        [super downThirdPartyDanMuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:DanDanPlayDanmakuSourceBilibili completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
-        }];
+    [DanmakuNetManager GETBiliBiliDanmakuInfoWithAid:[self episodeAidForRow:row] page:1 completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+        [super downThirdPartyDanMuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:DanDanPlayDanmakuSourceBilibili completionHandler:complete];
     }];
     
-//    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid": [self episodeAidForRow:row]} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+//    [DanmakuNetManager GETBiliBiliDanMuWithParameters:@{@"aid": [self episodeAidForRow:row]} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
 //        [super downThirdPartyDanMuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:@"bilibili" completionHandler:complete];
 //    }];
 }

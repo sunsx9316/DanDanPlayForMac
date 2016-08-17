@@ -65,7 +65,7 @@
 }
 
 - (IBAction)clickDownLoadOtherDanmakuButton:(NSButton *)sender {
-    NSString *danMuSource = [self.vm isKindOfClass:[BiliBiliDanMuChooseViewModel class]] ? @"bilibili" : @"acfun";
+    DanDanPlayDanmakuSource danMuSource = [self.vm isKindOfClass:[BiliBiliDanMuChooseViewModel class]] ? DanDanPlayDanmakuSourceBilibili : DanDanPlayDanmakuSourceAcfun;
     [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:self.vm.videos danMuSource:danMuSource]];
 }
 

@@ -30,7 +30,7 @@
 		89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89636FD81C58C40B002F32FD /* Assets.xcassets */; };
 		89636FDC1C58C40B002F32FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89636FDA1C58C40B002F32FD /* Main.storyboard */; };
 		896370571C59028C002F32FD /* BaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370501C59028C002F32FD /* BaseNetManager.m */; };
-		896370581C59028C002F32FD /* DanMuNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370521C59028C002F32FD /* DanMuNetManager.m */; };
+		896370581C59028C002F32FD /* DanmakuNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370521C59028C002F32FD /* DanmakuNetManager.m */; };
 		896370591C59028C002F32FD /* MatchNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370541C59028C002F32FD /* MatchNetManager.m */; };
 		8963705A1C59028C002F32FD /* SearchNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370561C59028C002F32FD /* SearchNetManager.m */; };
 		896370C21C59099C002F32FD /* DanMuDataFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370C11C59099C002F32FD /* DanMuDataFormatter.m */; };
@@ -217,8 +217,8 @@
 		89636FEF1C58FAD1002F32FD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8963704F1C59028C002F32FD /* BaseNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNetManager.h; sourceTree = "<group>"; };
 		896370501C59028C002F32FD /* BaseNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNetManager.m; sourceTree = "<group>"; };
-		896370511C59028C002F32FD /* DanMuNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuNetManager.h; sourceTree = "<group>"; };
-		896370521C59028C002F32FD /* DanMuNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuNetManager.m; sourceTree = "<group>"; };
+		896370511C59028C002F32FD /* DanmakuNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuNetManager.h; sourceTree = "<group>"; };
+		896370521C59028C002F32FD /* DanmakuNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuNetManager.m; sourceTree = "<group>"; };
 		896370531C59028C002F32FD /* MatchNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchNetManager.h; sourceTree = "<group>"; };
 		896370541C59028C002F32FD /* MatchNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchNetManager.m; sourceTree = "<group>"; };
 		896370551C59028C002F32FD /* SearchNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNetManager.h; sourceTree = "<group>"; };
@@ -556,8 +556,8 @@
 			children = (
 				8963704F1C59028C002F32FD /* BaseNetManager.h */,
 				896370501C59028C002F32FD /* BaseNetManager.m */,
-				896370511C59028C002F32FD /* DanMuNetManager.h */,
-				896370521C59028C002F32FD /* DanMuNetManager.m */,
+				896370511C59028C002F32FD /* DanmakuNetManager.h */,
+				896370521C59028C002F32FD /* DanmakuNetManager.m */,
 				890B9A471C8B1E770063986B /* VideoNetManager.h */,
 				890B9A481C8B1E770063986B /* VideoNetManager.m */,
 				896370531C59028C002F32FD /* MatchNetManager.h */,
@@ -1336,7 +1336,7 @@
 				897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */,
 				897D7F721CA7E64B00FAC53A /* PlayerControlView.m in Sources */,
 				896AEA931C7CB8680011E046 /* PlayerMethodManager.m in Sources */,
-				896370581C59028C002F32FD /* DanMuNetManager.m in Sources */,
+				896370581C59028C002F32FD /* DanmakuNetManager.m in Sources */,
 				89D403361D52EACB00AED712 /* JHDanmakuClock.m in Sources */,
 				8975D1DF1C6EF939003FE797 /* CaptionsProtectAreaCell.m in Sources */,
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,

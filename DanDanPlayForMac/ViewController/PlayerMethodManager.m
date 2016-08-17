@@ -9,7 +9,7 @@
 #import "PlayerMethodManager.h"
 #import "DanMuDataFormatter.h"
 #import <VLCKit/VLCMediaPlayer.h>
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 #import "DanMuModel.h"
 #import "NSOpenPanel+Tools.h"
 
@@ -27,7 +27,7 @@
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             //acfun：json解析方式
-            id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
+            id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers error:nil];
             NSDictionary *dic = nil;
             if (obj) {
                 dic = [DanMuDataFormatter dicWithObj:obj source:DanDanPlayDanmakuSourceAcfun];
@@ -62,7 +62,7 @@
     model.time = time;
     model.mode = mode;
     model.message = text;
-    [DanMuNetManager launchDanmakuWithModel:model episodeId:episodeId completionHandler:^(DanDanPlayErrorModel *error) {
+    [DanmakuNetManager launchDanmakuWithModel:model episodeId:episodeId completionHandler:^(DanDanPlayErrorModel *error) {
         completionHandler(model, error);
     }];
 }

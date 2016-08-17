@@ -18,4 +18,6 @@
  *  @return 高度
  */
 - (CGFloat)heightWithModel:(FeaturedModel *)model;
+@property (copy, nonatomic) void(^clickSearchButtonCallBack)(NSString *keyWord);
+@property (copy, nonatomic) void(^clickFilmReviewButtonCallBack)(NSString *fileReviewPath);
 @end

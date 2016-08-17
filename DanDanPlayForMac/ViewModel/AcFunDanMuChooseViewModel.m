@@ -7,7 +7,7 @@
 //
 
 #import "AcFunDanMuChooseViewModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 
 
 @implementation AcFunDanMuChooseViewModel
@@ -18,12 +18,12 @@
         return;
     }
     
-    [DanMuNetManager GETAcfunDanmakuWithAid:self.aid completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+    [DanmakuNetManager GETAcfunDanmakuInfoWithAid:self.aid completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];
     
-//    [DanMuNetManager GETAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+//    [DanmakuNetManager GETAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
 //    }];
 }
 

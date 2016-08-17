@@ -313,7 +313,7 @@
                                             <action selector="clickSearchButton:" target="ndF-6d-zfy" id="9pc-0e-mIG"/>
                                         </connections>
                                     </button>
-                                    <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nIy-fq-hSR">
+                                    <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nIy-fq-hSR" customClass="RespondKeyboardSearchField">
                                         <rect key="frame" x="20" y="216" width="366" height="22"/>
                                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="搜索番剧" usesSingleLineMode="YES" bezelStyle="round" id="lAA-W3-3MW">
                                             <font key="font" metaFont="system"/>
@@ -405,13 +405,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="587" height="294"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0g-Mb-xCc">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="82" horizontalPageScroll="10" verticalLineScroll="82" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0g-Mb-xCc">
                                 <rect key="frame" x="0.0" y="0.0" width="587" height="294"/>
                                 <clipView key="contentView" id="eIP-61-TiH">
                                     <rect key="frame" x="1" y="0.0" width="585" height="293"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="D8u-ub-fq6" viewBased="YES" id="VEN-an-Jaa">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="80" rowSizeStyle="automatic" headerView="D8u-ub-fq6" viewBased="YES" id="VEN-an-Jaa">
                                             <rect key="frame" x="0.0" y="0.0" width="585" height="270"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -509,6 +509,7 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
+                                                <action trigger="doubleAction" selector="doubleClickTableView:" target="bwa-qi-mWj" id="h5K-iK-TDm"/>
                                                 <outlet property="dataSource" destination="bwa-qi-mWj" id="NOM-cH-m0g"/>
                                                 <outlet property="delegate" destination="bwa-qi-mWj" id="1Us-Mq-owe"/>
                                             </connections>

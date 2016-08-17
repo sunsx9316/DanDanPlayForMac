@@ -21,19 +21,47 @@
         self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 #else
         [self setWantsLayer:YES];
-//        self.autoresizingMask = NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin | NSViewHeightSizable | NSViewWidthSizable;
 #endif
     }
     return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
+- (void)setLayoutStyle:(JHDanmakuCanvasLayoutStyle)layoutStyle {
+    if (_layoutStyle == layoutStyle) {
+        return;
+    }
 #if !TARGET_OS_IPHONE
-- (void)resizeWithOldSuperviewSize:(NSSize)oldSize {
-    [super resizeWithOldSuperviewSize:oldSize];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _layoutStyle = layoutStyle;
+    switch (_layoutStyle) {
+        case JHDanmakuCanvasLayoutStyleWhenSizeChanged:
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resize:) name:NSWindowDidEndLiveResizeNotification object:nil];
+            break;
+        case JHDanmakuCanvasLayoutStyleWhenSizeChanging:
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resize:) name:NSWindowDidResizeNotification object:nil];
+            break;
+        default:
+            break;
+    }
+#endif
+}
+
+- (void)resize:(NSNotification *)sender {
     if (self.resizeCallBackBlock) {
         self.resizeCallBackBlock(self.bounds);
     }
 }
-#endif
+
+//#if !TARGET_OS_IPHONE
+//- (void)resizeWithOldSuperviewSize:(NSSize)oldSize {
+//    [super resizeWithOldSuperviewSize:oldSize];
+//    if (self.resizeCallBackBlock) {
+//        self.resizeCallBackBlock(self.bounds);
+//    }
+//}
+//#endif
 @end

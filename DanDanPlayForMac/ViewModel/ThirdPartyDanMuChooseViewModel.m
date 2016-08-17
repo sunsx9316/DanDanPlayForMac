@@ -7,7 +7,7 @@
 //
 
 #import "ThirdPartyDanMuChooseViewModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 
 @implementation ThirdPartyDanMuChooseViewModel
 - (NSInteger)episodeCount{
@@ -31,14 +31,14 @@
         return;
     }
     
-    [DanMuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         if (![responseObj count]) {
             error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
         }
         complete(responseObj, error);
     }];
 //    
-//    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+//    [DanmakuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
 //    }];
 }
 

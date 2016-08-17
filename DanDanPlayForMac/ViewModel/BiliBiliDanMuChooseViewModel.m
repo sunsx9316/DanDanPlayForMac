@@ -7,7 +7,7 @@
 //
 
 #import "BiliBiliDanMuChooseViewModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 
 @implementation BiliBiliDanMuChooseViewModel
 
@@ -17,12 +17,12 @@
         return;
     }
     
-    [DanMuNetManager GETBiliBiliDanmakuWithAid:self.aid page:1 completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+    [DanmakuNetManager GETBiliBiliDanmakuInfoWithAid:self.aid page:1 completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];
     
-//    [DanMuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+//    [DanmakuNetManager GETBiliBiliDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
 //    }];
 }
 

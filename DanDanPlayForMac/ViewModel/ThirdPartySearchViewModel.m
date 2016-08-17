@@ -7,7 +7,7 @@
 //
 
 #import "ThirdPartySearchViewModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 #import "FloatDanmaku.h"
 #import "ScrollDanmaku.h"
 
@@ -77,7 +77,7 @@
         complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return;
     }
-    [DanMuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         if (![responseObj count]) {
             error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
         }

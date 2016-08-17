@@ -71,7 +71,8 @@
 - (IBAction)clickDownOtherDanmakuButton:(NSButton *)sender {
     NSArray *arr = self.vm.episodeTitleArr;
     if (arr.count) {
-        [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:arr danMuSource:[self.providerButton titleOfSelectedItem]]];
+        DanDanPlayDanmakuSource source = [ToolsManager enumValueWithDanmakuSourceStringValue:[self.providerButton titleOfSelectedItem]];
+        [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:arr danMuSource:source]];
     }
 }
 

@@ -16,7 +16,6 @@
 @interface JHDanmakuClock : NSObject
 @property (weak, nonatomic) id<JHDanmakuClockDelegate> delegate;
 - (void)setCurrentTime:(NSTimeInterval)currentTime;
-//- (void)setOffsetTime:(NSTimeInterval)offsetTime;
 @property (assign, nonatomic) NSTimeInterval offsetTime;
 - (void)start;
 - (void)stop;

@@ -7,7 +7,7 @@
 //
 
 #import "AcFunSearchViewModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 #import "SearchNetManager.h"
 #import "SearchModel.h"
 #import "ShiBanModel.h"

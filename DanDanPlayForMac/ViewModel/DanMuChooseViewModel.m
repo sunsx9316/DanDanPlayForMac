@@ -7,7 +7,7 @@
 //
 
 #import "DanMuChooseViewModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 #import "VideoInfoModel.h"
 #import "NSArray+Tools.h"
 
@@ -43,7 +43,7 @@
 
 
 - (void)refreshCompletionHandler:(void (^)(DanDanPlayErrorModel *))complete {
-    [DanMuNetManager GETWithProgramId:_videoID completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    [DanmakuNetManager GETWithProgramId:_videoID completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         //对象第一个key不是NSNumber类型说明没有官方弹幕
         if (![[responseObj allKeys].firstObject isKindOfClass:[NSNumber class]]) {
             self.contentDic = responseObj;
@@ -70,7 +70,7 @@
         return;
     }
     
-    [DanMuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete(responseObj);
     }];
 }

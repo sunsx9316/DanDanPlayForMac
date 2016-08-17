@@ -8,6 +8,7 @@
 
 #import "RecommendHeadCell.h"
 #import "NSString+Tools.h"
+#import "RespondKeyboardSearchField.h"
 
 @interface RecommendHeadCell()
 @property (weak) IBOutlet NSImageView *coverImg;
@@ -16,7 +17,7 @@
 @property (weak) IBOutlet NSTextField *briefTextField;
 @property (weak) IBOutlet NSButton *filmReviewButton;
 @property (weak) IBOutlet NSTextField *todayRecommedTextField;
-@property (weak) IBOutlet NSSearchField *searchField;
+@property (weak) IBOutlet RespondKeyboardSearchField *searchField;
 @property (strong, nonatomic) NSString *searchPath;
 @end
 
@@ -29,23 +30,28 @@
     [super awakeFromNib];
     self.infoTextField.preferredMaxLayoutWidth = self.frame.size.width;
     self.briefTextField.preferredMaxLayoutWidth = self.frame.size.width;
+    
+    @weakify(self)
+    [self.searchField setRespondBlock:^{
+        @strongify(self)
+        if (!self) return;
+        
+        if (self.clickSearchButtonCallBack) {
+            self.clickSearchButtonCallBack(self.searchField.stringValue);
+        }
+    }];
 }
 
 - (IBAction)clickFilmReviewButton:(NSButton *)sender {
-    if (_model.fileReviewURL) {
-        system([[NSString stringWithFormat:@"open %@", _model.fileReviewURL] cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (self.clickFilmReviewButtonCallBack) {
+        self.clickFilmReviewButtonCallBack(_model.fileReviewPath);
     }
 }
 
 - (IBAction)clickSearchButton:(NSButton *)sender {
-    NSString *searchKeyWord = self.searchField.stringValue;
-    if (!searchKeyWord.length) return;
-    searchKeyWord = [searchKeyWord stringByURLEncode];
-    //破软件迟早药丸
-    if ([searchKeyWord isEqualToString:@"%E9%95%BF%E8%80%85"] || [searchKeyWord isEqualToString:@"%E8%86%9C%E8%9B%A4"] || [searchKeyWord isEqualToString:@"%E8%9B%A4%E8%9B%A4"] || [searchKeyWord isEqualToString:@"%E8%B5%9B%E8%89%87"]) {
-        system("open http://baike.baidu.com/view/1781.htm");
+    if (self.clickSearchButtonCallBack) {
+        self.clickSearchButtonCallBack(self.searchField.stringValue);
     }
-    system([[NSString stringWithFormat:self.searchPath, searchKeyWord] cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
 - (CGFloat)heightWithModel:(FeaturedModel *)model {
@@ -60,20 +66,10 @@
     self.titleButton.title = _model.title.length ? _model.title : @"";
     self.infoTextField.stringValue = _model.category.length ? _model.category : @"";
     self.briefTextField.stringValue = _model.introduction.length ? _model.introduction : @"";;
-//    self.filmReviewURL = filmReviewURL;
-    if (_model.fileReviewURL) {
+    if (_model.fileReviewPath) {
         [self.filmReviewButton setHidden:NO];
     }
-    return 130 + self.titleButton.frame.size.height + self.infoTextField.frame.size.height + self.briefTextField.frame.size.height + self.filmReviewButton.frame.size.height + self.todayRecommedTextField.frame.size.height + self.searchField.frame.size.height;
-}
-
-
-#pragma mark - 懒加载
-- (NSString *)searchPath {
-    if(_searchPath == nil) {
-        _searchPath = @"open https://share.dmhy.org/topics/list?keyword=%@&from=dandanplay";
-    }
-    return _searchPath;
+    return 150 + self.titleButton.frame.size.height + self.infoTextField.frame.size.height + self.briefTextField.frame.size.height + self.filmReviewButton.frame.size.height + self.todayRecommedTextField.frame.size.height + self.searchField.frame.size.height;
 }
 
 @end

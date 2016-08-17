@@ -16,7 +16,7 @@
 
 #import "MatchModel.h"
 
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 #import "VideoNetManager.h"
 
 @interface PlayViewModel()
@@ -205,7 +205,7 @@
                 complete(1, vm.fileName, nil);
             }
             else {
-                [DanMuNetManager downThirdPartyDanmakuWithDanmaku:danmaku provider:vm.danmakuSource completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+                [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmaku provider:vm.danmakuSource completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
                     self.currentIndex = index;
                     vm.danmakuDic = responseObj;
                     self.videos[index] = vm;

@@ -8,7 +8,7 @@
 
 #import "DownLoadOtherDanmakuViewController.h"
 #import "VideoInfoModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 
 @interface DownLoadOtherDanmakuViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
@@ -54,8 +54,8 @@
 - (IBAction)clickOKButton:(NSButton *)sender {
 #warning TODO
     //需要请求弹幕详情的任务
-    NSMutableArray *requestAidTaskArr = [NSMutableArray array];
-    NSMutableArray *requestDanmakuTaskArr = [NSMutableArray array];
+    NSMutableArray *aidArr = [NSMutableArray array];
+    NSMutableArray *danmakuArr = [NSMutableArray array];
     NSArray *allDownLoadDanmaku = self.downloadDanmakus.allObjects;
     for (NSInteger i = 0; i < allDownLoadDanmaku.count; ++i) {
         @autoreleasepool {
@@ -64,21 +64,18 @@
             NSString *danmakuID = model.danmaku;
             NSString *aid = model.aid;
             if (!danmakuID.length && aid.length) {
-                [requestAidTaskArr addObject:aid];
+                [aidArr addObject:aid];
             }
             else {
-                [requestDanmakuTaskArr addObject:danmakuID];
+                [danmakuArr addObject:danmakuID];
             }
         }
-        
-//        id task = [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"provider":self.source, @"danmaku":danmakuID} completionHandler:^(id responseObj, NSError *error) {}];
-//        if (task) [taskArr addObject:task];
     }
     
-    [DanMuNetManager batchGETDanmakuInfoWithAids:requestAidTaskArr source:_source completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
-        [requestDanmakuTaskArr addObjectsFromArray:responseObjs];
+    [DanmakuNetManager batchGETDanmakuInfoWithAids:aidArr source:_source completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
+        [danmakuArr addObjectsFromArray:responseObjs];
         
-        [DanMuNetManager batchDownDanmakuWithDanmakuIds:requestDanmakuTaskArr source:_source progressBlock:nil completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
+        [DanmakuNetManager batchDownDanmakuWithDanmakuIds:danmakuArr source:_source progressBlock:nil completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", responseObjs.count]}];
         }];
     }];
