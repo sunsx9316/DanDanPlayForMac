@@ -6,6 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#import "JHDanmakuHeader.h"
 /**
  *  弹幕画布自动布局风格
  */
@@ -24,11 +26,8 @@ typedef NS_ENUM(NSUInteger, JHDanmakuCanvasLayoutStyle) {
     JHDanmakuCanvasLayoutStyleWhenSizeChanged,
 };
 
-#import <Foundation/Foundation.h>
-#import "JHDanmakuHeader.h"
-
 @interface JHDanmakuCanvas : JHView
-//画布布局风格 默认JHDanmakuCanvasLayoutStyleNone
+//画布布局风格 默认 JHDanmakuCanvasLayoutStyleNone 只在 OSX 中有效
 @property (assign, nonatomic) JHDanmakuCanvasLayoutStyle layoutStyle;
 @property (copy, nonatomic) void(^resizeCallBackBlock)(CGRect bounds);
 @end

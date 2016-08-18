@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     [self.vm refreshWithcompletionHandler:^(NSError *error) {
         [self.tableView reloadData];
         [JHProgressHUD disMiss];
@@ -117,7 +117,7 @@
 - (void)streamingVideoModelWithRow:(NSInteger)row{
     if (![self.vm danmakuForRow:row].length) return;
     
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     [self.vm getVideoURLAndDanmakuForRow:row completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
         [JHProgressHUD disMiss];
         
@@ -151,7 +151,7 @@
 - (HUDMessageView *)messageView {
 	if(_messageView == nil) {
 		_messageView = [[HUDMessageView alloc] init];
-        _messageView.text = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+        _messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
 	}
 	return _messageView;
 }

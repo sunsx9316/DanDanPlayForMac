@@ -52,7 +52,7 @@ static JHProgressHUD *_hud = nil;
     return [self initWithMessage:message style:JHProgressHUDStyleValue1 parentView:parentView dismissWhenClick:YES];
 }
 
-- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *) parentView dismissWhenClick:(BOOL)dismissWhenClick{
+- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick {
     return [self initWithMessage:message style:style parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:YES];
 }
 

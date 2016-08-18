@@ -10,5 +10,6 @@ pod 'Masonry'
 pod 'YYModel'
 pod 'GDataXML-HTML'
 pod 'pop'
+pod 'JHDanmakuRender'
 end
 

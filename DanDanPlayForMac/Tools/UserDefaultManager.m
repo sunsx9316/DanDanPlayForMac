@@ -30,7 +30,6 @@
     NSNumber *_quality;
     NSMutableDictionary *_lastWatchTimeDic;
     NSMutableDictionary *_subtitleAttDic;
-    NSDictionary *_alertMessageDic;
 }
 
 + (instancetype)shareUserDefaultManager{
@@ -51,13 +50,14 @@
     BOOL captionsProtectArea = YES;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"captionsProtectArea"]) {
         captionsProtectArea = [[NSUserDefaults standardUserDefaults] boolForKey:@"captionsProtectArea"];
-    }else{
+    }
+    else {
         [self setTurnOnCaptionsProtectArea: YES];
     }
     return captionsProtectArea;
 }
 
-+ (void)setTurnOnCaptionsProtectArea:(BOOL)captionsProtectArea{
++ (void)setTurnOnCaptionsProtectArea:(BOOL)captionsProtectArea {
     UserDefaultManager *manager = [self shareUserDefaultManager];
     manager->_isTurnOnCaptionsProtectArea = @(captionsProtectArea);
     [[NSUserDefaults standardUserDefaults] setBool:captionsProtectArea forKey:@"captionsProtectArea"];
@@ -111,7 +111,8 @@
     CGFloat value = 1.0;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"danMuOpacity"]) {
         value = [[NSUserDefaults standardUserDefaults] floatForKey: @"danMuOpacity"];
-    }else{
+    }
+    else {
         [self setDanMuOpacity: 1.0];
     }
     return value;
@@ -134,7 +135,8 @@
     CGFloat value = 1.0;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"danMuSpeed"]) {
         value = [[NSUserDefaults standardUserDefaults] floatForKey:@"danMuSpeed"];
-    }else{
+    }
+    else {
         [self setDanMuSpeed: 1.0];
     }
     return value;
@@ -157,7 +159,8 @@
     NSInteger specially = 100;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"danMufontSpecially"]) {
         specially = [[NSUserDefaults standardUserDefaults] floatForKey:@"danMufontSpecially"];
-    }else{
+    }
+    else {
         [self setDanMuFontSpecially: 100];
     }
     return specially;
@@ -308,7 +311,8 @@
     BOOL isTurnOnFastMatch = YES;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"turnOnFastMatch"]) {
         isTurnOnFastMatch = [[NSUserDefaults standardUserDefaults] boolForKey:@"turnOnFastMatch"];
-    }else{
+    }
+    else {
         [self setTurnOnFastMatch:YES];
     }
     return isTurnOnFastMatch;
@@ -354,7 +358,8 @@
     BOOL isCheakDownLoadInfoAtStart = YES;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"cheakDownLoadInfoAtStart"]) {
         isCheakDownLoadInfoAtStart = [[NSUserDefaults standardUserDefaults] boolForKey:@"cheakDownLoadInfoAtStart"];
-    }else{
+    }
+    else {
         [self setCheakDownLoadInfoAtStart:YES];
     }
     return isCheakDownLoadInfoAtStart;
@@ -376,7 +381,8 @@
     BOOL isShowRecommedInfo = NO;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"showRecommedInfoAtStart"]) {
         isShowRecommedInfo = [[NSUserDefaults standardUserDefaults] boolForKey:@"showRecommedInfoAtStart"];
-    }else{
+    }
+    else {
         [self setShowRecommedInfoAtStart:NO];
     }
     return isShowRecommedInfo;
@@ -402,7 +408,8 @@
     if (!tempDic) {
         manager->_lastWatchTimeDic = [@{} mutableCopy];
         [[NSUserDefaults standardUserDefaults] setObject:manager->_lastWatchTimeDic forKey:@"lastWatchVideosTime"];
-    }else{
+    }
+    else {
         manager->_lastWatchTimeDic = [tempDic mutableCopy];
         return [manager->_lastWatchTimeDic[hash] floatValue];
     }
@@ -421,7 +428,8 @@
     }
     if (time < 0) {
         manager->_lastWatchTimeDic[hash] = nil;
-    }else{
+    }
+    else {
         manager->_lastWatchTimeDic[hash] = @(time);
     }
     [[NSUserDefaults standardUserDefaults] setObject:manager->_lastWatchTimeDic forKey:@"lastWatchVideosTime"];
@@ -437,7 +445,8 @@
     NSInteger type = 0;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"defaultScreenShotType"]) {
         type = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaultQuality"];
-    }else{
+    }
+    else {
         [self setDefaultQuality:0];
     }
     return type;
@@ -465,19 +474,5 @@
 
 + (NSArray *)videoList{
     return [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"videoList"]];
-}
-
-+ (DanDanPlayMessageModel *)alertMessageWithType:(DanDanPlayMessageType)type {
-    UserDefaultManager *manager = [self shareUserDefaultManager];
-    NSDictionary *dic = manager->_alertMessageDic;
-    if (!dic) {
-        dic = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"alert_message" ofType:@"plist"]];
-        manager->_alertMessageDic = dic;
-    }
-    
-    NSDictionary *tempDic = dic[[NSString stringWithFormat:@"%ld", type]];
-    
-    DanDanPlayMessageModel *model = [[DanDanPlayMessageModel alloc] initWithMessage:tempDic[@"message"] infomationMessage:tempDic[@"infomationMessage"]];
-    return model;
 }
 @end

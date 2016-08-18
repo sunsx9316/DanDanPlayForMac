@@ -42,7 +42,7 @@
             NSURL *imgURL = [openPanel URLs].firstObject;
             NSImage *img = [[NSImage alloc] initWithContentsOfURL: imgURL];
             if (img == nil) {
-                [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeFileIsNotImage].message informativeText:nil] runModal];
+                [[NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeFileIsNotImage].message informativeText:nil] runModal];
             }else{
                 self.imageView.image = img;
                 [UserDefaultManager setHomeImgPath:imgURL.path];

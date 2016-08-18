@@ -50,7 +50,7 @@
     } completionHandler:^(id responseObj, NSError *error) {
         [self.progressHUD disMiss];
         if (!responseObj) {
-            DanDanPlayMessageModel *model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDownloadFile];
+            DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDownloadFile];
             [[NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage] runModal];
             return;
         }
@@ -62,7 +62,7 @@
                     system([[NSString stringWithFormat:@"open %@", responseObj] cStringUsingEncoding:NSUTF8StringEncoding]);
                 }
                 else {
-                    DanDanPlayMessageModel *model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeDownloadFileDamage];
+                    DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadFileDamage];
                     NSAlert *alert = [NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage];
                     [alert runModal];
                 }
@@ -120,7 +120,7 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)progressHUD {
     if(_progressHUD == nil) {
-        _progressHUD = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeDownloading].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _progressHUD = [[JHProgressHUD alloc] initWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloading].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _progressHUD;
 }

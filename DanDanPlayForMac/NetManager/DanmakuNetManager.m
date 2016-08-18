@@ -9,7 +9,7 @@
 #import "DanmakuNetManager.h"
 #import "DanMuModel.h"
 #import "VideoInfoModel.h"
-#import "DanMuDataFormatter.h"
+#import "DanmakuDataFormatter.h"
 #import "NSData+DanDanPlay.h"
 #import "ParentDanmaku.h"
 #import "NSString+Tools.h"
@@ -42,11 +42,11 @@
     //找缓存
     id cache = [self danmakuCacheWithDanmakuID:programId provider:DanDanPlayDanmakuSourceOfficial];
     if (cache) {
-        cache = [DanMuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: cache].comments source:DanDanPlayDanmakuSourceOfficial];
+        cache = [DanmakuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: cache].comments source:DanDanPlayDanmakuSourceOfficial];
         //找用户发送缓存
         id userCache = [self danmakuCacheWithDanmakuID:programId provider:DanDanPlayDanmakuSourceOfficial | DanDanPlayDanmakuSourceUserSendCache];
         if (userCache) {
-            userCache = [DanMuDataFormatter arrWithObj:userCache source:DanDanPlayDanmakuSourceCache];
+            userCache = [DanmakuDataFormatter arrWithObj:userCache source:DanDanPlayDanmakuSourceCache];
             [userCache enumerateObjectsUsingBlock:^(ParentDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSInteger time = obj.appearTime;
                 if (!cache[@(time)]) {
@@ -63,7 +63,7 @@
     return [self GETWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: programId] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         //写入缓存
         [self writeDanmakuCacheWithProvider:DanDanPlayDanmakuSourceOfficial danmakuID:programId responseObj:responseObj];
-        complete([DanMuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:DanDanPlayDanmakuSourceOfficial], error);
+        complete([DanmakuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:DanDanPlayDanmakuSourceOfficial], error);
     }];
 }
 
@@ -77,7 +77,7 @@
     //找缓存
     id cache = [self danmakuCacheWithDanmakuID:danmaku provider:provider];
     if (cache) {
-        complete([DanMuDataFormatter dicWithObj:cache source:provider], nil);
+        complete([DanmakuDataFormatter dicWithObj:cache source:provider], nil);
         return nil;
     }
     
@@ -86,7 +86,7 @@
         return [self GETDataWithPath:path parameters:nil completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
             //写入缓存
             [self writeDanmakuCacheWithProvider:provider danmakuID:danmaku responseObj:responseObj];
-            complete([DanMuDataFormatter dicWithObj:responseObj source:provider], error);
+            complete([DanmakuDataFormatter dicWithObj:responseObj source:provider], error);
         }];
     }
     else if (provider == DanDanPlayDanmakuSourceAcfun) {
@@ -95,7 +95,7 @@
             //写入缓存
             [self writeDanmakuCacheWithProvider:provider danmakuID:danmaku responseObj:responseObj];
             responseObj = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers  error:nil];
-            complete([DanMuDataFormatter dicWithObj:responseObj source:provider], error);
+            complete([DanmakuDataFormatter dicWithObj:responseObj source:provider], error);
         }];
     }
     return nil;
@@ -200,7 +200,6 @@
  *  @return 任务
  */
 + (id)GETThirdPartyDanmakuWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
-#warning TODO
     //http://acplay.net/api/v1/related/111240001
     
     NSString *path = [@"http://acplay.net/api/v1/related/" stringByAppendingString: programId];

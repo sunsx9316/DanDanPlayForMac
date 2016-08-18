@@ -23,7 +23,7 @@
 
 @implementation ScrollDanmaku
 
-- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(JHColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(JHFont *)font speed:(CGFloat)speed direction:(scrollDanmakuDirection)direction{
+- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(JHColor *)textColor text:(NSString *)text shadowStyle:(danmakuShadowStyle)shadowStyle font:(JHFont *)font speed:(CGFloat)speed direction:(scrollDanmakuDirection)direction {
     if (self = [super initWithFontSize:fontSize textColor:textColor text:text shadowStyle:shadowStyle font:font]) {
         _speed = speed;
 #if TARGET_OS_IPHONE
@@ -87,41 +87,46 @@
  左右方向按照y/channelHeight 归类
  上下方向按照x/channelHeight 归类
  优先选择没有弹幕的轨道
- 如果都有 选出每条轨道上跑得最慢的弹幕 再从这些弹幕中选出跑得最远的弹幕 它所在的轨道就是所选轨道
+ 如果都有 计算选择弹幕最少的轨道 如果所有轨道弹幕数相同 则随机选择一条
  */
-- (CGPoint)originalPositonWithContainerArr:(NSArray <DanmakuContainer *>*)arr channelCount:(NSInteger)channelCount contentRect:(CGRect)rect danmakuSize:(CGSize)danmakuSize timeDifference:(NSTimeInterval)timeDifference{
-    NSMutableDictionary <NSNumber *, NSMutableArray <DanmakuContainer *>*>*dic = [NSMutableDictionary dictionary];
+- (CGPoint)originalPositonWithContainerArr:(NSArray <DanmakuContainer *>*)arr channelCount:(NSInteger)channelCount contentRect:(CGRect)rect danmakuSize:(CGSize)danmakuSize timeDifference:(NSTimeInterval)timeDifference {
+    NSMutableDictionary <NSNumber *, NSMutableArray<DanmakuContainer *> *>*dic = [NSMutableDictionary dictionary];
     channelCount = (channelCount == 0) ? [self channelCountWithContentRect:rect danmakuSize:danmakuSize] : channelCount;
     //轨道高
     NSInteger channelHeight = [self channelHeightWithChannelCount:channelCount contentRect:rect];
     for (int i = 0; i < arr.count; ++i) {
         DanmakuContainer *obj = arr[i];
         if ([obj.danmaku isKindOfClass:[ScrollDanmaku class]] && [(ScrollDanmaku *)obj.danmaku direction] == _direction) {
-            //判断弹幕所在轨道
-            NSInteger channel = [self channelWithFrame:obj.frame channelHeight:channelHeight];
+            //计算弹幕所在轨道
+            NSNumber *channel = @([self channelWithFrame:obj.frame channelHeight:channelHeight]);
             
-            if (!dic[@(channel)]) dic[@(channel)] = [NSMutableArray array];
-            
-            //选出距离最小者
-            DanmakuContainer *firstContainer = dic[@(channel)].firstObject;
-            if (firstContainer && [self isMinDistanceDanmakuWithFirstObjFrame:firstContainer.frame selfFrame:obj.frame]) {
-                [dic[@(channel)] insertObject:obj atIndex:0];
-            }else{
-                [dic[@(channel)] addObject:obj];
+            if (dic[channel] == nil) {
+                dic[channel] = [NSMutableArray array];
             }
+            
+            [dic[channel] addObject:obj];
         }
     }
     
     __block NSInteger channel = channelCount - 1;
-    if (dic.count == channelCount) {
-        __block CGRect maxDistance = dic[@(0)].firstObject.frame;
-        __block BOOL firstGreatEqualThanSecond;
+    
+    if (dic.count >= channelCount) {
+        __block NSUInteger minCount = dic[@(0)].count;
+        __block BOOL isChange = NO;
         //选出距离最大者
-        [dic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableArray <DanmakuContainer *>* _Nonnull obj, BOOL * _Nonnull stop) {
-            maxDistance = [self maxDistanceWithFirstObjFrame:obj.firstObject.frame secondObjFrame:maxDistance firstGreaterEqualThanSecond:&firstGreatEqualThanSecond];
-            if (firstGreatEqualThanSecond) channel = key.intValue;
+        [dic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSArray * _Nonnull obj, BOOL * _Nonnull stop) {
+            if (obj.count <= minCount) {
+                channel = key.intValue;
+                minCount = obj.count;
+                isChange = YES;
+            }
         }];
-    }else{
+        //没法发生交换 说明轨道弹幕数都一样 随机选取一个轨道
+        if (!isChange) {
+            channel = arc4random_uniform((u_int32_t)channel);
+        }
+    }
+    else {
 #if TARGET_OS_IPHONE
         for (NSInteger i = 0; i < channelCount; ++i) {
             if (!dic[@(i)]) {
@@ -129,7 +134,6 @@
                 break;
             }
         }
-        
 #else
         for (NSInteger i = channelCount - 1; i >= 0; --i) {
             if (!dic[@(i)]) {
@@ -137,19 +141,22 @@
                 break;
             }
         }
-        
 #endif
     }
     
     switch (_direction) {
         case scrollDanmakuDirectionR2L:
             return CGPointMake(rect.size.width - timeDifference * (_speed * self.extraSpeed), channelHeight * channel);
+            break;
         case scrollDanmakuDirectionL2R:
             return CGPointMake(-danmakuSize.width + timeDifference * (_speed * self.extraSpeed), channelHeight * channel);
+            break;
         case scrollDanmakuDirectionB2T:
             return CGPointMake(channelHeight * channel, -danmakuSize.height + timeDifference * (_speed * self.extraSpeed));
+            break;
         case scrollDanmakuDirectionT2B:
             return CGPointMake(channelHeight * channel, rect.size.height - timeDifference * (_speed * self.extraSpeed));
+            break;
     }
     return CGPointMake(rect.size.width, rect.size.height);
 }
@@ -177,11 +184,20 @@
 - (NSInteger)channelHeightWithChannelCount:(NSInteger)channelCount contentRect:(CGRect)rect{
     if (_direction == scrollDanmakuDirectionL2R || _direction == scrollDanmakuDirectionR2L) {
         return rect.size.height / channelCount;
-    }else{
+    }
+    else {
         return rect.size.width / channelCount;
     }
 }
 
+/**
+ *  计算轨道
+ *
+ *  @param frame         弹幕 frame
+ *  @param channelHeight 轨道高
+ *
+ *  @return 轨道
+ */
 - (NSInteger)channelWithFrame:(CGRect)frame channelHeight:(CGFloat)channelHeight{
     if (_direction == scrollDanmakuDirectionL2R || _direction == scrollDanmakuDirectionR2L) {
         return frame.origin.y / channelHeight;
@@ -189,59 +205,5 @@
         return frame.origin.x / channelHeight;
     }
 }
-
-- (BOOL)isMinDistanceDanmakuWithFirstObjFrame:(CGRect)firstObjFrame selfFrame:(CGRect)selfFrame{
-    switch (_direction) {
-        case scrollDanmakuDirectionB2T:
-            return selfFrame.origin.y < firstObjFrame.origin.y;
-        case scrollDanmakuDirectionT2B:
-            return selfFrame.origin.y > firstObjFrame.origin.y;
-        case scrollDanmakuDirectionL2R:
-            return selfFrame.origin.x < firstObjFrame.origin.x;
-        case scrollDanmakuDirectionR2L:
-            return selfFrame.origin.x > firstObjFrame.origin.x;
-    }
-    return NO;
-}
-
-- (CGRect)maxDistanceWithFirstObjFrame:(CGRect)firstObjFrame secondObjFrame:(CGRect)secondObjFrame firstGreaterEqualThanSecond:(BOOL *)firstGreaterEqualThanSecond{
-    switch (_direction) {
-        case scrollDanmakuDirectionB2T:
-            if (firstObjFrame.origin.y >= secondObjFrame.origin.y) {
-                *firstGreaterEqualThanSecond = YES;
-                return firstObjFrame;
-            }else{
-                *firstGreaterEqualThanSecond = NO;
-                return secondObjFrame;
-            }
-        case scrollDanmakuDirectionT2B:
-            if (firstObjFrame.origin.y <= secondObjFrame.origin.y) {
-                *firstGreaterEqualThanSecond = YES;
-                return firstObjFrame;
-            }else{
-                *firstGreaterEqualThanSecond = NO;
-                return secondObjFrame;
-            }
-        case scrollDanmakuDirectionL2R:
-            if (firstObjFrame.origin.x >= secondObjFrame.origin.x) {
-                *firstGreaterEqualThanSecond = YES;
-                return firstObjFrame;
-            }else{
-                *firstGreaterEqualThanSecond = NO;
-                return secondObjFrame;
-            }
-        case scrollDanmakuDirectionR2L:
-            if (firstObjFrame.origin.x <= secondObjFrame.origin.x) {
-                *firstGreaterEqualThanSecond = YES;
-                return firstObjFrame;
-            }else{
-                *firstGreaterEqualThanSecond = NO;
-                return secondObjFrame;
-            }
-    }
-    *firstGreaterEqualThanSecond = NO;
-    return CGRectZero;
-}
-
 
 @end

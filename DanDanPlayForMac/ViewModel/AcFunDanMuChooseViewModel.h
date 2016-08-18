@@ -6,8 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "ThirdPartyDanMuChooseViewModel.h"
+#import "ThirdPartyDanmakuChooseViewModel.h"
 
-@interface AcFunDanMuChooseViewModel : ThirdPartyDanMuChooseViewModel
+@interface AcFunDanMuChooseViewModel : ThirdPartyDanmakuChooseViewModel
 
 @end

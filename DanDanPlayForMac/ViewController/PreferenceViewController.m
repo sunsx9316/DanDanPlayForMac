@@ -214,7 +214,7 @@
             [cell setWithTitle:@"清除上次播放时间纪录" info:@"难道你想隐藏什么→_→" buttonText:@"清除播放时间纪录"];
             [cell setClickButtonCallBackBlock:^{
                 [UserDefaultManager clearPlayHistory];
-                NSAlert *alert = [NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeClearSuccess].message informativeText:nil];
+                NSAlert *alert = [NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeClearSuccess].message informativeText:nil];
                 [alert runModal];
             }];
             return cell;
@@ -230,7 +230,7 @@
                 NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
                 [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
                 
-                DanDanPlayMessageModel *model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeResetSuccess];
+                DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeResetSuccess];
                 
                 NSAlert *alert = [NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage];
                 [alert runModal];

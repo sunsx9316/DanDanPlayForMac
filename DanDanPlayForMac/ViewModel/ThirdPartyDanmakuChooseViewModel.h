@@ -1,5 +1,5 @@
 //
-//  ThirdPartyDanMuChooseViewModel.h
+//  ThirdPartyDanmakuChooseViewModel.h
 //  DanDanPlayForMac
 //
 //  Created by JimHuang on 16/2/6.
@@ -12,7 +12,7 @@
  *  第三方下载viewModel父类
  */
 @class VideoInfoDataModel;
-@interface ThirdPartyDanMuChooseViewModel : BaseViewModel
+@interface ThirdPartyDanmakuChooseViewModel : BaseViewModel
 @property (strong, nonatomic) NSString *aid;
 @property (strong, nonatomic) NSArray <VideoInfoDataModel *>*videos;
 
@@ -51,14 +51,14 @@
  *  @param provider  提供者
  *  @param complete  回调
  */
-- (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+- (void)downThirdPartyDanmakuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  下载第三方弹幕简单封装
  *
  *  @param index    下标
  *  @param complete 回调
  */
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+- (void)downThirdPartyDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  根据aid初始化
  *

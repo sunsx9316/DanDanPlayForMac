@@ -91,7 +91,7 @@
         NSMutableArray *tempArr = [responseObj.result mutableCopy];
         if (!tempArr.count) {
             BiliBiliSearchDataModel *dataModel = [[BiliBiliSearchDataModel alloc] init];
-            dataModel.title = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+            dataModel.title = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
             tempArr = [NSMutableArray arrayWithObject:dataModel];
             error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject];
         }
@@ -129,11 +129,11 @@
 
 - (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,DanDanPlayErrorModel *error))complete {
     [DanmakuNetManager GETBiliBiliDanmakuInfoWithAid:[self episodeAidForRow:row] page:1 completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
-        [super downThirdPartyDanMuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:DanDanPlayDanmakuSourceBilibili completionHandler:complete];
+        [super downThirdPartyDanmakuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:DanDanPlayDanmakuSourceBilibili completionHandler:complete];
     }];
     
 //    [DanmakuNetManager GETBiliBiliDanMuWithParameters:@{@"aid": [self episodeAidForRow:row]} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
-//        [super downThirdPartyDanMuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:@"bilibili" completionHandler:complete];
+//        [super downThirdPartyDanmakuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:@"bilibili" completionHandler:complete];
 //    }];
 }
 

@@ -39,18 +39,18 @@
  *
  *  @param danmaku 单个弹幕
  */
-- (void)addDanmaku:(ParentDanmaku *)danmaku;
+- (void)sendDanmaku:(ParentDanmaku *)danmaku;
 /**
  *  需要回退功能时使用 必须一次性加载所有的弹幕 弹幕需要设置出现时间 实际上就是设置时间字典
  *  与addAllDanmakusDic方法作用一样
  *
  *  @param danmakus 弹幕数组
  */
-- (void)addAllDanmakus:(NSArray <ParentDanmaku *>*)danmakus;
+- (void)sendAllDanmakus:(NSArray <ParentDanmaku *>*)danmakus;
 /**
  * 需要回退功能时使用 必须一次性加载所有的弹幕 弹幕需要设置出现时间
  * 字典按照整秒分类 比如@{@(1):@[obj1,obj2...], @(2):@[obj1,obj2...]}
  *  @param danmakus 弹幕字典
  */
-- (void)addAllDanmakusDic:(NSDictionary <NSNumber *,NSArray <ParentDanmaku *>*>*)danmakus;
+- (void)sendAllDanmakusDic:(NSDictionary <NSNumber *,NSArray <ParentDanmaku *>*>*)danmakus;
 @end

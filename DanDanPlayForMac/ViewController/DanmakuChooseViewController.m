@@ -1,17 +1,17 @@
 //
-//  DanMuChooseViewController.m
+//  DanmakuChooseViewController.m
 //  DanDanPlayForMac
 //
 //  Created by JimHuang on 16/2/2.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "DanMuChooseViewController.h"
+#import "DanmakuChooseViewController.h"
 #import "DanMuChooseViewModel.h"
 #import "VideoInfoModel.h"
 #import "DownLoadOtherDanmakuViewController.h"
 
-@interface DanMuChooseViewController ()
+@interface DanmakuChooseViewController ()
 @property (weak) IBOutlet NSPopUpButton *providerButton;
 @property (weak) IBOutlet NSPopUpButton *shiBanBurron;
 @property (weak) IBOutlet NSPopUpButton *episodeButton;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation DanMuChooseViewController
+@implementation DanmakuChooseViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,7 +27,7 @@
 
 - (void)viewDidAppear {
     [super viewDidAppear];
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
         [self reloadData];
@@ -35,7 +35,7 @@
 }
 
 - (instancetype)initWithVideoID:(NSString *)videoID{
-    if ((self = kViewControllerWithId(@"DanMuChooseViewController"))) {
+    if ((self = kViewControllerWithId(@"DanmakuChooseViewController"))) {
         self.vm = [[DanMuChooseViewModel alloc] initWithVideoID: videoID];
     }
     return self;
@@ -44,12 +44,12 @@
 //点击确认 发送播放通知
 - (IBAction)clickOKButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
     
     NSUInteger index = [self.episodeButton indexOfSelectedItem];
     DanDanPlayDanmakuSource source = [ToolsManager enumValueWithDanmakuSourceStringValue:[self.providerButton titleOfSelectedItem]];
     
-    [self.vm downThirdPartyDanMuWithIndex:index provider:source completionHandler:^(id responseObj) {
+    [self.vm downThirdPartyDanmakuWithIndex:index provider:source completionHandler:^(id responseObj) {
         [JHProgressHUD disMiss];
         NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem] ? [self.shiBanBurron titleOfSelectedItem] : @"";
         NSString *episodeTitle = [self.episodeButton titleOfSelectedItem] ? [self.episodeButton titleOfSelectedItem] : @"";

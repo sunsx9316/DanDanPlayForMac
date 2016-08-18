@@ -64,8 +64,8 @@
         }];
     }
 #if TARGET_OS_IPHONE
-    //iOS坐标原点为左上角 弹幕方向为上到下时 按照轨道升序查找
-    else{
+    else {
+        //mac坐标原点为左下角 弹幕方向为上到下 按升序查找轨道
         if (_direction == floatDanmakuDirectionT2B) {
             for (NSInteger i = 0; i < channelCount; ++i) {
                 if (!dic[@(i)]) {
@@ -73,7 +73,8 @@
                     break;
                 }
             }
-        }else{
+        }
+        else{
             for (NSInteger i = channelCount - 1; i >= 0; --i) {
                 if (!dic[@(i)]) {
                     channel = i;
@@ -83,8 +84,8 @@
         }
     }
 #elif TARGET_OS_MAC
-    //mac坐标原点为左下角 弹幕方向为上到下时 按照轨道降序查找
     else {
+        //mac坐标原点为左下角 弹幕方向为上到下 按降序查找轨道
         if (_direction == floatDanmakuDirectionT2B) {
             for (NSInteger i = channelCount - 1; i >= 0; --i) {
                 if (!dic[@(i)]) {

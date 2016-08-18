@@ -17,6 +17,7 @@
 		8916809F1D5080DE00B215D1 /* alert_message.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8916809E1D5080DE00B215D1 /* alert_message.plist */; };
 		89264DA61D5C3370004B51BF /* PlayerDanmakuCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89264DA51D5C3370004B51BF /* PlayerDanmakuCountView.m */; };
 		89264DA91D5C5F8E004B51BF /* POPMasAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */; };
+		89387EBD1D6597E900F273D7 /* NSDictionary+Bilibili.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */; };
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; };
 		8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9851CA95D04000C863B /* VolumeControlView.m */; };
 		8950C9891CA97B1E000C863B /* QualityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9881CA97B1E000C863B /* QualityCell.m */; };
@@ -33,14 +34,14 @@
 		896370581C59028C002F32FD /* DanmakuNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370521C59028C002F32FD /* DanmakuNetManager.m */; };
 		896370591C59028C002F32FD /* MatchNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370541C59028C002F32FD /* MatchNetManager.m */; };
 		8963705A1C59028C002F32FD /* SearchNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370561C59028C002F32FD /* SearchNetManager.m */; };
-		896370C21C59099C002F32FD /* DanMuDataFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370C11C59099C002F32FD /* DanMuDataFormatter.m */; };
+		896370C21C59099C002F32FD /* DanmakuDataFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 896370C11C59099C002F32FD /* DanmakuDataFormatter.m */; };
 		89651E3D1C5F81E4002F23A2 /* BackGroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E3C1C5F81E4002F23A2 /* BackGroundImageView.m */; };
 		89651E491C5FA837002F23A2 /* NSColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89651E481C5FA837002F23A2 /* NSColor+Tools.m */; };
 		8965EE371C6DB8590089E187 /* PreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8965EE361C6DB8590089E187 /* PreferenceViewController.m */; };
 		8965EE3A1C6DBCDD0089E187 /* PreferenceViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8965EE391C6DBCDD0089E187 /* PreferenceViewModel.m */; };
 		896A716A1C66248800280B79 /* AcFunSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71691C66248800280B79 /* AcFunSearchViewModel.m */; };
 		896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A716C1C66276C00280B79 /* ThirdPartySearchViewModel.m */; };
-		896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */; };
+		896A71731C6641C700280B79 /* ThirdPartyDanmakuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71721C6641C700280B79 /* ThirdPartyDanmakuChooseViewModel.m */; };
 		896A71771C66421500280B79 /* AcFunDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */; };
 		896AEA931C7CB8680011E046 /* PlayerMethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896AEA921C7CB8680011E046 /* PlayerMethodManager.m */; };
 		896BE9111CAEC478005BE0D1 /* TimeHUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BE9101CAEC478005BE0D1 /* TimeHUDMessageView.m */; };
@@ -61,7 +62,7 @@
 		8975A0AC1C60A03A009BD30F /* PlayerSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0A81C60A03A009BD30F /* PlayerSlideView.m */; };
 		8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0AA1C60A03A009BD30F /* PlayerViewController.m */; };
 		8975A0AE1C60A03A009BD30F /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */; };
-		8975A0B11C60A8EA009BD30F /* DanMuChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0B01C60A8EA009BD30F /* DanMuChooseViewController.m */; };
+		8975A0B11C60A8EA009BD30F /* DanmakuChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975A0B01C60A8EA009BD30F /* DanmakuChooseViewController.m */; };
 		8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975D1CD1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m */; };
 		8975D1D61C6EF173003FE797 /* FontSpeciallyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975D1D51C6EF173003FE797 /* FontSpeciallyCell.m */; };
 		8975D1D91C6EF4DF003FE797 /* SliderWithTickCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975D1D81C6EF4DF003FE797 /* SliderWithTickCell.m */; };
@@ -107,7 +108,7 @@
 		8993A8821C93BA4300CF91D1 /* FeaturedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8993A8801C93BA4300CF91D1 /* FeaturedModel.m */; };
 		8993A8851C93C34E00CF91D1 /* RecommedViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8993A8841C93C34E00CF91D1 /* RecommedViewModel.m */; };
 		8995C9911C648607008C1C02 /* ThirdPartySearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */; };
-		8995C9971C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9961C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m */; };
+		8995C9971C64F6F8008C1C02 /* ThirdPartyDanmakuChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9961C64F6F8008C1C02 /* ThirdPartyDanmakuChooseViewController.m */; };
 		8995C99A1C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */; };
 		8996A6DA1C6CC03000D5AA6E /* HideDanMuAndCloseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8996A6D91C6CC03000D5AA6E /* HideDanMuAndCloseCell.m */; };
 		8996A6E01C6CD95A00D5AA6E /* SliderControlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8996A6DF1C6CD95A00D5AA6E /* SliderControlCell.m */; };
@@ -124,14 +125,6 @@
 		89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */; };
 		89D403021D52D5A800AED712 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; };
 		89D403031D52D5A800AED712 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		89D403311D52EACB00AED712 /* FloatDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403131D52EACB00AED712 /* FloatDanmaku.m */; };
-		89D403321D52EACB00AED712 /* ParentDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403151D52EACB00AED712 /* ParentDanmaku.m */; };
-		89D403331D52EACB00AED712 /* ScrollDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403171D52EACB00AED712 /* ScrollDanmaku.m */; };
-		89D403341D52EACB00AED712 /* DanmakuContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403191D52EACB00AED712 /* DanmakuContainer.m */; };
-		89D403351D52EACB00AED712 /* JHDanmakuCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4031B1D52EACB00AED712 /* JHDanmakuCanvas.m */; };
-		89D403361D52EACB00AED712 /* JHDanmakuClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4031D1D52EACB00AED712 /* JHDanmakuClock.m */; };
-		89D403371D52EACB00AED712 /* JHDanmakuEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4031F1D52EACB00AED712 /* JHDanmakuEngine.m */; };
-		89D403381D52EACB00AED712 /* JHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403231D52EACB00AED712 /* JHDisplayLink.m */; };
 		89D403391D52EACB00AED712 /* JHMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403261D52EACB00AED712 /* JHMediaPlayer.m */; };
 		89D4033A1D52EACB00AED712 /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403281D52EACB00AED712 /* JHMediaView.m */; };
 		89D4033B1D52EACB00AED712 /* JHPlayerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4032A1D52EACB00AED712 /* JHPlayerItem.m */; };
@@ -192,6 +185,8 @@
 		89264DA51D5C3370004B51BF /* PlayerDanmakuCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDanmakuCountView.m; sourceTree = "<group>"; };
 		89264DA71D5C5F8E004B51BF /* POPMasAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPMasAnimation.h; sourceTree = "<group>"; };
 		89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POPMasAnimation.m; sourceTree = "<group>"; };
+		89387EBB1D6597E900F273D7 /* NSDictionary+Bilibili.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Bilibili.h"; sourceTree = "<group>"; };
+		89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Bilibili.m"; sourceTree = "<group>"; };
 		8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliSearchViewModel.h; sourceTree = "<group>"; };
 		8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliBiliSearchViewModel.m; sourceTree = "<group>"; };
 		8950C9841CA95D04000C863B /* VolumeControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeControlView.h; sourceTree = "<group>"; };
@@ -224,8 +219,8 @@
 		896370551C59028C002F32FD /* SearchNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNetManager.h; sourceTree = "<group>"; };
 		896370561C59028C002F32FD /* SearchNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchNetManager.m; sourceTree = "<group>"; };
 		8963705B1C590424002F32FD /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
-		896370C01C59099C002F32FD /* DanMuDataFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuDataFormatter.h; sourceTree = "<group>"; };
-		896370C11C59099C002F32FD /* DanMuDataFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuDataFormatter.m; sourceTree = "<group>"; };
+		896370C01C59099C002F32FD /* DanmakuDataFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuDataFormatter.h; sourceTree = "<group>"; };
+		896370C11C59099C002F32FD /* DanmakuDataFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuDataFormatter.m; sourceTree = "<group>"; };
 		89651E3B1C5F81E4002F23A2 /* BackGroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackGroundImageView.h; sourceTree = "<group>"; };
 		89651E3C1C5F81E4002F23A2 /* BackGroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackGroundImageView.m; sourceTree = "<group>"; };
 		89651E471C5FA837002F23A2 /* NSColor+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Tools.h"; sourceTree = "<group>"; };
@@ -238,8 +233,8 @@
 		896A71691C66248800280B79 /* AcFunSearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcFunSearchViewModel.m; sourceTree = "<group>"; };
 		896A716B1C66276C00280B79 /* ThirdPartySearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartySearchViewModel.h; sourceTree = "<group>"; };
 		896A716C1C66276C00280B79 /* ThirdPartySearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartySearchViewModel.m; sourceTree = "<group>"; };
-		896A71711C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartyDanMuChooseViewModel.h; sourceTree = "<group>"; };
-		896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartyDanMuChooseViewModel.m; sourceTree = "<group>"; };
+		896A71711C6641C700280B79 /* ThirdPartyDanmakuChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartyDanmakuChooseViewModel.h; sourceTree = "<group>"; };
+		896A71721C6641C700280B79 /* ThirdPartyDanmakuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartyDanmakuChooseViewModel.m; sourceTree = "<group>"; };
 		896A71751C66421500280B79 /* AcFunDanMuChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcFunDanMuChooseViewModel.h; sourceTree = "<group>"; };
 		896A71761C66421500280B79 /* AcFunDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcFunDanMuChooseViewModel.m; sourceTree = "<group>"; };
 		896AEA911C7CB8680011E046 /* PlayerMethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerMethodManager.h; sourceTree = "<group>"; };
@@ -277,8 +272,8 @@
 		8975A0A91C60A03A009BD30F /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		8975A0AA1C60A03A009BD30F /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
 		8975A0AB1C60A03A009BD30F /* PlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
-		8975A0AF1C60A8EA009BD30F /* DanMuChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuChooseViewController.h; sourceTree = "<group>"; };
-		8975A0B01C60A8EA009BD30F /* DanMuChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuChooseViewController.m; sourceTree = "<group>"; };
+		8975A0AF1C60A8EA009BD30F /* DanmakuChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuChooseViewController.h; sourceTree = "<group>"; };
+		8975A0B01C60A8EA009BD30F /* DanmakuChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuChooseViewController.m; sourceTree = "<group>"; };
 		8975D1CC1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartySearchVideoInfoView.h; sourceTree = "<group>"; };
 		8975D1CD1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartySearchVideoInfoView.m; sourceTree = "<group>"; };
 		8975D1D41C6EF173003FE797 /* FontSpeciallyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontSpeciallyCell.h; sourceTree = "<group>"; };
@@ -367,8 +362,8 @@
 		8993A8841C93C34E00CF91D1 /* RecommedViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommedViewModel.m; sourceTree = "<group>"; };
 		8995C98F1C648607008C1C02 /* ThirdPartySearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartySearchViewController.h; sourceTree = "<group>"; };
 		8995C9901C648607008C1C02 /* ThirdPartySearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartySearchViewController.m; sourceTree = "<group>"; };
-		8995C9951C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartyDanMuChooseViewController.h; sourceTree = "<group>"; };
-		8995C9961C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartyDanMuChooseViewController.m; sourceTree = "<group>"; };
+		8995C9951C64F6F8008C1C02 /* ThirdPartyDanmakuChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPartyDanmakuChooseViewController.h; sourceTree = "<group>"; };
+		8995C9961C64F6F8008C1C02 /* ThirdPartyDanmakuChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdPartyDanmakuChooseViewController.m; sourceTree = "<group>"; };
 		8995C9981C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliDanMuChooseViewModel.h; sourceTree = "<group>"; };
 		8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliBiliDanMuChooseViewModel.m; sourceTree = "<group>"; };
 		8996A6D81C6CC03000D5AA6E /* HideDanMuAndCloseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HideDanMuAndCloseCell.h; sourceTree = "<group>"; };
@@ -396,24 +391,6 @@
 		89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuColorMenuItem.m; sourceTree = "<group>"; };
 		89C107131C885FB200090A9A /* DanmakuModeMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuModeMenuItem.h; sourceTree = "<group>"; };
 		89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuModeMenuItem.m; sourceTree = "<group>"; };
-		89D403121D52EACB00AED712 /* FloatDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatDanmaku.h; sourceTree = "<group>"; };
-		89D403131D52EACB00AED712 /* FloatDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatDanmaku.m; sourceTree = "<group>"; };
-		89D403141D52EACB00AED712 /* ParentDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDanmaku.h; sourceTree = "<group>"; };
-		89D403151D52EACB00AED712 /* ParentDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentDanmaku.m; sourceTree = "<group>"; };
-		89D403161D52EACB00AED712 /* ScrollDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollDanmaku.h; sourceTree = "<group>"; };
-		89D403171D52EACB00AED712 /* ScrollDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollDanmaku.m; sourceTree = "<group>"; };
-		89D403181D52EACB00AED712 /* DanmakuContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuContainer.h; sourceTree = "<group>"; };
-		89D403191D52EACB00AED712 /* DanmakuContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuContainer.m; sourceTree = "<group>"; };
-		89D4031A1D52EACB00AED712 /* JHDanmakuCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuCanvas.h; sourceTree = "<group>"; };
-		89D4031B1D52EACB00AED712 /* JHDanmakuCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuCanvas.m; sourceTree = "<group>"; };
-		89D4031C1D52EACB00AED712 /* JHDanmakuClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuClock.h; sourceTree = "<group>"; };
-		89D4031D1D52EACB00AED712 /* JHDanmakuClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuClock.m; sourceTree = "<group>"; };
-		89D4031E1D52EACB00AED712 /* JHDanmakuEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuEngine.h; sourceTree = "<group>"; };
-		89D4031F1D52EACB00AED712 /* JHDanmakuEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuEngine.m; sourceTree = "<group>"; };
-		89D403201D52EACB00AED712 /* JHDanmakuHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuHeader.h; sourceTree = "<group>"; };
-		89D403211D52EACB00AED712 /* JHDanmakuRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuRender.h; sourceTree = "<group>"; };
-		89D403221D52EACB00AED712 /* JHDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDisplayLink.h; sourceTree = "<group>"; };
-		89D403231D52EACB00AED712 /* JHDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDisplayLink.m; sourceTree = "<group>"; };
 		89D403251D52EACB00AED712 /* JHMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaPlayer.h; sourceTree = "<group>"; };
 		89D403261D52EACB00AED712 /* JHMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaPlayer.m; sourceTree = "<group>"; };
 		89D403271D52EACB00AED712 /* JHMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaView.h; sourceTree = "<group>"; };
@@ -636,8 +613,8 @@
 			isa = PBXGroup;
 			children = (
 				896370C31C590C51002F32FD /* Category */,
-				896370C01C59099C002F32FD /* DanMuDataFormatter.h */,
-				896370C11C59099C002F32FD /* DanMuDataFormatter.m */,
+				896370C01C59099C002F32FD /* DanmakuDataFormatter.h */,
+				896370C11C59099C002F32FD /* DanmakuDataFormatter.m */,
 				897368121C70974400B9B765 /* UserDefaultManager.h */,
 				897368131C70974400B9B765 /* UserDefaultManager.m */,
 				896DD4FA1D6320C80003AFE1 /* ToolsManager.h */,
@@ -663,6 +640,8 @@
 				8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */,
 				897345BB1C759CB200F64D39 /* NSString+Tools.h */,
 				897345BC1C759CB200F64D39 /* NSString+Tools.m */,
+				89387EBB1D6597E900F273D7 /* NSDictionary+Bilibili.h */,
+				89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */,
 				8973680F1C70708A00B9B765 /* NSString+KeyEvent.h */,
 				897368101C70708A00B9B765 /* NSString+KeyEvent.m */,
 				89651E471C5FA837002F23A2 /* NSColor+Tools.h */,
@@ -717,8 +696,8 @@
 		896A71741C6641F000280B79 /* 第三方 */ = {
 			isa = PBXGroup;
 			children = (
-				896A71711C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.h */,
-				896A71721C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m */,
+				896A71711C6641C700280B79 /* ThirdPartyDanmakuChooseViewModel.h */,
+				896A71721C6641C700280B79 /* ThirdPartyDanmakuChooseViewModel.m */,
 				8995C9981C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.h */,
 				8995C9991C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m */,
 				896A71751C66421500280B79 /* AcFunDanMuChooseViewModel.h */,
@@ -982,43 +961,9 @@
 				89D403301D52EACB00AED712 /* JHProgressHUD.m */,
 				89D403521D53204900AED712 /* JHSwichButton.h */,
 				89D403531D53204900AED712 /* JHSwichButton.m */,
-				89D403101D52EACB00AED712 /* JHDanmakuRender */,
 				89D403241D52EACB00AED712 /* JHMediaPlayer */,
 			);
 			path = Widget;
-			sourceTree = "<group>";
-		};
-		89D403101D52EACB00AED712 /* JHDanmakuRender */ = {
-			isa = PBXGroup;
-			children = (
-				89D403111D52EACB00AED712 /* Danmaku */,
-				89D403181D52EACB00AED712 /* DanmakuContainer.h */,
-				89D403191D52EACB00AED712 /* DanmakuContainer.m */,
-				89D4031A1D52EACB00AED712 /* JHDanmakuCanvas.h */,
-				89D4031B1D52EACB00AED712 /* JHDanmakuCanvas.m */,
-				89D4031C1D52EACB00AED712 /* JHDanmakuClock.h */,
-				89D4031D1D52EACB00AED712 /* JHDanmakuClock.m */,
-				89D4031E1D52EACB00AED712 /* JHDanmakuEngine.h */,
-				89D4031F1D52EACB00AED712 /* JHDanmakuEngine.m */,
-				89D403201D52EACB00AED712 /* JHDanmakuHeader.h */,
-				89D403211D52EACB00AED712 /* JHDanmakuRender.h */,
-				89D403221D52EACB00AED712 /* JHDisplayLink.h */,
-				89D403231D52EACB00AED712 /* JHDisplayLink.m */,
-			);
-			path = JHDanmakuRender;
-			sourceTree = "<group>";
-		};
-		89D403111D52EACB00AED712 /* Danmaku */ = {
-			isa = PBXGroup;
-			children = (
-				89D403121D52EACB00AED712 /* FloatDanmaku.h */,
-				89D403131D52EACB00AED712 /* FloatDanmaku.m */,
-				89D403141D52EACB00AED712 /* ParentDanmaku.h */,
-				89D403151D52EACB00AED712 /* ParentDanmaku.m */,
-				89D403161D52EACB00AED712 /* ScrollDanmaku.h */,
-				89D403171D52EACB00AED712 /* ScrollDanmaku.m */,
-			);
-			path = Danmaku;
 			sourceTree = "<group>";
 		};
 		89D403241D52EACB00AED712 /* JHMediaPlayer */ = {
@@ -1109,10 +1054,10 @@
 		89E3A71A1C60FEDA0030C44A /* 弹幕选择界面 */ = {
 			isa = PBXGroup;
 			children = (
-				8975A0AF1C60A8EA009BD30F /* DanMuChooseViewController.h */,
-				8975A0B01C60A8EA009BD30F /* DanMuChooseViewController.m */,
-				8995C9951C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.h */,
-				8995C9961C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m */,
+				8975A0AF1C60A8EA009BD30F /* DanmakuChooseViewController.h */,
+				8975A0B01C60A8EA009BD30F /* DanmakuChooseViewController.m */,
+				8995C9951C64F6F8008C1C02 /* ThirdPartyDanmakuChooseViewController.h */,
+				8995C9961C64F6F8008C1C02 /* ThirdPartyDanmakuChooseViewController.m */,
 				8951A1D81C8073AD002472AD /* DownLoadOtherDanmakuViewController.h */,
 				8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */,
 			);
@@ -1337,12 +1282,10 @@
 				897D7F721CA7E64B00FAC53A /* PlayerControlView.m in Sources */,
 				896AEA931C7CB8680011E046 /* PlayerMethodManager.m in Sources */,
 				896370581C59028C002F32FD /* DanmakuNetManager.m in Sources */,
-				89D403361D52EACB00AED712 /* JHDanmakuClock.m in Sources */,
 				8975D1DF1C6EF939003FE797 /* CaptionsProtectAreaCell.m in Sources */,
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,
 				89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */,
 				89FDFEAD1C9042FD005499B9 /* UpdateViewController.m in Sources */,
-				89D403321D52EACB00AED712 /* ParentDanmaku.m in Sources */,
 				897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */,
 				890B9A521C8B2E460063986B /* OpenStreamVideoViewController.m in Sources */,
 				89D403491D52EAFB00AED712 /* RespondKeyboardSearchField.m in Sources */,
@@ -1354,7 +1297,7 @@
 				89636FD11C58C40B002F32FD /* AppDelegate.m in Sources */,
 				8975D1E61C6F2A20003FE797 /* DanMuFilterCell.m in Sources */,
 				89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */,
-				8975A0B11C60A8EA009BD30F /* DanMuChooseViewController.m in Sources */,
+				8975A0B11C60A8EA009BD30F /* DanmakuChooseViewController.m in Sources */,
 				89D4033B1D52EACB00AED712 /* JHPlayerItem.m in Sources */,
 				89A5B1C61C9998AB007869C9 /* NSAlert+Tools.m in Sources */,
 				89524B441CB96BB400BDFDBA /* QualityMenuItem.m in Sources */,
@@ -1368,9 +1311,9 @@
 				897619F91C59EDBC0046A245 /* DanMuChooseViewModel.m in Sources */,
 				8965EE3A1C6DBCDD0089E187 /* PreferenceViewModel.m in Sources */,
 				89788D361C5E3DB100CA31EF /* SearchViewController.m in Sources */,
-				89D403311D52EACB00AED712 /* FloatDanmaku.m in Sources */,
 				8996A6DA1C6CC03000D5AA6E /* HideDanMuAndCloseCell.m in Sources */,
 				89D403511D531FCA00AED712 /* PlayerSubtitleSwitchCell.m in Sources */,
+				89387EBD1D6597E900F273D7 /* NSDictionary+Bilibili.m in Sources */,
 				897EC7CA1C72056A00E1B03D /* ShiBanModel.m in Sources */,
 				8965EE371C6DB8590089E187 /* PreferenceViewController.m in Sources */,
 				89D4034A1D52EAFB00AED712 /* RespondKeyboardTextField.m in Sources */,
@@ -1382,11 +1325,9 @@
 				8951A1DA1C8073AD002472AD /* DownLoadOtherDanmakuViewController.m in Sources */,
 				897EC7CB1C72056A00E1B03D /* VideoInfoModel.m in Sources */,
 				896370591C59028C002F32FD /* MatchNetManager.m in Sources */,
-				89D403381D52EACB00AED712 /* JHDisplayLink.m in Sources */,
 				896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */,
 				89D4033A1D52EACB00AED712 /* JHMediaView.m in Sources */,
-				896370C21C59099C002F32FD /* DanMuDataFormatter.m in Sources */,
-				89D403371D52EACB00AED712 /* JHDanmakuEngine.m in Sources */,
+				896370C21C59099C002F32FD /* DanmakuDataFormatter.m in Sources */,
 				896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */,
 				89D6A1AD1D615C3B00A14469 /* DanDanPlayMessageModel.m in Sources */,
 				897CD5B01C914A0100C98310 /* AutoUpdateCell.m in Sources */,
@@ -1396,18 +1337,15 @@
 				89D403481D52EAFB00AED712 /* HUDMessageView.m in Sources */,
 				89264DA91D5C5F8E004B51BF /* POPMasAnimation.m in Sources */,
 				897619F11C59E8520046A245 /* PlayViewModel.m in Sources */,
-				8995C9971C64F6F8008C1C02 /* ThirdPartyDanMuChooseViewController.m in Sources */,
-				896A71731C6641C700280B79 /* ThirdPartyDanMuChooseViewModel.m in Sources */,
+				8995C9971C64F6F8008C1C02 /* ThirdPartyDanmakuChooseViewController.m in Sources */,
+				896A71731C6641C700280B79 /* ThirdPartyDanmakuChooseViewModel.m in Sources */,
 				890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */,
-				89D403351D52EACB00AED712 /* JHDanmakuCanvas.m in Sources */,
 				89264DA61D5C3370004B51BF /* PlayerDanmakuCountView.m in Sources */,
 				890B9A461C8B1BB60063986B /* OpenStreamInputAidViewController.m in Sources */,
 				8981629D1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m in Sources */,
 				89A5345E1CB92FD000F7FE18 /* AboutViewController.m in Sources */,
 				89D4033E1D52EACB00AED712 /* JHProgressHUD.m in Sources */,
-				89D403331D52EACB00AED712 /* ScrollDanmaku.m in Sources */,
 				8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */,
-				89D403341D52EACB00AED712 /* DanmakuContainer.m in Sources */,
 				89D403391D52EACB00AED712 /* JHMediaPlayer.m in Sources */,
 				89D6A1AA1D61538F00A14469 /* DanDanPlayErrorModel.m in Sources */,
 				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,

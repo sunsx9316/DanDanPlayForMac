@@ -1,26 +1,26 @@
 //
-//  BiliBiliDanMuChooseViewController.m
+//  BiliBiliDanmakuChooseViewController.m
 //  DanDanPlayForMac
 //
 //  Created by JimHuang on 16/2/5.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "ThirdPartyDanMuChooseViewController.h"
+#import "ThirdPartyDanmakuChooseViewController.h"
 #import "BiliBiliDanMuChooseViewModel.h"
 #import "AcFunDanMuChooseViewModel.h"
 #import "DownLoadOtherDanmakuViewController.h"
 
-@interface ThirdPartyDanMuChooseViewController ()
+@interface ThirdPartyDanmakuChooseViewController ()
 @property (weak) IBOutlet NSPopUpButton *episodeButton;
-@property (strong, nonatomic) ThirdPartyDanMuChooseViewModel *vm;
+@property (strong, nonatomic) ThirdPartyDanmakuChooseViewModel *vm;
 @end
 
-@implementation ThirdPartyDanMuChooseViewController
+@implementation ThirdPartyDanmakuChooseViewController
 #pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
         [self reloadData];
@@ -28,7 +28,7 @@
 }
 
 - (instancetype)initWithVideoID:(NSString *)videoID type:(DanDanPlayDanmakuSource)type {
-    if ((self = kViewControllerWithId(@"ThirdPartyDanMuChooseViewController"))) {
+    if ((self = kViewControllerWithId(@"ThirdPartyDanmakuChooseViewController"))) {
         if (type == DanDanPlayDanmakuSourceBilibili) {
             self.vm = [[BiliBiliDanMuChooseViewModel alloc] initWithAid: videoID];
         }else if (type == DanDanPlayDanmakuSourceAcfun){
@@ -42,9 +42,9 @@
 - (IBAction)clickChooseDanMuButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
     
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
     
-    [self.vm downThirdPartyDanMuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(id responseObj, NSError *error) {
+    [self.vm downThirdPartyDanmakuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(id responseObj, NSError *error) {
         [JHProgressHUD disMiss];
         if (!error) {
             //通知更新匹配名称

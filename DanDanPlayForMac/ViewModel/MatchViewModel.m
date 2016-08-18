@@ -61,8 +61,8 @@
         //没有找到
         if (responseObj.matches.count == 0){
             MatchDataModel *model = [[MatchDataModel alloc] init];
-            model.animeTitle = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
-            model.episodeTitle = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeCanSearchByUser].message;
+            model.animeTitle = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+            model.episodeTitle = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeCanSearchByUser].message;
             responseObj.matches = @[model];
         }
         

@@ -59,7 +59,7 @@
     [self.clock pause];
 }
 
-- (void)addDanmaku:(ParentDanmaku *)danmaku {
+- (void)sendDanmaku:(ParentDanmaku *)danmaku {
     //被过滤不显示
     if (danmaku.isFilter || ([self.globalFilterDanmaku containsObject:@([(ScrollDanmaku *)danmaku direction])]) || ([self.globalFilterDanmaku containsObject:@([(FloatDanmaku *)danmaku direction])])) return;
     
@@ -70,7 +70,8 @@
     DanmakuContainer *con = self.inactiveContainer.firstObject;
     if (!con) {
         con = [[DanmakuContainer alloc] initWithDanmaku:danmaku];
-    }else{
+    }
+    else {
         [self.inactiveContainer removeObject:con];
         [con setWithDanmaku:danmaku];
     }
@@ -79,12 +80,12 @@
     if (_globalFont) con.globalFont = _globalFont;
     if (_globalShadowStyle) con.globalShadowStyle = _globalShadowStyle;
     
-    con.originalPosition = [danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:self.canvas.bounds danmakuSize:con.bounds.size timeDifference:_currentTime - danmaku.appearTime];
+    con.originalPosition = [danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:self.canvas.bounds danmakuSize:con.bounds.size timeDifference:danmaku.appearTime - _currentTime];
     [self.canvas addSubview: con];
     [self.activeContainer addObject:con];
 }
 
-- (void)addAllDanmakus:(NSArray <ParentDanmaku *>*)danmakus {
+- (void)sendAllDanmakus:(NSArray <ParentDanmaku *>*)danmakus {
     NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *>*>*dic = [NSMutableDictionary dictionary];
     for (ParentDanmaku *danmaku in danmakus) {
         NSInteger time = danmaku.appearTime;
@@ -96,7 +97,7 @@
     self.danmakusCache = dic;
 }
 
-- (void)addAllDanmakusDic:(NSDictionary <NSNumber *,NSArray <ParentDanmaku *>*>*)danmakus {
+- (void)sendAllDanmakusDic:(NSDictionary <NSNumber *,NSArray <ParentDanmaku *>*>*)danmakus {
     self.currentTime = 0;
     self.danmakusCache = danmakus;
 }
@@ -170,7 +171,7 @@
         _intTime = _currentTime;
         NSArray *danmakus = [self.danmakusCache objectForKey:@((NSInteger)_currentTime)];
         for (ParentDanmaku *danmaku in danmakus) {
-            [self addDanmaku:danmaku];
+            [self sendDanmaku:danmaku];
         }
     }
     
@@ -198,7 +199,7 @@
             NSInteger time = _currentTime - i;
             NSArray *danmakus = [self.danmakusCache objectForKey:@(time)];
             for (ParentDanmaku *danmaku in danmakus) {
-                [self addDanmaku:danmaku];
+                [self sendDanmaku:danmaku];
             }
         }
     }

@@ -11,13 +11,12 @@
 
 @interface RecommendHeadCell : NSView
 /**
- *  通过模型获取高度
+ *  设置模型
  *
  *  @param model 模型
  *
- *  @return 高度
  */
-- (CGFloat)heightWithModel:(FeaturedModel *)model;
+- (void)setWithModel:(FeaturedModel *)model;
 @property (copy, nonatomic) void(^clickSearchButtonCallBack)(NSString *keyWord);
 @property (copy, nonatomic) void(^clickFilmReviewButtonCallBack)(NSString *fileReviewPath);
 @end

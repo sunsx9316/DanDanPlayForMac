@@ -9,15 +9,12 @@
 #import "PlayerSubtitleSwitchCell.h"
 #import "JHSwichButton.h"
 @interface PlayerSubtitleSwitchCell ()
-//@property (weak, nonatomic) IBOutlet JHSwichButton *switchButton;
 @property (weak, nonatomic) IBOutlet NSPopUpButton *popButton;
-//@property (strong, nonatomic) NSTextField *titleLabel;
 @end
 
 @implementation PlayerSubtitleSwitchCell
 - (void)awakeFromNib {
     [super awakeFromNib];
-//    [self.switchButton addTarget:self action:@selector(touchSwithButton:)];
     [self.popButton setTarget:self];
     [self.popButton setAction:@selector(touchPopButton:)];
 }
@@ -46,12 +43,6 @@
 }
 
 #pragma mark - 私有方法
-//- (void)touchSwithButton:(JHSwichButton *)button {
-//    if (self.touchButtonCallBack) {
-//        self.touchButtonCallBack(button.status);
-//    }
-//}
-
 - (void)touchPopButton:(NSPopUpButton *)button {
     NSInteger index = button.indexOfSelectedItem;
     

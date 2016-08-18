@@ -19,7 +19,7 @@
 @property (strong, nonatomic) RecommedViewModel *vm;
 @property (strong, nonatomic) JHProgressHUD *progressHUD;
 @property (weak) IBOutlet RecommendHeadCell *headView;
-@property (weak) IBOutlet NSLayoutConstraint *headViewHeightConstraint;
+//@property (weak) IBOutlet NSLayoutConstraint *headViewHeightConstraint;
 @property (weak) IBOutlet NSTabView *tabView;
 @end
 
@@ -32,7 +32,7 @@
     
     [self.vm refreshWithCompletionHandler:^(NSError *error) {
         [self.progressHUD disMiss];
-        self.headViewHeightConstraint.constant = [self.headView heightWithModel:self.vm.featuredModel];
+        [self.headView setWithModel:self.vm.featuredModel];
         NSArray *arr = self.vm.bangumis;
         
         [arr enumerateObjectsUsingBlock:^(BangumiModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -86,7 +86,7 @@
 
 - (JHProgressHUD *)progressHUD {
 	if(_progressHUD == nil) {
-        DanDanPlayMessageModel *model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage];
+        DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage];
 		_progressHUD = [[JHProgressHUD alloc] initWithMessage:model.message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
 	}
 	return _progressHUD;

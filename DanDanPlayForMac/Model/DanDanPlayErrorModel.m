@@ -17,7 +17,7 @@
             errorMessage = @"对象为空";
             break;
         case DanDanPlayErrorTypeNoMatchDanmaku:
-            errorMessage = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+            errorMessage = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
             break;
         case DanDanPlayErrorTypeVersionNoExist:
             errorMessage = @"版本不存在";

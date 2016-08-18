@@ -19,6 +19,10 @@
 @property (strong, nonatomic) NSDictionary *globalAttributedDic;
 @property (strong, nonatomic) JHFont *globalFont;
 @property (assign, nonatomic) NSNumber *globalShadowStyle;
+/**
+ *  遮盖率
+ */
+@property (assign, nonatomic) float coverRate;
 - (ParentDanmaku *)danmaku;
 - (instancetype)initWithDanmaku:(ParentDanmaku *)danmaku;
 - (void)setWithDanmaku:(ParentDanmaku *)danmaku;

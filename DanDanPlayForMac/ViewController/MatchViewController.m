@@ -8,7 +8,7 @@
 
 #import "MatchViewController.h"
 #import "SearchViewController.h"
-#import "DanMuChooseViewController.h"
+#import "DanmakuChooseViewController.h"
 #import "RespondKeyboardSearchField.h"
 #import "MatchViewModel.h"
 #import "LocalVideoModel.h"
@@ -35,7 +35,7 @@
     
     [self.tableView setDoubleAction: @selector(doubleClickRow)];
     
-    [JHProgressHUD showWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
     
@@ -47,7 +47,7 @@
             //防止崩溃
             if (self == vc) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
-                [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: model.episodeId]];
+                [self presentViewControllerAsSheet: [[DanmakuChooseViewController alloc] initWithVideoID: model.episodeId]];
             }
         }
         else {
@@ -95,7 +95,7 @@
 - (void)doubleClickRow{
     NSString *episodeID = [self.vm modelEpisodeIdWithIndex: [self.tableView clickedRow]];
     if (episodeID) {
-            DanMuChooseViewController *vc = [[DanMuChooseViewController alloc] initWithVideoID: episodeID];
+            DanmakuChooseViewController *vc = [[DanmakuChooseViewController alloc] initWithVideoID: episodeID];
             [self presentViewControllerAsSheet: vc];
         }
 }

@@ -95,7 +95,7 @@
         //没有找到
         if (!arr.count) {
             AcFunSearchListModel *listModel = [[AcFunSearchListModel alloc] init];
-            listModel.title = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+            listModel.title = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
             [arr addObject:listModel];
             error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject];
         }
@@ -130,7 +130,7 @@
     }];
 }
 - (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,DanDanPlayErrorModel *error))complete {
-    [super downThirdPartyDanMuWithDanmakuID:[self danmakuIDForRow: row] provider:DanDanPlayDanmakuSourceAcfun completionHandler:complete];
+    [super downThirdPartyDanmakuWithDanmakuID:[self danmakuIDForRow: row] provider:DanDanPlayDanmakuSourceAcfun completionHandler:complete];
 }
 
 

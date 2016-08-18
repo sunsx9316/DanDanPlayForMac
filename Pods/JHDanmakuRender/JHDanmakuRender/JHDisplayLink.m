@@ -7,31 +7,15 @@
 //
 
 #import "JHDisplayLink.h"
+
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
-
 #else
-#import <QuartzCore/QuartzCore.h>
-#if OS_OBJECT_USE_OBJC_RETAIN_RELEASE
-static void
-JHDispatchRelease(__strong dispatch_object_t *var) {
-    *var = nil;
-}
-#else
-static void
-JHDispatchRelease(dispatch_object_t *var) {
-    dispatch_release(*var);
-    *var = NULL;
-}
-#endif
+#import <QuartzCore/CVDisplayLink.h>
 #endif
 
 
 typedef enum : unsigned {
-    // We don't want to naively schedule the callback from the displaylink
-    // thread, because this will likely happen faster than the main thread
-    // can process it. Instead, we try to only schedule the callback if the
-    // callback isn't already executing.
     kJHDisplayLinkIsRendering = 1u << 0
 } JHDisplayLinkAtomicFlags;
 
@@ -47,11 +31,9 @@ typedef enum : unsigned {
     JHDisplayLinkAtomicFlags _atomicFlags;
     bool _isRunning;
     
-    /// Serial dispatch queue that has client's queue as its target
     dispatch_queue_t _internalDispatchQueue;
-    
-    /// Queue that serialises calls to -start and -stop.
     dispatch_queue_t _stateChangeQueue;
+    dispatch_queue_t _clientDispatchQueue;
 #endif
     
 }
@@ -60,8 +42,6 @@ typedef enum : unsigned {
 
 @implementation JHDisplayLink
 
-@synthesize dispatchQueue = _clientDispatchQueue;
-
 - (instancetype)init{
     if (self = [super init]) {
 #if !TARGET_OS_IPHONE
@@ -69,14 +49,12 @@ typedef enum : unsigned {
         CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
         assert(status == kCVReturnSuccess);
         
-        _stateChangeQueue = dispatch_queue_create("JHDisplayLink.stateChange",
-                                                  NULL);
+        _stateChangeQueue = dispatch_queue_create("JHDisplayLink.stateChange", NULL);
         _clientDispatchQueue = dispatch_get_main_queue();
         _internalDispatchQueue = dispatch_queue_create("JHDisplayLink", NULL);
         dispatch_set_target_queue(_internalDispatchQueue, _clientDispatchQueue);
         
-        CVDisplayLinkSetOutputCallback(_displayLink, JHDisplayLinkCallback,
-                                       (__bridge void*)self);
+        CVDisplayLinkSetOutputCallback(_displayLink, JHDisplayLinkCallback, (__bridge void * _Nullable)(self));
 #endif
     }
     
@@ -88,8 +66,8 @@ typedef enum : unsigned {
     [self stop];
 #else
     CVDisplayLinkRelease(_displayLink);
-    JHDispatchRelease(&_internalDispatchQueue);
-    JHDispatchRelease(&_stateChangeQueue);
+    _internalDispatchQueue = nil;
+    _stateChangeQueue = nil;
 #endif
 }
 
@@ -107,15 +85,11 @@ typedef enum : unsigned {
             return;
         
         _isRunning = true;
-        
-        // We CFRetain self while the displaylink thread is active, to ensure it
-        // always has a valid 'self' pointer. The CFRetain is undone by [1].
         CFRetain((__bridge CFTypeRef)self);
         
         CVDisplayLinkStart(_displayLink);
     });
 #endif
-    
 }
 
 - (void)stop {
@@ -125,11 +99,8 @@ typedef enum : unsigned {
     }
 #else
     dispatch_async(_stateChangeQueue, ^{
-        if (!_isRunning)
-            return;
-        
+        if (!_isRunning) return;
         _isRunning = false;
-        // The displaylink thread resumes the queue at [2]
         dispatch_suspend(_stateChangeQueue);
     });
 #endif
@@ -141,8 +112,7 @@ typedef enum : unsigned {
     _clientDispatchQueue = dispatchQueue;
 }
 
-static CVReturn
-JHDisplayLinkCallback(CVDisplayLinkRef displayLink,
+static CVReturn JHDisplayLinkCallback(CVDisplayLinkRef displayLink,
                       const CVTimeStamp *inNow,
                       const CVTimeStamp *inOutputTime,
                       CVOptionFlags flagsIn,
@@ -152,22 +122,21 @@ JHDisplayLinkCallback(CVDisplayLinkRef displayLink,
     
     if (!self->_isRunning) {
         CVDisplayLinkStop(displayLink);
-        dispatch_resume(self->_stateChangeQueue); // See [2]
-        CFRelease(ctx); // See [1]
+        dispatch_resume(self->_stateChangeQueue);
+        CFRelease(ctx);
         
     } else if (!__sync_fetch_and_or(&self->_atomicFlags,
                                     kJHDisplayLinkIsRendering)) {
         self->_timeStamp = *inOutputTime;
         dispatch_async_f(self->_internalDispatchQueue,
-                         (void*)CFBridgingRetain(self),
+                         (void *)CFBridgingRetain(self),
                          JHDisplayLinkRender);
     }
     
     return kCVReturnSuccess;
 }
 
-static void
-JHDisplayLinkRender(void *ctx) {
+static void JHDisplayLinkRender(void *ctx) {
     JHDisplayLink *self = CFBridgingRelease(ctx);
     if (self->_isRunning) {
         [self->_delegate displayLink:self

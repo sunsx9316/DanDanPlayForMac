@@ -1,12 +1,12 @@
 //
-//  DanMuDataFormatter.m
+//  DanmakuDataFormatter.m
 //  DanDanPlayForMac
 //
 //  Created by JimHuang on 16/1/27.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "DanMuDataFormatter.h"
+#import "DanmakuDataFormatter.h"
 #import "DanMuModel.h"
 #import "NSString+Tools.h"
 #import "ScrollDanmaku.h"
@@ -15,7 +15,7 @@
 #import <GDataXMLNode.h>
 
 typedef void(^callBackBlock)(DanMuDataModel *model);
-@implementation DanMuDataFormatter
+@implementation DanmakuDataFormatter
 + (NSMutableDictionary *)dicWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
     NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *> *> *dic = [NSMutableDictionary dictionary];
     if (obj) {

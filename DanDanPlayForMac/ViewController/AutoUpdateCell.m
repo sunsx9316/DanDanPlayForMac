@@ -49,7 +49,7 @@
             [vc presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
         }
         else {
-            [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoUpdateInfo].message informativeText:nil] runModal];
+            [[NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoUpdateInfo].message informativeText:nil] runModal];
         }
     }];
 }

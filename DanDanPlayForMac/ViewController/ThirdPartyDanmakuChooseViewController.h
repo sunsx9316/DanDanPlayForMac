@@ -1,5 +1,5 @@
 //
-//  BiliBiliDanMuChooseViewController.h
+//  BiliBiliDanmakuChooseViewController.h
 //  DanDanPlayForMac
 //
 //  Created by JimHuang on 16/2/5.
@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@interface ThirdPartyDanMuChooseViewController : NSViewController
+@interface ThirdPartyDanmakuChooseViewController : NSViewController
 /**
  *  初始化
  *

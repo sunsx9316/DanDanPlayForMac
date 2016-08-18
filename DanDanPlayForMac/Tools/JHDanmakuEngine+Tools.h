@@ -6,7 +6,7 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "JHDanmakuEngine.h"
+#import <JHDanmakuEngine.h>
 @class DanMuDataModel;
 @interface JHDanmakuEngine (Tools)
 + (ParentDanmaku *)DanmakuWithText:(NSString*)text color:(NSInteger)color spiritStyle:(NSInteger)spiritStyle shadowStyle:(danmakuShadowStyle)shadowStyle fontSize:(CGFloat)fontSize font:(NSFont *)font;

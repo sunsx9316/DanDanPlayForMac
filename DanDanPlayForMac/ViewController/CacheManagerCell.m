@@ -39,14 +39,14 @@
     DanDanPlayMessageModel *model;
     if (err) {
         if (err.code == NSFileNoSuchFileError) {
-            model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundCacheDirectories];
+            model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundCacheDirectories];
         }
         else {
-            model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeClearFail];
+            model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeClearFail];
         }
     }
     else {
-        model = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeClearSuccess];
+        model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeClearSuccess];
         self.cacheTextField.stringValue = @"缓存大小: 0.0M";
     }
     

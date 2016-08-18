@@ -1,5 +1,5 @@
 //
-//  DanMuChooseViewController.h
+//  DanmakuChooseViewController.h
 //  DanDanPlayForMac
 //
 //  Created by JimHuang on 16/2/2.
@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DanMuChooseViewController : NSViewController
+@interface DanmakuChooseViewController : NSViewController
 /**
  *  初始化
  *

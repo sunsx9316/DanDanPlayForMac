@@ -48,7 +48,7 @@
     }];
     
 //    [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(NSDictionary *videosDic, DanDanPlayErrorModel *error) {
-//        [DanmakuNetManager downThirdPartyDanMuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+//        [DanmakuNetManager downThirdPartyDanmakuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
 //        }];
 //    }];
 }

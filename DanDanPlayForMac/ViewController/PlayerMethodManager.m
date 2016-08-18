@@ -7,7 +7,7 @@
 //
 
 #import "PlayerMethodManager.h"
-#import "DanMuDataFormatter.h"
+#import "DanmakuDataFormatter.h"
 #import <VLCKit/VLCMediaPlayer.h>
 #import "DanmakuNetManager.h"
 #import "DanMuModel.h"
@@ -30,11 +30,11 @@
             id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers error:nil];
             NSDictionary *dic = nil;
             if (obj) {
-                dic = [DanMuDataFormatter dicWithObj:obj source:DanDanPlayDanmakuSourceAcfun];
+                dic = [DanmakuDataFormatter dicWithObj:obj source:DanDanPlayDanmakuSourceAcfun];
             }
             else{
                 //bilibili：xml解析方式
-                dic = [DanMuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:DanDanPlayDanmakuSourceBilibili];
+                dic = [DanmakuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:DanDanPlayDanmakuSourceBilibili];
             }
             block(dic);
         }
@@ -78,7 +78,7 @@
     
     NSUserNotification *notification = [[NSUserNotification alloc] init];
     notification.title = @"弹弹play";
-    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoMatchVideo].message;
+    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoMatchVideo].message;
     [NSUserNotificationCenter defaultUserNotificationCenter].delegate = delegate;
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }
@@ -101,7 +101,7 @@
         }];
         //没超过 使用这个约束
     }
-    else{
+    else {
         [mediaView  mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.right.centerY.mas_equalTo(0);
             make.top.mas_greaterThanOrEqualTo(0);

@@ -63,7 +63,7 @@
     }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj))complete{
+- (void)downThirdPartyDanmakuWithIndex:(NSInteger)index provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj))complete{
     NSString *danmakuID = [self danMaKuWithIndex: index];
     if (!danmakuID || !provider){
         complete(nil);

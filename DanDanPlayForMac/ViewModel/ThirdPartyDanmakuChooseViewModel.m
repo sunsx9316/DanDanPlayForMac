@@ -1,15 +1,15 @@
 //
-//  ThirdPartyDanMuChooseViewModel.m
+//  ThirdPartyDanmakuChooseViewModel.m
 //  DanDanPlayForMac
 //
 //  Created by JimHuang on 16/2/6.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "ThirdPartyDanMuChooseViewModel.h"
+#import "ThirdPartyDanmakuChooseViewModel.h"
 #import "DanmakuNetManager.h"
 
-@implementation ThirdPartyDanMuChooseViewModel
+@implementation ThirdPartyDanmakuChooseViewModel
 - (NSInteger)episodeCount{
     return self.videos.count;
 }
@@ -25,7 +25,7 @@
     
 }
 
-- (void)downThirdPartyDanMuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
+- (void)downThirdPartyDanmakuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
     if (!danmakuID.length){
         complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return;
@@ -38,11 +38,11 @@
         complete(responseObj, error);
     }];
 //    
-//    [DanmakuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+//    [DanmakuNetManager downThirdPartyDanmakuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
 //    }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
+- (void)downThirdPartyDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
     
 }
 

@@ -26,10 +26,10 @@
 //    }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
-    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:DanDanPlayDanmakuSourceBilibili completionHandler:complete];
+- (void)downThirdPartyDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete{
+    [super downThirdPartyDanmakuWithDanmakuID:[self danmakuWithIndex: index] provider:DanDanPlayDanmakuSourceBilibili completionHandler:complete];
     
-//    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:bilibili completionHandler:complete];
+//    [super downThirdPartyDanmakuWithDanmakuID:[self danmakuWithIndex: index] provider:bilibili completionHandler:complete];
 }
 
 

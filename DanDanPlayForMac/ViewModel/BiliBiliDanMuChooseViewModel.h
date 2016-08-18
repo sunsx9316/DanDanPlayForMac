@@ -7,8 +7,8 @@
 //
 
 #import "BaseViewModel.h"
-#import "ThirdPartyDanMuChooseViewModel.h"
+#import "ThirdPartyDanmakuChooseViewModel.h"
 
-@interface BiliBiliDanMuChooseViewModel : ThirdPartyDanMuChooseViewModel
+@interface BiliBiliDanMuChooseViewModel : ThirdPartyDanmakuChooseViewModel
 
 @end

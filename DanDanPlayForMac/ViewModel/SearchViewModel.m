@@ -64,7 +64,7 @@
         NSMutableArray *arr = [self classifyModel: responseObj.animes];
         if (!arr.count) {
             SearchDataModel *model = [[SearchDataModel alloc] init];
-            model.title = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+            model.title = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
             [arr addObject:model];
         }
         self.models = arr;

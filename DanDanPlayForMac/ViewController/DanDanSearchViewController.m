@@ -7,7 +7,7 @@
 //
 
 #import "DanDanSearchViewController.h"
-#import "DanMuChooseViewController.h"
+#import "DanmakuChooseViewController.h"
 #import "SearchViewModel.h"
 #import "SearchModel.h"
 #import "HUDMessageView.h"
@@ -48,7 +48,7 @@
     if ([aModel isKindOfClass: [EpisodesModel class]]) {
         NSString *videoID = [aModel ID];
         if (videoID) {
-            DanMuChooseViewController *vc = [[DanMuChooseViewController alloc] initWithVideoID: videoID];
+            DanmakuChooseViewController *vc = [[DanmakuChooseViewController alloc] initWithVideoID: videoID];
             [self presentViewControllerAsSheet: vc];
         }
     }
@@ -84,7 +84,7 @@
 
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = [[JHProgressHUD alloc] initWithMessage:[UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = [[JHProgressHUD alloc] initWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _hud;
 }
@@ -92,7 +92,7 @@
 - (HUDMessageView *)messageView {
     if(_messageView == nil) {
         _messageView = [[HUDMessageView alloc] init];
-        _messageView.text = [UserDefaultManager alertMessageWithType:DanDanPlayMessageTypeConnectFail].message;
+        _messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeConnectFail].message;
     }
     return _messageView;
 }

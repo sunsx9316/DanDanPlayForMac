@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>JHDanmakuRender.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,17 +42,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>4BE8CB52D975BC53A76DACAEA8183DA2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5CE82B4DE9FC569FA2EB315603C22999</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>661266EBD6EA604C675CD4D5D02CF971</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>84071A1E3D662F050BEA435BBCA14BBD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>949B6C8FC42EE8D4F7140C6D77887E3A</key>
+		<key>8C0D4403DC9A084A0EF7D4BE7D7070BD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -57,7 +67,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DFEDE591987E3267CC6EE14D3DC40AE2</key>
+		<key>E80ADD5C5CE695FBC39E3B7590EE1FB3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

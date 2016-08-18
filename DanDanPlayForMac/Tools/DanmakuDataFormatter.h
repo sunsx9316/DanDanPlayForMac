@@ -1,5 +1,5 @@
 //
-//  DanMuDataFormatter.h
+//  DanmakuDataFormatter.h
 //  DanDanPlayForMac
 //
 //  Created by JimHuang on 16/1/27.
@@ -9,7 +9,7 @@
 
 
 @class ParentDanmaku;
-@interface DanMuDataFormatter : NSObject
+@interface DanmakuDataFormatter : NSObject
 /**
  *  把对象转成时间字典
  *

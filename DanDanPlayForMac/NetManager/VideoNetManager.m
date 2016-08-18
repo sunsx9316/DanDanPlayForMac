@@ -7,6 +7,7 @@
 //
 
 #import "VideoNetManager.h"
+#import "NSDictionary+Bilibili.h"
 
 @implementation VideoNetManager
 + (void)bilibiliVideoURLWithDanmaku:(NSString *)danmaku completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
@@ -15,18 +16,24 @@
         complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
         return;
     }
-    
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    //存放视频路径的字典
+    NSMutableDictionary *videoPathDic = [NSMutableDictionary dictionary];
+    //存放参数的字典
+    NSMutableDictionary *parametersDic = [NSMutableDictionary dictionaryWithDictionary:@{@"cid":danmaku, @"quality":@"2", @"otype": @"json", @"appkey": BILIBILI_APPKEY, @"type": @"hdmp4"}];
     
     //良心画质
-    NSString *goodQualityPath = [NSString stringWithFormat:@"http://interface.bilibili.com/playurl?cid=%@&quality=2&otype=json&appkey=86385cdc024c0f6c&type=hdmp4&sign=7fed8a9b7b446de4369936b6c1c40c3f", danmaku];
+    NSString *goodQualityPath = [parametersDic requestPathWithBasePath:@"http://interface.bilibili.com/playurl?"];
     //渣画质
-    NSString *badQualityPath = [NSString stringWithFormat:@"http://interface.bilibili.com/playurl?cid=%@&quality=1&otype=json&appkey=86385cdc024c0f6c&type=mp4&sign=7fed8a9b7b446de4369936b6c1c40c3f", danmaku];
+    parametersDic[@"quality"] = @"1";
+    parametersDic[@"type"] = @"mp4";
+    NSString *badQualityPath = [parametersDic requestPathWithBasePath:@"http://interface.bilibili.com/playurl?"];
     
     [self batchGETWithPaths:@[goodQualityPath, badQualityPath] progressBlock:nil completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
-        dic[@"high"] = [self bilibiliURLsWithResponseObj:responseObjects.firstObject];
-        dic[@"low"] = [self bilibiliURLsWithResponseObj:responseObjects[1]];
-        complete(dic, nil);
+        videoPathDic[@"high"] = [self bilibiliURLsWithResponseObj:responseObjects.firstObject];
+        if (responseObjects.count > 0) {
+            videoPathDic[@"low"] = [self bilibiliURLsWithResponseObj:responseObjects[1]];
+        }
+        complete(videoPathDic, nil);
     }];
 }
 

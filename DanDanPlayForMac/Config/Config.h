@@ -16,22 +16,6 @@
 #define NSLog(...)
 #endif
 
-//static NSString *official = @"official";
-//static NSString *bilibili = @"bilibili";
-//static NSString *acfun = @"acfun";
-
-//来源枚举
-//typedef NS_ENUM(NSInteger, JHDanMuSource){
-//    //官方
-//    JHDanMuSourceOfficial,
-//    //b站
-//    JHDanMuSourceBilibili,
-//    //a站
-//    JHDanMuSourceAcfun,
-//    //发送缓存
-//    JHDanMuSourceCache
-//};
-
 //只能亦或用户发送缓存和其它
 typedef NS_ENUM(NSUInteger, DanDanPlayDanmakuSource){
     /**
@@ -63,9 +47,14 @@ typedef NS_ENUM(NSUInteger, DanDanPlayDanmakuSource){
 //项目主色调
 #define MAIN_COLOR RGBColor(49, 169, 226)
 
-//官方的key
+//弹弹官方的key
 #define kDanDanPlayKey @""
-//官方的IV
+//弹弹官方的IV
 #define kDanDanPlayIV @""
+
+//b站的 appkey
+#define BILIBILI_APPKEY @"85eb6835b0a1034e"
+//b 站的 secretkey
+#define BILIBILI_SECRETKEY @"2ad42749773c441109bdc0191257a664"
 
 #endif /* Config_h */

@@ -17,10 +17,12 @@
     if (self = [super init]) {
 #if TARGET_OS_IPHONE
         self.userInteractionEnabled = NO;
+        self.clipsToBounds = YES;
         self.backgroundColor = [UIColor clearColor];
-        self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 #else
         [self setWantsLayer:YES];
+        self.autoresizingMask = NSViewMinXMargin | NSViewWidthSizable | NSViewMinYMargin | NSViewHeightSizable;
 #endif
     }
     return self;
