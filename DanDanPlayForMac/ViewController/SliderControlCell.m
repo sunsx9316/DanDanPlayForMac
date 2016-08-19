@@ -51,19 +51,19 @@
             self.title.stringValue = @"字体缩放";
             self.slider.minValue = 1;
             self.slider.maxValue = 100;
-            self.slider.floatValue = [UserDefaultManager danMuFont].pointSize;
+            self.slider.floatValue = [UserDefaultManager shareUserDefaultManager].danmakuFont.pointSize;
             break;
         case sliderControlStyleSpeed:
             self.title.stringValue = @"速度调节";
             self.slider.minValue = 0.1;
             self.slider.maxValue = 3.0;
-            self.slider.floatValue = [UserDefaultManager danMuSpeed];
+            self.slider.floatValue = [UserDefaultManager shareUserDefaultManager].danmakuSpeed;
             break;
         case sliderControlStyleOpacity:
             self.title.stringValue = @"弹幕透明度";
             self.slider.minValue = 0;
             self.slider.maxValue = 1.0;
-            self.slider.floatValue = [UserDefaultManager danMuOpacity];
+            self.slider.floatValue = [UserDefaultManager shareUserDefaultManager].danmakuOpacity;
             break;
         default:
             break;
@@ -78,7 +78,7 @@
             {
                 float value = slider.floatValue;
                 self.block(value);
-                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", value / 25];
+                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", value / DANMAKU_FONT_SIZE];
                 break;
             }
             case sliderControlStyleSpeed:

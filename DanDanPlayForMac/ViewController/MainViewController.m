@@ -70,26 +70,25 @@
     //啥也没有
     if (!self.videos.count) return;
     //没开启快速匹配
-    if (![UserDefaultManager turnOnFastMatch]) {
+    if (![UserDefaultManager shareUserDefaultManager].turnOnFastMatch) {
         [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
         return;
     }
     
-    
-    [JHProgressHUD showWithMessage:kAnalyzeString style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
     
     [[[MatchViewModel alloc] initWithModel:self.videos.firstObject] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         if (model.episodeId) {
             _animateTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
             [JHProgressHUD updateProgress: 0.5];
-            [JHProgressHUD updateMessage: kAnalyzeVideoString];
+            [JHProgressHUD updateMessage: [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyzeVideo].message];
             //搜索弹幕
             [[[DanMuChooseViewModel alloc] initWithVideoID: model.episodeId] refreshCompletionHandler:^(NSError *error) {
                 //判断官方弹幕是否为空
                 if (!error) {                    
                     [JHProgressHUD updateProgress: 1];
-                    [JHProgressHUD updateMessage: kDownLoadingDanmakuString];
+                    [JHProgressHUD updateMessage: [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message];
                     _episodeId = model.episodeId;
                 }else{
                     //快速匹配失败
@@ -112,7 +111,7 @@
 //检查更新
 - (void)updateVersion{
     //没开启自动检查更新功能
-    if (![UserDefaultManager cheakDownLoadInfoAtStart]) return;
+    if (![UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart) return;
     
     [UpdateNetManager latestVersionWithCompletionHandler:^(NSString *version, NSString *details, NSString *hash, NSError *error) {
         CGFloat curentVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
@@ -124,7 +123,7 @@
 }
 //显示推荐窗口
 - (void)showRecommedVC{
-    if ([UserDefaultManager showRecommedInfoAtStart]) {
+    if ([UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart) {
         [self presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
     }
 }
@@ -134,7 +133,7 @@
     BOOL isDirectory;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath: path isDirectory:&isDirectory]) {
-        if (!isDirectory) return @[[[LocalVideoModel alloc] initWithFilePath:path]];
+        if (!isDirectory) return @[[[LocalVideoModel alloc] initWithFileURL:[NSURL fileURLWithPath:path]]];
     }
     NSMutableArray *arr = [[fileManager contentsOfDirectoryAtURL:[NSURL fileURLWithPath:path] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants error:nil] mutableCopy];
     
@@ -203,7 +202,7 @@
 }
 
 - (void)changeHomgImg:(NSNotification *)notification{
-    self.imgView.image = notification.userInfo[@"img"];
+    self.imgView.image = notification.object;
 }
 
 #pragma mark - NSUserNotificationDelegate
@@ -218,7 +217,7 @@
         _imgView = [[BackGroundImageView alloc] initWithFrame:self.view.frame];
         [_imgView setWantsLayer: YES];
         _imgView.layer.backgroundColor = [NSColor blackColor].CGColor;
-        _imgView.image = [UserDefaultManager homeImg];
+        _imgView.image = [[NSImage alloc] initWithContentsOfFile:[UserDefaultManager shareUserDefaultManager].homeImgPath];
         
         __weak typeof (self)weakSelf = self;
         [self.imgView setFilePickBlock:^(NSArray *filePath) {

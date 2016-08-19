@@ -22,11 +22,15 @@
 #import "CacheManagerCell.h"
 #import "OtherOnlyButtonCell.h"
 #import "QualityCell.h"
+#import "ReverseVolumeCell.h"
+
 #import "NSAlert+Tools.h"
 
 @interface PreferenceViewController ()<NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate, NSTableViewDataSource, NSSplitViewDelegate>
 @property (weak) IBOutlet NSSplitView *splitView;
+//左边的选项
 @property (weak) IBOutlet NSOutlineView *outlineView;
+//右边的内容
 @property (weak) IBOutlet NSTableView *tableView;
 @property (strong, nonatomic) PreferenceViewModel *vm;
 @property (assign, nonatomic) preferenceTableViewStyle tableViewStyle;
@@ -213,8 +217,8 @@
            OtherOnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OtherOnlyButtonCell" owner:self];
             [cell setWithTitle:@"清除上次播放时间纪录" info:@"难道你想隐藏什么→_→" buttonText:@"清除播放时间纪录"];
             [cell setClickButtonCallBackBlock:^{
-                [UserDefaultManager clearPlayHistory];
-                NSAlert *alert = [NSAlert alertWithMessageText:@"清除成功" informativeText:nil];
+                [[UserDefaultManager shareUserDefaultManager] clearPlayHistory];
+                NSAlert *alert = [NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeClearSuccess].message informativeText:nil];
                 [alert runModal];
             }];
             return cell;
@@ -226,11 +230,20 @@
             OtherOnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OtherOnlyButtonCell" owner:self];
             [cell setWithTitle:@"恢复默认设置" info:@"就是恢复默认设置" buttonText:@"恢复默认设置"];
             [cell setClickButtonCallBackBlock:^{
+                //清除 userDefault
                 NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
                 [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
-                NSAlert *alert = [NSAlert alertWithMessageText:kResetSuccessString informativeText:kResetSuccessInformativeString];
+                
+                DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeResetSuccess];
+                
+                NSAlert *alert = [NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage];
                 [alert runModal];
             }];
+            return cell;
+        }
+        case 4:
+        {
+            ReverseVolumeCell *cell = [tableView makeViewWithIdentifier:@"ReverseVolumeCell" owner:nil];
             return cell;
         }
             

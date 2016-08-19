@@ -8,7 +8,7 @@
 
 #import "MatchViewController.h"
 #import "SearchViewController.h"
-#import "DanMuChooseViewController.h"
+#import "DanmakuChooseViewController.h"
 #import "RespondKeyboardSearchField.h"
 #import "MatchViewModel.h"
 #import "LocalVideoModel.h"
@@ -35,27 +35,31 @@
     
     [self.tableView setDoubleAction: @selector(doubleClickRow)];
     
-    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
     
     [self.vm refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         [JHProgressHUD disMiss];
-        if (model.episodeId && [UserDefaultManager turnOnFastMatch]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
-                [self presentViewControllerAsSheet: [[DanMuChooseViewController alloc] initWithVideoID: model.episodeId]];
-        }else{
+        if (model.episodeId && [UserDefaultManager shareUserDefaultManager].turnOnFastMatch) {
+            NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
+            //防止崩溃
+            if (self == vc) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
+                [self presentViewControllerAsSheet: [[DanmakuChooseViewController alloc] initWithVideoID: model.episodeId]];
+            }
+        }
+        else {
             [self.tableView reloadData];
         }
     }];
     
 }
 
-- (void)dealloc{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
-
 
 - (instancetype)initWithVideoModel:(LocalVideoModel *)videoModel{
     if ((self = kViewControllerWithId(@"MatchViewController"))) {
@@ -65,12 +69,13 @@
 }
 
 - (IBAction)searchButtonDown:(NSButton *)sender {
-    if (!self.searchField.stringValue || [self.searchField.stringValue isEqualToString: @""]) return;
+    if (!self.searchField.stringValue.length) return;
     
     SearchViewController *vc = [[SearchViewController alloc] init];
     vc.searchText = self.searchField.stringValue;
     [self presentViewControllerAsSheet: vc];
 }
+
 - (IBAction)clickPlayButton:(NSButton *)sender {
     [self dismissController: self];
     //通知开始播放
@@ -83,22 +88,20 @@
 
 
 #pragma mark - 私有方法
-
-- (void)disMissSelf:(NSNotification *)notification{
+- (void)disMissSelf:(NSNotification *)notification {
     [self dismissController: self];
 }
 
 - (void)doubleClickRow{
     NSString *episodeID = [self.vm modelEpisodeIdWithIndex: [self.tableView clickedRow]];
     if (episodeID) {
-            DanMuChooseViewController *vc = [[DanMuChooseViewController alloc] initWithVideoID: episodeID];
+            DanmakuChooseViewController *vc = [[DanmakuChooseViewController alloc] initWithVideoID: episodeID];
             [self presentViewControllerAsSheet: vc];
         }
 }
 
 
 #pragma mark - NSTableViewDataSource
-
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return [self.vm modelCount];
 }
@@ -107,7 +110,8 @@
     NSTableCellView *result = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
     if ([tableColumn.identifier isEqualToString: @"col1"]) {
         result.textField.stringValue = [self.vm modelAnimeTitleIdWithIndex: row];
-    }else{
+    }
+    else{
         result.textField.stringValue = [self.vm modelEpisodeTitleWithIndex: row];
     }
     return result;

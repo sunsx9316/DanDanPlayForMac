@@ -4,6 +4,7 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
+<<<<<<< HEAD
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
@@ -17,6 +18,15 @@
             endingLineNumber = "143"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
+=======
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+>>>>>>> 1.9
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

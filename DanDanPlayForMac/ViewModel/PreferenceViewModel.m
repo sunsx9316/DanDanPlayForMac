@@ -31,7 +31,7 @@
         case preferenceTableViewStyleUpdate:
             return 1;
         case preferenceTableViewStyleOther:
-            return 4;
+            return 5;
         default:
             break;
     }

@@ -20,5 +20,5 @@
  *
  *  @return 任务
  */
-+ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(MatchModel* responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(MatchModel* responseObj, DanDanPlayErrorModel *error))complete;
 @end

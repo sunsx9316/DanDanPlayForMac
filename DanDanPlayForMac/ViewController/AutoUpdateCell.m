@@ -21,23 +21,23 @@
 @implementation AutoUpdateCell
 - (void)awakeFromNib{
     [super awakeFromNib];
-    self.downLoadPathTextField.placeholderString = [UserDefaultManager autoDownLoadPath];
-    self.autoCheakUpdateInfoOnstartButton.state = [UserDefaultManager cheakDownLoadInfoAtStart];
+    self.downLoadPathTextField.placeholderString = [UserDefaultManager shareUserDefaultManager].autoDownLoadPath;
+    self.autoCheakUpdateInfoOnstartButton.state = [UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart;
 }
 
 - (IBAction)clickChangeDirectoryButton:(NSButton *)sender {
-    NSOpenPanel* openPanel = [NSOpenPanel chooseDirectoriesPanelWithTitle:@"选取下载目录" defaultURL:[NSURL fileURLWithPath:[UserDefaultManager autoDownLoadPath]]];
+    NSOpenPanel* openPanel = [NSOpenPanel chooseDirectoriesPanelWithTitle:@"选取下载目录" defaultURL:[NSURL fileURLWithPath:[UserDefaultManager shareUserDefaultManager].autoDownLoadPath]];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton){
             NSString *path = openPanel.URL.path;
             self.downLoadPathTextField.placeholderString = path;
-            [UserDefaultManager setAutoDownLoadPath:path];
+            [UserDefaultManager shareUserDefaultManager].autoDownLoadPath = path;
         }
     }];
 
 }
 - (IBAction)clickAutoCheakUpdateInfoAtStartButton:(NSButton *)sender {
-    [UserDefaultManager setCheakDownLoadInfoAtStart:sender.state];
+    [UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart = sender.state;
 }
 
 - (IBAction)clickCheakUpdateInfoButton:(NSButton *)sender {
@@ -47,8 +47,9 @@
         if (curentVersion < [version floatValue]) {
             NSViewController *vc = NSApp.keyWindow.contentViewController;
             [vc presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
-        }else{
-            [[NSAlert alertWithMessageText:kNoUpdateInfoString informativeText:nil] runModal];
+        }
+        else {
+            [[NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoUpdateInfo].message informativeText:nil] runModal];
         }
     }];
 }

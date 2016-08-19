@@ -16,12 +16,15 @@
 /**
  *  保存弹幕模型的数组
  */
-@property (strong, nonatomic) NSArray *danmakusArr;
+//@property (strong, nonatomic) NSArray *danmakusArr;
 /**
  *  保存弹幕模型的字典
  */
 @property (strong, nonatomic) NSDictionary *danmakusDic;
-
+/**
+ *  弹幕总数
+ */
+@property (assign, nonatomic, readonly) NSUInteger danmakuCount;
 /**
  *  当前视频下标
  */
@@ -148,7 +151,7 @@
  *
  *  @param index 下标
  */
-- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, NSError *error))complete;
+- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, DanDanPlayErrorModel *error))complete;
 /**
  *  初始化
  *

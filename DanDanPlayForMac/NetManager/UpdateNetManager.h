@@ -16,7 +16,7 @@
  *
  *  @return 任务
  */
-+ (id)latestVersionWithCompletionHandler:(void(^)(NSString *version, NSString *details, NSString *hash, NSError *error))complete;
++ (NSURLSessionDataTask *)latestVersionWithCompletionHandler:(void(^)(NSString *version, NSString *details, NSString *hash, NSError *error))complete;
 /**
  *  下载最新版本
  *
@@ -26,5 +26,5 @@
  *
  *  @return 任务
  */
-+ (id)downLatestVersionWithVersion:(NSString *)version progress:(NSProgress * __autoreleasing *)progress completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDownloadTask *)downLatestVersionWithVersion:(NSString *)version progress:(void (^)(NSProgress *downloadProgress))progress completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 @end

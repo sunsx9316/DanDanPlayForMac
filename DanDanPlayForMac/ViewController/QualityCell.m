@@ -14,11 +14,11 @@
 @implementation QualityCell
 - (void)awakeFromNib{
     [super awakeFromNib];
-    [self.qualityButton selectItemAtIndex:[UserDefaultManager defaultQuality]];
+    [self.qualityButton selectItemAtIndex:[UserDefaultManager shareUserDefaultManager].defaultQuality];
 }
 
 - (IBAction)clickPopUpButton:(NSPopUpButton *)sender {
-    [UserDefaultManager setDefaultQuality:[sender indexOfSelectedItem]];
+    [UserDefaultManager shareUserDefaultManager].defaultQuality = [sender indexOfSelectedItem];
 }
 
 

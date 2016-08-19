@@ -59,5 +59,5 @@
  *
  *  @param complete 回调
  */
-- (void)refreshWithModelCompletionHandler:(void(^)(NSError *error, MatchDataModel *dataModel))complete;
+- (void)refreshWithModelCompletionHandler:(void(^)(DanDanPlayErrorModel *error, MatchDataModel *dataModel))complete;
 @end

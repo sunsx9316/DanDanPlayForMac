@@ -16,37 +16,33 @@
 @end
 
 @implementation LocalVideoModel
-- (instancetype)initWithFilePath:(NSString *)filePath{
-    return [self initWithFileURL:[NSURL fileURLWithPath:filePath]];
-}
-
-- (instancetype)initWithFileURL:(NSURL *)fileURL{
+- (instancetype)initWithFileURL:(NSURL *)fileURL {
     if (self = [super init]) {
         _fileURL = fileURL;
     }
     return self;
 }
 
-- (NSString *)fileName{
+- (NSString *)fileName {
     if (_fileName == nil) {
-        _fileName = [[_fileURL.path lastPathComponent] stringByDeletingPathExtension];
+        return [[_fileURL.path lastPathComponent] stringByDeletingPathExtension];
     }
     return _fileName;
 }
 
-- (NSURL *)filePath{
+
+- (NSURL *)fileURL {
     return _fileURL;
 }
 
-
-- (NSString *)md5{
+- (NSString *)md5 {
     if (_md5 == nil) {
         _md5 = [[[NSFileHandle fileHandleForReadingFromURL:_fileURL error:nil] readDataOfLength: 16777216] md5String];
     }
     return _md5;
 }
 
-- (NSString *)length{
+- (NSString *)length {
     if (_length == nil) {
         _length = [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.path error:nil][@"NSFileSize"] stringValue];
     }

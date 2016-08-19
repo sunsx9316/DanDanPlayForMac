@@ -7,25 +7,30 @@
 //
 
 #import "AcFunDanMuChooseViewModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 
 
 @implementation AcFunDanMuChooseViewModel
 
-- (void)refreshCompletionHandler:(void(^)(NSError *error))complete{
+- (void)refreshCompletionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
     if (!self.aid) {
         complete(nil);
         return;
     }
     
-    [DanMuNetManager GETAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, NSError *error) {
+    [DanmakuNetManager GETAcfunDanmakuInfoWithAid:self.aid completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         self.videos = responseObj.videos;
         complete(error);
     }];
+    
+//    [DanmakuNetManager GETAcfunDanMuWithParameters:@{@"aid":self.aid} completionHandler:^(AcfunVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
+//    }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, NSError *error))complete{
-    [super downThirdPartyDanMuWithDanmakuID:[self danmakuWithIndex: index] provider:@"acfun" completionHandler:complete];
+- (void)downThirdPartyDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
+    [super downThirdPartyDanmakuWithDanmakuID:[self danmakuWithIndex: index] provider:DanDanPlayDanmakuSourceAcfun completionHandler:complete];
+    
+//    [super downThirdPartyDanmakuWithDanmakuID:[self danmakuWithIndex: index] provider:@"acfun" completionHandler:complete];
 }
 
 @end

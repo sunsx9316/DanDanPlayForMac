@@ -11,4 +11,6 @@
 @interface NSView (Tools)
 - (CGPoint)center;
 - (void)setCenter:(CGPoint)center;
+- (void)setBackgroundColor:(NSColor *)color;
+- (NSColor *)backgroundColor;
 @end

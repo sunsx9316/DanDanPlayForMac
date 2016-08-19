@@ -25,20 +25,25 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backButtonDown:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
-    __weak typeof(self)weakSelf = self;
+    
+    @weakify(self)
     [self.searchTextField setRespondBlock:^{
-        [weakSelf searchButtonDown:nil];
+        @strongify(self)
+        if (!self) return;
+        
+        [self searchButtonDown:nil];
     }];
+    
     self.searchTextField.stringValue = self.searchText;
     DanDanSearchViewController *dvc = (DanDanSearchViewController *)[self addViewControllerWithViewController:kViewControllerWithId(@"DanDanSearchViewController") title:@"官方"];
     [dvc refreshWithKeyWord: self.searchText completion: nil];
     
-    ThirdPartySearchViewController *bvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:JHDanMuSourceBilibili] title:@"bilibili"];
+    ThirdPartySearchViewController *bvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:DanDanPlayDanmakuSourceBilibili] title:@"bilibili"];
     [bvc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];
     
-    ThirdPartySearchViewController *avc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:JHDanMuSourceAcfun] title:@"acfun"];
+    ThirdPartySearchViewController *avc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:DanDanPlayDanmakuSourceAcfun] title:@"acfun"];
     [avc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
         [JHProgressHUD disMiss];
     }];
@@ -48,7 +53,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-- (instancetype)init{
+- (instancetype)init {
     return (self = kViewControllerWithId(@"SearchViewController"));
 }
 
@@ -63,7 +68,8 @@
         
         [dvc refreshWithKeyWord: self.searchTextField.stringValue completion: nil];
     //刷新第三方搜索页
-    }else{
+    }
+    else {
         ThirdPartySearchViewController *dvc = (ThirdPartySearchViewController *)self.viewController[index];
         if (!dvc) return;
         
@@ -81,13 +87,12 @@
 /**
  *  向tabview添加控制器
  *
- *  @param title 控制器标题
- *  @param ID    控制器storyboardid
+ *  @param vc    控制器
+ *  @param title 控制器名称
  *
  *  @return 控制器
  */
-
-- (NSViewController *)addViewControllerWithViewController:(NSViewController *)vc title:(NSString *)title{
+- (NSViewController *)addViewControllerWithViewController:(NSViewController *)vc title:(NSString *)title {
     NSTabViewItem *tabViewItem = [[NSTabViewItem alloc] init];
     tabViewItem.view = vc.view;
     tabViewItem.label = title;

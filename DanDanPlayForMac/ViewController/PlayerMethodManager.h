@@ -6,8 +6,10 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-#import "PlayLastWatchVideoTimeView.h"
+#import "PlayerLastWatchVideoTimeView.h"
+
 typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
+typedef void(^loadLocalSubtitleBlock)(NSString *path);
 @class VLCMediaPlayer, PlayerHUDControl, DanMuDataModel;
 @interface PlayerMethodManager : NSObject
 /**
@@ -26,6 +28,12 @@ typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
  */
 + (void)loadLocaleDanMuWithBlock:(loadLocalDanMuBlock)block;
 /**
+ *  加载本地字幕
+ *
+ *  @param block 回调
+ */
++ (void)loadLocaleSubtitleWithBlock:(loadLocalSubtitleBlock)block;
+/**
  *  发射弹幕
  *
  *  @param text              弹幕内容
@@ -35,11 +43,11 @@ typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
  *  @param episodeId         节目ID
  *  @param completionHandler 回调
  */
-+ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler;
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,DanDanPlayErrorModel *error))completionHandler;
 
 + (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate;
 
 + (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size;
 
-+ (void)showPlayLastWatchVideoTimeView:(PlayLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time;
++ (void)showPlayLastWatchVideoTimeView:(PlayerLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time;
 @end

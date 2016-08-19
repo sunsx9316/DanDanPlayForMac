@@ -7,29 +7,42 @@
 //
 
 #import "RecommendViewController.h"
+#import "RecommendItemViewController.h"
+#import "NSString+Tools.h"
+
 #import "RecommedViewModel.h"
 
 #import "RecommendHeadCell.h"
 #import "RecommendBangumiCell.h"
 
 @interface RecommendViewController ()<NSTableViewDelegate, NSTableViewDataSource>
-@property (weak) IBOutlet NSTableView *tableView;
 @property (strong, nonatomic) RecommedViewModel *vm;
 @property (strong, nonatomic) JHProgressHUD *progressHUD;
+@property (weak) IBOutlet RecommendHeadCell *headView;
+@property (weak) IBOutlet NSTabView *tabView;
 @end
 
 @implementation RecommendViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self configHeadView];
     [self.progressHUD show];
+    
     [self.vm refreshWithCompletionHandler:^(NSError *error) {
         [self.progressHUD disMiss];
-        [self.tableView reloadData];
+        [self.headView setWithModel:self.vm.featuredModel];
+        NSArray *arr = self.vm.bangumis;
+        
+        [arr enumerateObjectsUsingBlock:^(BangumiModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSTabViewItem *item = [NSTabViewItem tabViewItemWithViewController:[[RecommendItemViewController alloc] init]];
+            item.label = obj.weekDayStringValue;
+            [self.tabView addTabViewItem:item];
+        }];
     }];
 }
 
-- (instancetype)init{
+- (instancetype)init {
     if ((self = kViewControllerWithId(@"RecommendViewController"))) {
         self.title = @"番剧推荐";
     }
@@ -37,28 +50,31 @@
 }
 
 #pragma mark - NSTableViewDelegate
-- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
-    if (row == 0) {
-        RecommendHeadCell *headCell = [tableView makeViewWithIdentifier:@"RecommendHeadCell" owner:self];
-        [headCell setWithTitle:[self.vm headTitle] info: [self.vm headCategory] brief:[self.vm headIntroduction] imgURL:[self.vm headImgURL] FilmReviewURL:[self.vm headFileReviewURL]];
-        return headCell;
-    }
-    RecommendBangumiCell *cell = [tableView makeViewWithIdentifier:@"RecommendBangumiCell" owner:self];
-    [cell setWithTitle:[self.vm titleForRow:row] keyWord:[self.vm keyWordForRow:row] imgURL:[self.vm imgURLForRow:row] captionsGroup:[self.vm groupsForRow:row]];
-    return cell;
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem {
+    RecommendItemViewController *vc = (RecommendItemViewController *)tabViewItem.viewController;
+    vc.model = self.vm.bangumis[[tabView indexOfTabViewItem:tabViewItem]];
 }
 
-#pragma mark - NSTableViewDataSource
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return [self.vm numOfRow];
-}
-
-- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row{
-    RecommendHeadCell *cell = (RecommendHeadCell *)[self tableView:tableView viewForTableColumn:nil row:row];
-    if (row == 0) {
-        return [cell cellHeight];
-    }
-    return 80;
+#pragma mark -  私有方法
+- (void)configHeadView {
+    [self.headView setClickSearchButtonCallBack:^(NSString *keyWord) {
+        if (!keyWord.length) return;
+        
+        
+        
+        keyWord = [keyWord stringByURLEncode];
+        //破软件迟早药丸
+        if ([keyWord isEqualToString:@"%E9%95%BF%E8%80%85"] || [keyWord isEqualToString:@"%E8%86%9C%E8%9B%A4"] || [keyWord isEqualToString:@"%E8%9B%A4%E8%9B%A4"] || [keyWord isEqualToString:@"%E8%B5%9B%E8%89%87"]) {
+            system("open http://baike.baidu.com/view/1781.htm");
+        }
+        
+        system([NSString stringWithFormat:@"open %@%@", SEARCH_PATH, keyWord].UTF8String);
+    }];
+    
+    [self.headView setClickFilmReviewButtonCallBack:^(NSString *path) {
+        system([NSString stringWithFormat:@"open %@", path].UTF8String);
+    }];
+    
 }
 
 #pragma mark - 懒加载
@@ -71,10 +87,10 @@
 
 - (JHProgressHUD *)progressHUD {
 	if(_progressHUD == nil) {
-		_progressHUD = [[JHProgressHUD alloc] initWithMessage:kLoadMessageString style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
+        DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage];
+		_progressHUD = [[JHProgressHUD alloc] initWithMessage:model.message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
 	}
 	return _progressHUD;
 }
-
 
 @end

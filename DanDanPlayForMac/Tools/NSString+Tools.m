@@ -363,4 +363,10 @@
     return str;
 }
 
+- (BOOL)isPureInt {
+    NSScanner* scan = [NSScanner scannerWithString:self];
+    NSInteger val;
+    return [scan scanInteger:&val] && [scan isAtEnd];
+}
+
 @end

@@ -46,13 +46,13 @@
     return self;
 }
 
-- (void)refreshWithModelCompletionHandler:(void(^)(NSError *error, MatchDataModel *dataModel))complete{
+- (void)refreshWithModelCompletionHandler:(void(^)(DanDanPlayErrorModel *error, MatchDataModel *dataModel))complete {
     if (!self.videoModel.md5 || !self.videoModel.length || !self.videoModel.fileName){
         complete(nil, nil);
         return;
     }
     
-    [MatchNetManager GETWithParameters:@{@"fileName":self.videoModel.fileName, @"hash": self.videoModel.md5, @"length": self.videoModel.length} completionHandler:^(MatchModel *responseObj, NSError *error) {
+    [MatchNetManager GETWithParameters:@{@"fileName":self.videoModel.fileName, @"hash": self.videoModel.md5, @"length": self.videoModel.length} completionHandler:^(MatchModel *responseObj, DanDanPlayErrorModel *error) {
         //精确匹配
         if (responseObj.matches.count == 1) {
             complete(error, responseObj.matches.firstObject);
@@ -60,9 +60,9 @@
         }
         //没有找到
         if (responseObj.matches.count == 0){
-            MatchDataModel *model = [MatchDataModel new];
-            model.animeTitle = kNoFoundDanmakuString;
-            model.episodeTitle = kSearchByUserString;
+            MatchDataModel *model = [[MatchDataModel alloc] init];
+            model.animeTitle = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+            model.episodeTitle = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeCanSearchByUser].message;
             responseObj.matches = @[model];
         }
         

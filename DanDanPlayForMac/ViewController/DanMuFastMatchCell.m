@@ -14,11 +14,11 @@
 @implementation DanMuFastMatchCell
 - (void)awakeFromNib{
     [super awakeFromNib];
-    self.fastMatchButton.state = [UserDefaultManager turnOnFastMatch];
+    self.fastMatchButton.state = [UserDefaultManager shareUserDefaultManager].turnOnFastMatch;
 }
 
 - (IBAction)clickButton:(NSButton *)sender {
-    [UserDefaultManager setTurnOnFastMatch:sender.state];
+    [UserDefaultManager shareUserDefaultManager].turnOnFastMatch = sender.state;
 }
 
 @end

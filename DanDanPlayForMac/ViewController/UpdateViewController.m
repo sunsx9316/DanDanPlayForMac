@@ -37,17 +37,21 @@
     [super viewDidLoad];
     self.updateDetailTextField.stringValue = self.details;
     [self.okButton setTitleColor:[NSColor blueColor]];
-    self.autoCheakUpdateInfoButton.state = [UserDefaultManager cheakDownLoadInfoAtStart];
+    self.autoCheakUpdateInfoButton.state = [UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart;
     
 }
 
 - (IBAction)clickOKButton:(NSButton *)sender {
     [self.progressHUD show];
-    NSProgress *_progress;
-    [UpdateNetManager downLatestVersionWithVersion:self.version progress:&_progress completionHandler:^(NSString *responseObj, NSError *error) {
+//    NSProgress *_progress;
+    
+    [UpdateNetManager downLatestVersionWithVersion:self.version progress:^(NSProgress *downloadProgress) {
+        [self.progressHUD updateProgress:downloadProgress.fractionCompleted];
+    } completionHandler:^(id responseObj, NSError *error) {
         [self.progressHUD disMiss];
         if (!responseObj) {
-            [[NSAlert alertWithMessageText:kNoFoundDownLoadFileString informativeText:kNoFoundDownLoadFileInformativeString] runModal];
+            DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDownloadFile];
+            [[NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage] runModal];
             return;
         }
         
@@ -56,17 +60,42 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([[fileData md5String] isEqualToString:self.fileHash]) {
                     system([[NSString stringWithFormat:@"open %@", responseObj] cStringUsingEncoding:NSUTF8StringEncoding]);
-                }else{
-                    NSAlert *alert = [NSAlert alertWithMessageText:kDownLoadFileDamageString informativeText:kDownLoadFileDamageInformativeString];
+                }
+                else {
+                    DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadFileDamage];
+                    NSAlert *alert = [NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage];
                     [alert runModal];
                 }
-                [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
+//                [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
                 [self dismissViewController:self];
             });
         });
-        
     }];
-    [_progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
+    
+//    [UpdateNetManager downLatestVersionWithVersion:self.version progress:&_progress completionHandler:^(NSString *responseObj, NSError *error) {
+//        [self.progressHUD disMiss];
+//        if (!responseObj) {
+//            [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDownLoadFileString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDownLoadFileInformativeString"]] runModal];
+//            return;
+//        }
+//        
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            NSData *fileData = [[NSData alloc] initWithContentsOfFile:responseObj];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                if ([[fileData md5String] isEqualToString:self.fileHash]) {
+//                    system([[NSString stringWithFormat:@"open %@", responseObj] cStringUsingEncoding:NSUTF8StringEncoding]);
+//                }
+//                else {
+//                    NSAlert *alert = [NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kDownLoadFileDamageString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kDownLoadFileDamageInformativeString"]];
+//                    [alert runModal];
+//                }
+//                [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
+//                [self dismissViewController:self];
+//            });
+//        });
+//        
+//    }];
+//    [_progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
 - (IBAction)clickCancelButton:(NSButton *)sender {
@@ -77,22 +106,21 @@
 - (IBAction)clickUpdateByUserButton:(NSButton *)sender {
     system("open http://pan.baidu.com/s/1kUnnfGr");
 }
+
 - (IBAction)clickAutoCheakUpdateInfoButton:(NSButton *)sender {
-    [UserDefaultManager setCheakDownLoadInfoAtStart:sender.state];
+    [UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart = sender.state;
 }
 
-
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.progressHUD updateProgress:[change[@"new"] floatValue]];
-    });
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [self.progressHUD updateProgress:[change[@"new"] floatValue]];
+//    });
+//}
 
 #pragma mark - 懒加载
 - (JHProgressHUD *)progressHUD {
     if(_progressHUD == nil) {
-        _progressHUD = [[JHProgressHUD alloc] initWithMessage:kDownLoadingString style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _progressHUD = [[JHProgressHUD alloc] initWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloading].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
     }
     return _progressHUD;
 }

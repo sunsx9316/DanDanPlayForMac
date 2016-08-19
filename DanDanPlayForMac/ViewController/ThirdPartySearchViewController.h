@@ -8,7 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 @interface ThirdPartySearchViewController : NSViewController
+/**
+ *  番剧的 tableView
+ */
 @property (weak) IBOutlet NSTableView *shiBantableView;
+/**
+ *  分集的 tableView
+ */
 @property (weak) IBOutlet NSTableView *episodeTableView;
 
 /**
@@ -25,5 +31,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithType:(JHDanMuSource)type;
+- (instancetype)initWithType:(DanDanPlayDanmakuSource)type;
 @end

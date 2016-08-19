@@ -46,15 +46,6 @@
     if (self.statusCallBackBlock) {
         self.statusCallBackBlock(status);
     }
-//    if (status == PlayerControlViewStatusInActive && self.inActiveCallBackBlock) {
-//        self.inActiveCallBackBlock();
-//    }
-//    else if (status == PlayerControlViewStatusActive && self.activeBackBlock) {
-//        self.activeBackBlock();
-//    }
-//    else if (status == PlayerControlViewStatusHalfActive && self.halfActiveCallBackBlock) {
-//        self.halfActiveCallBackBlock();
-//    }
 }
 
 - (void)dealloc{

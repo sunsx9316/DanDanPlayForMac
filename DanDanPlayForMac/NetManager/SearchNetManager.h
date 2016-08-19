@@ -17,7 +17,7 @@
  *
  *  @return 任务
  */
-+ (id)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(SearchModel* responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(SearchModel* responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  搜索b站结果
  *
@@ -26,7 +26,7 @@
  *
  *  @return 任务
  */
-+ (id)searchBiliBiliWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)searchBiliBiliWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  获取b站番剧详情
  *
@@ -35,7 +35,7 @@
  *
  *  @return 任务
  */
-+ (id)searchBiliBiliSeasonInfoWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)searchBiliBiliSeasonInfoWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  搜索a站结果
  *
@@ -44,7 +44,7 @@
  *
  *  @return 任务
  */
-+ (id)searchAcFunWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)searchAcFunWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  获取a站番剧详情
  *
@@ -53,5 +53,5 @@
  *
  *  @return 任务
  */
-+ (id)searchAcfunSeasonInfoWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
++ (NSURLSessionDataTask *)searchAcfunSeasonInfoWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 @end

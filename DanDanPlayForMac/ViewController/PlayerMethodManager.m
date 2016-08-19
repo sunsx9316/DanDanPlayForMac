@@ -7,9 +7,9 @@
 //
 
 #import "PlayerMethodManager.h"
-#import "DanMuDataFormatter.h"
+#import "DanmakuDataFormatter.h"
 #import <VLCKit/VLCMediaPlayer.h>
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 #import "DanMuModel.h"
 #import "NSOpenPanel+Tools.h"
 
@@ -22,27 +22,38 @@
     } completionHandler:completionHandler];
 }
 
-+ (void)loadLocaleDanMuWithBlock:(loadLocalDanMuBlock)block{
++ (void)loadLocaleDanMuWithBlock:(loadLocalDanMuBlock)block {
     NSOpenPanel* openPanel = [NSOpenPanel chooseFilePanelWithTitle:@"选取弹幕" defaultURL:nil];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
-        if (result == NSFileHandlingPanelOKButton){
+        if (result == NSFileHandlingPanelOKButton) {
             //acfun：json解析方式
-            id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves|NSJSONReadingAllowFragments error:nil];
+            id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers error:nil];
             NSDictionary *dic = nil;
             if (obj) {
-                dic = [DanMuDataFormatter dicWithObj:obj source:JHDanMuSourceAcfun];
-            }else{
+                dic = [DanmakuDataFormatter dicWithObj:obj source:DanDanPlayDanmakuSourceAcfun];
+            }
+            else{
                 //bilibili：xml解析方式
-                dic = [DanMuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:JHDanMuSourceBilibili];
+                dic = [DanmakuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:DanDanPlayDanmakuSourceBilibili];
             }
             block(dic);
         }
     }];
 }
 
-+ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,NSError *error))completionHandler{
-    if (!episodeId) {
-        completionHandler(nil, kObjNilError);
++ (void)loadLocaleSubtitleWithBlock:(loadLocalSubtitleBlock)block {
+    NSOpenPanel* openPanel = [NSOpenPanel chooseFilePanelWithTitle:@"选取字幕" defaultURL:nil];
+    openPanel.allowedFileTypes = @[@"ass", @"srt"];
+    [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
+        if (result == NSFileHandlingPanelOKButton) {
+            block(openPanel.URL.path);
+        }
+    }];
+}
+
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,DanDanPlayErrorModel *error))completionHandler {
+    if (!episodeId.length) {
+        completionHandler(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeEpisodeNoExist]);
         return;
     }
     
@@ -51,12 +62,12 @@
     model.time = time;
     model.mode = mode;
     model.message = text;
-    [DanMuNetManager launchDanmakuWithModel:model episodeId:episodeId completionHandler:^(NSError *error) {
+    [DanmakuNetManager launchDanmakuWithModel:model episodeId:episodeId completionHandler:^(DanDanPlayErrorModel *error) {
         completionHandler(model, error);
     }];
 }
 
-+ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate{
++ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate {
     //删除已经显示过的通知(已经存在用户的通知列表中的)
     [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
     
@@ -67,12 +78,12 @@
     
     NSUserNotification *notification = [[NSUserNotification alloc] init];
     notification.title = @"弹弹play";
-    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : kNoMatchVideoString;
+    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoMatchVideo].message;
     [NSUserNotificationCenter defaultUserNotificationCenter].delegate = delegate;
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }
 
-+ (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size{
++ (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size {
     CGSize screenSize = [NSScreen mainScreen].frame.size;
     //宽高有一个为0 使用布满全屏的约束
     if (!size.width || !size.height) {
@@ -80,7 +91,8 @@
             make.edges.mas_equalTo(0);
         }];
         //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
-    }else if (screenSize.width * (size.height / size.width) > screenSize.height) {
+    }
+    else if (screenSize.width * (size.height / size.width) > screenSize.height) {
         [mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.centerX.bottom.mas_equalTo(0);
             make.width.equalTo(mediaView.mas_height).multipliedBy(size.width / size.height);
@@ -88,7 +100,8 @@
             make.right.mas_lessThanOrEqualTo(0);
         }];
         //没超过 使用这个约束
-    }else{
+    }
+    else {
         [mediaView  mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.right.centerY.mas_equalTo(0);
             make.top.mas_greaterThanOrEqualTo(0);
@@ -98,7 +111,7 @@
     }
 }
 
-+ (void)showPlayLastWatchVideoTimeView:(PlayLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time{
++ (void)showPlayLastWatchVideoTimeView:(PlayerLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time {
     NSUInteger intTime = time;
     if (time > 0) {
         timeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",intTime / 60, intTime % 60];
@@ -108,11 +121,12 @@
 }
 
 #pragma mark - 私有方法
-+ (void)transformImgWithPath:(NSString *)path imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName{
++ (void)transformImgWithPath:(NSString *)path imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName {
     
     if (imgFileType == NSPNGFileType) {
         [[NSFileManager defaultManager] moveItemAtPath:path toPath:[path stringByAppendingPathExtension:@"png"] error:nil];
-    }else{
+    }
+    else{
         NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
         if (!image) return;
         CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];

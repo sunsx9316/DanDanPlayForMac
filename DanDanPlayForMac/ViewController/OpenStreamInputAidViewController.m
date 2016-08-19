@@ -29,8 +29,11 @@
 
 - (IBAction)clickOKButton:(NSButton *)sender {
     NSString *inputText = self.inputTextField.stringValue;
-    if (!inputText || [inputText isEqualToString:@""]) return;
-    [self presentViewControllerAsSheet:[[OpenStreamVideoViewController alloc] initWithAid:inputText danmakuSource:[self.danmakuSourcePopUpButton titleOfSelectedItem]]];
+    if (!inputText.length) return;
+    
+    DanDanPlayDanmakuSource source = [ToolsManager enumValueWithDanmakuSourceStringValue:[self.danmakuSourcePopUpButton titleOfSelectedItem]];
+    
+    [self presentViewControllerAsSheet:[[OpenStreamVideoViewController alloc] initWithAid:inputText danmakuSource:source]];
 }
 
 - (IBAction)disMissSelf:(NSButton *)sender{

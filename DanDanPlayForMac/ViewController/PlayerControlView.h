@@ -20,10 +20,6 @@ typedef enum : NSUInteger {
 @property (assign, nonatomic) BOOL rightExpansion;
 //状态回调
 @property (copy, nonatomic) void(^statusCallBackBlock)(PlayerControlViewStatus);
-////失活状态回调
-//@property (copy, nonatomic) void(^inActiveCallBackBlock)();
-////半激活状态回调
-//@property (copy, nonatomic) void(^halfActiveCallBackBlock)();
 //左边状态回调
 @property (copy, nonatomic) void(^leftCallBackBlock)(BOOL);
 //右边状态回调

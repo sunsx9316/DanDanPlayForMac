@@ -71,7 +71,7 @@
  *  @param index    下标
  *  @param complete 回调
  */
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index provider:(NSString *)provider completionHandler:(void(^)(id responseObj))complete;
+- (void)downThirdPartyDanmakuWithIndex:(NSInteger)index provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj))complete;
 
 
 /**
@@ -79,7 +79,7 @@
  *
  *  @param complete 回调
  */
-- (void)refreshCompletionHandler:(void(^)(NSError *error))complete;
+- (void)refreshCompletionHandler:(void(^)(DanDanPlayErrorModel *error))complete;
 /**
  *  初始化
  *

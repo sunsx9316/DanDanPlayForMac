@@ -25,11 +25,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     [self.vm refreshWithcompletionHandler:^(NSError *error) {
         [self.tableView reloadData];
         [JHProgressHUD disMiss];
         if (error) {
+            
             [self.messageView showHUD];
         }
     }];
@@ -87,7 +88,7 @@
 }
 
 
-- (instancetype)initWithAid:(NSString *)aid danmakuSource:(NSString *)danmakuSource{
+- (instancetype)initWithAid:(NSString *)aid danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
     if ((self = kViewControllerWithId(@"OpenStreamVideoViewController"))) {
         self.vm = [[OpenStreamVideoViewModel alloc] initWithAid:aid danmakuSource:danmakuSource];
     }
@@ -116,7 +117,7 @@
 - (void)streamingVideoModelWithRow:(NSInteger)row{
     if (![self.vm danmakuForRow:row].length) return;
     
-    [JHProgressHUD showWithMessage:kLoadMessageString parentView:self.view];
+    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     [self.vm getVideoURLAndDanmakuForRow:row completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
         [JHProgressHUD disMiss];
         
@@ -150,8 +151,7 @@
 - (HUDMessageView *)messageView {
 	if(_messageView == nil) {
 		_messageView = [[HUDMessageView alloc] init];
-        _messageView.text.stringValue = kNoFoundDanmakuString;
-        [self.view addSubview:_messageView];
+        _messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
 	}
 	return _messageView;
 }

@@ -62,7 +62,7 @@
 /**
  *  番剧id
  */
-@property (strong, nonatomic) NSString *seasonID;
+@property (strong, nonatomic) NSString *seasonId;
 /**
  *  视频aid
  */

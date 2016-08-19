@@ -38,7 +38,7 @@
  *  @param row      下标
  *  @param complete 回调
  */
-- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, NSError *error))complete;
+- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error))complete;
 /**
  *  获取视频模型 弹幕
  *
@@ -47,13 +47,13 @@
  *  @param danmakuSource 弹幕源
  *  @param complete      回调
  */
-- (void)getVideoURLAndDanmakuForVideoName:(NSString *)videoName danmaku:(NSString *)danmaku danmakuSource:(NSString *)danmakuSource completionHandler:(void(^)(StreamingVideoModel *videoModel, NSError *error))complete;
+- (void)getVideoURLAndDanmakuForVideoName:(NSString *)videoName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource completionHandler:(void(^)(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error))complete;
 /**
  *  刷新
  *
  *  @param complete 回调
  */
-- (void)refreshWithcompletionHandler:(void(^)(NSError *error))complete;
+- (void)refreshWithcompletionHandler:(void(^)(DanDanPlayErrorModel *error))complete;
 /**
  *  初始化
  *
@@ -62,5 +62,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithAid:(NSString *)aid danmakuSource:(NSString *)danmakuSource;
+- (instancetype)initWithAid:(NSString *)aid danmakuSource:(DanDanPlayDanmakuSource )danmakuSource;
 @end

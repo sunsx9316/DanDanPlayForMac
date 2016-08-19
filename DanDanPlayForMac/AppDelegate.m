@@ -9,8 +9,10 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "OpenStreamInputAidViewController.h"
+#import "RecommendViewController.h"
 #import "AboutViewController.h"
 #import "NSOpenPanel+Tools.h"
+#import "PreferenceViewController.h"
 
 @interface AppDelegate ()
 
@@ -32,17 +34,29 @@
     // Insert code here to tear down your application
 }
 
+#pragma mark - 私有方法
+/**
+ *  点击偏好设置
+ *
+ *  @param sender 菜单
+ */
 - (IBAction)openPreferencePanel:(NSMenuItem *)sender {
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
+    if ([vc isKindOfClass:[PreferenceViewController class]]) return;
+    
     [vc presentViewControllerAsSheet:kViewControllerWithId(@"PreferenceViewController")];
 }
 
+/**
+ *  打开本地文件
+ *
+ *  @param sender 菜单
+ */
 - (IBAction)openLocaleFile:(NSMenuItem *)sender {
     NSWindow *window = [NSApplication sharedApplication].keyWindow;
     
     if (window != self.mainWindowController.window || [self.mainWindowController.window.contentViewController childViewControllers].count) return;
     
-    ;
     NSOpenPanel* openPanel = [NSOpenPanel chooseFileAndDirectoriesPanelWithTitle:@"选择文件/文件夹" defaultURL:nil allowsMultipleSelection:YES];
     
     [openPanel beginSheetModalForWindow:window completionHandler:^(NSInteger result) {
@@ -58,27 +72,52 @@
     }];
 }
 
+/**
+ *  点击返回按钮
+ *
+ *  @param sender 菜单
+ */
 - (IBAction)clickBackButton:(NSMenuItem *)sender {
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     [vc dismissController:vc];
 }
 
+/**
+ *  点击网络播放按钮
+ *
+ *  @param sender 菜单
+ */
 - (IBAction)clickNetButton:(NSMenuItem *)sender {
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
+    if ([vc isKindOfClass:[OpenStreamInputAidViewController class]]) return;
+    
     [vc presentViewControllerAsSheet:[[OpenStreamInputAidViewController alloc] init]];
 }
+
+/**
+ *  点击关于按钮
+ *
+ *  @param sender 菜单
+ */
 - (IBAction)clickAboutButton:(NSMenuItem *)sender {
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     [vc presentViewControllerAsModalWindow:kViewControllerWithId(@"AboutViewController")];
 }
 
-- (void)closeApplication{
+/**
+ *  点击每天推荐按钮
+ *
+ *  @param sender 菜单
+ */
+- (IBAction)clickEverydayRecommendButton:(NSMenuItem *)sender {
+    [[NSApp mainWindow].contentViewController presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
+}
+
+/**
+ *  关闭操作
+ */
+- (void)closeApplication {
     [[NSApplication sharedApplication] terminate:nil];
 }
 
-
-- (void)firstRun{
-    
-    [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:nil];
-}
 @end

@@ -321,4 +321,10 @@
  @return A new string create from the file in UTF-8 character encoding.
  */
 + (NSString *)stringNamed:(NSString *)name;
+/**
+ *  判断字符串是否为整型
+ *
+ *  @return 是否为整型
+ */
+- (BOOL)isPureInt;
 @end

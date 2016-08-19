@@ -7,7 +7,7 @@
 //
 
 #import "DanMuChooseViewModel.h"
-#import "DanMuNetManager.h"
+#import "DanmakuNetManager.h"
 #import "VideoInfoModel.h"
 #import "NSArray+Tools.h"
 
@@ -42,17 +42,20 @@
 
 
 
-- (void)refreshCompletionHandler:(void (^)(NSError *))complete{
-    [DanMuNetManager GETWithParameters:@{@"id": self.videoID} completionHandler:^(NSDictionary *responseObj, NSError *error){
+- (void)refreshCompletionHandler:(void (^)(DanDanPlayErrorModel *))complete {
+    [DanmakuNetManager GETWithProgramId:_videoID completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         //对象第一个key不是NSNumber类型说明没有官方弹幕
         if (![[responseObj allKeys].firstObject isKindOfClass:[NSNumber class]]) {
             self.contentDic = responseObj;
             self.providerArr = [responseObj allKeys];
             self.shiBanArr = responseObj[self.providerArr.firstObject];
             self.episodeTitleArr = self.shiBanArr.firstObject.videos;
-            complete(kNoMatchError);
-        }else{
-            if (![responseObj count]) error = kNoMatchError;
+            complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
+        }
+        else {
+            if (![responseObj count])  {
+                error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
+            }
             complete(error);
             //发通知
             [self postNotificationWithDanMuObj:responseObj];
@@ -60,14 +63,14 @@
     }];
 }
 
-- (void)downThirdPartyDanMuWithIndex:(NSInteger)index provider:(NSString *)provider completionHandler:(void(^)(id responseObj))complete{
+- (void)downThirdPartyDanmakuWithIndex:(NSInteger)index provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj))complete{
     NSString *danmakuID = [self danMaKuWithIndex: index];
     if (!danmakuID || !provider){
         complete(nil);
         return;
     }
     
-    [DanMuNetManager downThirdPartyDanMuWithParameters:@{@"danmaku":danmakuID, @"provider":provider} completionHandler:^(id responseObj, NSError *error) {
+    [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete(responseObj);
     }];
 }

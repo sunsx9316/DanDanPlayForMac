@@ -21,32 +21,32 @@
 - (void)awakeFromNib{
     [super awakeFromNib];
     
-    NSInteger value = [UserDefaultManager danMufontSpecially];
+    NSInteger value = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
     
     switch (value) {
         case 100:
-            self.noneButton.state = NSOKButton;
-            self.strokeButton.state = NSCancelButton;
-            self.shadowButton.state = NSCancelButton;
-            self.glowButton.state = NSCancelButton;
+            self.noneButton.state = NSModalResponseOK;
+            self.strokeButton.state = NSModalResponseCancel;
+            self.shadowButton.state = NSModalResponseCancel;
+            self.glowButton.state = NSModalResponseCancel;
             break;
         case 101:
-            self.noneButton.state = NSCancelButton;
-            self.strokeButton.state = NSOKButton;
-            self.shadowButton.state = NSCancelButton;
-            self.glowButton.state = NSCancelButton;
+            self.noneButton.state = NSModalResponseCancel;
+            self.strokeButton.state = NSModalResponseOK;
+            self.shadowButton.state = NSModalResponseCancel;
+            self.glowButton.state = NSModalResponseCancel;
             break;
         case 102:
-            self.noneButton.state = NSCancelButton;
-            self.strokeButton.state = NSCancelButton;
-            self.shadowButton.state = NSOKButton;
-            self.glowButton.state = NSCancelButton;
+            self.noneButton.state = NSModalResponseCancel;
+            self.strokeButton.state = NSModalResponseCancel;
+            self.shadowButton.state = NSModalResponseOK;
+            self.glowButton.state = NSModalResponseCancel;
             break;
         case 103:
-            self.noneButton.state = NSCancelButton;
-            self.strokeButton.state = NSCancelButton;
-            self.shadowButton.state = NSCancelButton;
-            self.glowButton.state = NSOKButton;
+            self.noneButton.state = NSModalResponseCancel;
+            self.strokeButton.state = NSModalResponseCancel;
+            self.shadowButton.state = NSModalResponseCancel;
+            self.glowButton.state = NSModalResponseOK;
             break;
         default:
             break;
@@ -54,7 +54,7 @@
 }
 
 - (IBAction)clickButton:(NSButton *)sender {
-    [UserDefaultManager setDanMuFontSpecially:sender.tag];
+    [UserDefaultManager shareUserDefaultManager].danmakuSpecially = sender.tag;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_FONT_SPECIALLY" object:nil userInfo:@{@"fontSpecially": @(sender.tag)}];
 }
 
