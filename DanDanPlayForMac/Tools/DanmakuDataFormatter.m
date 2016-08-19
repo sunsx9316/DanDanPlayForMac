@@ -19,13 +19,13 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
 + (NSMutableDictionary *)dicWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
     NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *> *> *dic = [NSMutableDictionary dictionary];
     if (obj) {
-        NSFont *font = [UserDefaultManager danMuFont];
-        NSInteger danMufontSpecially = [UserDefaultManager danMufontSpecially];
+        NSFont *font = [UserDefaultManager shareUserDefaultManager].danmakuFont;
+        NSInteger danmakuSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
         
         [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
             NSInteger time = model.time;
             if (!dic[@(time)]) dic[@(time)] = [NSMutableArray array];
-            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize: font.pointSize font:font];
+            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danmakuSpecially fontSize: font.pointSize font:font];
             danmaku.appearTime = model.time;
             danmaku.filter = model.isFilter;
             [dic[@(time)] addObject: danmaku];
@@ -37,8 +37,8 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
 + (NSMutableArray *)arrWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
     NSMutableArray *arr = [NSMutableArray array];
     if (obj) {
-        NSFont *font = [UserDefaultManager danMuFont];
-        NSInteger danMufontSpecially = [UserDefaultManager danMufontSpecially];
+        NSFont *font = [UserDefaultManager shareUserDefaultManager].danmakuFont;
+        NSInteger danMufontSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
         
         [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
             ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize:font.pointSize font:font];
@@ -117,14 +117,15 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
 
 //过滤弹幕
 + (BOOL)filterWithDanMudataModel:(DanMuDataModel *)model{
-    NSArray *userFilterArr = [UserDefaultManager userFilter];
+    NSArray *userFilterArr = [UserDefaultManager shareUserDefaultManager].userFilterArr;
     for (NSDictionary *filterDic in userFilterArr) {
         //使用正则表达式
         if ([filterDic[@"state"] intValue] == 1) {
             if ([model.message matchesRegex:filterDic[@"text"] options:NSRegularExpressionCaseInsensitive]) {
                 return YES;
             }
-        }else if([model.message containsString:filterDic[@"text"]]){
+        }
+        else if ([model.message containsString:filterDic[@"text"]]){
             return YES;
         }
     }

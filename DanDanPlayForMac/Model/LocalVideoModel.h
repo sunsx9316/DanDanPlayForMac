@@ -12,7 +12,6 @@
  *  本地视频模型
  */
 @interface LocalVideoModel : VideoModel
-
 /**
  *  文件大小
  */

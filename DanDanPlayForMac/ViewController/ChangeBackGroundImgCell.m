@@ -40,20 +40,24 @@
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             NSURL *imgURL = [openPanel URLs].firstObject;
-            NSImage *img = [[NSImage alloc] initWithContentsOfURL: imgURL];
+            NSImage *img = [[NSImage alloc] initWithContentsOfURL:imgURL];
             if (img == nil) {
                 [[NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeFileIsNotImage].message informativeText:nil] runModal];
-            }else{
+            }
+            else {
                 self.imageView.image = img;
-                [UserDefaultManager setHomeImgPath:imgURL.path];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_HOME_IMG" object:nil userInfo:@{@"img":img}];
+                [[UserDefaultManager shareUserDefaultManager] setHomeImgPath:imgURL.path];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_HOME_IMG" object:img];
             }
         }
     }];
 }
+
 - (IBAction)clickRecoveryButton:(NSButton *)sender {
-    self.imageView.image = [NSImage imageNamed:@"home"];
-    [UserDefaultManager setHomeImgPath: nil];
+    [[UserDefaultManager shareUserDefaultManager] setHomeImgPath:nil];
+    NSImage *img = [[NSImage alloc] initWithContentsOfFile:[UserDefaultManager shareUserDefaultManager].homeImgPath];
+    self.imageView.image = img;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_HOME_IMG" object:img];
 }
 
 
@@ -61,7 +65,7 @@
 - (NSImageView *)imageView {
 	if(_imageView == nil) {
         _imageView = [[NSImageView alloc] init];
-        _imageView.image = [UserDefaultManager homeImg];
+        _imageView.image = [[NSImage alloc] initWithContentsOfFile:[UserDefaultManager shareUserDefaultManager].homeImgPath];
 	}
 	return _imageView;
 }

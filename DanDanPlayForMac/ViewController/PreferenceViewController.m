@@ -22,11 +22,15 @@
 #import "CacheManagerCell.h"
 #import "OtherOnlyButtonCell.h"
 #import "QualityCell.h"
+#import "ReverseVolumeCell.h"
+
 #import "NSAlert+Tools.h"
 
 @interface PreferenceViewController ()<NSOutlineViewDelegate, NSOutlineViewDataSource, NSTableViewDelegate, NSTableViewDataSource, NSSplitViewDelegate>
 @property (weak) IBOutlet NSSplitView *splitView;
+//左边的选项
 @property (weak) IBOutlet NSOutlineView *outlineView;
+//右边的内容
 @property (weak) IBOutlet NSTableView *tableView;
 @property (strong, nonatomic) PreferenceViewModel *vm;
 @property (assign, nonatomic) preferenceTableViewStyle tableViewStyle;
@@ -213,7 +217,7 @@
            OtherOnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OtherOnlyButtonCell" owner:self];
             [cell setWithTitle:@"清除上次播放时间纪录" info:@"难道你想隐藏什么→_→" buttonText:@"清除播放时间纪录"];
             [cell setClickButtonCallBackBlock:^{
-                [UserDefaultManager clearPlayHistory];
+                [[UserDefaultManager shareUserDefaultManager] clearPlayHistory];
                 NSAlert *alert = [NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeClearSuccess].message informativeText:nil];
                 [alert runModal];
             }];
@@ -235,6 +239,11 @@
                 NSAlert *alert = [NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage];
                 [alert runModal];
             }];
+            return cell;
+        }
+        case 4:
+        {
+            ReverseVolumeCell *cell = [tableView makeViewWithIdentifier:@"ReverseVolumeCell" owner:nil];
             return cell;
         }
             

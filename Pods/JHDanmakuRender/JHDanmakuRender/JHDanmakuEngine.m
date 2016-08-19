@@ -80,7 +80,7 @@
     if (_globalFont) con.globalFont = _globalFont;
     if (_globalShadowStyle) con.globalShadowStyle = _globalShadowStyle;
     
-    con.originalPosition = [danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:self.canvas.bounds danmakuSize:con.bounds.size timeDifference:danmaku.appearTime - _currentTime];
+    con.originalPosition = [danmaku originalPositonWithContainerArr:self.activeContainer channelCount:self.channelCount contentRect:self.canvas.bounds danmakuSize:con.bounds.size timeDifference:_currentTime - danmaku.appearTime];
     [self.canvas addSubview: con];
     [self.activeContainer addObject:con];
 }

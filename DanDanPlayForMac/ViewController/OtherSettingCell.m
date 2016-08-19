@@ -16,13 +16,15 @@
 @implementation OtherSettingCell
 - (void)awakeFromNib{
     [super awakeFromNib];
-    self.showRecommedVCButton.state = [UserDefaultManager showRecommedInfoAtStart];
+    self.showRecommedVCButton.state = [UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart;
 }
+
 - (IBAction)clickShowRecommedVC:(NSButton *)sender {
     [[NSApp mainWindow].contentViewController presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
 }
+
 - (IBAction)clickAutoShowRecommedVCOnStartButton:(NSButton *)sender {
-    [UserDefaultManager setShowRecommedInfoAtStart:sender.state];
+    [[UserDefaultManager shareUserDefaultManager] setShowRecommedInfoAtStart:sender.state];
 }
 
 

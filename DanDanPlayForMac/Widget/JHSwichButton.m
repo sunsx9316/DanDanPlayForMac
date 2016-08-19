@@ -20,8 +20,8 @@
     __weak id _target;
     SEL _action;
     NSColor *_signTintColor;
-    NSColor *_leftViewBackgroundColor;
-    NSColor *_rightViewBackgroundColor;
+    NSColor *_openColor;
+    NSColor *_closeColor;
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
@@ -30,6 +30,12 @@
         [self addSubview:self.signView];
     }
     return self;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self addSubview:self.backgroundView];
+    [self addSubview:self.signView];
 }
 
 #pragma mark - 鼠标事件
@@ -44,19 +50,13 @@
 
 - (void)mouseUp:(NSEvent *)theEvent {
     _status = !_status;
-    [_target performSelector:_action withObject:nil afterDelay:0];
+    [_target performSelector:_action withObject:self afterDelay:0];
     [self changeSignViewFrame:YES];
-}
-
-- (void)layout {
-    [super layout];
-    [self changeSignViewFrame:NO];
-    self.backgroundView.frame = self.bounds;
 }
 
 - (void)setStatus:(BOOL)status {
     _status = status;
-    [self changeSignViewFrame:YES];
+    [self changeSignViewFrame:NO];
 }
 
 - (void)setSignTintColor:(NSColor *)signTintColor {
@@ -64,17 +64,17 @@
     self.signView.backgroundColor = _signTintColor;
 }
 
-- (void)setLeftViewBackgroundColor:(NSColor *)leftViewBackgroundColor {
-    _leftViewBackgroundColor = leftViewBackgroundColor;
-    if (!_status) {
-        self.backgroundView.backgroundColor = _leftViewBackgroundColor;
+- (void)setOpenColor:(NSColor *)openColor {
+    _openColor = openColor;
+    if (_status == YES) {
+        self.backgroundView.backgroundColor = _openColor;
     }
 }
 
-- (void)setRightViewBackgroundColor:(NSColor *)rightViewBackgroundColor {
-    _rightViewBackgroundColor = rightViewBackgroundColor;
-    if (_status) {
-        self.backgroundView.backgroundColor = _rightViewBackgroundColor;
+- (void)setCloseColor:(NSColor *)closeColor {
+    _closeColor = closeColor;
+    if (_status == NO) {
+        self.backgroundView.backgroundColor = _closeColor;
     }
 }
 
@@ -90,8 +90,8 @@
         if (!_status) {
             self.signView.animator.frame = CGRectMake(0, 0, viewFrame.size.width / 2, viewFrame.size.height);
             CABasicAnimation *colorAnimate = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-            colorAnimate.fromValue = (__bridge id _Nullable)(self.rightViewBackgroundColor.CGColor);
-            colorAnimate.toValue = (__bridge id _Nullable)(self.leftViewBackgroundColor.CGColor);
+            colorAnimate.fromValue = (__bridge id _Nullable)(self.openColor.CGColor);
+            colorAnimate.toValue = (__bridge id _Nullable)(self.closeColor.CGColor);
             colorAnimate.removedOnCompletion = NO;
             colorAnimate.fillMode = kCAFillModeForwards;
             
@@ -101,8 +101,8 @@
             self.signView.animator.frame = CGRectMake(viewFrame.size.width / 2, 0,viewFrame.size.width / 2, viewFrame.size.height);
             
             CABasicAnimation *colorAnimate = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-            colorAnimate.fromValue = (__bridge id _Nullable)(self.leftViewBackgroundColor.CGColor);
-            colorAnimate.toValue = (__bridge id _Nullable)(self.rightViewBackgroundColor.CGColor);
+            colorAnimate.fromValue = (__bridge id _Nullable)(self.closeColor.CGColor);
+            colorAnimate.toValue = (__bridge id _Nullable)(self.openColor.CGColor);
             colorAnimate.removedOnCompletion = NO;
             colorAnimate.fillMode = kCAFillModeForwards;
             
@@ -112,11 +112,11 @@
     else {
         if (!_status) {
             self.signView.frame = CGRectMake(0, 0, viewFrame.size.width / 2, viewFrame.size.height);
-            self.backgroundView.backgroundColor = self.leftViewBackgroundColor;
+            self.backgroundView.backgroundColor = self.closeColor;
         }
         else {
             self.signView.frame = CGRectMake(viewFrame.size.width / 2, 0,viewFrame.size.width / 2, viewFrame.size.height);
-            self.backgroundView.backgroundColor = self.rightViewBackgroundColor;
+            self.backgroundView.backgroundColor = self.openColor;
         }
     }
 }
@@ -146,24 +146,24 @@
 	if(_backgroundView == nil) {
 		_backgroundView = [[NSView alloc] initWithFrame:self.bounds];
         CGFloat minVlue = MIN(_backgroundView.frame.size.width, _backgroundView.frame.size.height) / 2;
-        _backgroundView.backgroundColor = self.leftViewBackgroundColor;
+        _backgroundView.backgroundColor = self.closeColor;
         _backgroundView.layer.cornerRadius = minVlue;
 	}
 	return _backgroundView;
 }
 
-- (NSColor *)leftViewBackgroundColor {
-    if(_leftViewBackgroundColor == nil) {
-        _leftViewBackgroundColor = [NSColor whiteColor];
+- (NSColor *)openColor {
+    if(_openColor == nil) {
+        _openColor = [NSColor greenColor];
     }
-    return _leftViewBackgroundColor;
+    return _openColor;
 }
 
-- (NSColor *)rightViewBackgroundColor {
-    if(_rightViewBackgroundColor == nil) {
-        _rightViewBackgroundColor = [NSColor greenColor];
+- (NSColor *)closeColor {
+    if(_closeColor == nil) {
+        _closeColor = [NSColor lightGrayColor];
     }
-    return _rightViewBackgroundColor;
+    return _closeColor;
 }
 
 @end

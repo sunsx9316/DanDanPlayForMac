@@ -122,7 +122,7 @@
 }
 
 - (IBAction)updateRules:(NSButton *)sender {
-    [UserDefaultManager setUserFilter: self.userFilterArr];
+    [UserDefaultManager shareUserDefaultManager].userFilterArr = self.userFilterArr;
 }
 
 
@@ -131,7 +131,7 @@
 
 - (NSMutableArray *)userFilterArr {
     if(_userFilterArr == nil) {
-        _userFilterArr = [UserDefaultManager userFilter];
+        _userFilterArr = [UserDefaultManager shareUserDefaultManager].userFilterArr;
     }
     return _userFilterArr;
 }

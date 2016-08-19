@@ -23,7 +23,7 @@
         {
             self.slider.minValue = 0.1;
             self.slider.maxValue = 3.0;
-            self.slider.floatValue = [UserDefaultManager danMuSpeed];
+            self.slider.floatValue = [UserDefaultManager shareUserDefaultManager].danmakuSpeed;
             
             [self changeSpeedWithValue:self.slider.floatValue];
             break;
@@ -32,7 +32,7 @@
         {
             self.slider.minValue = 0;
             self.slider.maxValue = 1.0;
-            self.slider.floatValue = [UserDefaultManager danMuOpacity];
+            self.slider.floatValue = [UserDefaultManager shareUserDefaultManager].danmakuOpacity;
             
             [self changeOpacityWithValue:self.slider.floatValue];
             break;
@@ -71,12 +71,12 @@
         [self.valueTextField setTextColor: [NSColor textColor]];
     }
     self.valueTextField.stringValue = [NSString stringWithFormat:@"%.1f倍速", value];
-    [UserDefaultManager setDanMuSpeed: value];
+    [UserDefaultManager shareUserDefaultManager].danmakuSpeed = value;
 }
 
 - (void)changeOpacityWithValue:(CGFloat)value{
     self.valueTextField.stringValue = [NSString stringWithFormat:@"%.1f%%", value * 100];
-    [UserDefaultManager setDanMuOpacity: value];
+    [UserDefaultManager shareUserDefaultManager].danmakuOpacity = value;
 }
 
 @end

@@ -61,7 +61,7 @@
 }
 
 - (NSTimeInterval)currentVideoLastVideoTime {
-    return [UserDefaultManager videoPlayHistoryWithHash:[self currentVideoModel].md5];
+    return [[UserDefaultManager shareUserDefaultManager] videoPlayHistoryWithHash:[self currentVideoModel].md5];
 }
 
 - (NSString *)currentVideoHash {
@@ -115,7 +115,7 @@
 }
 
 - (void)synchronizeVideoList {
-    [UserDefaultManager setVideoListArr:self.videos];
+    [[UserDefaultManager shareUserDefaultManager] setVideoListArr:self.videos];
 }
 
 - (void)saveUserDanmaku:(DanMuDataModel *)danmakuModel {
@@ -139,7 +139,7 @@
     }
     if ([videoModel isKindOfClass:[LocalVideoModel class]]) {
         LocalVideoModel *vm = (LocalVideoModel *)videoModel;
-        if (![[NSFileManager defaultManager] fileExistsAtPath:vm.filePath.path]) {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:vm.fileURL.path]) {
 //            complete(0, nil, kObjNilError);
             complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
             return;
@@ -219,7 +219,7 @@
 
 - (instancetype)initWithVideoModels:(NSArray *)videoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId {
     if (self = [super init]) {
-        NSArray *listArr = [UserDefaultManager videoList];
+        NSArray *listArr = [UserDefaultManager shareUserDefaultManager].videoListArr;
         if (listArr.count) {
             videoModels = [videoModels arrayByAddingObjectsFromArray:listArr];
         }
@@ -233,7 +233,7 @@
 
 #pragma mark - 私有方法
 - (NSURL *)videoURLWithIndex:(NSInteger)index {
-    return [self videoModelWithIndex: index].filePath ? [self videoModelWithIndex: index].filePath : nil;
+    return [self videoModelWithIndex: index].fileURL;
 }
 
 - (VideoModel *)videoModelWithIndex:(NSInteger)index {

@@ -42,7 +42,7 @@
     [self.vm refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         [JHProgressHUD disMiss];
-        if (model.episodeId && [UserDefaultManager turnOnFastMatch]) {
+        if (model.episodeId && [UserDefaultManager shareUserDefaultManager].turnOnFastMatch) {
             NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
             //防止崩溃
             if (self == vc) {

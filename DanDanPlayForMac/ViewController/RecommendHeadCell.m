@@ -31,7 +31,6 @@
 - (void)awakeFromNib{
     [super awakeFromNib];
     self.infoTextField.preferredMaxLayoutWidth = self.frame.size.width;
-//    self.briefTextField.preferredMaxLayoutWidth = self.frame.size.width;
     
     @weakify(self)
     [self.searchField setRespondBlock:^{
@@ -68,15 +67,15 @@
     self.titleButton.title = _model.title.length ? _model.title : @"";
     self.infoTextField.stringValue = _model.category.length ? _model.category : @"";
     self.briefTextView.string = _model.introduction.length ? _model.introduction : @"";
-//    self.briefTextField.stringValue = _model.introduction.length ? _model.introduction : @"";
-//    [self.infoTextField sizeToFit];
-//    [self.briefTextField sizeToFit];
     if (_model.fileReviewPath) {
         [self.filmReviewButton setHidden:NO];
     }
-    
-//    return CGRectGetMaxY(self.filmReviewButton.frame) + 20;
-//    return 150 + self.titleButton.frame.size.height + self.infoTextField.frame.size.height + self.briefTextField.frame.size.height + self.filmReviewButton.frame.size.height + self.todayRecommedTextField.frame.size.height + self.searchField.frame.size.height;
+}
+
+- (IBAction)clickTitleButton:(NSButton *)sender {
+    if (self.clickSearchButtonCallBack) {
+        self.clickSearchButtonCallBack(sender.title);
+    }
 }
 
 @end

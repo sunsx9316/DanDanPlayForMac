@@ -19,7 +19,6 @@
 @property (strong, nonatomic) RecommedViewModel *vm;
 @property (strong, nonatomic) JHProgressHUD *progressHUD;
 @property (weak) IBOutlet RecommendHeadCell *headView;
-//@property (weak) IBOutlet NSLayoutConstraint *headViewHeightConstraint;
 @property (weak) IBOutlet NSTabView *tabView;
 @end
 
@@ -60,6 +59,8 @@
 - (void)configHeadView {
     [self.headView setClickSearchButtonCallBack:^(NSString *keyWord) {
         if (!keyWord.length) return;
+        
+        
         
         keyWord = [keyWord stringByURLEncode];
         //破软件迟早药丸

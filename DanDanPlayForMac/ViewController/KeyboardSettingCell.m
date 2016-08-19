@@ -53,7 +53,7 @@
 }
 
 - (IBAction)clickOKButton:(NSButton *)sender {
-    [UserDefaultManager setCustomKeyMap:self.keyMapArr];
+    [[UserDefaultManager shareUserDefaultManager] setCustomKeyMapArr:self.keyMapArr];
 }
 
 - (IBAction)clickDeleteButton:(NSButton *)sender {
@@ -67,8 +67,8 @@
 }
 
 - (IBAction)clickResetButton:(NSButton *)sender {
-    [UserDefaultManager setCustomKeyMap: nil];
-    self.keyMapArr = [UserDefaultManager customKeyMap];
+    [[UserDefaultManager shareUserDefaultManager] setCustomKeyMapArr:nil];
+    self.keyMapArr = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
     [self.tableView reloadData];
 }
 
@@ -76,7 +76,7 @@
 #pragma mark - 懒加载
 - (NSMutableArray *)keyMapArr {
 	if(_keyMapArr == nil) {
-        _keyMapArr = [UserDefaultManager customKeyMap];
+        _keyMapArr = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
 	}
 	return _keyMapArr;
 }

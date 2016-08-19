@@ -20,12 +20,12 @@
 @implementation CacheManagerCell
 - (void)awakeFromNib{
     [super awakeFromNib];
-    self.pathTextField.placeholderString = [UserDefaultManager cachePath];
+    self.pathTextField.placeholderString = [UserDefaultManager shareUserDefaultManager].danmakuCachePath;
     [self.progressIndicator startAnimation:self];
     self.progressIndicator.displayedWhenStopped = NO;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        float size = [self folderSizeAtPath:[UserDefaultManager cachePath]];
+        float size = [self folderSizeAtPath:[UserDefaultManager shareUserDefaultManager].danmakuCachePath];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.cacheTextField.stringValue = [NSString stringWithFormat:@"缓存大小: %.1fM", size];
             [self.progressIndicator stopAnimation:self];
@@ -35,7 +35,7 @@
 
 - (IBAction)clickClearCacheButton:(NSButton *)sender {
     NSError *err = nil;
-    [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager cachePath] error:&err];
+    [[NSFileManager defaultManager] removeItemAtPath:[UserDefaultManager shareUserDefaultManager].danmakuCachePath error:&err];
     DanDanPlayMessageModel *model;
     if (err) {
         if (err.code == NSFileNoSuchFileError) {
@@ -53,12 +53,12 @@
     [[NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage] runModal];
 }
 - (IBAction)clickChangeCachePathButton:(NSButton *)sender {
-    NSOpenPanel* openPanel = [NSOpenPanel chooseDirectoriesPanelWithTitle:@"选取缓存目录" defaultURL:[NSURL fileURLWithPath:[UserDefaultManager cachePath]]];
+    NSOpenPanel* openPanel = [NSOpenPanel chooseDirectoriesPanelWithTitle:@"选取缓存目录" defaultURL:[NSURL fileURLWithPath:[UserDefaultManager shareUserDefaultManager].danmakuCachePath]];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton){
             NSString *path = [openPanel.URL.path stringByAppendingPathComponent:@"dandanplay"];
             self.pathTextField.placeholderString = path;
-            [UserDefaultManager setCachePath: path];
+            [UserDefaultManager shareUserDefaultManager].danmakuCachePath = path;
         }
     }];
 }

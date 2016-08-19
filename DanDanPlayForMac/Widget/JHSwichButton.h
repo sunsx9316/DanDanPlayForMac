@@ -11,8 +11,8 @@
 @interface JHSwichButton : NSView
 @property (assign, nonatomic) BOOL status;
 @property (strong, nonatomic) NSColor *signTintColor;
-@property (strong, nonatomic) NSColor *leftViewBackgroundColor;
-@property (strong, nonatomic) NSColor *rightViewBackgroundColor;
+@property (strong, nonatomic) NSColor *openColor;
+@property (strong, nonatomic) NSColor *closeColor;
 - (void)addTarget:(id)target action:(SEL)action;
 
 @end

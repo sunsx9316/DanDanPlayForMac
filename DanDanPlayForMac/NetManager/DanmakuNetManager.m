@@ -18,7 +18,7 @@
 
 @implementation DanmakuNetManager
 + (NSURLSessionDataTask *)GETWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
-    if (![UserDefaultManager turnOnFastMatch]) {
+    if (![UserDefaultManager shareUserDefaultManager].turnOnFastMatch) {
         //没开启快速匹配功能 直接进入匹配界面
        return [self GETThirdPartyDanmakuWithProgramId:programId completionHandler:complete];
     }
@@ -341,7 +341,7 @@
 + (void)writeDanmakuCacheWithProvider:(DanDanPlayDanmakuSource)provider danmakuID:(NSString *)danmakuID responseObj:(id)responseObj {
     
     //将弹幕写入缓存
-    NSString *cachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:[ToolsManager stringValueWithDanmakuSource:provider]];
+    NSString *cachePath = [[UserDefaultManager shareUserDefaultManager].danmakuCachePath stringByAppendingPathComponent:[ToolsManager stringValueWithDanmakuSource:provider]];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:cachePath]) {
         [fileManager createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil];
@@ -363,7 +363,7 @@
     NSString *providerStringValue = [ToolsManager stringValueWithDanmakuSource:provider];
     NSString *tailPath = (provider & DanDanPlayDanmakuSourceUserSendCache) ? [NSString stringWithFormat:@"%@_user", danmakuID] : danmakuID;
     
-    NSString *cachePath = [[UserDefaultManager cachePath] stringByAppendingPathComponent:[providerStringValue stringByAppendingPathComponent:tailPath]];
+    NSString *cachePath = [[UserDefaultManager shareUserDefaultManager].danmakuCachePath stringByAppendingPathComponent:[providerStringValue stringByAppendingPathComponent:tailPath]];
     
     return [NSKeyedUnarchiver unarchiveObjectWithFile: cachePath];
 }

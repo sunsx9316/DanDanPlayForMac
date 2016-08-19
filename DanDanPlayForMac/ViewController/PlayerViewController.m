@@ -227,11 +227,12 @@
 //滚轮调整音量
 - (void)scrollWheel:(NSEvent *)theEvent {
     //判断是否为apple的破鼠标
+    int isReverse = [UserDefaultManager shareUserDefaultManager].reverseVolumeScroll ? -1 : 1;
     if (theEvent.hasPreciseScrollingDeltas) {
-        [self volumeValueAddBy:-theEvent.deltaY];
+        [self volumeValueAddBy:-theEvent.deltaY * isReverse];
     }
     else {
-        [self volumeValueAddBy:-theEvent.scrollingDeltaY];
+        [self volumeValueAddBy:theEvent.scrollingDeltaY * isReverse];
     }
 }
 
@@ -513,7 +514,7 @@
     [PlayerMethodManager launchDanmakuWithText:text color:color mode:mode time:self.danmakuEngine.currentTime + self.danmakuEngine.offsetTime episodeId:self.vm.episodeId completionHandler:^(DanMuDataModel *model, NSError *error) {
         //无错误发射
         if (!error) {
-            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithModel:model shadowStyle:[UserDefaultManager danMufontSpecially] fontSize:0 font:[UserDefaultManager danMuFont]];
+            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithModel:model shadowStyle:[UserDefaultManager shareUserDefaultManager].danmakuSpecially fontSize:0 font:[UserDefaultManager shareUserDefaultManager].danmakuFont];
             danmaku.appearTime = self.danmakuEngine.currentTime + self.danmakuEngine.offsetTime;
             NSMutableAttributedString *str = [danmaku.attributedString mutableCopy];
             [str addAttributes:@{NSUnderlineColorAttributeName:[NSColor greenColor], NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)} range:NSMakeRange(0, str.length)];
@@ -564,7 +565,7 @@
 
 //保存当前视频时间
 - (void)saveCurrentVideoTime {
-    [UserDefaultManager setVideoPlayHistoryWithHash:[self.vm currentVideoHash] time:[self.player currentTime]];
+    [[UserDefaultManager shareUserDefaultManager] setVideoPlayHistoryWithHash:[self.vm currentVideoHash] time:[self.player currentTime]];
 }
 
 //播放弹幕和视频
@@ -655,7 +656,7 @@
 
 #pragma mark 截图
 - (void)snapShot {
-    [self.player saveVideoSnapshotAt:[[UserDefaultManager screenShotPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [self.snapshotFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]] withSize:CGSizeZero format:[UserDefaultManager defaultScreenShotType]];
+    [self.player saveVideoSnapshotAt:[[UserDefaultManager shareUserDefaultManager].screenShotPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", [self.vm currentVideoName], [self.snapshotFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]] withSize:CGSizeZero format:[UserDefaultManager shareUserDefaultManager].defaultScreenShotType];
 }
 
 
@@ -663,7 +664,7 @@
 
 - (void)danmakuCanvasResizeWithAnimate:(BOOL)isAnimate {
     CGRect frame = self.playerHoldView.frame;
-    if ([UserDefaultManager turnOnCaptionsProtectArea]) {
+    if ([UserDefaultManager shareUserDefaultManager].turnOnCaptionsProtectArea) {
         CGFloat offset = frame.size.height * 0.15;
         frame.origin.y += offset;
         frame.size.height -= offset;
@@ -1033,7 +1034,7 @@
 
 - (NSArray *)keyMap {
     if(_keyMap == nil) {
-        _keyMap = [UserDefaultManager customKeyMap];
+        _keyMap = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
     }
     return _keyMap;
 }
@@ -1044,8 +1045,8 @@
         _danmakuEngine.turnonBackFunction = YES;
         _danmakuEngine.canvas.layoutStyle = JHDanmakuCanvasLayoutStyleWhenSizeChanged;
         [_danmakuEngine sendAllDanmakusDic:self.vm.danmakusDic];
-        [_danmakuEngine setSpeed: [UserDefaultManager danMuSpeed]];
-        _danmakuEngine.canvas.alphaValue = [UserDefaultManager danMuOpacity];
+        [_danmakuEngine setSpeed: [UserDefaultManager shareUserDefaultManager].danmakuSpeed];
+        _danmakuEngine.canvas.alphaValue = [UserDefaultManager shareUserDefaultManager].danmakuOpacity;
         [self.view addSubview:_danmakuEngine.canvas positioned:NSWindowAbove relativeTo:self.playerHoldView];
     }
     return _danmakuEngine;
@@ -1059,7 +1060,6 @@
     }
     return _volumeControlView;
 }
-
 
 - (NSTrackingArea *)trackingArea {
     if(_trackingArea == nil) {
@@ -1109,7 +1109,7 @@
         }];
         
         [_playerDanmakuAndSubtitleViewController.danmakuVC setAdjustDanmakuFontSizeCallBack:^(CGFloat value) {
-            weakSelf.danmakuEngine.globalFont = [[NSFontManager sharedFontManager] convertFont:[UserDefaultManager danMuFont] toSize:value];
+            weakSelf.danmakuEngine.globalFont = [[NSFontManager sharedFontManager] convertFont:[UserDefaultManager shareUserDefaultManager].danmakuFont toSize:value];
         }];
         
         [_playerDanmakuAndSubtitleViewController.danmakuVC setAdjustDanmakuSpeedCallBack:^(CGFloat value) {

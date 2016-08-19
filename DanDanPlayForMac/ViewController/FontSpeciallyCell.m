@@ -21,7 +21,7 @@
 - (void)awakeFromNib{
     [super awakeFromNib];
     
-    NSInteger value = [UserDefaultManager danMufontSpecially];
+    NSInteger value = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
     
     switch (value) {
         case 100:
@@ -54,7 +54,7 @@
 }
 
 - (IBAction)clickButton:(NSButton *)sender {
-    [UserDefaultManager setDanMuFontSpecially:sender.tag];
+    [UserDefaultManager shareUserDefaultManager].danmakuSpecially = sender.tag;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_FONT_SPECIALLY" object:nil userInfo:@{@"fontSpecially": @(sender.tag)}];
 }
 

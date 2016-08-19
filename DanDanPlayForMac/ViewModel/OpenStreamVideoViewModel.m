@@ -42,7 +42,7 @@
         [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmaku provider:danmakuSource completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
             StreamingVideoModel *vm = [[StreamingVideoModel alloc] initWithFileURLs:videosDic fileName:videoName danmaku:danmaku danmakuSource:danmakuSource];
             vm.danmakuDic = responseObj;
-            vm.quality = [UserDefaultManager defaultQuality];
+            vm.quality = [UserDefaultManager shareUserDefaultManager].defaultQuality;
             complete(vm, error);
         }];
     }];

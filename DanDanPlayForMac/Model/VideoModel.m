@@ -9,18 +9,14 @@
 #import "VideoModel.h"
 
 @implementation VideoModel
-
-- (NSURL *)filePath{
+- fileURL {
     return nil;
 }
+
 - (NSString *)fileName{
     return nil;
 }
 - (NSString *)md5{
-    return nil;
-}
-
-- (instancetype)initWithFilePath:(NSString *)filePath{
     return nil;
 }
 

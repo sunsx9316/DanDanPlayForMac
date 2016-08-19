@@ -36,7 +36,7 @@
     NSString *path = [NSString stringWithFormat:@"http://dandanmac.b0.upaiyun.com/dandanplay_%@.dmg", version];
     
     NSURLSessionDownloadTask *task = [self downloadTaskWithPath:path progress:progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        return [NSURL fileURLWithPath: [[UserDefaultManager autoDownLoadPath] stringByAppendingPathComponent:[response suggestedFilename]]];
+        return [NSURL fileURLWithPath: [[UserDefaultManager shareUserDefaultManager].autoDownLoadPath stringByAppendingPathComponent:[response suggestedFilename]]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error) {
         complete(filePath, error);
     }];

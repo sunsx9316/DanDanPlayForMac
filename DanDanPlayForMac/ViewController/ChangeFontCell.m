@@ -25,7 +25,7 @@
 }
 
 - (IBAction)clickResetFontButton:(NSButton *)sender {
-    [UserDefaultManager setDanMuFont: nil];
+    [UserDefaultManager shareUserDefaultManager].danmakuFont = nil;
     self.font = nil;
     [self changeFont:self.manager];
 }
@@ -36,7 +36,7 @@
     self.font = [sender convertFont: self.font];
     self.showTextField.stringValue = [NSString stringWithFormat: @"%@: %.1f", self.font.familyName, self.font.pointSize];
     self.showTextField.font = [sender convertFont: self.font toSize:self.showTextField.font.pointSize];
-    [UserDefaultManager setDanMuFont: self.font];
+    [UserDefaultManager shareUserDefaultManager].danmakuFont = self.font;
     if (!_font) return;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE_DANMAKU_FONT" object:nil userInfo:@{@"font":_font}];
 }
@@ -44,7 +44,7 @@
 
 - (NSFont *)font {
 	if(_font == nil) {
-        _font = [UserDefaultManager danMuFont];
+        _font = [UserDefaultManager shareUserDefaultManager].danmakuFont;
 	}
 	return _font;
 }

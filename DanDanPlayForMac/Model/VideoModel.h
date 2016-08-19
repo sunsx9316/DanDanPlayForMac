@@ -10,25 +10,18 @@
 
 @interface VideoModel : BaseModel
 /**
- *  文件名不带格式
- */
-- (NSString *)fileName;
-/**
  *  文件完整路径
  */
-- (NSURL *)filePath;
+- (NSURL *)fileURL;
 /**
  *  文件哈希值
  */
 - (NSString *)md5;
 /**
- *  初始化
+ *  文件名
  *
- *  @param filePath 文件路径
- *
- *  @return self
  */
-- (instancetype)initWithFilePath:(NSString *)filePath;
+- (NSString *)fileName;
 /**
  *  初始化
  *

@@ -8,14 +8,19 @@
 
 #import "StreamingVideoModel.h"
 #import "NSString+Tools.h"
+
+@interface StreamingVideoModel ()
+@property (assign, nonatomic) DanDanPlayDanmakuSource danmakuSource;
+@property (copy, nonatomic) NSString *danmaku;
+@property (copy, nonatomic) NSString *fileName;
+@property (copy, nonatomic) NSString *md5;
+@property (strong, nonatomic) NSDictionary <NSString *, NSArray <NSURL *>*>*URLs;
+@end
+
 @implementation StreamingVideoModel
 {
     NSDictionary *_danmakuDic;
-    DanDanPlayDanmakuSource _danmakuSource;
-    NSString *_danmaku;
-    NSString *_danmakuStringValue;
-    NSDictionary *_URLs;
-    NSString *_fileName;
+    NSString *_danmakuSourceStringValue;
 }
 
 - (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
@@ -24,7 +29,7 @@
         _fileName = fileName;
         _danmaku = danmaku;
         _danmakuSource = danmakuSource;
-        _danmakuStringValue = [ToolsManager stringValueWithDanmakuSource:_danmakuSource];
+        _danmakuSourceStringValue = [ToolsManager stringValueWithDanmakuSource:_danmakuSource];
     }
     return self;
 }
@@ -44,28 +49,29 @@
 - (void)setDanmakuDic:(NSDictionary *)danmakuDic {
     _danmakuDic = danmakuDic;
 }
+
 - (NSDictionary *)danmakuDic {
     return _danmakuDic;
 }
 
-- (NSString *)fileName{
+- (NSString *)fileName {
     return _fileName;
 }
 
-- (NSString *)danmaku{
+- (NSString *)danmaku {
     return _danmaku;
 }
 
-- (NSURL *)filePath{
+- (NSURL *)fileURL {
     NSArray *arr = [self URLsForQuality];
     return _URLIndex < arr.count ? arr[_URLIndex] : nil;
 }
 
 - (NSString *)md5 {
-    return [[_danmakuStringValue stringByAppendingString:_danmaku] md5String];
+    return [[_danmakuSourceStringValue stringByAppendingString:_danmaku] md5String];
 }
 
-- (DanDanPlayDanmakuSource)danmakuSource{
+- (DanDanPlayDanmakuSource)danmakuSource {
     return _danmakuSource;
 }
 
@@ -75,7 +81,7 @@
  *
  *  @return 地址数组
  */
-- (NSArray *)URLsForQuality{
+- (NSArray <NSURL *>*)URLsForQuality {
     return self.quality == streamingVideoQualityHigh ? _URLs[@"high"] : _URLs[@"low"];
 }
 @end

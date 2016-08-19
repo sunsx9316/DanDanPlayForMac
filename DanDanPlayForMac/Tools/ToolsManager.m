@@ -49,6 +49,6 @@
 #pragma mark - 私有方法
 + (NSString *)userDanmakuCachePathWithEpisodeId:(NSString *)episodeId {
     NSString *path = [ToolsManager stringValueWithDanmakuSource:DanDanPlayDanmakuSourceOfficial];
-    return [[UserDefaultManager cachePath] stringByAppendingPathComponent:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_user", episodeId]]];
+    return [[UserDefaultManager shareUserDefaultManager].danmakuCachePath stringByAppendingPathComponent:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_user", episodeId]]];
 }
 @end

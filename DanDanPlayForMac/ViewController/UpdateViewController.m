@@ -37,7 +37,7 @@
     [super viewDidLoad];
     self.updateDetailTextField.stringValue = self.details;
     [self.okButton setTitleColor:[NSColor blueColor]];
-    self.autoCheakUpdateInfoButton.state = [UserDefaultManager cheakDownLoadInfoAtStart];
+    self.autoCheakUpdateInfoButton.state = [UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart;
     
 }
 
@@ -108,7 +108,7 @@
 }
 
 - (IBAction)clickAutoCheakUpdateInfoButton:(NSButton *)sender {
-    [UserDefaultManager setCheakDownLoadInfoAtStart:sender.state];
+    [UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart = sender.state;
 }
 
 //- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{

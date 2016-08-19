@@ -70,7 +70,7 @@
     //啥也没有
     if (!self.videos.count) return;
     //没开启快速匹配
-    if (![UserDefaultManager turnOnFastMatch]) {
+    if (![UserDefaultManager shareUserDefaultManager].turnOnFastMatch) {
         [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
         return;
     }
@@ -111,7 +111,7 @@
 //检查更新
 - (void)updateVersion{
     //没开启自动检查更新功能
-    if (![UserDefaultManager cheakDownLoadInfoAtStart]) return;
+    if (![UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart) return;
     
     [UpdateNetManager latestVersionWithCompletionHandler:^(NSString *version, NSString *details, NSString *hash, NSError *error) {
         CGFloat curentVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
@@ -123,7 +123,7 @@
 }
 //显示推荐窗口
 - (void)showRecommedVC{
-    if ([UserDefaultManager showRecommedInfoAtStart]) {
+    if ([UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart) {
         [self presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
     }
 }
@@ -133,7 +133,7 @@
     BOOL isDirectory;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath: path isDirectory:&isDirectory]) {
-        if (!isDirectory) return @[[[LocalVideoModel alloc] initWithFilePath:path]];
+        if (!isDirectory) return @[[[LocalVideoModel alloc] initWithFileURL:[NSURL fileURLWithPath:path]]];
     }
     NSMutableArray *arr = [[fileManager contentsOfDirectoryAtURL:[NSURL fileURLWithPath:path] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants error:nil] mutableCopy];
     
@@ -202,7 +202,7 @@
 }
 
 - (void)changeHomgImg:(NSNotification *)notification{
-    self.imgView.image = notification.userInfo[@"img"];
+    self.imgView.image = notification.object;
 }
 
 #pragma mark - NSUserNotificationDelegate
@@ -217,7 +217,7 @@
         _imgView = [[BackGroundImageView alloc] initWithFrame:self.view.frame];
         [_imgView setWantsLayer: YES];
         _imgView.layer.backgroundColor = [NSColor blackColor].CGColor;
-        _imgView.image = [UserDefaultManager homeImg];
+        _imgView.image = [[NSImage alloc] initWithContentsOfFile:[UserDefaultManager shareUserDefaultManager].homeImgPath];
         
         __weak typeof (self)weakSelf = self;
         [self.imgView setFilePickBlock:^(NSArray *filePath) {

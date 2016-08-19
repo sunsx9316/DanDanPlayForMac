@@ -16,7 +16,7 @@
 5. 支持bilibili视频播放功能
 
 ## 系统要求
-最低支持 osx 10.9
+最低支持 mac OS 10.10
 
 ## 第三方库
 * [AFNetworking](https://github.com/AFNetworking/AFNetworking)
