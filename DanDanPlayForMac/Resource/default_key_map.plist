@@ -54,11 +54,11 @@
 		<key>id</key>
 		<integer>4</integer>
 		<key>flag</key>
-		<integer>12058624</integer>
+		<integer>11010048</integer>
 		<key>keyCode</key>
 		<integer>125</integer>
 		<key>keyName</key>
-		<string>⌥ ⌘ Down</string>
+		<string>⌥ Down</string>
 		<key>name</key>
 		<string>静音</string>
 	</dict>
@@ -90,11 +90,11 @@
 		<key>id</key>
 		<integer>7</integer>
 		<key>flag</key>
-		<real>12058624</real>
+		<integer>11010048</integer>
 		<key>keyCode</key>
 		<integer>124</integer>
 		<key>keyName</key>
-		<string>⌥ ⌘ Right</string>
+		<string>⌥ Right</string>
 		<key>name</key>
 		<string>普通快进</string>
 	</dict>
@@ -102,11 +102,11 @@
 		<key>id</key>
 		<integer>8</integer>
 		<key>flag</key>
-		<real>12058624</real>
+		<integer>11010048</integer>
 		<key>keyCode</key>
 		<integer>123</integer>
 		<key>keyName</key>
-		<string>⌥ ⌘ Left</string>
+		<string>⌥ Left</string>
 		<key>name</key>
 		<string>普通快退</string>
 	</dict>

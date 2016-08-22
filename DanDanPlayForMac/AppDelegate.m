@@ -43,7 +43,7 @@
 - (IBAction)openPreferencePanel:(NSMenuItem *)sender {
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     if ([vc isKindOfClass:[PreferenceViewController class]]) return;
-    
+   // [vc presentViewControllerAsModalWindow:kViewControllerWithId(@"PreferenceViewController")];
     [vc presentViewControllerAsSheet:kViewControllerWithId(@"PreferenceViewController")];
 }
 

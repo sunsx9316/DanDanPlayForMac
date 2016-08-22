@@ -414,7 +414,7 @@
     //重设右键菜单
     [self resetMenuByOpenStreamDic];
     //显示上次播放进度
-    NSUInteger intTime = [self.vm currentVideoLastVideoTime];
+    NSInteger intTime = [self.vm currentVideoLastVideoTime];
     if (intTime > 0) {
         self.lastWatchVideoTimeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",intTime / 60, intTime % 60];
         self.lastWatchVideoTimeView.time = intTime;

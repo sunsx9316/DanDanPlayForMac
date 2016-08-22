@@ -52,7 +52,6 @@
 
 
 - (IBAction)clickOKButton:(NSButton *)sender {
-#warning TODO
     //需要请求弹幕详情的任务
     NSMutableArray *aidArr = [NSMutableArray array];
     NSMutableArray *danmakuArr = [NSMutableArray array];
@@ -79,14 +78,6 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", responseObjs.count]}];
         }];
     }];
-//
-//    NSArray* operations = [AFURLConnectionOperation batchOfRequestOperations:taskArr progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
-//       // NSLog(@"%ld %ld",numberOfFinishedOperations,totalNumberOfOperations);
-//    }completionBlock:^(NSArray *operations) {
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", operations.count]}];
-//    }];
-//    [[NSOperationQueue mainQueue] addOperations:@[operations.lastObject] waitUntilFinished:NO];
-//    [self dismissController:self];
 }
 
 

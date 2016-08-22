@@ -48,9 +48,9 @@ typedef NS_ENUM(NSUInteger, DanDanPlayDanmakuSource){
 #define MAIN_COLOR RGBColor(49, 169, 226)
 
 //弹弹官方的key
-#define kDanDanPlayKey @"hWfrNe2edWO6orxZYXHnJzwkIYIvoy3vtCrHu7OCz8k="
+#define kDanDanPlayKey @""
 //弹弹官方的IV
-#define kDanDanPlayIV @"dzweYfq6KUb3/BWny4IHxA=="
+#define kDanDanPlayIV @""
 
 //b站的 appkey
 #define BILIBILI_APPKEY @"85eb6835b0a1034e"

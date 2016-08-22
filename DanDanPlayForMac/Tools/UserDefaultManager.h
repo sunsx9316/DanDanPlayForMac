@@ -15,87 +15,45 @@
 #define SUBTITLE_FONT_SIZE 25
 
 @interface UserDefaultManager : NSObject
+//字幕保护区域
 @property (assign, nonatomic) BOOL turnOnCaptionsProtectArea;
+//快速匹配
 @property (assign, nonatomic) BOOL turnOnFastMatch;
+//程序启动时检查更新
 @property (assign, nonatomic) BOOL cheakDownLoadInfoAtStart;
+//程序启动时显示推荐页
 @property (assign, nonatomic) BOOL showRecommedInfoAtStart;
+//反转音量
 @property (assign, nonatomic) BOOL reverseVolumeScroll;
+//弹幕透明度
 @property (assign, nonatomic) CGFloat danmakuOpacity;
+//弹幕速度
 @property (assign, nonatomic) CGFloat danmakuSpeed;
+//弹幕边缘特效
 @property (assign, nonatomic) NSInteger danmakuSpecially;
+//默认截图格式
 @property (assign, nonatomic) NSInteger defaultScreenShotType;
+//默认清晰度
 @property (assign, nonatomic) NSInteger defaultQuality;
+//主页图片路径
 @property (copy, nonatomic) NSString *homeImgPath;
+//默认截图路径
 @property (copy, nonatomic) NSString *screenShotPath;
+//自动下载路径
 @property (copy, nonatomic) NSString *autoDownLoadPath;
+//弹幕缓存路径
 @property (copy, nonatomic) NSString *danmakuCachePath;
+//用户屏蔽弹幕设置
 @property (strong, nonatomic) NSMutableArray *userFilterArr;
+//用户快捷键设置
 @property (strong, nonatomic) NSMutableArray *customKeyMapArr;
+//播放列表设置
 @property (strong, nonatomic) NSArray *videoListArr;
+//弹幕字体
 @property (strong, nonatomic) NSFont *danmakuFont;
 + (instancetype)shareUserDefaultManager;
 //清除播放历史
 - (void)clearPlayHistory;
 - (NSTimeInterval)videoPlayHistoryWithHash:(NSString *)hash;
 - (void)setVideoPlayHistoryWithHash:(NSString *)hash time:(NSTimeInterval)time;
-
-//字幕保护区域
-//+ (BOOL)turnOnCaptionsProtectArea;
-//+ (void)setTurnOnCaptionsProtectArea:(BOOL)captionsProtectArea;
-////弹幕字体
-//+ (NSFont *)danMuFont;
-//+ (void)setDanMuFont:(NSFont *)danMuFont;
-//
-//+ (NSMutableDictionary *)subtitleAttDic;
-//+ (void)setSubtitleAttDic:(NSDictionary *)subtitleAttDic;
-////弹幕透明度
-//+ (CGFloat)danMuOpacity;
-//+ (void)setDanMuOpacity:(CGFloat)danMuOpacity;
-////弹幕速度
-//+ (CGFloat)danMuSpeed;
-//+ (void)setDanMuSpeed:(CGFloat)danMuSpeed;
-////弹幕边缘特效
-//+ (NSInteger)danMufontSpecially;
-//+ (void)setDanMuFontSpecially:(NSInteger)fontSpecially;
-////首页图片
-//+ (NSImage*)homeImg;
-//+ (void)setHomeImgPath:(NSString *)homeImgPath;
-////用户自定义过滤过滤
-//+ (NSMutableArray *)userFilter;
-//+ (void)setUserFilter:(NSMutableArray *)userFilter;
-////用户自定义快捷键
-//+ (NSMutableArray *)customKeyMap;
-//+ (void)setCustomKeyMap:(NSMutableArray *)customKeyMap;
-////默认保存截图路径
-//+ (NSString *)screenShotPath;
-//+ (void)setScreenShotPath:(NSString *)screenShotPath;
-////弹幕默认缓存路径
-//+ (NSString *)cachePath;
-//+ (void)setCachePath:(NSString *)cachePath;
-////默认截图保存格式
-//+ (NSInteger)defaultScreenShotType;
-//+ (void)setDefaultScreenShotType:(NSInteger)type;
-////是否开启快速匹配
-//+ (BOOL)turnOnFastMatch;
-//+ (void)setTurnOnFastMatch:(BOOL)fastMatch;
-////自动下载更新文件路径
-//+ (NSString *)autoDownLoadPath;
-//+ (void)setAutoDownLoadPath:(NSString *)path;
-////是否在开始自动检查更新
-//+ (BOOL)cheakDownLoadInfoAtStart;
-//+ (void)setCheakDownLoadInfoAtStart:(BOOL)cheak;
-////是否在开始显示推荐信心
-//+ (BOOL)showRecommedInfoAtStart;
-//+ (void)setShowRecommedInfoAtStart:(BOOL)show;
-//记录上次观看时间
-
-//在线视频清晰度
-//+ (NSInteger)defaultQuality;
-//+ (void)setDefaultQuality:(NSInteger)quality;
-////清除播放历史
-//+ (void)clearPlayHistory;
-////播放列表
-//+ (void)setVideoListArr:(NSArray *)videosArr;
-//+ (NSArray *)videoList;
-
 @end

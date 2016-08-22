@@ -7,71 +7,139 @@
 //
 
 #import "KeyboardSettingCell.h"
-#import "GetKeyViewController.h"
 #import "ColorButton.h"
+#import "NSString+KeyEvent.h"
+#import "NSTableView+Tools.h"
 
 @interface KeyboardSettingCell()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
-@property (weak) IBOutlet ColorButton *OKButton;
 @property (strong, nonatomic) NSMutableArray *keyMapArr;
-
+@property (strong, nonatomic) NSArray <NSValue *>*associatedKeyArr;
 @end
 
 @implementation KeyboardSettingCell
-- (void)awakeFromNib{
-    [super awakeFromNib];
-    [self.tableView setDoubleAction:@selector(doubleAction:)];
+{
+    //当前双击行
+    NSUInteger _currentDoubleSelectRow;
+    BOOL _capsLockOn;
 }
 
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    _currentDoubleSelectRow = -1;
+    self.tableView.allowsTypeSelect = NO;
+    [self.tableView setDoubleAction:@selector(doubleAction:)];
+    [self.tableView setAction:@selector(clickedRow:)];
+}
+
+#pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return self.keyMapArr.count;
 }
 
+#pragma mark - NSTableViewDelegate
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
     NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
     if ([tableColumn.identifier isEqualToString:@"actionCell"]) {
         NSDictionary *dic = self.keyMapArr[row];
         cell.textField.stringValue = dic[@"name"];
-    }else if ([tableColumn.identifier isEqualToString:@"keyCell"]){
+    }
+    else if ([tableColumn.identifier isEqualToString:@"keyCell"]){
         NSDictionary *dic = self.keyMapArr[row];
-        cell.textField.stringValue = dic[@"keyName"];
+        NSString *key = dic[@"keyName"];
+        cell.textField.stringValue = key;
     }
     return cell;
 }
 
-- (void)doubleAction:(NSTableView *)tableView{
-    NSInteger index = [tableView selectedRow];
-    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
-    NSMutableDictionary *dic = [self.keyMapArr[index] mutableCopy];
-    [vc presentViewControllerAsModalWindow:[[GetKeyViewController alloc] initWithFunctionName:dic[@"name"] keyName:dic[@"keyName"] getBlock:^(NSString *keyName, NSUInteger keyCode, NSUInteger flag) {
-        dic[@"keyName"] = keyName;
-        dic[@"keyCode"] = @(keyCode);
-        dic[@"flag"] = @(flag);
-        self.keyMapArr[index] = dic;
-        [self.tableView reloadData];
-    }]];
+#pragma mark - 私有方法
+- (void)doubleAction:(NSTableView *)tableView {
+    NSInteger index = tableView.selectedRow;
+    _currentDoubleSelectRow = index;
+
+    NSMutableDictionary *dic = self.keyMapArr[index];
+    NSString *key = [dic[@"keyName"] copy];
+    //关联对象 保存键值
+    objc_setAssociatedObject(self.keyMapArr[index], [self.associatedKeyArr[index] pointerValue], key, OBJC_ASSOCIATION_RETAIN);
+    dic[@"keyName"] = @"";
+    [tableView reloadRow:index inColumn:1];
 }
 
-- (IBAction)clickOKButton:(NSButton *)sender {
-    [[UserDefaultManager shareUserDefaultManager] setCustomKeyMapArr:self.keyMapArr];
+- (void)clickedRow:(NSTableView *)tableView {
+    NSUInteger currentIndex = _currentDoubleSelectRow;
+    _currentDoubleSelectRow = -1;
+    
+    if (currentIndex < self.keyMapArr.count) {
+        NSMutableDictionary *dic = self.keyMapArr[currentIndex];
+        //按关联值恢复key
+        NSString *key = objc_getAssociatedObject(dic, [self.associatedKeyArr[currentIndex] pointerValue]);
+        if (key.length) {
+            dic[@"keyName"] = key;
+        }
+        [tableView reloadRow:currentIndex inColumn:1];
+    }
 }
 
 - (IBAction)clickDeleteButton:(NSButton *)sender {
     NSInteger index = [self.tableView selectedRow];
-    NSMutableDictionary *dic = [self.keyMapArr[index] mutableCopy];
+    NSMutableDictionary *dic = self.keyMapArr[index];
     dic[@"keyName"] = @"";
     dic[@"flag"] = @-1;
     dic[@"keyCode"] = @-1;
-    self.keyMapArr[index] = dic;
-    [self.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index] columnIndexes:[NSIndexSet indexSetWithIndex: 1]];
+    [UserDefaultManager shareUserDefaultManager].customKeyMapArr = self.keyMapArr;
+    [self.tableView reloadRow:index inColumn:1];
 }
 
 - (IBAction)clickResetButton:(NSButton *)sender {
     [[UserDefaultManager shareUserDefaultManager] setCustomKeyMapArr:nil];
-    self.keyMapArr = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
+    self.keyMapArr = nil;
     [self.tableView reloadData];
 }
 
+- (void)flagsChanged:(NSEvent *)event{
+    if ([event keyCode] == 0x39){
+        NSUInteger flags = [event modifierFlags];
+        _capsLockOn = flags & NSAlphaShiftKeyMask;
+    }
+}
+
+- (void)keyUp:(NSEvent *)theEvent {
+    if (_currentDoubleSelectRow >= self.keyMapArr.count) return;
+    
+    NSUInteger flags = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask;
+    NSMutableString *str = [[NSMutableString alloc] init];
+    for (int i = 17; i <= 20; ++i) {
+        int temp = flags >> i & 1;
+        if (temp) {
+            switch (i) {
+                case 17:
+                    [str appendString:@"⇧ "];
+                    break;
+                case 18:
+                    [str appendString:@"⌃ "];
+                    break;
+                case 19:
+                    [str appendString:@"⌥ "];
+                    break;
+                case 20:
+                    [str appendString:@"⌘ "];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+    [str appendString:[NSString stringWithKeyEventCharactersIgnoringModifiers:theEvent]];
+    NSMutableDictionary *dic = self.keyMapArr[_currentDoubleSelectRow];
+    objc_removeAssociatedObjects(dic);
+    dic[@"keyName"] = str;
+    dic[@"keyCode"] = @(theEvent.keyCode);
+    dic[@"flag"] = @(flags - _capsLockOn * NSAlphaShiftKeyMask);
+    [UserDefaultManager shareUserDefaultManager].customKeyMapArr = self.keyMapArr;
+    [self.tableView reloadRow:_currentDoubleSelectRow inColumn:1];
+    _currentDoubleSelectRow = -1;
+}
 
 #pragma mark - 懒加载
 - (NSMutableArray *)keyMapArr {
@@ -79,6 +147,18 @@
         _keyMapArr = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
 	}
 	return _keyMapArr;
+}
+
+- (NSArray <NSValue *>*)associatedKeyArr {
+	if(_associatedKeyArr == nil) {
+        NSMutableArray *tempArr = [NSMutableArray array];
+        NSInteger count = self.keyMapArr.count;
+        for (NSInteger i = 0; i < count; ++i) {
+            [tempArr addObject:[NSValue valueWithPointer:[NSString stringWithFormat:@"%ld", i].UTF8String]];
+        }
+		_associatedKeyArr = tempArr;
+	}
+	return _associatedKeyArr;
 }
 
 @end
