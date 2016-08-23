@@ -1132,6 +1132,7 @@
             [weakSelf presentViewControllerAsSheet: vc];
         }];
         
+        //加载本地弹幕
         [_playerDanmakuAndSubtitleViewController.danmakuVC setReloadLocaleDanmakuCallBack:^{
             [PlayerMethodManager loadLocaleDanMuWithBlock:^(NSDictionary *dic) {
                 if (dic.count > 0) {
@@ -1139,7 +1140,7 @@
                     [weakSelf.danmakuEngine sendAllDanmakusDic:dic];
                 }
                 else {
-                    [[NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message informativeText:nil] runModal];
+                    [[NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeCannotLaunchDanmakuFormatterError].message informativeText:nil] runModal];
                 }
             }];
         }];

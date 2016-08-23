@@ -124,8 +124,9 @@
 		89C04B761C591E5700225ABA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B751C591E5700225ABA /* MainViewController.m */; };
 		89C107121C885B8100090A9A /* DanmakuColorMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */; };
 		89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */; };
-		89D403021D52D5A800AED712 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; };
-		89D403031D52D5A800AED712 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		89C7610B1D6CA15000635384 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C7610A1D6CA15000635384 /* VLCKit.framework */; };
+		89C7610C1D6CA1D800635384 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C7610A1D6CA15000635384 /* VLCKit.framework */; };
+		89C7610D1D6CA1D800635384 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 89C7610A1D6CA15000635384 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		89D403391D52EACB00AED712 /* JHMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403261D52EACB00AED712 /* JHMediaPlayer.m */; };
 		89D4033A1D52EACB00AED712 /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403281D52EACB00AED712 /* JHMediaView.m */; };
 		89D4033B1D52EACB00AED712 /* JHPlayerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4032A1D52EACB00AED712 /* JHPlayerItem.m */; };
@@ -157,7 +158,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				89D403031D52D5A800AED712 /* VLCKit.framework in Embed Frameworks */,
+				89C7610D1D6CA1D800635384 /* VLCKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,7 +181,6 @@
 		890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+Tools.m"; sourceTree = "<group>"; };
 		89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOpenPanel+Tools.h"; sourceTree = "<group>"; };
 		89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOpenPanel+Tools.m"; sourceTree = "<group>"; };
-		8916809A1D50776D00B215D1 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VLCKit.framework; sourceTree = "<group>"; };
 		8916809E1D5080DE00B215D1 /* alert_message.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = alert_message.plist; sourceTree = "<group>"; };
 		8919753D1D6ACF7F00210AB9 /* NSTableView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTableView+Tools.h"; path = "../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/Tools/NSTableView+Tools.h"; sourceTree = "<group>"; };
 		8919753E1D6ACF7F00210AB9 /* NSTableView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTableView+Tools.m"; path = "../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/Tools/NSTableView+Tools.m"; sourceTree = "<group>"; };
@@ -394,6 +394,7 @@
 		89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuColorMenuItem.m; sourceTree = "<group>"; };
 		89C107131C885FB200090A9A /* DanmakuModeMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuModeMenuItem.h; sourceTree = "<group>"; };
 		89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuModeMenuItem.m; sourceTree = "<group>"; };
+		89C7610A1D6CA15000635384 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VLCKit.framework; sourceTree = "<group>"; };
 		89D403251D52EACB00AED712 /* JHMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaPlayer.h; sourceTree = "<group>"; };
 		89D403261D52EACB00AED712 /* JHMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaPlayer.m; sourceTree = "<group>"; };
 		89D403271D52EACB00AED712 /* JHMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaView.h; sourceTree = "<group>"; };
@@ -446,8 +447,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89D403021D52D5A800AED712 /* VLCKit.framework in Frameworks */,
+				89C7610C1D6CA1D800635384 /* VLCKit.framework in Frameworks */,
 				69C675FF8781B35E1E1812A4 /* libPods-DanDanPlayForMac.a in Frameworks */,
+				89C7610B1D6CA15000635384 /* VLCKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,11 +508,11 @@
 			children = (
 				89636FCF1C58C40B002F32FD /* AppDelegate.h */,
 				89636FD01C58C40B002F32FD /* AppDelegate.m */,
+				89C761091D6CA15000635384 /* Vender */,
 				89D4030F1D52EACB00AED712 /* Widget */,
 				896370BC1C590900002F32FD /* Tools */,
 				89636FEE1C58FAD1002F32FD /* Config */,
 				89636FF11C58FAD1002F32FD /* Resource */,
-				89636FF21C58FAD1002F32FD /* Vender */,
 				897EC7B61C72056A00E1B03D /* Model */,
 				89636FF01C58FAD1002F32FD /* NetManager */,
 				89636FF31C58FAD1002F32FD /* ViewController */,
@@ -573,14 +575,6 @@
 				8916809E1D5080DE00B215D1 /* alert_message.plist */,
 			);
 			path = Resource;
-			sourceTree = "<group>";
-		};
-		89636FF21C58FAD1002F32FD /* Vender */ = {
-			isa = PBXGroup;
-			children = (
-				8916809A1D50776D00B215D1 /* VLCKit.framework */,
-			);
-			path = Vender;
 			sourceTree = "<group>";
 		};
 		89636FF31C58FAD1002F32FD /* ViewController */ = {
@@ -955,6 +949,14 @@
 				89A5345D1CB92FD000F7FE18 /* AboutViewController.m */,
 			);
 			name = "关于界面";
+			sourceTree = "<group>";
+		};
+		89C761091D6CA15000635384 /* Vender */ = {
+			isa = PBXGroup;
+			children = (
+				89C7610A1D6CA15000635384 /* VLCKit.framework */,
+			);
+			path = Vender;
 			sourceTree = "<group>";
 		};
 		89D4030F1D52EACB00AED712 /* Widget */ = {
@@ -1488,7 +1490,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1512,7 +1513,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

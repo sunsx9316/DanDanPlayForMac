@@ -43,7 +43,7 @@
 
 + (void)loadLocaleSubtitleWithBlock:(loadLocalSubtitleBlock)block {
     NSOpenPanel* openPanel = [NSOpenPanel chooseFilePanelWithTitle:@"选取字幕" defaultURL:nil];
-    openPanel.allowedFileTypes = @[@"ass", @"srt"];
+//    openPanel.allowedFileTypes = @[@"ass", @"srt"];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             block(openPanel.URL.path);
@@ -86,12 +86,12 @@
 + (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size {
     CGSize screenSize = [NSScreen mainScreen].frame.size;
     //宽高有一个为0 使用布满全屏的约束
-    if (!size.width || !size.height) {
+    if (size.width <= 0 || size.height <= 0) {
         [mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
-        //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
     }
+    //当把视频放大到屏幕大小时 如果视频高超过屏幕高 则使用这个约束
     else if (screenSize.width * (size.height / size.width) > screenSize.height) {
         [mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.centerX.bottom.mas_equalTo(0);
@@ -99,8 +99,8 @@
             make.left.mas_greaterThanOrEqualTo(0);
             make.right.mas_lessThanOrEqualTo(0);
         }];
-        //没超过 使用这个约束
     }
+    //没超过 使用这个约束
     else {
         [mediaView  mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.right.centerY.mas_equalTo(0);

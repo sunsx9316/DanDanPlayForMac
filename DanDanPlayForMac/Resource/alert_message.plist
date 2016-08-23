@@ -130,5 +130,10 @@
 		<key>message</key>
 		<string>不支持发送弹幕</string>
 	</dict>
+	<key>224</key>
+	<dict>
+		<key>message</key>
+		<string>弹幕格式错误</string>
+	</dict>
 </dict>
 </plist>

@@ -53,14 +53,14 @@
     }
     
     JHVLCMedia *media = (JHVLCMedia *)self.localMediaPlayer.media;
-    if (media.parsedStatus == VLCMediaParsedStatusInit) {
+//    if (media.parsedStatus == VLCMediaParsedStatusInit) {
         [media parseWithBlock:^(VLCMedia *aMedia) {
             completionHandle(aMedia.videoSize);
         }];
-    }
-    else {
-        completionHandle(media.videoSize);
-    }
+//    }
+//    else {
+//        completionHandle(media.videoSize);
+//    }
 }
 
 - (NSTimeInterval)length {

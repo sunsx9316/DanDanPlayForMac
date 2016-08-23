@@ -15,7 +15,7 @@
 - (void)parseWithBlock:(complete)block {
     self.returnBlock = block;
     self.delegate = self;
-    [self parseWithOptions:VLCMediaParseLocal];
+    [self parseWithOptions:VLCMediaParseLocal | VLCMediaFetchLocal];
 }
 
 - (void)mediaDidFinishParsing:(VLCMedia *)aMedia {
