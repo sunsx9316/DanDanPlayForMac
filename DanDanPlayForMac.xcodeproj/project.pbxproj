@@ -14,18 +14,14 @@
 		890B9A521C8B2E460063986B /* OpenStreamVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */; };
 		890FDDDE1CBDF5F600BFFACC /* NSView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */; };
 		89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */; };
-<<<<<<< HEAD
-		892A12E11D4EE0DE007C1C17 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892A12DF1D4EE0CE007C1C17 /* VLCKit.framework */; };
-		892A12E21D4EE0DE007C1C17 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 892A12DF1D4EE0CE007C1C17 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8944E67A1C8F09FA005C5DC8 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */; };
-=======
+		8915965B1D85AE6C007794C7 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; };
+		8915965C1D85AE6C007794C7 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8916809F1D5080DE00B215D1 /* alert_message.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8916809E1D5080DE00B215D1 /* alert_message.plist */; };
 		89264DA61D5C3370004B51BF /* PlayerDanmakuCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89264DA51D5C3370004B51BF /* PlayerDanmakuCountView.m */; };
 		89264DA91D5C5F8E004B51BF /* POPMasAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */; };
 		892DD15C1D66A612001FBD3B /* ReverseVolumeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DD15B1D66A612001FBD3B /* ReverseVolumeCell.m */; };
 		892DD1611D66C118001FBD3B /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 892DD15F1D66C118001FBD3B /* home.png */; };
 		89387EBD1D6597E900F273D7 /* NSDictionary+Bilibili.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */; };
->>>>>>> 1.9
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; };
 		8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9851CA95D04000C863B /* VolumeControlView.m */; };
 		8950C9891CA97B1E000C863B /* QualityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9881CA97B1E000C863B /* QualityCell.m */; };
@@ -131,8 +127,6 @@
 		89C04B761C591E5700225ABA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B751C591E5700225ABA /* MainViewController.m */; };
 		89C107121C885B8100090A9A /* DanmakuColorMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */; };
 		89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */; };
-		89D403021D52D5A800AED712 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; };
-		89D403031D52D5A800AED712 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8916809A1D50776D00B215D1 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		89D403391D52EACB00AED712 /* JHMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403261D52EACB00AED712 /* JHMediaPlayer.m */; };
 		89D4033A1D52EACB00AED712 /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403281D52EACB00AED712 /* JHMediaView.m */; };
 		89D4033B1D52EACB00AED712 /* JHPlayerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4032A1D52EACB00AED712 /* JHPlayerItem.m */; };
@@ -158,21 +152,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-<<<<<<< HEAD
-		892A12DE1D4EE044007C1C17 /* Embed Frameworks */ = {
-=======
-		89D403041D52D5A800AED712 /* Embed Frameworks */ = {
->>>>>>> 1.9
+		8915965D1D85AE6C007794C7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-<<<<<<< HEAD
-				892A12E21D4EE0DE007C1C17 /* VLCKit.framework in Embed Frameworks */,
-=======
-				89D403031D52D5A800AED712 /* VLCKit.framework in Embed Frameworks */,
->>>>>>> 1.9
+				8915965C1D85AE6C007794C7 /* VLCKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,23 +181,19 @@
 		890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+Tools.m"; sourceTree = "<group>"; };
 		89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOpenPanel+Tools.h"; sourceTree = "<group>"; };
 		89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOpenPanel+Tools.m"; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		892A12DF1D4EE0CE007C1C17 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VLCKit.framework; sourceTree = "<group>"; };
-		8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHProgressHUD.h; sourceTree = "<group>"; };
-		8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHProgressHUD.m; sourceTree = "<group>"; };
-=======
 		8916809A1D50776D00B215D1 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VLCKit.framework; sourceTree = "<group>"; };
 		8916809E1D5080DE00B215D1 /* alert_message.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = alert_message.plist; sourceTree = "<group>"; };
 		89264DA41D5C3370004B51BF /* PlayerDanmakuCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDanmakuCountView.h; sourceTree = "<group>"; };
 		89264DA51D5C3370004B51BF /* PlayerDanmakuCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDanmakuCountView.m; sourceTree = "<group>"; };
 		89264DA71D5C5F8E004B51BF /* POPMasAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPMasAnimation.h; sourceTree = "<group>"; };
 		89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POPMasAnimation.m; sourceTree = "<group>"; };
-		892DD15A1D66A612001FBD3B /* ReverseVolumeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReverseVolumeCell.h; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/ViewController/ReverseVolumeCell.h; sourceTree = "<group>"; };
-		892DD15B1D66A612001FBD3B /* ReverseVolumeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReverseVolumeCell.m; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/ViewController/ReverseVolumeCell.m; sourceTree = "<group>"; };
+		892DD15A1D66A612001FBD3B /* ReverseVolumeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReverseVolumeCell.h; sourceTree = "<group>"; };
+		892DD15B1D66A612001FBD3B /* ReverseVolumeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReverseVolumeCell.m; sourceTree = "<group>"; };
 		892DD15F1D66C118001FBD3B /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		89387EBB1D6597E900F273D7 /* NSDictionary+Bilibili.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Bilibili.h"; sourceTree = "<group>"; };
 		89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Bilibili.m"; sourceTree = "<group>"; };
->>>>>>> 1.9
+		8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHProgressHUD.h; sourceTree = "<group>"; };
+		8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHProgressHUD.m; sourceTree = "<group>"; };
 		8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliSearchViewModel.h; sourceTree = "<group>"; };
 		8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiliBiliSearchViewModel.m; sourceTree = "<group>"; };
 		8950C9841CA95D04000C863B /* VolumeControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeControlView.h; sourceTree = "<group>"; };
@@ -468,13 +450,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
-				CA0DE9BDBB94BB3A6117693A /* libPods-DanDanPlayForMac.a in Frameworks */,
-				892A12E11D4EE0DE007C1C17 /* VLCKit.framework in Frameworks */,
-=======
-				89D403021D52D5A800AED712 /* VLCKit.framework in Frameworks */,
 				69C675FF8781B35E1E1812A4 /* libPods-DanDanPlayForMac.a in Frameworks */,
->>>>>>> 1.9
+				8915965B1D85AE6C007794C7 /* VLCKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -605,15 +582,9 @@
 		89636FF21C58FAD1002F32FD /* Vender */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				892A12DF1D4EE0CE007C1C17 /* VLCKit.framework */,
 				8944E6781C8F09FA005C5DC8 /* JHProgressHUD.h */,
 				8944E6791C8F09FA005C5DC8 /* JHProgressHUD.m */,
-				890FDE0D1CBE1C7200BFFACC /* JHDanmakuRender */,
-				899BA7F51C8AA7C6007A67A8 /* JHMediaPlayer */,
-=======
 				8916809A1D50776D00B215D1 /* VLCKit.framework */,
->>>>>>> 1.9
 			);
 			path = Vender;
 			sourceTree = "<group>";
@@ -1174,11 +1145,7 @@
 				89636FCA1C58C40B002F32FD /* Resources */,
 				4003360A5724A7A0B01CBECA /* Embed Pods Frameworks */,
 				422792AA4E212602E2DAC710 /* Copy Pods Resources */,
-<<<<<<< HEAD
-				892A12DE1D4EE044007C1C17 /* Embed Frameworks */,
-=======
-				89D403041D52D5A800AED712 /* Embed Frameworks */,
->>>>>>> 1.9
+				8915965D1D85AE6C007794C7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

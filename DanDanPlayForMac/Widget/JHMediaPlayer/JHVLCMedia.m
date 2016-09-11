@@ -18,25 +18,12 @@
     [self parseWithOptions:VLCMediaParseLocal];
 }
 
-<<<<<<< HEAD:DanDanPlayForMac/Vender/JHMediaPlayer/JHVLCMedia.m
+
 #pragma mark - VLCMediaDelegate
-=======
->>>>>>> 1.9:DanDanPlayForMac/Widget/JHMediaPlayer/JHVLCMedia.m
 - (void)mediaDidFinishParsing:(VLCMedia *)aMedia {
     self.returnBlock(aMedia);
 }
 
-<<<<<<< HEAD:DanDanPlayForMac/Vender/JHMediaPlayer/JHVLCMedia.m
-- (void)media:(VLCMedia *)aMedia metaValueChangedFrom:(id)oldValue forKey:(NSString *)key {
-    
-}
-
-- (void)mediaMetaDataDidChange:(VLCMedia *)aMedia {
-    
-}
-
-=======
->>>>>>> 1.9:DanDanPlayForMac/Widget/JHMediaPlayer/JHVLCMedia.m
 - (instancetype)initWithURL:(NSURL *)anURL {
     return (self = [super initWithURL:anURL]);
 }

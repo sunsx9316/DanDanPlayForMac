@@ -55,20 +55,12 @@
     JHVLCMedia *media = (JHVLCMedia *)self.localMediaPlayer.media;
     if (media.parsedStatus == VLCMediaParsedStatusInit) {
         [media parseWithBlock:^(VLCMedia *aMedia) {
-<<<<<<< HEAD:DanDanPlayForMac/Vender/JHMediaPlayer/JHMediaPlayer.m
-            completionHandle([aMedia videoSize]);
-        }];
-    }
-    else {
-        completionHandle([media videoSize]);
-        return;
-=======
+
             completionHandle(aMedia.videoSize);
         }];
     }
     else {
         completionHandle(media.videoSize);
->>>>>>> 1.9:DanDanPlayForMac/Widget/JHMediaPlayer/JHMediaPlayer.m
     }
 }
 
