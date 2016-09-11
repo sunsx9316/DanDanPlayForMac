@@ -11,7 +11,8 @@
 typedef NS_ENUM(NSUInteger, JHMediaPlayerStatus) {
     JHMediaPlayerStatusPlaying,
     JHMediaPlayerStatusPause,
-    JHMediaPlayerStatusStop
+    JHMediaPlayerStatusStop,
+    JHMediaPlayerStatusBuffering
 };
 typedef NS_ENUM(NSUInteger, JHMediaType) {
     JHMediaTypeLocaleMedia,
@@ -23,6 +24,8 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
     JHSnapshotTypeBMP,
     JHSnapshotTypeTIFF
 };
+
+typedef void(^mediaParseComplete)(CGSize size);
 
 @class JHMediaPlayer;
 @protocol JHMediaPlayerDelegate <NSObject>
@@ -115,5 +118,5 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
  *
  *  @param completionHandle 回调
  */
-- (void)videoSizeWithCompletionHandle:(void(^)(CGSize size))completionHandle;
+- (void)videoSizeWithCompletionHandle:(mediaParseComplete)completionHandle;
 @end

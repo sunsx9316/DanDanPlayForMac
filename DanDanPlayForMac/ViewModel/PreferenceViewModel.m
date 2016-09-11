@@ -12,14 +12,14 @@
 @end
 
 @implementation PreferenceViewModel
-- (NSString *)titleForRow:(NSInteger)row{
+- (NSString *)titleForRow:(NSInteger)row {
     return self.outlineViewArray[row];
 }
-- (NSInteger)numberOfTitle{
+- (NSInteger)numberOfTitle {
     return self.outlineViewArray.count;
 }
 
-- (NSInteger)numOfRowWithStyle:(preferenceTableViewStyle)style{
+- (NSInteger)numOfRowWithStyle:(preferenceTableViewStyle)style {
     switch (style) {
         case preferenceTableViewStyleDamaku:
             return 6;

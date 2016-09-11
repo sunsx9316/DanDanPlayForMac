@@ -12,7 +12,6 @@
 #import "UpdateViewController.h"
 #import "BackGroundImageView.h"
 #import "RecommendViewController.h"
-#import "JHVLCMedia.h"
 
 #import "DanMuModel.h"
 #import "MatchModel.h"
@@ -90,14 +89,16 @@
                     [JHProgressHUD updateProgress: 1];
                     [JHProgressHUD updateMessage: [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message];
                     _episodeId = model.episodeId;
-                }else{
+                }
+                else {
                     //快速匹配失败
                     [JHProgressHUD disMiss];
                     _episodeId = nil;
                     [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
                 }
             }];
-        }else{
+        }
+        else {
             //快速匹配失败
             [JHProgressHUD disMiss];
             _episodeId = nil;
@@ -122,14 +123,14 @@
     }];
 }
 //显示推荐窗口
-- (void)showRecommedVC{
+- (void)showRecommedVC {
     if ([UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart) {
         [self presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
     }
 }
 
 
-- (NSArray *)contentsOfDirectoryAtURL:(NSString *)path{
+- (NSArray *)contentsOfDirectoryAtURL:(NSString *)path {
     BOOL isDirectory;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath: path isDirectory:&isDirectory]) {
@@ -149,7 +150,7 @@
 }
 
 #pragma mark 通知
-- (void)downloadOverNotification:(NSNotification *)aNotification{
+- (void)downloadOverNotification:(NSNotification *)aNotification {
     //删除已经显示过的通知(已经存在用户的通知列表中的)
     [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
     
@@ -169,7 +170,7 @@
     _animateTitle = notification.userInfo[@"animateTitle"];
 }
 
-- (void)presentPlayerViewController:(NSNotification *)notification{
+- (void)presentPlayerViewController:(NSNotification *)notification {
     [JHProgressHUD disMiss];
     
     PlayerViewController *pvc = [[PlayerViewController alloc] initWithVideos: self.videos danMuDic:notification.userInfo matchName: _animateTitle episodeId:_episodeId];
@@ -188,7 +189,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
 }
 
-- (void)showMainView{
+- (void)showMainView {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"DANMAKU_CHOOSE_OVER" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"MATCH_VIDEO" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
@@ -196,7 +197,7 @@
     [self.view addSubview: self.imgView];
 }
 
-- (void)openStreamVCChooseOver:(NSNotification *)notification{
+- (void)openStreamVCChooseOver:(NSNotification *)notification {
     self.videos = notification.userInfo[@"videos"];
     _animateTitle = self.videos.firstObject.fileName;
 }
@@ -216,7 +217,7 @@
     if(_imgView == nil) {
         _imgView = [[BackGroundImageView alloc] initWithFrame:self.view.frame];
         [_imgView setWantsLayer: YES];
-        _imgView.layer.backgroundColor = [NSColor blackColor].CGColor;
+        _imgView.backgroundColor = [NSColor blackColor];
         _imgView.image = [[NSImage alloc] initWithContentsOfFile:[UserDefaultManager shareUserDefaultManager].homeImgPath];
         
         __weak typeof (self)weakSelf = self;

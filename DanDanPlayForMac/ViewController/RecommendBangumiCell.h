@@ -11,5 +11,5 @@
 
 @interface RecommendBangumiCell : NSView
 - (void)setWithModel:(BangumiDataModel *)model;
-@property (copy, nonatomic) void(^clickGroupsButtonCallBack)(NSUInteger);
+@property (copy, nonatomic) void(^clickGroupsButtonCallBack)(BangumiGroupModel *model);
 @end

@@ -106,7 +106,15 @@ typedef NS_ENUM(NSUInteger, DanDanPlayMessageType) {
     /**
      *  不能发送弹幕占位字符 223
      */
-    DanDanPlayMessageTypeCannotLaunchDanmakuPlaceHold
+    DanDanPlayMessageTypeCannotLaunchDanmakuPlaceHold,
+    /**
+     *  弹幕格式错误 224
+     */
+    DanDanPlayMessageTypeCannotLaunchDanmakuFormatterError,
+    /**
+     *  视频缓冲中 225
+     */
+    DanDanPlayMessageTypeVideoBuffering
 };
 
 /**

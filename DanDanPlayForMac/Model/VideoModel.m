@@ -9,7 +9,7 @@
 #import "VideoModel.h"
 
 @implementation VideoModel
-- fileURL {
+- (NSURL *)fileURL {
     return nil;
 }
 

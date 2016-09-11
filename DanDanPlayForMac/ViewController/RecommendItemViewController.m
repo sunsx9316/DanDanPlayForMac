@@ -34,12 +34,13 @@
     RecommendBangumiCell *cell = [tableView makeViewWithIdentifier:@"RecommendBangumiCell" owner:self];
     BangumiDataModel *model = self.model.bangumis[row];
     [cell setWithModel:model];
-    [cell setClickGroupsButtonCallBack:^(NSUInteger selectIndex) {
-        NSString *url = model.groups[selectIndex].searchURL;
+    [cell setClickGroupsButtonCallBack:^(BangumiGroupModel *model) {
+        //替换URL
+        NSString *url = model.searchURL;
         NSRange range = [url rangeOfString:OLD_PATH];
-        NSMutableString *tempStr = [[NSMutableString alloc] initWithString:model.groups[selectIndex].searchURL];
-        [tempStr replaceCharactersInRange:range withString:NEW_PATH];
-        if (tempStr) {
+        if (range.location != NSNotFound) {
+            NSMutableString *tempStr = [[NSMutableString alloc] initWithString:url];
+            [tempStr replaceCharactersInRange:range withString:NEW_PATH];
             system([[NSString stringWithFormat:@"open %@", tempStr] cStringUsingEncoding:NSUTF8StringEncoding]);
         }
     }];

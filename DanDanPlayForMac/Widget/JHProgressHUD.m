@@ -16,22 +16,28 @@ static JHProgressHUD *_hud = nil;
 @property (strong, nonatomic) NSTextField *text;
 @property (assign, nonatomic) BOOL dismissWhenClick;
 @property (assign, nonatomic) BOOL showing;
+@property (assign, nonatomic) BOOL acceptUserInteractive;
 @end
 
 @implementation JHProgressHUD
 #pragma mark - 类方法
-+ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick{
++ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize acceptUserInteractive:(BOOL)acceptUserInteractive dismissWhenClick:(BOOL)dismissWhenClick {
     JHProgressHUD *hud = [self shareHUD];
-    [hud setMessage:message style:style parentView:parentView indicatorSize:size fontSize: fontSize dismissWhenClick: dismissWhenClick];
+    [hud setMessage:message style:style parentView:parentView indicatorSize:size fontSize:fontSize acceptUserInteractive:acceptUserInteractive dismissWhenClick:dismissWhenClick];
     [hud show];
     
 }
+
++ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick {
+    [self showWithMessage:message style:style parentView:parentView indicatorSize:size fontSize:fontSize acceptUserInteractive:YES dismissWhenClick:dismissWhenClick];
+}
+
 + (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick{
-    [self showWithMessage:message style:style parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:dismissWhenClick];
+    [self showWithMessage:message style:style parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] acceptUserInteractive:YES dismissWhenClick:dismissWhenClick];
 }
 
 + (void)showWithMessage:(NSString *)message parentView:(NSView *)parentView{
-    [self showWithMessage:message style:JHProgressHUDStyleValue1 parentView:parentView dismissWhenClick: YES];
+    [self showWithMessage:message style:JHProgressHUDStyleValue1 parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] acceptUserInteractive:YES dismissWhenClick:YES];
 }
 
 + (void)disMiss{
@@ -49,16 +55,21 @@ static JHProgressHUD *_hud = nil;
 
 #pragma mark - 实例方法
 - (instancetype)initWithMessage:(NSString *)message parentView:(NSView *)parentView{
-    return [self initWithMessage:message style:JHProgressHUDStyleValue1 parentView:parentView dismissWhenClick:YES];
+    return [self initWithMessage:message style:JHProgressHUDStyleValue1 parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] acceptUserInteractive:YES dismissWhenClick:YES];
 }
 
 - (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick {
-    return [self initWithMessage:message style:style parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:YES];
+    return [self initWithMessage:message style:style parentView:parentView indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] acceptUserInteractive:YES dismissWhenClick:dismissWhenClick];
 }
 
 - (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick{
+    return [self initWithMessage:message style:style parentView:parentView indicatorSize:size fontSize:fontSize acceptUserInteractive:YES dismissWhenClick:dismissWhenClick];
+}
+
+
+- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize acceptUserInteractive:(BOOL)acceptUserInteractive dismissWhenClick:(BOOL)dismissWhenClick {
     if (self = [super init]) {
-        [self setMessage:message style:style parentView:parentView indicatorSize:size fontSize: fontSize dismissWhenClick: dismissWhenClick];
+        [self setMessage:message style:style parentView:parentView indicatorSize:size fontSize:fontSize acceptUserInteractive:acceptUserInteractive dismissWhenClick:dismissWhenClick];
     }
     return self;
 }
@@ -117,7 +128,7 @@ static JHProgressHUD *_hud = nil;
     if (self.dismissWhenClick) [self disMiss];
 }
 
-- (void)setMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick {
+- (void)setMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize acceptUserInteractive:(BOOL)acceptUserInteractive dismissWhenClick:(BOOL)dismissWhenClick {
     if (!parentView) {
         parentView = NSApp.keyWindow.contentViewController.view;
     }
@@ -185,6 +196,13 @@ static JHProgressHUD *_hud = nil;
         _text.textColor = [NSColor whiteColor];
 	}
 	return _text;
+}
+
+- (NSView *)hitTest:(NSPoint)aPoint {
+    if (_acceptUserInteractive == NO) {
+        return nil;
+    }
+    return [super hitTest:aPoint];
 }
 
 @end

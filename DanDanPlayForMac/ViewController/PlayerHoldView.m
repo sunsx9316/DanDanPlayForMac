@@ -27,24 +27,27 @@
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ){
         if (self.filePickBlock) {
             NSArray *pathArr = [pboard propertyListForType:NSFilenamesPboardType];
-            NSMutableArray *localVideosArr = [NSMutableArray array];
+            NSMutableArray *localFilesArr = [NSMutableArray array];
             for (NSString *path in pathArr) {
-                NSArray *arr = [self contentsOfDirectoryAtURL:path];
+                NSArray *arr = [self contentsOfDirectoryAtPath:path];
                 if (arr.count) {
-                    [localVideosArr addObjectsFromArray:arr];
+                    [localFilesArr addObjectsFromArray:arr];
                 }
             }
-            self.filePickBlock(localVideosArr);
+            self.filePickBlock(localFilesArr);
         }
     }
     return YES;
 }
 
-- (NSArray *)contentsOfDirectoryAtURL:(NSString *)path{
+- (NSArray *)contentsOfDirectoryAtPath:(NSString *)path {
     BOOL isDirectory;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath: path isDirectory:&isDirectory]) {
-        if (!isDirectory) return @[[[LocalVideoModel alloc] initWithFileURL:[NSURL fileURLWithPath:path]]];
+        if (!isDirectory) {
+            return @[[NSURL fileURLWithPath:path]];
+        }
+//            return @[[[LocalVideoModel alloc] initWithFileURL:[NSURL fileURLWithPath:path]]];
     }
     NSMutableArray *arr = [[fileManager contentsOfDirectoryAtURL:[NSURL fileURLWithPath:path] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants error:nil] mutableCopy];
     
@@ -52,8 +55,12 @@
     for (NSInteger i = arr.count - 1; i >= 0; --i) {
         NSURL *url = arr[i];
         if ([fileManager fileExistsAtPath: url.path isDirectory:&isDirectory]) {
-            if (isDirectory) [arr removeObjectAtIndex: i];
-            else arr[i] = [[LocalVideoModel alloc] initWithFileURL:url];
+            if (isDirectory) {
+                [arr removeObjectAtIndex: i];
+            }
+//            else {
+//                arr[i] = [[LocalVideoModel alloc] initWithFileURL:url];
+//            }
         }
     }
     return arr;

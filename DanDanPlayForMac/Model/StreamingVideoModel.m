@@ -14,13 +14,15 @@
 @property (copy, nonatomic) NSString *danmaku;
 @property (copy, nonatomic) NSString *fileName;
 @property (copy, nonatomic) NSString *md5;
-@property (strong, nonatomic) NSDictionary <NSString *, NSArray <NSURL *>*>*URLs;
+@property (strong, nonatomic) NSDictionary <NSNumber *, NSArray <NSURL *>*>*URLs;
+@property (strong, nonatomic) NSString *danmakuSourceStringValue;
+
 @end
 
 @implementation StreamingVideoModel
 {
     NSDictionary *_danmakuDic;
-    NSString *_danmakuSourceStringValue;
+//    NSString *_danmakuSourceStringValue;
 }
 
 - (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
@@ -29,21 +31,20 @@
         _fileName = fileName;
         _danmaku = danmaku;
         _danmakuSource = danmakuSource;
-        _danmakuSourceStringValue = [ToolsManager stringValueWithDanmakuSource:_danmakuSource];
+//        _danmakuSourceStringValue = [ToolsManager stringValueWithDanmakuSource:_danmakuSource];
     }
     return self;
 }
 
 - (streamingVideoQuality)quality {
-    if (_quality == streamingVideoQualityHigh && ![_URLs[@"high"] count]) {
+    if (_quality == streamingVideoQualityHigh && !_URLs[@(streamingVideoQualityHigh)].count) {
         _quality = streamingVideoQualityLow;
     }
     return _quality;
 }
 
 - (NSInteger)URLsCountWithQuality:(streamingVideoQuality)quality {
-    NSArray *arr = quality == streamingVideoQualityLow ? _URLs[@"low"] : _URLs[@"high"];
-    return arr.count;
+    return _URLs[@(quality)].count;
 }
 
 - (void)setDanmakuDic:(NSDictionary *)danmakuDic {
@@ -63,25 +64,17 @@
 }
 
 - (NSURL *)fileURL {
-    NSArray *arr = [self URLsForQuality];
+    NSArray *arr = _URLs[@(_quality)];
     return _URLIndex < arr.count ? arr[_URLIndex] : nil;
 }
 
 - (NSString *)md5 {
-    return [[_danmakuSourceStringValue stringByAppendingString:_danmaku] md5String];
+    _md5 = [[_danmakuSourceStringValue stringByAppendingString:_danmaku] md5String];
+    return _md5;
 }
 
 - (DanDanPlayDanmakuSource)danmakuSource {
     return _danmakuSource;
 }
 
-#pragma mark - 私有方法 
-/**
- *  根据当前清晰度获取对应地址数组
- *
- *  @return 地址数组
- */
-- (NSArray <NSURL *>*)URLsForQuality {
-    return self.quality == streamingVideoQualityHigh ? _URLs[@"high"] : _URLs[@"low"];
-}
 @end

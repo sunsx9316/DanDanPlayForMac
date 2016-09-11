@@ -58,8 +58,8 @@
     return [self.vm numOfRowWithStyle: self.tableViewStyle];
 }
 
-- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    switch (self.tableViewStyle) {
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    switch (_tableViewStyle) {
         case preferenceTableViewStyleDamaku:
             return [self danMuSurfaceTableView:tableView viewForTableColumn:tableColumn row:row];
         case preferenceTableViewStylePlayer:
@@ -111,10 +111,11 @@
 
 
 #pragma mark - NSOutlineViewDataSource
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item{
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item {
     return [self.vm numberOfTitle];
 }
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(nullable id)item{
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(nullable id)item {
     return [self.vm titleForRow: index];
 }
 
@@ -123,14 +124,15 @@
 }
 
 - (nullable NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(nullable NSTableColumn *)tableColumn item:(id)item {
-    NSTableCellView *result = [outlineView makeViewWithIdentifier:@"DataCell" owner:self];
+    NSTableCellView *result = [outlineView makeViewWithIdentifier:@"DataCell" owner:nil];
     result.textField.stringValue = item;
     return result;
 }
 
-- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item{
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
     return 40;
 }
+
 
 #pragma mark - 私有方法
 
@@ -138,6 +140,7 @@
     self.tableViewStyle = [self.outlineView selectedRow];
     [self.tableView reloadData];
 }
+
 - (IBAction)clickBackButton:(NSButton *)sender {
     [self dismissViewController:self];
 }
@@ -146,12 +149,12 @@
     switch (row) {
         case 0:
         {
-            FontSpeciallyCell *cell = [tableView makeViewWithIdentifier:@"FontSpeciallyCell" owner:self];
+            FontSpeciallyCell *cell = [tableView makeViewWithIdentifier:@"FontSpeciallyCell" owner:nil];
             return cell;
         }
         case 1:
         {
-            SliderWithTickCell *cell = [tableView makeViewWithIdentifier:@"SliderWithTickCell" owner:self];
+            SliderWithTickCell *cell = [tableView makeViewWithIdentifier:@"SliderWithTickCell" owner:nil];
             cell.titleTextField.stringValue = @"弹幕速度";
             cell.detailTextField.stringValue = @"设置普通弹幕移动速度";
             [cell setUpDefauleValueWithStyle: sliderWithTickCellStyleSpeed];
@@ -159,7 +162,7 @@
         }
         case 2:
         {
-            SliderWithTickCell *cell = [tableView makeViewWithIdentifier:@"SliderWithTickCell" owner:self];
+            SliderWithTickCell *cell = [tableView makeViewWithIdentifier:@"SliderWithTickCell" owner:nil];
             cell.titleTextField.stringValue = @"透明度";
             cell.detailTextField.stringValue = @"设置弹幕透明度";
             [cell setUpDefauleValueWithStyle: sliderWithTickCellStyleOpacity];
@@ -167,17 +170,17 @@
         }
         case 3:
         {
-            ChangeFontCell *cell = [tableView makeViewWithIdentifier:@"ChangeFontCell" owner:self];
+            ChangeFontCell *cell = [tableView makeViewWithIdentifier:@"ChangeFontCell" owner:nil];
             return cell;
         }
         case 4:
         {
-            CaptionsProtectAreaCell *cell = [tableView makeViewWithIdentifier:@"CaptionsProtectAreaCell" owner:self];
+            CaptionsProtectAreaCell *cell = [tableView makeViewWithIdentifier:@"CaptionsProtectAreaCell" owner:nil];
             return cell;
         }
         case 5:
         {
-            DanMuFastMatchCell *cell = [tableView makeViewWithIdentifier:@"DanMuFastMatchCell" owner:self];
+            DanMuFastMatchCell *cell = [tableView makeViewWithIdentifier:@"DanMuFastMatchCell" owner:nil];
             return cell;
         }
     }
@@ -185,33 +188,33 @@
 }
 
 - (NSView *)playerTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    return [tableView makeViewWithIdentifier:@"ChangeBackGroundImgCell" owner:self];
+    return [tableView makeViewWithIdentifier:@"ChangeBackGroundImgCell" owner:nil];
 }
 
 - (NSView *)filterTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    return [tableView makeViewWithIdentifier:@"DanMuFilterCell" owner:self];
+    return [tableView makeViewWithIdentifier:@"DanMuFilterCell" owner:nil];
 }
 
 - (NSView *)keyboardTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    return [tableView makeViewWithIdentifier:@"KeyboardSettingCell" owner:self];
+    return [tableView makeViewWithIdentifier:@"KeyboardSettingCell" owner:nil];
 }
 
 - (NSView *)screenShotTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    return [tableView makeViewWithIdentifier:@"ScreenShotCell" owner:self];
+    return [tableView makeViewWithIdentifier:@"ScreenShotCell" owner:nil];
 }
 
 - (NSView *)cacheTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    return [tableView makeViewWithIdentifier:@"CacheManagerCell" owner:self];
+    return [tableView makeViewWithIdentifier:@"CacheManagerCell" owner:nil];
 }
 
 - (NSView *)updateTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    return [tableView makeViewWithIdentifier:@"AutoUpdateCell" owner:self];
+    return [tableView makeViewWithIdentifier:@"AutoUpdateCell" owner:nil];
 }
 
 - (NSView *)otherTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     switch (row) {
         case 0:
-            return [tableView makeViewWithIdentifier:@"OtherSettingCell" owner:self];
+            return [tableView makeViewWithIdentifier:@"OtherSettingCell" owner:nil];
         case 1:
         {
            OtherOnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OtherOnlyButtonCell" owner:self];
@@ -224,7 +227,7 @@
             return cell;
         }
         case 2:
-            return [tableView makeViewWithIdentifier:@"QualityCell" owner:self];
+            return [tableView makeViewWithIdentifier:@"QualityCell" owner:nil];
         case 3:
         {
             OtherOnlyButtonCell *cell = [tableView makeViewWithIdentifier:@"OtherOnlyButtonCell" owner:self];

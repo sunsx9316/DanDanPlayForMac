@@ -53,7 +53,19 @@ typedef NS_ENUM(NSUInteger, JHProgressHUDStyle) {
  *  @param parentView       父视图
  *  @param dismissWhenClick 点击时消失
  */
-+ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *) parentView dismissWhenClick:(BOOL)dismissWhenClick;
++ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick;
+/**
+ *  显示hud
+ *
+ *  @param message               显示的消息
+ *  @param style                 显示风格
+ *  @param parentView            父视图
+ *  @param size                  指示器尺寸
+ *  @param fontSize              文字尺寸
+ *  @param acceptUserInteractive 接受用户交互
+ *  @param dismissWhenClick      点击时消失
+ */
++ (void)showWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize acceptUserInteractive:(BOOL)acceptUserInteractive dismissWhenClick:(BOOL)dismissWhenClick;
 
 /**
  *  显示hud
@@ -68,6 +80,7 @@ typedef NS_ENUM(NSUInteger, JHProgressHUDStyle) {
 - (instancetype)initWithMessage:(NSString *)message parentView:(NSView *)parentView;
 - (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView dismissWhenClick:(BOOL)dismissWhenClick;
 - (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize dismissWhenClick:(BOOL)dismissWhenClick;
+- (instancetype)initWithMessage:(NSString *)message style:(JHProgressHUDStyle)style parentView:(NSView *)parentView indicatorSize:(NSSize)size fontSize:(CGFloat)fontSize acceptUserInteractive:(BOOL)acceptUserInteractive dismissWhenClick:(BOOL)dismissWhenClick;
 - (void)show;
 - (void)disMiss;
 - (void)updateProgress:(CGFloat)progress;

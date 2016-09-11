@@ -15,10 +15,9 @@
 @interface DanMuFilterCell()<NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
 @property (weak) IBOutlet NSButton *importButton;
 @property (weak) IBOutlet NSButton *exportButton;
-@property (strong, nonatomic) NSMutableArray <NSDictionary *>*userFilterArr;
 @property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet ColorButton *updateRuleButton;
-
+@property (strong, nonatomic) NSMutableArray <NSDictionary *>*userFilterArr;
 @end
 
 @implementation DanMuFilterCell
@@ -31,7 +30,7 @@
     self.userFilterArr[index] = dic;
 }
 
-- (void)awakeFromNib{
+- (void)awakeFromNib {
     [super awakeFromNib];
     [self.tableView setDoubleAction:@selector(doubleClick:)];
     
@@ -60,7 +59,8 @@
         cell.textField.stringValue = text?text:@"";
         cell.textField.delegate = self;
         return cell;
-    }else if ([tableColumn.identifier isEqualToString:@"UseFilterExpressionCell"]){
+    }
+    else if ([tableColumn.identifier isEqualToString:@"UseFilterExpressionCell"]) {
         UseFilterExpressionCell *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
         cell.OKButton.state = [self.userFilterArr[row][@"state"] boolValue];
         __weak typeof(self)weakSelf = self;
@@ -81,7 +81,7 @@
         if (result == NSFileHandlingPanelOKButton){
             NSArray *arr = [NSArray arrayWithContentsOfURL: openPanel.URL];
             if (arr) {
-                self.userFilterArr = [arr mutableCopy];
+                self.userFilterArr = [NSMutableArray arrayWithArray:arr];
                 [self.tableView reloadData];
             }
         }
@@ -101,14 +101,13 @@
 
 - (IBAction)clickCloudFilterList:(NSButton *)sender {
     [FilterNetManager filterWithCompletionHandler:^(NSArray *responseObj, NSError *error) {
-        for (NSDictionary *dic in responseObj) {
-            [self.userFilterArr addObject:dic];
-            [self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.userFilterArr.count] withAnimation:NSTableViewAnimationEffectFade];
-        }
+        [self.userFilterArr addObjectsFromArray:responseObj];
+        
+        [self.tableView beginUpdates];
+        [self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(self.userFilterArr.count, responseObj.count)] withAnimation:NSTableViewAnimationEffectFade];
+        [self.tableView endUpdates];
     }];
 }
-
-
 
 - (void)rightMouseDown:(NSEvent *)theEvent{
     NSIndexSet *indexSet = [self.tableView selectedRowIndexes];
@@ -124,8 +123,6 @@
 - (IBAction)updateRules:(NSButton *)sender {
     [UserDefaultManager shareUserDefaultManager].userFilterArr = self.userFilterArr;
 }
-
-
 
 #pragma mark - 懒加载
 

@@ -8,5 +8,5 @@
 
 #import <Cocoa/Cocoa.h>
 @interface PlayerHoldView : NSView
-@property (copy, nonatomic) void(^filePickBlock)(NSArray *filePaths);
+@property (copy, nonatomic) void(^filePickBlock)(NSArray <NSURL *>*filePaths);
 @end
