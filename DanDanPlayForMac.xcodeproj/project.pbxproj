@@ -150,7 +150,6 @@
 		89FDFEAD1C9042FD005499B9 /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FDFEAC1C9042FD005499B9 /* UpdateViewController.m */; };
 		89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FE1F091C5E57BB00FF4586 /* DanDanSearchViewController.m */; };
 /* End PBXBuildFile section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		8915965D1D85AE6C007794C7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -164,7 +163,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		1A43473BD622638EF235DB46 /* libPods-DanDanPlayForMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6082462430812892B6624682 /* Pods-DanDanPlayForMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac.release.xcconfig"; sourceTree = "<group>"; };
