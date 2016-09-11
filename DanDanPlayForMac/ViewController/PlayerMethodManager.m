@@ -27,16 +27,9 @@
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].mainWindow completionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             //acfun：json解析方式
-            id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:openPanel.URL] options:NSJSONReadingMutableContainers error:nil];
-            NSDictionary *dic = nil;
-            if (obj) {
-                dic = [DanmakuDataFormatter dicWithObj:obj source:DanDanPlayDanmakuSourceAcfun];
-            }
-            else{
-                //bilibili：xml解析方式
-                dic = [DanmakuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:openPanel.URL] source:DanDanPlayDanmakuSourceBilibili];
-            }
-            block(dic);
+            [self convertDanmakuWithURL:openPanel.URL completionHandler:^(NSDictionary *danmakuDic, DanDanPlayErrorModel *error) {
+                block(danmakuDic);
+            }];
         }
     }];
 }
@@ -117,6 +110,25 @@
         timeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",intTime / 60, intTime % 60];
         timeView.time = time;
         [timeView show];
+    }
+}
+
++ (void)convertDanmakuWithURL:(NSURL *)URL completionHandler:(void(^)(NSDictionary *danmakuDic ,DanDanPlayErrorModel *error))completionHandler {
+    //acfun：json解析方式
+    id obj = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:URL] options:NSJSONReadingMutableContainers error:nil];
+    NSDictionary *dic = nil;
+    if (obj) {
+        dic = [DanmakuDataFormatter dicWithObj:obj source:DanDanPlayDanmakuSourceAcfun];
+    }
+    else{
+        //bilibili：xml解析方式
+        dic = [DanmakuDataFormatter dicWithObj:[NSData dataWithContentsOfURL:URL] source:DanDanPlayDanmakuSourceBilibili];
+    }
+    if (dic.count) {
+        completionHandler(dic, nil);
+    }
+    else {
+        completionHandler(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
     }
 }
 

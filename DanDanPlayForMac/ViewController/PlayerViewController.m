@@ -127,7 +127,7 @@
     //是否处于全屏状态
     BOOL _fullScreen;
     //判断用户是否点击了暂停
-    BOOL _userPause;
+//    BOOL _userPause;
     //时间格式化工具
     NSDateFormatter *_formatter;
     NSDateFormatter *_snapshotFormatter;
@@ -251,9 +251,7 @@
 //只需要初始化一次的属性
 - (void)setupOnce {
     __weak typeof(self)weakSelf = self;
-    
-    //必须设置 不然弹幕无法显示
-    [self.view setWantsLayer: YES];
+    self.view.backgroundColor = [NSColor blackColor];
     //播放器控制面板
     [self.playerControlView setStatusCallBackBlock:^(PlayerControlViewStatus status) {
         if (status == PlayerControlViewStatusActive) {
@@ -316,12 +314,27 @@
     self.controlPlayListControllerViewButton.alphaValue = 0;
     
     //拖放文件回调
-    [self.playerHoldView setFilePickBlock:^(NSArray *filePaths) {
+    [self.playerHoldView setFilePickBlock:^(NSArray <NSURL *>*filePaths) {
         if (filePaths.count > 0) {
-            NSInteger oldCount = [weakSelf.vm videoCount];
-            [weakSelf.vm addVideosModel:filePaths];
-            [weakSelf changeCurrentIndex:oldCount];
-            [weakSelf reloadDanmakuWithIndex:oldCount];
+            //尝试从路径读取弹幕
+            [PlayerMethodManager convertDanmakuWithURL:filePaths.firstObject completionHandler:^(NSDictionary *danmakuDic, DanDanPlayErrorModel *error) {
+                if (error) {
+                    //转换成模型
+                    NSMutableArray *arr = [NSMutableArray array];
+                    for (NSURL *url in filePaths) {
+                        LocalVideoModel *vm = [[LocalVideoModel alloc] initWithFileURL:url];
+                        [arr addObject:vm];
+                    }
+                    NSInteger oldCount = [weakSelf.vm videoCount];
+                    [weakSelf.vm addVideosModel:arr];
+                    [weakSelf changeCurrentIndex:oldCount];
+                    [weakSelf reloadDanmakuWithIndex:oldCount];
+                }
+                else {
+                    weakSelf.vm.danmakusDic = danmakuDic;
+                    [weakSelf.danmakuEngine sendAllDanmakusDic:danmakuDic];
+                }
+            }];
         }
     }];
     
@@ -362,7 +375,7 @@
     
     //上次观看时间视图
     [self.view addSubview:self.lastWatchVideoTimeView positioned:NSWindowAbove relativeTo:self.danmakuEngine.canvas];
-    
+    //点击上次播放时间回调
     [self.lastWatchVideoTimeView setContinusBlock:^(NSTimeInterval time) {
         [weakSelf.player setPosition:time / weakSelf.player.length completionHandler:^(NSTimeInterval time) {
             weakSelf.danmakuEngine.currentTime = time;
@@ -400,7 +413,7 @@
     [NSApplication sharedApplication].keyWindow.title = [self.vm currentVideoName];
     [NSApplication sharedApplication].mainWindow.title = [self.vm currentVideoName];
     //    _danMuOffsetTime = 0;
-    _userPause = NO;
+//    _userPause = NO;
     self.playerControlView.status = PlayerControlViewStatusHalfActive;
     //只有官方弹幕库启用发送弹幕功能
     if (!self.vm.episodeId.length) {
@@ -432,15 +445,15 @@
 - (IBAction)clickPlayButton:(NSButton *)sender {
     if (self.player.status == JHMediaPlayerStatusStop) {
         [self startPlay];
-        _userPause = NO;
+//        _userPause = NO;
     }
     else if (sender.state) {
         [self videoAndDanMuPlay];
-        _userPause = NO;
+//        _userPause = NO;
     }
     else {
         [self videoAndDanMuPause];
-        _userPause = YES;
+//        _userPause = YES;
     }
 }
 
@@ -496,12 +509,6 @@
     }
 }
 
-//- (IBAction)clickClearAllHistoryButton:(NSButton *)sender {
-//    [self.vm removeVideoAtIndex:-1];
-//    [self.playerListTableView reloadData];
-//}
-
-
 - (void)launchDanmaku {
     NSString *text = self.danmakuTextField.stringValue;
     if (!text.length) return;
@@ -535,15 +542,15 @@
 #pragma mark -------- 播放控制相关 --------
 //开始播放
 - (void)startPlay {
-    if (self.player.mediaType == JHMediaTypeNetMedia) {
-        if (![self.vm currentVideoURL]) {
-            [self videoAndDanMuPlay];
-            [self videoAndDanMuPause];
-        }
-    }
-    else {
+//    if (self.player.mediaType == JHMediaTypeNetMedia) {
+//        if (![self.vm currentVideoURL]) {
+//            [self videoAndDanMuPlay];
+//            [self videoAndDanMuPause];
+//        }
+//    }
+//    else {
         [self videoAndDanMuPlay];
-    }
+//    }
 }
 
 //结束播放
@@ -570,13 +577,13 @@
 
 //播放弹幕和视频
 - (void)videoAndDanMuPlay {
-    [self.danmakuEngine start];
+//    [self.danmakuEngine start];
     [self.player play];
 }
 
 //暂停弹幕和视频
 - (void)videoAndDanMuPause {
-    [self.danmakuEngine pause];
+//    [self.danmakuEngine pause];
     [self.player pause];
 }
 
@@ -602,19 +609,6 @@
     self.messageView.text = [NSString stringWithFormat:@"音量: %ld", (long)self.player.volume];
     [self.messageView showHUD];
 }
-
-//- (void)loadLocaleDanMaku {
-//    [PlayerMethodManager loadLocaleDanMuWithBlock:^(NSDictionary *dic) {
-//        if (dic.count > 0) {
-//            self.vm.danmakusDic = dic;
-//            [self.danmakuEngine addAllDanmakusDic:dic];
-//            [self.player setPosition:0 completionHandler:nil];
-//        }
-//        else {
-//            [[NSAlert alertWithMessageText:kNoFoundDanmakuString informativeText:nil] runModal];
-//        }
-//    }];
-//}
 
 #pragma mark 重新加载弹幕 更新进度
 - (void)reloadDanmakuWithIndex:(NSInteger)index {
@@ -853,9 +847,9 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.playerControlView.slideView updateBufferProgress:progress];
     });
-    if (onceBufferTime > MAX_BUFFER_TIME && self.player.status == JHMediaPlayerStatusPause && !_userPause) {
-        [self videoAndDanMuPlay];
-    }
+//    if (onceBufferTime > MAX_BUFFER_TIME && self.player.status == JHMediaPlayerStatusPause && !_userPause) {
+//        [self videoAndDanMuPlay];
+//    }
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player statusChange:(JHMediaPlayerStatus)status {
@@ -870,7 +864,12 @@
         case JHMediaPlayerStatusPlaying:
             [self.danmakuEngine start];
             self.playButton.state = NSModalResponseOK;
+            [JHProgressHUD disMiss];
             break;
+        case JHMediaPlayerStatusBuffering:
+            [self.danmakuEngine pause];
+            self.playButton.state = NSModalResponseCancel;
+            [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoBuffering].message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
         default:
             break;
     }
@@ -1103,7 +1102,7 @@
 		_playerDanmakuAndSubtitleViewController = [[PlayerDanmakuAndSubtitleViewController alloc] init];
         
         __weak typeof(self)weakSelf = self;
-        
+        //关闭窗口
         [_playerDanmakuAndSubtitleViewController.danmakuVC setHideDanMuAndCloseCallBack:^(NSInteger num, NSInteger status) {
             status ? [weakSelf.danmakuEngine.globalFilterDanmaku addObject:@(num)] : [weakSelf.danmakuEngine.globalFilterDanmaku removeObject:@(num)];
         }];

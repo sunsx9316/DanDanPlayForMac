@@ -41,7 +41,8 @@
     if (selectRow < [self.vm numOfVideos]) {
         if ([self.selectedSet containsObject:@(selectRow)]) {
             [self.selectedSet removeObject:@(selectRow)];
-        }else{
+        }
+        else {
             [self.selectedSet addObject:@(selectRow)];
         }
     }
@@ -54,7 +55,8 @@
         for (NSInteger i = 0; i < count; ++i) {
             [self.selectedSet addObject:@(i)];
         }
-    }else{
+    }
+    else {
         [self.selectedSet removeAllObjects];
     }
     [self.tableView reloadData];
@@ -65,7 +67,8 @@
     for (NSInteger i = 0; i < count; ++i) {
         if ([self.selectedSet containsObject:@(i)]) {
             [self.selectedSet removeObject:@(i)];
-        }else{
+        }
+        else {
             [self.selectedSet addObject:@(i)];
         }
     }
@@ -151,7 +154,7 @@
 - (HUDMessageView *)messageView {
 	if(_messageView == nil) {
 		_messageView = [[HUDMessageView alloc] init];
-        _messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+        _messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoNoFound].message;
 	}
 	return _messageView;
 }

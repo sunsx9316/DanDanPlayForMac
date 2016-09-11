@@ -66,56 +66,21 @@
                     NSAlert *alert = [NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage];
                     [alert runModal];
                 }
-//                [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
                 [self dismissViewController:self];
             });
         });
     }];
-    
-//    [UpdateNetManager downLatestVersionWithVersion:self.version progress:&_progress completionHandler:^(NSString *responseObj, NSError *error) {
-//        [self.progressHUD disMiss];
-//        if (!responseObj) {
-//            [[NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDownLoadFileString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kNoFoundDownLoadFileInformativeString"]] runModal];
-//            return;
-//        }
-//        
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            NSData *fileData = [[NSData alloc] initWithContentsOfFile:responseObj];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                if ([[fileData md5String] isEqualToString:self.fileHash]) {
-//                    system([[NSString stringWithFormat:@"open %@", responseObj] cStringUsingEncoding:NSUTF8StringEncoding]);
-//                }
-//                else {
-//                    NSAlert *alert = [NSAlert alertWithMessageText:[UserDefaultManager alertMessageWithKey:@"kDownLoadFileDamageString"] informativeText:[UserDefaultManager alertMessageWithKey:@"kDownLoadFileDamageInformativeString"]];
-//                    [alert runModal];
-//                }
-//                [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
-//                [self dismissViewController:self];
-//            });
-//        });
-//        
-//    }];
-//    [_progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
-- (IBAction)clickCancelButton:(NSButton *)sender {
-    [self dismissViewController:self];
-    
-}
 
 - (IBAction)clickUpdateByUserButton:(NSButton *)sender {
-    system("open http://pan.baidu.com/s/1kUnnfGr");
+    system("open https://pan.baidu.com/s/1o7FWGCa");
 }
 
 - (IBAction)clickAutoCheakUpdateInfoButton:(NSButton *)sender {
     [UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart = sender.state;
 }
 
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self.progressHUD updateProgress:[change[@"new"] floatValue]];
-//    });
-//}
 
 #pragma mark - 懒加载
 - (JHProgressHUD *)progressHUD {

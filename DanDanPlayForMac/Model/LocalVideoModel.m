@@ -25,7 +25,7 @@
 
 - (NSString *)fileName {
     if (_fileName == nil) {
-        return [[_fileURL.path lastPathComponent] stringByDeletingPathExtension];
+        _fileName = [[_fileURL.path lastPathComponent] stringByDeletingPathExtension];
     }
     return _fileName;
 }

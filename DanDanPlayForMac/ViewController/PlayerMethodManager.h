@@ -50,4 +50,11 @@ typedef void(^loadLocalSubtitleBlock)(NSString *path);
 + (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size;
 
 + (void)showPlayLastWatchVideoTimeView:(PlayerLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time;
+/**
+ *  尝试按照路径转换弹幕
+ *
+ *  @param URL              路径
+ *  @param completionHandler 回调
+ */
++ (void)convertDanmakuWithURL:(NSURL *)URL completionHandler:(void(^)(NSDictionary *danmakuDic ,DanDanPlayErrorModel *error))completionHandler;
 @end

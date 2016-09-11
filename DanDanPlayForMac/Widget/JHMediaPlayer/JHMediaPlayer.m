@@ -27,17 +27,20 @@
     NSTimeInterval _currentTime;
     id _timeObj;
     JHMediaPlayerStatus _status;
-    BOOL _isBuffer;
+    BOOL _isUserPause;
+    BOOL _isBuffering;
+    JHVLCMedia *_currentLocalMedia;
 }
+
 
 #pragma mark 属性
 
-- (JHMediaType)mediaType{
+- (JHMediaType)mediaType {
     return [self.mediaURL isFileURL] ? JHMediaTypeLocaleMedia : JHMediaTypeNetMedia;
 }
 
 - (void)videoSizeWithCompletionHandle:(void(^)(CGSize size))completionHandle{
-    if (self.mediaType == JHMediaTypeNetMedia){
+    if (self.mediaType == JHMediaTypeNetMedia) {
         if (!self.mediaURL) {
             self.localMediaPlayer.currentVideoSubTitleDelay = 0;
             completionHandle(CGSizeMake(-1, -1));
@@ -52,15 +55,10 @@
         return;
     }
     
-    JHVLCMedia *media = (JHVLCMedia *)self.localMediaPlayer.media;
-//    if (media.parsedStatus == VLCMediaParsedStatusInit) {
-        [media parseWithBlock:^(VLCMedia *aMedia) {
-            completionHandle(aMedia.videoSize);
-        }];
-//    }
-//    else {
-//        completionHandle(media.videoSize);
-//    }
+//    JHVLCMedia *media = (JHVLCMedia *)self.localMediaPlayer.media;
+    [_currentLocalMedia parseWithBlock:^(CGSize size) {
+        completionHandle(size);
+    }];
 }
 
 - (NSTimeInterval)length {
@@ -69,7 +67,7 @@
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         _length = self.localMediaPlayer.media.length.numberValue.floatValue / 1000;
     }
-    else{
+    else {
         _length = CMTimeGetSeconds(self.netMediaPlayer.currentItem.duration);
     }
     return _length;
@@ -98,8 +96,15 @@
         return _status;
     }
     
-    _status = (self.netMediaPlayer.rate == 0 || isnan([self netMediaBufferOnceTime])) ? JHMediaPlayerStatusPause : JHMediaPlayerStatusPlaying;
-    return _status;
+    //用户点击暂停
+    if (_isUserPause || self.netMediaPlayer.rate == 0) {
+        return JHMediaPlayerStatusPause;
+    }
+    //暂停状态
+    else if (_isBuffering) {
+        return JHMediaPlayerStatusBuffering;
+    }
+    return JHMediaPlayerStatusPlaying;
 }
 
 #pragma mark 音量
@@ -142,9 +147,13 @@
     else {
         CMTime time = self.netMediaPlayer.currentTime;
         time.value = time.timescale * position * [self length];
-        __weak typeof(self)weakSelf = self;
+//        __weak typeof(self)weakSelf = self;
+        @weakify(self)
         [self.netMediaPlayer seekToTime:time completionHandler:^(BOOL finished) {
-            if (completionHandler) completionHandler([weakSelf currentTime]);
+            @strongify(self)
+            if (!self) return;
+            
+            if (completionHandler) completionHandler([self currentTime]);
         }];
     }
 }
@@ -196,8 +205,13 @@
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         [self.localMediaPlayer play];
     }
-    else {
+    else if (_isBuffering == NO) {
+        _isUserPause = NO;
+        _isBuffering = NO;
         [self.netMediaPlayer play];
+    }
+    else {
+        [self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusBuffering];
     }
 }
 
@@ -206,6 +220,7 @@
         [self.localMediaPlayer pause];
     }
     else {
+        _isUserPause = YES;
         [self.netMediaPlayer pause];
     }
 }
@@ -213,6 +228,7 @@
 - (void)stop {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
         [_localMediaPlayer stop];
+        _currentLocalMedia = nil;
     }
     else {
         [_netMediaPlayer replaceCurrentItemWithPlayerItem:nil];
@@ -247,8 +263,8 @@
     if (!mediaURL.path.length) return;
     _mediaURL = mediaURL;
     if ([_mediaURL isFileURL]) {
-        JHVLCMedia *media = [[JHVLCMedia alloc] initWithURL:mediaURL];
-        self.localMediaPlayer.media = media;
+        _currentLocalMedia = [[JHVLCMedia alloc] initWithURL:mediaURL];
+        self.localMediaPlayer.media = _currentLocalMedia;
         self.localMediaPlayer.delegate = self;
     }
     else {
@@ -262,6 +278,13 @@
         [self setMediaURL:mediaURL];
     }
     return self;
+}
+
+- (void)videoBuffering:(NSNotification *)sender {
+    _isBuffering = YES;
+    if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
+        [self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusBuffering];
+    }
 }
 
 #pragma mark - VLCMediaPlayerDelegate
@@ -278,23 +301,29 @@
 
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
-        if ([self status] == JHMediaPlayerStatusPause && [self length] - [self currentTime] < 1) {
-            //[self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusStop];
-        }else{
+//        if ([self status] == JHMediaPlayerStatusPause && [self length] - [self currentTime] < 1) {
+//            //[self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusStop];
+//        }
+//        else {
             [self.delegate mediaPlayer:self statusChange:[self status]];
-        }
+//        }
     }
 }
 
 #pragma mark - JHPlayerItemDelegate
 - (void)JHPlayerItem:(JHPlayerItem *)item bufferStartTime:(NSTimeInterval)bufferStartTime bufferOnceTime:(NSTimeInterval)bufferOnceTime {
     [self.delegate mediaPlayer:self bufferTimeProgress:(bufferStartTime + bufferOnceTime) / [self length] onceBufferTime:bufferOnceTime];
+    if (_isBuffering && bufferOnceTime > 3) {
+        _isBuffering = NO;
+        [self.netMediaPlayer play];
+        [self.delegate mediaPlayer:self statusChange:[self status]];
+    }
 }
 
 #pragma mark - 私有方法
 
 #pragma mark 单次缓冲时长
-- (NSTimeInterval)netMediaBufferOnceTime{
+- (NSTimeInterval)netMediaBufferOnceTime {
     CMTimeRange range = self.netMediaPlayer.currentItem.loadedTimeRanges.firstObject.CMTimeRangeValue;
     return CMTimeGetSeconds(range.duration);
 }
@@ -373,21 +402,28 @@
     }
     else {
         _netMediaPlayer = [AVPlayer playerWithPlayerItem:item];
-        __weak typeof(self)weakSelf = self;
+//        __weak typeof(self)weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(videoBuffering:) name:AVPlayerItemPlaybackStalledNotification object:nil];
         //监听状态变化
+        //playbackBufferFull
         [_netMediaPlayer addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
         //监听时间变化
+        @weakify(self)
         _timeObj = [_netMediaPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-            [weakSelf mediaPlayerTimeChanged:nil];
+            @strongify(self)
+            if (!self) return;
+            
+            [self mediaPlayerTimeChanged:nil];
         }];
     }
     AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:_netMediaPlayer];
     self.mediaView.layer = playerLayer;
-    
+    _isBuffering = YES;
 }
 
 - (void)dealloc {
+    _currentLocalMedia = nil;
     [_netMediaPlayer removeTimeObserver:_timeObj];
     [_mediaView removeFromSuperview];
     [_netMediaPlayer removeObserver:self forKeyPath:@"rate"];

@@ -124,13 +124,12 @@
 		89C04B761C591E5700225ABA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C04B751C591E5700225ABA /* MainViewController.m */; };
 		89C107121C885B8100090A9A /* DanmakuColorMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */; };
 		89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */; };
-		89C7610B1D6CA15000635384 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C7610A1D6CA15000635384 /* VLCKit.framework */; };
+		89C2ACAE1D819E2F00B9CDB7 /* JHVLCMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C2ACAC1D819E2F00B9CDB7 /* JHVLCMedia.m */; };
 		89C7610C1D6CA1D800635384 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C7610A1D6CA15000635384 /* VLCKit.framework */; };
 		89C7610D1D6CA1D800635384 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 89C7610A1D6CA15000635384 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		89D403391D52EACB00AED712 /* JHMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403261D52EACB00AED712 /* JHMediaPlayer.m */; };
 		89D4033A1D52EACB00AED712 /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403281D52EACB00AED712 /* JHMediaView.m */; };
 		89D4033B1D52EACB00AED712 /* JHPlayerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4032A1D52EACB00AED712 /* JHPlayerItem.m */; };
-		89D4033C1D52EACB00AED712 /* JHVLCMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4032C1D52EACB00AED712 /* JHVLCMedia.m */; };
 		89D4033D1D52EACB00AED712 /* VLCMedia+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4032E1D52EACB00AED712 /* VLCMedia+Tools.m */; };
 		89D4033E1D52EACB00AED712 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403301D52EACB00AED712 /* JHProgressHUD.m */; };
 		89D403411D52EAE400AED712 /* ColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403401D52EAE400AED712 /* ColorButton.m */; };
@@ -182,14 +181,14 @@
 		89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOpenPanel+Tools.h"; sourceTree = "<group>"; };
 		89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOpenPanel+Tools.m"; sourceTree = "<group>"; };
 		8916809E1D5080DE00B215D1 /* alert_message.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = alert_message.plist; sourceTree = "<group>"; };
-		8919753D1D6ACF7F00210AB9 /* NSTableView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTableView+Tools.h"; path = "../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/Tools/NSTableView+Tools.h"; sourceTree = "<group>"; };
-		8919753E1D6ACF7F00210AB9 /* NSTableView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTableView+Tools.m"; path = "../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/Tools/NSTableView+Tools.m"; sourceTree = "<group>"; };
+		8919753D1D6ACF7F00210AB9 /* NSTableView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTableView+Tools.h"; path = "NSTableView+Tools.h"; sourceTree = "<group>"; };
+		8919753E1D6ACF7F00210AB9 /* NSTableView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTableView+Tools.m"; path = "NSTableView+Tools.m"; sourceTree = "<group>"; };
 		89264DA41D5C3370004B51BF /* PlayerDanmakuCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDanmakuCountView.h; sourceTree = "<group>"; };
 		89264DA51D5C3370004B51BF /* PlayerDanmakuCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDanmakuCountView.m; sourceTree = "<group>"; };
 		89264DA71D5C5F8E004B51BF /* POPMasAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPMasAnimation.h; sourceTree = "<group>"; };
 		89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POPMasAnimation.m; sourceTree = "<group>"; };
-		892DD15A1D66A612001FBD3B /* ReverseVolumeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReverseVolumeCell.h; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/ViewController/ReverseVolumeCell.h; sourceTree = "<group>"; };
-		892DD15B1D66A612001FBD3B /* ReverseVolumeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReverseVolumeCell.m; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/ViewController/ReverseVolumeCell.m; sourceTree = "<group>"; };
+		892DD15A1D66A612001FBD3B /* ReverseVolumeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReverseVolumeCell.h; path = ReverseVolumeCell.h; sourceTree = "<group>"; };
+		892DD15B1D66A612001FBD3B /* ReverseVolumeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReverseVolumeCell.m; path = ReverseVolumeCell.m; sourceTree = "<group>"; };
 		892DD15F1D66C118001FBD3B /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		89387EBB1D6597E900F273D7 /* NSDictionary+Bilibili.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Bilibili.h"; sourceTree = "<group>"; };
 		89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Bilibili.m"; sourceTree = "<group>"; };
@@ -251,10 +250,10 @@
 		896CF1F01C8C66010080019F /* StreamingVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamingVideoModel.m; sourceTree = "<group>"; };
 		896D0BFF1D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubtitleTimeOffsetCell.h; sourceTree = "<group>"; };
 		896D0C001D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSubtitleTimeOffsetCell.m; sourceTree = "<group>"; };
-		896DD4F41D62F8C00003AFE1 /* RecommendItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecommendItemViewController.h; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/ViewController/RecommendItemViewController.h; sourceTree = "<group>"; };
-		896DD4F51D62F8C00003AFE1 /* RecommendItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecommendItemViewController.m; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/ViewController/RecommendItemViewController.m; sourceTree = "<group>"; };
-		896DD4FA1D6320C80003AFE1 /* ToolsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolsManager.h; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/Tools/ToolsManager.h; sourceTree = "<group>"; };
-		896DD4FB1D6320C80003AFE1 /* ToolsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolsManager.m; path = ../../../../../JimHuang/Github/DanDanPlayForMac/DanDanPlayForMac/Tools/ToolsManager.m; sourceTree = "<group>"; };
+		896DD4F41D62F8C00003AFE1 /* RecommendItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecommendItemViewController.h; path = RecommendItemViewController.h; sourceTree = "<group>"; };
+		896DD4F51D62F8C00003AFE1 /* RecommendItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecommendItemViewController.m; path = RecommendItemViewController.m; sourceTree = "<group>"; };
+		896DD4FA1D6320C80003AFE1 /* ToolsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolsManager.h; path = ToolsManager.h; sourceTree = "<group>"; };
+		896DD4FB1D6320C80003AFE1 /* ToolsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolsManager.m; path = ToolsManager.m; sourceTree = "<group>"; };
 		897345B21C7571EC00F64D39 /* PlayerHoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHoldView.h; sourceTree = "<group>"; };
 		897345B31C7571EC00F64D39 /* PlayerHoldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerHoldView.m; sourceTree = "<group>"; };
 		897345B51C759CB200F64D39 /* NSArray+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Tools.h"; sourceTree = "<group>"; };
@@ -310,7 +309,6 @@
 		89761A151C5A6F190046A245 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		89788D341C5E3DB100CA31EF /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		89788D351C5E3DB100CA31EF /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		8979C9D41D5B169500B3B7ED /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		897AE87D1D3D05B900143B9F /* PlayerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerListViewController.h; sourceTree = "<group>"; };
 		897AE87E1D3D05B900143B9F /* PlayerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerListViewController.m; sourceTree = "<group>"; };
 		897AE87F1D3D05B900143B9F /* PlayerListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerListViewController.xib; sourceTree = "<group>"; };
@@ -394,6 +392,8 @@
 		89C107111C885B8100090A9A /* DanmakuColorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuColorMenuItem.m; sourceTree = "<group>"; };
 		89C107131C885FB200090A9A /* DanmakuModeMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuModeMenuItem.h; sourceTree = "<group>"; };
 		89C107141C885FB200090A9A /* DanmakuModeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuModeMenuItem.m; sourceTree = "<group>"; };
+		89C2ACAC1D819E2F00B9CDB7 /* JHVLCMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHVLCMedia.m; sourceTree = "<group>"; };
+		89C2ACAD1D819E2F00B9CDB7 /* JHVLCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHVLCMedia.h; sourceTree = "<group>"; };
 		89C7610A1D6CA15000635384 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VLCKit.framework; sourceTree = "<group>"; };
 		89D403251D52EACB00AED712 /* JHMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaPlayer.h; sourceTree = "<group>"; };
 		89D403261D52EACB00AED712 /* JHMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaPlayer.m; sourceTree = "<group>"; };
@@ -401,8 +401,6 @@
 		89D403281D52EACB00AED712 /* JHMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaView.m; sourceTree = "<group>"; };
 		89D403291D52EACB00AED712 /* JHPlayerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHPlayerItem.h; sourceTree = "<group>"; };
 		89D4032A1D52EACB00AED712 /* JHPlayerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHPlayerItem.m; sourceTree = "<group>"; };
-		89D4032B1D52EACB00AED712 /* JHVLCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHVLCMedia.h; sourceTree = "<group>"; };
-		89D4032C1D52EACB00AED712 /* JHVLCMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHVLCMedia.m; sourceTree = "<group>"; };
 		89D4032D1D52EACB00AED712 /* VLCMedia+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VLCMedia+Tools.h"; sourceTree = "<group>"; };
 		89D4032E1D52EACB00AED712 /* VLCMedia+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VLCMedia+Tools.m"; sourceTree = "<group>"; };
 		89D4032F1D52EACB00AED712 /* JHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHProgressHUD.h; sourceTree = "<group>"; };
@@ -439,6 +437,7 @@
 		89FDFEAC1C9042FD005499B9 /* UpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateViewController.m; sourceTree = "<group>"; };
 		89FE1F081C5E57BB00FF4586 /* DanDanSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanDanSearchViewController.h; sourceTree = "<group>"; };
 		89FE1F091C5E57BB00FF4586 /* DanDanSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanDanSearchViewController.m; sourceTree = "<group>"; };
+		89FE37051D856AF200A55492 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		BE4CC565510FBBFF11126BA7 /* Pods-DanDanPlayForMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -449,7 +448,6 @@
 			files = (
 				89C7610C1D6CA1D800635384 /* VLCKit.framework in Frameworks */,
 				69C675FF8781B35E1E1812A4 /* libPods-DanDanPlayForMac.a in Frameworks */,
-				89C7610B1D6CA15000635384 /* VLCKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -988,8 +986,8 @@
 				89D403281D52EACB00AED712 /* JHMediaView.m */,
 				89D403291D52EACB00AED712 /* JHPlayerItem.h */,
 				89D4032A1D52EACB00AED712 /* JHPlayerItem.m */,
-				89D4032B1D52EACB00AED712 /* JHVLCMedia.h */,
-				89D4032C1D52EACB00AED712 /* JHVLCMedia.m */,
+				89C2ACAD1D819E2F00B9CDB7 /* JHVLCMedia.h */,
+				89C2ACAC1D819E2F00B9CDB7 /* JHVLCMedia.m */,
 				89D4032D1D52EACB00AED712 /* VLCMedia+Tools.h */,
 				89D4032E1D52EACB00AED712 /* VLCMedia+Tools.m */,
 			);
@@ -1158,7 +1156,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = JimHuang;
 				TargetAttributes = {
 					89636FCB1C58C40B002F32FD = {
@@ -1275,6 +1273,7 @@
 				8919753F1D6ACF7F00210AB9 /* NSTableView+Tools.m in Sources */,
 				89FDFE891C90239C005499B9 /* UpdateNetManager.m in Sources */,
 				897ECC5A1C74C9F9008AA5DB /* DanMuFastMatchCell.m in Sources */,
+				89C2ACAE1D819E2F00B9CDB7 /* JHVLCMedia.m in Sources */,
 				897D7F751CA7F94400FAC53A /* AddTrackingAreaButton.m in Sources */,
 				89C04B761C591E5700225ABA /* MainViewController.m in Sources */,
 				89636FD41C58C40B002F32FD /* main.m in Sources */,
@@ -1319,7 +1318,6 @@
 				89A5B1C61C9998AB007869C9 /* NSAlert+Tools.m in Sources */,
 				89524B441CB96BB400BDFDBA /* QualityMenuItem.m in Sources */,
 				89D4033D1D52EACB00AED712 /* VLCMedia+Tools.m in Sources */,
-				89D4033C1D52EACB00AED712 /* JHVLCMedia.m in Sources */,
 				89B5854B1C7E07270076FB26 /* FilterNetManager.m in Sources */,
 				89D403411D52EAE400AED712 /* ColorButton.m in Sources */,
 				89FC23F11C6F3EC3009FD27C /* CacheManagerCell.m in Sources */,
@@ -1396,7 +1394,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				89636FDB1C58C40B002F32FD /* Base */,
-				8979C9D41D5B169500B3B7ED /* zh-Hans */,
+				89FE37051D856AF200A55492 /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			path = ..;

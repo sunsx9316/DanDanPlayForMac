@@ -7,19 +7,31 @@
 //
 
 #import "JHVLCMedia.h"
+#import "VLCMedia+Tools.h"
+
 @interface JHVLCMedia()<VLCMediaDelegate>
-@property (nonatomic, copy) complete returnBlock;
+@property (nonatomic, copy) parseCompleteBlock returnBlock;
 @end
 
 @implementation JHVLCMedia
-- (void)parseWithBlock:(complete)block {
+- (void)parseWithBlock:(parseCompleteBlock)block {
     self.returnBlock = block;
-    self.delegate = self;
-    [self parseWithOptions:VLCMediaParseLocal | VLCMediaFetchLocal];
+//    self.delegate = self;
+    [self parseWithOptions:VLCMediaParseLocal | VLCMediaParseNetwork | VLCMediaFetchLocal | VLCMediaFetchNetwork];
+    [self addObserver:self forKeyPath:@"parsedStatus" options:NSKeyValueObservingOptionNew context:nil];
 }
 
-- (void)mediaDidFinishParsing:(VLCMedia *)aMedia {
-    self.returnBlock(aMedia);
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"parsedStatus"]) {
+        if (self.returnBlock) {
+            self.returnBlock(self.videoSize);
+        }
+    }
+}
+
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"parsedStatus"];
 }
 
 - (instancetype)initWithURL:(NSURL *)anURL {

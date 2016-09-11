@@ -135,5 +135,10 @@
 		<key>message</key>
 		<string>弹幕格式错误</string>
 	</dict>
+	<key>225</key>
+	<dict>
+		<key>message</key>
+		<string>缓冲中...</string>
+	</dict>
 </dict>
 </plist>

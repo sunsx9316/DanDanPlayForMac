@@ -29,6 +29,7 @@
     });
     self.titleTextField.stringValue = model.name.length ? model.name : @"";
     self.keyWord = model.keyWord;
+    [self.captionsGroupPopUpButton removeAllItems];
     [model.groups enumerateObjectsUsingBlock:^(BangumiGroupModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [self.captionsGroupPopUpButton addItemWithTitle:obj.groupName];
     }];
@@ -36,7 +37,10 @@
 
 - (IBAction)clickCaptionsPopUpButton:(NSPopUpButton *)sender {
     if (self.clickGroupsButtonCallBack) {
-        self.clickGroupsButtonCallBack(sender.indexOfSelectedItem);
+        NSUInteger index = sender.indexOfSelectedItem;
+        if (index < _model.groups.count) {
+            self.clickGroupsButtonCallBack(_model.groups[index]);
+        }
     }
 }
 

@@ -12,6 +12,9 @@
  *  播放视图模型
  */
 @class DanMuDataModel, VideoModel, StreamingVideoModel;
+
+typedef void(^reloadDanmakuCallBack)(CGFloat progress, NSString *videoMatchName, DanDanPlayErrorModel *error);
+
 @interface PlayViewModel : BaseViewModel
 /**
  *  保存弹幕模型的数组
@@ -151,7 +154,7 @@
  *
  *  @param index 下标
  */
-- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(void(^)(CGFloat progress, NSString *videoMatchName, DanDanPlayErrorModel *error))complete;
+- (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(reloadDanmakuCallBack)complete;
 /**
  *  初始化
  *

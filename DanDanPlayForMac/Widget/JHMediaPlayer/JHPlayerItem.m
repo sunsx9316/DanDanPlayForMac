@@ -23,11 +23,13 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([self.delegate respondsToSelector:@selector(JHPlayerItem:bufferStartTime:bufferOnceTime:)]) {
+    if ([keyPath isEqualToString:@"loadedTimeRanges"] && [self.delegate respondsToSelector:@selector(JHPlayerItem:bufferStartTime:bufferOnceTime:)]) {
         CMTimeRange range = self.loadedTimeRanges.firstObject.CMTimeRangeValue;
         [self.delegate JHPlayerItem:self bufferStartTime:CMTimeGetSeconds(range.start) bufferOnceTime:CMTimeGetSeconds(range.duration)];
     }
+    
 }
+
 
 - (void)dealloc {
     if (_URL.path.length && self.loadedTimeRanges.firstObject) {
