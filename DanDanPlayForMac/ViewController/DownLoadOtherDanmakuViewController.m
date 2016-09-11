@@ -52,7 +52,6 @@
 
 
 - (IBAction)clickOKButton:(NSButton *)sender {
-#warning TODO
     //需要请求弹幕详情的任务
     NSMutableArray *aidArr = [NSMutableArray array];
     NSMutableArray *danmakuArr = [NSMutableArray array];
