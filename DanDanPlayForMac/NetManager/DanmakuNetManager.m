@@ -212,13 +212,13 @@
             for (NSDictionary *obj in relateds) {
                 //视频提供者是a站
                 if ([obj[@"Provider"] isEqualToString:@"Acfun.tv"]) {
-                    [self acfunAidWithPath:obj[@"Url"] complectionHandler:^(NSString *aid, NSString *index) {
+                    [ToolsManager acfunAidWithPath:obj[@"Url"] complectionHandler:^(NSString *aid, NSString *index) {
                         [paths addObject:[self acfunDanmakuInfoRequestPathWithAid:aid]];
                     }];
                 }
                 //视频提供者是b站
                 else if ([obj[@"Provider"] isEqualToString:@"BiliBili.com"]) {
-                    [self bilibiliAidWithPath:obj[@"Url"] complectionHandler:^(NSString *aid, NSString *page) {
+                    [ToolsManager bilibiliAidWithPath:obj[@"Url"] complectionHandler:^(NSString *aid, NSString *page) {
                         [paths addObject:[self bilibiliDanmakuInfoRequestPathWithAid:aid page:page]];
                     }];
                 }
@@ -247,88 +247,10 @@
                         }
                     }
                 }];
-                
                 complete(videoInfoDic, error);
             }];
         }
     }];
-    
-    
-//    return [self GETWithPath:[@"http://acplay.net/api/v1/related/" stringByAppendingString: parameters[@"id"]] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
-//        NSArray <NSDictionary *>*relateds = responseObj[@"Relateds"];
-//        //装视频详情的字典
-//        NSMutableDictionary <NSString *, NSMutableArray *> *videoInfoDic = [NSMutableDictionary dictionary];
-//        NSMutableArray *requestArr = [NSMutableArray array];
-//        
-//        for (NSDictionary *obj in relateds) {
-//            //视频提供者是a站
-//            if ([obj[@"Provider"] isEqualToString:@"Acfun.tv"]) {
-//                [requestArr addObject: [self GETAcfunDanMuWithParameters:[self acfunAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
-//                    if (!videoInfoDic[@"acfun"]) videoInfoDic[@"acfun"] = [NSMutableArray array];
-//                    if (responseObj) [videoInfoDic[@"acfun"] addObject: responseObj];
-//                }]];
-//                //视频提供者是b站
-//            }
-//            else if ([obj[@"Provider"] isEqualToString:@"BiliBili.com"]){
-//                [requestArr addObject: [self GETBiliBiliDanMuWithParameters:[self bilibiliAidWithPath: obj[@"Url"]] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
-//                    if (!videoInfoDic[@"bilibili"]) videoInfoDic[@"bilibili"] = [NSMutableArray array];
-//                    if (responseObj) [videoInfoDic[@"bilibili"] addObject: responseObj];
-//                }]];
-//            }
-//        }
-//        
-//        NSArray *operations = [AFURLConnectionOperation batchOfRequestOperations:requestArr progressBlock: nil completionBlock:^(NSArray *operations) {
-//            complete(videoInfoDic, error);
-//        }];
-//        [[NSOperationQueue mainQueue] addOperations:@[operations.lastObject] waitUntilFinished:NO];
-//    }];
-}
-
-/**
- *  获取b站视频av号 分集
- *
- *  @param path       路径
- *  @param completion 回调
- */
-+ (void)bilibiliAidWithPath:(NSString *)path complectionHandler:(void(^)(NSString *aid, NSString *page))completion {
-    //http://www.bilibili.com/video/av46431/index_2.html
-    if (!path) {
-        completion(nil, nil);
-    }
-    
-    NSString *aid;
-    NSString *index;
-    NSArray *arr = [path componentsSeparatedByString:@"/"];
-    for (NSString *obj in arr) {
-        if ([obj hasPrefix: @"av"]) {
-            aid = [obj substringFromIndex: 2];
-        }
-        else if ([obj hasPrefix: @"index"]) {
-            index = [[obj componentsSeparatedByString: @"."].firstObject componentsSeparatedByString: @"_"].lastObject;
-        }
-    }
-    completion(aid, index);
-}
-/**
- *  获取a站av号 分集
- *
- *  @param path url
- *
- *  @return av号 分集
- */
-+ (void)acfunAidWithPath:(NSString *)path complectionHandler:(void(^)(NSString *aid, NSString *index))completion {
-    if (!path) {
-        completion(nil, nil);
-    }
-    
-    NSString *aid;
-    NSString *index;
-    NSArray *arr = [[path componentsSeparatedByString: @"/"].lastObject componentsSeparatedByString:@"_"];
-    if (arr.count == 2) {
-        index = arr.lastObject;
-        aid = [arr.firstObject substringFromIndex: 2];
-    }
-    completion(aid, index);
 }
 
 /**

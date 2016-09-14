@@ -57,7 +57,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-- (void)setUpWithFilePath:(NSArray *)filePaths{
+- (void)setUpWithFilePath:(NSArray *)filePaths {
     [self.videos removeAllObjects];
     //路径为文件夹时 扫描文件夹下第一级目录
     for (NSString *fileURL in filePaths) {
@@ -166,14 +166,14 @@
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }
 
-- (void)changeMathchVideoName:(NSNotification *)notification{
+- (void)changeMathchVideoName:(NSNotification *)notification {
     _animateTitle = notification.userInfo[@"animateTitle"];
 }
 
 - (void)presentPlayerViewController:(NSNotification *)notification {
     [JHProgressHUD disMiss];
     
-    PlayerViewController *pvc = [[PlayerViewController alloc] initWithVideos: self.videos danMuDic:notification.userInfo matchName: _animateTitle episodeId:_episodeId];
+    PlayerViewController *pvc = [[PlayerViewController alloc] initWithVideos:self.videos danMuDic:notification.userInfo matchName:_animateTitle episodeId:_episodeId];
     //赋值之后置空
     _animateTitle = nil;
     _episodeId = nil;

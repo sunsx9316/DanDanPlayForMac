@@ -19,13 +19,15 @@
 
 @implementation OpenStreamVideoViewModel
 
-- (NSInteger)numOfVideos{
+- (NSInteger)numOfVideos {
     return self.models.count;
 }
-- (NSString *)videoNameForRow:(NSInteger)row{
+
+- (NSString *)videoNameForRow:(NSInteger)row {
     return [self modelForRow:row].title;
 }
-- (NSString *)danmakuForRow:(NSInteger)row{
+
+- (NSString *)danmakuForRow:(NSInteger)row {
     return [self modelForRow:row].danmaku;
 }
 
@@ -46,11 +48,6 @@
             complete(vm, error);
         }];
     }];
-    
-//    [VideoNetManager bilibiliVideoURLWithParameters:@{@"danmaku":danmaku} completionHandler:^(NSDictionary *videosDic, DanDanPlayErrorModel *error) {
-//        [DanmakuNetManager downThirdPartyDanmakuWithParameters:@{@"provider":danmakuSource, @"danmaku":danmaku} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
-//        }];
-//    }];
 }
 
 - (void)refreshWithcompletionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
@@ -60,12 +57,21 @@
     }];
 }
 
-- (instancetype)initWithAid:(NSString *)aid danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
+- (instancetype)initWithURL:(NSString *)URL danmakuSource:(DanDanPlayDanmakuSource )danmakuSource {
     if (self = [super init]) {
-        NSArray *arr = [aid componentsSeparatedByString:@" "];
-        self.aid = [arr.firstObject substringFromIndex:2];
-        self.page = [arr.lastObject integerValue];
         self.danmakuSource = danmakuSource;
+        if (danmakuSource == DanDanPlayDanmakuSourceBilibili) {
+            [ToolsManager bilibiliAidWithPath:URL complectionHandler:^(NSString *aid, NSString *page) {
+                self.aid = aid;
+                self.page = page.integerValue;
+            }];
+        }
+        else if (danmakuSource == DanDanPlayDanmakuSourceAcfun) {
+            [ToolsManager acfunAidWithPath:URL complectionHandler:^(NSString *aid, NSString *index) {
+                self.aid = aid;
+                self.page = index.integerValue;
+            }];
+        }
     }
     return self;
 }

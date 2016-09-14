@@ -20,30 +20,32 @@
 @end
 
 @implementation AppDelegate
+{
+    NSArray<NSString *> *_filenames;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    self.mainWindowController = kViewControllerWithId(@"MainWindowController");
-    [self.mainWindowController showWindow: self];
+    [self configVideoListMenu];
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-    
     NSButton *closeButton = [self.mainWindowController.window standardWindowButton:NSWindowCloseButton];
     [closeButton setTarget:self];
     [closeButton setAction:@selector(closeApplication)];
     
-//    NSArray *videoArr = [UserDefaultManager shareUserDefaultManager].videoListArr;
-//    [videoArr enumerateObjectsUsingBlock:^(VideoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:obj.fileName action:@selector(clickVideoList:) keyEquivalent:@""];
-//        [self.videoListMenuItem.submenu addItem:item];
-//    }];
-//    
-//    if (videoArr.count) {
-//        [self.videoListMenuItem.submenu insertItem:[NSMenuItem separatorItem] atIndex:0];
-//        [self.videoListMenuItem.submenu insertItemWithTitle:@"清空播放列表" action:@selector(clearVideoList:) keyEquivalent:@"" atIndex:0];
-//    }
+    self.mainWindowController = kViewControllerWithId(@"MainWindowController");
+    [self.mainWindowController showWindow: self];
+    
+    MainViewController *vc = (MainViewController *)self.mainWindowController.contentViewController;
+    [vc setUpWithFilePath:_filenames];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
+}
+
+- (void)application:(NSApplication *)sender openFiles:(NSArray<NSString *> *)filenames {
+    _filenames = filenames;
+    MainViewController *vc = (MainViewController *)self.mainWindowController.contentViewController;
+    [vc setUpWithFilePath:_filenames];
 }
 
 #pragma mark - 私有方法
@@ -67,6 +69,7 @@
     [self.videoListMenuItem.submenu removeAllItems];
 }
 
+#pragma mark - 私有方法
 /**
  *  打开本地文件
  *
@@ -138,6 +141,22 @@
  */
 - (void)closeApplication {
     [[NSApplication sharedApplication] terminate:nil];
+}
+
+/**
+ *  更新播放列表
+ */
+- (void)configVideoListMenu {
+    NSArray *videoArr = [UserDefaultManager shareUserDefaultManager].videoListArr;
+    [videoArr enumerateObjectsUsingBlock:^(VideoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:obj.fileName action:@selector(clickVideoList:) keyEquivalent:@""];
+        [self.videoListMenuItem.submenu addItem:item];
+    }];
+    
+    if (videoArr.count) {
+        [self.videoListMenuItem.submenu insertItem:[NSMenuItem separatorItem] atIndex:0];
+        [self.videoListMenuItem.submenu insertItemWithTitle:@"清空播放列表" action:@selector(clearVideoList:) keyEquivalent:@"" atIndex:0];
+    }
 }
 
 @end

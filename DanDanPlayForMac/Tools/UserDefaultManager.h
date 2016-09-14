@@ -15,6 +15,8 @@
 #define SUBTITLE_FONT_SIZE 25
 
 @interface UserDefaultManager : NSObject
++ (instancetype)shareUserDefaultManager;
+
 //字幕保护区域
 @property (assign, nonatomic) BOOL turnOnCaptionsProtectArea;
 //快速匹配
@@ -51,9 +53,12 @@
 @property (strong, nonatomic) NSArray *videoListArr;
 //弹幕字体
 @property (strong, nonatomic) NSFont *danmakuFont;
-+ (instancetype)shareUserDefaultManager;
+
 //清除播放历史
 - (void)clearPlayHistory;
 - (NSTimeInterval)videoPlayHistoryWithHash:(NSString *)hash;
 - (void)setVideoPlayHistoryWithHash:(NSString *)hash time:(NSTimeInterval)time;
+//获取用户发送的弹幕
++ (NSMutableArray *)userSentDanmaukuArrWithEpisodeId:(NSString *)episodeId;
++ (void)saveUserSentDanmakus:(NSArray *)sentDanmakus episodeId:(NSString *)episodeId;
 @end

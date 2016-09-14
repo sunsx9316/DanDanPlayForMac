@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface OpenStreamVideoViewController : NSViewController
-- (instancetype)initWithAid:(NSString *)aid danmakuSource:(DanDanPlayDanmakuSource)danmakuSource;
+- (instancetype)initWithURL:(NSString *)URL danmakuSource:(DanDanPlayDanmakuSource)danmakuSource;
 @end

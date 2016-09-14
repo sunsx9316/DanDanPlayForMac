@@ -26,7 +26,7 @@
     return task;
 }
 
-+ (NSURLSessionDownloadTask *)downLatestVersionWithVersion:(NSString *)version progress:(void (^)(NSProgress *downloadProgress))progress completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
++ (NSURLSessionDownloadTask *)downLatestVersionWithVersion:(NSString *)version progress:(void (^)(NSProgress *downloadProgress))progress completionHandler:(void(^)(NSURL *filePath, DanDanPlayErrorModel *error))complete {
     if (!version.length){
         complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVersionNoExist]);
         return nil;
@@ -36,18 +36,16 @@
     NSString *path = [NSString stringWithFormat:@"http://dandanmac.b0.upaiyun.com/dandanplay_%@.dmg", version];
     
     NSURLSessionDownloadTask *task = [self downloadTaskWithPath:path progress:progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        return [NSURL fileURLWithPath: [[UserDefaultManager shareUserDefaultManager].autoDownLoadPath stringByAppendingPathComponent:[response suggestedFilename]]];
+        NSString *downloadPath = [UserDefaultManager shareUserDefaultManager].autoDownLoadPath;
+        //自动下载路径不存在 则创建
+        if (![[NSFileManager defaultManager] fileExistsAtPath:downloadPath isDirectory:nil]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:downloadPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
+        return [NSURL fileURLWithPath: [downloadPath stringByAppendingPathComponent:[response suggestedFilename]]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error) {
         complete(filePath, error);
     }];
-    
-//    version = [NSString stringWithFormat:@"http://dandanmac.b0.upaiyun.com/dandanplay_%@.dmg", version];
-//    NSURLSessionTask *task = [[[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]] downloadTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:version]] progress:progress destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-//        return [NSURL fileURLWithPath: [[UserDefaultManager autoDownLoadPath] stringByAppendingPathComponent:[response suggestedFilename]]];
-//    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-//        complete(filePath, error);
-//    }];
-//    [task resume];
     return task;
 }
 @end

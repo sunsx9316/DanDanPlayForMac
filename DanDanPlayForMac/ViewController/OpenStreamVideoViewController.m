@@ -91,9 +91,9 @@
 }
 
 
-- (instancetype)initWithAid:(NSString *)aid danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
+- (instancetype)initWithURL:(NSString *)URL danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
     if ((self = kViewControllerWithId(@"OpenStreamVideoViewController"))) {
-        self.vm = [[OpenStreamVideoViewModel alloc] initWithAid:aid danmakuSource:danmakuSource];
+        self.vm = [[OpenStreamVideoViewModel alloc] initWithURL:URL danmakuSource:danmakuSource];
     }
     return self;
 }

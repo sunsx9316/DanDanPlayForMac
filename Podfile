@@ -4,12 +4,12 @@
 # use_frameworks!
 
 target 'DanDanPlayForMac' do
-# pod 'AFNetworking', '~> 2.6.3'
 pod 'AFNetworking'
 pod 'Masonry'
 pod 'YYModel'
 pod 'GDataXML-HTML'
 pod 'pop'
 pod 'JHDanmakuRender'
+pod 'JSPatch'
 end
 

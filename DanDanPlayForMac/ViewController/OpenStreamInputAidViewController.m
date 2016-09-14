@@ -33,7 +33,7 @@
     
     DanDanPlayDanmakuSource source = [ToolsManager enumValueWithDanmakuSourceStringValue:[self.danmakuSourcePopUpButton titleOfSelectedItem]];
     
-    [self presentViewControllerAsSheet:[[OpenStreamVideoViewController alloc] initWithAid:inputText danmakuSource:source]];
+    [self presentViewControllerAsSheet:[[OpenStreamVideoViewController alloc] initWithURL:inputText danmakuSource:source]];
 }
 
 - (IBAction)disMissSelf:(NSButton *)sender{

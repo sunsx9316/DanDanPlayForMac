@@ -126,8 +126,6 @@
 {
     //是否处于全屏状态
     BOOL _fullScreen;
-    //判断用户是否点击了暂停
-//    BOOL _userPause;
     //时间格式化工具
     NSDateFormatter *_formatter;
     NSDateFormatter *_snapshotFormatter;
@@ -168,6 +166,7 @@
 }
 
 - (void)dealloc {
+    [[ToolsManager shareToolsManager] ableSleep];
     [self pop_removeAllAnimations];
     [self.player removeObserver:self forKeyPath:@"volume"];
     [self.playDanmakuShowButton removeObserver:self forKeyPath:@"state"];
@@ -224,10 +223,11 @@
         }
     }
 }
+
 //滚轮调整音量
 - (void)scrollWheel:(NSEvent *)theEvent {
-    //判断是否为apple的破鼠标
     int isReverse = [UserDefaultManager shareUserDefaultManager].reverseVolumeScroll ? -1 : 1;
+    //判断是否为apple的破鼠标
     if (theEvent.hasPreciseScrollingDeltas) {
         [self volumeValueAddBy:-theEvent.deltaY * isReverse];
     }
@@ -711,12 +711,14 @@
 #pragma make 进入全屏通知
 - (void)windowWillEnterFullScreen:(NSNotification *)notification {
     _fullScreen = YES;
+    [[ToolsManager shareToolsManager] disableSleep];
 }
 
 #pragma make 退出全屏通知
 - (void)windowWillExitFullScreen:(NSNotification *)notification {
     _fullScreen = NO;
     [_autoHideTimer invalidate];
+    [[ToolsManager shareToolsManager] ableSleep];
 }
 
 

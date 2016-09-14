@@ -121,8 +121,7 @@
 - (void)saveUserDanmaku:(DanMuDataModel *)danmakuModel {
     if (!self.episodeId.length) return;
     [self.userDanmaukuArr addObject:danmakuModel];
-    [ToolsManager saveUserSentDanmakus:self.userDanmaukuArr episodeId:self.episodeId];
-    //    [self saveUserDanmakuCache];
+    [UserDefaultManager saveUserSentDanmakus:self.userDanmaukuArr episodeId:self.episodeId];
 }
 
 - (void)setEpisodeId:(NSString *)episodeId {
@@ -133,7 +132,6 @@
 - (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(reloadDanmakuCallBack)complete {
     VideoModel *videoModel = [self videoModelWithIndex:index];
     if (!videoModel) {
-        //        complete(0, nil, kObjNilError);
         complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
         return;
     }
@@ -174,9 +172,7 @@
 }
 
 - (void)reloadDanmakuWithLocalMedia:(LocalVideoModel *)media completionHandler:(reloadDanmakuCallBack)complete {
-//    LocalVideoModel *vm = (LocalVideoModel *)videoModel;
     if (![[NSFileManager defaultManager] fileExistsAtPath:media.fileURL.path]) {
-        //            complete(0, nil, kObjNilError);
         complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
         return;
     }
@@ -195,13 +191,11 @@
                 else {
                     //快速匹配失败
                     complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
-                    //                        complete(0, nil, kNoMatchError);
                 }
             }];
         }
         else {
             //快速匹配失败
-            //                complete(0, nil, kNoMatchError);
             complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
             self.episodeId = nil;
         }
@@ -212,11 +206,7 @@
     
     self.episodeId = nil;
     NSInteger index = [self.videos indexOfObject:media];
-//    StreamingVideoModel *vm = (StreamingVideoModel *)videoModel;
-//    NSString *danmaku = media.danmaku;
-    //        NSString *danmakuSource = vm.danmakuSource;
     if (!media.danmaku.length) {
-        //            complete(0, nil, kObjNilError);
         complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
         return;
     }
@@ -227,13 +217,11 @@
     if ([media URLsCountWithQuality:streamingVideoQualityHigh] == 0 && [media URLsCountWithQuality:streamingVideoQualityLow] == 0) {
         [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:media.fileName danmaku:media.danmaku danmakuSource:media.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error) {
             if (videoModel) {
-//                media.danmakuDic = videoModel.danmakuDic;
                 self.videos[index] = videoModel;
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:videoModel.danmakuDic];
                 complete(1, videoModel.fileName, error);
             }
             else {
-                //                    complete(0, nil, kObjNilError);
                 complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
             }
         }];
@@ -259,7 +247,7 @@
 - (NSMutableArray *)userDanmaukuArr {
     if(_userDanmaukuArr == nil) {
         if (!self.episodeId.length) {
-            _userDanmaukuArr = [ToolsManager userSentDanmaukuArrWithEpisodeId:self.episodeId];
+            _userDanmaukuArr = [UserDefaultManager userSentDanmaukuArrWithEpisodeId:self.episodeId];
         }
         
         if (!_userDanmaukuArr) {

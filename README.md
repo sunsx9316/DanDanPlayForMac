@@ -26,6 +26,7 @@
 * [GDataXML-HTML](https://github.com/graetzer/GDataXML-HTML)
 * [JHDanmakuRender](https://github.com/sunsx9316/JHDanmakuRender)
 * [pop](https://github.com/facebook/pop)
+* [JSPatch](https://github.com/bang590/JSPatch)
 
 ## thank
 * [Bilibili Mac Client](https://github.com/typcn/bilibili-mac-client)

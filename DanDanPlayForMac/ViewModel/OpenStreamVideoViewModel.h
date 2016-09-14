@@ -57,10 +57,10 @@
 /**
  *  初始化
  *
- *  @param aid           视频aid
+ *  @param URL           视频URL
  *  @param danmakuSource 弹幕来源
  *
  *  @return self
  */
-- (instancetype)initWithAid:(NSString *)aid danmakuSource:(DanDanPlayDanmakuSource )danmakuSource;
+- (instancetype)initWithURL:(NSString *)URL danmakuSource:(DanDanPlayDanmakuSource )danmakuSource;
 @end

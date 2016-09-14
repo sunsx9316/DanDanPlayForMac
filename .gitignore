@@ -62,5 +62,6 @@ fastlane/test_output
 iOSInjectionProject/
 
 VLCKit.framework
-
 .DS_Store
+.DS_Store?
+Podfile.lock
