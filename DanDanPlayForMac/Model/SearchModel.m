@@ -30,7 +30,7 @@
 
 @implementation EpisodesModel
 + (NSDictionary *)modelCustomPropertyMapper{
-    return @{@"title":@"Title", @"ID":@"Id"};
+    return @{@"title":@"Title"};
 }
 @end
 

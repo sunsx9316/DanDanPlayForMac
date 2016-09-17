@@ -6,12 +6,12 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 #import "PlayViewModel.h"
 /**
  *  播放列表控制器
  */
-@interface PlayerListViewController : NSViewController
+@interface PlayerListViewController : BaseViewController
 @property (strong, nonatomic) PlayViewModel *vm;
 @property (weak) IBOutlet NSTableView *tableView;
 //删除行回调

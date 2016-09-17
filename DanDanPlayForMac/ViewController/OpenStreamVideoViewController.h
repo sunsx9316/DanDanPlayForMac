@@ -6,8 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 
-@interface OpenStreamVideoViewController : NSViewController
-- (instancetype)initWithURL:(NSString *)URL danmakuSource:(DanDanPlayDanmakuSource)danmakuSource;
+@interface OpenStreamVideoViewController : BaseViewController
++ (instancetype)viewControllerWithURL:(NSString *)URL danmakuSource:(DanDanPlayDanmakuSource)danmakuSource;
 @end

@@ -23,41 +23,48 @@
     NSString *_shiBanDetail;
 }
 
-- (NSInteger)shiBanArrCount{
+- (NSInteger)shiBanArrCount {
     return _listArr.count;
 }
-- (NSInteger)infoArrCount{
+
+- (NSInteger)infoArrCount {
     return _infoArr.count;
 }
-- (NSString *)shiBanTitleForRow:(NSInteger)row{
-    if (row >= _listArr.count) return @"";
-    return [self isShiBanForRow: row]?[NSString stringWithFormat:@"剧集：%@", [_listArr[row] title]]:[_listArr[row] title];
-}
-- (NSString *)episodeTitleForRow:(NSInteger)row{
-    return (row < _infoArr.count)?[NSString stringWithFormat:@"%ld: %@",(long)row + 1, [_infoArr[row] title]]:@"";
-}
-- (NSString *)seasonIDForRow:(NSInteger)row{
-    return (row < _listArr.count)?[_listArr[row] contentId]:@"";
-}
-- (NSImage *)imageForRow:(NSInteger)row{
-    if (row >= _listArr.count) return nil;
-    return [self isShiBanForRow: row]?[NSImage imageNamed:NSImageNameStatusAvailable]:nil;
+
+- (NSString *)shiBanTitleForRow:(NSInteger)row {
+    return [self isShiBanForRow: row] ? [NSString stringWithFormat:@"剧集：%@", [_listArr[row] title]] : [_listArr[row] title];
 }
 
-- (NSURL *)coverImg{
+- (NSString *)episodeTitleForRow:(NSInteger)row {
+    return [NSString stringWithFormat:@"%ld: %@",(long)row + 1, [_infoArr[row] title]];
+}
+
+- (NSString *)seasonIDForRow:(NSInteger)row {
+    return [_listArr[row] contentId];
+}
+
+- (NSImage *)imageForRow:(NSInteger)row {
+    return [self isShiBanForRow: row] ? [NSImage imageNamed:NSImageNameStatusAvailable] : nil;
+}
+
+- (NSURL *)coverImg {
     return _coverURL;
 }
-- (NSString *)shiBanTitle{
+
+- (NSString *)shiBanTitle {
     return _shiBanTitle;
 }
-- (NSString *)shiBanDetail{
+
+- (NSString *)shiBanDetail {
     return _shiBanDetail;
 }
-- (BOOL)isShiBanForRow:(NSInteger)row{
-    return (row < _listArr.count)?[_listArr[row] isBangumi]:NO;
+
+- (BOOL)isShiBanForRow:(NSInteger)row {
+    return [_listArr[row] isBangumi];
 }
-- (NSString *)aidForRow:(NSInteger)row{
-    return (row < _listArr.count)?[_listArr[row] contentId]:nil;
+
+- (NSString *)aidForRow:(NSInteger)row {
+    return [_listArr[row] contentId];
 }
 
 - (NSArray <VideoInfoDataModel *>*)videoInfoDataModels{
@@ -77,7 +84,7 @@
         return;
     }
     
-    [SearchNetManager searchAcFunWithParameters:@{@"keyword": keyWord} completionHandler:^(AcFunSearchModel *responseObj, DanDanPlayErrorModel *error) {
+    [SearchNetManager searchAcFunWithKeyword:keyWord completionHandler:^(AcFunSearchModel *responseObj, DanDanPlayErrorModel *error) {
         
         //把剧集bangumi属性改为yes
         for (AcFunSearchSpecialModel *model in responseObj.special) {
@@ -108,35 +115,36 @@
         complete(error);
     }];
 }
-- (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
-    if (!SeasonID) {
+
+- (void)refreshWithSeasonID:(NSString*)seasonId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
+    if (!seasonId.length) {
         complete(nil);
         return;
     }
-    [SearchNetManager searchAcfunSeasonInfoWithParameters:@{@"seasonID":SeasonID} completionHandler:^(AcFunShiBanModel *responseObj, DanDanPlayErrorModel *error) {
+    
+    [SearchNetManager searchAcfunSeasonInfoWithSeasonId:seasonId completionHandler:^(AcFunShiBanModel *responseObj, DanDanPlayErrorModel *error) {
         _infoArr = responseObj.list;
         AcFunSearchSpecialModel *model = nil;
         for (int i = 0; i < _listArr.count; ++i) {
-            if ([_listArr[i] isBangumi] && [[_listArr[i] contentId] isEqualToString: SeasonID]) {
+            if ([_listArr[i] isBangumi] && [[_listArr[i] contentId] isEqualToString: seasonId]) {
                 model = _listArr[i];
                 break;
             }
         }
         
         _coverURL = [model titleImg];
-        _shiBanTitle = [model title]?[model title]:@"";
-        _shiBanDetail = [model desc]?[model desc]:@"";
+        _shiBanTitle = [model title];
+        _shiBanDetail = [model desc];
         complete(error);
     }];
 }
+
 - (void)downDanMuWithRow:(NSInteger)row completionHandler:(void(^)(id responseObj,DanDanPlayErrorModel *error))complete {
     [super downThirdPartyDanmakuWithDanmakuID:[self danmakuIDForRow: row] provider:DanDanPlayDanmakuSourceAcfun completionHandler:complete];
 }
 
-
 #pragma mark - 私有方法
-
-- (NSString *)danmakuIDForRow:(NSInteger)row{
+- (NSString *)danmakuIDForRow:(NSInteger)row {
     return (row < _infoArr.count)?_infoArr[row].danmakuId:nil;
 }
 @end

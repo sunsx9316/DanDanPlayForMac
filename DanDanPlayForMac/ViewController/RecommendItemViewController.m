@@ -20,10 +20,6 @@
     [super viewDidLoad];
 }
 
-- (instancetype)init {
-    return kViewControllerWithId(@"RecommendItemViewController");
-}
-
 - (void)setModel:(BangumiModel *)model {
     _model = model;
     [self.tableView reloadData];

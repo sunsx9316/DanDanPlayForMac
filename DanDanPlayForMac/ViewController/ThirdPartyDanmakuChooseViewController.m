@@ -10,6 +10,7 @@
 #import "BiliBiliDanMuChooseViewModel.h"
 #import "AcFunDanMuChooseViewModel.h"
 #import "DownLoadOtherDanmakuViewController.h"
+#import "LocalVideoModel.h"
 
 @interface ThirdPartyDanmakuChooseViewController ()
 @property (weak) IBOutlet NSPopUpButton *episodeButton;
@@ -27,17 +28,16 @@
     }];
 }
 
-- (instancetype)initWithVideoID:(NSString *)videoID type:(DanDanPlayDanmakuSource)type {
-    if ((self = kViewControllerWithId(@"ThirdPartyDanmakuChooseViewController"))) {
-        if (type == DanDanPlayDanmakuSourceBilibili) {
-            self.vm = [[BiliBiliDanMuChooseViewModel alloc] initWithAid: videoID];
-        }else if (type == DanDanPlayDanmakuSourceAcfun){
-            self.vm = [[AcFunDanMuChooseViewModel alloc] initWithAid: videoID];
-        }
++ (instancetype)viewControllerWithVideoId:(NSString *)videoId type:(DanDanPlayDanmakuSource)type {
+    ThirdPartyDanmakuChooseViewController *vc = [ThirdPartyDanmakuChooseViewController viewController];
+    if (type == DanDanPlayDanmakuSourceBilibili) {
+        vc.vm = [[BiliBiliDanMuChooseViewModel alloc] initWithAid: videoId];
     }
-    return self;
+    else if (type == DanDanPlayDanmakuSourceAcfun){
+        vc.vm = [[AcFunDanMuChooseViewModel alloc] initWithAid: videoId];
+    }
+    return vc;
 }
-
 
 - (IBAction)clickChooseDanMuButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
@@ -47,15 +47,18 @@
     [self.vm downThirdPartyDanmakuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(id responseObj, NSError *error) {
         [JHProgressHUD disMiss];
         if (!error) {
-            //通知更新匹配名称
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle": [self.episodeButton titleOfSelectedItem]?[self.episodeButton titleOfSelectedItem]:@""}];
-            //通知关闭列表视图控制器
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:self userInfo:nil];
-            //通知开始播放
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:self userInfo:responseObj];
+            
+            id<VideoModelProtocol>vm = [UserDefaultManager shareUserDefaultManager].currentVideoModel;
+            if (vm) {
+                vm.matchTitle = [self.episodeButton titleOfSelectedItem];
+                vm.danmakuDic = responseObj;
+                //通知开始播放
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[vm]];
+            }
         }
     }];
 }
+
 - (IBAction)clickGoBackButton:(NSButton *)sender {
     [self dismissController: self];
 }
@@ -65,8 +68,11 @@
 }
 
 - (IBAction)clickDownLoadOtherDanmakuButton:(NSButton *)sender {
-    DanDanPlayDanmakuSource danMuSource = [self.vm isKindOfClass:[BiliBiliDanMuChooseViewModel class]] ? DanDanPlayDanmakuSourceBilibili : DanDanPlayDanmakuSourceAcfun;
-    [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:self.vm.videos danMuSource:danMuSource]];
+    DanDanPlayDanmakuSource danmakuSource = [self.vm isKindOfClass:[BiliBiliDanMuChooseViewModel class]] ? DanDanPlayDanmakuSourceBilibili : DanDanPlayDanmakuSourceAcfun;
+    DownLoadOtherDanmakuViewController *vc = [DownLoadOtherDanmakuViewController viewController];
+    vc.videos = self.vm.videos;
+    vc.source = danmakuSource;
+    [self presentViewControllerAsModalWindow:vc];
 }
 
 

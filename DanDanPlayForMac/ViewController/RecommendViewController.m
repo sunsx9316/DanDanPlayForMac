@@ -26,6 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"番剧推荐";
     [self configHeadView];
     [self.progressHUD show];
     
@@ -35,18 +36,11 @@
         NSArray *arr = self.vm.bangumis;
         
         [arr enumerateObjectsUsingBlock:^(BangumiModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSTabViewItem *item = [NSTabViewItem tabViewItemWithViewController:[[RecommendItemViewController alloc] init]];
+            NSTabViewItem *item = [NSTabViewItem tabViewItemWithViewController:[RecommendItemViewController viewController]];
             item.label = obj.weekDayStringValue;
             [self.tabView addTabViewItem:item];
         }];
     }];
-}
-
-- (instancetype)init {
-    if ((self = kViewControllerWithId(@"RecommendViewController"))) {
-        self.title = @"番剧推荐";
-    }
-    return self;
 }
 
 #pragma mark - NSTableViewDelegate
@@ -60,8 +54,6 @@
     [self.headView setClickSearchButtonCallBack:^(NSString *keyWord) {
         if (!keyWord.length) return;
         
-        
-        
         keyWord = [keyWord stringByURLEncode];
         //破软件迟早药丸
         if ([keyWord isEqualToString:@"%E9%95%BF%E8%80%85"] || [keyWord isEqualToString:@"%E8%86%9C%E8%9B%A4"] || [keyWord isEqualToString:@"%E8%9B%A4%E8%9B%A4"] || [keyWord isEqualToString:@"%E8%B5%9B%E8%89%87"]) {
@@ -70,7 +62,7 @@
         
         system([NSString stringWithFormat:@"open %@%@", SEARCH_PATH, keyWord].UTF8String);
     }];
-    
+
     [self.headView setClickFilmReviewButtonCallBack:^(NSString *path) {
         system([NSString stringWithFormat:@"open %@", path].UTF8String);
     }];

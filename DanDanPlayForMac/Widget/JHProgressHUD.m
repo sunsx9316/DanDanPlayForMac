@@ -80,7 +80,7 @@ static JHProgressHUD *_hud = nil;
     }
 }
 - (void)updateMessage:(NSString *)message{
-    self.text.stringValue = message;
+    self.text.text = message;
 }
 
 #pragma mark - 私有方法
@@ -158,7 +158,7 @@ static JHProgressHUD *_hud = nil;
     }];
     
     [self.blackBackGroundMask addSubview: self.text];
-    self.text.stringValue = message;
+    self.text.text = message;
     self.text.font = [NSFont systemFontOfSize: fontSize];
     [self.text mas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.indicator);

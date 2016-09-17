@@ -10,7 +10,7 @@
 #import "FloatDanmaku.h"
 #import "ScrollDanmaku.h"
 #import "NSColor+Tools.h"
-#import "DanMuModel.h"
+#import "DanmakuModel.h"
 
 @implementation JHDanmakuEngine (Tools)
 + (ParentDanmaku *)DanmakuWithText:(NSString*)text color:(NSInteger)color spiritStyle:(NSInteger)spiritStyle shadowStyle:(danmakuShadowStyle)shadowStyle fontSize:(CGFloat)fontSize font:(NSFont *)font{
@@ -21,7 +21,7 @@
     }
 }
 
-+ (ParentDanmaku *)DanmakuWithModel:(DanMuDataModel *)model shadowStyle:(danmakuShadowStyle)shadowStyle fontSize:(CGFloat)fontSize font:(NSFont *)font{
++ (ParentDanmaku *)DanmakuWithModel:(DanmakuDataModel *)model shadowStyle:(danmakuShadowStyle)shadowStyle fontSize:(CGFloat)fontSize font:(NSFont *)font{
     return [self DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:shadowStyle fontSize:fontSize font:font];
 }
 @end

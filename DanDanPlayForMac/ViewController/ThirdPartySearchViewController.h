@@ -6,8 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-@interface ThirdPartySearchViewController : NSViewController
+#import "BaseViewController.h"
+@interface ThirdPartySearchViewController : BaseViewController
 /**
  *  番剧的 tableView
  */
@@ -16,14 +16,10 @@
  *  分集的 tableView
  */
 @property (weak) IBOutlet NSTableView *episodeTableView;
-
 /**
- *  根据关键词刷新
- *
- *  @param keyWord           关键词
- *  @param completionHandler 回调
+ *  关键词
  */
-- (void)refreshWithKeyWord:(NSString *)keyWord completion:(void(^)(NSError *error))completionHandler;
+@property (copy, nonatomic) NSString *keyword;
 /**
  *  根据类型初始化
  *
@@ -31,5 +27,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithType:(DanDanPlayDanmakuSource)type;
++ (instancetype)viewControllerWithType:(DanDanPlayDanmakuSource)type;
 @end

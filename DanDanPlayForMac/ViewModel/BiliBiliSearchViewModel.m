@@ -22,53 +22,51 @@
     NSString *_shiBanDetail;
 }
 
-- (NSInteger)shiBanArrCount{
+- (NSInteger)shiBanArrCount {
     return _shiBanViewArr.count;
 }
 
-- (NSInteger)infoArrCount{
+- (NSInteger)infoArrCount {
     return _infoArr.count;
 }
 
-- (NSString *)shiBanTitleForRow:(NSInteger)row{
-    if (row >= _shiBanViewArr.count) return @"";
-    return [self isShiBanForRow: row]?[NSString stringWithFormat:@"剧集：%@", _shiBanViewArr[row].title]:_shiBanViewArr[row].title;
+- (NSString *)shiBanTitleForRow:(NSInteger)row {
+    return [self isShiBanForRow: row] ? [NSString stringWithFormat:@"剧集：%@", _shiBanViewArr[row].title] : _shiBanViewArr[row].title;
 }
 
-- (NSString *)seasonIDForRow:(NSInteger)row{
-    return (row < _shiBanViewArr.count)?_shiBanViewArr[row].isBangumi? _shiBanViewArr[row].seasonId:_shiBanViewArr[row].aid:@"";
+- (NSString *)seasonIDForRow:(NSInteger)row {
+    return _shiBanViewArr[row].isBangumi ?  _shiBanViewArr[row].seasonId : _shiBanViewArr[row].aid;
 }
 
-- (NSString *)aidForRow:(NSInteger)row{
-    return (row < _shiBanViewArr.count)?_shiBanViewArr[row].aid:nil;
+- (NSString *)aidForRow:(NSInteger)row {
+    return _shiBanViewArr[row].aid;
 }
 
-- (NSString *)episodeTitleForRow:(NSInteger)row{
-    return (row < _infoArr.count)?[NSString stringWithFormat: @"%ld: %@", _infoArr.count - row,_infoArr[row].title]:@"";
+- (NSString *)episodeTitleForRow:(NSInteger)row {
+    return [NSString stringWithFormat: @"%ld: %@", _infoArr.count - row, _infoArr[row].title];
 }
 
-- (NSImage *)imageForRow:(NSInteger)row{
-    if (row >= _shiBanViewArr.count) return nil;
-    return [self isShiBanForRow: row]?[NSImage imageNamed:NSImageNameStatusAvailable]:nil;
+- (NSImage *)imageForRow:(NSInteger)row {
+    return [self isShiBanForRow: row] ? [NSImage imageNamed:NSImageNameStatusAvailable] : nil;
 }
 
-- (BOOL)isShiBanForRow:(NSInteger)row{
-    return (row < _shiBanViewArr.count)?_shiBanViewArr[row].isBangumi:NO;
+- (BOOL)isShiBanForRow:(NSInteger)row {
+    return _shiBanViewArr[row].isBangumi;
 }
 
-- (NSURL *)coverImg{
+- (NSURL *)coverImg {
     return _coverURL;
 }
 
-- (NSString *)shiBanTitle{
+- (NSString *)shiBanTitle {
     return _shiBanTitle;
 }
 
-- (NSString *)shiBanDetail{
+- (NSString *)shiBanDetail {
     return _shiBanDetail;
 }
 
-- (NSArray <VideoInfoDataModel *>*)videoInfoDataModels{
+- (NSArray <VideoInfoDataModel *>*)videoInfoDataModels {
     NSMutableArray *arr = [NSMutableArray array];
     [_infoArr enumerateObjectsUsingBlock:^(BiliBiliShiBanDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         VideoInfoDataModel *model = [[VideoInfoDataModel alloc] init];
@@ -79,13 +77,13 @@
     return arr;
 }
 
-- (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
+- (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(DanDanPlayErrorModel *error))complete {
     if (!keyWord.length) {
         complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
         return;
     }
     
-    [SearchNetManager searchBiliBiliWithParameters:@{@"keyword": keyWord} completionHandler:^(BiliBiliSearchModel *responseObj, DanDanPlayErrorModel *error) {
+    [SearchNetManager searchBiliBiliWithkeyword:keyWord completionHandler:^(BiliBiliSearchModel *responseObj, DanDanPlayErrorModel *error) {
         
         //移除掉不是番剧 但是seasonID又不为空的对象
         NSMutableArray *tempArr = [responseObj.result mutableCopy];
@@ -118,11 +116,11 @@
         return;
     }
     
-    [SearchNetManager searchBiliBiliSeasonInfoWithParameters:@{@"seasonID": SeasonID} completionHandler:^(BiliBiliShiBanModel *responseObj, DanDanPlayErrorModel *error) {
+    [SearchNetManager searchBiliBiliSeasonInfoWithSeasonId:SeasonID completionHandler:^(BiliBiliShiBanModel *responseObj, DanDanPlayErrorModel *error) {
         _infoArr = responseObj.episodes;
         _coverURL = responseObj.cover;
-        _shiBanTitle = responseObj.title ? responseObj.title : @"";
-        _shiBanDetail = responseObj.detail ? responseObj.detail : @"";
+        _shiBanTitle = responseObj.title;
+        _shiBanDetail = responseObj.detail;
         complete(error);
     }];
 }
@@ -131,19 +129,10 @@
     [DanmakuNetManager GETBiliBiliDanmakuInfoWithAid:[self episodeAidForRow:row] page:1 completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
         [super downThirdPartyDanmakuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:DanDanPlayDanmakuSourceBilibili completionHandler:complete];
     }];
-    
-//    [DanmakuNetManager GETBiliBiliDanMuWithParameters:@{@"aid": [self episodeAidForRow:row]} completionHandler:^(BiliBiliVideoInfoModel *responseObj, DanDanPlayErrorModel *error) {
-//        [super downThirdPartyDanmakuWithDanmakuID:responseObj.videos.firstObject.danmaku provider:@"bilibili" completionHandler:complete];
-//    }];
 }
 
 
 #pragma mark - 私有方法
-
-//- (NSString *)danmakuIDForRow:(NSInteger)row {
-//    return (row < _infoArr.count) ? _infoArr[row].danmaku : nil;
-//}
-
 - (NSString *)episodeAidForRow:(NSInteger)row {
     return (row < _infoArr.count) ? _infoArr[row].aid : nil;
 }

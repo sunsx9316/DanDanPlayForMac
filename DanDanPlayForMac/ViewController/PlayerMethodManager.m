@@ -10,7 +10,7 @@
 #import "DanmakuDataFormatter.h"
 #import <VLCKit/VLCMediaPlayer.h>
 #import "DanmakuNetManager.h"
-#import "DanMuModel.h"
+#import "DanmakuModel.h"
 #import "NSOpenPanel+Tools.h"
 
 @implementation PlayerMethodManager
@@ -44,13 +44,13 @@
     }];
 }
 
-+ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,DanDanPlayErrorModel *error))completionHandler {
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanmakuDataModel *model ,DanDanPlayErrorModel *error))completionHandler {
     if (!episodeId.length) {
         completionHandler(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeEpisodeNoExist]);
         return;
     }
     
-    DanMuDataModel *model = [[DanMuDataModel alloc] init];
+    DanmakuDataModel *model = [[DanmakuDataModel alloc] init];
     model.color = color;
     model.time = time;
     model.mode = mode;
@@ -107,7 +107,7 @@
 + (void)showPlayLastWatchVideoTimeView:(PlayerLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time {
     NSUInteger intTime = time;
     if (time > 0) {
-        timeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",intTime / 60, intTime % 60];
+        timeView.videoTimeTextField.text = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",intTime / 60, intTime % 60];
         timeView.time = time;
         [timeView show];
     }

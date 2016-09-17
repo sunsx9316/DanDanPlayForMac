@@ -19,7 +19,7 @@
 /**
  *  分集id
  */
-@property (nonatomic, strong)NSString* episodeId;
+@property (nonatomic, strong) NSString* episodeId;
 /**
  *  标题
  */

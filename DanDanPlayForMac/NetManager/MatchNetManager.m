@@ -10,13 +10,17 @@
 #import "MatchModel.h"
 
 @implementation MatchNetManager
-+ (NSURLSessionDataTask *)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(MatchModel *responseObj, DanDanPlayErrorModel *error))complete {
-    if (!parameters) {
++ (NSURLSessionDataTask *)GETWithFileName:(NSString *)fileName hash:(NSString *)hash length:(NSString *)length completionHandler:(void(^)(MatchModel* responseObj, DanDanPlayErrorModel *error))complete {
+    if (!hash.length || !length.length) {
         complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
         return nil;
     }
     
-    return [self GETWithPath:@"http://acplay.net/api/v1/match" parameters:parameters completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    if (!fileName.length) {
+        fileName = @"";
+    }
+    
+    return [self GETWithPath:@"http://acplay.net/api/v1/match" parameters:@{@"fileName":fileName, @"hash": hash, @"length": length} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete([MatchModel yy_modelWithDictionary: responseObj], error);
     }];
 }

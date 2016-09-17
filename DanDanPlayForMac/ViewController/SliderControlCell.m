@@ -48,19 +48,19 @@
     self.block = block;
     switch (style) {
         case sliderControlStyleFontSize:
-            self.title.stringValue = @"字体缩放";
+            self.title.text = @"字体缩放";
             self.slider.minValue = 1;
             self.slider.maxValue = 100;
             self.slider.floatValue = [UserDefaultManager shareUserDefaultManager].danmakuFont.pointSize;
             break;
         case sliderControlStyleSpeed:
-            self.title.stringValue = @"速度调节";
+            self.title.text = @"速度调节";
             self.slider.minValue = 0.1;
             self.slider.maxValue = 3.0;
             self.slider.floatValue = [UserDefaultManager shareUserDefaultManager].danmakuSpeed;
             break;
         case sliderControlStyleOpacity:
-            self.title.stringValue = @"弹幕透明度";
+            self.title.text = @"弹幕透明度";
             self.slider.minValue = 0;
             self.slider.maxValue = 1.0;
             self.slider.floatValue = [UserDefaultManager shareUserDefaultManager].danmakuOpacity;
@@ -78,7 +78,7 @@
             {
                 float value = slider.floatValue;
                 self.block(value);
-                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", value / DANMAKU_FONT_SIZE];
+                self.valueLabel.text = [NSString stringWithFormat:@"%.1f", value / DANMAKU_FONT_SIZE];
                 break;
             }
             case sliderControlStyleSpeed:
@@ -90,12 +90,12 @@
                 }else{
                     self.valueLabel.textColor = [NSColor whiteColor];
                 }
-                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f倍速", value];
+                self.valueLabel.text = [NSString stringWithFormat:@"%.1f倍速", value];
                 break;
             }
             case sliderControlStyleOpacity:{
                 self.block(slider.floatValue);
-                self.valueLabel.stringValue = [NSString stringWithFormat:@"%.1f", slider.floatValue];
+                self.valueLabel.text = [NSString stringWithFormat:@"%.1f", slider.floatValue];
                 break;
             }
             default:
@@ -130,7 +130,7 @@
 - (NSTextField *)valueLabel {
 	if(_valueLabel == nil) {
 		_valueLabel = [[NSTextField alloc] init];
-        _valueLabel.stringValue = @"1.0";
+        _valueLabel.text = @"1.0";
         _valueLabel.editable = NO;
         _valueLabel.bordered = NO;
         _valueLabel.drawsBackground = NO;

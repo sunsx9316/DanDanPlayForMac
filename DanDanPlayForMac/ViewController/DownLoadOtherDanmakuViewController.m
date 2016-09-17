@@ -12,8 +12,7 @@
 
 @interface DownLoadOtherDanmakuViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
-@property (strong, nonatomic) NSArray <VideoInfoDataModel *>*videos;
-@property (assign, nonatomic) DanDanPlayDanmakuSource source;
+
 @property (strong, nonatomic) NSMutableSet *downloadDanmakus;
 @end
 
@@ -21,14 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-}
-
-- (instancetype)initWithVideos:(NSArray <VideoInfoDataModel *>*)videos danMuSource:(DanDanPlayDanmakuSource)danMuSource {
-    if ((self = kViewControllerWithId(@"DownLoadOtherDanmakuViewController"))) {
-        _videos = videos;
-        _source = danMuSource;
-    }
-    return self;
 }
 
 - (IBAction)clickSelectAllButton:(NSButton *)sender {

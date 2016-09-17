@@ -31,7 +31,7 @@
 - (void)setDanmakuCount:(NSUInteger)danmakuCount {
     _danmakuCount = danmakuCount;
     if (_danmakuCount > 10000) {
-        self.danmaukuCountTextField.stringValue = [NSString stringWithFormat:@"%.2f万", _danmakuCount / 10000.0];
+        self.danmaukuCountTextField.text = [NSString stringWithFormat:@"%.2f万", _danmakuCount / 10000.0];
     }
     else {
         self.danmaukuCountTextField.integerValue = danmakuCount;

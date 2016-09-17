@@ -7,15 +7,15 @@
 //
 
 #import "BaseModel.h"
-@class DanMuDataModel, LaunchDanmakuModel;
+@class DanmakuDataModel, LaunchDanmakuModel;
 /**
  *  弹幕模型
  */
-@interface DanMuModel : BaseModel
-@property (nonatomic, strong)NSArray<DanMuDataModel*>* comments;
+@interface DanmakuModel : BaseModel
+@property (nonatomic, strong)NSArray<DanmakuDataModel*>* comments;
 @end
 
-@interface DanMuDataModel : BaseModel
+@interface DanmakuDataModel : BaseModel
 /**
  *  Time: 浮点数形式的弹幕时间，单位为秒。
  */

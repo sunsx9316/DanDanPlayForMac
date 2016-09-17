@@ -13,19 +13,14 @@
 #import "AboutViewController.h"
 #import "NSOpenPanel+Tools.h"
 #import "PreferenceViewController.h"
-#import "VideoModel.h"
-
-@interface AppDelegate ()
-@property (weak) IBOutlet NSMenuItem *videoListMenuItem;
-@end
 
 @implementation AppDelegate
 {
-    NSArray<NSString *> *_filenames;
+    //右键打开的文件
+    NSArray<NSString *> *_filePaths;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [self configVideoListMenu];
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
     NSButton *closeButton = [self.mainWindowController.window standardWindowButton:NSWindowCloseButton];
     [closeButton setTarget:self];
@@ -35,7 +30,8 @@
     [self.mainWindowController showWindow: self];
     
     MainViewController *vc = (MainViewController *)self.mainWindowController.contentViewController;
-    [vc setUpWithFilePath:_filenames];
+    [vc setUpWithFilePath:_filePaths];
+    [self firstRun];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -43,9 +39,9 @@
 }
 
 - (void)application:(NSApplication *)sender openFiles:(NSArray<NSString *> *)filenames {
-    _filenames = filenames;
+    _filePaths = filenames;
     MainViewController *vc = (MainViewController *)self.mainWindowController.contentViewController;
-    [vc setUpWithFilePath:_filenames];
+    [vc setUpWithFilePath:_filePaths];
 }
 
 #pragma mark - 私有方法
@@ -57,16 +53,7 @@
 - (IBAction)openPreferencePanel:(NSMenuItem *)sender {
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     if ([vc isKindOfClass:[PreferenceViewController class]]) return;
-    [vc presentViewControllerAsSheet:kViewControllerWithId(@"PreferenceViewController")];
-}
-
-- (void)clickVideoList:(NSMenuItem *)item {
-    NSLog(@"%@", item.title);
-}
-
-- (void)clearVideoList:(NSMenuItem *)item {
-    [UserDefaultManager shareUserDefaultManager].videoListArr = nil;
-    [self.videoListMenuItem.submenu removeAllItems];
+    [vc presentViewControllerAsSheet:[PreferenceViewController viewController]];
 }
 
 #pragma mark - 私有方法
@@ -111,10 +98,8 @@
  *  @param sender 菜单
  */
 - (IBAction)clickNetButton:(NSMenuItem *)sender {
-    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
-    if ([vc isKindOfClass:[OpenStreamInputAidViewController class]]) return;
-    
-    [vc presentViewControllerAsSheet:[[OpenStreamInputAidViewController alloc] init]];
+    OpenStreamInputAidViewController *openVC = [OpenStreamInputAidViewController viewController];
+    [self.mainWindowController.contentViewController presentViewControllerAsSheet:openVC];
 }
 
 /**
@@ -123,8 +108,7 @@
  *  @param sender 菜单
  */
 - (IBAction)clickAboutButton:(NSMenuItem *)sender {
-    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
-    [vc presentViewControllerAsModalWindow:kViewControllerWithId(@"AboutViewController")];
+    [self.mainWindowController.contentViewController presentViewControllerAsModalWindow:[AboutViewController viewController]];
 }
 
 /**
@@ -133,7 +117,7 @@
  *  @param sender 菜单
  */
 - (IBAction)clickEverydayRecommendButton:(NSMenuItem *)sender {
-    [[NSApp mainWindow].contentViewController presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
+    [self.mainWindowController.contentViewController presentViewControllerAsModalWindow:[RecommendViewController viewController]];
 }
 
 /**
@@ -144,18 +128,12 @@
 }
 
 /**
- *  更新播放列表
+ *  第一次启动操作
  */
-- (void)configVideoListMenu {
-    NSArray *videoArr = [UserDefaultManager shareUserDefaultManager].videoListArr;
-    [videoArr enumerateObjectsUsingBlock:^(VideoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:obj.fileName action:@selector(clickVideoList:) keyEquivalent:@""];
-        [self.videoListMenuItem.submenu addItem:item];
-    }];
-    
-    if (videoArr.count) {
-        [self.videoListMenuItem.submenu insertItem:[NSMenuItem separatorItem] atIndex:0];
-        [self.videoListMenuItem.submenu insertItemWithTitle:@"清空播放列表" action:@selector(clearVideoList:) keyEquivalent:@"" atIndex:0];
+- (void)firstRun {
+    if ([UserDefaultManager shareUserDefaultManager].firstRun) {
+        [[UserDefaultManager shareUserDefaultManager] clearPlayHistory];
+        [UserDefaultManager shareUserDefaultManager].firstRun = NO;
     }
 }
 

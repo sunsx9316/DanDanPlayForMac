@@ -13,6 +13,7 @@
     NSNumber *_isCheakDownLoadInfoAtStart;
     NSNumber *_isShowRecommedInfoAtStart;
     NSNumber *_isReverseVolumeScroll;
+    NSNumber *_isFirstRun;
     NSNumber *__danmakuOpacity;
     NSNumber *__danmakuSpeed;
     NSNumber *__danmakuSpecially;
@@ -24,7 +25,7 @@
     NSString *_danmakuCachePath;
     NSMutableArray *_userFilterArr;
     NSMutableArray *_customKeyMapArr;
-    NSMutableArray *_videoListArr;
+    NSMutableOrderedSet *_videoListOrderedSet;
     NSFont *_danmakuFont;
     NSMutableDictionary *_lastWatchTimeDic;
 }
@@ -136,6 +137,26 @@
         }
     }
     return _isReverseVolumeScroll.boolValue;
+}
+
+- (void)setFirstRun:(BOOL)firstRun {
+    _isFirstRun = @(firstRun);
+    [[NSUserDefaults standardUserDefaults] setBool:firstRun forKey:@"firstRun"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)firstRun {
+    if (_isFirstRun == nil) {
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        
+        if ([ud objectForKey:@"firstRun"]) {
+            _isFirstRun = @([ud boolForKey:@"firstRun"]);
+        }
+        else {
+            [self setFirstRun:YES];
+        }
+    }
+    return _isFirstRun.boolValue;
 }
 
 - (void)setDanmakuOpacity:(CGFloat)danmakuOpacity {
@@ -343,17 +364,20 @@
     return _customKeyMapArr;
 }
 
-- (void)setVideoListArr:(NSArray *)videoListArr {
-    _videoListArr = [NSMutableArray arrayWithArray:videoListArr];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_videoListArr] forKey:@"videoList"];
+- (void)setVideoListOrderedSet:(NSMutableOrderedSet *)videoListOrderedSet {
+    _videoListOrderedSet = videoListOrderedSet;
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_videoListOrderedSet] forKey:@"videoList"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSArray *)videoListArr {
-    if (_videoListArr == nil) {
-        _videoListArr = [NSMutableArray arrayWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"videoList"]]];
+- (NSMutableOrderedSet *)videoListOrderedSet {
+    if (_videoListOrderedSet == nil) {
+        _videoListOrderedSet = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"videoList"]];
+        if (_videoListOrderedSet == nil) {
+            _videoListOrderedSet = [NSMutableOrderedSet orderedSet];
+        }
     }
-    return _videoListArr;
+    return _videoListOrderedSet;
 }
 
 - (void)setDanmakuFont:(NSFont *)danmakuFont {

@@ -11,11 +11,6 @@
 #import "VideoInfoModel.h"
 #import "NSArray+Tools.h"
 
-
-@interface DanMuChooseViewModel()
-@property (nonatomic, strong) NSString *videoID;
-@end
-
 @implementation DanMuChooseViewModel
 - (NSString *)providerNameWithIndex:(NSInteger)index{
     return [self.providerArr objectOrNilAtIndex: index];
@@ -43,7 +38,7 @@
 
 
 - (void)refreshCompletionHandler:(void (^)(DanDanPlayErrorModel *))complete {
-    [DanmakuNetManager GETWithProgramId:_videoID completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    [DanmakuNetManager GETWithProgramId:_videoId completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         //对象第一个key不是NSNumber类型说明没有官方弹幕
         if (![[responseObj allKeys].firstObject isKindOfClass:[NSNumber class]]) {
             self.contentDic = responseObj;
@@ -56,9 +51,12 @@
             if (![responseObj count])  {
                 error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
             }
+            id<VideoModelProtocol>vm = [UserDefaultManager shareUserDefaultManager].currentVideoModel;
+            vm.danmakuDic = responseObj;
+            if (vm) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[vm]];
+            }
             complete(error);
-            //发通知
-            [self postNotificationWithDanMuObj:responseObj];
         }
     }];
 }
@@ -73,21 +71,5 @@
     [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete(responseObj);
     }];
-}
-
-- (instancetype)initWithVideoID:(NSString *)videoID{
-    if (self = [super init]) {
-        self.videoID = videoID;
-    }
-    return self;
-}
-
-#pragma mark - 私有方法
-
-- (void)postNotificationWithDanMuObj:(id)obj{
-    //通知关闭列表视图控制器
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:self userInfo:nil];
-    //通知开始播放
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:self userInfo: obj];
 }
 @end

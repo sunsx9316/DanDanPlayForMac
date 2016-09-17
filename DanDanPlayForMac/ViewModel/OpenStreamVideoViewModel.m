@@ -36,9 +36,6 @@
 }
 
 - (void)getVideoURLAndDanmakuForVideoName:(NSString *)videoName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource completionHandler:(void(^)(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error))complete {
-    if (!danmaku.length) danmaku = @"";
-    
-    if (!videoName.length) videoName = @"";
     
     [VideoNetManager bilibiliVideoURLWithDanmaku:danmaku completionHandler:^(NSDictionary *videosDic, DanDanPlayErrorModel *error) {
         [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmaku provider:danmakuSource completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {

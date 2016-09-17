@@ -20,5 +20,5 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(MatchModel* responseObj, DanDanPlayErrorModel *error))complete;
++ (NSURLSessionDataTask *)GETWithFileName:(NSString *)fileName hash:(NSString *)hash length:(NSString *)length completionHandler:(void(^)(MatchModel* responseObj, DanDanPlayErrorModel *error))complete;
 @end

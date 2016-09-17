@@ -6,11 +6,11 @@
 //  Copyright © 2015年 JimHuang. All rights reserved.
 //
 
-#import "DanMuModel.h"
+#import "DanmakuModel.h"
 
-@implementation DanMuModel
+@implementation DanmakuModel
 + (NSDictionary *)modelContainerPropertyGenericClass{
-    return @{@"comments":[DanMuDataModel class]};
+    return @{@"comments":[DanmakuDataModel class]};
 }
 
 + (NSDictionary *)modelCustomPropertyMapper{
@@ -18,7 +18,7 @@
 }
 @end
 
-@implementation DanMuDataModel
+@implementation DanmakuDataModel
 - (LaunchDanmakuModel *)launchDanmakuModel{
     LaunchDanmakuModel *model = [[LaunchDanmakuModel alloc] init];
     model.Time = self.time;

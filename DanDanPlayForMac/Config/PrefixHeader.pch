@@ -14,9 +14,11 @@
 #import <Masonry.h>
 #import "JHProgressHUD.h"
 #import "UserDefaultManager.h"
-#import "NSView+Tools.h"
 #import "DanDanPlayErrorModel.h"
 #import "ToolsManager.h"
+#import "NSView+Tools.h"
+#import "NSViewController+Tools.h"
+#import "NSControl+Tools.h"
 
 //配置头文件
 #import "Config.h"

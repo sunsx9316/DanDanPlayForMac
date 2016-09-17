@@ -6,8 +6,7 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
-@interface AboutViewController : NSViewController
+#import "BaseViewController.h"
+@interface AboutViewController : BaseViewController
 
 @end

@@ -6,8 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 
-@interface RecommendViewController : NSViewController
+@interface RecommendViewController : BaseViewController
 
 @end

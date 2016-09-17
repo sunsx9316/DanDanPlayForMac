@@ -46,7 +46,7 @@
         //判断当前版本是否比最新版本小
         if (curentVersion < [version floatValue]) {
             NSViewController *vc = NSApp.keyWindow.contentViewController;
-            [vc presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
+            [vc presentViewControllerAsModalWindow:[UpdateViewController viewControllerWithVersion:version details:details hash:hash]];
         }
         else {
             [[NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoUpdateInfo].message informativeText:nil] runModal];

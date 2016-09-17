@@ -7,7 +7,7 @@
 //
 
 #import "DanmakuNetManager.h"
-#import "DanMuModel.h"
+#import "DanmakuModel.h"
 #import "VideoInfoModel.h"
 #import "DanmakuDataFormatter.h"
 #import "NSData+DanDanPlay.h"
@@ -42,7 +42,7 @@
     //找缓存
     id cache = [self danmakuCacheWithDanmakuID:programId provider:DanDanPlayDanmakuSourceOfficial];
     if (cache) {
-        cache = [DanmakuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: cache].comments source:DanDanPlayDanmakuSourceOfficial];
+        cache = [DanmakuDataFormatter dicWithObj:[DanmakuModel yy_modelWithDictionary: cache].comments source:DanDanPlayDanmakuSourceOfficial];
         //找用户发送缓存
         id userCache = [self danmakuCacheWithDanmakuID:programId provider:DanDanPlayDanmakuSourceOfficial | DanDanPlayDanmakuSourceUserSendCache];
         if (userCache) {
@@ -63,19 +63,19 @@
     return [self GETWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: programId] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         //写入缓存
         [self writeDanmakuCacheWithProvider:DanDanPlayDanmakuSourceOfficial danmakuID:programId responseObj:responseObj];
-        complete([DanmakuDataFormatter dicWithObj:[DanMuModel yy_modelWithDictionary: responseObj].comments source:DanDanPlayDanmakuSourceOfficial], error);
+        complete([DanmakuDataFormatter dicWithObj:[DanmakuModel yy_modelWithDictionary: responseObj].comments source:DanDanPlayDanmakuSourceOfficial], error);
     }];
 }
 
-+ (id)downThirdPartyDanmakuWithDanmaku:(NSString *)danmaku provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
++ (id)downThirdPartyDanmakuWithDanmaku:(NSString *)danmaku provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(NSDictionary *danmakuDic, DanDanPlayErrorModel *error))complete {
     // danmaku:弹幕库id provider 提供者
     if (!danmaku.length) {
         complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return nil;
     }
     
-    //找缓存
     id cache = [self danmakuCacheWithDanmakuID:danmaku provider:provider];
+    //命中缓存
     if (cache) {
         complete([DanmakuDataFormatter dicWithObj:cache source:provider], nil);
         return nil;
@@ -180,7 +180,7 @@
 }
 
 
-+ (id)launchDanmakuWithModel:(DanMuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
++ (id)launchDanmakuWithModel:(DanmakuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
     if (!model || !episodeId.length) {
         complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return nil;
@@ -226,12 +226,12 @@
             
             [self batchGETWithPaths:paths progressBlock:nil completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
                 [tasks enumerateObjectsUsingBlock:^(NSURLSessionTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    if ([obj isKindOfClass:[NSURLSessionTask class]]) {
-                        if ([obj.currentRequest.URL.path containsString:@"biliproxy"]) {
+                    if ([obj isKindOfClass:[NSURLSessionTask class]] && responseObjects.count) {
+                        if ([obj.originalRequest.URL.path containsString:@"biliproxy"]) {
                             if (!videoInfoDic[@"bilibili"]) {
                                 videoInfoDic[@"bilibili"] = [NSMutableArray array];
                             }
-                            BiliBiliVideoInfoModel *model = [self pareBiliBiliVideoInfoModelWithDic:responseObj];
+                            BiliBiliVideoInfoModel *model = [self pareBiliBiliVideoInfoModelWithDic:responseObjects[idx]];
                             if (model) {
                                 [videoInfoDic[@"bilibili"] addObject:model];
                             }
@@ -240,7 +240,7 @@
                             if (!videoInfoDic[@"acfun"]) {
                                 videoInfoDic[@"acfun"] = [NSMutableArray array];
                             }
-                            AcfunVideoInfoModel *model = [self pareAcfunVideoInfoModelWithDic:responseObj];
+                            AcfunVideoInfoModel *model = [self pareAcfunVideoInfoModelWithDic:responseObjects[idx]];
                             if (model) {
                                 [videoInfoDic[@"acfun"] addObject:model];
                             }
@@ -332,7 +332,7 @@
     //黑科技只解析单个视频的信息 故把字典封装成数组才可解析
     if ([dic isKindOfClass:[NSDictionary class]]) {
         NSString *title = dic[@"title"];
-        if (!title.length) {
+        if (title.length) {
             return [AcfunVideoInfoModel yy_modelWithDictionary: @{@"videos":@[dic], @"title":title}];
         }
     }

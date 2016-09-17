@@ -39,7 +39,7 @@
     return [self.mediaURL isFileURL] ? JHMediaTypeLocaleMedia : JHMediaTypeNetMedia;
 }
 
-- (void)videoSizeWithCompletionHandle:(void(^)(CGSize size))completionHandle{
+- (void)videoSizeWithCompletionHandle:(void(^)(CGSize size))completionHandle {
     if (self.mediaType == JHMediaTypeNetMedia) {
         if (!self.mediaURL) {
             self.localMediaPlayer.currentVideoSubTitleDelay = 0;
@@ -437,7 +437,7 @@
         VLCVideoLayer *layer = [[VLCVideoLayer alloc] init];
         self.mediaView.layer = layer;
         _localMediaPlayer = [[VLCMediaPlayer alloc] initWithVideoLayer:layer];
-//        _localMediaPlayer.libraryInstance.debugLogging = NO;
+        _localMediaPlayer.libraryInstance.debugLogging = NO;
         _localMediaPlayer.drawable = self.mediaView;
         _localMediaPlayer.delegate = self;
         

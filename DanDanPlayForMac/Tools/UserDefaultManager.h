@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DanDanPlayMessageModel.h"
+#import "VideoModelProtocol.h"
 
 //弹幕默认字体大小
 #define DANMAKU_FONT_SIZE 25
@@ -27,6 +28,8 @@
 @property (assign, nonatomic) BOOL showRecommedInfoAtStart;
 //反转音量
 @property (assign, nonatomic) BOOL reverseVolumeScroll;
+//是否第一次启动
+@property (assign, nonatomic) BOOL firstRun;
 //弹幕透明度
 @property (assign, nonatomic) CGFloat danmakuOpacity;
 //弹幕速度
@@ -50,10 +53,13 @@
 //用户快捷键设置
 @property (strong, nonatomic) NSMutableArray *customKeyMapArr;
 //播放列表设置
-@property (strong, nonatomic) NSArray *videoListArr;
+@property (strong, nonatomic) NSMutableOrderedSet *videoListOrderedSet;
 //弹幕字体
 @property (strong, nonatomic) NSFont *danmakuFont;
-
+/**
+ *  当前分析的视频模型
+ */
+@property (strong, nonatomic) id<VideoModelProtocol> currentVideoModel;
 //清除播放历史
 - (void)clearPlayHistory;
 - (NSTimeInterval)videoPlayHistoryWithHash:(NSString *)hash;

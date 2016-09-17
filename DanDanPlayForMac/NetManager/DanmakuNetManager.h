@@ -7,7 +7,7 @@
 //
 
 #import "BaseNetManager.h"
-@class DanMuDataModel;
+@class DanmakuDataModel;
 @interface DanmakuNetManager : BaseNetManager
 /**
  *  下载官方或第三方弹幕库
@@ -36,7 +36,7 @@
  *
  *  @return 任务
  */
-+ (id)downThirdPartyDanmakuWithDanmaku:(NSString *)danmaku provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
++ (id)downThirdPartyDanmakuWithDanmaku:(NSString *)danmaku provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(NSDictionary *danmakuDic, DanDanPlayErrorModel *error))complete;
 /**
  *  批量获取视频详情
  *
@@ -85,5 +85,5 @@
  *
  *  @return 任务
  */
-+ (id)launchDanmakuWithModel:(DanMuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete;
++ (id)launchDanmakuWithModel:(DanmakuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete;
 @end

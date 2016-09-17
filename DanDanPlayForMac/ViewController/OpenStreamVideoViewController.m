@@ -87,15 +87,14 @@
 }
 
 - (IBAction)clickBackButton:(NSButton *)sender {
-    [self dismissViewController:self];
+    [self.presentingViewController dismissViewController:self];
 }
 
 
-- (instancetype)initWithURL:(NSString *)URL danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
-    if ((self = kViewControllerWithId(@"OpenStreamVideoViewController"))) {
-        self.vm = [[OpenStreamVideoViewModel alloc] initWithURL:URL danmakuSource:danmakuSource];
-    }
-    return self;
++ (instancetype)viewControllerWithURL:(NSString *)URL danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
+    OpenStreamVideoViewController *vc = [OpenStreamVideoViewController viewController];
+    vc.vm = [[OpenStreamVideoViewModel alloc] initWithURL:URL danmakuSource:danmakuSource];
+    return vc;
 }
 
 #pragma mark - NSTableViewDelegate
@@ -117,7 +116,7 @@
 }
 
 #pragma mark - 私有方法
-- (void)streamingVideoModelWithRow:(NSInteger)row{
+- (void)streamingVideoModelWithRow:(NSInteger)row {
     if (![self.vm danmakuForRow:row].length) return;
     
     [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
@@ -129,21 +128,28 @@
             return;
         }
         
-        NSMutableArray *arr = [NSMutableArray arrayWithObject:videoModel];
+        NSMutableArray *arr = [NSMutableArray arrayWithObjects:videoModel, nil];
         NSInteger videoCount = [self.vm numOfVideos];
         for (NSInteger i = 0; i < videoCount; ++i) {
             if ([self.selectedSet containsObject:@(i)] && row != i) {
-                StreamingVideoModel *tvm = [[StreamingVideoModel alloc] initWithFileURLs:nil fileName:[self.vm videoNameForRow:i] danmaku:[self.vm danmakuForRow:i] danmakuSource:videoModel.danmakuSource];
-                [arr addObject:tvm];
+                StreamingVideoModel *aVM = [[StreamingVideoModel alloc] initWithFileURLs:nil fileName:[self.vm videoNameForRow:i] danmaku:[self.vm danmakuForRow:i] danmakuSource:videoModel.danmakuSource];
+                [arr addObject:aVM];
             }
         }
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"OPEN_STREAM_VC_CHOOSE_OVER" object:nil userInfo:@{@"videos":arr}];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:videoModel.danmakuDic];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:nil];
+        [UserDefaultManager shareUserDefaultManager].currentVideoModel = videoModel;
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"OPEN_STREAM_VC_CHOOSE_OVER" object:nil userInfo:@{@"videos":arr}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:arr];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:nil];
         
     }];
 }
+
+- (void)startPlayNotice:(NSNotification *)sender {
+    [super startPlayNotice:sender];
+    NSLog(@"");
+}
+
 - (NSMutableSet *)selectedSet {
 	if(_selectedSet == nil) {
 		_selectedSet = [[NSMutableSet alloc] init];

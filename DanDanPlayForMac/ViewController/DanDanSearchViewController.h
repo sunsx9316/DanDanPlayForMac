@@ -6,14 +6,10 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-@class VideoModel;
-@interface DanDanSearchViewController : NSViewController
+#import "BaseViewController.h"
+@interface DanDanSearchViewController : BaseViewController
 /**
- *  根据关键词刷新
- *
- *  @param keyWord           关键词
- *  @param completionHandler 回调
+ *  关键词
  */
-- (void)refreshWithKeyWord:(NSString *)keyWord completion:(void(^)(NSError *error))completionHandler;
+@property (copy, nonatomic) NSString *keyword;
 @end

@@ -75,6 +75,14 @@
     completion(aid, index);
 }
 
++ (NSString *)appName {
+    return [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
+}
+
++ (float)appVersion {
+    return [[NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"] floatValue];
+}
+
 + (instancetype)shareToolsManager {
     static dispatch_once_t onceToken;
     static ToolsManager *manager = nil;
@@ -86,8 +94,7 @@
 
 - (void)disableSleep {
     CFStringRef reasonForActivity= CFSTR("Describe Activity Type");
-    IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep,
-                                                   kIOPMAssertionLevelOn, reasonForActivity, &_assertionID);
+    IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep, kIOPMAssertionLevelOn, reasonForActivity, &_assertionID);
 }
 
 - (void)ableSleep {

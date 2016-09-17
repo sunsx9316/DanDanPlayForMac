@@ -20,32 +20,32 @@
 #import "VideoNetManager.h"
 
 @interface PlayViewModel()
-/**
- *  视频模型
- */
-@property (strong, nonatomic) NSMutableArray <VideoModel *>*videos;
 //用户发送的弹幕
 @property (strong, nonatomic) NSMutableArray *userDanmaukuArr;
 @end
 
 @implementation PlayViewModel
+{
+    NSMutableOrderedSet *_videos;
+}
 
-- (void)setDanmakusDic:(NSDictionary *)danmakusDic {
-    _danmakusDic = danmakusDic;
-    //计算弹幕总数
+- (instancetype)init {
+    if (self = [super init]) {
+        _videos = [UserDefaultManager shareUserDefaultManager].videoListOrderedSet;
+    }
+    return self;
+}
+
+- (NSUInteger)danmakuCount {
     __block NSUInteger count = 0;
-    [_danmakusDic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSArray * _Nonnull obj, BOOL * _Nonnull stop) {
+    [self.currentVideoModel.danmakuDic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSArray * _Nonnull obj, BOOL * _Nonnull stop) {
         count += obj.count;
     }];
-    _danmakuCount = count;
+    return count;
 }
 
 - (NSString *)videoNameWithIndex:(NSInteger)index {
     return [self videoModelWithIndex: index].fileName.length ? [self videoModelWithIndex: index].fileName : @"";
-}
-
-- (NSInteger)videoCount {
-    return self.videos.count;
 }
 
 - (BOOL)showPlayIconWithIndex:(NSInteger)index {
@@ -53,11 +53,11 @@
 }
 
 - (NSString *)currentVideoName {
-    return [self videoNameWithIndex: self.currentIndex];
+    return [self videoNameWithIndex: _currentIndex];
 }
 
-- (VideoModel *)currentVideoModel {
-    return [self videoModelWithIndex: self.currentIndex];
+- (id<VideoModelProtocol>)currentVideoModel {
+    return [self videoModelWithIndex: _currentIndex];
 }
 
 - (NSTimeInterval)currentVideoLastVideoTime {
@@ -69,27 +69,28 @@
 }
 
 - (NSURL *)currentVideoURL {
-    return [self videoURLWithIndex: self.currentIndex];
+    return [self videoURLWithIndex: _currentIndex];
 }
 
-- (void)setCurrentIndex:(NSInteger)currentIndex {
-    _currentIndex = currentIndex > 0 && self.videos.count ? currentIndex % self.videos.count : 0;
+- (void)setCurrentIndex:(NSUInteger)currentIndex {
+    _currentIndex = self.videos.count ? currentIndex % self.videos.count : 0;
+    [UserDefaultManager shareUserDefaultManager].currentVideoModel = self.currentVideoModel;
 }
 
 - (void)addVideosModel:(NSArray *)videosModel {
-    [self.videos addObjectsFromArray:videosModel];
+    [_videos addObjectsFromArray:videosModel];
     [self synchronizeVideoList];
 }
 
 - (void)removeVideoAtIndex:(NSInteger)index {
     if (index == -1) {
-        [self.videos removeAllObjects];
+        [_videos removeAllObjects];
     }
     else {
         if (index < self.currentIndex) {
             self.currentIndex--;
         }
-        [self.videos removeObjectAtIndex:index];
+        [_videos removeObjectAtIndex:index];
     }
     [self synchronizeVideoList];
 }
@@ -103,6 +104,7 @@
     StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
     return model.URLIndex;
 }
+
 - (streamingVideoQuality)openStreamQuality {
     StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
     return model.quality;
@@ -115,22 +117,20 @@
 }
 
 - (void)synchronizeVideoList {
-    [[UserDefaultManager shareUserDefaultManager] setVideoListArr:self.videos];
+    [[UserDefaultManager shareUserDefaultManager] setVideoListOrderedSet:_videos];
+//    [[UserDefaultManager shareUserDefaultManager] setVideoListArr:self.videos];
 }
 
-- (void)saveUserDanmaku:(DanMuDataModel *)danmakuModel {
-    if (!self.episodeId.length) return;
-    [self.userDanmaukuArr addObject:danmakuModel];
-    [UserDefaultManager saveUserSentDanmakus:self.userDanmaukuArr episodeId:self.episodeId];
-}
-
-- (void)setEpisodeId:(NSString *)episodeId {
-    _episodeId = episodeId;
-    _userDanmaukuArr = nil;
+- (void)saveUserDanmaku:(DanmakuDataModel *)danmakuModel {
+    if ([self.currentVideoModel isKindOfClass:[LocalVideoModel class]]) {
+        LocalVideoModel *vm = (LocalVideoModel *)self.currentVideoModel;
+        [self.userDanmaukuArr addObject:danmakuModel];
+        [UserDefaultManager saveUserSentDanmakus:self.userDanmaukuArr episodeId:vm.episodeId];
+    }
 }
 
 - (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(reloadDanmakuCallBack)complete {
-    VideoModel *videoModel = [self videoModelWithIndex:index];
+    id<VideoModelProtocol>videoModel = [self videoModelWithIndex:index];
     if (!videoModel) {
         complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
         return;
@@ -148,18 +148,17 @@
     
 }
 
-- (instancetype)initWithVideoModels:(NSArray *)videoModels danMuDic:(NSDictionary *)dic episodeId:(NSString *)episodeId {
-    if (self = [super init]) {
-        NSArray *listArr = [UserDefaultManager shareUserDefaultManager].videoListArr;
-        if (listArr.count) {
-            videoModels = [videoModels arrayByAddingObjectsFromArray:listArr];
-        }
-        self.videos = [videoModels mutableCopy];
-        [self synchronizeVideoList];
-        self.danmakusDic = dic;
-        self.episodeId = episodeId;
+
+- (void)setVideos:(NSArray<id<VideoModelProtocol>> *)videos {
+    _videos = [NSMutableOrderedSet orderedSetWithArray:videos];
+    [self synchronizeVideoList];
+}
+
+- (NSArray<id<VideoModelProtocol>> *)videos {
+    if (_videos == nil) {
+        _videos = [UserDefaultManager shareUserDefaultManager].videoListOrderedSet;
     }
-    return self;
+    return _videos.array;
 }
 
 #pragma mark - 私有方法
@@ -167,7 +166,7 @@
     return [self videoModelWithIndex: index].fileURL;
 }
 
-- (VideoModel *)videoModelWithIndex:(NSInteger)index {
+- (id<VideoModelProtocol>)videoModelWithIndex:(NSUInteger)index {
     return index < self.videos.count ? self.videos[index] : nil;
 }
 
@@ -177,13 +176,17 @@
         return;
     }
     
-    [[[MatchViewModel alloc] initWithModel:media] refreshWithModelCompletionHandler:^(DanDanPlayErrorModel *error, MatchDataModel *dataModel) {
+    MatchViewModel *vm = [[MatchViewModel alloc] init];
+    vm.videoModel = media;
+    [vm refreshWithCompletionHandler:^(DanDanPlayErrorModel *error, MatchDataModel *dataModel) {
         //episodeId存在 说明精确匹配
         if (dataModel.episodeId) {
             complete(0.5, nil, error);
-            self.episodeId = dataModel.episodeId;
+            media.episodeId = dataModel.episodeId;
+            DanMuChooseViewModel *vm = [[DanMuChooseViewModel alloc] init];
+            vm.videoId = dataModel.episodeId;
             //搜索弹幕
-            [[[DanMuChooseViewModel alloc] initWithVideoID: dataModel.episodeId] refreshCompletionHandler:^(DanDanPlayErrorModel *error) {
+            [vm refreshCompletionHandler:^(DanDanPlayErrorModel *error) {
                 //判断官方弹幕是否为空
                 if (!error) {
                     complete(1, [NSString stringWithFormat:@"%@-%@", dataModel.animeTitle, dataModel.episodeTitle], error);
@@ -197,14 +200,13 @@
         else {
             //快速匹配失败
             complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
-            self.episodeId = nil;
+            media.episodeId = nil;
         }
     }];
 }
 
 - (void)reloadDanmakuWithOpenStreamVideoViewModel:(StreamingVideoModel *)media completionHandler:(reloadDanmakuCallBack)complete {
-    
-    self.episodeId = nil;
+    media.episodeId = nil;
     NSInteger index = [self.videos indexOfObject:media];
     if (!media.danmaku.length) {
         complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
@@ -217,8 +219,8 @@
     if ([media URLsCountWithQuality:streamingVideoQualityHigh] == 0 && [media URLsCountWithQuality:streamingVideoQualityLow] == 0) {
         [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:media.fileName danmaku:media.danmaku danmakuSource:media.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error) {
             if (videoModel) {
-                self.videos[index] = videoModel;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:videoModel.danmakuDic];
+                _videos[index] = videoModel;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[videoModel]];
                 complete(1, videoModel.fileName, error);
             }
             else {
@@ -228,15 +230,15 @@
     }
     else {
         if (media.danmakuDic.count) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:media.danmakuDic];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
             complete(1, media.fileName, nil);
         }
         else {
             [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:media.danmaku provider:media.danmakuSource completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
                 self.currentIndex = index;
                 media.danmakuDic = responseObj;
-                self.videos[index] = media;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:responseObj];
+                _videos[index] = media;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
                 complete(1, media.fileName, error);
             }];
         }
@@ -246,8 +248,9 @@
 #pragma mark - 懒加载
 - (NSMutableArray *)userDanmaukuArr {
     if(_userDanmaukuArr == nil) {
-        if (!self.episodeId.length) {
-            _userDanmaukuArr = [UserDefaultManager userSentDanmaukuArrWithEpisodeId:self.episodeId];
+        NSString *episodeId = self.currentVideoModel.episodeId;
+        if (episodeId.length == 0) {
+            _userDanmaukuArr = [UserDefaultManager userSentDanmaukuArrWithEpisodeId:episodeId];
         }
         
         if (!_userDanmaukuArr) {

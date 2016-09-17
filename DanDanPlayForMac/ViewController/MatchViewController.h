@@ -6,8 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 @class LocalVideoModel;
-@interface MatchViewController : NSViewController
-- (instancetype)initWithVideoModel:(LocalVideoModel *)videoModel;
+@interface MatchViewController : BaseViewController
+@property (nonatomic, strong) LocalVideoModel *videoModel;
 @end

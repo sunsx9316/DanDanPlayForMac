@@ -10,35 +10,30 @@
 #import "DanMuChooseViewModel.h"
 #import "VideoInfoModel.h"
 #import "DownLoadOtherDanmakuViewController.h"
+#import "HUDMessageView.h"
 
 @interface DanmakuChooseViewController ()
 @property (weak) IBOutlet NSPopUpButton *providerButton;
 @property (weak) IBOutlet NSPopUpButton *shiBanBurron;
 @property (weak) IBOutlet NSPopUpButton *episodeButton;
 @property (strong, nonatomic) DanMuChooseViewModel *vm;
-
+@property (strong, nonatomic) HUDMessageView *messageView;
 @end
 
 @implementation DanmakuChooseViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
 
 - (void)viewDidAppear {
     [super viewDidAppear];
     [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
         [JHProgressHUD disMiss];
-        [self reloadData];
+        if (self.vm.contentDic.count) {
+            [self reloadData];
+        }
+        else {
+            [self.messageView showHUD];
+        }
     }];
-}
-
-- (instancetype)initWithVideoID:(NSString *)videoID{
-    if ((self = kViewControllerWithId(@"DanmakuChooseViewController"))) {
-        self.vm = [[DanMuChooseViewModel alloc] initWithVideoID: videoID];
-    }
-    return self;
 }
 
 //点击确认 发送播放通知
@@ -51,16 +46,16 @@
     
     [self.vm downThirdPartyDanmakuWithIndex:index provider:source completionHandler:^(id responseObj) {
         [JHProgressHUD disMiss];
-        NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem] ? [self.shiBanBurron titleOfSelectedItem] : @"";
-        NSString *episodeTitle = [self.episodeButton titleOfSelectedItem] ? [self.episodeButton titleOfSelectedItem] : @"";
-        //通知更新匹配名称
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle": [shiBanTitle stringByAppendingString: episodeTitle]}];
-        //通知关闭列表视图控制器
+        NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem];
+        NSString *episodeTitle = [self.episodeButton titleOfSelectedItem];
         
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:self userInfo:nil];
-        //通知开始播放
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:self userInfo:responseObj];
+       id<VideoModelProtocol>vm = [UserDefaultManager shareUserDefaultManager].currentVideoModel;
+        if (vm) {
+            vm.matchTitle = [shiBanTitle stringByAppendingString: episodeTitle];
+            vm.danmakuDic = responseObj;
+            //通知开始播放
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[vm]];
+        }
     }];
 }
 
@@ -72,7 +67,10 @@
     NSArray *arr = self.vm.episodeTitleArr;
     if (arr.count) {
         DanDanPlayDanmakuSource source = [ToolsManager enumValueWithDanmakuSourceStringValue:[self.providerButton titleOfSelectedItem]];
-        [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:arr danMuSource:source]];
+        DownLoadOtherDanmakuViewController *vc = [DownLoadOtherDanmakuViewController viewController];
+        vc.videos = arr;
+        vc.source = source;
+        [self presentViewControllerAsModalWindow:vc];
     }
 }
 
@@ -119,7 +117,7 @@
     }
 }
 
-- (void)reloadShiBanButton{
+- (void)reloadShiBanButton {
     [self.shiBanBurron removeAllItems];
     
     NSInteger shiBanNum = [self.vm shiBanNum];
@@ -128,7 +126,7 @@
     }
 }
 
-- (void)reloadEpisodeButton{
+- (void)reloadEpisodeButton {
     [self.episodeButton removeAllItems];
     
     NSInteger episodeNum = [self.vm episodeNum];
@@ -136,6 +134,31 @@
     for (int i = 0; i < episodeNum; ++i) {
         [self.episodeButton addItemWithTitle: [self.vm episodeTitleWithIndex: i]];
     }
+}
+
+#pragma mark setter getter
+- (void)setVideoId:(NSString *)videoId {
+    self.vm.videoId = videoId;
+}
+
+- (NSString *)videoId {
+    return self.vm.videoId;
+}
+
+#pragma mark - 懒加载
+- (DanMuChooseViewModel *)vm {
+	if(_vm == nil) {
+		_vm = [[DanMuChooseViewModel alloc] init];
+	}
+	return _vm;
+}
+
+- (HUDMessageView *)messageView {
+    if(_messageView == nil) {
+        _messageView = [[HUDMessageView alloc] init];
+        _messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
+    }
+    return _messageView;
 }
 
 @end

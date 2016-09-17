@@ -11,8 +11,7 @@
 
 @implementation ColorButton
 
--(void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     //默认颜色
     [self setTitleColor: RGBColor(48, 131, 251)];

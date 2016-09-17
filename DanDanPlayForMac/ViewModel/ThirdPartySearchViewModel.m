@@ -64,7 +64,7 @@
     
 }
 
-- (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(DanDanPlayErrorModel *error))complete {
+- (void)refreshWithSeasonID:(NSString*)seasonId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete {
     
 }
 
@@ -72,16 +72,17 @@
     
 }
 
-- (void)downThirdPartyDanmakuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
+- (void)downThirdPartyDanmakuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(NSDictionary *danmakuDic, DanDanPlayErrorModel *error))complete {
     if (!danmakuID.length){
         complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return;
     }
-    [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
-        if (![responseObj count]) {
+    [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(NSDictionary *danmakuDic, DanDanPlayErrorModel *error) {
+        if (danmakuDic.count == 0) {
             error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
         }
-        complete(responseObj, error);
+        complete(danmakuDic, error);
+        
     }];
 }
 

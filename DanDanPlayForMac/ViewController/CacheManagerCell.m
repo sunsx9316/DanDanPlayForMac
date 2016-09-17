@@ -27,7 +27,7 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         float size = [self folderSizeAtPath:[UserDefaultManager shareUserDefaultManager].danmakuCachePath];
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.cacheTextField.stringValue = [NSString stringWithFormat:@"缓存大小: %.1fM", size];
+            self.cacheTextField.text = [NSString stringWithFormat:@"缓存大小: %.1fM", size];
             [self.progressIndicator stopAnimation:self];
         });
     });
@@ -47,7 +47,7 @@
     }
     else {
         model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeClearSuccess];
-        self.cacheTextField.stringValue = @"缓存大小: 0.0M";
+        self.cacheTextField.text = @"缓存大小: 0.0M";
     }
     
     [[NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage] runModal];

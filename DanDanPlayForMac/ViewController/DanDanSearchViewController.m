@@ -21,56 +21,95 @@
 
 @implementation DanDanSearchViewController
 
-#pragma mark - 方法
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self.outlineView setDoubleAction: @selector(doubleClickRow)];
+    [self refreshBykeyword];
 }
 
-- (void)refreshWithKeyWord:(NSString *)keyWord completion:(void(^)(NSError *error))completionHandler{
-    //展示状态直接返回
-    if (self.hud.isShowing) return;
-    
+#pragma mark - 私有方法
+- (void)refreshBykeyword {
     [self.hud show];
-    [self.vm refreshWithKeyWord:keyWord completionHandler:^(NSError *error) {
+    [self.vm refreshWithKeyword:_keyword completionHandler:^(NSError *error) {
         if (error) {
             [self.messageView showHUD];
         }
         
         [self.hud disMiss];
         [self.outlineView reloadData];
-        if (completionHandler) completionHandler(error);
     }];
 }
 
-- (void)doubleClickRow{
-    id aModel = [self.outlineView itemAtRow: [self.outlineView selectedRow]];
+- (void)doubleClickRow {
+    EpisodesModel *aModel = [self.outlineView itemAtRow: [self.outlineView selectedRow]];
     if ([aModel isKindOfClass: [EpisodesModel class]]) {
-        NSString *videoID = [aModel ID];
-        if (videoID) {
-            DanmakuChooseViewController *vc = [[DanmakuChooseViewController alloc] initWithVideoID: videoID];
+        NSString *videoID = aModel.Id;
+        if (videoID.length) {
+            DanmakuChooseViewController *vc = [DanmakuChooseViewController viewController];
+            vc.videoId = videoID;
             [self presentViewControllerAsSheet: vc];
         }
     }
 }
 
+#pragma setter getter
+- (void)setKeyword:(NSString *)keyword {
+    _keyword = keyword;
+    //避免重复请求
+    if (self.isViewLoaded) {
+        [self refreshBykeyword];
+    }
+}
 
 #pragma mark - NSOutlineViewDataSource
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item{
-    return [self.vm numberOfChildrenOfItem: item];
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(nullable id)item {
+    //item存在时
+    if (item) {
+        //item是数组
+        if ([item isKindOfClass: [NSArray class]] || [item isKindOfClass: [NSDictionary class]]) {
+            return [item count];
+        }
+        //item不是数组
+        else if ([item isKindOfClass: [SearchDataModel class]]){
+            return [item episodes].count;
+        }
+        return 0;
+    }
+    //item不存在 说明为根节点
+    return  [self.vm.models count];
 }
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(nullable id)item{
-    return [self.vm child:index ofItem:item];
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(nullable id)item {
+    if (item) {
+        if ([item isKindOfClass: [NSDictionary class]])
+            return [[[item allValues] firstObject] objectAtIndex: index];
+        else if ([item isKindOfClass: [NSArray class]])
+            return item[index];
+        else if ([item isKindOfClass: [SearchDataModel class]])
+            return [[item episodes] objectAtIndex: index];
+    }
+    return self.vm.models[index];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item{
-    return [self.vm ItemExpandable: item];
+    if (item) {
+        if ([item isKindOfClass: [NSArray class]] || [item isKindOfClass: [NSDictionary class]])
+            return [item count];
+        else if ([item isKindOfClass: [SearchDataModel class]])
+            return [item episodes].count;
+    }
+    return NO;
 }
 
 - (nullable NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(nullable NSTableColumn *)tableColumn item:(id)item {
-    NSTableCellView *result = [outlineView makeViewWithIdentifier:@"cell" owner:self];
-    result.textField.stringValue = [self.vm itemContentWithItem: item];
-    return result;
+    NSTableCellView *view = [outlineView makeViewWithIdentifier:@"cell" owner:self];
+    if ([item isKindOfClass: [NSDictionary class]]) {
+        view.textField.text = [item allKeys].firstObject;
+    }
+    else if ([item isKindOfClass: [SearchDataModel class]] || [item isKindOfClass: [EpisodesModel class]]) {
+        view.textField.text = [item title];
+    }
+    return view;
 }
 
 #pragma mark - 懒加载
@@ -80,7 +119,6 @@
 	}
 	return _vm;
 }
-
 
 - (JHProgressHUD *)hud {
     if(_hud == nil) {

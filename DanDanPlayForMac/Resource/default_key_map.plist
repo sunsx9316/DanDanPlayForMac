@@ -122,5 +122,17 @@
 		<key>name</key>
 		<string>截图</string>
 	</dict>
+	<dict>
+		<key>id</key>
+		<integer>10</integer>
+		<key>flag</key>
+		<integer>0</integer>
+		<key>keyCode</key>
+		<integer>48</integer>
+		<key>keyName</key>
+		<string>Tab</string>
+		<key>name</key>
+		<string>弹幕开关</string>
+	</dict>
 </array>
 </plist>

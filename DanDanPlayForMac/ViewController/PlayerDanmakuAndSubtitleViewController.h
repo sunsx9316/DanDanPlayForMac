@@ -6,13 +6,13 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 #import "PlayerDanmakuViewController.h"
 #import "PlayerSubtitleViewController.h"
 /**
  *  弹幕和字幕控制面板
  */
-@interface PlayerDanmakuAndSubtitleViewController : NSViewController
+@interface PlayerDanmakuAndSubtitleViewController : BaseViewController
 @property (strong, nonatomic) PlayerDanmakuViewController *danmakuVC;
 @property (strong, nonatomic) PlayerSubtitleViewController *subtitleVC;
 

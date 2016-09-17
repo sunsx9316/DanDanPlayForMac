@@ -110,7 +110,7 @@
  *  @param SeasonID SeasonID
  *  @param complete 回调
  */
-- (void)refreshWithSeasonID:(NSString*)SeasonID completionHandler:(void(^)(DanDanPlayErrorModel *error))complete;
+- (void)refreshWithSeasonID:(NSString*)seasonId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete;
 /**
  *  根据行数下载弹幕
  *
@@ -126,5 +126,5 @@
  *  @param provider  提供者
  *  @param complete  回调
  */
-- (void)downThirdPartyDanmakuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+- (void)downThirdPartyDanmakuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(NSDictionary *danmakuDic, DanDanPlayErrorModel *error))complete;
 @end

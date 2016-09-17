@@ -6,8 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 
-@interface UpdateViewController : NSViewController
-- (instancetype)initWithVersion:(NSString *)version details:(NSString *)details hash:(NSString *)hash;
+@interface UpdateViewController : BaseViewController
++ (instancetype)viewControllerWithVersion:(NSString *)version details:(NSString *)details hash:(NSString *)hash;
 @end

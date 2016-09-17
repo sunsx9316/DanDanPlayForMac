@@ -10,49 +10,11 @@
 #import "MatchModel.h"
 #import "LocalVideoModel.h"
 #import "MatchNetManager.h"
-@interface MatchViewModel()
-/**
- *  匹配结果模型
- */
-@property (nonatomic, strong) LocalVideoModel* videoModel;
-@property (nonatomic, strong) NSArray<MatchDataModel*>* models;
-@end
 
 @implementation MatchViewModel
-- (NSString *)modelEpisodeIdWithIndex:(NSInteger)index{
-    return [self modelWithIndex: index].episodeId;
-}
-
-- (NSString *)modelAnimeTitleIdWithIndex:(NSInteger)index{
-    return [self modelWithIndex: index].animeTitle;
-}
-
-- (NSString *)modelEpisodeTitleWithIndex:(NSInteger)index{
-    return [self modelWithIndex: index].episodeTitle;
-}
-
-- (NSString *)videoName{
-    return self.videoModel.fileName;
-}
-
-- (NSInteger)modelCount{
-    return self.models.count;
-}
-
-- (instancetype)initWithModel: (LocalVideoModel *)model{
-    if (self = [super init]) {
-        self.videoModel = model;
-    }
-    return self;
-}
-
-- (void)refreshWithModelCompletionHandler:(void(^)(DanDanPlayErrorModel *error, MatchDataModel *dataModel))complete {
-    if (!self.videoModel.md5 || !self.videoModel.length || !self.videoModel.fileName){
-        complete(nil, nil);
-        return;
-    }
+- (void)refreshWithCompletionHandler:(void(^)(DanDanPlayErrorModel *error, MatchDataModel *dataModel))complete {
     
-    [MatchNetManager GETWithParameters:@{@"fileName":self.videoModel.fileName, @"hash": self.videoModel.md5, @"length": self.videoModel.length} completionHandler:^(MatchModel *responseObj, DanDanPlayErrorModel *error) {
+    [MatchNetManager GETWithFileName:_videoModel.fileName hash:_videoModel.md5 length:_videoModel.length completionHandler:^(MatchModel *responseObj, DanDanPlayErrorModel *error) {
         //精确匹配
         if (responseObj.matches.count == 1) {
             complete(error, responseObj.matches.firstObject);
@@ -69,11 +31,6 @@
         self.models = responseObj.matches;
         complete(error, nil);
     }];
-}
-
-#pragma mark - 私有方法
-- (MatchDataModel *)modelWithIndex: (NSInteger)index{
-    return index >= [self modelCount] ? nil : self.models[index];
 }
 
 @end

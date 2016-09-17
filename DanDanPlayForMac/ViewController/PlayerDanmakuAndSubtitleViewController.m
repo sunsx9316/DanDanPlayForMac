@@ -32,6 +32,10 @@
     }];
 }
 
+- (void)startPlayNotice:(NSNotification *)sender {
+    
+}
+
 #pragma mark - 懒加载
 - (PlayerDanmakuViewController *)danmakuVC {
     if(_danmakuVC == nil) {

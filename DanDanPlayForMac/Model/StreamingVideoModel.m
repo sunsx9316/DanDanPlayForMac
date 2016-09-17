@@ -22,8 +22,9 @@
 @implementation StreamingVideoModel
 {
     NSDictionary *_danmakuDic;
-//    NSString *_danmakuSourceStringValue;
 }
+@synthesize matchTitle;
+@synthesize episodeId;
 
 - (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
     if (self = [super init]) {
@@ -31,7 +32,6 @@
         _fileName = fileName;
         _danmaku = danmaku;
         _danmakuSource = danmakuSource;
-//        _danmakuSourceStringValue = [ToolsManager stringValueWithDanmakuSource:_danmakuSource];
     }
     return self;
 }
@@ -76,5 +76,17 @@
 - (DanDanPlayDanmakuSource)danmakuSource {
     return _danmakuSource;
 }
+
+- (NSUInteger)hash {
+    return _fileName.hash | _danmaku.hash | _danmakuSource;
+}
+
+- (BOOL)isEqual:(StreamingVideoModel *)object {
+    if (![self isKindOfClass:[object class]]) return NO;
+    if (self == object) return YES;
+    if ([self.fileName isEqual:object.fileName] && [self.danmaku isEqual:object.danmaku] && self.danmakuSource == object.danmakuSource) return YES;
+    return [super isEqual:object];
+}
+
 
 @end

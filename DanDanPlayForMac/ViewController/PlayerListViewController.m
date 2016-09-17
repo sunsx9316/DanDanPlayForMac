@@ -9,6 +9,7 @@
 #import "PlayerListViewController.h"
 #import "VideoNameCell.h"
 #import "NSButton+Tools.h"
+#import "VideoModelProtocol.h"
 
 @interface PlayerListViewController ()<NSTabViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSButton *cleanButton;
@@ -26,14 +27,15 @@
 #pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return [self.vm videoCount];
+    return self.vm.videos.count;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
     __weak typeof(self)weakSelf = self;
     //视频列表
     VideoNameCell *cell = [tableView makeViewWithIdentifier:@"VideoNameCell" owner:self];
-    [cell setTitle:[self.vm videoNameWithIndex:row] iconHide:[self.vm showPlayIconWithIndex:row] callBack:^{
+    id<VideoModelProtocol>model = [self.vm videoModelWithIndex:row];
+    [cell setTitle:model.fileName iconHide:(self.vm.currentIndex != row) callBack:^{
         if (self.deleteRowCallBack) {
             self.deleteRowCallBack(row);
         }
@@ -49,6 +51,7 @@
     return 30;
 }
 
+#pragma mark - 私有方法
 //双击行
 - (IBAction)doubleClickRow:(NSTableView *)sender {
     NSUInteger selectedIndex = [sender selectedRow];
@@ -62,5 +65,8 @@
     [self.tableView reloadData];
 }
 
+- (void)startPlayNotice:(NSNotification *)sender {
+    
+}
 
 @end

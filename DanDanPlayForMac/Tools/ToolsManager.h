@@ -27,7 +27,21 @@
  *  @return av号 分集
  */
 + (void)acfunAidWithPath:(NSString *)path complectionHandler:(void(^)(NSString *aid, NSString *index))completion;
-+ (instancetype)shareToolsManager;
+/**
+ *  app的名字
+ */
++ (NSString *)appName;
+/**
+ *  app的版本
+ */
++ (float)appVersion;
+/**
+ *  禁止系统休眠
+ */
 - (void)disableSleep;
+/**
+ *  恢复系统休眠
+ */
 - (void)ableSleep;
++ (instancetype)shareToolsManager;
 @end

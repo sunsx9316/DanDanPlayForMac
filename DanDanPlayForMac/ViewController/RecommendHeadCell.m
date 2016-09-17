@@ -8,11 +8,13 @@
 
 #import "RecommendHeadCell.h"
 #import "NSString+Tools.h"
+#import "NSButton+Tools.h"
 #import "RespondKeyboardSearchField.h"
+#import "AddTrackingAreaButton.h"
 
 @interface RecommendHeadCell()
 @property (weak) IBOutlet NSImageView *coverImg;
-@property (weak) IBOutlet NSButton *titleButton;
+@property (weak) IBOutlet AddTrackingAreaButton *titleButton;
 @property (weak) IBOutlet NSTextField *infoTextField;
 @property (weak) IBOutlet NSButton *filmReviewButton;
 @property (weak) IBOutlet NSTextField *todayRecommedTextField;
@@ -41,6 +43,19 @@
             self.clickSearchButtonCallBack(self.searchField.stringValue);
         }
     }];
+    
+    [self.titleButton setMouseEnteredCallBackBlock:^{
+        @strongify(self)
+        if (!self) return;
+        
+        [self.titleButton setTitleColor:MAIN_COLOR];
+    }];
+    
+    [self.titleButton setMouseExitedCallBackBlock:^{
+        @strongify(self)
+        if (!self) return;
+        [self.titleButton setTitleColor:[NSColor textColor]];
+    }];
 }
 
 - (IBAction)clickFilmReviewButton:(NSButton *)sender {
@@ -55,6 +70,12 @@
     }
 }
 
+- (IBAction)clickTitleButton:(NSButton *)sender {
+    if (self.clickSearchButtonCallBack) {
+        self.clickSearchButtonCallBack(sender.title);
+    }
+}
+
 - (void)setWithModel:(FeaturedModel *)model {
     _model = model;
     
@@ -64,17 +85,11 @@
             self.coverImg.image = img;
         });
     });
-    self.titleButton.title = _model.title.length ? _model.title : @"";
-    self.infoTextField.stringValue = _model.category.length ? _model.category : @"";
-    self.briefTextView.string = _model.introduction.length ? _model.introduction : @"";
+    self.titleButton.text =  _model.title;
+    self.infoTextField.text = _model.category;
+    self.briefTextView.string = _model.introduction;
     if (_model.fileReviewPath) {
         [self.filmReviewButton setHidden:NO];
-    }
-}
-
-- (IBAction)clickTitleButton:(NSButton *)sender {
-    if (self.clickSearchButtonCallBack) {
-        self.clickSearchButtonCallBack(sender.title);
     }
 }
 

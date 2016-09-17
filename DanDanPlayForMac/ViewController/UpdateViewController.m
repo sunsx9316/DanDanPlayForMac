@@ -26,18 +26,18 @@
 @end
 
 @implementation UpdateViewController
-- (instancetype)initWithVersion:(NSString *)version details:(NSString *)details hash:(NSString *)hash{
-    if ((self = kViewControllerWithId(@"UpdateViewController"))) {
-        self.version = version.length ? version : @"";
-        self.details = details.length ? details : @"";
-        self.fileHash = hash;
-    }
-    return self;
+
++ (instancetype)viewControllerWithVersion:(NSString *)version details:(NSString *)details hash:(NSString *)hash {
+    UpdateViewController *vc = [UpdateViewController viewController];
+    vc.version = version.length ? version : @"";
+    vc.details = details.length ? details : @"";
+    vc.fileHash = hash;
+    return vc;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.updateDetailTextField.stringValue = self.details;
+    self.updateDetailTextField.text = self.details;
     [self.autoUpdateButton setTitleColor:MAIN_COLOR];
     [self.downloadButton setTitleColor:[NSColor darkGrayColor]];
     
@@ -69,7 +69,7 @@
                     NSAlert *alert = [NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage];
                     [alert runModal];
                 }
-                [self dismissViewController:self];
+                [self.presentingViewController dismissViewController:self];
             });
         });
     }];

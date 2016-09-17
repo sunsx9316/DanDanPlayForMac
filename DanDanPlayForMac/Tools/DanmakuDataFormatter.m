@@ -7,14 +7,14 @@
 //
 
 #import "DanmakuDataFormatter.h"
-#import "DanMuModel.h"
+#import "DanmakuModel.h"
 #import "NSString+Tools.h"
 #import "ScrollDanmaku.h"
 #import "FloatDanmaku.h"
 #import "JHDanmakuEngine+Tools.h"
 #import <GDataXMLNode.h>
 
-typedef void(^callBackBlock)(DanMuDataModel *model);
+typedef void(^callBackBlock)(DanmakuDataModel *model);
 @implementation DanmakuDataFormatter
 + (NSMutableDictionary *)dicWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
     NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *> *> *dic = [NSMutableDictionary dictionary];
@@ -22,7 +22,7 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
         NSFont *font = [UserDefaultManager shareUserDefaultManager].danmakuFont;
         NSInteger danmakuSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
         
-        [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
+        [self switchParseWithSource:source obj:obj block:^(DanmakuDataModel *model) {
             NSInteger time = model.time;
             if (!dic[@(time)]) dic[@(time)] = [NSMutableArray array];
             ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danmakuSpecially fontSize: font.pointSize font:font];
@@ -40,7 +40,7 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
         NSFont *font = [UserDefaultManager shareUserDefaultManager].danmakuFont;
         NSInteger danMufontSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
         
-        [self switchParseWithSource:source obj:obj block:^(DanMuDataModel *model) {
+        [self switchParseWithSource:source obj:obj block:^(DanmakuDataModel *model) {
             ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize:font.pointSize font:font];
             danmaku.appearTime = model.time;
             danmaku.filter = model.isFilter;
@@ -78,7 +78,7 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
             NSArray *tempArr = [str componentsSeparatedByString:@","];
             if (tempArr.count == 0) continue;
             
-            DanMuDataModel *model = [DanMuDataModel new];
+            DanmakuDataModel *model = [[DanmakuDataModel alloc] init];
             model.time = [tempArr[0] floatValue];
             model.color = [tempArr[1] intValue];
             model.mode = [tempArr[2] intValue];
@@ -90,8 +90,8 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
 }
 
 //官方解析方式
-+ (void)danMuWithOfficialArr:(NSArray<DanMuDataModel *> *)arr block:(callBackBlock)block{
-    [arr enumerateObjectsUsingBlock:^(DanMuDataModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
++ (void)danMuWithOfficialArr:(NSArray<DanmakuDataModel *> *)arr block:(callBackBlock)block{
+    [arr enumerateObjectsUsingBlock:^(DanmakuDataModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
         model.filter = [self filterWithDanMudataModel:model];
         if (block) block(model);
     }];
@@ -104,7 +104,7 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
     NSArray *array = [rootElement elementsForName:@"d"];
     for (GDataXMLElement *ele in array) {
             NSArray* strArr = [[[ele attributeForName:@"p"] stringValue] componentsSeparatedByString:@","];
-            DanMuDataModel* model = [[DanMuDataModel alloc] init];
+            DanmakuDataModel* model = [[DanmakuDataModel alloc] init];
             model.time = [strArr[0] floatValue];
             model.mode = [strArr[1] intValue];
             model.color = [strArr[3] intValue];
@@ -116,7 +116,7 @@ typedef void(^callBackBlock)(DanMuDataModel *model);
 
 
 //过滤弹幕
-+ (BOOL)filterWithDanMudataModel:(DanMuDataModel *)model{
++ (BOOL)filterWithDanMudataModel:(DanmakuDataModel *)model {
     NSArray *userFilterArr = [UserDefaultManager shareUserDefaultManager].userFilterArr;
     for (NSDictionary *filterDic in userFilterArr) {
         //使用正则表达式

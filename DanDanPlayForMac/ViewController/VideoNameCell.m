@@ -25,12 +25,12 @@
     [self addTrackingArea:self.trackingArea];
 }
 
-- (void)dealloc{
+- (void)dealloc {
     [self removeTrackingArea:self.trackingArea];
 }
 
 - (void)setTitle:(NSString *)title iconHide:(BOOL)iconHide callBack:(buttonCallBackBlock)callBack{
-    self.titleField.stringValue = title.length ? title : @"";
+    self.titleField.text = title;
     self.iconImageView.hidden = iconHide;
     self.block = callBack;
     self.button.hidden = YES;

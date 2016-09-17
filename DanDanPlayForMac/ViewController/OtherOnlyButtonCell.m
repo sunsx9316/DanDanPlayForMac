@@ -22,9 +22,9 @@
 }
 
 - (void)setWithTitle:(NSString *)title info:(NSString *)info buttonText:(NSString *)buttonText{
-    self.titleTextField.stringValue = title.length ? title : @"";
-    self.infoTextField.stringValue = info.length ? info : @"";
-    self.clickButton.title = buttonText.length ? buttonText : @"";
+    self.titleTextField.text = title;
+    self.infoTextField.text = info;
+    self.clickButton.text = buttonText;
 }
 
 @end

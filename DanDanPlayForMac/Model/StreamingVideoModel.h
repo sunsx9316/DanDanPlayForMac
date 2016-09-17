@@ -5,12 +5,14 @@
 //  Created by JimHuang on 16/3/6.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
-#import "VideoModel.h"
+
+#import "BaseModel.h"
 typedef NS_ENUM(NSUInteger, streamingVideoQuality) {
     streamingVideoQualityHigh,
     streamingVideoQualityLow
 };
-@interface StreamingVideoModel : VideoModel
+
+@interface StreamingVideoModel : BaseModel<VideoModelProtocol>
 /**
  *  初始化
  *
@@ -23,7 +25,7 @@ typedef NS_ENUM(NSUInteger, streamingVideoQuality) {
  */
 - (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource;
 
-- (instancetype)initWithFileURL:(NSURL *)fileURL UNAVAILABLE_ATTRIBUTE;
+//- (instancetype)initWithFileURL:(NSURL *)fileURL UNAVAILABLE_ATTRIBUTE;
 /**
  *  视频清晰度 设置清晰度 当前url会不同
  */
@@ -32,11 +34,7 @@ typedef NS_ENUM(NSUInteger, streamingVideoQuality) {
  *  视频地址下标
  */
 @property (assign, nonatomic) NSInteger URLIndex;
-/**
- *  弹幕 不参与归档 所以写方法
- */
-- (void)setDanmakuDic:(NSDictionary *)danmakuDic;
-- (NSDictionary *)danmakuDic;
+
 /**
  *  所有地址数 
  *

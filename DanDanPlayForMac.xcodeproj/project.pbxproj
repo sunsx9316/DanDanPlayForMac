@@ -16,6 +16,9 @@
 		89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89118C8B1CBCABED0079FB70 /* NSOpenPanel+Tools.m */; };
 		8916809F1D5080DE00B215D1 /* alert_message.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8916809E1D5080DE00B215D1 /* alert_message.plist */; };
 		8919753F1D6ACF7F00210AB9 /* NSTableView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8919753E1D6ACF7F00210AB9 /* NSTableView+Tools.m */; };
+		891BC1311D8983DF0018E753 /* SliderAnimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 891BC1301D8983DF0018E753 /* SliderAnimate.m */; };
+		891BC1341D89B9B10018E753 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891BC1331D89B9B10018E753 /* BaseViewController.m */; };
+		891BC1371D89BC670018E753 /* NSViewController+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891BC1361D89BC670018E753 /* NSViewController+Tools.m */; };
 		89264DA61D5C3370004B51BF /* PlayerDanmakuCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89264DA51D5C3370004B51BF /* PlayerDanmakuCountView.m */; };
 		89264DA91D5C5F8E004B51BF /* POPMasAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */; };
 		892DD15C1D66A612001FBD3B /* ReverseVolumeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DD15B1D66A612001FBD3B /* ReverseVolumeCell.m */; };
@@ -90,7 +93,7 @@
 		897DBA651D3E544A00479126 /* PlayerSubtitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897DBA631D3E544A00479126 /* PlayerSubtitleViewController.m */; };
 		897DBA661D3E544A00479126 /* PlayerSubtitleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897DBA641D3E544A00479126 /* PlayerSubtitleViewController.xib */; };
 		897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7B81C72056A00E1B03D /* BaseModel.m */; };
-		897EC7C61C72056A00E1B03D /* DanMuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BA1C72056A00E1B03D /* DanMuModel.m */; };
+		897EC7C61C72056A00E1B03D /* DanmakuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BA1C72056A00E1B03D /* DanmakuModel.m */; };
 		897EC7C71C72056A00E1B03D /* LocalVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BC1C72056A00E1B03D /* LocalVideoModel.m */; };
 		897EC7C81C72056A00E1B03D /* MatchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BE1C72056A00E1B03D /* MatchModel.m */; };
 		897EC7C91C72056A00E1B03D /* SearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7C01C72056A00E1B03D /* SearchModel.m */; };
@@ -116,7 +119,6 @@
 		8996A6E31C6CE18200D5AA6E /* TimeAxisCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8996A6E21C6CE18200D5AA6E /* TimeAxisCell.m */; };
 		89973E901D3D1A6000814720 /* PlayerDanmakuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89973E8E1D3D1A6000814720 /* PlayerDanmakuViewController.m */; };
 		89973E911D3D1A6000814720 /* PlayerDanmakuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89973E8F1D3D1A6000814720 /* PlayerDanmakuViewController.xib */; };
-		899BA8041C8AC9C0007A67A8 /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 899BA8031C8AC9C0007A67A8 /* VideoModel.m */; };
 		89A5345E1CB92FD000F7FE18 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A5345D1CB92FD000F7FE18 /* AboutViewController.m */; };
 		89A5B1C61C9998AB007869C9 /* NSAlert+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A5B1C51C9998AB007869C9 /* NSAlert+Tools.m */; };
 		89B585211C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B585201C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m */; };
@@ -141,6 +143,8 @@
 		89D6A1AA1D61538F00A14469 /* DanDanPlayErrorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D6A1A91D61538F00A14469 /* DanDanPlayErrorModel.m */; };
 		89D6A1AD1D615C3B00A14469 /* DanDanPlayMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D6A1AC1D615C3B00A14469 /* DanDanPlayMessageModel.m */; };
 		89D6A1B01D6198C500A14469 /* AFHTTPDataResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D6A1AF1D6198C500A14469 /* AFHTTPDataResponseSerializer.m */; };
+		89D98A7F1D8A68050092EBE3 /* NSControl+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D98A7E1D8A68050092EBE3 /* NSControl+Tools.m */; };
+		89D98A881D8ADEDE0092EBE3 /* NSImageView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D98A871D8ADEDE0092EBE3 /* NSImageView+Tools.m */; };
 		89E9DA371C940C8600896977 /* RecommendBangumiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E9DA361C940C8600896977 /* RecommendBangumiCell.m */; };
 		89E9DA3A1C942AB500896977 /* OtherSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E9DA391C942AB500896977 /* OtherSettingCell.m */; };
 		89FC23EE1C6F3EAF009FD27C /* ScreenShotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FC23ED1C6F3EAF009FD27C /* ScreenShotCell.m */; };
@@ -183,6 +187,12 @@
 		8916809E1D5080DE00B215D1 /* alert_message.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = alert_message.plist; sourceTree = "<group>"; };
 		8919753D1D6ACF7F00210AB9 /* NSTableView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+Tools.h"; sourceTree = "<group>"; };
 		8919753E1D6ACF7F00210AB9 /* NSTableView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+Tools.m"; sourceTree = "<group>"; };
+		891BC12F1D8983DF0018E753 /* SliderAnimate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderAnimate.h; sourceTree = "<group>"; };
+		891BC1301D8983DF0018E753 /* SliderAnimate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderAnimate.m; sourceTree = "<group>"; };
+		891BC1321D89B9B10018E753 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		891BC1331D89B9B10018E753 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		891BC1351D89BC670018E753 /* NSViewController+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSViewController+Tools.h"; sourceTree = "<group>"; };
+		891BC1361D89BC670018E753 /* NSViewController+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSViewController+Tools.m"; sourceTree = "<group>"; };
 		89264DA41D5C3370004B51BF /* PlayerDanmakuCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDanmakuCountView.h; sourceTree = "<group>"; };
 		89264DA51D5C3370004B51BF /* PlayerDanmakuCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDanmakuCountView.m; sourceTree = "<group>"; };
 		89264DA71D5C5F8E004B51BF /* POPMasAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPMasAnimation.h; sourceTree = "<group>"; };
@@ -326,8 +336,8 @@
 		897DBA641D3E544A00479126 /* PlayerSubtitleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerSubtitleViewController.xib; sourceTree = "<group>"; };
 		897EC7B71C72056A00E1B03D /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		897EC7B81C72056A00E1B03D /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
-		897EC7B91C72056A00E1B03D /* DanMuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanMuModel.h; sourceTree = "<group>"; };
-		897EC7BA1C72056A00E1B03D /* DanMuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuModel.m; sourceTree = "<group>"; };
+		897EC7B91C72056A00E1B03D /* DanmakuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuModel.h; sourceTree = "<group>"; };
+		897EC7BA1C72056A00E1B03D /* DanmakuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuModel.m; sourceTree = "<group>"; };
 		897EC7BB1C72056A00E1B03D /* LocalVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalVideoModel.h; sourceTree = "<group>"; };
 		897EC7BC1C72056A00E1B03D /* LocalVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalVideoModel.m; sourceTree = "<group>"; };
 		897EC7BD1C72056A00E1B03D /* MatchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchModel.h; sourceTree = "<group>"; };
@@ -376,8 +386,6 @@
 		89973E8D1D3D1A6000814720 /* PlayerDanmakuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDanmakuViewController.h; sourceTree = "<group>"; };
 		89973E8E1D3D1A6000814720 /* PlayerDanmakuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDanmakuViewController.m; sourceTree = "<group>"; };
 		89973E8F1D3D1A6000814720 /* PlayerDanmakuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerDanmakuViewController.xib; sourceTree = "<group>"; };
-		899BA8021C8AC9C0007A67A8 /* VideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoModel.h; sourceTree = "<group>"; };
-		899BA8031C8AC9C0007A67A8 /* VideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoModel.m; sourceTree = "<group>"; };
 		89A5345C1CB92FD000F7FE18 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		89A5345D1CB92FD000F7FE18 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		89A5B1C41C9998AB007869C9 /* NSAlert+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+Tools.h"; sourceTree = "<group>"; };
@@ -395,6 +403,7 @@
 		89C2ACAC1D819E2F00B9CDB7 /* JHVLCMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHVLCMedia.m; sourceTree = "<group>"; };
 		89C2ACAD1D819E2F00B9CDB7 /* JHVLCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHVLCMedia.h; sourceTree = "<group>"; };
 		89C7610A1D6CA15000635384 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VLCKit.framework; sourceTree = "<group>"; };
+		89C881FA1D8D264A0016B482 /* VideoModelProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoModelProtocol.h; sourceTree = "<group>"; };
 		89D403251D52EACB00AED712 /* JHMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaPlayer.h; sourceTree = "<group>"; };
 		89D403261D52EACB00AED712 /* JHMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaPlayer.m; sourceTree = "<group>"; };
 		89D403271D52EACB00AED712 /* JHMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaView.h; sourceTree = "<group>"; };
@@ -423,6 +432,10 @@
 		89D6A1AC1D615C3B00A14469 /* DanDanPlayMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanDanPlayMessageModel.m; sourceTree = "<group>"; };
 		89D6A1AE1D6198C500A14469 /* AFHTTPDataResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPDataResponseSerializer.h; sourceTree = "<group>"; };
 		89D6A1AF1D6198C500A14469 /* AFHTTPDataResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPDataResponseSerializer.m; sourceTree = "<group>"; };
+		89D98A7D1D8A68050092EBE3 /* NSControl+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSControl+Tools.h"; sourceTree = "<group>"; };
+		89D98A7E1D8A68050092EBE3 /* NSControl+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSControl+Tools.m"; sourceTree = "<group>"; };
+		89D98A861D8ADEDE0092EBE3 /* NSImageView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImageView+Tools.h"; sourceTree = "<group>"; };
+		89D98A871D8ADEDE0092EBE3 /* NSImageView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImageView+Tools.m"; sourceTree = "<group>"; };
 		89E9DA351C940C8600896977 /* RecommendBangumiCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendBangumiCell.h; sourceTree = "<group>"; };
 		89E9DA361C940C8600896977 /* RecommendBangumiCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendBangumiCell.m; sourceTree = "<group>"; };
 		89E9DA381C942AB500896977 /* OtherSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherSettingCell.h; sourceTree = "<group>"; };
@@ -475,10 +488,10 @@
 			isa = PBXGroup;
 			children = (
 				89D4034C1D52EB1800AED712 /* View */,
-				890B9A501C8B2E460063986B /* OpenStreamVideoViewController.h */,
-				890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */,
 				890B9A441C8B1BB60063986B /* OpenStreamInputAidViewController.h */,
 				890B9A451C8B1BB60063986B /* OpenStreamInputAidViewController.m */,
+				890B9A501C8B2E460063986B /* OpenStreamVideoViewController.h */,
+				890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */,
 			);
 			name = "在线播放";
 			sourceTree = "<group>";
@@ -596,6 +609,8 @@
 				89761A161C5A71C10046A245 /* 匹配界面 */,
 				89A5345B1CB92FA700F7FE18 /* 关于界面 */,
 				897619FD1C59EEFD0046A245 /* 主界面 */,
+				891BC1321D89B9B10018E753 /* BaseViewController.h */,
+				891BC1331D89B9B10018E753 /* BaseViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -635,6 +650,8 @@
 				89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */,
 				89D6A1AE1D6198C500A14469 /* AFHTTPDataResponseSerializer.h */,
 				89D6A1AF1D6198C500A14469 /* AFHTTPDataResponseSerializer.m */,
+				891BC12F1D8983DF0018E753 /* SliderAnimate.h */,
+				891BC1301D8983DF0018E753 /* SliderAnimate.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -670,6 +687,12 @@
 				890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */,
 				8919753D1D6ACF7F00210AB9 /* NSTableView+Tools.h */,
 				8919753E1D6ACF7F00210AB9 /* NSTableView+Tools.m */,
+				891BC1351D89BC670018E753 /* NSViewController+Tools.h */,
+				891BC1361D89BC670018E753 /* NSViewController+Tools.m */,
+				89D98A7D1D8A68050092EBE3 /* NSControl+Tools.h */,
+				89D98A7E1D8A68050092EBE3 /* NSControl+Tools.m */,
+				89D98A861D8ADEDE0092EBE3 /* NSImageView+Tools.h */,
+				89D98A871D8ADEDE0092EBE3 /* NSImageView+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -723,8 +746,7 @@
 		896CF1EE1C8C659D0080019F /* 视频模型 */ = {
 			isa = PBXGroup;
 			children = (
-				899BA8021C8AC9C0007A67A8 /* VideoModel.h */,
-				899BA8031C8AC9C0007A67A8 /* VideoModel.m */,
+				89C881FA1D8D264A0016B482 /* VideoModelProtocol.h */,
 				897EC7BB1C72056A00E1B03D /* LocalVideoModel.h */,
 				897EC7BC1C72056A00E1B03D /* LocalVideoModel.m */,
 				896CF1EF1C8C66010080019F /* StreamingVideoModel.h */,
@@ -874,8 +896,8 @@
 				896CF1EE1C8C659D0080019F /* 视频模型 */,
 				897EC7B71C72056A00E1B03D /* BaseModel.h */,
 				897EC7B81C72056A00E1B03D /* BaseModel.m */,
-				897EC7B91C72056A00E1B03D /* DanMuModel.h */,
-				897EC7BA1C72056A00E1B03D /* DanMuModel.m */,
+				897EC7B91C72056A00E1B03D /* DanmakuModel.h */,
+				897EC7BA1C72056A00E1B03D /* DanmakuModel.m */,
 				897EC7BD1C72056A00E1B03D /* MatchModel.h */,
 				897EC7BE1C72056A00E1B03D /* MatchModel.m */,
 				897EC7BF1C72056A00E1B03D /* SearchModel.h */,
@@ -1132,13 +1154,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89636FE01C58C40B002F32FD /* Build configuration list for PBXNativeTarget "DanDanPlayForMac" */;
 			buildPhases = (
-				E5486C681EB31934494526DC /* Check Pods Manifest.lock */,
+				E5486C681EB31934494526DC /* [CP] Check Pods Manifest.lock */,
 				89636FC81C58C40B002F32FD /* Sources */,
 				89636FC91C58C40B002F32FD /* Frameworks */,
 				89636FCA1C58C40B002F32FD /* Resources */,
 				8915965D1D85AE6C007794C7 /* Embed Frameworks */,
-				27E1A2FAF479DEDA6267E10B /* Embed Pods Frameworks */,
-				0D3199A50DA11BC045F71C16 /* Copy Pods Resources */,
+				27E1A2FAF479DEDA6267E10B /* [CP] Embed Pods Frameworks */,
+				0D3199A50DA11BC045F71C16 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1205,14 +1227,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0D3199A50DA11BC045F71C16 /* Copy Pods Resources */ = {
+		0D3199A50DA11BC045F71C16 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1220,14 +1242,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		27E1A2FAF479DEDA6267E10B /* Embed Pods Frameworks */ = {
+		27E1A2FAF479DEDA6267E10B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1235,19 +1257,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E5486C681EB31934494526DC /* Check Pods Manifest.lock */ = {
+		E5486C681EB31934494526DC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1280,13 +1302,14 @@
 				89973E901D3D1A6000814720 /* PlayerDanmakuViewController.m in Sources */,
 				897619ED1C59E8520046A245 /* BaseViewModel.m in Sources */,
 				8975D1ED1C6F355D003FE797 /* KeyboardSettingCell.m in Sources */,
-				897EC7C61C72056A00E1B03D /* DanMuModel.m in Sources */,
+				897EC7C61C72056A00E1B03D /* DanmakuModel.m in Sources */,
 				89E9DA371C940C8600896977 /* RecommendBangumiCell.m in Sources */,
 				8975D1E31C6F2434003FE797 /* ChangeBackGroundImgCell.m in Sources */,
 				89E9DA3A1C942AB500896977 /* OtherSettingCell.m in Sources */,
 				895A2B7C1C6D9E3F000FE343 /* OnlyButtonCell.m in Sources */,
 				8963705A1C59028C002F32FD /* SearchNetManager.m in Sources */,
 				897368111C70708A00B9B765 /* NSString+KeyEvent.m in Sources */,
+				891BC1371D89BC670018E753 /* NSViewController+Tools.m in Sources */,
 				89FC23EE1C6F3EAF009FD27C /* ScreenShotCell.m in Sources */,
 				897EC7C81C72056A00E1B03D /* MatchModel.m in Sources */,
 				896DD4FC1D6320C80003AFE1 /* ToolsManager.m in Sources */,
@@ -1298,6 +1321,7 @@
 				896AEA931C7CB8680011E046 /* PlayerMethodManager.m in Sources */,
 				896370581C59028C002F32FD /* DanmakuNetManager.m in Sources */,
 				8975D1DF1C6EF939003FE797 /* CaptionsProtectAreaCell.m in Sources */,
+				89D98A7F1D8A68050092EBE3 /* NSControl+Tools.m in Sources */,
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,
 				89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */,
 				89FDFEAD1C9042FD005499B9 /* UpdateViewController.m in Sources */,
@@ -1315,6 +1339,7 @@
 				89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */,
 				8975A0B11C60A8EA009BD30F /* DanmakuChooseViewController.m in Sources */,
 				89D4033B1D52EACB00AED712 /* JHPlayerItem.m in Sources */,
+				891BC1341D89B9B10018E753 /* BaseViewController.m in Sources */,
 				89A5B1C61C9998AB007869C9 /* NSAlert+Tools.m in Sources */,
 				89524B441CB96BB400BDFDBA /* QualityMenuItem.m in Sources */,
 				89D4033D1D52EACB00AED712 /* VLCMedia+Tools.m in Sources */,
@@ -1333,6 +1358,7 @@
 				8965EE371C6DB8590089E187 /* PreferenceViewController.m in Sources */,
 				89D4034A1D52EAFB00AED712 /* RespondKeyboardTextField.m in Sources */,
 				89651E3D1C5F81E4002F23A2 /* BackGroundImageView.m in Sources */,
+				891BC1311D8983DF0018E753 /* SliderAnimate.m in Sources */,
 				897DBA651D3E544A00479126 /* PlayerSubtitleViewController.m in Sources */,
 				896A716A1C66248800280B79 /* AcFunSearchViewModel.m in Sources */,
 				896370571C59028C002F32FD /* BaseNetManager.m in Sources */,
@@ -1346,7 +1372,6 @@
 				896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */,
 				89D6A1AD1D615C3B00A14469 /* DanDanPlayMessageModel.m in Sources */,
 				897CD5B01C914A0100C98310 /* AutoUpdateCell.m in Sources */,
-				899BA8041C8AC9C0007A67A8 /* VideoModel.m in Sources */,
 				8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */,
 				8996A6E31C6CE18200D5AA6E /* TimeAxisCell.m in Sources */,
 				89D403481D52EAFB00AED712 /* HUDMessageView.m in Sources */,
@@ -1358,6 +1383,7 @@
 				89264DA61D5C3370004B51BF /* PlayerDanmakuCountView.m in Sources */,
 				890B9A461C8B1BB60063986B /* OpenStreamInputAidViewController.m in Sources */,
 				8981629D1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m in Sources */,
+				89D98A881D8ADEDE0092EBE3 /* NSImageView+Tools.m in Sources */,
 				89A5345E1CB92FD000F7FE18 /* AboutViewController.m in Sources */,
 				89D4033E1D52EACB00AED712 /* JHProgressHUD.m in Sources */,
 				8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */,
