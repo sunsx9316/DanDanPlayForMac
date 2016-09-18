@@ -131,10 +131,10 @@
  *  第一次启动操作
  */
 - (void)firstRun {
-    if ([UserDefaultManager shareUserDefaultManager].firstRun) {
-        [[UserDefaultManager shareUserDefaultManager] clearPlayHistory];
+ //   if ([UserDefaultManager shareUserDefaultManager].firstRun) {
+        [UserDefaultManager shareUserDefaultManager].videoListOrderedSet = nil;
         [UserDefaultManager shareUserDefaultManager].firstRun = NO;
-    }
+  //  }
 }
 
 @end

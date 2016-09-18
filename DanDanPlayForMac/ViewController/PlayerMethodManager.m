@@ -60,7 +60,12 @@
     }];
 }
 
-+ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate {
++ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id<NSUserNotificationCenterDelegate>)delegate {
+    matchName = matchName.length ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoMatchVideo].message;
+    [self postMatchMessageWithTitle:[ToolsManager appName] subtitle:nil informativeText:matchName delegate:delegate];
+}
+
++ (void)postMatchMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle informativeText:(NSString *)informativeText delegate:(id<NSUserNotificationCenterDelegate>)delegate {
     //删除已经显示过的通知(已经存在用户的通知列表中的)
     [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
     
@@ -70,8 +75,9 @@
     }
     
     NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = @"弹弹play";
-    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoMatchVideo].message;
+    notification.title = title;
+    notification.subtitle = subtitle;
+    notification.informativeText = informativeText;
     [NSUserNotificationCenter defaultUserNotificationCenter].delegate = delegate;
     [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }
@@ -95,7 +101,7 @@
     }
     //没超过 使用这个约束
     else {
-        [mediaView  mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.right.centerY.mas_equalTo(0);
             make.top.mas_greaterThanOrEqualTo(0);
             make.bottom.mas_lessThanOrEqualTo(0);
@@ -138,7 +144,7 @@
     if (imgFileType == NSPNGFileType) {
         [[NSFileManager defaultManager] moveItemAtPath:path toPath:[path stringByAppendingPathExtension:@"png"] error:nil];
     }
-    else{
+    else {
         NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
         if (!image) return;
         CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];

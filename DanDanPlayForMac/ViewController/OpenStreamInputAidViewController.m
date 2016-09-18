@@ -27,7 +27,6 @@
         
         [self clickOKButton:nil];
     }];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
 }
 
 - (IBAction)clickOKButton:(NSButton *)sender {
@@ -42,13 +41,5 @@
 - (IBAction)dismiss:(NSButton *)sender {
     [self dismissController:self];
 }
-
-//- (void)dealloc {
-//    [[NSNotificationCenter defaultCenter] removeObserver: self];
-//}
-
-//- (instancetype)init {
-//    return kViewControllerWithId(@"OpenStreamInputAidViewController");
-//}
 
 @end

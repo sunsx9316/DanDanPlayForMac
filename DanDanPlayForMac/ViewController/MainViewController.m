@@ -237,7 +237,7 @@
         [self.imgView setFilePickBlock:^(NSArray *filePath) {
             [weakSelf setUpWithFilePath: filePath];
         }];
-        _imgView.imageScaling = NSImageScaleProportionallyUpOrDown;
+        _imgView.imageScaling = NSImageScaleNone;
         [_imgView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     }
     return _imgView;

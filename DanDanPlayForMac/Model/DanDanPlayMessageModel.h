@@ -114,7 +114,11 @@ typedef NS_ENUM(NSUInteger, DanDanPlayMessageType) {
     /**
      *  视频缓冲中 225
      */
-    DanDanPlayMessageTypeVideoBuffering
+    DanDanPlayMessageTypeVideoBuffering,
+    /**
+     *  截图失败 226
+     */
+    DanDanPlayMessageTypeSnapshotError
 };
 
 /**
@@ -124,6 +128,5 @@ typedef NS_ENUM(NSUInteger, DanDanPlayMessageType) {
 @property (copy, nonatomic, readonly) NSString *message;
 @property (copy, nonatomic, readonly) NSString *infomationMessage;
 - (instancetype)initWithMessage:(NSString *)message infomationMessage:(NSString *)infomationMessage;
-//- (instancetype)initWithType:(DanDanPlayMessageType)type;
 + (instancetype)messageModelWithType:(DanDanPlayMessageType)type;
 @end

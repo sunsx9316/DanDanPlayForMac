@@ -45,8 +45,15 @@ typedef void(^loadLocalSubtitleBlock)(NSString *path);
  */
 + (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanmakuDataModel *model ,DanDanPlayErrorModel *error))completionHandler;
 
-+ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate;
++ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id<NSUserNotificationCenterDelegate>)delegate;
 
++ (void)postMatchMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle informativeText:(NSString *)informativeText delegate:(id<NSUserNotificationCenterDelegate>)delegate;
+/**
+ *  重设播放视图约束
+ *
+ *  @param mediaView 播放视图
+ *  @param size      视频尺寸
+ */
 + (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size;
 
 + (void)showPlayLastWatchVideoTimeView:(PlayerLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time;

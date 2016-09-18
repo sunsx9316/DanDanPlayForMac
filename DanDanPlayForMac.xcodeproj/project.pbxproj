@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		09304AA09D7DF9634D90ECFB /* libPods-DanDanPlayForMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 754F9778242FF83CBF39C280 /* libPods-DanDanPlayForMac.a */; };
+		816AF2421D8E3B62002FBB6E /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 816AF2411D8E3B62002FBB6E /* home.png */; };
 		890B9A461C8B1BB60063986B /* OpenStreamInputAidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A451C8B1BB60063986B /* OpenStreamInputAidViewController.m */; };
 		890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A481C8B1E770063986B /* VideoNetManager.m */; };
 		890B9A4F1C8B259C0063986B /* OpenStreamVideoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A4E1C8B259C0063986B /* OpenStreamVideoViewModel.m */; };
@@ -22,7 +23,6 @@
 		89264DA61D5C3370004B51BF /* PlayerDanmakuCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89264DA51D5C3370004B51BF /* PlayerDanmakuCountView.m */; };
 		89264DA91D5C5F8E004B51BF /* POPMasAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */; };
 		892DD15C1D66A612001FBD3B /* ReverseVolumeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 892DD15B1D66A612001FBD3B /* ReverseVolumeCell.m */; };
-		892DD1611D66C118001FBD3B /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 892DD15F1D66C118001FBD3B /* home.png */; };
 		89387EBD1D6597E900F273D7 /* NSDictionary+Bilibili.m in Sources */ = {isa = PBXBuildFile; fileRef = 89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */; };
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; };
 		8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9851CA95D04000C863B /* VolumeControlView.m */; };
@@ -171,6 +171,7 @@
 /* Begin PBXFileReference section */
 		754F9778242FF83CBF39C280 /* libPods-DanDanPlayForMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		812872A21D8934C600BF688B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		816AF2411D8E3B62002FBB6E /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		890B9A441C8B1BB60063986B /* OpenStreamInputAidViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStreamInputAidViewController.h; sourceTree = "<group>"; };
 		890B9A451C8B1BB60063986B /* OpenStreamInputAidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamInputAidViewController.m; sourceTree = "<group>"; };
 		890B9A471C8B1E770063986B /* VideoNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoNetManager.h; sourceTree = "<group>"; };
@@ -199,7 +200,6 @@
 		89264DA81D5C5F8E004B51BF /* POPMasAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POPMasAnimation.m; sourceTree = "<group>"; };
 		892DD15A1D66A612001FBD3B /* ReverseVolumeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReverseVolumeCell.h; sourceTree = "<group>"; };
 		892DD15B1D66A612001FBD3B /* ReverseVolumeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReverseVolumeCell.m; sourceTree = "<group>"; };
-		892DD15F1D66C118001FBD3B /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		89387EBB1D6597E900F273D7 /* NSDictionary+Bilibili.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Bilibili.h"; sourceTree = "<group>"; };
 		89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Bilibili.m"; sourceTree = "<group>"; };
 		8946B5CA1C63B1D10042A370 /* BiliBiliSearchViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiliBiliSearchViewModel.h; sourceTree = "<group>"; };
@@ -499,7 +499,7 @@
 		892DD15D1D66C109001FBD3B /* homeImage */ = {
 			isa = PBXGroup;
 			children = (
-				892DD15F1D66C118001FBD3B /* home.png */,
+				816AF2411D8E3B62002FBB6E /* home.png */,
 			);
 			name = homeImage;
 			sourceTree = "<group>";
@@ -1212,9 +1212,9 @@
 			files = (
 				8983C7751C8853B40080C316 /* danmaku_color.plist in Resources */,
 				89636FD91C58C40B002F32FD /* Assets.xcassets in Resources */,
+				816AF2421D8E3B62002FBB6E /* home.png in Resources */,
 				8916809F1D5080DE00B215D1 /* alert_message.plist in Resources */,
 				897DBA611D3E538E00479126 /* PlayerDanmakuAndSubtitleViewController.xib in Resources */,
-				892DD1611D66C118001FBD3B /* home.png in Resources */,
 				897368031C70392000B9B765 /* default_key_map.plist in Resources */,
 				89636FDC1C58C40B002F32FD /* Main.storyboard in Resources */,
 				8975A0AE1C60A03A009BD30F /* PlayerViewController.xib in Resources */,

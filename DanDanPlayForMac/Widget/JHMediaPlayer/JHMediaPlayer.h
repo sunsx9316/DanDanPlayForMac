@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
 };
 
 typedef void(^mediaParseComplete)(CGSize size);
+typedef void(^snapshotCompleteBlock)(NSString *savePath, NSError *error);
 
 @class JHMediaPlayer;
 @protocol JHMediaPlayerDelegate <NSObject>
@@ -96,7 +97,7 @@ typedef void(^mediaParseComplete)(CGSize size);
  *  @param height 高 如果填0则为原视频高
  *  @param format 图片格式
  */
-- (void)saveVideoSnapshotAt:(NSString *)path withSize:(CGSize)size format:(JHSnapshotType)format;
+- (void)saveVideoSnapshotAt:(NSString *)path withSize:(CGSize)size format:(JHSnapshotType)format completionHandler:(snapshotCompleteBlock)completion;
 /**
  *  加载字幕文件
  *

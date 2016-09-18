@@ -640,7 +640,17 @@
 
 #pragma mark 截图
 - (void)snapShot {
-    [self.player saveVideoSnapshotAt:[[UserDefaultManager shareUserDefaultManager].screenShotPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", self.vm.currentVideoModel.fileName, [self.snapshotFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]] withSize:CGSizeZero format:[UserDefaultManager shareUserDefaultManager].defaultScreenShotType];
+    NSString *path = [[UserDefaultManager shareUserDefaultManager].screenShotPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@", self.vm.currentVideoModel.fileName, [self.snapshotFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]]]];
+    
+    [self.player saveVideoSnapshotAt:path withSize:CGSizeZero format:[UserDefaultManager shareUserDefaultManager].defaultScreenShotType completionHandler:^(NSString *savePath, NSError *error) {
+        if (error) {
+            DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeSnapshotError];
+            [PlayerMethodManager postMatchMessageWithTitle:[ToolsManager appName] subtitle:model.message informativeText:model.infomationMessage delegate:self];
+        }
+        else {
+            [PlayerMethodManager postMatchMessageWithTitle:[ToolsManager appName] subtitle:@"截图成功" informativeText:nil delegate:self];
+        }
+    }];
 }
 
 

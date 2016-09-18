@@ -138,16 +138,12 @@
         }
         
         [UserDefaultManager shareUserDefaultManager].currentVideoModel = videoModel;
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"OPEN_STREAM_VC_CHOOSE_OVER" object:nil userInfo:@{@"videos":arr}];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:arr];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:nil];
-        
     }];
 }
 
 - (void)startPlayNotice:(NSNotification *)sender {
     [super startPlayNotice:sender];
-    NSLog(@"");
 }
 
 - (NSMutableSet *)selectedSet {

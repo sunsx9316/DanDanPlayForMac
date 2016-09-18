@@ -236,17 +236,49 @@
 
 
 #pragma mark 功能
-- (void)saveVideoSnapshotAt:(NSString *)path withSize:(CGSize)size format:(JHSnapshotType)format {
+- (void)saveVideoSnapshotAt:(NSString *)path withSize:(CGSize)size format:(JHSnapshotType)format completionHandler:(snapshotCompleteBlock)completion {
     //vlc截图方式
+    NSError *error = nil;
+    NSString *directoryPath = [path stringByDeletingLastPathComponent];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:directoryPath]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:&error];
+    }
+    
+    //创建文件错误
+    if (error) {
+        completion(nil, error);
+        return;
+    }
+    
+    //属性字典
+    NSDictionary *dic = [self imgSuffixNameAndFIleTypeWithformat:format];
+    
     if (self.mediaType == JHMediaTypeLocaleMedia) {
-        NSString *directoryPath = [path stringByDeletingLastPathComponent];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:directoryPath]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];
-        }
-        
         [self.localMediaPlayer saveVideoSnapshotAt:path withWidth:size.width andHeight:size.height];
-        NSDictionary *dic = [self imgSuffixNameAndFIleTypeWithformat:format];
-        [self transformImgWithPath:path imgFileType:[dic[@"imgFileType"] integerValue] suffixName:dic[@"suffixName"]];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
+            CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
+            [self transformImgWithPath:path imageRef:cgRef size:image.size imgFileType:[dic[@"imgFileType"] integerValue] suffixName:dic[@"suffixName"] complete:completion];
+        });
+    }
+    else {
+        AVAsset *asset = self.netMediaPlayer.currentItem.asset;
+        AVAssetTrack *track = asset.tracks.firstObject;
+        if (CGSizeEqualToSize(size, CGSizeZero)) {
+            size = track.naturalSize;
+        }
+        // 根据视频的URL创建AVURLAsset
+        AVURLAsset *urlAsset = [[AVURLAsset alloc] initWithURL:self.mediaURL options:nil];
+        // 根据AVURLAsset创建AVAssetImageGenerator对象
+        AVAssetImageGenerator* gen = [[AVAssetImageGenerator alloc] initWithAsset: urlAsset];
+        gen.appliesPreferredTrackTransform = YES;
+        // 当前时间视频截图
+        CMTime time = self.netMediaPlayer.currentItem.currentTime;
+        NSError *error = nil;
+        CMTime actualTime;
+        // 获取time处的视频截图
+        CGImageRef image = [gen copyCGImageAtTime:time actualTime:&actualTime error:&error];
+        [self transformImgWithPath:path imageRef:image size:size imgFileType:[dic[@"imgFileType"] integerValue] suffixName:dic[@"suffixName"] complete:completion];
     }
 }
 
@@ -277,13 +309,6 @@
         [self setMediaURL:mediaURL];
     }
     return self;
-}
-
-- (void)videoBuffering:(NSNotification *)sender {
-    _isBuffering = YES;
-    if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
-        [self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusBuffering];
-    }
 }
 
 #pragma mark - VLCMediaPlayerDelegate
@@ -320,11 +345,18 @@
 }
 
 #pragma mark - 私有方法
-
 #pragma mark 单次缓冲时长
 - (NSTimeInterval)netMediaBufferOnceTime {
     CMTimeRange range = self.netMediaPlayer.currentItem.loadedTimeRanges.firstObject.CMTimeRangeValue;
     return CMTimeGetSeconds(range.duration);
+}
+
+#pragma mark 在线视频进入缓冲状态
+- (void)videoBuffering:(NSNotification *)sender {
+    _isBuffering = YES;
+    if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
+        [self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusBuffering];
+    }
 }
 
 #pragma mark 播放结束
@@ -338,19 +370,35 @@
 }
 
 #pragma mark 转换图片格式
-- (void)transformImgWithPath:(NSString *)path imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName {
-    if (imgFileType == NSPNGFileType) {
-        [[NSFileManager defaultManager] moveItemAtPath:path toPath:[path stringByAppendingPathExtension:@"png"] error:nil];
+- (void)transformImgWithPath:(NSString *)path imageRef:(CGImageRef)imageRef size:(CGSize)size imgFileType:(NSBitmapImageFileType)imgFileType suffixName:(NSString *)suffixName complete:(snapshotCompleteBlock)complete {
+    __block NSError *error = nil;
+    if (self.mediaType == JHMediaTypeLocaleMedia) {
+        if (imgFileType == NSPNGFileType) {
+            [[NSFileManager defaultManager] moveItemAtPath:path toPath:[path stringByAppendingPathExtension:@"png"] error:&error];
+            if (error) {
+                complete(nil, error);
+                return;
+            }
+        }
+        else {
+            if (!imageRef) return;
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                [[self imgDataWithImageRef:imageRef size:size imgFileType:imgFileType] writeToFile:[NSString stringWithFormat:@"%@%@", path, suffixName] options:NSDataWritingAtomic error:&error];
+                complete(path, error);
+            });
+        }
+        [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+        if (error) {
+            complete(nil, error);
+            return;
+        }
     }
     else {
-        NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
-        if (!image) return;
-        CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            [[self imgDataWithImageRef:cgRef size:[image size] imgFileType:imgFileType] writeToFile:[NSString stringWithFormat:@"%@%@",path,suffixName] atomically:YES];
+            [[self imgDataWithImageRef:imageRef size:size imgFileType:imgFileType] writeToFile:[NSString stringWithFormat:@"%@%@", path, suffixName] options:NSDataWritingAtomic error:&error];
+            complete(path, error);
         });
     }
-    [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
 }
 
 #pragma mark 获取图片数据
@@ -401,11 +449,9 @@
     }
     else {
         _netMediaPlayer = [AVPlayer playerWithPlayerItem:item];
-//        __weak typeof(self)weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(videoBuffering:) name:AVPlayerItemPlaybackStalledNotification object:nil];
         //监听状态变化
-        //playbackBufferFull
         [_netMediaPlayer addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
         //监听时间变化
         @weakify(self)
@@ -429,7 +475,6 @@
     [_netMediaPlayer replaceCurrentItemWithPlayerItem:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 
 #pragma mark - 懒加载
 - (VLCMediaPlayer *)localMediaPlayer {
