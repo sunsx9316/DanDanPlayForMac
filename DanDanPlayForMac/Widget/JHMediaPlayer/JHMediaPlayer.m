@@ -352,7 +352,7 @@
 }
 
 #pragma mark 在线视频进入缓冲状态
-- (void)videoBuffering:(NSNotification *)sender {
+- (void)videoBuffering {
     _isBuffering = YES;
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
         [self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusBuffering];
@@ -360,7 +360,7 @@
 }
 
 #pragma mark 播放结束
-- (void)playEnd {
+- (void)playEnd:(NSNotification *)sender {
     if (self.mediaType == JHMediaTypeNetMedia) {
         _status = JHMediaPlayerStatusStop;
         if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
@@ -449,8 +449,8 @@
     }
     else {
         _netMediaPlayer = [AVPlayer playerWithPlayerItem:item];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(videoBuffering:) name:AVPlayerItemPlaybackStalledNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(videoBuffering) name:AVPlayerItemPlaybackStalledNotification object:nil];
         //监听状态变化
         [_netMediaPlayer addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
         //监听时间变化
@@ -464,7 +464,7 @@
     }
     AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:_netMediaPlayer];
     self.mediaView.layer = playerLayer;
-    _isBuffering = YES;
+    [self videoBuffering];
 }
 
 - (void)dealloc {

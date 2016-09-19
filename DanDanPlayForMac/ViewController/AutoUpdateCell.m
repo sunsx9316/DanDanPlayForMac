@@ -41,12 +41,10 @@
 }
 
 - (IBAction)clickCheakUpdateInfoButton:(NSButton *)sender {
-    [UpdateNetManager latestVersionWithCompletionHandler:^(NSString *version, NSString *details, NSString *hash, NSError *error) {
-        CGFloat curentVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
-        //判断当前版本是否比最新版本小
-        if (curentVersion < [version floatValue]) {
+    [UpdateNetManager latestVersionWithCompletionHandler:^(VersionModel *model) {
+        if ([ToolsManager appVersion] < model.version.floatValue) {
             NSViewController *vc = NSApp.keyWindow.contentViewController;
-            [vc presentViewControllerAsModalWindow:[UpdateViewController viewControllerWithVersion:version details:details hash:hash]];
+            [vc presentViewControllerAsModalWindow:[UpdateViewController viewControllerWithModel:model]];
         }
         else {
             [[NSAlert alertWithMessageText:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoUpdateInfo].message informativeText:nil] runModal];

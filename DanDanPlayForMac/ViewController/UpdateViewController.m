@@ -11,15 +11,17 @@
 #import "UpdateNetManager.h"
 #import "NSData+Tools.h"
 #import "NSAlert+Tools.h"
+#import "VersionModel.h"
 
 @interface UpdateViewController ()
 @property (weak) IBOutlet NSTextField *updateDetailTextField;
 @property (weak) IBOutlet NSButton *autoUpdateButton;
 @property (weak) IBOutlet NSButton *downloadButton;
 
-@property (strong, nonatomic) NSString *version;
-@property (strong, nonatomic) NSString *details;
-@property (strong, nonatomic) NSString *fileHash;
+//@property (strong, nonatomic) NSString *version;
+//@property (strong, nonatomic) NSString *details;
+//@property (strong, nonatomic) NSString *fileHash;
+@property (strong, nonatomic) VersionModel *model;
 @property (strong, nonatomic) JHProgressHUD *progressHUD;
 @property (weak) IBOutlet NSButton *autoCheakUpdateInfoButton;
 
@@ -27,17 +29,15 @@
 
 @implementation UpdateViewController
 
-+ (instancetype)viewControllerWithVersion:(NSString *)version details:(NSString *)details hash:(NSString *)hash {
++ (instancetype)viewControllerWithModel:(VersionModel *)model {
     UpdateViewController *vc = [UpdateViewController viewController];
-    vc.version = version.length ? version : @"";
-    vc.details = details.length ? details : @"";
-    vc.fileHash = hash;
+    vc.model = model;
     return vc;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.updateDetailTextField.text = self.details;
+    self.updateDetailTextField.text = _model.details;
     [self.autoUpdateButton setTitleColor:MAIN_COLOR];
     [self.downloadButton setTitleColor:[NSColor darkGrayColor]];
     
@@ -47,7 +47,7 @@
 - (IBAction)clickOKButton:(NSButton *)sender {
     [self.progressHUD show];
     
-    [UpdateNetManager downLatestVersionWithVersion:self.version progress:^(NSProgress *downloadProgress) {
+    [UpdateNetManager downLatestVersionWithVersion:_model.version progress:^(NSProgress *downloadProgress) {
         [self.progressHUD updateProgress:downloadProgress.fractionCompleted];
     } completionHandler:^(NSURL *filePath, NSError *error) {
         [self.progressHUD disMiss];
@@ -61,7 +61,7 @@
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSData *fileData = [[NSData alloc] initWithContentsOfURL:filePath];
             dispatch_async(dispatch_get_main_queue(), ^{
-                if ([[fileData md5String] isEqualToString:self.fileHash]) {
+                if ([[fileData md5String] isEqualToString:_model.md5]) {
                     system([[NSString stringWithFormat:@"open %@", filePath] cStringUsingEncoding:NSUTF8StringEncoding]);
                 }
                 else {

@@ -86,13 +86,6 @@
     }];
     [task resume];
     return task;
-//    AFHTTPRequestOperation *operation = [[self _sharedAFDataManager] HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-//        complete(responseObject, nil);
-//    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-//        complete(nil, error);
-//    }];
-//    [[self _sharedAFDataManager].operationQueue addOperation:operation];
-//    return operation;
 }
 
 

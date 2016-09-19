@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+@class VersionModel;
 @interface UpdateViewController : BaseViewController
-+ (instancetype)viewControllerWithVersion:(NSString *)version details:(NSString *)details hash:(NSString *)hash;
++ (instancetype)viewControllerWithModel:(VersionModel *)model;
 @end

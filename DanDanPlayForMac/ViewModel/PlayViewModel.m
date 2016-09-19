@@ -118,7 +118,6 @@
 
 - (void)synchronizeVideoList {
     [[UserDefaultManager shareUserDefaultManager] setVideoListOrderedSet:_videos];
-//    [[UserDefaultManager shareUserDefaultManager] setVideoListArr:self.videos];
 }
 
 - (void)saveUserDanmaku:(DanmakuDataModel *)danmakuModel {

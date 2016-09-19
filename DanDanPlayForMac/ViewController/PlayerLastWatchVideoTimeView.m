@@ -7,7 +7,7 @@
 //
 
 #import "PlayerLastWatchVideoTimeView.h"
-#import "POPMasAnimation.h"
+#import "POPMasBaseAnimation.h"
 
 @interface PlayerLastWatchVideoTimeView()
 @property (strong, nonatomic) NSTimer *timer;
@@ -47,7 +47,7 @@
         [NSApp.keyWindow.contentViewController.view addSubview:self];
     }
     
-    POPMasAnimation *animate = [POPMasAnimation animationWithPropertyType:POPMasAnimationTypeLeft];
+    POPMasBaseAnimation *animate = [POPMasBaseAnimation animationWithPropertyType:POPMasAnimationTypeLeft];
     animate.fromValue = @(-self.frame.size.width);
     animate.toValue = @0;
     animate.duration = 0.8;
@@ -65,7 +65,7 @@
 
 - (void)dismiss {
     [self.timer invalidate];
-    POPMasAnimation *animate = [POPMasAnimation animationWithPropertyType:POPMasAnimationTypeLeft];
+    POPMasBaseAnimation *animate = [POPMasBaseAnimation animationWithPropertyType:POPMasAnimationTypeLeft];
     animate.fromValue = @0;
     animate.toValue = @(-self.frame.size.width);
     animate.duration = 0.8;

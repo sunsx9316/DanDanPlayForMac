@@ -14,6 +14,9 @@
 #import "NSOpenPanel+Tools.h"
 #import "PreferenceViewController.h"
 
+#import "UpdateNetManager.h"
+#import <JPEngine.h>
+
 @implementation AppDelegate
 {
     //右键打开的文件
@@ -21,6 +24,15 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    //打补丁
+    UserDefaultManager *udm = [UserDefaultManager shareUserDefaultManager];
+    NSString *patchPath = [udm.patchPath stringByAppendingPathComponent:udm.patchHash];
+    NSString *script = [NSString stringWithContentsOfFile:patchPath encoding:NSUTF8StringEncoding error:nil];
+    if (script.length) {
+        [JPEngine startEngine];
+        [JPEngine evaluateScript:script];        
+    }
+    
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
     NSButton *closeButton = [self.mainWindowController.window standardWindowButton:NSWindowCloseButton];
     [closeButton setTarget:self];
@@ -131,10 +143,17 @@
  *  第一次启动操作
  */
 - (void)firstRun {
- //   if ([UserDefaultManager shareUserDefaultManager].firstRun) {
+    if ([UserDefaultManager shareUserDefaultManager].firstRun) {
+        NSMutableArray *customKeyMapArr = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
+        NSMutableArray *keyMapArr = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_key_map" ofType:@"plist"]];
+        //添加关闭弹幕快捷键
+        if (customKeyMapArr.count < keyMapArr.count) {
+            [customKeyMapArr addObject:keyMapArr.lastObject];
+        }
+        [UserDefaultManager shareUserDefaultManager].customKeyMapArr = customKeyMapArr;
         [UserDefaultManager shareUserDefaultManager].videoListOrderedSet = nil;
         [UserDefaultManager shareUserDefaultManager].firstRun = NO;
-  //  }
+    }
 }
 
 @end

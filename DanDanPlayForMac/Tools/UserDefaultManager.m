@@ -23,6 +23,7 @@
     NSString *_screenShotPath;
     NSString *_autoDownLoadPath;
     NSString *_danmakuCachePath;
+    NSString *_patchHash;
     NSMutableArray *_userFilterArr;
     NSMutableArray *_customKeyMapArr;
     NSMutableOrderedSet *_videoListOrderedSet;
@@ -311,6 +312,23 @@
         }
     }
     return _autoDownLoadPath;
+}
+
+- (NSString *)patchPath {
+    return [[NSBundle mainBundle] resourcePath];
+}
+
+- (void)setPatchHash:(NSString *)patchHash {
+    _patchHash = patchHash;
+    [[NSUserDefaults standardUserDefaults] setObject:_patchHash forKey:@"patchHash"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)patchHash {
+    if (_patchHash == nil) {
+        _patchHash = [[NSUserDefaults standardUserDefaults] stringForKey:@"patchHash"];
+    }
+    return _patchHash;
 }
 
 - (void)setDanmakuCachePath:(NSString *)danmakuCachePath {

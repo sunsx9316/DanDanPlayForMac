@@ -1,21 +1,14 @@
 //
-//  POPMasAnimation.m
+//  POPMasAnimatableProperty.m
 //  DanDanPlayForMac
 //
-//  Created by JimHuang on 16/8/11.
+//  Created by Jim_Huang on 16/9/19.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "POPMasAnimation.h"
+#import "POPMasAnimatableProperty.h"
 
-@implementation POPMasAnimation
-+ (instancetype)animationWithPropertyType:(POPMasAnimationType)type {
-    POPMasAnimation *animation = [POPMasAnimation easeInEaseOutAnimation];
-    animation.property = [self animatablePropertyWithType:type];
-    return animation;
-}
-
-#pragma mark - 私有方法
+@implementation POPMasAnimatableProperty
 + (POPAnimatableProperty *)animatablePropertyWithType:(POPMasAnimationType)type {
     if (type == POPMasAnimationTypeLeft) {
         return [POPAnimatableProperty propertyWithName:@"mas_left_anima" initializer:^(POPMutableAnimatableProperty *prop) {

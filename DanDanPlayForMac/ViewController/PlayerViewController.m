@@ -116,7 +116,6 @@
 
 @property (strong, nonatomic) JHMediaPlayer *player;
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
-@property (strong, nonatomic) PlayViewModel *vm;
 //快捷键映射
 @property (strong, nonatomic) NSArray *keyMap;
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
@@ -195,7 +194,7 @@
     //进入激活状态让定时器失活
     if (self.playerControlView.status == PlayerControlViewStatusActive) return;
     
-    _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoHideMouseControlView) userInfo:nil repeats:NO];
+    _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:AUTO_HIDE_TIME target:self selector:@selector(autoHideMouseControlView) userInfo:nil repeats:NO];
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent {
@@ -676,15 +675,6 @@
 }
 
 #pragma mark -------- 通知 --------
-#pragma mark 加载网络视频
-//- (void)openStreamVCChooseOver:(NSNotification *)notification {
-//    NSArray *arr = notification.userInfo[@"videos"];
-//    [self.vm addVideosModel:arr];
-//    //网络视频 episode应该为空
-//    self.vm.currentVideoModel.episodeId = nil;
-//    [self changeCurrentIndex:self.vm.videos.count - arr.count];
-//}
-
 #pragma mark 改变发送弹幕颜色
 - (void)changeDanmakuColor:(NSNotification *)sender {
     NSColorPanel *panel = sender.object;
@@ -1000,7 +990,7 @@
 
 - (NSButton *)controlDanMakuControllerViewButton {
     if(_controlDanMakuControllerViewButton == nil) {
-        _controlDanMakuControllerViewButton = [[AddTrackingAreaButton alloc] init];
+        _controlDanMakuControllerViewButton = [[NSButton alloc] init];
         _controlDanMakuControllerViewButton.bordered = NO;
         _controlDanMakuControllerViewButton.bezelStyle = NSTexturedRoundedBezelStyle;
         [_controlDanMakuControllerViewButton setImage: [NSImage imageNamed:@"show_damaku_controller"]];
@@ -1019,7 +1009,7 @@
 
 - (NSButton *)controlPlayListControllerViewButton {
     if(_controlPlayListControllerViewButton == nil) {
-        _controlPlayListControllerViewButton = [[AddTrackingAreaButton alloc] init];
+        _controlPlayListControllerViewButton = [[NSButton alloc] init];
         _controlPlayListControllerViewButton.bordered = NO;
         _controlPlayListControllerViewButton.bezelStyle = NSTexturedRoundedBezelStyle;
 

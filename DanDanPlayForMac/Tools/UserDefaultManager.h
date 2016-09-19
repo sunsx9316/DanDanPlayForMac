@@ -46,6 +46,10 @@
 @property (copy, nonatomic) NSString *screenShotPath;
 //自动下载路径
 @property (copy, nonatomic) NSString *autoDownLoadPath;
+//补丁路径
+@property (copy, nonatomic, readonly) NSString *patchPath;
+//补丁的哈希值
+@property (copy, nonatomic) NSString *patchHash;
 //弹幕缓存路径
 @property (copy, nonatomic) NSString *danmakuCachePath;
 //用户屏蔽弹幕设置
