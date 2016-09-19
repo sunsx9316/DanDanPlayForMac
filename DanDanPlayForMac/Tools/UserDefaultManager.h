@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DanDanPlayMessageModel.h"
 #import "VideoModelProtocol.h"
+#import "VersionModel.h"
 
 //弹幕默认字体大小
 #define DANMAKU_FONT_SIZE 25
@@ -49,7 +50,7 @@
 //补丁路径
 @property (copy, nonatomic, readonly) NSString *patchPath;
 //补丁的哈希值
-@property (copy, nonatomic) NSString *patchHash;
+@property (copy, nonatomic) VersionModel *versionModel;
 //弹幕缓存路径
 @property (copy, nonatomic) NSString *danmakuCachePath;
 //用户屏蔽弹幕设置

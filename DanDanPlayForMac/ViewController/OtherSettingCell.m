@@ -17,10 +17,19 @@
 - (void)awakeFromNib{
     [super awakeFromNib];
     self.showRecommedVCButton.state = [UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart;
+    [[UserDefaultManager shareUserDefaultManager] addObserver:self forKeyPath:@"showRecommedInfoAtStart" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)dealloc {
+    [[UserDefaultManager shareUserDefaultManager] removeObserver:self forKeyPath:@"showRecommedInfoAtStart"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    self.showRecommedVCButton.state = [change[@"new"] integerValue];
 }
 
 - (IBAction)clickShowRecommedVC:(NSButton *)sender {
-    [[NSApp mainWindow].contentViewController presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
+    [[NSApp mainWindow].contentViewController presentViewControllerAsModalWindow:[RecommendViewController viewController]];
 }
 
 - (IBAction)clickAutoShowRecommedVCOnStartButton:(NSButton *)sender {

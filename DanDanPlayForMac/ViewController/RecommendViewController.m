@@ -20,6 +20,7 @@
 @property (strong, nonatomic) JHProgressHUD *progressHUD;
 @property (weak) IBOutlet RecommendHeadCell *headView;
 @property (weak) IBOutlet NSTabView *tabView;
+@property (weak) IBOutlet NSButton *recommendButton;
 @end
 
 @implementation RecommendViewController
@@ -41,6 +42,17 @@
             [self.tabView addTabViewItem:item];
         }];
     }];
+    
+    [[UserDefaultManager shareUserDefaultManager] addObserver:self forKeyPath:@"showRecommedInfoAtStart" options:NSKeyValueObservingOptionNew context:nil];
+    self.recommendButton.state = [UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart;
+}
+
+- (void)dealloc {
+    [[UserDefaultManager shareUserDefaultManager] removeObserver:self forKeyPath:@"showRecommedInfoAtStart"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    self.recommendButton.state = [change[@"new"] integerValue];
 }
 
 #pragma mark - NSTableViewDelegate
@@ -67,6 +79,10 @@
         system([NSString stringWithFormat:@"open %@", path].UTF8String);
     }];
     
+}
+
+- (IBAction)clickRecommendButton:(NSButton *)sender {
+    [UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart = sender.state;
 }
 
 #pragma mark - 懒加载

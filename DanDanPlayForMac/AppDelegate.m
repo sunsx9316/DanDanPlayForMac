@@ -24,26 +24,17 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    //打补丁
-    UserDefaultManager *udm = [UserDefaultManager shareUserDefaultManager];
-    NSString *patchPath = [udm.patchPath stringByAppendingPathComponent:udm.patchHash];
-    NSString *script = [NSString stringWithContentsOfFile:patchPath encoding:NSUTF8StringEncoding error:nil];
-    if (script.length) {
-        [JPEngine startEngine];
-        [JPEngine evaluateScript:script];        
-    }
-    
+    [self patchAPP];
+    [self firstRun];
+    self.mainWindowController = kViewControllerWithId(@"MainWindowController");
+    [self.mainWindowController showWindow: self];
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
     NSButton *closeButton = [self.mainWindowController.window standardWindowButton:NSWindowCloseButton];
     [closeButton setTarget:self];
     [closeButton setAction:@selector(closeApplication)];
     
-    self.mainWindowController = kViewControllerWithId(@"MainWindowController");
-    [self.mainWindowController showWindow: self];
-    
     MainViewController *vc = (MainViewController *)self.mainWindowController.contentViewController;
     [vc setUpWithFilePath:_filePaths];
-    [self firstRun];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -140,10 +131,26 @@
 }
 
 /**
+ *  打补丁
+ */
+- (void)patchAPP {
+    UserDefaultManager *manager = [UserDefaultManager shareUserDefaultManager];
+    NSString *patchPath = [manager.patchPath stringByAppendingPathComponent:manager.versionModel.patchName];
+    NSString *script = [NSString stringWithContentsOfFile:patchPath encoding:NSUTF8StringEncoding error:nil];
+    if (([script rangeOfString:@"<html>"].location == NSNotFound)) {
+        [JPEngine startEngine];
+        [JPEngine evaluateScript:script];
+    }
+}
+
+
+
+/**
  *  第一次启动操作
  */
 - (void)firstRun {
-    if ([UserDefaultManager shareUserDefaultManager].firstRun) {
+    //记录的版本比当前版本小
+    if ([UserDefaultManager shareUserDefaultManager].versionModel.version.floatValue < [ToolsManager appVersion]) {
         NSMutableArray *customKeyMapArr = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
         NSMutableArray *keyMapArr = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_key_map" ofType:@"plist"]];
         //添加关闭弹幕快捷键
@@ -152,7 +159,8 @@
         }
         [UserDefaultManager shareUserDefaultManager].customKeyMapArr = customKeyMapArr;
         [UserDefaultManager shareUserDefaultManager].videoListOrderedSet = nil;
-        [UserDefaultManager shareUserDefaultManager].firstRun = NO;
+        //清空上一次的版本信息
+        [UserDefaultManager shareUserDefaultManager].versionModel = nil;
     }
 }
 

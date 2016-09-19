@@ -12,7 +12,7 @@
 @implementation UpdateNetManager
 
 + (NSURLSessionDataTask *)latestVersionWithCompletionHandler:(void(^)(VersionModel *model))complete {
-    NSURLSessionDataTask *task = [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]] dataTaskWithURL:[NSURL URLWithString:@"http://dandanmac.b0.upaiyun.com/version1.xml"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSessionDataTask *task = [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]] dataTaskWithURL:[NSURL URLWithString:@"http://dandanmac.b0.upaiyun.com/version.xml"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:data error:nil];
         GDataXMLElement *rootElement = document.rootElement;
         
@@ -20,7 +20,7 @@
         model.version = [[rootElement elementsForName:@"version"].firstObject stringValue];
         model.details = [[rootElement elementsForName:@"details"].firstObject stringValue];
         model.md5 = [[rootElement elementsForName:@"hash"].firstObject stringValue];
-        model.patch = [[rootElement elementsForName:@"patch"].firstObject stringValue];
+        model.patchName = [[rootElement elementsForName:@"patch"].firstObject stringValue];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             complete(model);
@@ -70,7 +70,7 @@
             [[NSFileManager defaultManager] createDirectoryAtPath:downloadPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
         
-        return [NSURL fileURLWithPath:[downloadPath stringByAppendingPathComponent:hash]];
+        return [NSURL fileURLWithPath:[downloadPath stringByAppendingPathComponent:response.suggestedFilename]];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error) {
         task = nil;
         complete(filePath, error);

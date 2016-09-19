@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -355,8 +355,19 @@
                                             <action selector="clickTitleButton:" target="ndF-6d-zfy" id="D1t-oA-XCU"/>
                                         </connections>
                                     </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="xv0-hw-SoG">
+                                        <rect key="frame" x="336" y="8" width="126" height="18"/>
+                                        <buttonCell key="cell" type="check" title="启动显示每日推荐" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="NxZ-p3-MSj">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="clickRecommendButton:" target="ywf-yQ-Tb2" id="Yxm-fe-0IK"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="xv0-hw-SoG" secondAttribute="trailing" constant="10" id="2Di-bs-dqA"/>
                                     <constraint firstItem="nIy-fq-hSR" firstAttribute="top" secondItem="ndF-6d-zfy" secondAttribute="top" constant="10" id="5WR-bU-4zk"/>
                                     <constraint firstItem="0vQ-as-Qlw" firstAttribute="top" secondItem="qxS-qC-T3g" secondAttribute="bottom" constant="15" id="5YB-Ru-dvM"/>
                                     <constraint firstItem="gf5-Zy-t3l" firstAttribute="top" secondItem="0vQ-as-Qlw" secondAttribute="bottom" constant="15" id="6Yl-ZR-SUX"/>
@@ -372,6 +383,7 @@
                                     <constraint firstItem="SGE-el-Chz" firstAttribute="leading" secondItem="qxS-qC-T3g" secondAttribute="leading" id="dLT-Q0-g2A"/>
                                     <constraint firstItem="qxS-qC-T3g" firstAttribute="top" secondItem="iVD-vS-dm0" secondAttribute="top" id="e9D-px-Fhx"/>
                                     <constraint firstItem="iVD-vS-dm0" firstAttribute="leading" secondItem="nIy-fq-hSR" secondAttribute="leading" id="kny-lf-naU"/>
+                                    <constraint firstAttribute="bottom" secondItem="xv0-hw-SoG" secondAttribute="bottom" constant="10" id="mLH-KS-9oE"/>
                                     <constraint firstItem="pWF-Dv-Xsx" firstAttribute="leading" secondItem="qxS-qC-T3g" secondAttribute="leading" id="n29-2n-zcL"/>
                                     <constraint firstItem="7Br-aj-lyJ" firstAttribute="bottom" secondItem="nIy-fq-hSR" secondAttribute="bottom" id="uDb-gL-r19"/>
                                     <constraint firstAttribute="trailing" secondItem="7Br-aj-lyJ" secondAttribute="trailing" constant="10" id="vCY-2v-ttm"/>
@@ -407,6 +419,7 @@
                     </view>
                     <connections>
                         <outlet property="headView" destination="ndF-6d-zfy" id="qkR-AT-fjc"/>
+                        <outlet property="recommendButton" destination="xv0-hw-SoG" id="aYo-wV-WMQ"/>
                         <outlet property="tabView" destination="Xop-yy-kqO" id="n3M-xj-7Lw"/>
                     </connections>
                 </viewController>
@@ -566,7 +579,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController storyboardIdentifier="MainWindowController" id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="弹弹play" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="弹弹play" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="framePositon" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <rect key="contentRect" x="636" y="346" width="700" height="395"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>

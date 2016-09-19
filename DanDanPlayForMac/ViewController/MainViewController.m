@@ -172,16 +172,19 @@
             [self presentViewControllerAsModalWindow:[UpdateViewController viewControllerWithModel:model]];
         }
         
-        [UserDefaultManager shareUserDefaultManager].patchHash = model.patch;
+        [UserDefaultManager shareUserDefaultManager].versionModel = model;
         
         //检查补丁文件
-        NSString *patchPath = [[UserDefaultManager shareUserDefaultManager].patchPath stringByAppendingPathComponent:model.patch];
+        NSString *patchPath = [[UserDefaultManager shareUserDefaultManager].patchPath stringByAppendingPathComponent:model.patchName];
         //不存在说明没下载过
         if (![[NSFileManager defaultManager] fileExistsAtPath:patchPath isDirectory:nil]) {
-            [UpdateNetManager downPatchWithVersion:model.version hash:model.patch completionHandler:^(NSURL *filePath, DanDanPlayErrorModel *error) {
+            [UpdateNetManager downPatchWithVersion:model.version hash:model.patchName completionHandler:^(NSURL *filePath, DanDanPlayErrorModel *error) {
                 [JPEngine startEngine];
                 NSString *script = [NSString stringWithContentsOfURL:filePath encoding:NSUTF8StringEncoding error:nil];
-                [JPEngine evaluateScript:script];
+                //防止崩溃
+                if ([script rangeOfString:@"<html>"].location == NSNotFound) {
+                    [JPEngine evaluateScript:script];
+                }
             }];
         }
     }];
@@ -190,7 +193,7 @@
 //显示推荐窗口
 - (void)showRecommedVC {
     if ([UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart) {
-        [self presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
+        [self presentViewControllerAsModalWindow:[RecommendViewController viewController]];
     }
 }
 

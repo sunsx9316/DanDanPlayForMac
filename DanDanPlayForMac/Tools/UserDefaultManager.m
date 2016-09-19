@@ -23,7 +23,7 @@
     NSString *_screenShotPath;
     NSString *_autoDownLoadPath;
     NSString *_danmakuCachePath;
-    NSString *_patchHash;
+    VersionModel *_versionModel;
     NSMutableArray *_userFilterArr;
     NSMutableArray *_customKeyMapArr;
     NSMutableOrderedSet *_videoListOrderedSet;
@@ -315,20 +315,20 @@
 }
 
 - (NSString *)patchPath {
-    return [[NSBundle mainBundle] resourcePath];
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"patch"];
 }
 
-- (void)setPatchHash:(NSString *)patchHash {
-    _patchHash = patchHash;
-    [[NSUserDefaults standardUserDefaults] setObject:_patchHash forKey:@"patchHash"];
+- (void)setVersionModel:(VersionModel *)versionModel {
+    _versionModel = versionModel;
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_versionModel] forKey:@"versionModel"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSString *)patchHash {
-    if (_patchHash == nil) {
-        _patchHash = [[NSUserDefaults standardUserDefaults] stringForKey:@"patchHash"];
+- (VersionModel *)versionModel {
+    if (_versionModel == nil) {
+        _versionModel = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"versionModel"]];
     }
-    return _patchHash;
+    return _versionModel;
 }
 
 - (void)setDanmakuCachePath:(NSString *)danmakuCachePath {

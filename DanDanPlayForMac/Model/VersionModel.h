@@ -24,5 +24,5 @@
 /**
  *  版本补丁名
  */
-@property (copy, nonatomic) NSString *patch;
+@property (copy, nonatomic) NSString *patchName;
 @end
