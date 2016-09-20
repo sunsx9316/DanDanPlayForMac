@@ -65,7 +65,6 @@
 
 //放视频的 view
 @property (weak) IBOutlet PlayerHoldView *playerHoldView;
-
 //播放面板
 @property (weak) IBOutlet PlayerControlView *playerControlView;
 //播放按钮
@@ -146,15 +145,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(danmakuCanvasResizeWithAnimate) name:@"CHANGE_CAPTIONS_PROTECT_AREA" object:nil];
     
     //初始化播放器相关参数
-    [self setupOnce];
-    [self.player videoSizeWithCompletionHandle:^(CGSize size) {
-        if (size.width < 0 || size.height < 0) {
-            self.messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoNoFound].message;
-            [self.messageView showHUD];
-            return;
-        }
-        [self setupWithMediaSize:size];
-        [self startPlay];
+    [self reloadCurrentVideoDanmakuWithCompletionHandler:^(id<VideoModelProtocol>videoModel, NSError *error) {
+        [self setupOnce];
+        [self.danmakuEngine sendAllDanmakusDic:self.vm.currentVideoModel.danmakuDic];
+        [self.player videoSizeWithCompletionHandle:^(CGSize size) {
+            if (size.width < 0 || size.height < 0) {
+                self.messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoNoFound].message;
+                [self.messageView showHUD];
+                return;
+            }
+            [self setupWithMediaSize:size];
+            [self.player play];
+        }];
     }];
 }
 
@@ -239,7 +241,6 @@
 }
 
 #pragma mark - 私有方法
-
 #pragma mark -------- 初始化相关 --------
 //只需要初始化一次的属性
 - (void)setupOnce {
@@ -319,9 +320,13 @@
                         [arr addObject:vm];
                     }
                     [weakSelf.vm addVideosModel:arr];
-                    NSInteger count = [weakSelf.vm.videos indexOfObject:arr.firstObject];
-                    [weakSelf changeCurrentIndex:count];
-                    [weakSelf reloadDanmakuWithIndex:count];
+                    NSInteger index = [weakSelf.vm.videos indexOfObject:arr.firstObject];
+                    [weakSelf saveTimeAndChangeCurrentIndex:index];
+                    [weakSelf reloadCurrentVideoDanmakuWithCompletionHandler:^(id<VideoModelProtocol> videoModel, NSError *error) {
+                        if (!error) {
+                            [weakSelf reloadVideoModel];
+                        }
+                    }];
                 }
                 else {
                     weakSelf.vm.currentVideoModel.danmakuDic = danmakuDic;
@@ -435,24 +440,34 @@
 #pragma mark -------- 播放器相关 --------
 - (IBAction)clickPlayButton:(NSButton *)sender {
     if (self.player.status == JHMediaPlayerStatusStop) {
-        [self startPlay];
+        [self.player play];
     }
     else if (sender.state) {
-        [self videoAndDanMuPlay];
+        [self.player play];
     }
     else {
-        [self videoAndDanMuPause];
+        [self.player pause];
     }
 }
 
 - (IBAction)clickNextButton:(NSButton *)sender {
-    [self changeCurrentIndex:self.vm.currentIndex + 1];
-    [self reloadDanmakuWithIndex:self.vm.currentIndex];
+    self.vm.currentIndex += self.vm.currentIndex;
+    [self saveTimeAndChangeCurrentIndex:self.vm.currentIndex];
+    [self reloadCurrentVideoDanmakuWithCompletionHandler:^(id<VideoModelProtocol>videoModel, NSError *error) {
+        if (!error) {
+            [self reloadVideoModel];
+        }
+    }];
 }
 
 - (IBAction)clickPreButton:(NSButton *)sender {
-    [self changeCurrentIndex:self.vm.currentIndex - 1];
-    [self reloadDanmakuWithIndex:self.vm.currentIndex];
+    self.vm.currentIndex -= self.vm.currentIndex;
+    [self saveTimeAndChangeCurrentIndex:self.vm.currentIndex];
+    [self reloadCurrentVideoDanmakuWithCompletionHandler:^(id<VideoModelProtocol>videoModel, NSError *error) {
+        if (!error) {
+            [self reloadVideoModel];
+        }
+    }];
 }
 
 - (void)clickDanMuControllerButton:(NSButton *)sender {
@@ -528,17 +543,17 @@
 
 #pragma mark -------- 播放控制相关 --------
 //开始播放
-- (void)startPlay {
-//    if (self.player.mediaType == JHMediaTypeNetMedia) {
-//        if (![self.vm currentVideoURL]) {
-//            [self videoAndDanMuPlay];
-//            [self videoAndDanMuPause];
-//        }
-//    }
-//    else {
-        [self videoAndDanMuPlay];
-//    }
-}
+//- (void)startPlay {
+////    if (self.player.mediaType == JHMediaTypeNetMedia) {
+////        if (![self.vm currentVideoURL]) {
+////            [self videoAndDanMuPlay];
+////            [self videoAndDanMuPause];
+////        }
+////    }
+////    else {
+//        [self videoAndDanMuPlay];
+////    }
+//}
 
 //结束播放
 - (void)stopPlay {
@@ -551,7 +566,7 @@
 }
 
 //更改当前视频
-- (void)changeCurrentIndex:(NSInteger)index {
+- (void)saveTimeAndChangeCurrentIndex:(NSInteger)index {
     [self saveCurrentVideoTime];
     [self stopPlay];
     self.vm.currentIndex = index;
@@ -561,19 +576,6 @@
 - (void)saveCurrentVideoTime {
     [[UserDefaultManager shareUserDefaultManager] setVideoPlayHistoryWithHash:self.vm.currentVideoModel.md5 time:[self.player currentTime]];
 }
-
-//播放弹幕和视频
-- (void)videoAndDanMuPlay {
-//    [self.danmakuEngine start];
-    [self.player play];
-}
-
-//暂停弹幕和视频
-- (void)videoAndDanMuPause {
-//    [self.danmakuEngine pause];
-    [self.player pause];
-}
-
 
 /**
  *  绝对的增加音量
@@ -598,14 +600,15 @@
 }
 
 #pragma mark 重新加载弹幕 更新进度
-- (void)reloadDanmakuWithIndex:(NSInteger)index {
-    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize:20 hideWhenClick: NO];
+- (void)reloadCurrentVideoDanmakuWithCompletionHandler:(void(^)(id<VideoModelProtocol>videoModel, NSError *error))complete {
     
-    [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize:20 hideWhenClick:NO];
+    
+    [self.vm reloadDanmakuWithIndex:self.vm.currentIndex completionHandler:^(CGFloat progress, id<VideoModelProtocol> videoModel, DanDanPlayErrorModel *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
-                id vm = [self.vm videoModelWithIndex:index];
+                id vm = self.vm.currentVideoModel;
                 if ([vm isKindOfClass:[LocalVideoModel class]] && [error isEqual:[DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]]) {
                     MatchViewController *vc = [MatchViewController viewController];
                     vc.videoModel = (LocalVideoModel *)vm;
@@ -614,6 +617,7 @@
                 }
                  self.messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoNoFound].message;
                 [self.messageView showHUD];
+                complete(videoModel, error);
             }
             else {
                 [JHProgressHUD shareProgressHUD].progress = progress;
@@ -622,8 +626,9 @@
                 }
                 else if (progress == 1) {
                     [JHProgressHUD shareProgressHUD].text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message;
-                    [PlayerMethodManager postMatchMessageWithMatchName:videoMatchName delegate:self];
+                    [PlayerMethodManager postMatchMessageWithMatchName:videoModel.matchTitle delegate:self];
                     [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
+                    complete(videoModel, error);
                 }
             }
         });
@@ -717,11 +722,14 @@
     [self stopPlay];
     NSArray <id<VideoModelProtocol>>*videos = sender.object;
     [self addVideos:videos];
-    [self changeCurrentIndex:[self.vm.videos indexOfObject:videos.firstObject]];
+    [self saveTimeAndChangeCurrentIndex:[self.vm.videos indexOfObject:videos.firstObject]];
     
+    [self reloadVideoModel];
+}
+
+- (void)reloadVideoModel {
     id<VideoModelProtocol>currentVideoModel = self.vm.currentVideoModel;
     [self.player setMediaURL:currentVideoModel.fileURL];
-    self.vm.currentVideoModel.danmakuDic = currentVideoModel.danmakuDic;
     [self.danmakuEngine sendAllDanmakusDic:currentVideoModel.danmakuDic];
     [self.playerListViewController.tableView reloadData];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
@@ -731,7 +739,7 @@
             return;
         }
         [self setupWithMediaSize:size];
-        [self startPlay];
+        [self.player play];
     }];
 }
 
@@ -872,8 +880,6 @@
             self.playButton.state = NSModalResponseCancel;
             [self.bufferProgressHUD hideWithCompletion:nil anime:NO];
             [self.bufferProgressHUD showWithView:self.view];
-//            [JHProgressHUD disMiss];
-//            [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoBuffering].message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
         default:
             break;
     }
@@ -915,14 +921,20 @@
     if (self.player.mediaType == JHMediaTypeLocaleMedia) return;
     
     [self.rightClickMenu removeAllItems];
-    NSMutableArray *arr = [NSMutableArray array];
-    NSInteger highCount = [self.vm openStreamCountWithQuality:streamingVideoQualityHigh];
-    NSInteger lowCount = [self.vm openStreamCountWithQuality:streamingVideoQualityLow];
-    if (highCount) [arr addObject:[self menuItemWithTitle:@"良心画质" quality:streamingVideoQualityHigh]];
-    if (lowCount) [arr addObject:[self menuItemWithTitle:@"渣画质" quality:streamingVideoQualityLow]];
+    StreamingVideoModel *model = (StreamingVideoModel *)self.vm.currentVideoModel;
     
-    streamingVideoQuality quality = [self.vm openStreamQuality];
-    NSUInteger openStreamIndex = [self.vm openStreamIndex];
+    NSMutableArray *arr = [NSMutableArray array];
+    NSInteger highCount = [model URLsCountWithQuality:streamingVideoQualityHigh];
+    NSInteger lowCount = [model URLsCountWithQuality:streamingVideoQualityLow];
+    if (highCount) {
+        [arr addObject:[self menuItemWithTitle:@"良心画质" quality:streamingVideoQualityHigh]];
+    }
+    if (lowCount) {
+        [arr addObject:[self menuItemWithTitle:@"渣画质" quality:streamingVideoQualityLow]];
+    }
+    
+    streamingVideoQuality quality = model.quality;
+    NSUInteger openStreamIndex = model.URLIndex;
     for (NSInteger i = 0 ; i < arr.count; ++i) {
         QualityMenuItem *item = arr[i];
         item.state = item.quality == quality;
@@ -934,8 +946,8 @@
                 sitem.state = item.state && openStreamIndex == i;
                 [item.submenu addItem:sitem];
             }
-        //渣画质
         }
+        //渣画质
         else {
             for (NSInteger i = 0; i < lowCount; ++i) {
                 NSMenuItem *sitem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"备胎线路 %ld", i + 1] action:@selector(clickItem:) keyEquivalent:@""];
@@ -966,9 +978,18 @@
         quality = streamingVideoQualityLow;
         index = item.tag - 10;
     }
-    [self.vm setOpenStreamURLWithQuality:quality index:index];
-    [self changeCurrentIndex:self.vm.currentIndex];
-    [self reloadDanmakuWithIndex:self.vm.currentIndex];
+    
+    StreamingVideoModel *model = (StreamingVideoModel *)self.vm.currentVideoModel;
+    model.quality = quality;
+    model.URLIndex = index;
+    
+    index = self.vm.currentIndex;
+    [self saveTimeAndChangeCurrentIndex:index];
+    [self reloadCurrentVideoDanmakuWithCompletionHandler:^(id<VideoModelProtocol>videoModel, NSError *error) {
+        if (!error) {
+            [self reloadVideoModel];
+        }
+    }];
 }
 
 #pragma mark - 懒加载
@@ -1046,7 +1067,6 @@
         _danmakuEngine = [[JHDanmakuEngine alloc] init];
         _danmakuEngine.turnonBackFunction = YES;
         _danmakuEngine.canvas.layoutStyle = JHDanmakuCanvasLayoutStyleWhenSizeChanged;
-        [_danmakuEngine sendAllDanmakusDic:self.vm.currentVideoModel.danmakuDic];
         [_danmakuEngine setSpeed: [UserDefaultManager shareUserDefaultManager].danmakuSpeed];
         _danmakuEngine.canvas.alphaValue = [UserDefaultManager shareUserDefaultManager].danmakuOpacity;
         [self.view addSubview:_danmakuEngine.canvas positioned:NSWindowAbove relativeTo:self.playerHoldView];
@@ -1092,8 +1112,12 @@
         }];
         //点击行
         [_playerListViewController setDoubleClickRowCallBack:^(NSUInteger row) {
-            [weakSelf changeCurrentIndex:row];
-            [weakSelf reloadDanmakuWithIndex:weakSelf.vm.currentIndex];
+            [weakSelf saveTimeAndChangeCurrentIndex:row];
+            [weakSelf reloadCurrentVideoDanmakuWithCompletionHandler:^(id<VideoModelProtocol>videoModel, NSError *error) {
+                if (!error) {
+                    [weakSelf reloadVideoModel];
+                }
+            }];
         }];
         [self addChildViewController:_playerListViewController];
         [self.view addSubview: _playerListViewController.view positioned:NSWindowAbove relativeTo:self.playerControlView];

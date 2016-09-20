@@ -187,7 +187,8 @@
             [vm refreshCompletionHandler:^(DanDanPlayErrorModel *error) {
                 //判断官方弹幕是否为空
                 if (!error) {
-                    complete(1, [NSString stringWithFormat:@"%@-%@", dataModel.animeTitle, dataModel.episodeTitle], error);
+                    media.matchTitle = [NSString stringWithFormat:@"%@-%@", dataModel.animeTitle, dataModel.episodeTitle];
+                    complete(1, media, error);
                 }
                 else {
                     //快速匹配失败
@@ -217,8 +218,8 @@
         [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:media.fileName danmaku:media.danmaku danmakuSource:media.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error) {
             if (videoModel) {
                 _videos[index] = videoModel;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[videoModel]];
-                complete(1, videoModel.fileName, error);
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[videoModel]];
+                complete(1, videoModel, error);
             }
             else {
                 complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
@@ -227,8 +228,8 @@
     }
     else {
         if (media.danmakuDic.count) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
-            complete(1, media.fileName, nil);
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
+            complete(1, media, nil);
         }
         else {
             [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:media.danmaku provider:media.danmakuSource completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
@@ -236,8 +237,8 @@
                 media.danmakuDic = responseObj;
                 if (index < _videos.count) {
                     _videos[index] = media;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
-                    complete(1, media.fileName, error);
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
+                    complete(1, media, error);
                 }
             }];
         }

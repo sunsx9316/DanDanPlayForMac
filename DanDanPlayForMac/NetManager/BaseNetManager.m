@@ -59,21 +59,6 @@
     }];
 }
 
-//+ (NSURLSessionDataTask *)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete {
-//    NSError *error;
-//    NSURLRequest *request = [[AFHTTPRequestSerializer serializer] requestBySerializingRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:path]] withParameters:parameters error:&error];
-//    
-//    return [[self sharedAFDataManager] dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-//        
-//    }];
-//    return [[self _sharedAFDataManager] GET:path parameters:parameters success:^(AFHTTPRequestOperation * _Nonnull task, id  _Nonnull responseObject) {
-//        NSLog(@"%@", task.response.URL);
-//        complete(responseObject, nil);
-//    } failure:^(AFHTTPRequestOperation * _Nullable task, NSError * _Nonnull error) {
-//        complete(nil, error);
-//    }];
-//}
-
 + (NSURLSessionDataTask *)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:path]];
     request.HTTPMethod = @"PUT";

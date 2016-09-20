@@ -252,6 +252,8 @@
 }
 
 - (void)startPlayNotice:(NSNotification *)sender {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"START_PLAY" object: nil];
+    
     [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
     //去重
     [self.videos addObjectsFromArray:sender.object];
@@ -289,7 +291,6 @@
     }];
     
     [self presentViewController:self.playerViewController animator:anima];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"START_PLAY" object: nil];
 }
 
 - (void)changeHomgImg:(NSNotification *)notification{

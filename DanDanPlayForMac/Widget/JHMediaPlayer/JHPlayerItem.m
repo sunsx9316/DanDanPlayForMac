@@ -32,7 +32,7 @@
 
 
 - (void)dealloc {
-    if (_URL.path.length && self.loadedTimeRanges.firstObject) {
+    if (_URL.path.length && self.loadedTimeRanges.count) {
         [self removeObserver:self forKeyPath:@"loadedTimeRanges"];
     }
 }
