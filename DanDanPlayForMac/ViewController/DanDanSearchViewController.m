@@ -29,13 +29,13 @@
 
 #pragma mark - 私有方法
 - (void)refreshBykeyword {
-    [self.hud show];
+    [self.hud showWithView:self.view];
     [self.vm refreshWithKeyword:_keyword completionHandler:^(NSError *error) {
         if (error) {
             [self.messageView showHUD];
         }
         
-        [self.hud disMiss];
+        [self.hud hideWithCompletion:nil];
         [self.outlineView reloadData];
     }];
 }
@@ -122,7 +122,9 @@
 
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = [[JHProgressHUD alloc] initWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = [[JHProgressHUD alloc] init];
+        _hud.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message;
+        _hud.hideWhenClick = NO;
     }
     return _hud;
 }

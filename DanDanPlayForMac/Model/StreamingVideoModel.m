@@ -59,6 +59,10 @@
     return _fileName;
 }
 
+- (NSString *)matchTitle {
+    return _fileName;
+}
+
 - (NSString *)danmaku {
     return _danmaku;
 }

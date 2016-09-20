@@ -147,7 +147,6 @@
     
 }
 
-
 - (void)setVideos:(NSArray<id<VideoModelProtocol>> *)videos {
     _videos = [NSMutableOrderedSet orderedSetWithArray:videos];
     [self synchronizeVideoList];
@@ -211,7 +210,6 @@
         complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
         return;
     }
-    
     complete(0.5, nil, nil);
     
     //没有请求过的视频 视频数组都为空
@@ -236,9 +234,11 @@
             [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:media.danmaku provider:media.danmakuSource completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
                 self.currentIndex = index;
                 media.danmakuDic = responseObj;
-                _videos[index] = media;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
-                complete(1, media.fileName, error);
+                if (index < _videos.count) {
+                    _videos[index] = media;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
+                    complete(1, media.fileName, error);
+                }
             }];
         }
     }

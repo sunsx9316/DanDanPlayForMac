@@ -115,7 +115,7 @@
         return;
     }
     
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 hideWhenClick: NO];
     
     MatchViewModel *vm = [[MatchViewModel alloc] init];
     vm.videoModel = videoModel;
@@ -123,8 +123,8 @@
         //episodeId存在 说明精确匹配
         if (model.episodeId) {
             videoModel.matchTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
-            [JHProgressHUD updateProgress: 0.5];
-            [JHProgressHUD updateMessage: [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyzeVideo].message];
+            [JHProgressHUD shareProgressHUD].progress = 0.5;
+            [JHProgressHUD shareProgressHUD].text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyzeVideo].message;
             
             DanMuChooseViewModel *vm = [[DanMuChooseViewModel alloc] init];
             vm.videoId = model.episodeId;
@@ -132,13 +132,13 @@
             [vm refreshCompletionHandler:^(NSError *error) {
                 //判断官方弹幕是否为空
                 if (!error) {                    
-                    [JHProgressHUD updateProgress: 1];
-                    [JHProgressHUD updateMessage: [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message];
+                    [JHProgressHUD shareProgressHUD].progress = 1;
+                    [JHProgressHUD shareProgressHUD].text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message;
                     videoModel.episodeId = model.episodeId;
                 }
                 else {
                     //快速匹配失败
-                    [JHProgressHUD disMiss];
+                    [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
                     videoModel.episodeId = nil;
                     MatchViewController *vc = [MatchViewController viewController];
                     vc.videoModel = videoModel;
@@ -148,7 +148,7 @@
         }
         else {
             //快速匹配失败
-            [JHProgressHUD disMiss];
+            [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
             videoModel.episodeId = nil;
             MatchViewController *vc = [MatchViewController viewController];
             vc.videoModel = videoModel;
@@ -167,25 +167,27 @@
     if (![UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart) return;
     
     [UpdateNetManager latestVersionWithCompletionHandler:^(VersionModel *model) {
-        //判断当前版本是否比现在版本小
-        if ([ToolsManager appVersion] < [model.version floatValue]) {
+        //判断当前版本是否比服务器版本小
+        if ([ToolsManager appVersion] < model.version) {
             [self presentViewControllerAsModalWindow:[UpdateViewController viewControllerWithModel:model]];
         }
-        
-        [UserDefaultManager shareUserDefaultManager].versionModel = model;
-        
-        //检查补丁文件
-        NSString *patchPath = [[UserDefaultManager shareUserDefaultManager].patchPath stringByAppendingPathComponent:model.patchName];
-        //不存在说明没下载过
-        if (![[NSFileManager defaultManager] fileExistsAtPath:patchPath isDirectory:nil]) {
-            [UpdateNetManager downPatchWithVersion:model.version hash:model.patchName completionHandler:^(NSURL *filePath, DanDanPlayErrorModel *error) {
-                [JPEngine startEngine];
-                NSString *script = [NSString stringWithContentsOfURL:filePath encoding:NSUTF8StringEncoding error:nil];
-                //防止崩溃
-                if ([script rangeOfString:@"<html>"].location == NSNotFound) {
-                    [JPEngine evaluateScript:script];
-                }
-            }];
+        else {
+            VersionModel *currentVersionModel = [UserDefaultManager shareUserDefaultManager].versionModel;
+            currentVersionModel.patchName = model.patchName;
+            [UserDefaultManager shareUserDefaultManager].versionModel = currentVersionModel;
+            //检查补丁文件
+            NSString *patchPath = [[UserDefaultManager shareUserDefaultManager].patchPath stringByAppendingPathComponent:model.patchName];
+            //不存在说明没下载过
+            if (![[NSFileManager defaultManager] fileExistsAtPath:patchPath isDirectory:nil]) {
+                [UpdateNetManager downPatchWithVersion:[NSString stringWithFormat:@"%f", model.version] hash:model.patchName completionHandler:^(NSURL *filePath, DanDanPlayErrorModel *error) {
+                    [JPEngine startEngine];
+                    NSString *script = [NSString stringWithContentsOfURL:filePath encoding:NSUTF8StringEncoding error:nil];
+                    //防止崩溃
+                    if ([script rangeOfString:@"<html>"].location == NSNotFound) {
+                        [JPEngine evaluateScript:script];
+                    }
+                }];
+            }
         }
     }];
 }
@@ -250,7 +252,7 @@
 }
 
 - (void)startPlayNotice:(NSNotification *)sender {
-    [JHProgressHUD disMiss];
+    [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
     //去重
     [self.videos addObjectsFromArray:sender.object];
     [self.playerViewController addVideos:_videos.array];

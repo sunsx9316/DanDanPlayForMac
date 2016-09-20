@@ -15,6 +15,7 @@
 @implementation BaseViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.wantsLayer = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startPlayNotice:) name:@"START_PLAY" object: nil];
 }
 

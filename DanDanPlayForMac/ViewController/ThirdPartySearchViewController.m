@@ -51,7 +51,7 @@
 
 
 - (void)refreshByKeyword {
-    [self.hud show];
+    [self.hud showWithView:self.view];
     [self.vm refreshWithKeyWord:_keyword completionHandler:^(NSError *error) {
         if (error) {
             [self.messageView showHUD];
@@ -64,7 +64,7 @@
         [self.shiBantableView reloadData];
         [self.episodeTableView reloadData];
         
-        [self.hud disMiss];
+        [self.hud hideWithCompletion:nil];
     }];
 }
 
@@ -88,9 +88,9 @@
         self.currentRow = row;
         NSString *seasonID = [self.vm seasonIDForRow: row];
         if (seasonID) {
-            [self.shiBanEpisodeHUD show];
+            [self.shiBanEpisodeHUD showWithView:self.view];
             [self.vm refreshWithSeasonID:seasonID completionHandler:^(NSError *error) {
-                [self.shiBanEpisodeHUD disMiss];
+                [self.shiBanEpisodeHUD hideWithCompletion:nil];
                 [self loadInfoView];
                 [self.episodeTableView reloadData];
             }];
@@ -115,10 +115,10 @@
 - (void)episodeTableViewDoubleClickRow {
     if (![self.vm infoArrCount]) return;
     
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     NSInteger clickRow = [self.episodeTableView clickedRow];
     [self.vm downDanMuWithRow:clickRow completionHandler:^(NSDictionary *danmakuDic, NSError *error) {
-        [JHProgressHUD disMiss];
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         
         if (error) {
             [self.messageView showHUD];
@@ -184,14 +184,18 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = [[JHProgressHUD alloc] initWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = [[JHProgressHUD alloc] init];
+        _hud.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message;
+        _shiBanEpisodeHUD.hideWhenClick = NO;
     }
     return _hud;
 }
 
 - (JHProgressHUD *)shiBanEpisodeHUD {
     if(_shiBanEpisodeHUD == nil) {
-        _shiBanEpisodeHUD = [[JHProgressHUD alloc] initWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:nil dismissWhenClick:NO];
+        _shiBanEpisodeHUD = [[JHProgressHUD alloc] init];
+        _shiBanEpisodeHUD.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message;
+        _shiBanEpisodeHUD.hideWhenClick = NO;
     }
     return _shiBanEpisodeHUD;
 }

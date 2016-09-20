@@ -150,7 +150,7 @@
  */
 - (void)firstRun {
     //记录的版本比当前版本小
-    if ([UserDefaultManager shareUserDefaultManager].versionModel.version.floatValue < [ToolsManager appVersion]) {
+    if ([UserDefaultManager shareUserDefaultManager].versionModel.version < [ToolsManager appVersion]) {
         NSMutableArray *customKeyMapArr = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
         NSMutableArray *keyMapArr = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_key_map" ofType:@"plist"]];
         //添加关闭弹幕快捷键
@@ -160,7 +160,9 @@
         [UserDefaultManager shareUserDefaultManager].customKeyMapArr = customKeyMapArr;
         [UserDefaultManager shareUserDefaultManager].videoListOrderedSet = nil;
         //清空上一次的版本信息
-        [UserDefaultManager shareUserDefaultManager].versionModel = nil;
+        VersionModel *model = [[VersionModel alloc] init];
+        model.version = [ToolsManager appVersion];
+        [UserDefaultManager shareUserDefaultManager].versionModel = model;
     }
 }
 

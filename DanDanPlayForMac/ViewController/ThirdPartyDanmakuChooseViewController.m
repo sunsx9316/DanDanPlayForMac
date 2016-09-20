@@ -21,9 +21,9 @@
 #pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
-        [JHProgressHUD disMiss];
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         [self reloadData];
     }];
 }
@@ -42,10 +42,10 @@
 - (IBAction)clickChooseDanMuButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
     
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
     
     [self.vm downThirdPartyDanmakuWithIndex:[self.episodeButton indexOfSelectedItem] completionHandler:^(id responseObj, NSError *error) {
-        [JHProgressHUD disMiss];
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         if (!error) {
             
             id<VideoModelProtocol>vm = [UserDefaultManager shareUserDefaultManager].currentVideoModel;

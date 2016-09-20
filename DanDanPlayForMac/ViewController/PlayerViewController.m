@@ -119,6 +119,7 @@
 //快捷键映射
 @property (strong, nonatomic) NSArray *keyMap;
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
+@property (strong, nonatomic) JHProgressHUD *bufferProgressHUD;
 @end
 
 @implementation PlayerViewController
@@ -395,7 +396,6 @@
     //时间缩略图
     [self.view addSubview:self.HUDTimeView positioned:NSWindowAbove relativeTo:self.playerControlView];
     [self.view addTrackingArea:self.trackingArea];
-    
 }
 
 - (void)setupWithMediaSize:(CGSize)aMediaSize {
@@ -599,12 +599,12 @@
 
 #pragma mark 重新加载弹幕 更新进度
 - (void)reloadDanmakuWithIndex:(NSInteger)index {
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize:20 hideWhenClick: NO];
     
     [self.vm reloadDanmakuWithIndex:index completionHandler:^(CGFloat progress, NSString *videoMatchName, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
-                [JHProgressHUD disMiss];
+                [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
                 id vm = [self.vm videoModelWithIndex:index];
                 if ([vm isKindOfClass:[LocalVideoModel class]] && [error isEqual:[DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]]) {
                     MatchViewController *vc = [MatchViewController viewController];
@@ -616,14 +616,14 @@
                 [self.messageView showHUD];
             }
             else {
-                [JHProgressHUD updateProgress:progress];
+                [JHProgressHUD shareProgressHUD].progress = progress;
                 if (progress == 0.5) {
-                    [JHProgressHUD updateMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyzeVideo].message];
+                    [JHProgressHUD shareProgressHUD].text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyzeVideo].message;
                 }
                 else if (progress == 1) {
-                    [JHProgressHUD updateMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message];
+                    [JHProgressHUD shareProgressHUD].text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message;
                     [PlayerMethodManager postMatchMessageWithMatchName:videoMatchName delegate:self];
-                    [JHProgressHUD disMiss];
+                    [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
                 }
             }
         });
@@ -851,9 +851,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.playerControlView.slideView updateBufferProgress:progress];
     });
-//    if (onceBufferTime > MAX_BUFFER_TIME && self.player.status == JHMediaPlayerStatusPause && !_userPause) {
-//        [self videoAndDanMuPlay];
-//    }
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player statusChange:(JHMediaPlayerStatus)status {
@@ -868,12 +865,15 @@
         case JHMediaPlayerStatusPlaying:
             [self.danmakuEngine start];
             self.playButton.state = NSModalResponseOK;
-            [JHProgressHUD disMiss];
+            [self.bufferProgressHUD hideWithCompletion:nil];
             break;
         case JHMediaPlayerStatusBuffering:
             [self.danmakuEngine pause];
             self.playButton.state = NSModalResponseCancel;
-            [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoBuffering].message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
+            [self.bufferProgressHUD hideWithCompletion:nil anime:NO];
+            [self.bufferProgressHUD showWithView:self.view];
+//            [JHProgressHUD disMiss];
+//            [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoBuffering].message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
         default:
             break;
     }
@@ -1177,6 +1177,15 @@
 		_vm = [[PlayViewModel alloc] init];
 	}
 	return _vm;
+}
+
+- (JHProgressHUD *)bufferProgressHUD {
+	if(_bufferProgressHUD == nil) {
+        _bufferProgressHUD = [[JHProgressHUD alloc] init];
+        _bufferProgressHUD.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoBuffering].message;
+        _bufferProgressHUD.indicatorColor = RGBColor(255, 255, 255);
+	}
+	return _bufferProgressHUD;
 }
 
 @end

@@ -25,10 +25,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     [self.vm refreshWithcompletionHandler:^(NSError *error) {
         [self.tableView reloadData];
-        [JHProgressHUD disMiss];
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         if (error) {
             
             [self.messageView showHUD];
@@ -119,9 +119,9 @@
 - (void)streamingVideoModelWithRow:(NSInteger)row {
     if (![self.vm danmakuForRow:row].length) return;
     
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     [self.vm getVideoURLAndDanmakuForRow:row completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
-        [JHProgressHUD disMiss];
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         
         if (error) {
             [self.messageView showHUD];

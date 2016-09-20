@@ -18,14 +18,13 @@
 @property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet RespondKeyboardSearchField *searchField;
 @property (strong, nonatomic) MatchViewModel *vm;
+@property (strong, nonatomic) JHProgressHUD *progressHUD;
 @end
 
 @implementation MatchViewController
 
-#pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     @weakify(self)
     self.searchField.text = self.vm.videoModel.fileName;
     [self.searchField setRespondBlock:^{
@@ -35,13 +34,10 @@
     }];
     
     [self.tableView setDoubleAction: @selector(doubleClickRow)];
-    
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
-    
+    [self.progressHUD showWithView:self.view];
     [self.vm refreshWithCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
-        [JHProgressHUD disMiss];
+        [self.progressHUD hideWithCompletion:nil];
         if (model.episodeId && [UserDefaultManager shareUserDefaultManager].turnOnFastMatch) {
             //防止崩溃
             if (self == self.keyWindowsViewController) {
@@ -104,7 +100,6 @@
     return self.vm.videoModel;
 }
 
-
 #pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     return self.vm.models.count;
@@ -124,10 +119,18 @@
 
 #pragma mark - 懒加载
 - (MatchViewModel *)vm {
-	if(_vm == nil) {
-		_vm = [[MatchViewModel alloc] init];
-	}
-	return _vm;
+    if(_vm == nil) {
+        _vm = [[MatchViewModel alloc] init];
+    }
+    return _vm;
+}
+
+- (JHProgressHUD *)progressHUD {
+    if(_progressHUD == nil) {
+        _progressHUD = [[JHProgressHUD alloc] init];
+        _progressHUD.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message;
+    }
+    return _progressHUD;
 }
 
 @end

@@ -29,10 +29,10 @@
     [super viewDidLoad];
     self.title = @"番剧推荐";
     [self configHeadView];
-    [self.progressHUD show];
+    [self.progressHUD showWithView:self.view];
     
     [self.vm refreshWithCompletionHandler:^(NSError *error) {
-        [self.progressHUD disMiss];
+        [self.progressHUD hideWithCompletion:nil];
         [self.headView setWithModel:self.vm.featuredModel];
         NSArray *arr = self.vm.bangumis;
         
@@ -96,7 +96,9 @@
 - (JHProgressHUD *)progressHUD {
 	if(_progressHUD == nil) {
         DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage];
-		_progressHUD = [[JHProgressHUD alloc] initWithMessage:model.message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
+        _progressHUD = [[JHProgressHUD alloc] init];
+        _progressHUD.text = model.message;
+//		_progressHUD = [[JHProgressHUD alloc] initWithMessage:model.message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
 	}
 	return _progressHUD;
 }

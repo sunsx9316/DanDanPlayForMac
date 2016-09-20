@@ -22,14 +22,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backButtonDown:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
     [self configSearchTextField];
     [self addChildViewController];
 }
-
-//- (void)dealloc {
-//    [[NSNotificationCenter defaultCenter] removeObserver: self];
-//}
 
 - (IBAction)searchButtonDown:(NSButton *)sender {
     if (!self.searchTextField.stringValue.length) return;

@@ -24,9 +24,9 @@
 
 - (void)viewDidAppear {
     [super viewDidAppear];
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     [self.vm refreshCompletionHandler:^(NSError *error) {
-        [JHProgressHUD disMiss];
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         if (self.vm.contentDic.count) {
             [self reloadData];
         }
@@ -39,13 +39,13 @@
 //点击确认 发送播放通知
 - (IBAction)clickOKButton:(NSButton *)sender {
     if (!self.episodeButton.itemTitles.count) return;
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeSearchDamakuLoading].message parentView:self.view];
     
     NSUInteger index = [self.episodeButton indexOfSelectedItem];
     DanDanPlayDanmakuSource source = [ToolsManager enumValueWithDanmakuSourceStringValue:[self.providerButton titleOfSelectedItem]];
     
     [self.vm downThirdPartyDanmakuWithIndex:index provider:source completionHandler:^(id responseObj) {
-        [JHProgressHUD disMiss];
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem];
         NSString *episodeTitle = [self.episodeButton titleOfSelectedItem];
         

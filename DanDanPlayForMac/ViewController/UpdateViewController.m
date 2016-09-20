@@ -45,12 +45,12 @@
 }
 
 - (IBAction)clickOKButton:(NSButton *)sender {
-    [self.progressHUD show];
+    [self.progressHUD showWithView:self.view];
     
-    [UpdateNetManager downLatestVersionWithVersion:_model.version progress:^(NSProgress *downloadProgress) {
-        [self.progressHUD updateProgress:downloadProgress.fractionCompleted];
+    [UpdateNetManager downLatestVersionWithVersion:[NSString stringWithFormat:@"%f", _model.version] progress:^(NSProgress *downloadProgress) {
+        self.progressHUD.progress = downloadProgress.fractionCompleted;
     } completionHandler:^(NSURL *filePath, NSError *error) {
-        [self.progressHUD disMiss];
+        [self.progressHUD hideWithCompletion:nil];
         //下载文件不存在
         if (!filePath.path.length) {
             DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDownloadFile];
@@ -87,7 +87,11 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)progressHUD {
     if(_progressHUD == nil) {
-        _progressHUD = [[JHProgressHUD alloc] initWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloading].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:CGSizeMake(200, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _progressHUD = [[JHProgressHUD alloc] init];
+        _progressHUD.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloading].message;
+        _progressHUD.style = JHProgressHUDStyleValue4;
+        _progressHUD.indicatorSize = CGSizeMake(200, 30);
+        _progressHUD.hideWhenClick = NO;
     }
     return _progressHUD;
 }

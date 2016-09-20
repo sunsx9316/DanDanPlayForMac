@@ -12,7 +12,7 @@
 #import <YYModel.h>
 #import <AFNetworking.h>
 #import <Masonry.h>
-#import "JHProgressHUD.h"
+#import "JHProgressHUD+Tools.h"
 #import "UserDefaultManager.h"
 #import "DanDanPlayErrorModel.h"
 #import "ToolsManager.h"

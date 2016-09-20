@@ -12,6 +12,9 @@
 		810BB1081D8F853B00A0AD96 /* POPMasSpringAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BB1071D8F853B00A0AD96 /* POPMasSpringAnimation.m */; };
 		81680FA01D8FBCE400A24A1E /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 81680F9F1D8FBCE400A24A1E /* home.png */; };
 		81680FA31D8FC8DB00A24A1E /* VersionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81680FA21D8FC8DB00A24A1E /* VersionModel.m */; };
+		81D3BD2C1D91242D00579988 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D3BD291D91242D00579988 /* JHProgressHUD.m */; };
+		81D3BD2D1D91242D00579988 /* NSProgressIndicator+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D3BD2B1D91242D00579988 /* NSProgressIndicator+Tools.m */; };
+		81D3BD301D9125AC00579988 /* JHProgressHUD+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D3BD2F1D9125AC00579988 /* JHProgressHUD+Tools.m */; };
 		890B9A461C8B1BB60063986B /* OpenStreamInputAidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A451C8B1BB60063986B /* OpenStreamInputAidViewController.m */; };
 		890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A481C8B1E770063986B /* VideoNetManager.m */; };
 		890B9A4F1C8B259C0063986B /* OpenStreamVideoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A4E1C8B259C0063986B /* OpenStreamVideoViewModel.m */; };
@@ -136,7 +139,6 @@
 		89D4033A1D52EACB00AED712 /* JHMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403281D52EACB00AED712 /* JHMediaView.m */; };
 		89D4033B1D52EACB00AED712 /* JHPlayerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4032A1D52EACB00AED712 /* JHPlayerItem.m */; };
 		89D4033D1D52EACB00AED712 /* VLCMedia+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4032E1D52EACB00AED712 /* VLCMedia+Tools.m */; };
-		89D4033E1D52EACB00AED712 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403301D52EACB00AED712 /* JHProgressHUD.m */; };
 		89D403411D52EAE400AED712 /* ColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403401D52EAE400AED712 /* ColorButton.m */; };
 		89D403481D52EAFB00AED712 /* HUDMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403431D52EAFB00AED712 /* HUDMessageView.m */; };
 		89D403491D52EAFB00AED712 /* RespondKeyboardSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D403451D52EAFB00AED712 /* RespondKeyboardSearchField.m */; };
@@ -181,6 +183,12 @@
 		81680F9F1D8FBCE400A24A1E /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		81680FA11D8FC8DB00A24A1E /* VersionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionModel.h; sourceTree = "<group>"; };
 		81680FA21D8FC8DB00A24A1E /* VersionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionModel.m; sourceTree = "<group>"; };
+		81D3BD281D91242D00579988 /* JHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHProgressHUD.h; sourceTree = "<group>"; };
+		81D3BD291D91242D00579988 /* JHProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHProgressHUD.m; sourceTree = "<group>"; };
+		81D3BD2A1D91242D00579988 /* NSProgressIndicator+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSProgressIndicator+Tools.h"; sourceTree = "<group>"; };
+		81D3BD2B1D91242D00579988 /* NSProgressIndicator+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSProgressIndicator+Tools.m"; sourceTree = "<group>"; };
+		81D3BD2E1D9125AC00579988 /* JHProgressHUD+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JHProgressHUD+Tools.h"; sourceTree = "<group>"; };
+		81D3BD2F1D9125AC00579988 /* JHProgressHUD+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JHProgressHUD+Tools.m"; sourceTree = "<group>"; };
 		890B9A441C8B1BB60063986B /* OpenStreamInputAidViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStreamInputAidViewController.h; sourceTree = "<group>"; };
 		890B9A451C8B1BB60063986B /* OpenStreamInputAidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamInputAidViewController.m; sourceTree = "<group>"; };
 		890B9A471C8B1E770063986B /* VideoNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoNetManager.h; sourceTree = "<group>"; };
@@ -421,8 +429,6 @@
 		89D4032A1D52EACB00AED712 /* JHPlayerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHPlayerItem.m; sourceTree = "<group>"; };
 		89D4032D1D52EACB00AED712 /* VLCMedia+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VLCMedia+Tools.h"; sourceTree = "<group>"; };
 		89D4032E1D52EACB00AED712 /* VLCMedia+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VLCMedia+Tools.m"; sourceTree = "<group>"; };
-		89D4032F1D52EACB00AED712 /* JHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHProgressHUD.h; sourceTree = "<group>"; };
-		89D403301D52EACB00AED712 /* JHProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHProgressHUD.m; sourceTree = "<group>"; };
 		89D4033F1D52EAE400AED712 /* ColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorButton.h; sourceTree = "<group>"; };
 		89D403401D52EAE400AED712 /* ColorButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorButton.m; sourceTree = "<group>"; };
 		89D403421D52EAFB00AED712 /* HUDMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDMessageView.h; sourceTree = "<group>"; };
@@ -504,6 +510,17 @@
 				810BB1041D8F84BE00A0AD96 /* POPMasAnimatableProperty.m */,
 			);
 			name = POPMasAnimation;
+			sourceTree = "<group>";
+		};
+		81D3BD271D91242D00579988 /* JHProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				81D3BD281D91242D00579988 /* JHProgressHUD.h */,
+				81D3BD291D91242D00579988 /* JHProgressHUD.m */,
+				81D3BD2A1D91242D00579988 /* NSProgressIndicator+Tools.h */,
+				81D3BD2B1D91242D00579988 /* NSProgressIndicator+Tools.m */,
+			);
+			path = JHProgressHUD;
 			sourceTree = "<group>";
 		};
 		890B9A531C8B2EC30063986B /* 在线播放 */ = {
@@ -714,6 +731,8 @@
 				89D98A7E1D8A68050092EBE3 /* NSControl+Tools.m */,
 				89D98A861D8ADEDE0092EBE3 /* NSImageView+Tools.h */,
 				89D98A871D8ADEDE0092EBE3 /* NSImageView+Tools.m */,
+				81D3BD2E1D9125AC00579988 /* JHProgressHUD+Tools.h */,
+				81D3BD2F1D9125AC00579988 /* JHProgressHUD+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -1013,6 +1032,7 @@
 		89D4030F1D52EACB00AED712 /* Widget */ = {
 			isa = PBXGroup;
 			children = (
+				81D3BD271D91242D00579988 /* JHProgressHUD */,
 				89D403421D52EAFB00AED712 /* HUDMessageView.h */,
 				89D403431D52EAFB00AED712 /* HUDMessageView.m */,
 				89D403441D52EAFB00AED712 /* RespondKeyboardSearchField.h */,
@@ -1021,8 +1041,6 @@
 				89D403471D52EAFB00AED712 /* RespondKeyboardTextField.m */,
 				89D4033F1D52EAE400AED712 /* ColorButton.h */,
 				89D403401D52EAE400AED712 /* ColorButton.m */,
-				89D4032F1D52EACB00AED712 /* JHProgressHUD.h */,
-				89D403301D52EACB00AED712 /* JHProgressHUD.m */,
 				89D403521D53204900AED712 /* JHSwichButton.h */,
 				89D403531D53204900AED712 /* JHSwichButton.m */,
 				89D403241D52EACB00AED712 /* JHMediaPlayer */,
@@ -1397,6 +1415,7 @@
 				897CD5B01C914A0100C98310 /* AutoUpdateCell.m in Sources */,
 				8975A0AD1C60A03A009BD30F /* PlayerViewController.m in Sources */,
 				8996A6E31C6CE18200D5AA6E /* TimeAxisCell.m in Sources */,
+				81D3BD2D1D91242D00579988 /* NSProgressIndicator+Tools.m in Sources */,
 				89D403481D52EAFB00AED712 /* HUDMessageView.m in Sources */,
 				89264DA91D5C5F8E004B51BF /* POPMasBaseAnimation.m in Sources */,
 				897619F11C59E8520046A245 /* PlayViewModel.m in Sources */,
@@ -1408,7 +1427,7 @@
 				8981629D1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m in Sources */,
 				89D98A881D8ADEDE0092EBE3 /* NSImageView+Tools.m in Sources */,
 				89A5345E1CB92FD000F7FE18 /* AboutViewController.m in Sources */,
-				89D4033E1D52EACB00AED712 /* JHProgressHUD.m in Sources */,
+				81D3BD301D9125AC00579988 /* JHProgressHUD+Tools.m in Sources */,
 				8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */,
 				89D403391D52EACB00AED712 /* JHMediaPlayer.m in Sources */,
 				89D6A1AA1D61538F00A14469 /* DanDanPlayErrorModel.m in Sources */,
@@ -1426,6 +1445,7 @@
 				8996A6E01C6CD95A00D5AA6E /* SliderControlCell.m in Sources */,
 				897345BF1C759CB200F64D39 /* NSDictionary+Tools.m in Sources */,
 				897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */,
+				81D3BD2C1D91242D00579988 /* JHProgressHUD.m in Sources */,
 				897619F01C59E8520046A245 /* MatchViewModel.m in Sources */,
 				897AE8801D3D05B900143B9F /* PlayerListViewController.m in Sources */,
 				8975D1D61C6EF173003FE797 /* FontSpeciallyCell.m in Sources */,
