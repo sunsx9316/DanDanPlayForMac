@@ -291,12 +291,14 @@
 
 - (void)setMediaURL:(NSURL *)mediaURL {
     [self stop];
-    if (!mediaURL.path.length) return;
+    if (!mediaURL) return;
     _mediaURL = mediaURL;
     if (self.mediaType == JHMediaTypeLocaleMedia) {
-        _currentLocalMedia = [[JHVLCMedia alloc] initWithURL:mediaURL];
-        self.localMediaPlayer.media = _currentLocalMedia;
-        self.localMediaPlayer.delegate = self;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.absoluteString]) {
+            _currentLocalMedia = [[JHVLCMedia alloc] initWithURL:mediaURL];
+            self.localMediaPlayer.media = _currentLocalMedia;
+            self.localMediaPlayer.delegate = self;
+        }
     }
     else {
         [self setupNetMediaPlayerWithMediaURL:_mediaURL];

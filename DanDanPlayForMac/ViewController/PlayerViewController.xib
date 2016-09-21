@@ -18,7 +18,8 @@
                 <outlet property="playerControlViewLeftConstraint" destination="Udt-6E-lte" id="k1t-0p-tkm"/>
                 <outlet property="playerControlViewRightConstraint" destination="Uif-nb-3LS" id="6QU-He-SkU"/>
                 <outlet property="playerHoldView" destination="cFV-q9-lW5" id="huw-0W-jFV"/>
-                <outlet property="rightClickMenu" destination="lHd-hS-rTe" id="HBx-jm-WLg"/>
+                <outlet property="qualityMenuItem" destination="7mt-8c-85K" id="pYr-W4-aoU"/>
+                <outlet property="rightClickMenu" destination="lHd-hS-rTe" id="KPg-Lj-ZMx"/>
                 <outlet property="timeLabel" destination="8ln-g1-4b9" id="kk8-wu-vKM"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
                 <outlet property="volumeButton" destination="g9F-rL-aJ7" id="lsz-El-O5e"/>
@@ -260,13 +261,15 @@
         </customView>
         <menu id="lHd-hS-rTe">
             <items>
-                <menuItem title="良心画质" id="CM8-L8-vlS">
+                <menuItem title="画质选择" id="7mt-8c-85K">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="良心画质" id="cO9-at-3kd"/>
+                    <menu key="submenu" title="画质选择" id="ueW-6O-Kx7"/>
                 </menuItem>
-                <menuItem title="渣画质" id="gJZ-FE-nxX">
+                <menuItem title="缓存视频" id="FCA-Ol-Gfh">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="渣画质" id="5tv-7G-a1X"/>
+                    <connections>
+                        <action selector="clickDownloadButton:" target="-2" id="tJ0-0n-1D4"/>
+                    </connections>
                 </menuItem>
             </items>
             <point key="canvasLocation" x="77" y="432.5"/>

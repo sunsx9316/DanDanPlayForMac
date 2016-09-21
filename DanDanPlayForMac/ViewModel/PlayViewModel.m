@@ -44,17 +44,17 @@
     return count;
 }
 
-- (NSString *)videoNameWithIndex:(NSInteger)index {
-    return [self videoModelWithIndex: index].fileName.length ? [self videoModelWithIndex: index].fileName : @"";
-}
+//- (NSString *)videoNameWithIndex:(NSInteger)index {
+//    return [self videoModelWithIndex: index].fileName.length ? [self videoModelWithIndex: index].fileName : @"";
+//}
 
-- (BOOL)showPlayIconWithIndex:(NSInteger)index {
-    return index != self.currentIndex;
-}
+//- (BOOL)showPlayIconWithIndex:(NSInteger)index {
+//    return index != self.currentIndex;
+//}
 
-- (NSString *)currentVideoName {
-    return [self videoNameWithIndex: _currentIndex];
-}
+//- (NSString *)currentVideoName {
+//    return [self videoNameWithIndex: _currentIndex];
+//}
 
 - (id<VideoModelProtocol>)currentVideoModel {
     return [self videoModelWithIndex: _currentIndex];
@@ -64,13 +64,13 @@
     return [[UserDefaultManager shareUserDefaultManager] videoPlayHistoryWithHash:[self currentVideoModel].md5];
 }
 
-- (NSString *)currentVideoHash {
-    return [self currentVideoModel].md5;
-}
+//- (NSString *)currentVideoHash {
+//    return [self currentVideoModel].md5;
+//}
 
-- (NSURL *)currentVideoURL {
-    return [self videoURLWithIndex: _currentIndex];
-}
+//- (NSURL *)currentVideoURL {
+//    return [self videoURLWithIndex: _currentIndex];
+//}
 
 - (void)setCurrentIndex:(NSUInteger)currentIndex {
     _currentIndex = self.videos.count ? currentIndex % self.videos.count : 0;
@@ -93,27 +93,6 @@
         [_videos removeObjectAtIndex:index];
     }
     [self synchronizeVideoList];
-}
-
-- (NSInteger)openStreamCountWithQuality:(streamingVideoQuality)quality {
-    StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
-    return [model URLsCountWithQuality:quality];
-}
-
-- (NSInteger)openStreamIndex {
-    StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
-    return model.URLIndex;
-}
-
-- (streamingVideoQuality)openStreamQuality {
-    StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
-    return model.quality;
-}
-
-- (void)setOpenStreamURLWithQuality:(streamingVideoQuality)quality index:(NSInteger)index {
-    StreamingVideoModel *model = (StreamingVideoModel *)[self currentVideoModel];
-    model.quality = quality;
-    model.URLIndex = index;
 }
 
 - (void)synchronizeVideoList {
@@ -159,15 +138,15 @@
     return _videos.array;
 }
 
-#pragma mark - 私有方法
-- (NSURL *)videoURLWithIndex:(NSInteger)index {
-    return [self videoModelWithIndex: index].fileURL;
-}
+//- (NSURL *)videoURLWithIndex:(NSInteger)index {
+//    return [self videoModelWithIndex: index].fileURL;
+//}
 
 - (id<VideoModelProtocol>)videoModelWithIndex:(NSUInteger)index {
     return index < self.videos.count ? self.videos[index] : nil;
 }
 
+#pragma mark - 私有方法
 - (void)reloadDanmakuWithLocalMedia:(LocalVideoModel *)media completionHandler:(reloadDanmakuCallBack)complete {
     if (![[NSFileManager defaultManager] fileExistsAtPath:media.fileURL.path]) {
         complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
@@ -214,7 +193,7 @@
     complete(0.5, nil, nil);
     
     //没有请求过的视频 视频数组都为空
-    if ([media URLsCountWithQuality:streamingVideoQualityHigh] == 0 && [media URLsCountWithQuality:streamingVideoQualityLow] == 0) {
+    if ([media URLsCountWithQuality:StreamingVideoQualityHigh] == 0 && [media URLsCountWithQuality:StreamingVideoQualityLow] == 0) {
         [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:media.fileName danmaku:media.danmaku danmakuSource:media.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error) {
             if (videoModel) {
                 _videos[index] = videoModel;
@@ -242,6 +221,25 @@
                 }
             }];
         }
+    }
+}
+
+- (void)downloadCurrentVideoWithProgress:(void (^)(id<VideoModelProtocol>model))downloadProgressBlock completionHandler:(void(^)(id<VideoModelProtocol>model, NSURL *downLoadURL, DanDanPlayErrorModel *error))complete {
+    id<VideoModelProtocol>videoModel = self.currentVideoModel;
+    if ([videoModel isKindOfClass:[StreamingVideoModel class]]) {
+        StreamingVideoModel *vm = (StreamingVideoModel *)videoModel;
+        //防止下载未完成更换地址
+        NSInteger index = vm.URLIndex;
+        StreamingVideoQuality quality = vm.quality;
+        
+        [VideoNetManager downloadVideoWithURL:vm.fileURL progress:^(NSProgress *downloadProgress) {
+            vm.progress = downloadProgress.fractionCompleted;
+            downloadProgressBlock(vm);
+        } completionHandler:^(NSURL *downLoadURL, DanDanPlayErrorModel *error) {
+            [vm setURL:downLoadURL quality:quality index:index];
+            [self synchronizeVideoList];
+            complete(vm, downLoadURL, error);
+        }];
     }
 }
 

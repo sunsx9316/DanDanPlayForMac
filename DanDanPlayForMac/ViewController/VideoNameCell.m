@@ -13,14 +13,21 @@
 @property (weak, nonatomic) IBOutlet NSTextField *titleField;
 @property (weak, nonatomic) IBOutlet NSImageView *iconImageView;
 @property (strong, nonatomic) IBOutlet NSButton *button;
+@property (strong, nonatomic) IBOutlet NSView *progressView;
+@property (weak) IBOutlet NSLayoutConstraint *progressViewWidthConstraint;
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
 @property (copy, nonatomic) buttonCallBackBlock block;
 @end
 
 @implementation VideoNameCell
+{
+    id<VideoModelProtocol> _model;
+}
+
 - (void)awakeFromNib{
     [super awakeFromNib];
     [self setWantsLayer:YES];
+    self.progressView.backgroundColor = RGBAColor(49, 169, 226, 0.5);
     [self.button setTitleColor:[NSColor whiteColor]];
     [self addTrackingArea:self.trackingArea];
 }
@@ -29,8 +36,10 @@
     [self removeTrackingArea:self.trackingArea];
 }
 
-- (void)setTitle:(NSString *)title iconHide:(BOOL)iconHide callBack:(buttonCallBackBlock)callBack{
-    self.titleField.text = title;
+- (void)setWithModel:(id<VideoModelProtocol>)model iconHide:(BOOL)iconHide callBack:(buttonCallBackBlock)callBack {
+    _model = model;
+    self.progressViewWidthConstraint.constant = [_model progress] * self.frame.size.width;
+    self.titleField.text = [model fileName];
     self.iconImageView.hidden = iconHide;
     self.block = callBack;
     self.button.hidden = YES;

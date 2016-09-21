@@ -75,7 +75,7 @@
 
 
 + (NSURLSessionDownloadTask *)downloadTaskWithPath:(NSString *)path
-                                             progress:(void (^)(NSProgress *downloadProgress)) downloadProgressBlock
+                                             progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock
                                           destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
                                     completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error))completionHandler {
     NSURLSessionDownloadTask *task = [[self sharedHTTPSessionManager] downloadTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:path]] progress:downloadProgressBlock destination:destination completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
@@ -83,6 +83,7 @@
         completionHandler(response, filePath, [DanDanPlayErrorModel ErrorWithError:error]);
     }];
     [task resume];
+    
     return task;
 }
 

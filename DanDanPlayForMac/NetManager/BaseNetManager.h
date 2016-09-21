@@ -30,16 +30,6 @@
  */
 + (NSURLSessionDataTask *)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
- *  GET封装 直接获取data
- *
- *  @param path       路径
- *  @param parameters 参数
- *  @param complete   回调
- *
- *  @return 任务
- */
-//+ (NSURLSessionDataTask *)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, NSError *error))complete;
-/**
  *  PUT封装
  *
  *  @param path       路径

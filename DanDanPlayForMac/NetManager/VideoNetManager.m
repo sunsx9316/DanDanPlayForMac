@@ -30,11 +30,30 @@
     NSString *badQualityPath = [parametersDic requestPathWithBasePath:@"http://interface.bilibili.com/playurl?"];
     
     [self batchGETWithPaths:@[goodQualityPath, badQualityPath] progressBlock:nil completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
-        videoPathDic[@(streamingVideoQualityHigh)] = [self bilibiliURLsWithResponseObj:responseObjects.firstObject];
+        videoPathDic[@(StreamingVideoQualityHigh)] = [self bilibiliURLsWithResponseObj:responseObjects.firstObject];
         if (responseObjects.count > 0) {
-            videoPathDic[@(streamingVideoQualityLow)] = [self bilibiliURLsWithResponseObj:responseObjects[1]];
+            videoPathDic[@(StreamingVideoQualityLow)] = [self bilibiliURLsWithResponseObj:responseObjects[1]];
         }
         complete(videoPathDic, nil);
+    }];
+}
+
++ (void)downloadVideoWithURL:(NSURL *)URL progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock completionHandler:(void(^)(NSURL *downLoadURL, DanDanPlayErrorModel *error))complete {
+    if (URL == nil || [URL isFileURL]) {
+        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
+        return;
+    }
+    
+    [self downloadTaskWithPath:URL.absoluteString progress:downloadProgressBlock destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSString *downloadPath = [UserDefaultManager shareUserDefaultManager].danmakuCachePath;
+        //自动下载路径不存在 则创建
+        if (![[NSFileManager defaultManager] fileExistsAtPath:[downloadPath stringByAppendingPathComponent:@"video"] isDirectory:nil]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:downloadPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
+        return [NSURL fileURLWithPath: [downloadPath stringByAppendingPathComponent:[response suggestedFilename]]];
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error) {
+        complete(filePath, error);
     }];
 }
 

@@ -22,6 +22,7 @@
 
 @synthesize matchTitle;
 @synthesize episodeId;
+@synthesize progress;
 
 - (instancetype)initWithFileURL:(NSURL *)fileURL {
     if (self = [super init]) {

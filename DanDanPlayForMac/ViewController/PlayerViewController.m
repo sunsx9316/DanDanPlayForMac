@@ -91,6 +91,7 @@
 @property (strong) IBOutlet PlayerLastWatchVideoTimeView *lastWatchVideoTimeView;
 //弹幕数view
 @property (strong) IBOutlet PlayerDanmakuCountView *danmakuCountView;
+@property (weak) IBOutlet NSMenuItem *qualityMenuItem;
 
 //右键显示的清晰度菜单
 @property (strong) IBOutlet NSMenu *rightClickMenu;
@@ -511,6 +512,14 @@
     }
 }
 
+- (IBAction)clickDownloadButton:(NSMenuItem *)sender {
+    [self.vm downloadCurrentVideoWithProgress:^(id<VideoModelProtocol> model) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"VIDEO_DOWNLOAD_PROGRESS" object:model];
+    } completionHandler:^(id<VideoModelProtocol> model, NSURL *downLoadURL, DanDanPlayErrorModel *error) {
+        [PlayerMethodManager postMatchMessageWithTitle:[ToolsManager appName] subtitle:nil informativeText:[NSString stringWithFormat:@"%@下载%@",[model fileName], (error ? @"失败" : @"完成")] delegate:self];
+    }];
+}
+
 - (void)launchDanmaku {
     NSString *text = self.danmakuTextField.stringValue;
     if (!text.length) return;
@@ -559,9 +568,8 @@
 - (void)stopPlay {
     [self.danmakuEngine stop];
     [self.player stop];
-    
-    [self.playerControlView.slideView updateBufferProgress:0];
-    [self.playerControlView.slideView updateCurrentProgress:0];
+    self.playerControlView.slideView.currentProgress = 0;
+    self.playerControlView.slideView.bufferProgress = 0;
     self.timeLabel.text = @"00:00 / 00:00";
 }
 
@@ -850,14 +858,14 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         //更新当前时间
         self.timeLabel.text = formatTime;
-        [self.playerControlView.slideView updateCurrentProgress:progress];
+        self.playerControlView.slideView.currentProgress = progress;
     });
     //  NSLog(@"%f %f", self.player.currentTime, self.rander.currentTime);
 }
 
 - (void)mediaPlayer:(JHMediaPlayer *)player bufferTimeProgress:(float)progress onceBufferTime:(float)onceBufferTime {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.playerControlView.slideView updateBufferProgress:progress];
+        self.playerControlView.slideView.bufferProgress = progress;
     });
 }
 
@@ -919,21 +927,20 @@
 - (void)resetMenuByOpenStreamDic {
     //只有网络视频才显示
     if (self.player.mediaType == JHMediaTypeLocaleMedia) return;
-    
-    [self.rightClickMenu removeAllItems];
+    [self.qualityMenuItem.submenu removeAllItems];
     StreamingVideoModel *model = (StreamingVideoModel *)self.vm.currentVideoModel;
     
     NSMutableArray *arr = [NSMutableArray array];
-    NSInteger highCount = [model URLsCountWithQuality:streamingVideoQualityHigh];
-    NSInteger lowCount = [model URLsCountWithQuality:streamingVideoQualityLow];
+    NSInteger highCount = [model URLsCountWithQuality:StreamingVideoQualityHigh];
+    NSInteger lowCount = [model URLsCountWithQuality:StreamingVideoQualityLow];
     if (highCount) {
-        [arr addObject:[self menuItemWithTitle:@"良心画质" quality:streamingVideoQualityHigh]];
+        [arr addObject:[self menuItemWithTitle:@"良心画质" quality:StreamingVideoQualityHigh]];
     }
     if (lowCount) {
-        [arr addObject:[self menuItemWithTitle:@"渣画质" quality:streamingVideoQualityLow]];
+        [arr addObject:[self menuItemWithTitle:@"渣画质" quality:StreamingVideoQualityLow]];
     }
     
-    streamingVideoQuality quality = model.quality;
+    StreamingVideoQuality quality = model.quality;
     NSUInteger openStreamIndex = model.URLIndex;
     for (NSInteger i = 0 ; i < arr.count; ++i) {
         QualityMenuItem *item = arr[i];
@@ -959,23 +966,23 @@
     }
 }
 
-- (QualityMenuItem *)menuItemWithTitle:(NSString *)title quality:(streamingVideoQuality)quality {
+- (QualityMenuItem *)menuItemWithTitle:(NSString *)title quality:(StreamingVideoQuality)quality {
     QualityMenuItem *item = [[QualityMenuItem alloc] initWithTitle:title action:nil keyEquivalent:@""];
     item.submenu = [[NSMenu alloc] initWithTitle:item.title];
-    [self.rightClickMenu addItem:item];
+    [self.qualityMenuItem.submenu addItem:item];
     item.quality = quality;
     return item;
 }
 
 - (void)clickItem:(NSMenuItem *)item {
-    streamingVideoQuality quality;
+    StreamingVideoQuality quality;
     NSInteger index;
     if (item.tag >= 20) {
-        quality = streamingVideoQualityHigh;
+        quality = StreamingVideoQualityHigh;
         index = item.tag - 20;
     }
     else {
-        quality = streamingVideoQualityLow;
+        quality = StreamingVideoQualityLow;
         index = item.tag - 10;
     }
     

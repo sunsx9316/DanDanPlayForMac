@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol VideoModelProtocol <NSObject>
+@property (assign, nonatomic) float progress;
 /**
  *  文件完整路径
  */

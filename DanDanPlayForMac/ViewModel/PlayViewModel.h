@@ -57,33 +57,6 @@ typedef void(^reloadDanmakuCallBack)(CGFloat progress, id<VideoModelProtocol>vid
  */
 - (void)addVideosModel:(NSArray *)videosModel;
 /**
- *  流媒体对应类型个数
- *
- *  @param type 类型 (high、low)
- *
- *  @return 个数
- */
-//- (NSInteger)openStreamCountWithQuality:(streamingVideoQuality)quality;
-///**
-// *  流媒体当前播放url下标
-// *
-// *  @return 播放url下标
-// */
-//- (NSInteger)openStreamIndex;
-///**
-// *  流媒体清晰度
-// *
-// *  @return 流媒体清晰度
-// */
-//- (streamingVideoQuality)openStreamQuality;
-///**
-// *  设置流媒体对应下标和清晰度
-// *
-// *  @param quality 清晰度
-// *  @param index   下标
-// */
-//- (void)setOpenStreamURLWithQuality:(streamingVideoQuality)quality index:(NSInteger)index;
-/**
  *  移除视频
  *
  *  @param index 下标
@@ -106,4 +79,11 @@ typedef void(^reloadDanmakuCallBack)(CGFloat progress, id<VideoModelProtocol>vid
  *  @param index 下标
  */
 - (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(reloadDanmakuCallBack)complete;
+/**
+ *  下载当前视频
+ *
+ *  @param downloadProgressBlock 进度回调
+ *  @param complete              完成回调
+ */
+- (void)downloadCurrentVideoWithProgress:(void (^)(id<VideoModelProtocol>model))downloadProgressBlock completionHandler:(void(^)(id<VideoModelProtocol>model, NSURL *downLoadURL, DanDanPlayErrorModel *error))complete;
 @end
