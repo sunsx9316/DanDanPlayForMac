@@ -8,8 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "Config.h"
+#import "VideoModelProtocol.h"
 
 @interface ToolsManager : NSObject
+//当前下载任务
+@property (strong, nonatomic) NSMutableSet <NSURLSessionDownloadTask *>*downLoadTaskSet;
+//当前分析的视频模型
+@property (strong, nonatomic) id<VideoModelProtocol> currentVideoModel;
+
 + (NSString *)stringValueWithDanmakuSource:(DanDanPlayDanmakuSource)source;
 + (DanDanPlayDanmakuSource)enumValueWithDanmakuSourceStringValue:(NSString *)source;
 /**

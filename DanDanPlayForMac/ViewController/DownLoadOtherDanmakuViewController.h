@@ -9,7 +9,6 @@
 #import "BaseViewController.h"
 @class VideoInfoDataModel;
 @interface DownLoadOtherDanmakuViewController : BaseViewController
-//- (instancetype)initWithVideos:(NSArray <VideoInfoDataModel *>*)videos danMuSource:(DanDanPlayDanmakuSource)danMuSource;
 @property (strong, nonatomic) NSArray <VideoInfoDataModel *>*videos;
 @property (assign, nonatomic) DanDanPlayDanmakuSource source;
 @end

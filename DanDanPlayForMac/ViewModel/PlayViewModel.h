@@ -20,7 +20,7 @@ typedef void(^reloadDanmakuCallBack)(CGFloat progress, id<VideoModelProtocol>vid
 /**
  *  视频模型
  */
-@property (strong, nonatomic) NSArray <id<VideoModelProtocol>>*videos;
+@property (strong, atomic) NSArray <id<VideoModelProtocol>>*videos;
 /**
  *  弹幕总数
  */

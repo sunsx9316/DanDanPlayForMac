@@ -15,7 +15,6 @@
 @property (copy, nonatomic) NSString *fileName;
 @property (copy, nonatomic) NSString *md5;
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *, NSArray <NSURL *>*>*URLs;
-@property (strong, nonatomic) NSString *danmakuSourceStringValue;
 @end
 
 @implementation StreamingVideoModel
@@ -81,7 +80,7 @@
 }
 
 - (NSString *)md5 {
-    _md5 = [[_danmakuSourceStringValue stringByAppendingString:_danmaku] md5String];
+    _md5 = [[[ToolsManager stringValueWithDanmakuSource:_danmakuSource] stringByAppendingString:_danmaku] md5String];
     return _md5;
 }
 

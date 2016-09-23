@@ -34,7 +34,8 @@
     NSUInteger index = [self.vm.videos indexOfObject:model];
     if (index < self.vm.videos.count) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadRow:index inColumn:0];
+            VideoNameCell *cell = [self.tableView viewAtColumn:0 row:index makeIfNecessary:YES];
+            [cell updateProgress:[model progress]];
         });
     }
 }

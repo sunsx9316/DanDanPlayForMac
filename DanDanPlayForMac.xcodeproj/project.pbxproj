@@ -15,6 +15,7 @@
 		81D3BD2C1D91242D00579988 /* JHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D3BD291D91242D00579988 /* JHProgressHUD.m */; };
 		81D3BD2D1D91242D00579988 /* NSProgressIndicator+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D3BD2B1D91242D00579988 /* NSProgressIndicator+Tools.m */; };
 		81D3BD301D9125AC00579988 /* JHProgressHUD+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D3BD2F1D9125AC00579988 /* JHProgressHUD+Tools.m */; };
+		81F8E2711D950497006BB685 /* NSFileManager+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E2701D950497006BB685 /* NSFileManager+Tools.m */; };
 		890B9A461C8B1BB60063986B /* OpenStreamInputAidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A451C8B1BB60063986B /* OpenStreamInputAidViewController.m */; };
 		890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A481C8B1E770063986B /* VideoNetManager.m */; };
 		890B9A4F1C8B259C0063986B /* OpenStreamVideoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 890B9A4E1C8B259C0063986B /* OpenStreamVideoViewModel.m */; };
@@ -189,6 +190,8 @@
 		81D3BD2B1D91242D00579988 /* NSProgressIndicator+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSProgressIndicator+Tools.m"; sourceTree = "<group>"; };
 		81D3BD2E1D9125AC00579988 /* JHProgressHUD+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JHProgressHUD+Tools.h"; sourceTree = "<group>"; };
 		81D3BD2F1D9125AC00579988 /* JHProgressHUD+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JHProgressHUD+Tools.m"; sourceTree = "<group>"; };
+		81F8E26F1D950497006BB685 /* NSFileManager+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Tools.h"; sourceTree = "<group>"; };
+		81F8E2701D950497006BB685 /* NSFileManager+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Tools.m"; sourceTree = "<group>"; };
 		890B9A441C8B1BB60063986B /* OpenStreamInputAidViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStreamInputAidViewController.h; sourceTree = "<group>"; };
 		890B9A451C8B1BB60063986B /* OpenStreamInputAidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamInputAidViewController.m; sourceTree = "<group>"; };
 		890B9A471C8B1E770063986B /* VideoNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoNetManager.h; sourceTree = "<group>"; };
@@ -733,6 +736,8 @@
 				89D98A871D8ADEDE0092EBE3 /* NSImageView+Tools.m */,
 				81D3BD2E1D9125AC00579988 /* JHProgressHUD+Tools.h */,
 				81D3BD2F1D9125AC00579988 /* JHProgressHUD+Tools.m */,
+				81F8E26F1D950497006BB685 /* NSFileManager+Tools.h */,
+				81F8E2701D950497006BB685 /* NSFileManager+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -1439,6 +1444,7 @@
 				89651E491C5FA837002F23A2 /* NSColor+Tools.m in Sources */,
 				8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */,
 				896A71771C66421500280B79 /* AcFunDanMuChooseViewModel.m in Sources */,
+				81F8E2711D950497006BB685 /* NSFileManager+Tools.m in Sources */,
 				8995C99A1C64F7FF008C1C02 /* BiliBiliDanMuChooseViewModel.m in Sources */,
 				81680FA31D8FC8DB00A24A1E /* VersionModel.m in Sources */,
 				8975D1DC1C6EF634003FE797 /* ChangeFontCell.m in Sources */,

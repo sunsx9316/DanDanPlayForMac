@@ -73,15 +73,31 @@
     return task;
 }
 
++ (NSURLSessionDownloadTask *)downloadTaskWithResumeData:(NSData *)resumeData
+                                          progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock
+                                       destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
+                                       completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error))completionHandler {
+    NSURLSessionDownloadTask *task = [[self sharedHTTPSessionManager] downloadTaskWithResumeData:resumeData progress:downloadProgressBlock destination:destination completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+        NSLog(@"下载%@：%@", error ? @"失败" : @"成功", response.URL);
+        completionHandler(response, filePath, [DanDanPlayErrorModel ErrorWithError:error]);
+    }];
+    [task resume];
+    
+    return task;
+}
+
 
 + (NSURLSessionDownloadTask *)downloadTaskWithPath:(NSString *)path
                                              progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock
                                           destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
                                     completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error))completionHandler {
+    
+    
     NSURLSessionDownloadTask *task = [[self sharedHTTPSessionManager] downloadTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:path]] progress:downloadProgressBlock destination:destination completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
         NSLog(@"下载%@：%@", error ? @"失败" : @"成功", path);
         completionHandler(response, filePath, [DanDanPlayErrorModel ErrorWithError:error]);
     }];
+    
     [task resume];
     
     return task;

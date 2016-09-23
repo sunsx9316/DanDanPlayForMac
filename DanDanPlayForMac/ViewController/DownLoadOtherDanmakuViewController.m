@@ -64,9 +64,8 @@
     
     [DanmakuNetManager batchGETDanmakuInfoWithAids:aidArr source:_source completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
         [danmakuArr addObjectsFromArray:responseObjs];
-        
         [DanmakuNetManager batchDownDanmakuWithDanmakuIds:danmakuArr source:_source progressBlock:nil completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", responseObjs.count]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:[NSString stringWithFormat:@"下载完成 一共%ld个", responseObjs.count]];
         }];
     }];
 }

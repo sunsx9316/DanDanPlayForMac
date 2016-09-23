@@ -37,8 +37,22 @@
     [vc setUpWithFilePath:_filePaths];
 }
 
+//即将关闭操作
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    dispatch_group_t group = dispatch_group_create();
+    
+    for (NSURLSessionDownloadTask *obj in [ToolsManager shareToolsManager].downLoadTaskSet) {
+        NSString *md5 = objc_getAssociatedObject(obj, "md5");
+        NSString *path = [[UserDefaultManager shareUserDefaultManager].downloadResumeDataPath stringByAppendingPathComponent:md5];
+        dispatch_group_enter(group);
+        dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^{
+            [obj cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
+                [resumeData writeToFile:path atomically:YES];
+                dispatch_group_leave(group);
+            }];
+        });
+    }
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 }
 
 - (void)application:(NSApplication *)sender openFiles:(NSArray<NSString *> *)filenames {

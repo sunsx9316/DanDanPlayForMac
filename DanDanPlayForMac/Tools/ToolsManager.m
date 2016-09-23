@@ -101,4 +101,12 @@
     IOPMAssertionRelease(_assertionID);
 }
 
+#pragma mark - 懒加载
+- (NSMutableSet <NSURLSessionDownloadTask *> *)downLoadTaskSet {
+    if(_downLoadTaskSet == nil) {
+        _downLoadTaskSet = [[NSMutableSet <NSURLSessionDownloadTask *> alloc] init];
+    }
+    return _downLoadTaskSet;
+}
+
 @end

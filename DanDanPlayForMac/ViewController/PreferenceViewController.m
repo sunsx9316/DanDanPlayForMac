@@ -187,31 +187,31 @@
     return nil;
 }
 
-- (NSView *)playerTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)playerTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"ChangeBackGroundImgCell" owner:nil];
 }
 
-- (NSView *)filterTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)filterTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"DanMuFilterCell" owner:nil];
 }
 
-- (NSView *)keyboardTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)keyboardTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"KeyboardSettingCell" owner:nil];
 }
 
-- (NSView *)screenShotTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)screenShotTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"ScreenShotCell" owner:nil];
 }
 
-- (NSView *)cacheTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)cacheTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"CacheManagerCell" owner:nil];
 }
 
-- (NSView *)updateTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)updateTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"AutoUpdateCell" owner:nil];
 }
 
-- (NSView *)otherTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)otherTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     switch (row) {
         case 0:
             return [tableView makeViewWithIdentifier:@"OtherSettingCell" owner:nil];

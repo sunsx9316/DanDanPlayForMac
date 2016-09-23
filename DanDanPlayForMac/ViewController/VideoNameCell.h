@@ -12,4 +12,5 @@ typedef void(^buttonCallBackBlock)();
 @interface VideoNameCell : NSView
 //- (void)setTitle:(NSString *)title iconHide:(BOOL)iconHide callBack:(buttonCallBackBlock)callBack;
 - (void)setWithModel:(id<VideoModelProtocol>)model iconHide:(BOOL)iconHide callBack:(buttonCallBackBlock)callBack;
+- (void)updateProgress:(float)progress;
 @end

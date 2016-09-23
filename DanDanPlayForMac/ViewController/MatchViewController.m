@@ -41,7 +41,7 @@
         if (model.episodeId && [UserDefaultManager shareUserDefaultManager].turnOnFastMatch) {
             //防止崩溃
             if (self == self.keyWindowsViewController) {
-                id<VideoModelProtocol>vm = [UserDefaultManager shareUserDefaultManager].currentVideoModel;
+                id<VideoModelProtocol>vm = [ToolsManager shareToolsManager].currentVideoModel;
                 vm.matchTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
                 DanmakuChooseViewController *danmakuVC = [DanmakuChooseViewController viewController];
                 danmakuVC.videoId = model.episodeId;

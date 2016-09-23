@@ -48,7 +48,7 @@
         [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         if (!error) {
             
-            id<VideoModelProtocol>vm = [UserDefaultManager shareUserDefaultManager].currentVideoModel;
+            id<VideoModelProtocol>vm = [ToolsManager shareToolsManager].currentVideoModel;
             if (vm) {
                 vm.matchTitle = [self.episodeButton titleOfSelectedItem];
                 vm.danmakuDic = responseObj;

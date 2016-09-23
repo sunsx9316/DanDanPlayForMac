@@ -516,7 +516,7 @@
     [self.vm downloadCurrentVideoWithProgress:^(id<VideoModelProtocol> model) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"VIDEO_DOWNLOAD_PROGRESS" object:model];
     } completionHandler:^(id<VideoModelProtocol> model, NSURL *downLoadURL, DanDanPlayErrorModel *error) {
-        [PlayerMethodManager postMatchMessageWithTitle:[ToolsManager appName] subtitle:nil informativeText:[NSString stringWithFormat:@"%@下载%@",[model fileName], (error ? @"失败" : @"完成")] delegate:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:[NSString stringWithFormat:@"%@缓存%@",[model fileName], (error ? @"失败" : @"完成")]];
     }];
 }
 
@@ -623,7 +623,7 @@
                     [self presentViewControllerAsSheet: vc];
                     return;
                 }
-                 self.messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoNoFound].message;
+                self.messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoNoFound].message;
                 [self.messageView showHUD];
                 complete(videoModel, error);
             }
@@ -1040,7 +1040,7 @@
         _controlPlayListControllerViewButton = [[NSButton alloc] init];
         _controlPlayListControllerViewButton.bordered = NO;
         _controlPlayListControllerViewButton.bezelStyle = NSTexturedRoundedBezelStyle;
-
+        
         [_controlPlayListControllerViewButton setImage: [NSImage imageNamed:@"show_play_list_controller"]];
         [_controlPlayListControllerViewButton setTarget: self];
         [_controlPlayListControllerViewButton setAction: @selector(clickPlayListViewButton:)];
@@ -1106,9 +1106,9 @@
 }
 
 - (PlayerListViewController *)playerListViewController {
-	if(_playerListViewController == nil) {
-            __weak typeof(self)weakSelf = self;
-		_playerListViewController = [[PlayerListViewController alloc] initWithNibName:@"PlayerListViewController" bundle:nil];
+    if(_playerListViewController == nil) {
+        __weak typeof(self)weakSelf = self;
+        _playerListViewController = [[PlayerListViewController alloc] initWithNibName:@"PlayerListViewController" bundle:nil];
         
         _playerListViewController.vm = self.vm;
         //点击删除
@@ -1128,13 +1128,13 @@
         }];
         [self addChildViewController:_playerListViewController];
         [self.view addSubview: _playerListViewController.view positioned:NSWindowAbove relativeTo:self.playerControlView];
-	}
-	return _playerListViewController;
+    }
+    return _playerListViewController;
 }
 
 - (PlayerDanmakuAndSubtitleViewController *)playerDanmakuAndSubtitleViewController {
-	if(_playerDanmakuAndSubtitleViewController == nil) {
-		_playerDanmakuAndSubtitleViewController = [[PlayerDanmakuAndSubtitleViewController alloc] init];
+    if(_playerDanmakuAndSubtitleViewController == nil) {
+        _playerDanmakuAndSubtitleViewController = [[PlayerDanmakuAndSubtitleViewController alloc] init];
         
         __weak typeof(self)weakSelf = self;
         //关闭窗口
@@ -1199,24 +1199,24 @@
         
         [self addChildViewController:_playerDanmakuAndSubtitleViewController];
         [self.view addSubview: _playerDanmakuAndSubtitleViewController.view positioned:NSWindowAbove relativeTo:self.playerControlView];
-	}
-	return _playerDanmakuAndSubtitleViewController;
+    }
+    return _playerDanmakuAndSubtitleViewController;
 }
 
 - (PlayViewModel *)vm {
-	if(_vm == nil) {
-		_vm = [[PlayViewModel alloc] init];
-	}
-	return _vm;
+    if(_vm == nil) {
+        _vm = [[PlayViewModel alloc] init];
+    }
+    return _vm;
 }
 
 - (JHProgressHUD *)bufferProgressHUD {
-	if(_bufferProgressHUD == nil) {
+    if(_bufferProgressHUD == nil) {
         _bufferProgressHUD = [[JHProgressHUD alloc] init];
         _bufferProgressHUD.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoBuffering].message;
         _bufferProgressHUD.indicatorColor = RGBColor(255, 255, 255);
-	}
-	return _bufferProgressHUD;
+    }
+    return _bufferProgressHUD;
 }
 
 @end

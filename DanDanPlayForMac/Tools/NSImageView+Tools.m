@@ -30,11 +30,11 @@
 }
 
 - (void)setPlaceHoldImage:(NSImage *)placeHoldImage {
-    objc_setAssociatedObject(self, @"placeHoldImage".UTF8String, placeHoldImage, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, "placeHoldImage", placeHoldImage, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (NSImage *)placeHoldImage {
-    return objc_getAssociatedObject(self, @"placeHoldImage".UTF8String);
+    return objc_getAssociatedObject(self, "placeHoldImage");
 }
 
 @end

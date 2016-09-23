@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -1554,21 +1554,21 @@
             <objects>
                 <viewController storyboardIdentifier="PreferenceViewController" id="fxC-4A-mOP" customClass="PreferenceViewController" sceneMemberID="viewController">
                     <view key="view" id="bYG-kZ-Pw4">
-                        <rect key="frame" x="0.0" y="0.0" width="850" height="500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="850" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <splitView autosaveName="" dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wb0-W0-Otx">
-                                <rect key="frame" x="0.0" y="0.0" width="850" height="468"/>
+                                <rect key="frame" x="0.0" y="0.0" width="850" height="568"/>
                                 <subviews>
                                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="9nZ-Jf-wSw">
-                                        <rect key="frame" x="0.0" y="0.0" width="317" height="468"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="317" height="568"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="htz-Ki-gvv">
-                                            <rect key="frame" x="1" y="1" width="315" height="466"/>
+                                            <rect key="frame" x="1" y="1" width="315" height="566"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="bJu-IX-zua" id="c0I-rI-h8T">
-                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="0.0"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="566"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="0.0"/>
                                                     <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1629,14 +1629,14 @@
                                         </scroller>
                                     </scrollView>
                                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="98" horizontalPageScroll="10" verticalLineScroll="98" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="qyn-4K-ClD">
-                                        <rect key="frame" x="327" y="0.0" width="523" height="468"/>
+                                        <rect key="frame" x="327" y="0.0" width="523" height="568"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <clipView key="contentView" drawsBackground="NO" id="BT8-2Y-HuM">
-                                            <rect key="frame" x="1" y="1" width="521" height="466"/>
+                                            <rect key="frame" x="1" y="1" width="521" height="566"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="96" rowSizeStyle="automatic" viewBased="YES" id="20F-Uf-FNd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="521" height="0.0"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="521" height="566"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2459,16 +2459,16 @@
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <subviews>
                                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1u4-EY-pL1">
-                                                                            <rect key="frame" x="3" y="87" width="64" height="19"/>
-                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="弹幕缓存" id="dsf-ed-bDh">
+                                                                            <rect key="frame" x="3" y="87" width="34" height="19"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="缓存" id="dsf-ed-bDh">
                                                                                 <font key="font" size="15" name="STHeitiSC-Medium"/>
                                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                         </textField>
                                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cta-2B-Cmf">
-                                                                            <rect key="frame" x="3" y="68" width="194" height="14"/>
-                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="就是弹幕缓存 出现问题请手动清除一下" id="0L6-OW-DY7">
+                                                                            <rect key="frame" x="3" y="68" width="125" height="14"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="出现问题请手动清除一下" id="0L6-OW-DY7">
                                                                                 <font key="font" size="11" name="STHeitiSC-Light"/>
                                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -2492,16 +2492,16 @@
                                                                                 <action selector="clickClearCacheButton:" target="gp4-X0-aAg" id="gQh-B5-BRM"/>
                                                                             </connections>
                                                                         </button>
-                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HPs-67-rzN">
-                                                                            <rect key="frame" x="287" y="68" width="63" height="17"/>
-                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="缓存大小: " id="Duq-Hg-IQN">
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dhV-CC-YpT">
+                                                                            <rect key="frame" x="261" y="63" width="89" height="17"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="视频缓存大小: " id="BZl-Uq-u55">
                                                                                 <font key="font" size="13" name="STHeitiSC-Light"/>
                                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                         </textField>
                                                                         <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Ul9-X2-R1L">
-                                                                            <rect key="frame" x="358" y="69" width="16" height="16"/>
+                                                                            <rect key="frame" x="358" y="70" width="16" height="16"/>
                                                                         </progressIndicator>
                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jqP-Q0-Y8G">
                                                                             <rect key="frame" x="432" y="30" width="82" height="32"/>
@@ -2516,29 +2516,40 @@
                                                                                 <action selector="clickChangeCachePathButton:" target="gp4-X0-aAg" id="5n4-bc-e5x"/>
                                                                             </connections>
                                                                         </button>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HPs-67-rzN">
+                                                                            <rect key="frame" x="261" y="85" width="89" height="17"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="弹幕缓存大小: " id="Duq-Hg-IQN">
+                                                                                <font key="font" size="13" name="STHeitiSC-Light"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
                                                                     </subviews>
                                                                     <constraints>
                                                                         <constraint firstItem="Cta-2B-Cmf" firstAttribute="top" secondItem="1u4-EY-pL1" secondAttribute="bottom" constant="5" id="1Hj-uW-otU"/>
                                                                         <constraint firstItem="wVZ-pF-giU" firstAttribute="top" secondItem="Cta-2B-Cmf" secondAttribute="bottom" constant="10" id="45G-bv-qEZ"/>
                                                                         <constraint firstItem="Ul9-X2-R1L" firstAttribute="leading" secondItem="HPs-67-rzN" secondAttribute="trailing" constant="10" id="BY2-fU-BU1"/>
-                                                                        <constraint firstItem="HPs-67-rzN" firstAttribute="bottom" secondItem="Cta-2B-Cmf" secondAttribute="bottom" id="Cfo-Na-65D"/>
                                                                         <constraint firstItem="wVZ-pF-giU" firstAttribute="leading" secondItem="Cta-2B-Cmf" secondAttribute="leading" id="HBc-rT-t7o"/>
+                                                                        <constraint firstItem="dhV-CC-YpT" firstAttribute="trailing" secondItem="HPs-67-rzN" secondAttribute="trailing" id="IuE-vB-Hwc"/>
+                                                                        <constraint firstItem="wVZ-pF-giU" firstAttribute="top" secondItem="dhV-CC-YpT" secondAttribute="bottom" constant="5" id="TwB-wK-PhH"/>
+                                                                        <constraint firstItem="dhV-CC-YpT" firstAttribute="top" secondItem="HPs-67-rzN" secondAttribute="bottom" constant="5" id="USd-HL-Ms8"/>
                                                                         <constraint firstItem="far-2a-WRI" firstAttribute="leading" secondItem="wVZ-pF-giU" secondAttribute="trailing" constant="10" id="VPk-8p-73S"/>
                                                                         <constraint firstItem="jqP-Q0-Y8G" firstAttribute="centerY" secondItem="wVZ-pF-giU" secondAttribute="centerY" id="XcE-0X-yeX"/>
                                                                         <constraint firstItem="HPs-67-rzN" firstAttribute="trailing" secondItem="wVZ-pF-giU" secondAttribute="trailing" id="ZEL-Fj-tvX"/>
                                                                         <constraint firstItem="Cta-2B-Cmf" firstAttribute="leading" secondItem="1u4-EY-pL1" secondAttribute="leading" id="ZQU-Kc-jtJ"/>
                                                                         <constraint firstItem="jqP-Q0-Y8G" firstAttribute="leading" secondItem="far-2a-WRI" secondAttribute="trailing" constant="10" id="Zwm-kG-GpK"/>
                                                                         <constraint firstItem="1u4-EY-pL1" firstAttribute="leading" secondItem="gp4-X0-aAg" secondAttribute="leading" constant="5" id="cho-Yg-mZe"/>
+                                                                        <constraint firstItem="Ul9-X2-R1L" firstAttribute="bottom" secondItem="HPs-67-rzN" secondAttribute="bottom" constant="15" id="jBC-jb-Rq7"/>
                                                                         <constraint firstAttribute="trailing" secondItem="jqP-Q0-Y8G" secondAttribute="trailing" constant="10" id="jDe-nX-fSB"/>
-                                                                        <constraint firstItem="Ul9-X2-R1L" firstAttribute="centerY" secondItem="HPs-67-rzN" secondAttribute="centerY" id="mfk-2S-CvM"/>
                                                                         <constraint firstItem="far-2a-WRI" firstAttribute="centerY" secondItem="wVZ-pF-giU" secondAttribute="centerY" id="o43-KD-hCX"/>
                                                                         <constraint firstItem="jqP-Q0-Y8G" firstAttribute="width" secondItem="far-2a-WRI" secondAttribute="width" id="woB-vq-PCq"/>
                                                                         <constraint firstItem="1u4-EY-pL1" firstAttribute="top" secondItem="gp4-X0-aAg" secondAttribute="top" constant="5" id="xDS-Sb-421"/>
                                                                     </constraints>
                                                                     <connections>
-                                                                        <outlet property="cacheTextField" destination="HPs-67-rzN" id="4U3-Lk-srX"/>
+                                                                        <outlet property="danmakuCacheTextField" destination="HPs-67-rzN" id="L4c-GU-vQQ"/>
                                                                         <outlet property="pathTextField" destination="wVZ-pF-giU" id="hMd-8h-lnL"/>
                                                                         <outlet property="progressIndicator" destination="Ul9-X2-R1L" id="rGq-aO-0e4"/>
+                                                                        <outlet property="videoTextField" destination="dhV-CC-YpT" id="JDZ-To-h6g"/>
                                                                     </connections>
                                                                 </customView>
                                                                 <customView identifier="AutoUpdateCell" id="nrA-qi-utn" customClass="AutoUpdateCell">
@@ -2765,8 +2776,8 @@
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <subviews>
                                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yep-Tv-6mP">
-                                                                            <rect key="frame" x="8" y="57" width="103" height="14"/>
-                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="就是蛋疼的音量控制" id="L1r-74-q79">
+                                                                            <rect key="frame" x="8" y="57" width="136" height="14"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="会让鼠标滚轮滚动方向相反" id="L1r-74-q79">
                                                                                 <font key="font" size="11" name="STHeitiSC-Light"/>
                                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -2830,7 +2841,7 @@
                                 </connections>
                             </splitView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oov-IU-Yts">
-                                <rect key="frame" x="0.0" y="468" width="850" height="32"/>
+                                <rect key="frame" x="0.0" y="568" width="850" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="mQH-J0-Qpz"/>
                                 </constraints>

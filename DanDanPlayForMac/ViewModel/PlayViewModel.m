@@ -44,18 +44,6 @@
     return count;
 }
 
-//- (NSString *)videoNameWithIndex:(NSInteger)index {
-//    return [self videoModelWithIndex: index].fileName.length ? [self videoModelWithIndex: index].fileName : @"";
-//}
-
-//- (BOOL)showPlayIconWithIndex:(NSInteger)index {
-//    return index != self.currentIndex;
-//}
-
-//- (NSString *)currentVideoName {
-//    return [self videoNameWithIndex: _currentIndex];
-//}
-
 - (id<VideoModelProtocol>)currentVideoModel {
     return [self videoModelWithIndex: _currentIndex];
 }
@@ -64,17 +52,9 @@
     return [[UserDefaultManager shareUserDefaultManager] videoPlayHistoryWithHash:[self currentVideoModel].md5];
 }
 
-//- (NSString *)currentVideoHash {
-//    return [self currentVideoModel].md5;
-//}
-
-//- (NSURL *)currentVideoURL {
-//    return [self videoURLWithIndex: _currentIndex];
-//}
-
 - (void)setCurrentIndex:(NSUInteger)currentIndex {
     _currentIndex = self.videos.count ? currentIndex % self.videos.count : 0;
-    [UserDefaultManager shareUserDefaultManager].currentVideoModel = self.currentVideoModel;
+    [ToolsManager shareToolsManager].currentVideoModel = self.currentVideoModel;
 }
 
 - (void)addVideosModel:(NSArray *)videosModel {
@@ -85,11 +65,18 @@
 - (void)removeVideoAtIndex:(NSInteger)index {
     if (index == -1) {
         [_videos removeAllObjects];
+        for (NSURLSessionDownloadTask *obj in [ToolsManager shareToolsManager].downLoadTaskSet) {
+            [obj cancel];
+        }
+        [[ToolsManager shareToolsManager].downLoadTaskSet removeAllObjects];
     }
     else {
         if (index < self.currentIndex) {
             self.currentIndex--;
         }
+        id<VideoModelProtocol>model = [self videoModelWithIndex:index];
+        NSURLSessionDownloadTask *task = objc_getAssociatedObject(model, "task");
+        [task cancel];
         [_videos removeObjectAtIndex:index];
     }
     [self synchronizeVideoList];
@@ -137,10 +124,6 @@
     }
     return _videos.array;
 }
-
-//- (NSURL *)videoURLWithIndex:(NSInteger)index {
-//    return [self videoModelWithIndex: index].fileURL;
-//}
 
 - (id<VideoModelProtocol>)videoModelWithIndex:(NSUInteger)index {
     return index < self.videos.count ? self.videos[index] : nil;
@@ -197,7 +180,6 @@
         [[[OpenStreamVideoViewModel alloc] init] getVideoURLAndDanmakuForVideoName:media.fileName danmaku:media.danmaku danmakuSource:media.danmakuSource completionHandler:^(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error) {
             if (videoModel) {
                 _videos[index] = videoModel;
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[videoModel]];
                 complete(1, videoModel, error);
             }
             else {
@@ -207,7 +189,6 @@
     }
     else {
         if (media.danmakuDic.count) {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
             complete(1, media, nil);
         }
         else {
@@ -216,7 +197,6 @@
                 media.danmakuDic = responseObj;
                 if (index < _videos.count) {
                     _videos[index] = media;
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[media]];
                     complete(1, media, error);
                 }
             }];
@@ -231,15 +211,23 @@
         //防止下载未完成更换地址
         NSInteger index = vm.URLIndex;
         StreamingVideoQuality quality = vm.quality;
-        
-        [VideoNetManager downloadVideoWithURL:vm.fileURL progress:^(NSProgress *downloadProgress) {
+        NSString *md5 = vm.md5;
+        objc_setAssociatedObject(vm.fileURL, "md5", md5, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        NSURLSessionDownloadTask *task = [VideoNetManager downloadVideoWithURL:vm.fileURL progress:^(NSProgress *downloadProgress) {
             vm.progress = downloadProgress.fractionCompleted;
             downloadProgressBlock(vm);
         } completionHandler:^(NSURL *downLoadURL, DanDanPlayErrorModel *error) {
             [vm setURL:downLoadURL quality:quality index:index];
             [self synchronizeVideoList];
+            NSURLSessionDownloadTask *aTask = objc_getAssociatedObject(vm, "task");
+            if (aTask) {
+                [[ToolsManager shareToolsManager].downLoadTaskSet removeObject:aTask];
+            }
             complete(vm, downLoadURL, error);
         }];
+        objc_setAssociatedObject(task, "md5", md5, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(vm, "task", task, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [[ToolsManager shareToolsManager].downLoadTaskSet addObject:task];
     }
 }
 

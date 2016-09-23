@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "DanDanPlayMessageModel.h"
-#import "VideoModelProtocol.h"
 #import "VersionModel.h"
 
 //弹幕默认字体大小
@@ -18,7 +17,6 @@
 
 @interface UserDefaultManager : NSObject
 + (instancetype)shareUserDefaultManager;
-
 //字幕保护区域
 @property (assign, nonatomic) BOOL turnOnCaptionsProtectArea;
 //快速匹配
@@ -49,8 +47,10 @@
 @property (copy, nonatomic) NSString *autoDownLoadPath;
 //补丁路径
 @property (copy, nonatomic, readonly) NSString *patchPath;
-//补丁的哈希值
-@property (copy, nonatomic) VersionModel *versionModel;
+//下载恢复数据路径
+@property (copy, nonatomic, readonly) NSString *downloadResumeDataPath;
+//下载视频的路径
+@property (copy, nonatomic, readonly) NSString *downloadCachePath;
 //弹幕缓存路径
 @property (copy, nonatomic) NSString *danmakuCachePath;
 //用户屏蔽弹幕设置
@@ -61,10 +61,8 @@
 @property (strong, nonatomic) NSMutableOrderedSet *videoListOrderedSet;
 //弹幕字体
 @property (strong, nonatomic) NSFont *danmakuFont;
-/**
- *  当前分析的视频模型
- */
-@property (strong, nonatomic) id<VideoModelProtocol> currentVideoModel;
+//用于记录上个版本
+@property (copy, nonatomic) VersionModel *versionModel;
 //清除播放历史
 - (void)clearPlayHistory;
 - (NSTimeInterval)videoPlayHistoryWithHash:(NSString *)hash;

@@ -12,7 +12,7 @@
 - (void)setTitleColor:(NSColor *)color {
     if (!color) return;
     
-    objc_setAssociatedObject(self, @"titleColor".UTF8String, color, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, "titleColor", color, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     if (self.attributedTitle == nil) return;
     
     NSMutableAttributedString *colorTitle = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedTitle];
@@ -22,7 +22,7 @@
 }
 
 - (NSColor *)titleColor {
-    return objc_getAssociatedObject(self, @"titleColor".UTF8String);
+    return objc_getAssociatedObject(self, "titleColor");
 }
 
 - (void)setText:(NSString *)text {

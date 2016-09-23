@@ -49,7 +49,7 @@
         NSString *shiBanTitle = [self.shiBanBurron titleOfSelectedItem];
         NSString *episodeTitle = [self.episodeButton titleOfSelectedItem];
         
-       id<VideoModelProtocol>vm = [UserDefaultManager shareUserDefaultManager].currentVideoModel;
+       id<VideoModelProtocol>vm = [ToolsManager shareToolsManager].currentVideoModel;
         if (vm) {
             vm.matchTitle = [shiBanTitle stringByAppendingString: episodeTitle];
             vm.danmakuDic = responseObj;

@@ -318,17 +318,16 @@
     return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"patch"];
 }
 
-- (void)setVersionModel:(VersionModel *)versionModel {
-    _versionModel = versionModel;
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_versionModel] forKey:@"versionModel"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+- (NSString *)downloadResumeDataPath {
+    NSString *path = [self.danmakuCachePath stringByAppendingPathComponent:@"resumeData"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return [self.danmakuCachePath stringByAppendingPathComponent:@"resumeData"];
 }
 
-- (VersionModel *)versionModel {
-    if (_versionModel == nil) {
-        _versionModel = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"versionModel"]];
-    }
-    return _versionModel;
+- (NSString *)downloadCachePath {
+    return [self.danmakuCachePath stringByAppendingPathComponent:@"downloadCache"];
 }
 
 - (void)setDanmakuCachePath:(NSString *)danmakuCachePath {
@@ -339,8 +338,7 @@
 
 - (NSString *)danmakuCachePath {
     if (_danmakuCachePath == nil) {
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        _danmakuCachePath = [ud objectForKey:@"cachePath"];
+        _danmakuCachePath = [[NSUserDefaults standardUserDefaults] objectForKey:@"cachePath"];
         
         if (!_danmakuCachePath.length) {
             [self setDanmakuCachePath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"dandanplay"]];
@@ -415,6 +413,19 @@
     return _danmakuFont;
 }
 
+- (void)setVersionModel:(VersionModel *)versionModel {
+    _versionModel = versionModel;
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_versionModel] forKey:@"versionModel"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (VersionModel *)versionModel {
+    if (_versionModel == nil) {
+        _versionModel = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"versionModel"]];
+    }
+    return _versionModel;
+}
+
 - (NSTimeInterval)videoPlayHistoryWithHash:(NSString *)hash {
     //-1表示没有播放过
     if (!hash.length) return -1;
@@ -466,5 +477,4 @@
     NSString *path = [ToolsManager stringValueWithDanmakuSource:DanDanPlayDanmakuSourceOfficial];
     return [[UserDefaultManager shareUserDefaultManager].danmakuCachePath stringByAppendingPathComponent:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_user", episodeId]]];
 }
-
 @end

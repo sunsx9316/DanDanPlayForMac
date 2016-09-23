@@ -39,6 +39,21 @@
  *  @return 任务
  */
 + (NSURLSessionDataTask *)PUTWithPath:(NSString *)path HTTPBody:(NSData *)HTTPBody completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+
+/**
+ *  断点续传封装
+ *
+ *  @param resumeData            恢复数据
+ *  @param downloadProgressBlock 下载回调
+ *  @param destination           下载路径
+ *  @param completionHandler     完成回调
+ *
+ *  @return 任务
+ */
++ (NSURLSessionDownloadTask *)downloadTaskWithResumeData:(NSData *)resumeData
+                                                progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock
+                                             destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
+                                       completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error))completionHandler;
 /**
  *  下载的封装
  *

@@ -38,16 +38,33 @@
     }];
 }
 
-+ (void)downloadVideoWithURL:(NSURL *)URL progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock completionHandler:(void(^)(NSURL *downLoadURL, DanDanPlayErrorModel *error))complete {
++ (NSURLSessionDownloadTask *)downloadVideoWithURL:(NSURL *)URL progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock completionHandler:(void(^)(NSURL *downLoadURL, DanDanPlayErrorModel *error))complete {
     if (URL == nil || [URL isFileURL]) {
         complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
-        return;
+        return nil;
     }
     
-    [self downloadTaskWithPath:URL.absoluteString progress:downloadProgressBlock destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSString *downloadPath = [UserDefaultManager shareUserDefaultManager].danmakuCachePath;
+    //断点续传
+    NSString *md5 = objc_getAssociatedObject(URL, "md5");
+    NSData *resumeData = [NSData dataWithContentsOfFile:[[UserDefaultManager shareUserDefaultManager].downloadResumeDataPath stringByAppendingPathComponent:md5]];
+    if (resumeData) {
+        return [self downloadTaskWithResumeData:resumeData progress:downloadProgressBlock destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            NSString *downloadPath = [UserDefaultManager shareUserDefaultManager].downloadCachePath;
+            //自动下载路径不存在 则创建
+            if (![[NSFileManager defaultManager] fileExistsAtPath:downloadPath isDirectory:nil]) {
+                [[NSFileManager defaultManager] createDirectoryAtPath:downloadPath withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+            
+            return [NSURL fileURLWithPath: [downloadPath stringByAppendingPathComponent:[response suggestedFilename]]];
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error) {
+            complete(filePath, error);
+        }];
+    }
+    
+    return [self downloadTaskWithPath:URL.absoluteString progress:downloadProgressBlock destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSString *downloadPath = [UserDefaultManager shareUserDefaultManager].downloadCachePath;
         //自动下载路径不存在 则创建
-        if (![[NSFileManager defaultManager] fileExistsAtPath:[downloadPath stringByAppendingPathComponent:@"video"] isDirectory:nil]) {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:downloadPath isDirectory:nil]) {
             [[NSFileManager defaultManager] createDirectoryAtPath:downloadPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
         

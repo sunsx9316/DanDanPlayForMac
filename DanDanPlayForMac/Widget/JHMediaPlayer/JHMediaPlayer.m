@@ -294,7 +294,7 @@
     if (!mediaURL) return;
     _mediaURL = mediaURL;
     if (self.mediaType == JHMediaTypeLocaleMedia) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.absoluteString]) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path]) {
             _currentLocalMedia = [[JHVLCMedia alloc] initWithURL:mediaURL];
             self.localMediaPlayer.media = _currentLocalMedia;
             self.localMediaPlayer.delegate = self;

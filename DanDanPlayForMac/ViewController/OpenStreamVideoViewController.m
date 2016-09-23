@@ -137,7 +137,7 @@
             }
         }
         
-        [UserDefaultManager shareUserDefaultManager].currentVideoModel = videoModel;
+        [ToolsManager shareToolsManager].currentVideoModel = videoModel;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:arr];
     }];
 }

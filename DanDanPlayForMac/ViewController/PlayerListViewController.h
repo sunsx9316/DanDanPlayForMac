@@ -12,7 +12,7 @@
  *  播放列表控制器
  */
 @interface PlayerListViewController : BaseViewController
-@property (strong, nonatomic) PlayViewModel *vm;
+@property (strong, atomic) PlayViewModel *vm;
 @property (weak) IBOutlet NSTableView *tableView;
 //删除行回调
 @property (copy, nonatomic) void(^deleteRowCallBack)(NSUInteger row);

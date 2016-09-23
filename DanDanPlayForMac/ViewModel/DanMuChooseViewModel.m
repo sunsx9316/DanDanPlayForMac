@@ -51,7 +51,7 @@
             if (![responseObj count])  {
                 error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
             }
-            id<VideoModelProtocol>vm = [UserDefaultManager shareUserDefaultManager].currentVideoModel;
+            id<VideoModelProtocol>vm = [ToolsManager shareToolsManager].currentVideoModel;
             vm.danmakuDic = responseObj;
             if (vm) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[vm]];
