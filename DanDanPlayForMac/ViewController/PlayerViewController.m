@@ -65,6 +65,8 @@
 
 //放视频的 view
 @property (weak) IBOutlet PlayerHoldView *playerHoldView;
+
+/**** 播放面板  ****/
 //播放面板
 @property (weak) IBOutlet PlayerControlView *playerControlView;
 //播放按钮
@@ -81,6 +83,8 @@
 @property (weak) IBOutlet NSPopUpButton *danmakuModePopUpButton;
 //发送弹幕输入框
 @property (weak) IBOutlet RespondKeyboardTextField *danmakuTextField;
+/**** 播放面板  ****/
+
 
 //弹幕和字幕控制器
 @property (strong, nonatomic) PlayerDanmakuAndSubtitleViewController *playerDanmakuAndSubtitleViewController;
@@ -91,10 +95,17 @@
 @property (strong) IBOutlet PlayerLastWatchVideoTimeView *lastWatchVideoTimeView;
 //弹幕数view
 @property (strong) IBOutlet PlayerDanmakuCountView *danmakuCountView;
-@property (weak) IBOutlet NSMenuItem *qualityMenuItem;
 
+/**** 右键显示的清晰度菜单  ****/
 //右键显示的清晰度菜单
 @property (strong) IBOutlet NSMenu *rightClickMenu;
+//画质按钮
+@property (weak) IBOutlet NSMenuItem *qualityMenuItem;
+//缓存视频按钮
+@property (weak) IBOutlet NSMenuItem *downloadVideoMenuItem;
+/**** 右键显示的清晰度菜单  ****/
+
+
 //控制弹幕控制面板显示/隐藏的按钮
 @property (strong, nonatomic) NSButton *controlDanMakuControllerViewButton;
 //控制播放列表面板显示/隐藏的按钮
@@ -202,7 +213,7 @@
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent {
-    if (self.player.mediaType == JHMediaTypeNetMedia) {
+    if ([self.vm.currentVideoModel isKindOfClass:[StreamingVideoModel class]]) {
         [NSMenu popUpContextMenu:self.rightClickMenu withEvent:theEvent forView:self.view];
     }
 }
@@ -926,9 +937,11 @@
 #pragma mark - NSMenu
 - (void)resetMenuByOpenStreamDic {
     //只有网络视频才显示
-    if (self.player.mediaType == JHMediaTypeLocaleMedia) return;
-    [self.qualityMenuItem.submenu removeAllItems];
+    if (![self.vm.currentVideoModel isKindOfClass:[StreamingVideoModel class]]) return;
+    //当前播放链接为网络视频说明没下载过 启用下载按钮
     StreamingVideoModel *model = (StreamingVideoModel *)self.vm.currentVideoModel;
+    self.downloadVideoMenuItem.hidden = [model.fileURL isFileURL];
+    [self.qualityMenuItem.submenu removeAllItems];
     
     NSMutableArray *arr = [NSMutableArray array];
     NSInteger highCount = [model URLsCountWithQuality:StreamingVideoQualityHigh];
@@ -1049,7 +1062,6 @@
             make.size.centerY.equalTo(self.controlDanMakuControllerViewButton);
             make.left.equalTo(self.playerListViewController.view.mas_right);
         }];
-        
     }
     return _controlPlayListControllerViewButton;
 }
