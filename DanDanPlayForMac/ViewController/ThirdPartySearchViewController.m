@@ -9,10 +9,13 @@
 #import "ThirdPartySearchViewController.h"
 #import "ThirdPartyDanmakuChooseViewController.h"
 #import "DownLoadOtherDanmakuViewController.h"
+
 #import "ThirdPartySearchVideoInfoView.h"
+#import "HUDMessageView.h"
+
 #import "BiliBiliSearchViewModel.h"
 #import "AcFunSearchViewModel.h"
-#import "HUDMessageView.h"
+#import "LocalVideoModel.h"
 
 @interface ThirdPartySearchViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet ThirdPartySearchVideoInfoView *videoInfoView;
@@ -26,46 +29,42 @@
 
 @implementation ThirdPartySearchViewController
 
-- (instancetype)initWithType:(DanDanPlayDanmakuSource)type {
-    if ((self = kViewControllerWithId(@"ThirdPartySearchViewController"))) {
-        self.currentRow = -1;
-        if (type == DanDanPlayDanmakuSourceBilibili) {
-            self.vm = [[BiliBiliSearchViewModel alloc] init];
-        }
-        else if (type == DanDanPlayDanmakuSourceAcfun) {
-            self.vm = [[AcFunSearchViewModel alloc] init];
-        }
++ (instancetype)viewControllerWithType:(DanDanPlayDanmakuSource)type {
+    ThirdPartySearchViewController *vc = [ThirdPartySearchViewController viewController];
+    vc.currentRow = -1;
+    if (type == DanDanPlayDanmakuSourceBilibili) {
+        vc.vm = [[BiliBiliSearchViewModel alloc] init];
     }
-    return self;
+    else if (type == DanDanPlayDanmakuSourceAcfun) {
+        vc.vm = [[AcFunSearchViewModel alloc] init];
+    }
+    return vc;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.wantsLayer = YES;
     [self.shiBantableView setDoubleAction:@selector(shiBanTableViewDoubleClickRow)];
     [self.episodeTableView setDoubleAction:@selector(episodeTableViewDoubleClickRow)];
+    [self refreshByKeyword];
 }
 
 
-- (void)refreshWithKeyWord:(NSString *)keyWord completion:(void(^)(NSError *error))completionHandler {
-    //展示状态直接返回
-    if (self.hud.isShowing) return;
-    
-    [self.hud show];
-    [self.vm refreshWithKeyWord:keyWord completionHandler:^(NSError *error) {
-        
+- (void)refreshByKeyword {
+    [self.hud showWithView:self.view];
+    [self.vm refreshWithKeyWord:_keyword completionHandler:^(NSError *error) {
         if (error) {
             [self.messageView showHUD];
         }
         
         //刷新的时候重置视频详情
-        self.videoInfoView.coverImg.image = [NSImage imageNamed:@"img_hold"];
-        self.videoInfoView.animaTitleTextField.stringValue = @"";
-        self.videoInfoView.detailTextField.stringValue = @"";
+        self.videoInfoView.coverImg.imageBringPlaceHold = nil;
+        self.videoInfoView.animaTitleTextField.text = nil;
+        self.videoInfoView.detailTextField.text = nil;
         [self.shiBantableView reloadData];
         [self.episodeTableView reloadData];
         
-        [self.hud disMiss];
-        if (completionHandler) completionHandler(error);
+        [self.hud hideWithCompletion:nil];
     }];
 }
 
@@ -74,11 +73,11 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSImage *img = [[NSImage alloc] initWithContentsOfURL: [self.vm coverImg]];
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.videoInfoView.coverImg.image = img;
+            self.videoInfoView.coverImg.imageBringPlaceHold = img;
         });
     });
-    self.videoInfoView.animaTitleTextField.stringValue = [self.vm shiBanTitle];
-    self.videoInfoView.detailTextField.stringValue = [self.vm shiBanDetail];
+    self.videoInfoView.animaTitleTextField.text = [self.vm shiBanTitle];
+    self.videoInfoView.detailTextField.text = [self.vm shiBanDetail];
 }
 
 //点击选择节目的行
@@ -89,9 +88,9 @@
         self.currentRow = row;
         NSString *seasonID = [self.vm seasonIDForRow: row];
         if (seasonID) {
-            [self.shiBanEpisodeHUD show];
+            [self.shiBanEpisodeHUD showWithView:self.view];
             [self.vm refreshWithSeasonID:seasonID completionHandler:^(NSError *error) {
-                [self.shiBanEpisodeHUD disMiss];
+                [self.shiBanEpisodeHUD hideWithCompletion:nil];
                 [self loadInfoView];
                 [self.episodeTableView reloadData];
             }];
@@ -101,70 +100,81 @@
         NSString *aid = [self.vm aidForRow: row];
         if (aid) {
             if ([self.vm isKindOfClass: [BiliBiliSearchViewModel class]]) {
-                ThirdPartyDanmakuChooseViewController *vc = [[ThirdPartyDanmakuChooseViewController alloc] initWithVideoID: aid type: DanDanPlayDanmakuSourceBilibili];
+                ThirdPartyDanmakuChooseViewController *vc = [ThirdPartyDanmakuChooseViewController viewControllerWithVideoId: aid type: DanDanPlayDanmakuSourceBilibili];
                 [self presentViewControllerAsSheet: vc];
             }
             else if ([self.vm isKindOfClass: [AcFunSearchViewModel class]]) {
-                ThirdPartyDanmakuChooseViewController *vc = [[ThirdPartyDanmakuChooseViewController alloc] initWithVideoID: aid type: DanDanPlayDanmakuSourceAcfun];
+                ThirdPartyDanmakuChooseViewController *vc = [ThirdPartyDanmakuChooseViewController viewControllerWithVideoId: aid type: DanDanPlayDanmakuSourceAcfun];
                 [self presentViewControllerAsSheet: vc];
             }
         }
     }
 }
 
-//点击番剧对应分集的行
+//双击击番剧对应分集的行
 - (void)episodeTableViewDoubleClickRow {
     if (![self.vm infoArrCount]) return;
     
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView: self.view];
     NSInteger clickRow = [self.episodeTableView clickedRow];
-    [self.vm downDanMuWithRow:clickRow completionHandler:^(id responseObj, NSError *error) {
-        [JHProgressHUD disMiss];
+    [self.vm downDanMuWithRow:clickRow completionHandler:^(NSDictionary *danmakuDic, NSError *error) {
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         
         if (error) {
             [self.messageView showHUD];
             return;
         }
         
-        //通知更新匹配名称
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle": [self.vm episodeTitleForRow:clickRow]}];
-        //通知关闭列表视图控制器
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:self userInfo:nil];
-        //通知开始播放
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:self userInfo:responseObj];
+        id<VideoModelProtocol>vm = [ToolsManager shareToolsManager].currentVideoModel;
+        if (vm) {
+            vm.matchTitle = [self.vm episodeTitleForRow:clickRow];
+            vm.danmakuDic = danmakuDic;
+            //通知开始播放
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[vm]];
+        }
     }];
+}
+
+#pragma mark getter setter
+- (void)setKeyword:(NSString *)keyword {
+    _keyword = keyword;
+    if (self.isViewLoaded) {
+        [self refreshByKeyword];
+    }
 }
 
 //点击缓存其它弹幕按钮
 - (IBAction)clickDownloadOtherDanmakuButton:(NSButton *)sender {
     NSArray *arr = [self.vm videoInfoDataModels];
     if (arr.count) {
-        DanDanPlayDanmakuSource danMuSource = [self.vm isKindOfClass:[BiliBiliSearchViewModel class]] ? DanDanPlayDanmakuSourceBilibili : DanDanPlayDanmakuSourceAcfun;
-        [self presentViewControllerAsModalWindow:[[DownLoadOtherDanmakuViewController alloc] initWithVideos:arr danMuSource:danMuSource]];
+        DanDanPlayDanmakuSource danmakuSource = [self.vm isKindOfClass:[BiliBiliSearchViewModel class]] ? DanDanPlayDanmakuSourceBilibili : DanDanPlayDanmakuSourceAcfun;
+        DownLoadOtherDanmakuViewController *vc = [DownLoadOtherDanmakuViewController viewController];
+        vc.videos = arr;
+        vc.source = danmakuSource;
+        [self presentViewControllerAsModalWindow:vc];
     }
 }
-
 
 #pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     if ([tableView.identifier isEqualToString:@"shiBanTableView"]) {
-        return [self.vm shiBanArrCount];
+        return self.vm.shiBanArrCount;
     }
     else {
-        return [self.vm infoArrCount];
+        return self.vm.infoArrCount;
     }
 }
 
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
     if ([tableColumn.identifier isEqualToString:@"shiBanCell"]) {
         NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
-        cell.textField.stringValue = [self.vm shiBanTitleForRow: row];
+        cell.textField.text = [self.vm shiBanTitleForRow: row];
         cell.imageView.image = [self.vm imageForRow: row];
         return cell;
     }
     else if ([tableColumn.identifier isEqualToString:@"episodeCell"]){
         NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
-        cell.textField.stringValue = [self.vm episodeTitleForRow: row];
+        cell.textField.text = [self.vm episodeTitleForRow: row];
         return cell;
     }
     return nil;
@@ -174,16 +184,20 @@
 #pragma mark - 懒加载
 - (JHProgressHUD *)hud {
     if(_hud == nil) {
-        _hud = [[JHProgressHUD alloc] initWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:self.view indicatorSize:CGSizeMake(30, 30) fontSize:[NSFont systemFontSize] dismissWhenClick:NO];
+        _hud = [[JHProgressHUD alloc] init];
+        _hud.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message;
+        _shiBanEpisodeHUD.hideWhenClick = NO;
     }
     return _hud;
 }
 
 - (JHProgressHUD *)shiBanEpisodeHUD {
-	if(_shiBanEpisodeHUD == nil) {
-		_shiBanEpisodeHUD = [[JHProgressHUD alloc] initWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message style:JHProgressHUDStyleValue1 parentView:nil dismissWhenClick:NO];
-	}
-	return _shiBanEpisodeHUD;
+    if(_shiBanEpisodeHUD == nil) {
+        _shiBanEpisodeHUD = [[JHProgressHUD alloc] init];
+        _shiBanEpisodeHUD.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message;
+        _shiBanEpisodeHUD.hideWhenClick = NO;
+    }
+    return _shiBanEpisodeHUD;
 }
 
 - (HUDMessageView *)messageView {

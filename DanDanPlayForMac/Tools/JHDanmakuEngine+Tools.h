@@ -7,8 +7,8 @@
 //
 
 #import <JHDanmakuEngine.h>
-@class DanMuDataModel;
+@class DanmakuDataModel;
 @interface JHDanmakuEngine (Tools)
 + (ParentDanmaku *)DanmakuWithText:(NSString*)text color:(NSInteger)color spiritStyle:(NSInteger)spiritStyle shadowStyle:(danmakuShadowStyle)shadowStyle fontSize:(CGFloat)fontSize font:(NSFont *)font;
-+ (ParentDanmaku *)DanmakuWithModel:(DanMuDataModel *)model shadowStyle:(danmakuShadowStyle)shadowStyle fontSize:(CGFloat)fontSize font:(NSFont *)font;
++ (ParentDanmaku *)DanmakuWithModel:(DanmakuDataModel *)model shadowStyle:(danmakuShadowStyle)shadowStyle fontSize:(CGFloat)fontSize font:(NSFont *)font;
 @end

@@ -70,12 +70,12 @@
     }else{
         [self.valueTextField setTextColor: [NSColor textColor]];
     }
-    self.valueTextField.stringValue = [NSString stringWithFormat:@"%.1f倍速", value];
+    self.valueTextField.text = [NSString stringWithFormat:@"%.1f倍速", value];
     [UserDefaultManager shareUserDefaultManager].danmakuSpeed = value;
 }
 
 - (void)changeOpacityWithValue:(CGFloat)value{
-    self.valueTextField.stringValue = [NSString stringWithFormat:@"%.1f%%", value * 100];
+    self.valueTextField.text = [NSString stringWithFormat:@"%.1f%%", value * 100];
     [UserDefaultManager shareUserDefaultManager].danmakuOpacity = value;
 }
 

@@ -102,7 +102,7 @@
 - (NSTextField *)title {
 	if(_title == nil) {
 		_title = [[NSTextField alloc] init];
-        _title.stringValue = @"弹幕屏蔽";
+        _title.text = @"弹幕屏蔽";
         _title.editable = NO;
         _title.bordered = NO;
         _title.drawsBackground = NO;

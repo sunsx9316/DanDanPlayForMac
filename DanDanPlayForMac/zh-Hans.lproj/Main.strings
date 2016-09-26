@@ -74,9 +74,6 @@
 /* Class = "NSButtonCell"; title = "检查更新"; ObjectID = "8Cv-N3-gzS"; */
 "8Cv-N3-gzS.title" = "检查更新";
 
-/* Class = "NSButtonCell"; title = "取消"; ObjectID = "8IR-CC-ZHA"; */
-"8IR-CC-ZHA.title" = "取消";
-
 /* Class = "NSButtonCell"; title = "更换图片"; ObjectID = "8fv-FA-qyj"; */
 "8fv-FA-qyj.title" = "更换图片";
 
@@ -347,6 +344,9 @@
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "YwA-DG-kFd"; */
 "YwA-DG-kFd.title" = "Text Cell";
 
+/* Class = "NSTextFieldCell"; title = "提示：番剧页的标题稍下方会显示视频的AV号"; ObjectID = "ZWs-SN-cDI"; */
+"ZWs-SN-cDI.title" = "提示：番剧页的标题稍下方会显示视频的AV号";
+
 /* Class = "NSTableColumn"; headerCell.title = "过滤规则"; ObjectID = "a5T-PL-mBM"; */
 "a5T-PL-mBM.headerCell.title" = "过滤规则";
 
@@ -497,8 +497,8 @@
 /* Class = "NSMenuItem"; title = ".bmp"; ObjectID = "qnm-xX-098"; */
 "qnm-xX-098.title" = ".bmp";
 
-/* Class = "NSTextFieldCell"; placeholderString = "视频ID+分页(可选) 如:av10086 2"; ObjectID = "qoR-dY-Cqx"; */
-"qoR-dY-Cqx.placeholderString" = "视频ID+分页(可选) 如:av10086 2";
+/* Class = "NSTextFieldCell"; placeholderString = "如: http://www.bilibili.com/video/av10086/"; ObjectID = "qoR-dY-Cqx"; */
+"qoR-dY-Cqx.placeholderString" = "如: http://www.bilibili.com/video/av10086/";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "qrG-NV-SuP"; */
 "qrG-NV-SuP.title" = "Text Cell";
@@ -548,8 +548,8 @@
 /* Class = "NSTextFieldCell"; title = "分集名"; ObjectID = "yGA-yq-gcz"; */
 "yGA-yq-gcz.title" = "分集名";
 
-/* Class = "NSButtonCell"; title = "手动更新"; ObjectID = "yMe-QG-bap"; */
-"yMe-QG-bap.title" = "手动更新";
+/* Class = "NSButtonCell"; title = "手动下载"; ObjectID = "yMe-QG-bap"; */
+"yMe-QG-bap.title" = "手动下载";
 
 /* Class = "NSButtonCell"; title = "选择弹幕"; ObjectID = "zCG-Ih-k7p"; */
 "zCG-Ih-k7p.title" = "选择弹幕";

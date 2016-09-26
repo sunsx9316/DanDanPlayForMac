@@ -6,16 +6,12 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-@interface PlayerViewController : NSViewController
-/**
- *  初始化
- *
- *  @param videoModel 视频模型
- *  @param arr             弹幕数组
- *  @param matchName       精确匹配文件名
- *  @param episodeId       分集id
- *  @return self
- */
-- (instancetype)initWithVideos:(NSArray *)videoModels danMuDic:(NSDictionary *)dic matchName:(NSString *)matchName episodeId:(NSString *)episodeId;
+#import "BaseViewController.h"
+#import "LocalVideoModel.h"
+#import "StreamingVideoModel.h"
+#define AUTO_HIDE_TIME 5.0
+@class PlayViewModel;
+@interface PlayerViewController : BaseViewController
+- (void)addVideos:(NSArray<id<VideoModelProtocol>>*)videos;
+@property (strong, nonatomic) PlayViewModel *vm;
 @end

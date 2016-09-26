@@ -12,8 +12,9 @@
 #import "UpdateViewController.h"
 #import "BackGroundImageView.h"
 #import "RecommendViewController.h"
+#import "PlayerListViewController.h"
 
-#import "DanMuModel.h"
+#import "DanmakuModel.h"
 #import "MatchModel.h"
 #import "LocalVideoModel.h"
 
@@ -21,31 +22,46 @@
 #import "DanMuChooseViewModel.h"
 
 #import "UpdateNetManager.h"
+#import "SliderAnimate.h"
+#import "POPMasSpringAnimation.h"
+#import "NSUserNotificationCenter+Tools.h"
+
+#import <JPEngine.h>
 
 @interface MainViewController ()<NSWindowDelegate, NSUserNotificationCenterDelegate>
-@property (strong, nonatomic) BackGroundImageView *imgView;
-@property (strong, nonatomic) NSMutableArray <LocalVideoModel *>*videos;
+@property (strong, nonatomic) NSMutableOrderedSet *videos;
+@property (strong, nonatomic) PlayViewModel *vm;
+//承载背景图 播放列表的视图
+@property (strong, nonatomic) NSView *plceHolderView;
+@property (strong, nonatomic) BackGroundImageView *bgImgView;
+@property (strong, nonatomic) PlayerViewController *playerViewController;
+//控制播放列表面板显示/隐藏的按钮
+@property (strong, nonatomic) NSButton *controlPlayListControllerViewButton;
+//播放列表控制器
+@property (strong, nonatomic) PlayerListViewController *playerListViewController;
+@property (strong, nonatomic) NSTrackingArea *trackingArea;
 @end
 
 @implementation MainViewController
 {
-    NSString *_animateTitle;
-    NSString *_episodeId;
+    NSTimer *_autoHideTimer;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [NSApplication sharedApplication].mainWindow.title = @"弹弹play";
-    [self.view addSubview: self.imgView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"DANMAKU_CHOOSE_OVER" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMainView) name:@"PLAY_OVER" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"MATCH_VIDEO" object: nil];
+    self.view.wantsLayer = YES;
+    [NSApplication sharedApplication].mainWindow.title = [ToolsManager appName];
+    [self.view addTrackingArea:self.trackingArea];
+    self.plceHolderView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    [[UserDefaultManager shareUserDefaultManager] addObserver:self forKeyPath:@"videoListOrderedSet" options:NSKeyValueObservingOptionNew context:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadOverNotification:) name:@"DOWNLOAD_OVER" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeHomgImg:) name:@"CHANGE_HOME_IMG" object:nil];
+    
+    _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:AUTO_HIDE_TIME target:self selector:@selector(autoHidePlayListControlView) userInfo:nil repeats:NO];
 }
 
-- (void)viewDidAppear{
+- (void)viewDidAppear {
     [super viewDidAppear];
     //推出更新窗口
     [self updateVersion];
@@ -53,11 +69,31 @@
     [self showRecommedVC];
 }
 
-- (void)dealloc{
+- (void)dealloc {
+    [self.view removeTrackingArea:self.trackingArea];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+    [[UserDefaultManager shareUserDefaultManager] removeObserver:self forKeyPath:@"videoListOrderedSet"];
 }
 
-- (void)setUpWithFilePath:(NSArray *)filePaths{
+- (void)mouseMoved:(NSEvent *)theEvent {
+    [_autoHideTimer invalidate];
+    _autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:AUTO_HIDE_TIME target:self selector:@selector(autoHidePlayListControlView) userInfo:nil repeats:NO];
+    self.controlPlayListControllerViewButton.animator.alphaValue = 1;
+}
+
+- (void)mouseUp:(NSEvent *)theEvent {
+    if (self.controlPlayListControllerViewButton.state) {
+        _controlPlayListControllerViewButton.state = 0;
+        [self clickPlayListViewButton:_controlPlayListControllerViewButton];
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    [self.playerListViewController.tableView reloadData];
+}
+
+#pragma mark - 私有方法
+- (void)setUpWithFilePath:(NSArray *)filePaths {
     [self.videos removeAllObjects];
     //路径为文件夹时 扫描文件夹下第一级目录
     for (NSString *fileURL in filePaths) {
@@ -68,67 +104,101 @@
     }
     //啥也没有
     if (!self.videos.count) return;
+    
+    LocalVideoModel *videoModel = self.videos.firstObject;
+    //记录当前分析的模型
+    [ToolsManager shareToolsManager].currentVideoModel = videoModel;
     //没开启快速匹配
     if (![UserDefaultManager shareUserDefaultManager].turnOnFastMatch) {
-        [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
+        MatchViewController *vc = [MatchViewController viewController];
+        vc.videoModel = videoModel;
+        [self presentViewControllerAsSheet: vc];
         return;
     }
     
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 dismissWhenClick: NO];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyze].message style:JHProgressHUDStyleValue4 parentView:self.view indicatorSize:NSMakeSize(300, 100) fontSize: 20 hideWhenClick: NO];
     
-    [[[MatchViewModel alloc] initWithModel:self.videos.firstObject] refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
+    MatchViewModel *vm = [[MatchViewModel alloc] init];
+    vm.videoModel = videoModel;
+    [vm refreshWithCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
         if (model.episodeId) {
-            _animateTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
-            [JHProgressHUD updateProgress: 0.5];
-            [JHProgressHUD updateMessage: [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyzeVideo].message];
+            videoModel.matchTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
+            [JHProgressHUD shareProgressHUD].progress = 0.5;
+            [JHProgressHUD shareProgressHUD].text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeAnalyzeVideo].message;
+            
+            DanMuChooseViewModel *vm = [[DanMuChooseViewModel alloc] init];
+            vm.videoId = model.episodeId;
             //搜索弹幕
-            [[[DanMuChooseViewModel alloc] initWithVideoID: model.episodeId] refreshCompletionHandler:^(NSError *error) {
+            [vm refreshCompletionHandler:^(NSError *error) {
                 //判断官方弹幕是否为空
                 if (!error) {                    
-                    [JHProgressHUD updateProgress: 1];
-                    [JHProgressHUD updateMessage: [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message];
-                    _episodeId = model.episodeId;
+                    [JHProgressHUD shareProgressHUD].progress = 1;
+                    [JHProgressHUD shareProgressHUD].text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message;
+                    videoModel.episodeId = model.episodeId;
                 }
                 else {
                     //快速匹配失败
-                    [JHProgressHUD disMiss];
-                    _episodeId = nil;
-                    [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
+                    [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
+                    videoModel.episodeId = nil;
+                    MatchViewController *vc = [MatchViewController viewController];
+                    vc.videoModel = videoModel;
+                    [self presentViewControllerAsSheet: vc];
                 }
             }];
         }
         else {
             //快速匹配失败
-            [JHProgressHUD disMiss];
-            _episodeId = nil;
-            [self presentViewControllerAsSheet: [[MatchViewController alloc] initWithVideoModel: self.videos.firstObject]];
+            [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
+            videoModel.episodeId = nil;
+            MatchViewController *vc = [MatchViewController viewController];
+            vc.videoModel = videoModel;
+            [self presentViewControllerAsSheet: vc];
         }
     }];
 }
 
+- (void)autoHidePlayListControlView {
+    self.controlPlayListControllerViewButton.animator.alphaValue = 0;
+}
 
-#pragma mark - 私有方法
 //检查更新
-- (void)updateVersion{
+- (void)updateVersion {
     //没开启自动检查更新功能
     if (![UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart) return;
     
-    [UpdateNetManager latestVersionWithCompletionHandler:^(NSString *version, NSString *details, NSString *hash, NSError *error) {
-        CGFloat curentVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
-        //判断当前版本是否比现在版本小
-        if (curentVersion < [version floatValue]) {
-            [self presentViewControllerAsModalWindow:[[UpdateViewController alloc] initWithVersion:version details:details hash:hash]];
+    [UpdateNetManager latestVersionWithCompletionHandler:^(VersionModel *model) {
+        //判断当前版本是否比服务器版本小
+        if ([ToolsManager appVersion] < model.version) {
+            [self presentViewControllerAsModalWindow:[UpdateViewController viewControllerWithModel:model]];
+        }
+        else {
+            VersionModel *currentVersionModel = [UserDefaultManager shareUserDefaultManager].versionModel;
+            currentVersionModel.patchName = model.patchName;
+            [UserDefaultManager shareUserDefaultManager].versionModel = currentVersionModel;
+            //检查补丁文件
+            NSString *patchPath = [[UserDefaultManager shareUserDefaultManager].patchPath stringByAppendingPathComponent:model.patchName];
+            //不存在说明没下载过
+            if (![[NSFileManager defaultManager] fileExistsAtPath:patchPath isDirectory:nil]) {
+                [UpdateNetManager downPatchWithVersion:[NSString stringWithFormat:@"%f", model.version] hash:model.patchName completionHandler:^(NSURL *filePath, DanDanPlayErrorModel *error) {
+                    [JPEngine startEngine];
+                    NSString *script = [NSString stringWithContentsOfURL:filePath encoding:NSUTF8StringEncoding error:nil];
+                    //防止崩溃
+                    if ([script rangeOfString:@"<html>"].location == NSNotFound) {
+                        [JPEngine evaluateScript:script];
+                    }
+                }];
+            }
         }
     }];
 }
+
 //显示推荐窗口
 - (void)showRecommedVC {
     if ([UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart) {
-        [self presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
+        [self presentViewControllerAsModalWindow:[RecommendViewController viewController]];
     }
 }
-
 
 - (NSArray *)contentsOfDirectoryAtURL:(NSString *)path {
     BOOL isDirectory;
@@ -149,61 +219,73 @@
     return arr;
 }
 
+- (void)clickPlayListViewButton:(NSButton *)sender {
+    POPMasSpringAnimation *animate = [POPMasSpringAnimation animationWithPropertyType:POPMasAnimationTypeLeft];
+    animate.beginTime = CACurrentMediaTime();
+    animate.springBounciness = 10;
+    
+    if (sender.state) {
+        animate.fromValue = @(-self.playerListViewController.view.frame.size.width);
+        animate.toValue = @0;
+    }
+    else {
+        animate.fromValue = @0;
+        animate.toValue = @(-self.playerListViewController.view.frame.size.width);
+    }
+    [self.playerListViewController.view pop_addAnimation:animate forKey:@"PLAYER_LIST_ANIMA"];
+}
+
 #pragma mark 通知
 - (void)downloadOverNotification:(NSNotification *)aNotification {
-    //删除已经显示过的通知(已经存在用户的通知列表中的)
-    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
-    
-    //删除已经在执行的通知(比如那些循环递交的通知)
-    for (NSUserNotification *notify in [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications]){
-        [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
-    }
-    
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = @"弹弹play";
-    notification.informativeText = [NSString stringWithFormat:@"下载完成 一共%@个", aNotification.userInfo[@"downloadCount"]];
-    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
-    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    [NSUserNotificationCenter postMatchMessageWithTitle:[ToolsManager appName] subtitle:nil informativeText:aNotification.object delegate:self];
 }
 
-- (void)changeMathchVideoName:(NSNotification *)notification{
-    _animateTitle = notification.userInfo[@"animateTitle"];
-}
 
-- (void)presentPlayerViewController:(NSNotification *)notification {
-    [JHProgressHUD disMiss];
+
+- (void)startPlayNotice:(NSNotification *)sender {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"START_PLAY" object: nil];
     
-    PlayerViewController *pvc = [[PlayerViewController alloc] initWithVideos: self.videos danMuDic:notification.userInfo matchName: _animateTitle episodeId:_episodeId];
-    //赋值之后置空
-    _animateTitle = nil;
-    _episodeId = nil;
-    [self addChildViewController: pvc];
-    [self.view addSubview: pvc.view];
-    [pvc.view mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(0);
+    [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
+    //去重
+    [self.videos addObjectsFromArray:sender.object];
+    [self.playerViewController addVideos:_videos.array];
+    [_videos removeAllObjects];
+    
+    @weakify(self)
+    SliderAnimate *anima = [[SliderAnimate alloc] init];
+    anima.direction = SliderAnimateDirectionB2T;
+    [anima setDismissWillBeginCompletion:^{
+        @strongify(self)
+        if (!self) return;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startPlayNotice:) name:@"START_PLAY" object: nil];
+        [self.view addSubview:self.plceHolderView positioned:NSWindowBelow relativeTo:self.playerViewController.view];
+        [self.plceHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
+        }];
     }];
     
-    [self.imgView removeFromSuperview];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MATCH_VIDEO" object: nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DANMAKU_CHOOSE_OVER" object: nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
-}
-
-- (void)showMainView {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentPlayerViewController:) name:@"DANMAKU_CHOOSE_OVER" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMathchVideoName:) name:@"MATCH_VIDEO" object: nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openStreamVCChooseOver:) name:@"OPEN_STREAM_VC_CHOOSE_OVER" object: nil];
-    self.imgView.frame = self.view.frame;
-    [self.view addSubview: self.imgView];
-}
-
-- (void)openStreamVCChooseOver:(NSNotification *)notification {
-    self.videos = notification.userInfo[@"videos"];
-    _animateTitle = self.videos.firstObject.fileName;
+    [anima setDismissDidEndCompletion:^{
+        @strongify(self)
+        if (!self) return;
+        
+        self.playerViewController = nil;
+    }];
+    
+    [anima setPresentationDidEndCompletion:^{
+        @strongify(self)
+        if (!self) return;
+        [self.playerViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
+        }];
+        [self.plceHolderView removeFromSuperview];
+    }];
+    
+    [self presentViewController:self.playerViewController animator:anima];
 }
 
 - (void)changeHomgImg:(NSNotification *)notification{
-    self.imgView.image = notification.object;
+    self.bgImgView.image = notification.object;
 }
 
 #pragma mark - NSUserNotificationDelegate
@@ -213,28 +295,112 @@
 }
 
 #pragma mark - 懒加载
-- (BackGroundImageView *)imgView {
-    if(_imgView == nil) {
-        _imgView = [[BackGroundImageView alloc] initWithFrame:self.view.frame];
-        [_imgView setWantsLayer: YES];
-        _imgView.backgroundColor = [NSColor blackColor];
-        _imgView.image = [[NSImage alloc] initWithContentsOfFile:[UserDefaultManager shareUserDefaultManager].homeImgPath];
-        
-        __weak typeof (self)weakSelf = self;
-        [self.imgView setFilePickBlock:^(NSArray *filePath) {
-            [weakSelf setUpWithFilePath: filePath];
+- (BackGroundImageView *)bgImgView {
+    if(_bgImgView == nil) {
+        _bgImgView = [[BackGroundImageView alloc] initWithFrame:self.view.bounds];
+        [_bgImgView setWantsLayer: YES];
+        _bgImgView.backgroundColor = [NSColor blackColor];
+        _bgImgView.image = [[NSImage alloc] initWithContentsOfFile:[UserDefaultManager shareUserDefaultManager].homeImgPath];
+        @weakify(self)
+        [_bgImgView setFilePickBlock:^(NSArray *filePath) {
+            @strongify(self)
+            if (!self) return;
+            
+            [self setUpWithFilePath: filePath];
         }];
-        _imgView.imageScaling = NSImageScaleProportionallyUpOrDown;
-        [_imgView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        _bgImgView.imageScaling = NSImageScaleProportionallyDown;
+        _bgImgView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     }
-    return _imgView;
+    return _bgImgView;
 }
 
-- (NSMutableArray <LocalVideoModel *> *)videos {
+- (NSMutableOrderedSet *)videos {
     if(_videos == nil) {
-        _videos = [[NSMutableArray <LocalVideoModel *> alloc] init];
+        _videos = [[NSMutableOrderedSet alloc] init];
     }
     return _videos;
+}
+
+- (PlayerViewController *)playerViewController {
+	if(_playerViewController == nil) {
+		_playerViewController = [[PlayerViewController alloc] init];
+        _playerViewController.vm = self.vm;
+	}
+	return _playerViewController;
+}
+
+- (PlayerListViewController *)playerListViewController {
+    if(_playerListViewController == nil) {
+        _playerListViewController = [[PlayerListViewController alloc] initWithNibName:@"PlayerListViewController" bundle:nil];
+        _playerListViewController.vm = self.vm;
+        @weakify(self)
+        //点击行
+        [_playerListViewController setDoubleClickRowCallBack:^(NSUInteger row) {
+            @strongify(self)
+            if (!self) return;
+            
+            self.vm.currentIndex = row;
+            id<VideoModelProtocol> video = self.vm.currentVideoModel;
+            if (video) {
+                NSNotification *notification = [NSNotification notificationWithName:@"START_PLAY" object:@[video]];
+                [self startPlayNotice:notification];
+            }
+        }];
+        [self addChildViewController:_playerListViewController];
+    }
+    return _playerListViewController;
+}
+
+- (NSButton *)controlPlayListControllerViewButton {
+    if(_controlPlayListControllerViewButton == nil) {
+        _controlPlayListControllerViewButton = [[NSButton alloc] init];
+        _controlPlayListControllerViewButton.bordered = NO;
+        _controlPlayListControllerViewButton.bezelStyle = NSTexturedRoundedBezelStyle;
+        [_controlPlayListControllerViewButton setImage: [NSImage imageNamed:@"show_play_list_controller"]];
+        [_controlPlayListControllerViewButton setTarget: self];
+        [_controlPlayListControllerViewButton setAction: @selector(clickPlayListViewButton:)];
+    }
+    return _controlPlayListControllerViewButton;
+}
+
+- (NSView *)plceHolderView {
+    if(_plceHolderView == nil) {
+        _plceHolderView = [[NSView alloc] initWithFrame:self.view.bounds];
+        
+        [_plceHolderView addSubview: self.bgImgView];
+        [_plceHolderView addSubview:self.controlPlayListControllerViewButton positioned:NSWindowAbove relativeTo: self.bgImgView];
+        [_plceHolderView addSubview: self.playerListViewController.view positioned:NSWindowAbove relativeTo:self.bgImgView];
+        
+        [_playerListViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(300);
+            make.top.bottom.mas_equalTo(0);
+            make.left.mas_offset(-300);
+        }];
+        
+        [_controlPlayListControllerViewButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(100);
+            make.centerY.mas_equalTo(0);
+            make.left.equalTo(self.playerListViewController.view.mas_right);
+        }];
+        
+        [self.view addSubview:_plceHolderView];
+    }
+    return _plceHolderView;
+}
+
+- (NSTrackingArea *)trackingArea {
+    if(_trackingArea == nil) {
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.view.frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseMoved | NSTrackingInVisibleRect owner:self userInfo:nil];
+    }
+    return _trackingArea;
+}
+
+- (PlayViewModel *)vm {
+	if(_vm == nil) {
+		_vm = [[PlayViewModel alloc] init];
+	}
+	return _vm;
 }
 
 @end

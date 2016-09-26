@@ -26,14 +26,14 @@
 - (IBAction)clickInputTextField:(NSTextField *)sender {
     NSString *str = [sender.stringValue stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([str isPureInt]) {
-        sender.stringValue = str;
+        sender.text = str;
         _originalOffsetTime = str.integerValue;
         if (self.timeOffsetCallBack) {
             self.timeOffsetCallBack(_originalOffsetTime);
         }
     }
     else {
-        sender.stringValue = [NSString stringWithFormat:@"%ld", _originalOffsetTime];
+        sender.text = [NSString stringWithFormat:@"%ld", _originalOffsetTime];
     }
 }
 
@@ -46,7 +46,7 @@
         else {
             _originalOffsetTime += num;
         }
-        self.textField.stringValue = [NSString stringWithFormat:@"%ld", _originalOffsetTime];
+        self.textField.text = [NSString stringWithFormat:@"%ld", _originalOffsetTime];
         self.timeOffsetCallBack(_originalOffsetTime);
     }
 }

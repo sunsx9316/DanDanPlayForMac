@@ -14,36 +14,35 @@
 @property (copy, nonatomic) NSString *danmaku;
 @property (copy, nonatomic) NSString *fileName;
 @property (copy, nonatomic) NSString *md5;
-@property (strong, nonatomic) NSDictionary <NSNumber *, NSArray <NSURL *>*>*URLs;
-@property (strong, nonatomic) NSString *danmakuSourceStringValue;
-
+@property (strong, nonatomic) NSMutableDictionary <NSNumber *, NSArray <NSURL *>*>*URLs;
 @end
 
 @implementation StreamingVideoModel
 {
     NSDictionary *_danmakuDic;
-//    NSString *_danmakuSourceStringValue;
 }
+@synthesize matchTitle;
+@synthesize episodeId;
+@synthesize progress;
 
 - (instancetype)initWithFileURLs:(NSDictionary *)fileURLs fileName:(NSString *)fileName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
     if (self = [super init]) {
-        _URLs = fileURLs;
+        _URLs = [NSMutableDictionary dictionaryWithDictionary:fileURLs];
         _fileName = fileName;
         _danmaku = danmaku;
         _danmakuSource = danmakuSource;
-//        _danmakuSourceStringValue = [ToolsManager stringValueWithDanmakuSource:_danmakuSource];
     }
     return self;
 }
 
-- (streamingVideoQuality)quality {
-    if (_quality == streamingVideoQualityHigh && !_URLs[@(streamingVideoQualityHigh)].count) {
-        _quality = streamingVideoQualityLow;
+- (StreamingVideoQuality)quality {
+    if (_quality == StreamingVideoQualityHigh && !_URLs[@(StreamingVideoQualityHigh)].count) {
+        _quality = StreamingVideoQualityLow;
     }
     return _quality;
 }
 
-- (NSInteger)URLsCountWithQuality:(streamingVideoQuality)quality {
+- (NSInteger)URLsCountWithQuality:(StreamingVideoQuality)quality {
     return _URLs[@(quality)].count;
 }
 
@@ -59,8 +58,20 @@
     return _fileName;
 }
 
+- (NSString *)matchTitle {
+    return _fileName;
+}
+
 - (NSString *)danmaku {
     return _danmaku;
+}
+
+- (void)setURL:(NSURL *)aURL quality:(StreamingVideoQuality)quality index:(NSUInteger)index {
+    if (index < _URLs[@(quality)].count && aURL) {
+        NSMutableArray *arr = [NSMutableArray arrayWithArray:_URLs[@(quality)]];
+        arr[index] = aURL;
+        _URLs[@(quality)] = arr;
+    }
 }
 
 - (NSURL *)fileURL {
@@ -69,7 +80,7 @@
 }
 
 - (NSString *)md5 {
-    _md5 = [[_danmakuSourceStringValue stringByAppendingString:_danmaku] md5String];
+    _md5 = [[[ToolsManager stringValueWithDanmakuSource:_danmakuSource] stringByAppendingString:_danmaku] md5String];
     return _md5;
 }
 
@@ -77,4 +88,14 @@
     return _danmakuSource;
 }
 
+- (NSUInteger)hash {
+    return _fileName.hash | _danmaku.hash | _danmakuSource;
+}
+
+- (BOOL)isEqual:(StreamingVideoModel *)object {
+    if (![self isKindOfClass:[object class]]) return NO;
+    if (self == object) return YES;
+    if ([self.fileName isEqual:object.fileName] && [self.danmaku isEqual:object.danmaku] && self.danmakuSource == object.danmakuSource) return YES;
+    return [super isEqual:object];
+}
 @end

@@ -26,14 +26,16 @@
 * [GDataXML-HTML](https://github.com/graetzer/GDataXML-HTML)
 * [JHDanmakuRender](https://github.com/sunsx9316/JHDanmakuRender)
 * [pop](https://github.com/facebook/pop)
+* [JSPatch](https://github.com/bang590/JSPatch)
 
 ## thank
 * [Bilibili Mac Client](https://github.com/typcn/bilibili-mac-client)
 * [BarrageRenderer](https://github.com/unash/BarrageRenderer)
 
 ## build
-1. 请自行编译[VLCKit](https://code.videolan.org/videolan/VLCKit) 放入根目录 或者自行导入 ( [编译教程](https://wiki.videolan.org/VLCKit/#Building_the_framework_for_OS_X) )
-2. 发射弹幕功能需要官方的key和IV 需要请向官方索要 填在Config/Config.h中
+1. 运行前请手动 ```pod update ```
+2. 请自行编译[VLCKit](https://code.videolan.org/videolan/VLCKit) 放入根目录 或者自行导入 ( [编译教程](https://wiki.videolan.org/VLCKit/#Building_the_framework_for_OS_X) )
+3. 发射弹幕功能需要官方的key和IV 需要请向官方索要 填在Config/Config.h中
 
 ## 软件截图
 ![预览图1](https://github.com/sunsx9316/DanDanPlayForMac/blob/master/snapshot/img1.png)

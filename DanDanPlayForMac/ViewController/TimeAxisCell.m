@@ -64,16 +64,16 @@
 
 #pragma mark - 私有方法
 - (void)clickInputTextField:(NSTextField *)sender {
-    NSString *str = [sender.stringValue stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *str = [sender.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([str isPureInt]) {
-        sender.stringValue = str;
+        sender.text = str;
         _originalOffsetTime = str.integerValue;
         if (self.timeOffsetBlock) {
             self.timeOffsetBlock(_originalOffsetTime);
         }
     }
     else {
-        sender.stringValue = [NSString stringWithFormat:@"%ld", _originalOffsetTime];
+        sender.text = [NSString stringWithFormat:@"%ld", _originalOffsetTime];
     }
 }
 
@@ -132,7 +132,7 @@
 - (NSTextField *)title {
 	if(_title == nil) {
 		_title = [[NSTextField alloc] init];
-        _title.stringValue = @"弹幕时间轴";
+        _title.text = @"弹幕时间轴";
         _title.editable = NO;
         _title.bordered = NO;
         _title.drawsBackground = NO;
@@ -146,7 +146,7 @@
 	if(_inputTextField == nil) {
 		_inputTextField = [[NSTextField alloc] init];
         _inputTextField.alignment = NSTextAlignmentCenter;
-        _inputTextField.stringValue = @"0";
+        _inputTextField.text = @"0";
         _inputTextField.editable = YES;
         _inputTextField.target = self;
         _inputTextField.placeholderString = @"输入偏移的时间";

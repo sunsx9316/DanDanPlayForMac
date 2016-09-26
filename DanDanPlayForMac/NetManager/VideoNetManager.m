@@ -14,7 +14,7 @@
 + (void)bilibiliVideoURLWithDanmaku:(NSString *)danmaku completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     //http://interface.bilibili.com/playurl?cid=6450647&quality=3&otype=json&appkey=86385cdc024c0f6c&type=mp4&sign=7fed8a9b7b446de4369936b6c1c40c3f
     if (!danmaku.length) {
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return;
     }
     //存放视频路径的字典
@@ -30,11 +30,48 @@
     NSString *badQualityPath = [parametersDic requestPathWithBasePath:@"http://interface.bilibili.com/playurl?"];
     
     [self batchGETWithPaths:@[goodQualityPath, badQualityPath] progressBlock:nil completionBlock:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks) {
-        videoPathDic[@(streamingVideoQualityHigh)] = [self bilibiliURLsWithResponseObj:responseObjects.firstObject];
+        videoPathDic[@(StreamingVideoQualityHigh)] = [self bilibiliURLsWithResponseObj:responseObjects.firstObject];
         if (responseObjects.count > 0) {
-            videoPathDic[@(streamingVideoQualityLow)] = [self bilibiliURLsWithResponseObj:responseObjects[1]];
+            videoPathDic[@(StreamingVideoQualityLow)] = [self bilibiliURLsWithResponseObj:responseObjects[1]];
         }
+        
         complete(videoPathDic, nil);
+    }];
+}
+
++ (NSURLSessionDownloadTask *)downloadVideoWithURL:(NSURL *)URL progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock completionHandler:(void(^)(NSURL *downLoadURL, DanDanPlayErrorModel *error))complete {
+    if (URL == nil || [URL isFileURL]) {
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeVideoNoExist]);
+        return nil;
+    }
+    
+    //断点续传
+    NSString *md5 = objc_getAssociatedObject(URL, "md5");
+    NSData *resumeData = [NSData dataWithContentsOfFile:[[UserDefaultManager shareUserDefaultManager].downloadResumeDataPath stringByAppendingPathComponent:md5]];
+    if (resumeData) {
+        return [self downloadTaskWithResumeData:resumeData progress:downloadProgressBlock destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            NSString *downloadPath = [UserDefaultManager shareUserDefaultManager].downloadCachePath;
+            //自动下载路径不存在 则创建
+            if (![[NSFileManager defaultManager] fileExistsAtPath:downloadPath isDirectory:nil]) {
+                [[NSFileManager defaultManager] createDirectoryAtPath:downloadPath withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+            
+            return [NSURL fileURLWithPath: [downloadPath stringByAppendingPathComponent:[response suggestedFilename]]];
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error) {
+            complete(filePath, error);
+        }];
+    }
+    
+    return [self downloadTaskWithPath:URL.absoluteString progress:downloadProgressBlock destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSString *downloadPath = [UserDefaultManager shareUserDefaultManager].downloadCachePath;
+        //自动下载路径不存在 则创建
+        if (![[NSFileManager defaultManager] fileExistsAtPath:downloadPath isDirectory:nil]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:downloadPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
+        return [NSURL fileURLWithPath: [downloadPath stringByAppendingPathComponent:[response suggestedFilename]]];
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error) {
+        complete(filePath, error);
     }];
 }
 

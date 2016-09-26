@@ -9,25 +9,45 @@
 #import "CacheManagerCell.h"
 #import "NSAlert+Tools.h"
 #import "NSOpenPanel+Tools.h"
+#import "NSFileManager+Tools.h"
 
 @interface CacheManagerCell()
 @property (weak) IBOutlet NSTextField *pathTextField;
-@property (weak) IBOutlet NSTextField *cacheTextField;
+@property (weak) IBOutlet NSTextField *danmakuCacheTextField;
+@property (weak) IBOutlet NSTextField *videoTextField;
 @property (weak) IBOutlet NSProgressIndicator *progressIndicator;
 
 @end
 
 @implementation CacheManagerCell
-- (void)awakeFromNib{
+- (void)awakeFromNib {
     [super awakeFromNib];
     self.pathTextField.placeholderString = [UserDefaultManager shareUserDefaultManager].danmakuCachePath;
     [self.progressIndicator startAnimation:self];
     self.progressIndicator.displayedWhenStopped = NO;
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        float size = [self folderSizeAtPath:[UserDefaultManager shareUserDefaultManager].danmakuCachePath];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *danmakuCachePath = [UserDefaultManager shareUserDefaultManager].danmakuCachePath;
+        NSString *videoCachePath = [UserDefaultManager shareUserDefaultManager].downloadCachePath;
+        
+        CGFloat danmakuCacheSize = [[NSFileManager defaultManager] folderSizeAtPath:danmakuCachePath excludePaths:@[videoCachePath]];
+        CGFloat videoCacheSize = [[NSFileManager defaultManager] folderSizeAtPath:videoCachePath excludePaths:nil];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.cacheTextField.stringValue = [NSString stringWithFormat:@"缓存大小: %.1fM", size];
+            if (danmakuCacheSize < 1024) {
+                self.danmakuCacheTextField.text = [NSString stringWithFormat:@"弹幕缓存大小: %.1fk", danmakuCacheSize];
+            }
+            else {
+                self.danmakuCacheTextField.text = [NSString stringWithFormat:@"弹幕缓存大小: %.1fM", danmakuCacheSize / 1024.0];
+            }
+            
+            if (videoCacheSize < 1024) {
+                self.videoTextField.text = [NSString stringWithFormat:@"视频缓存大小: %.1fk", videoCacheSize];
+            }
+            else {
+                self.videoTextField.text = [NSString stringWithFormat:@"视频缓存大小: %.1fM", videoCacheSize / 1024.0];
+            }
+            
             [self.progressIndicator stopAnimation:self];
         });
     });
@@ -47,11 +67,13 @@
     }
     else {
         model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeClearSuccess];
-        self.cacheTextField.stringValue = @"缓存大小: 0.0M";
+        self.danmakuCacheTextField.text = @"弹幕缓存大小: 0.0K";
+        self.videoTextField.text = @"视频缓存大小: 0.0K";
     }
     
     [[NSAlert alertWithMessageText:model.message informativeText:model.infomationMessage] runModal];
 }
+
 - (IBAction)clickChangeCachePathButton:(NSButton *)sender {
     NSOpenPanel* openPanel = [NSOpenPanel chooseDirectoriesPanelWithTitle:@"选取缓存目录" defaultURL:[NSURL fileURLWithPath:[UserDefaultManager shareUserDefaultManager].danmakuCachePath]];
     [openPanel beginSheetModalForWindow:[NSApplication sharedApplication].keyWindow completionHandler:^(NSInteger result) {
@@ -61,29 +83,6 @@
             [UserDefaultManager shareUserDefaultManager].danmakuCachePath = path;
         }
     }];
-}
-
-#pragma mark - 私有方法
-- (NSInteger)fileSizeAtPath:(NSString*)filePath{
-    NSFileManager* manager = [NSFileManager defaultManager];
-    if ([manager fileExistsAtPath:filePath]){
-        return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
-    }
-    return 0;
-}
-
-//遍历文件夹获得文件夹大小，返回多少M
-- (float)folderSizeAtPath:(NSString*)folderPath{
-    NSFileManager* manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:folderPath]) return 0;
-    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:folderPath] objectEnumerator];
-    NSString* fileName;
-    long long folderSize = 0;
-    while ((fileName = [childFilesEnumerator nextObject]) != nil){
-        NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
-        folderSize += [self fileSizeAtPath:fileAbsolutePath];
-    }
-    return folderSize/(1024.0*1024.0);
 }
 
 @end

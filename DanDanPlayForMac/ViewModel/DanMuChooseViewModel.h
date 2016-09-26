@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSArray <NSString *>*providerArr;
 @property (nonatomic, strong) NSArray <VideoInfoModel *>*shiBanArr;
 @property (nonatomic, strong) NSArray <VideoInfoDataModel *>*episodeTitleArr;
-
+@property (nonatomic, strong) NSString *videoId;
 /**
  *  获取提供者名称
  *
@@ -87,5 +87,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithVideoID:(NSString *)videoID;
+//- (instancetype)initWithVideoID:(NSString *)videoID;
 @end

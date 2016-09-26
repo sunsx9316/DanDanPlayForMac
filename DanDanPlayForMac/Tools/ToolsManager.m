@@ -7,8 +7,12 @@
 //
 
 #import "ToolsManager.h"
+#import <IOKit/pwr_mgt/IOPMLib.h>
 
 @implementation ToolsManager
+{
+    IOPMAssertionID _assertionID;
+}
 + (NSString *)stringValueWithDanmakuSource:(DanDanPlayDanmakuSource)source {
     switch (source) {
         case DanDanPlayDanmakuSourceAcfun:
@@ -36,19 +40,73 @@
     return DanDanPlayDanmakuSourceUnknow;
 }
 
-+ (NSMutableArray *)userSentDanmaukuArrWithEpisodeId:(NSString *)episodeId {
-    return [NSMutableArray arrayWithArray: [NSKeyedUnarchiver unarchiveObjectWithFile: [self userDanmakuCachePathWithEpisodeId: episodeId]]];
-}
-
-+ (void)saveUserSentDanmakus:(NSArray *)sentDanmakus episodeId:(NSString *)episodeId {
-    if (sentDanmakus == nil || episodeId.length == 0) return;
++ (void)bilibiliAidWithPath:(NSString *)path complectionHandler:(void(^)(NSString *aid, NSString *page))completion {
+    //http://www.bilibili.com/video/av46431/index_2.html
+    if (!path) {
+        completion(nil, nil);
+    }
     
-    [NSKeyedArchiver archiveRootObject:sentDanmakus toFile:[self userDanmakuCachePathWithEpisodeId: episodeId]];
+    NSString *aid;
+    NSString *index;
+    NSArray *arr = [path componentsSeparatedByString:@"/"];
+    for (NSString *obj in arr) {
+        if ([obj hasPrefix: @"av"]) {
+            aid = [obj substringFromIndex: 2];
+        }
+        else if ([obj hasPrefix: @"index"]) {
+            index = [[obj componentsSeparatedByString: @"."].firstObject componentsSeparatedByString: @"_"].lastObject;
+        }
+    }
+    completion(aid, index);
 }
 
-#pragma mark - 私有方法
-+ (NSString *)userDanmakuCachePathWithEpisodeId:(NSString *)episodeId {
-    NSString *path = [ToolsManager stringValueWithDanmakuSource:DanDanPlayDanmakuSourceOfficial];
-    return [[UserDefaultManager shareUserDefaultManager].danmakuCachePath stringByAppendingPathComponent:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_user", episodeId]]];
++ (void)acfunAidWithPath:(NSString *)path complectionHandler:(void(^)(NSString *aid, NSString *index))completion {
+    if (!path) {
+        completion(nil, nil);
+    }
+    
+    NSString *aid;
+    NSString *index;
+    NSArray *arr = [[path componentsSeparatedByString: @"/"].lastObject componentsSeparatedByString:@"_"];
+    if (arr.count == 2) {
+        index = arr.lastObject;
+        aid = [arr.firstObject substringFromIndex: 2];
+    }
+    completion(aid, index);
 }
+
++ (NSString *)appName {
+    return [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
+}
+
++ (float)appVersion {
+    return [[NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"] floatValue];
+}
+
++ (instancetype)shareToolsManager {
+    static dispatch_once_t onceToken;
+    static ToolsManager *manager = nil;
+    dispatch_once(&onceToken, ^{
+        manager = [[ToolsManager alloc] init];
+    });
+    return manager;
+}
+
+- (void)disableSleep {
+    CFStringRef reasonForActivity= CFSTR("Describe Activity Type");
+    IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep, kIOPMAssertionLevelOn, reasonForActivity, &_assertionID);
+}
+
+- (void)ableSleep {
+    IOPMAssertionRelease(_assertionID);
+}
+
+#pragma mark - 懒加载
+- (NSMutableSet <NSURLSessionDownloadTask *> *)downLoadTaskSet {
+    if(_downLoadTaskSet == nil) {
+        _downLoadTaskSet = [[NSMutableSet <NSURLSessionDownloadTask *> alloc] init];
+    }
+    return _downLoadTaskSet;
+}
+
 @end

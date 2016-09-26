@@ -13,6 +13,7 @@
     NSNumber *_isCheakDownLoadInfoAtStart;
     NSNumber *_isShowRecommedInfoAtStart;
     NSNumber *_isReverseVolumeScroll;
+    NSNumber *_isFirstRun;
     NSNumber *__danmakuOpacity;
     NSNumber *__danmakuSpeed;
     NSNumber *__danmakuSpecially;
@@ -22,9 +23,10 @@
     NSString *_screenShotPath;
     NSString *_autoDownLoadPath;
     NSString *_danmakuCachePath;
+    VersionModel *_versionModel;
     NSMutableArray *_userFilterArr;
     NSMutableArray *_customKeyMapArr;
-    NSMutableArray *_videoListArr;
+    NSMutableOrderedSet *_videoListOrderedSet;
     NSFont *_danmakuFont;
     NSMutableDictionary *_lastWatchTimeDic;
 }
@@ -136,6 +138,26 @@
         }
     }
     return _isReverseVolumeScroll.boolValue;
+}
+
+- (void)setFirstRun:(BOOL)firstRun {
+    _isFirstRun = @(firstRun);
+    [[NSUserDefaults standardUserDefaults] setBool:firstRun forKey:@"firstRun"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)firstRun {
+    if (_isFirstRun == nil) {
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        
+        if ([ud objectForKey:@"firstRun"]) {
+            _isFirstRun = @([ud boolForKey:@"firstRun"]);
+        }
+        else {
+            [self setFirstRun:YES];
+        }
+    }
+    return _isFirstRun.boolValue;
 }
 
 - (void)setDanmakuOpacity:(CGFloat)danmakuOpacity {
@@ -292,6 +314,22 @@
     return _autoDownLoadPath;
 }
 
+- (NSString *)patchPath {
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"patch"];
+}
+
+- (NSString *)downloadResumeDataPath {
+    NSString *path = [self.danmakuCachePath stringByAppendingPathComponent:@"resumeData"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return [self.danmakuCachePath stringByAppendingPathComponent:@"resumeData"];
+}
+
+- (NSString *)downloadCachePath {
+    return [self.danmakuCachePath stringByAppendingPathComponent:@"downloadCache"];
+}
+
 - (void)setDanmakuCachePath:(NSString *)danmakuCachePath {
     _danmakuCachePath = danmakuCachePath;
     [[NSUserDefaults standardUserDefaults] setObject:_danmakuCachePath forKey:@"cachePath"];
@@ -300,8 +338,7 @@
 
 - (NSString *)danmakuCachePath {
     if (_danmakuCachePath == nil) {
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        _danmakuCachePath = [ud objectForKey:@"cachePath"];
+        _danmakuCachePath = [[NSUserDefaults standardUserDefaults] objectForKey:@"cachePath"];
         
         if (!_danmakuCachePath.length) {
             [self setDanmakuCachePath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"dandanplay"]];
@@ -343,17 +380,20 @@
     return _customKeyMapArr;
 }
 
-- (void)setVideoListArr:(NSArray *)videoListArr {
-    _videoListArr = [NSMutableArray arrayWithArray:videoListArr];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_videoListArr] forKey:@"videoList"];
+- (void)setVideoListOrderedSet:(NSMutableOrderedSet *)videoListOrderedSet {
+    _videoListOrderedSet = videoListOrderedSet;
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_videoListOrderedSet] forKey:@"videoList"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSArray *)videoListArr {
-    if (_videoListArr == nil) {
-        _videoListArr = [NSMutableArray arrayWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"videoList"]]];
+- (NSMutableOrderedSet *)videoListOrderedSet {
+    if (_videoListOrderedSet == nil) {
+        _videoListOrderedSet = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"videoList"]];
+        if (_videoListOrderedSet == nil) {
+            _videoListOrderedSet = [NSMutableOrderedSet orderedSet];
+        }
     }
-    return _videoListArr;
+    return _videoListOrderedSet;
 }
 
 - (void)setDanmakuFont:(NSFont *)danmakuFont {
@@ -371,6 +411,19 @@
         }
     }
     return _danmakuFont;
+}
+
+- (void)setVersionModel:(VersionModel *)versionModel {
+    _versionModel = versionModel;
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_versionModel] forKey:@"versionModel"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (VersionModel *)versionModel {
+    if (_versionModel == nil) {
+        _versionModel = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"versionModel"]];
+    }
+    return _versionModel;
 }
 
 - (NSTimeInterval)videoPlayHistoryWithHash:(NSString *)hash {
@@ -409,4 +462,19 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++ (NSMutableArray *)userSentDanmaukuArrWithEpisodeId:(NSString *)episodeId {
+    return [NSMutableArray arrayWithArray: [NSKeyedUnarchiver unarchiveObjectWithFile: [self userDanmakuCachePathWithEpisodeId: episodeId]]];
+}
+
++ (void)saveUserSentDanmakus:(NSArray *)sentDanmakus episodeId:(NSString *)episodeId {
+    if (sentDanmakus == nil || episodeId.length == 0) return;
+    
+    [NSKeyedArchiver archiveRootObject:sentDanmakus toFile:[self userDanmakuCachePathWithEpisodeId: episodeId]];
+}
+
+#pragma mark - 私有方法
++ (NSString *)userDanmakuCachePathWithEpisodeId:(NSString *)episodeId {
+    NSString *path = [ToolsManager stringValueWithDanmakuSource:DanDanPlayDanmakuSourceOfficial];
+    return [[UserDefaultManager shareUserDefaultManager].danmakuCachePath stringByAppendingPathComponent:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_user", episodeId]]];
+}
 @end

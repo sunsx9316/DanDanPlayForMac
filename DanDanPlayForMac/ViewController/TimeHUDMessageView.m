@@ -23,7 +23,7 @@
 }
 
 - (void)updateMessage:(NSString *)message{
-    _textField.stringValue = message;
+    _textField.text = message;
 }
 
 - (void)show{

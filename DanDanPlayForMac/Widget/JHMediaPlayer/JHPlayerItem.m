@@ -10,13 +10,13 @@
 
 @implementation JHPlayerItem
 {
-    NSURL *_URL;
+    BOOL isAddObserver;
 }
 - (instancetype)initWithURL:(NSURL *)URL {
     if (self = [super initWithURL:URL]) {
-        _URL = URL;
-        if (_URL.path.length) {
+        if (URL && ![URL isEqual:[NSNull class]]) {
             [self addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+            isAddObserver = YES;
         }
     }
     return self;
@@ -32,7 +32,7 @@
 
 
 - (void)dealloc {
-    if (_URL.path.length && self.loadedTimeRanges.firstObject) {
+    if (isAddObserver) {
         [self removeObserver:self forKeyPath:@"loadedTimeRanges"];
     }
 }

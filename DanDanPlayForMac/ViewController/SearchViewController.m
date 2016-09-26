@@ -16,72 +16,36 @@
 @interface SearchViewController ()<NSTabViewDelegate>
 @property (weak) IBOutlet NSTabView *tabView;
 @property (weak) IBOutlet RespondKeyboardSearchField *searchTextField;
-@property (strong, nonatomic) NSMutableArray <NSViewController *>*viewController;
 @end
 
 @implementation SearchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backButtonDown:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
-    
-    @weakify(self)
-    [self.searchTextField setRespondBlock:^{
-        @strongify(self)
-        if (!self) return;
-        
-        [self searchButtonDown:nil];
-    }];
-    
-    self.searchTextField.stringValue = self.searchText;
-    DanDanSearchViewController *dvc = (DanDanSearchViewController *)[self addViewControllerWithViewController:kViewControllerWithId(@"DanDanSearchViewController") title:@"官方"];
-    [dvc refreshWithKeyWord: self.searchText completion: nil];
-    
-    ThirdPartySearchViewController *bvc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:DanDanPlayDanmakuSourceBilibili] title:@"bilibili"];
-    [bvc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
-        [JHProgressHUD disMiss];
-    }];
-    
-    ThirdPartySearchViewController *avc = (ThirdPartySearchViewController *)[self addViewControllerWithViewController:[[ThirdPartySearchViewController alloc] initWithType:DanDanPlayDanmakuSourceAcfun] title:@"acfun"];
-    [avc refreshWithKeyWord:self.searchText completion:^(NSError *error) {
-        [JHProgressHUD disMiss];
-    }];
-}
-
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
-- (instancetype)init {
-    return (self = kViewControllerWithId(@"SearchViewController"));
+    [self configSearchTextField];
+    [self addChildViewController];
 }
 
 - (IBAction)searchButtonDown:(NSButton *)sender {
     if (!self.searchTextField.stringValue.length) return;
     
     NSInteger index = [self.tabView indexOfTabViewItem:self.tabView.selectedTabViewItem];
+    NSString *keyword = self.searchTextField.stringValue;
     //刷新官方页
     if (index == 0) {
-        DanDanSearchViewController *dvc = (DanDanSearchViewController *)self.viewController[index];
-        if (!dvc) return;
-        
-        [dvc refreshWithKeyWord: self.searchTextField.stringValue completion: nil];
-    //刷新第三方搜索页
+        DanDanSearchViewController *vc = (DanDanSearchViewController *)self.childViewControllers[index];
+        vc.keyword = keyword;
     }
+    //刷新第三方搜索页
     else {
-        ThirdPartySearchViewController *dvc = (ThirdPartySearchViewController *)self.viewController[index];
-        if (!dvc) return;
-        
-        [dvc refreshWithKeyWord: self.searchTextField.stringValue completion: nil];
+        ThirdPartySearchViewController *vc = (ThirdPartySearchViewController *)self.childViewControllers[index];
+        vc.keyword = keyword;
     }
 }
 
 - (IBAction)backButtonDown:(NSButton *)sender {
     [self dismissController: self];
 }
-
-
 
 #pragma mark - 私有方法
 /**
@@ -92,23 +56,44 @@
  *
  *  @return 控制器
  */
-- (NSViewController *)addViewControllerWithViewController:(NSViewController *)vc title:(NSString *)title {
+- (void)addViewControllerWithViewController:(NSViewController *)vc title:(NSString *)title {
     NSTabViewItem *tabViewItem = [[NSTabViewItem alloc] init];
     tabViewItem.view = vc.view;
     tabViewItem.label = title;
     [self addChildViewController: vc];
-    [self.viewController addObject: vc];
     [self.tabView addTabViewItem: tabViewItem];
-    return vc;
 }
 
-#pragma mark - 懒加载
+/**
+ *  配置搜索框
+ */
+- (void)configSearchTextField {
+    @weakify(self)
+    [self.searchTextField setRespondBlock:^{
+        @strongify(self)
+        if (!self) return;
+        
+        [self searchButtonDown:nil];
+    }];
+    
+    self.searchTextField.text = self.searchText;
+}
 
-- (NSMutableArray <NSViewController *> *)viewController {
-	if(_viewController == nil) {
-		_viewController = [[NSMutableArray <NSViewController *> alloc] init];
-	}
-	return _viewController;
+/**
+ *  添加子控制器
+ */
+- (void)addChildViewController {
+    DanDanSearchViewController *dvc = [DanDanSearchViewController viewController];
+    dvc.keyword = _searchText;
+    [self addViewControllerWithViewController:dvc title:@"官方"];
+    
+    ThirdPartySearchViewController *bvc = [ThirdPartySearchViewController viewControllerWithType:DanDanPlayDanmakuSourceBilibili];
+    bvc.keyword = _searchText;
+    [self addViewControllerWithViewController:bvc title:@"bilibili"];
+    
+    ThirdPartySearchViewController *avc = [ThirdPartySearchViewController viewControllerWithType:DanDanPlayDanmakuSourceAcfun];
+    avc.keyword = _searchText;
+    [self addViewControllerWithViewController:avc title:@"acfun"];
 }
 
 @end

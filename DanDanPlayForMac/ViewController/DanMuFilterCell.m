@@ -56,7 +56,7 @@
     if ([tableColumn.identifier isEqualToString:@"FilterRulerCell"]) {
         NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
         NSString *text = self.userFilterArr[row][@"text"];
-        cell.textField.stringValue = text?text:@"";
+        cell.textField.text = text;
         cell.textField.delegate = self;
         return cell;
     }

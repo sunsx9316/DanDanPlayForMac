@@ -16,6 +16,14 @@
 @end
 
 @implementation LocalVideoModel
+{
+    NSDictionary *_danmakuDic;
+}
+
+@synthesize matchTitle;
+@synthesize episodeId;
+@synthesize progress;
+
 - (instancetype)initWithFileURL:(NSURL *)fileURL {
     if (self = [super init]) {
         _fileURL = fileURL;
@@ -47,6 +55,25 @@
         _length = [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.path error:nil][@"NSFileSize"] stringValue];
     }
     return _length;
+}
+
+- (void)setDanmakuDic:(NSDictionary *)danmakuDic {
+    _danmakuDic = danmakuDic;
+}
+
+- (NSDictionary *)danmakuDic {
+    return _danmakuDic;
+}
+
+- (NSUInteger)hash {
+    return self.fileURL.hash;
+}
+
+- (BOOL)isEqual:(LocalVideoModel *)object {
+    if (![self isKindOfClass:[object class]]) return NO;
+    if (self == object) return YES;
+    if ([self.fileURL isEqual:object.fileURL]) return YES;
+    return [super isEqual:object];
 }
 
 @end

@@ -11,43 +11,41 @@
 #import "DanmakuChooseViewController.h"
 #import "RespondKeyboardSearchField.h"
 #import "MatchViewModel.h"
-#import "LocalVideoModel.h"
 #import "MatchModel.h"
+#import "LocalVideoModel.h"
 
 @interface MatchViewController ()<NSTableViewDataSource, NSTableViewDelegate>
 @property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet RespondKeyboardSearchField *searchField;
-
 @property (strong, nonatomic) MatchViewModel *vm;
+@property (strong, nonatomic) JHProgressHUD *progressHUD;
 @end
 
 @implementation MatchViewController
 
-#pragma mark - 方法
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    __weak typeof(self)weakSelf = self;
-    self.searchField.stringValue = [self.vm videoName];
+    @weakify(self)
+    self.searchField.text = self.vm.videoModel.fileName;
     [self.searchField setRespondBlock:^{
-        [weakSelf searchButtonDown:nil];
+        @strongify(self)
+        if (!self) return;
+        [self searchButtonDown:nil];
     }];
     
     [self.tableView setDoubleAction: @selector(doubleClickRow)];
-    
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
-    
-    [self.vm refreshWithModelCompletionHandler:^(NSError *error, MatchDataModel *model) {
+    [self.progressHUD showWithView:self.view];
+    [self.vm refreshWithCompletionHandler:^(NSError *error, MatchDataModel *model) {
         //episodeId存在 说明精确匹配
-        [JHProgressHUD disMiss];
+        [self.progressHUD hideWithCompletion:nil];
         if (model.episodeId && [UserDefaultManager shareUserDefaultManager].turnOnFastMatch) {
-            NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
             //防止崩溃
-            if (self == vc) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"MATCH_VIDEO" object:self userInfo:@{@"animateTitle":[NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle]}];
-                [self presentViewControllerAsSheet: [[DanmakuChooseViewController alloc] initWithVideoID: model.episodeId]];
+            if (self == self.keyWindowsViewController) {
+                id<VideoModelProtocol>vm = [ToolsManager shareToolsManager].currentVideoModel;
+                vm.matchTitle = [NSString stringWithFormat:@"%@-%@", model.animeTitle, model.episodeTitle];
+                DanmakuChooseViewController *danmakuVC = [DanmakuChooseViewController viewController];
+                danmakuVC.videoId = model.episodeId;
+                [self presentViewControllerAsSheet: danmakuVC];
             }
         }
         else {
@@ -57,64 +55,82 @@
     
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
-- (instancetype)initWithVideoModel:(LocalVideoModel *)videoModel{
-    if ((self = kViewControllerWithId(@"MatchViewController"))) {
-        self.vm = [[MatchViewModel alloc] initWithModel: videoModel];
-    }
-    return self;
-}
-
 - (IBAction)searchButtonDown:(NSButton *)sender {
     if (!self.searchField.stringValue.length) return;
     
-    SearchViewController *vc = [[SearchViewController alloc] init];
+    SearchViewController *vc = [SearchViewController viewController];
     vc.searchText = self.searchField.stringValue;
-    [self presentViewControllerAsSheet: vc];
+    [self.presentingViewController presentViewControllerAsSheet: vc];
+    [self dismissController:self];
 }
 
 - (IBAction)clickPlayButton:(NSButton *)sender {
     [self dismissController: self];
-    //通知开始播放
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:self userInfo: nil];
+    //直接播放 不请求弹幕
+    if (self.videoModel) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:@[self.videoModel]];
+    }
 }
 
 - (IBAction)clickBackButton:(NSButton *)sender {
     [self dismissViewController:self];
 }
 
-
 #pragma mark - 私有方法
 - (void)disMissSelf:(NSNotification *)notification {
     [self dismissController: self];
 }
 
-- (void)doubleClickRow{
-    NSString *episodeID = [self.vm modelEpisodeIdWithIndex: [self.tableView clickedRow]];
-    if (episodeID) {
-            DanmakuChooseViewController *vc = [[DanmakuChooseViewController alloc] initWithVideoID: episodeID];
-            [self presentViewControllerAsSheet: vc];
-        }
+- (void)doubleClickRow {
+    MatchDataModel *model = self.vm.models[self.tableView.clickedRow];
+    NSString *episodeId = model.episodeId;
+    if (episodeId.length) {
+        DanmakuChooseViewController *vc = kViewControllerWithId(@"DanmakuChooseViewController");
+        vc.videoId = episodeId;
+        [self presentViewControllerAsSheet: vc];
+    }
 }
 
+#pragma mark setter getter
+- (void)setVideoModel:(LocalVideoModel *)videoModel {
+    self.vm.videoModel = videoModel;
+}
+
+- (LocalVideoModel *)videoModel {
+    return self.vm.videoModel;
+}
 
 #pragma mark - NSTableViewDataSource
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return [self.vm modelCount];
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    return self.vm.models.count;
 }
 
-- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
+- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row {
+    MatchDataModel *model = self.vm.models[row];
     NSTableCellView *result = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
     if ([tableColumn.identifier isEqualToString: @"col1"]) {
-        result.textField.stringValue = [self.vm modelAnimeTitleIdWithIndex: row];
+        result.textField.text = model.animeTitle;
     }
-    else{
-        result.textField.stringValue = [self.vm modelEpisodeTitleWithIndex: row];
+    else {
+        result.textField.text = model.episodeTitle;
     }
     return result;
+}
+
+#pragma mark - 懒加载
+- (MatchViewModel *)vm {
+    if(_vm == nil) {
+        _vm = [[MatchViewModel alloc] init];
+    }
+    return _vm;
+}
+
+- (JHProgressHUD *)progressHUD {
+    if(_progressHUD == nil) {
+        _progressHUD = [[JHProgressHUD alloc] init];
+        _progressHUD.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message;
+    }
+    return _progressHUD;
 }
 
 @end

@@ -42,6 +42,7 @@
     [super viewDidLoad];
     [self.outlineView setAction: @selector(clickOutlineView)];
     [self.splitView setPosition:200 ofDividerAtIndex: 0];
+    [self.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex{
@@ -125,7 +126,7 @@
 
 - (nullable NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(nullable NSTableColumn *)tableColumn item:(id)item {
     NSTableCellView *result = [outlineView makeViewWithIdentifier:@"DataCell" owner:nil];
-    result.textField.stringValue = item;
+    result.textField.text = item;
     return result;
 }
 
@@ -133,16 +134,15 @@
     return 40;
 }
 
-
 #pragma mark - 私有方法
 
-- (void)clickOutlineView{
-    self.tableViewStyle = [self.outlineView selectedRow];
+- (void)clickOutlineView {
+    self.tableViewStyle = self.outlineView.selectedRow;
     [self.tableView reloadData];
 }
 
 - (IBAction)clickBackButton:(NSButton *)sender {
-    [self dismissViewController:self];
+    [self.presentingViewController dismissViewController:self];
 }
 
 - (NSView *)danMuSurfaceTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
@@ -155,16 +155,16 @@
         case 1:
         {
             SliderWithTickCell *cell = [tableView makeViewWithIdentifier:@"SliderWithTickCell" owner:nil];
-            cell.titleTextField.stringValue = @"弹幕速度";
-            cell.detailTextField.stringValue = @"设置普通弹幕移动速度";
+            cell.titleTextField.text = @"弹幕速度";
+            cell.detailTextField.text = @"设置普通弹幕移动速度";
             [cell setUpDefauleValueWithStyle: sliderWithTickCellStyleSpeed];
             return cell;
         }
         case 2:
         {
             SliderWithTickCell *cell = [tableView makeViewWithIdentifier:@"SliderWithTickCell" owner:nil];
-            cell.titleTextField.stringValue = @"透明度";
-            cell.detailTextField.stringValue = @"设置弹幕透明度";
+            cell.titleTextField.text = @"透明度";
+            cell.detailTextField.text = @"设置弹幕透明度";
             [cell setUpDefauleValueWithStyle: sliderWithTickCellStyleOpacity];
             return cell;
         }
@@ -187,31 +187,31 @@
     return nil;
 }
 
-- (NSView *)playerTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)playerTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"ChangeBackGroundImgCell" owner:nil];
 }
 
-- (NSView *)filterTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)filterTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"DanMuFilterCell" owner:nil];
 }
 
-- (NSView *)keyboardTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)keyboardTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"KeyboardSettingCell" owner:nil];
 }
 
-- (NSView *)screenShotTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)screenShotTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"ScreenShotCell" owner:nil];
 }
 
-- (NSView *)cacheTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)cacheTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"CacheManagerCell" owner:nil];
 }
 
-- (NSView *)updateTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)updateTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return [tableView makeViewWithIdentifier:@"AutoUpdateCell" owner:nil];
 }
 
-- (NSView *)otherTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
+- (NSView *)otherTableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     switch (row) {
         case 0:
             return [tableView makeViewWithIdentifier:@"OtherSettingCell" owner:nil];

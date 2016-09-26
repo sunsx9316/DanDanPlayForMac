@@ -41,6 +41,6 @@
 @property (strong, nonatomic) NSColor *bufferSliderColor;
 @property (copy, nonatomic) void(^mouseExitedCallBackBlock)();
 @property (copy, nonatomic) void(^mouseEnteredCallBackBlock)();
-- (void)updateCurrentProgress:(CGFloat)progress;
-- (void)updateBufferProgress:(CGFloat)progress;
+@property (assign, nonatomic) float currentProgress;
+@property (assign, nonatomic) float bufferProgress;
 @end

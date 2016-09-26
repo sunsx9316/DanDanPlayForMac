@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PlayerViewController">
@@ -10,15 +10,17 @@
                 <outlet property="danmakuCountView" destination="pdY-7Y-bYd" id="t4q-qX-ZhH"/>
                 <outlet property="danmakuModePopUpButton" destination="xWO-Wo-3VM" id="KoE-Jf-dPe"/>
                 <outlet property="danmakuTextField" destination="pMg-Ks-RkP" id="6Rj-j2-wbD"/>
+                <outlet property="downloadVideoMenuItem" destination="FCA-Ol-Gfh" id="Kgu-nJ-I4j"/>
                 <outlet property="lastWatchVideoTimeView" destination="uRo-xP-2CG" id="oPT-UN-dXN"/>
                 <outlet property="playButton" destination="Kpp-mw-VQL" id="NKs-gW-3Im"/>
-                <outlet property="playDanmakuShowButton" destination="VdI-6c-gQW" id="UnM-n1-Lgn"/>
+                <outlet property="playDanmakuShowButton" destination="VdI-6c-gQW" id="fjb-O9-z5N"/>
                 <outlet property="playerControlView" destination="AGj-Jc-2Qq" id="imA-7S-KbQ"/>
                 <outlet property="playerControlViewBottomConstraint" destination="Nnh-sj-za3" id="dKY-LW-9CJ"/>
                 <outlet property="playerControlViewLeftConstraint" destination="Udt-6E-lte" id="k1t-0p-tkm"/>
                 <outlet property="playerControlViewRightConstraint" destination="Uif-nb-3LS" id="6QU-He-SkU"/>
                 <outlet property="playerHoldView" destination="cFV-q9-lW5" id="huw-0W-jFV"/>
-                <outlet property="rightClickMenu" destination="lHd-hS-rTe" id="HBx-jm-WLg"/>
+                <outlet property="qualityMenuItem" destination="7mt-8c-85K" id="pYr-W4-aoU"/>
+                <outlet property="rightClickMenu" destination="lHd-hS-rTe" id="KPg-Lj-ZMx"/>
                 <outlet property="timeLabel" destination="8ln-g1-4b9" id="kk8-wu-vKM"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
                 <outlet property="volumeButton" destination="g9F-rL-aJ7" id="lsz-El-O5e"/>
@@ -119,16 +121,6 @@
                                 <action selector="clickPreButton:" target="-2" id="rka-bc-oqh"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VdI-6c-gQW">
-                            <rect key="frame" x="706" y="18" width="20" height="20"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="danmaku_show" imagePosition="only" alignment="center" alternateImage="danmaku_hide" lineBreakMode="truncatingTail" inset="2" id="UDr-Dw-sLo">
-                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                            <connections>
-                                <action selector="clickDanmakuShowButton:" target="-2" id="Src-F2-yL0"/>
-                            </connections>
-                        </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g9F-rL-aJ7">
                             <rect key="frame" x="676" y="18" width="20" height="20"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="volume" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" inset="2" id="lVd-NT-aPF">
@@ -152,6 +144,16 @@
                                 <constraint firstAttribute="height" constant="10" id="pct-pJ-TNZ"/>
                             </constraints>
                         </customView>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VdI-6c-gQW">
+                            <rect key="frame" x="706" y="18" width="20" height="20"/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="danmaku_show" imagePosition="only" alignment="center" alternateImage="danmaku_hide" lineBreakMode="truncatingTail" inset="2" id="UDr-Dw-sLo">
+                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="clickDanmakuShowButton:" target="-2" id="JhL-pX-Ddq"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="Kpp-mw-VQL" firstAttribute="top" secondItem="Hsv-Ir-70g" secondAttribute="bottom" constant="5" id="2JM-g3-4iu"/>
@@ -260,13 +262,15 @@
         </customView>
         <menu id="lHd-hS-rTe">
             <items>
-                <menuItem title="良心画质" id="CM8-L8-vlS">
+                <menuItem title="画质选择" id="7mt-8c-85K">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="良心画质" id="cO9-at-3kd"/>
+                    <menu key="submenu" title="画质选择" id="ueW-6O-Kx7"/>
                 </menuItem>
-                <menuItem title="渣画质" id="gJZ-FE-nxX">
+                <menuItem title="缓存视频" id="FCA-Ol-Gfh">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="渣画质" id="5tv-7G-a1X"/>
+                    <connections>
+                        <action selector="clickDownloadButton:" target="-2" id="tJ0-0n-1D4"/>
+                    </connections>
                 </menuItem>
             </items>
             <point key="canvasLocation" x="77" y="432.5"/>

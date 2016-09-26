@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PlayerListViewController">
@@ -48,6 +47,12 @@
                                                 <rect key="frame" x="1" y="1" width="251" height="76"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <subviews>
+                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="HQs-B8-XRj">
+                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="76"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" id="fJw-EH-R3l"/>
+                                                        </constraints>
+                                                    </customView>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z0c-1Z-15Q">
                                                         <rect key="frame" x="10" y="28" width="20" height="20"/>
                                                         <constraints>
@@ -81,15 +86,20 @@
                                                 <constraints>
                                                     <constraint firstItem="akp-9R-On4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="isY-Nm-1a7" secondAttribute="trailing" id="7QB-fY-UJg"/>
                                                     <constraint firstItem="isY-Nm-1a7" firstAttribute="leading" secondItem="z0c-1Z-15Q" secondAttribute="trailing" constant="10" id="9yg-va-Opi"/>
+                                                    <constraint firstItem="HQs-B8-XRj" firstAttribute="top" secondItem="kJy-j6-uUk" secondAttribute="top" id="AXA-UW-vke"/>
                                                     <constraint firstItem="z0c-1Z-15Q" firstAttribute="centerY" secondItem="kJy-j6-uUk" secondAttribute="centerY" id="Jlo-PO-Gei"/>
                                                     <constraint firstItem="isY-Nm-1a7" firstAttribute="centerY" secondItem="z0c-1Z-15Q" secondAttribute="centerY" id="KIo-4b-XuI"/>
+                                                    <constraint firstItem="HQs-B8-XRj" firstAttribute="leading" secondItem="kJy-j6-uUk" secondAttribute="leading" id="WlC-uf-8WY"/>
                                                     <constraint firstAttribute="trailing" secondItem="akp-9R-On4" secondAttribute="trailing" id="XRm-V4-F6t"/>
+                                                    <constraint firstAttribute="bottom" secondItem="HQs-B8-XRj" secondAttribute="bottom" id="ZBq-Fd-sB1"/>
                                                     <constraint firstItem="z0c-1Z-15Q" firstAttribute="leading" secondItem="kJy-j6-uUk" secondAttribute="leading" constant="10" id="cKR-yr-Bmz"/>
                                                     <constraint firstItem="akp-9R-On4" firstAttribute="centerY" secondItem="z0c-1Z-15Q" secondAttribute="centerY" id="cQ6-KH-6MD"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="button" destination="akp-9R-On4" id="aNM-0b-gng"/>
                                                     <outlet property="iconImageView" destination="z0c-1Z-15Q" id="Qst-b7-EsV"/>
+                                                    <outlet property="progressView" destination="HQs-B8-XRj" id="DKN-Vf-NaH"/>
+                                                    <outlet property="progressViewWidthConstraint" destination="fJw-EH-R3l" id="CWL-56-n6o"/>
                                                     <outlet property="titleField" destination="isY-Nm-1a7" id="ASN-rh-JZ9"/>
                                                 </connections>
                                             </customView>
@@ -133,7 +143,7 @@
                 <constraint firstAttribute="bottom" secondItem="Va0-2d-fzz" secondAttribute="bottom" id="ZBl-0h-Fv8"/>
                 <constraint firstAttribute="trailing" secondItem="TMv-W7-93F" secondAttribute="trailing" constant="20" id="mYQ-ow-r40"/>
             </constraints>
-            <point key="canvasLocation" x="1087" y="91"/>
+            <point key="canvasLocation" x="1085" y="91"/>
         </customView>
     </objects>
     <resources>

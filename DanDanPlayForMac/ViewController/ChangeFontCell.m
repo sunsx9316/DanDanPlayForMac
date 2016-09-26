@@ -17,7 +17,7 @@
 - (void)awakeFromNib{
     [super awakeFromNib];
     self.showTextField.font = [self.manager convertFont:self.font toSize:self.showTextField.font.pointSize];
-    self.showTextField.stringValue = [NSString stringWithFormat: @"%@: %.1f", self.font.familyName, self.font.pointSize];
+    self.showTextField.text = [NSString stringWithFormat: @"%@: %.1f", self.font.familyName, self.font.pointSize];
 }
 
 - (IBAction)clickButton:(NSButton *)sender {
@@ -34,7 +34,7 @@
 - (void)changeFont:(id)sender
 {
     self.font = [sender convertFont: self.font];
-    self.showTextField.stringValue = [NSString stringWithFormat: @"%@: %.1f", self.font.familyName, self.font.pointSize];
+    self.showTextField.text = [NSString stringWithFormat: @"%@: %.1f", self.font.familyName, self.font.pointSize];
     self.showTextField.font = [sender convertFont: self.font toSize:self.showTextField.font.pointSize];
     [UserDefaultManager shareUserDefaultManager].danmakuFont = self.font;
     if (!_font) return;

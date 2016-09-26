@@ -6,8 +6,9 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 @class VideoInfoDataModel;
-@interface DownLoadOtherDanmakuViewController : NSViewController
-- (instancetype)initWithVideos:(NSArray <VideoInfoDataModel *>*)videos danMuSource:(DanDanPlayDanmakuSource)danMuSource;
+@interface DownLoadOtherDanmakuViewController : BaseViewController
+@property (strong, nonatomic) NSArray <VideoInfoDataModel *>*videos;
+@property (assign, nonatomic) DanDanPlayDanmakuSource source;
 @end

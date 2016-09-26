@@ -6,8 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 
-@interface OpenStreamInputAidViewController : NSViewController
+@interface OpenStreamInputAidViewController : BaseViewController
 
 @end

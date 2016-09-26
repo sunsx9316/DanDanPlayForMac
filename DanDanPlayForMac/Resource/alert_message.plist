@@ -140,5 +140,12 @@
 		<key>message</key>
 		<string>缓冲中...</string>
 	</dict>
+	<key>226</key>
+	<dict>
+		<key>message</key>
+		<string>截图失败</string>
+		<key>infomationMessage</key>
+		<string>可能是磁盘空间爆炸了´_ゝ`</string>
+	</dict>
 </dict>
 </plist>

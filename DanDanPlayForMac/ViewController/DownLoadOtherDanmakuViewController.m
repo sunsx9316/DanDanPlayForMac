@@ -9,11 +9,12 @@
 #import "DownLoadOtherDanmakuViewController.h"
 #import "VideoInfoModel.h"
 #import "DanmakuNetManager.h"
+#import "NOResponseButton.h"
+#import "NSTableView+Tools.h"
 
 @interface DownLoadOtherDanmakuViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
-@property (strong, nonatomic) NSArray <VideoInfoDataModel *>*videos;
-@property (assign, nonatomic) DanDanPlayDanmakuSource source;
+@property (weak) IBOutlet NSButton *selectedAllButton;
 @property (strong, nonatomic) NSMutableSet *downloadDanmakus;
 @end
 
@@ -21,14 +22,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-}
-
-- (instancetype)initWithVideos:(NSArray <VideoInfoDataModel *>*)videos danMuSource:(DanDanPlayDanmakuSource)danMuSource {
-    if ((self = kViewControllerWithId(@"DownLoadOtherDanmakuViewController"))) {
-        _videos = videos;
-        _source = danMuSource;
-    }
-    return self;
 }
 
 - (IBAction)clickSelectAllButton:(NSButton *)sender {
@@ -40,6 +33,7 @@
     else {
         [self.downloadDanmakus removeAllObjects];
     }
+    self.selectedAllButton.state = self.downloadDanmakus.count == self.videos.count;
     [self.tableView reloadData];
 }
 
@@ -48,6 +42,21 @@
         [self.downloadDanmakus containsObject:@(i)]?[self.downloadDanmakus removeObject:@(i)]:[self.downloadDanmakus addObject:@(i)];
     }
     [self.tableView reloadData];
+}
+
+- (IBAction)clickRow:(NSTableView *)sender {
+    NSInteger selectRow = [sender selectedRow];
+    if (selectRow < self.videos.count) {
+        if ([self.downloadDanmakus containsObject:@(selectRow)]) {
+            [self.downloadDanmakus removeObject:@(selectRow)];
+        }
+        else {
+            [self.downloadDanmakus addObject:@(selectRow)];
+        }
+    }
+    self.selectedAllButton.state = self.downloadDanmakus.count == self.videos.count;
+    [self.tableView reloadRow:selectRow inColumn:0];
+
 }
 
 
@@ -73,9 +82,8 @@
     
     [DanmakuNetManager batchGETDanmakuInfoWithAids:aidArr source:_source completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
         [danmakuArr addObjectsFromArray:responseObjs];
-        
         [DanmakuNetManager batchDownDanmakuWithDanmakuIds:danmakuArr source:_source progressBlock:nil completionHandler:^(NSArray *responseObjs, NSArray<NSURLSessionTask *> *tasks) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:nil userInfo:@{@"downloadCount":[NSString stringWithFormat:@"%ld", responseObjs.count]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:[NSString stringWithFormat:@"下载完成 一共%ld个", responseObjs.count]];
         }];
     }];
 }
@@ -83,28 +91,16 @@
 
 #pragma mark - NSTableViewDelegate
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
-    NSButton *button = [tableView makeViewWithIdentifier:@"downOtherDanmakuCheakButton" owner:self];
+    NOResponseButton *button = [tableView makeViewWithIdentifier:@"downOtherDanmakuCheakButton" owner:self];
     button.title = self.videos[row].title;
     button.state = [self.downloadDanmakus containsObject:@(row)];
     button.tag = row;
-    [button setTarget:self];
-    [button setAction:@selector(buttonDown:)];
     return button;
 }
 
 #pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
     return self.videos.count;
-}
-
-#pragma mark - 私有方法
-
-- (void)buttonDown:(NSButton *)button{
-    if ([self.downloadDanmakus containsObject:@(button.tag)]) {
-        [self.downloadDanmakus removeObject:@(button.tag)];
-    }else{
-        [self.downloadDanmakus addObject:@(button.tag)];
-    }
 }
 
 #pragma mark - 懒加载

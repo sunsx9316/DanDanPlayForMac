@@ -13,44 +13,42 @@
 @property (strong, nonatomic) NSImageView *progressSliderImgView;
 @property (strong, nonatomic) NSImageView *bufferSliderImgView;
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
-
 @end
-
 
 @implementation PlayerSlideView
 {
     NSColor *_backGroundColor;
     NSColor *_progressSliderColor;
     NSColor *_bufferSliderColor;
-    CGFloat _progress;
-    CGFloat _bufferProgress;
+//    CGFloat _progress;
+//    CGFloat _bufferProgress;
 }
 #pragma mark - 方法
-- (void)updateCurrentProgress:(CGFloat)progress{
-    if (isnan(progress))  progress = 0;
-    _progress = progress;
-    self.progressSliderImgView.image = [self drawProgressImgWithProgressValue:progress color:self.progressSliderColor];
+- (void)setCurrentProgress:(float)currentProgress {
+    if (isnan(currentProgress)) currentProgress = 0;
+    _currentProgress = currentProgress;
+    self.progressSliderImgView.image = [self drawProgressImgWithProgressValue:_currentProgress color:self.progressSliderColor];
 }
 
-- (void)updateBufferProgress:(CGFloat)progress{
-    if (isnan(progress)) progress = 0;
-    _bufferProgress = progress;
-    self.bufferSliderImgView.image = [self drawProgressImgWithProgressValue:progress color:self.bufferSliderColor];
+- (void)setBufferProgress:(float)bufferProgress {
+    if (isnan(bufferProgress)) bufferProgress = 0;
+    _bufferProgress = bufferProgress;
+    self.bufferSliderImgView.image = [self drawProgressImgWithProgressValue:_bufferProgress color:self.bufferSliderColor];
 }
 
 - (void)resizeWithOldSuperviewSize:(NSSize)oldSize{
     [super resizeWithOldSuperviewSize:oldSize];
     self.bufferSliderImgView.frame = self.bounds;
     self.progressSliderImgView.frame = self.bounds;
-    [self updateCurrentProgress:_progress];
-    [self updateBufferProgress:_bufferProgress];
+    self.currentProgress = _currentProgress;
+    self.bufferProgress = _bufferProgress;
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent{
     CGFloat value = [self progressValueWithPoint:theEvent.locationInWindow];
     if (value >= 0 && value <= 1){
         if ([self.delegate respondsToSelector:@selector(playerSliderDraggedEnd:playerSliderView:)]) {
-            [self updateCurrentProgress: value];
+            self.currentProgress = value;
             [self.delegate playerSliderDraggedEnd: value playerSliderView: self];
         }
     }
@@ -79,7 +77,7 @@
     CGFloat value = [self progressValueWithPoint:theEvent.locationInWindow];
     if (value >= 0 && value <= 1){
         if ([self.delegate respondsToSelector:@selector(playerSliderTouchEnd:playerSliderView:)]) {
-            [self updateCurrentProgress: value];
+            self.currentProgress = value;
             [self.delegate playerSliderTouchEnd: value playerSliderView: self];
         }
     }

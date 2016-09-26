@@ -12,39 +12,40 @@
 /**
  *  官方搜索请求
  *
- *  @param parameters 参数 anime episode
- *  @param complete   回调
+ *  @param animeName 动画标题
+ *  @param episode   分集
+ *  @param complete  回调
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)GETWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(SearchModel* responseObj, DanDanPlayErrorModel *error))complete;
++ (NSURLSessionDataTask *)GETWithAnimeName:(NSString *)animeName episode:(NSString *)episode completionHandler:(void(^)(SearchModel* responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  搜索b站结果
  *
- *  @param parameters keyword 关键字
- *  @param complete   回调
+ *  @param keyword  关键字
+ *  @param complete 回调
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)searchBiliBiliWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
++ (NSURLSessionDataTask *)searchBiliBiliWithkeyword:(NSString *)keyword completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  获取b站番剧详情
  *
- *  @param parameters seasonID 剧集id
- *  @param complete   回调
+ *  @param seasonId 番剧id
+ *  @param complete 回调
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)searchBiliBiliSeasonInfoWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
++ (NSURLSessionDataTask *)searchBiliBiliSeasonInfoWithSeasonId:(NSString *)seasonId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  搜索a站结果
  *
- *  @param parameters keyword 关键字
- *  @param complete   回调
+ *  @param keyword  关键字
+ *  @param complete 回调
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)searchAcFunWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
++ (NSURLSessionDataTask *)searchAcFunWithKeyword:(NSString *)keyword completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 /**
  *  获取a站番剧详情
  *
@@ -53,5 +54,5 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)searchAcfunSeasonInfoWithParameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
++ (NSURLSessionDataTask *)searchAcfunSeasonInfoWithSeasonId:(NSString *)seasonId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
 @end

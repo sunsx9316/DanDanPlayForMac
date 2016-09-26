@@ -20,11 +20,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    __weak typeof(self)weakSelf = self;
+    @weakify(self);
     [self.inputTextField setRespondBlock:^{
-        [weakSelf clickOKButton:nil];
+        @strongify(self)
+        if (!self) return;
+        
+        [self clickOKButton:nil];
     }];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disMissSelf:) name:@"DISSMISS_VIEW_CONTROLLER" object: nil];
 }
 
 - (IBAction)clickOKButton:(NSButton *)sender {
@@ -33,19 +35,11 @@
     
     DanDanPlayDanmakuSource source = [ToolsManager enumValueWithDanmakuSourceStringValue:[self.danmakuSourcePopUpButton titleOfSelectedItem]];
     
-    [self presentViewControllerAsSheet:[[OpenStreamVideoViewController alloc] initWithAid:inputText danmakuSource:source]];
+    [self presentViewControllerAsSheet:[OpenStreamVideoViewController viewControllerWithURL:inputText danmakuSource:source]];
 }
 
-- (IBAction)disMissSelf:(NSButton *)sender{
+- (IBAction)dismiss:(NSButton *)sender {
     [self dismissController:self];
-}
-
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
-}
-
-- (instancetype)init{
-    return (self = kViewControllerWithId(@"OpenStreamInputAidViewController"));
 }
 
 @end

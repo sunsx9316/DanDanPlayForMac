@@ -7,6 +7,7 @@
 //
 
 #import "ThirdPartySearchVideoInfoView.h"
+
 @interface ThirdPartySearchVideoInfoView()
 @property (strong, nonatomic) NSTextField *title;
 @end
@@ -47,6 +48,7 @@
 - (NSImageView *)coverImg {
     if(_coverImg == nil) {
         _coverImg = [[NSImageView alloc] init];
+        _coverImg.placeHoldImage = [NSImage imageNamed:@"img_hold"];
     }
     return _coverImg;
 }
@@ -76,7 +78,7 @@
 - (NSTextField *)title {
 	if(_title == nil) {
 		_title = [[NSTextField alloc] init];
-        _title.stringValue = @"视频详情";
+        _title.text = @"视频详情";
         _title.editable = NO;
         _title.bordered = NO;
         _title.drawsBackground = NO;

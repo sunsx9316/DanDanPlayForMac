@@ -13,29 +13,33 @@
 
 @implementation AddTrackingAreaButton
 
-- (void)mouseEntered:(NSEvent *)theEvent{
+- (void)mouseEntered:(NSEvent *)theEvent {
     if (self.mouseEnteredCallBackBlock) {
         self.mouseEnteredCallBackBlock();
     }
 }
 
-- (void)mouseExited:(NSEvent *)theEvent{
+- (void)mouseExited:(NSEvent *)theEvent {
     if (self.mouseExitedCallBackBlock) {
         self.mouseExitedCallBackBlock();
     }
 }
 
-- (void)dealloc{
+- (void)dealloc {
     [self removeTrackingArea:self.trackingArea];
 }
 
-- (instancetype)init{
+- (instancetype)init {
     if (self = [super init]) {
         [self addTrackingArea:self.trackingArea];
     }
     return self;
 }
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self addTrackingArea:self.trackingArea];
+}
 
 #pragma mark - 懒加载
 - (NSTrackingArea *)trackingArea {

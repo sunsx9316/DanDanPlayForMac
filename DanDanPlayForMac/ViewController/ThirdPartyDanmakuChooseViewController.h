@@ -6,8 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-@interface ThirdPartyDanmakuChooseViewController : NSViewController
+#import "BaseViewController.h"
+@interface ThirdPartyDanmakuChooseViewController : BaseViewController
 /**
  *  初始化
  *
@@ -15,5 +15,5 @@
  *
  *  @return self
  */
-- (instancetype)initWithVideoID:(NSString *)videoID type:(DanDanPlayDanmakuSource)type;
++ (instancetype)viewControllerWithVideoId:(NSString *)videoId type:(DanDanPlayDanmakuSource)type;
 @end

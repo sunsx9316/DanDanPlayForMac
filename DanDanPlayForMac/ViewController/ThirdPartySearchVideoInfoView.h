@@ -7,6 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "NSImageView+Tools.h"
+
 //左边显示番剧详情控制器
 @interface ThirdPartySearchVideoInfoView : NSView
 @property (strong, nonatomic) NSImageView *coverImg;

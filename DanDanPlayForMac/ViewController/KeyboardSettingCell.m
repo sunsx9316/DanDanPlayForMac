@@ -42,12 +42,12 @@
     NSTableCellView *cell = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
     if ([tableColumn.identifier isEqualToString:@"actionCell"]) {
         NSDictionary *dic = self.keyMapArr[row];
-        cell.textField.stringValue = dic[@"name"];
+        cell.textField.text = dic[@"name"];
     }
     else if ([tableColumn.identifier isEqualToString:@"keyCell"]){
         NSDictionary *dic = self.keyMapArr[row];
         NSString *key = dic[@"keyName"];
-        cell.textField.stringValue = key;
+        cell.textField.text = key;
     }
     return cell;
 }
@@ -56,13 +56,15 @@
 - (void)doubleAction:(NSTableView *)tableView {
     NSInteger index = tableView.selectedRow;
     _currentDoubleSelectRow = index;
-
-    NSMutableDictionary *dic = self.keyMapArr[index];
-    NSString *key = [dic[@"keyName"] copy];
-    //关联对象 保存键值
-    objc_setAssociatedObject(self.keyMapArr[index], [self.associatedKeyArr[index] pointerValue], key, OBJC_ASSOCIATION_RETAIN);
-    dic[@"keyName"] = @"";
-    [tableView reloadRow:index inColumn:1];
+    
+    if (index < self.keyMapArr.count) {
+        NSMutableDictionary *dic = self.keyMapArr[index];
+        NSString *key = [dic[@"keyName"] copy];
+        //关联对象 保存键值
+        objc_setAssociatedObject(self.keyMapArr[index], [self.associatedKeyArr[index] pointerValue], key, OBJC_ASSOCIATION_RETAIN);
+        dic[@"keyName"] = @"";
+        [tableView reloadRow:index inColumn:1];
+    }
 }
 
 - (void)clickedRow:(NSTableView *)tableView {
@@ -81,13 +83,15 @@
 }
 
 - (IBAction)clickDeleteButton:(NSButton *)sender {
-    NSInteger index = [self.tableView selectedRow];
-    NSMutableDictionary *dic = self.keyMapArr[index];
-    dic[@"keyName"] = @"";
-    dic[@"flag"] = @-1;
-    dic[@"keyCode"] = @-1;
-    [UserDefaultManager shareUserDefaultManager].customKeyMapArr = self.keyMapArr;
-    [self.tableView reloadRow:index inColumn:1];
+    NSUInteger index = [self.tableView selectedRow];
+    if (index < self.keyMapArr.count) {
+        NSMutableDictionary *dic = self.keyMapArr[index];
+        dic[@"keyName"] = @"";
+        dic[@"flag"] = @-1;
+        dic[@"keyCode"] = @-1;
+        [UserDefaultManager shareUserDefaultManager].customKeyMapArr = self.keyMapArr;
+        [self.tableView reloadRow:index inColumn:1];        
+    }
 }
 
 - (IBAction)clickResetButton:(NSButton *)sender {

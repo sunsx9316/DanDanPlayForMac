@@ -7,7 +7,7 @@
 //
 
 #import "PlayerDanmakuCountView.h"
-#import "POPMasAnimation.h"
+#import "POPMasBaseAnimation.h"
 
 @interface PlayerDanmakuCountView ()
 @property (weak) IBOutlet NSTextField *danmaukuCountTextField;
@@ -31,7 +31,7 @@
 - (void)setDanmakuCount:(NSUInteger)danmakuCount {
     _danmakuCount = danmakuCount;
     if (_danmakuCount > 10000) {
-        self.danmaukuCountTextField.stringValue = [NSString stringWithFormat:@"%.2f万", _danmakuCount / 10000.0];
+        self.danmaukuCountTextField.text = [NSString stringWithFormat:@"%.2f万", _danmakuCount / 10000.0];
     }
     else {
         self.danmaukuCountTextField.integerValue = danmakuCount;
@@ -52,7 +52,7 @@
         [NSApp.keyWindow.contentViewController.view addSubview:self];
     }
     
-    POPMasAnimation *animate = [POPMasAnimation animationWithPropertyType:POPMasAnimationTypeLeft];
+    POPMasBaseAnimation *animate = [POPMasBaseAnimation animationWithPropertyType:POPMasAnimationTypeLeft];
     animate.fromValue = @(-self.frame.size.width);
     animate.toValue = @0;
     animate.duration = 0.8;
@@ -69,7 +69,7 @@
 }
 
 - (void)dismiss {
-    POPMasAnimation *animate = [POPMasAnimation animationWithPropertyType:POPMasAnimationTypeLeft];
+    POPMasBaseAnimation *animate = [POPMasBaseAnimation animationWithPropertyType:POPMasAnimationTypeLeft];
     animate.fromValue = @0;
     animate.toValue = @(-self.frame.size.width);
     animate.duration = 0.8;

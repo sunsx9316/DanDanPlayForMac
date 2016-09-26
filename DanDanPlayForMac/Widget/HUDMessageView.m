@@ -85,7 +85,7 @@
 
 - (void)setText:(NSString *)text {
     _text = text;
-    self.textField.stringValue = text;
+    self.textField.text = text;
     [self.textField sizeToFit];
     [self setNeedsUpdateConstraints:YES];
     [self updateConstraintsForSubtreeIfNeeded];

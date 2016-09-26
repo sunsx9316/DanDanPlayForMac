@@ -11,12 +11,13 @@
 
 @implementation NSData (DanDanPlay)
 - (NSData *)Encrypt{
-    NSString *key = kDanDanPlayKey;
-    NSString *iv = kDanDanPlayIV;
+    NSString *key = DANDANPLAY_KEY;
+    NSString *iv = DANDANPLAY_IV;
 #ifdef DEBUG
 //测试代码 没什么卵用
     if ([key isEqualToString:@""] || [iv isEqualToString:@""]) {
-        NSArray *arr = [[[NSString alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"/Users/jimhuang/Desktop/dandanplay/key&iv"] encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@" "];
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"dandanplay/key&iv"];
+        NSArray *arr = [[[NSString alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@" "];
         key = arr[0];
         iv = arr[1];
     }

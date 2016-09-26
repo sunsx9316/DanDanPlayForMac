@@ -9,6 +9,8 @@
 #import "PlayerListViewController.h"
 #import "VideoNameCell.h"
 #import "NSButton+Tools.h"
+#import "VideoModelProtocol.h"
+#import "NSTableView+Tools.h"
 
 @interface PlayerListViewController ()<NSTabViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSButton *cleanButton;
@@ -18,27 +20,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setWantsLayer:YES];
-    self.view.layer.backgroundColor = RGBAColor(0, 0, 0, 0.5).CGColor;
+    self.view.backgroundColor = RGBAColor(0, 0, 0, 0.5);
     [self.cleanButton setTitleColor:[NSColor whiteColor]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:@"VIDEO_DOWNLOAD_PROGRESS" object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)updateProgress:(NSNotification *)aNotification {
+    id<VideoModelProtocol>model = aNotification.object;
+    NSUInteger index = [self.vm.videos indexOfObject:model];
+    if (index < self.vm.videos.count) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            VideoNameCell *cell = [self.tableView viewAtColumn:0 row:index makeIfNecessary:YES];
+            [cell updateProgress:[model progress]];
+        });
+    }
 }
 
 #pragma mark - NSTableViewDataSource
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return [self.vm videoCount];
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    return self.vm.videos.count;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    __weak typeof(self)weakSelf = self;
+    @weakify(self)
     //视频列表
     VideoNameCell *cell = [tableView makeViewWithIdentifier:@"VideoNameCell" owner:self];
-    [cell setTitle:[self.vm videoNameWithIndex:row] iconHide:[self.vm showPlayIconWithIndex:row] callBack:^{
+    [cell setWithModel:[self.vm videoModelWithIndex:row] iconHide:(self.vm.currentIndex != row) callBack:^{
+        @strongify(self)
+        if (!self) return;
+        
         if (self.deleteRowCallBack) {
             self.deleteRowCallBack(row);
         }
-        [weakSelf.vm removeVideoAtIndex:row];
-        [weakSelf.tableView reloadData];
+        [self.vm removeVideoAtIndex:row];
+        [self.tableView reloadData];
     }];
     return cell;
     
@@ -49,6 +69,7 @@
     return 30;
 }
 
+#pragma mark - 私有方法
 //双击行
 - (IBAction)doubleClickRow:(NSTableView *)sender {
     NSUInteger selectedIndex = [sender selectedRow];
@@ -62,5 +83,8 @@
     [self.tableView reloadData];
 }
 
+- (void)startPlayNotice:(NSNotification *)sender {
+    
+}
 
 @end

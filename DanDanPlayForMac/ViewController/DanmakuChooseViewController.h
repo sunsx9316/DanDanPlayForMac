@@ -6,16 +6,11 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 
-@interface DanmakuChooseViewController : NSViewController
+@interface DanmakuChooseViewController : BaseViewController
 /**
- *  初始化
- *
- *  @param videoID dandanplay官方视频id
- *
- *  @return self
+ *  dandanplay官方视频id
  */
-- (instancetype)initWithVideoID:(NSString *)videoID;
-
+@property (copy, nonatomic) NSString *videoId;
 @end

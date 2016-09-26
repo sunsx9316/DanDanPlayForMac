@@ -21,6 +21,10 @@
 
 @implementation AboutViewController
 
+- (void)dealloc {
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setPreferredContentSize:self.view.bounds.size];
@@ -30,8 +34,8 @@
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *copyRight = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"NSHumanReadableCopyright"];
     
-    self.versionTextField.stringValue = version.length ? version : @"";
-    self.CRTextField.stringValue = copyRight.length ? copyRight : @"";
+    self.versionTextField.text = version;
+    self.CRTextField.text = copyRight;
     
     
     POPSpringAnimation *springAnimate = [POPSpringAnimation animationWithPropertyNamed:kPOPViewFrame];

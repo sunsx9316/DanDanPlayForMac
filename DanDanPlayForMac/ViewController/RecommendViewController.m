@@ -20,33 +20,39 @@
 @property (strong, nonatomic) JHProgressHUD *progressHUD;
 @property (weak) IBOutlet RecommendHeadCell *headView;
 @property (weak) IBOutlet NSTabView *tabView;
+@property (weak) IBOutlet NSButton *recommendButton;
 @end
 
 @implementation RecommendViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"番剧推荐";
     [self configHeadView];
-    [self.progressHUD show];
+    [self.progressHUD showWithView:self.view];
     
     [self.vm refreshWithCompletionHandler:^(NSError *error) {
-        [self.progressHUD disMiss];
+        [self.progressHUD hideWithCompletion:nil];
         [self.headView setWithModel:self.vm.featuredModel];
         NSArray *arr = self.vm.bangumis;
         
         [arr enumerateObjectsUsingBlock:^(BangumiModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSTabViewItem *item = [NSTabViewItem tabViewItemWithViewController:[[RecommendItemViewController alloc] init]];
+            NSTabViewItem *item = [NSTabViewItem tabViewItemWithViewController:[RecommendItemViewController viewController]];
             item.label = obj.weekDayStringValue;
             [self.tabView addTabViewItem:item];
         }];
     }];
+    
+    [[UserDefaultManager shareUserDefaultManager] addObserver:self forKeyPath:@"showRecommedInfoAtStart" options:NSKeyValueObservingOptionNew context:nil];
+    self.recommendButton.state = [UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart;
 }
 
-- (instancetype)init {
-    if ((self = kViewControllerWithId(@"RecommendViewController"))) {
-        self.title = @"番剧推荐";
-    }
-    return self;
+- (void)dealloc {
+    [[UserDefaultManager shareUserDefaultManager] removeObserver:self forKeyPath:@"showRecommedInfoAtStart"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    self.recommendButton.state = [change[@"new"] integerValue];
 }
 
 #pragma mark - NSTableViewDelegate
@@ -60,8 +66,6 @@
     [self.headView setClickSearchButtonCallBack:^(NSString *keyWord) {
         if (!keyWord.length) return;
         
-        
-        
         keyWord = [keyWord stringByURLEncode];
         //破软件迟早药丸
         if ([keyWord isEqualToString:@"%E9%95%BF%E8%80%85"] || [keyWord isEqualToString:@"%E8%86%9C%E8%9B%A4"] || [keyWord isEqualToString:@"%E8%9B%A4%E8%9B%A4"] || [keyWord isEqualToString:@"%E8%B5%9B%E8%89%87"]) {
@@ -70,11 +74,15 @@
         
         system([NSString stringWithFormat:@"open %@%@", SEARCH_PATH, keyWord].UTF8String);
     }];
-    
+
     [self.headView setClickFilmReviewButtonCallBack:^(NSString *path) {
         system([NSString stringWithFormat:@"open %@", path].UTF8String);
     }];
     
+}
+
+- (IBAction)clickRecommendButton:(NSButton *)sender {
+    [UserDefaultManager shareUserDefaultManager].showRecommedInfoAtStart = sender.state;
 }
 
 #pragma mark - 懒加载
@@ -88,7 +96,9 @@
 - (JHProgressHUD *)progressHUD {
 	if(_progressHUD == nil) {
         DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage];
-		_progressHUD = [[JHProgressHUD alloc] initWithMessage:model.message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
+        _progressHUD = [[JHProgressHUD alloc] init];
+        _progressHUD.text = model.message;
+//		_progressHUD = [[JHProgressHUD alloc] initWithMessage:model.message style:JHProgressHUDStyleValue1 parentView:self.view dismissWhenClick:NO];
 	}
 	return _progressHUD;
 }

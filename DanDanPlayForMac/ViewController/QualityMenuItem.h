@@ -10,5 +10,5 @@
 #import "StreamingVideoModel.h"
 
 @interface QualityMenuItem : NSMenuItem
-@property (assign, nonatomic) streamingVideoQuality quality;
+@property (assign, nonatomic) StreamingVideoQuality quality;
 @end

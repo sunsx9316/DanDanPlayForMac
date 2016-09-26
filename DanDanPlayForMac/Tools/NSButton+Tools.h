@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface NSButton (Tools)
-- (void)setTitleColor:(NSColor *)color;
+@property (strong, nonatomic) NSColor *titleColor;
 @end

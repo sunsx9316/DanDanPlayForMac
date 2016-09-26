@@ -6,7 +6,7 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 //弹弹原来的路径
 #define OLD_PATH @"http://dmhy.dandanplay.com"
 //新的路径
@@ -16,6 +16,6 @@
 
 #import "BangumiModel.h"
 
-@interface RecommendItemViewController : NSViewController
+@interface RecommendItemViewController : BaseViewController
 @property (strong, nonatomic) BangumiModel *model;
 @end

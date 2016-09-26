@@ -6,9 +6,9 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseViewController.h"
 
-@interface PlayerDanmakuViewController : NSViewController
+@interface PlayerDanmakuViewController : BaseViewController
 /**
  *  关闭弹幕面板回调
  */

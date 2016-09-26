@@ -10,7 +10,7 @@
 
 typedef void(^loadLocalDanMuBlock)(NSDictionary *dic);
 typedef void(^loadLocalSubtitleBlock)(NSString *path);
-@class VLCMediaPlayer, PlayerHUDControl, DanMuDataModel;
+@class VLCMediaPlayer, PlayerHUDControl, DanmakuDataModel;
 @interface PlayerMethodManager : NSObject
 /**
  *  控制view的显示隐藏
@@ -43,10 +43,13 @@ typedef void(^loadLocalSubtitleBlock)(NSString *path);
  *  @param episodeId         节目ID
  *  @param completionHandler 回调
  */
-+ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,DanDanPlayErrorModel *error))completionHandler;
-
-+ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate;
-
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanmakuDataModel *model ,DanDanPlayErrorModel *error))completionHandler;
+/**
+ *  重设播放视图约束
+ *
+ *  @param mediaView 播放视图
+ *  @param size      视频尺寸
+ */
 + (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size;
 
 + (void)showPlayLastWatchVideoTimeView:(PlayerLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time;

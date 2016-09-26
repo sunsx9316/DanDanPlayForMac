@@ -24,6 +24,10 @@
     [super viewDidLoad];
 }
 
+- (void)startPlayNotice:(NSNotification *)sender {
+    
+}
+
 #pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     return 7;

@@ -13,37 +13,52 @@
 #import "AboutViewController.h"
 #import "NSOpenPanel+Tools.h"
 #import "PreferenceViewController.h"
-#import "VideoModel.h"
 
-@interface AppDelegate ()
-@property (weak) IBOutlet NSMenuItem *videoListMenuItem;
-@end
+#import "UpdateNetManager.h"
+#import <JPEngine.h>
 
 @implementation AppDelegate
+{
+    //右键打开的文件
+    NSArray<NSString *> *_filePaths;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [self patchAPP];
+    [self firstRun];
     self.mainWindowController = kViewControllerWithId(@"MainWindowController");
     [self.mainWindowController showWindow: self];
     [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-    
     NSButton *closeButton = [self.mainWindowController.window standardWindowButton:NSWindowCloseButton];
     [closeButton setTarget:self];
     [closeButton setAction:@selector(closeApplication)];
     
-//    NSArray *videoArr = [UserDefaultManager shareUserDefaultManager].videoListArr;
-//    [videoArr enumerateObjectsUsingBlock:^(VideoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:obj.fileName action:@selector(clickVideoList:) keyEquivalent:@""];
-//        [self.videoListMenuItem.submenu addItem:item];
-//    }];
-//    
-//    if (videoArr.count) {
-//        [self.videoListMenuItem.submenu insertItem:[NSMenuItem separatorItem] atIndex:0];
-//        [self.videoListMenuItem.submenu insertItemWithTitle:@"清空播放列表" action:@selector(clearVideoList:) keyEquivalent:@"" atIndex:0];
-//    }
+    MainViewController *vc = (MainViewController *)self.mainWindowController.contentViewController;
+    [vc setUpWithFilePath:_filePaths];
 }
 
+//即将关闭操作
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    dispatch_group_t group = dispatch_group_create();
+    
+    for (NSURLSessionDownloadTask *obj in [ToolsManager shareToolsManager].downLoadTaskSet) {
+        NSString *md5 = objc_getAssociatedObject(obj, "md5");
+        NSString *path = [[UserDefaultManager shareUserDefaultManager].downloadResumeDataPath stringByAppendingPathComponent:md5];
+        dispatch_group_enter(group);
+        dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^{
+            [obj cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
+                [resumeData writeToFile:path atomically:YES];
+                dispatch_group_leave(group);
+            }];
+        });
+    }
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+}
+
+- (void)application:(NSApplication *)sender openFiles:(NSArray<NSString *> *)filenames {
+    _filePaths = filenames;
+    MainViewController *vc = (MainViewController *)self.mainWindowController.contentViewController;
+    [vc setUpWithFilePath:_filePaths];
 }
 
 #pragma mark - 私有方法
@@ -55,18 +70,10 @@
 - (IBAction)openPreferencePanel:(NSMenuItem *)sender {
     NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
     if ([vc isKindOfClass:[PreferenceViewController class]]) return;
-    [vc presentViewControllerAsSheet:kViewControllerWithId(@"PreferenceViewController")];
+    [vc presentViewControllerAsSheet:[PreferenceViewController viewController]];
 }
 
-- (void)clickVideoList:(NSMenuItem *)item {
-    NSLog(@"%@", item.title);
-}
-
-- (void)clearVideoList:(NSMenuItem *)item {
-    [UserDefaultManager shareUserDefaultManager].videoListArr = nil;
-    [self.videoListMenuItem.submenu removeAllItems];
-}
-
+#pragma mark - 私有方法
 /**
  *  打开本地文件
  *
@@ -108,10 +115,8 @@
  *  @param sender 菜单
  */
 - (IBAction)clickNetButton:(NSMenuItem *)sender {
-    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
-    if ([vc isKindOfClass:[OpenStreamInputAidViewController class]]) return;
-    
-    [vc presentViewControllerAsSheet:[[OpenStreamInputAidViewController alloc] init]];
+    OpenStreamInputAidViewController *openVC = [OpenStreamInputAidViewController viewController];
+    [self.mainWindowController.contentViewController presentViewControllerAsSheet:openVC];
 }
 
 /**
@@ -120,8 +125,7 @@
  *  @param sender 菜单
  */
 - (IBAction)clickAboutButton:(NSMenuItem *)sender {
-    NSViewController *vc = [NSApplication sharedApplication].keyWindow.contentViewController;
-    [vc presentViewControllerAsModalWindow:kViewControllerWithId(@"AboutViewController")];
+    [self.mainWindowController.contentViewController presentViewControllerAsModalWindow:[AboutViewController viewController]];
 }
 
 /**
@@ -130,7 +134,7 @@
  *  @param sender 菜单
  */
 - (IBAction)clickEverydayRecommendButton:(NSMenuItem *)sender {
-    [[NSApp mainWindow].contentViewController presentViewControllerAsModalWindow:[[RecommendViewController alloc] init]];
+    [self.mainWindowController.contentViewController presentViewControllerAsModalWindow:[RecommendViewController viewController]];
 }
 
 /**
@@ -138,6 +142,42 @@
  */
 - (void)closeApplication {
     [[NSApplication sharedApplication] terminate:nil];
+}
+
+/**
+ *  打补丁
+ */
+- (void)patchAPP {
+    UserDefaultManager *manager = [UserDefaultManager shareUserDefaultManager];
+    NSString *patchPath = [manager.patchPath stringByAppendingPathComponent:manager.versionModel.patchName];
+    NSString *script = [NSString stringWithContentsOfFile:patchPath encoding:NSUTF8StringEncoding error:nil];
+    if (([script rangeOfString:@"<html>"].location == NSNotFound)) {
+        [JPEngine startEngine];
+        [JPEngine evaluateScript:script];
+    }
+}
+
+
+
+/**
+ *  第一次启动操作
+ */
+- (void)firstRun {
+    //记录的版本比当前版本小
+    if ([UserDefaultManager shareUserDefaultManager].versionModel.version < [ToolsManager appVersion]) {
+        NSMutableArray *customKeyMapArr = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
+        NSMutableArray *keyMapArr = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_key_map" ofType:@"plist"]];
+        //添加关闭弹幕快捷键
+        if (customKeyMapArr.count < keyMapArr.count) {
+            [customKeyMapArr addObject:keyMapArr.lastObject];
+        }
+        [UserDefaultManager shareUserDefaultManager].customKeyMapArr = customKeyMapArr;
+        [UserDefaultManager shareUserDefaultManager].videoListOrderedSet = nil;
+        //清空上一次的版本信息
+        VersionModel *model = [[VersionModel alloc] init];
+        model.version = [ToolsManager appVersion];
+        [UserDefaultManager shareUserDefaultManager].versionModel = model;
+    }
 }
 
 @end

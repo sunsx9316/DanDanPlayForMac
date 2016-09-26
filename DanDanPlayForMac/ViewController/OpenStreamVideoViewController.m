@@ -10,8 +10,9 @@
 #import "PlayerViewController.h"
 #import "OpenStreamVideoViewModel.h"
 #import "StreamingVideoModel.h"
-#import "OpenStreamVideoCheakCell.h"
+#import "NOResponseButton.h"
 #import "HUDMessageView.h"
+#import "NSTableView+Tools.h"
 
 @interface OpenStreamVideoViewController ()<NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTableView *tableView;
@@ -25,10 +26,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     [self.vm refreshWithcompletionHandler:^(NSError *error) {
         [self.tableView reloadData];
-        [JHProgressHUD disMiss];
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         if (error) {
             
             [self.messageView showHUD];
@@ -38,7 +39,7 @@
 
 - (IBAction)clickRow:(NSTableView *)sender {
     NSInteger selectRow = [sender selectedRow];
-    if (selectRow < [self.vm numOfVideos]) {
+    if (selectRow < self.vm.models.count) {
         if ([self.selectedSet containsObject:@(selectRow)]) {
             [self.selectedSet removeObject:@(selectRow)];
         }
@@ -46,11 +47,12 @@
             [self.selectedSet addObject:@(selectRow)];
         }
     }
-    [self.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:selectRow] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+    self.selectedAllButton.state = self.selectedSet.count == self.vm.models.count;
+    [self.tableView reloadRow:selectRow inColumn:0];
 }
 
 - (IBAction)clickSelectedAllButton:(NSButton *)sender {
-    NSInteger count = [self.vm numOfVideos];
+    NSInteger count = self.vm.models.count;
     if (sender.state) {
         for (NSInteger i = 0; i < count; ++i) {
             [self.selectedSet addObject:@(i)];
@@ -59,11 +61,12 @@
     else {
         [self.selectedSet removeAllObjects];
     }
+    
     [self.tableView reloadData];
 }
 
 - (IBAction)clickReverseButton:(NSButton *)sender {
-    NSInteger count = [self.vm numOfVideos];
+    NSInteger count = self.vm.models.count;
     for (NSInteger i = 0; i < count; ++i) {
         if ([self.selectedSet containsObject:@(i)]) {
             [self.selectedSet removeObject:@(i)];
@@ -87,63 +90,61 @@
 }
 
 - (IBAction)clickBackButton:(NSButton *)sender {
-    [self dismissViewController:self];
+    [self.presentingViewController dismissViewController:self];
 }
 
-
-- (instancetype)initWithAid:(NSString *)aid danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
-    if ((self = kViewControllerWithId(@"OpenStreamVideoViewController"))) {
-        self.vm = [[OpenStreamVideoViewModel alloc] initWithAid:aid danmakuSource:danmakuSource];
-    }
-    return self;
++ (instancetype)viewControllerWithURL:(NSString *)URL danmakuSource:(DanDanPlayDanmakuSource)danmakuSource {
+    OpenStreamVideoViewController *vc = [OpenStreamVideoViewController viewController];
+    vc.vm = [[OpenStreamVideoViewModel alloc] initWithURL:URL danmakuSource:danmakuSource];
+    return vc;
 }
 
 #pragma mark - NSTableViewDelegate
-- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row{
+- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row {
     static NSString *cellName = @"OpenStreamVideoCheakCell";
-    OpenStreamVideoCheakCell *button = [tableView makeViewWithIdentifier:cellName owner:self];
+    NOResponseButton *button = [tableView makeViewWithIdentifier:cellName owner:self];
     button.state = [self.selectedSet containsObject:@(row)];
-    __weak typeof(self)weakSelf = self;
-    [button setWithTitle:[self.vm videoNameForRow:row] callBackHandle:^(NSInteger state) {
-        state ? [weakSelf.selectedSet addObject:@(row)]:[weakSelf.selectedSet removeObject:@(row)];
-        weakSelf.selectedAllButton.state = weakSelf.selectedSet.count == [weakSelf.vm numOfVideos];
-    }];
+    button.text = self.vm.models[row].title;
     return button;
 }
 
 #pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return [self.vm numOfVideos];
+    return self.vm.models.count;
 }
 
 #pragma mark - 私有方法
-- (void)streamingVideoModelWithRow:(NSInteger)row{
-    if (![self.vm danmakuForRow:row].length) return;
+- (void)streamingVideoModelWithRow:(NSInteger)row {
+    if (!self.vm.models[row].danmaku.length) return;
     
-    [JHProgressHUD showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
+    [[JHProgressHUD shareProgressHUD] showWithMessage:[DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLoadMessage].message parentView:self.view];
     [self.vm getVideoURLAndDanmakuForRow:row completionHandler:^(StreamingVideoModel *videoModel, NSError *error) {
-        [JHProgressHUD disMiss];
+        [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
         
         if (error) {
             [self.messageView showHUD];
             return;
         }
         
-        NSMutableArray *arr = [NSMutableArray arrayWithObject:videoModel];
-        NSInteger videoCount = [self.vm numOfVideos];
+        NSMutableArray *arr = [NSMutableArray arrayWithObjects:videoModel, nil];
+        NSInteger videoCount = self.vm.models.count;
         for (NSInteger i = 0; i < videoCount; ++i) {
             if ([self.selectedSet containsObject:@(i)] && row != i) {
-                StreamingVideoModel *tvm = [[StreamingVideoModel alloc] initWithFileURLs:nil fileName:[self.vm videoNameForRow:i] danmaku:[self.vm danmakuForRow:i] danmakuSource:videoModel.danmakuSource];
-                [arr addObject:tvm];
+                VideoInfoDataModel *vm = self.vm.models[i];
+                StreamingVideoModel *aVM = [[StreamingVideoModel alloc] initWithFileURLs:nil fileName:vm.title danmaku:vm.danmaku danmakuSource:videoModel.danmakuSource];
+                [arr addObject:aVM];
             }
         }
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"OPEN_STREAM_VC_CHOOSE_OVER" object:nil userInfo:@{@"videos":arr}];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DANMAKU_CHOOSE_OVER" object:nil userInfo:videoModel.danmakuDic];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DISSMISS_VIEW_CONTROLLER" object:nil];
-        
+        [ToolsManager shareToolsManager].currentVideoModel = videoModel;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"START_PLAY" object:arr];
     }];
 }
+
+- (void)startPlayNotice:(NSNotification *)sender {
+    [super startPlayNotice:sender];
+}
+
 - (NSMutableSet *)selectedSet {
 	if(_selectedSet == nil) {
 		_selectedSet = [[NSMutableSet alloc] init];

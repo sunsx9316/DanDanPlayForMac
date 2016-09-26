@@ -10,7 +10,7 @@
 #import "DanmakuDataFormatter.h"
 #import <VLCKit/VLCMediaPlayer.h>
 #import "DanmakuNetManager.h"
-#import "DanMuModel.h"
+#import "DanmakuModel.h"
 #import "NSOpenPanel+Tools.h"
 
 @implementation PlayerMethodManager
@@ -44,13 +44,13 @@
     }];
 }
 
-+ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanMuDataModel *model ,DanDanPlayErrorModel *error))completionHandler {
++ (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanmakuDataModel *model ,DanDanPlayErrorModel *error))completionHandler {
     if (!episodeId.length) {
-        completionHandler(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeEpisodeNoExist]);
+        completionHandler(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeEpisodeNoExist]);
         return;
     }
     
-    DanMuDataModel *model = [[DanMuDataModel alloc] init];
+    DanmakuDataModel *model = [[DanmakuDataModel alloc] init];
     model.color = color;
     model.time = time;
     model.mode = mode;
@@ -60,24 +60,9 @@
     }];
 }
 
-+ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id)delegate {
-    //删除已经显示过的通知(已经存在用户的通知列表中的)
-    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
-    
-    //删除已经在执行的通知(比如那些循环递交的通知)
-    for (NSUserNotification *notify in [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications]){
-        [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
-    }
-    
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = @"弹弹play";
-    notification.informativeText = matchName ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoMatchVideo].message;
-    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = delegate;
-    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
-}
-
 + (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size {
     CGSize screenSize = [NSScreen mainScreen].frame.size;
+    mediaView.layer.frame = CGRectMake(0, 0, screenSize.width, screenSize.height);
     //宽高有一个为0 使用布满全屏的约束
     if (size.width <= 0 || size.height <= 0) {
         [mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -95,7 +80,7 @@
     }
     //没超过 使用这个约束
     else {
-        [mediaView  mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.right.centerY.mas_equalTo(0);
             make.top.mas_greaterThanOrEqualTo(0);
             make.bottom.mas_lessThanOrEqualTo(0);
@@ -107,7 +92,7 @@
 + (void)showPlayLastWatchVideoTimeView:(PlayerLastWatchVideoTimeView *)timeView time:(NSTimeInterval)time {
     NSUInteger intTime = time;
     if (time > 0) {
-        timeView.videoTimeTextField.stringValue = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",intTime / 60, intTime % 60];
+        timeView.videoTimeTextField.text = [NSString stringWithFormat:@"上次播放时间: %.2ld:%.2ld",intTime / 60, intTime % 60];
         timeView.time = time;
         [timeView show];
     }
@@ -128,7 +113,7 @@
         completionHandler(dic, nil);
     }
     else {
-        completionHandler(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        completionHandler(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
     }
 }
 
@@ -138,7 +123,7 @@
     if (imgFileType == NSPNGFileType) {
         [[NSFileManager defaultManager] moveItemAtPath:path toPath:[path stringByAppendingPathExtension:@"png"] error:nil];
     }
-    else{
+    else {
         NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
         if (!image) return;
         CGImageRef cgRef = [image CGImageForProposedRect:NULL context:nil hints:nil];
