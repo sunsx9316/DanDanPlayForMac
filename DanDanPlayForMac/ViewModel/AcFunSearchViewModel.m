@@ -80,7 +80,7 @@
 
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(DanDanPlayErrorModel *error))complete {
     if (!keyWord.length) {
-        complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete([DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return;
     }
     
@@ -104,7 +104,7 @@
             AcFunSearchListModel *listModel = [[AcFunSearchListModel alloc] init];
             listModel.title = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
             [arr addObject:listModel];
-            error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject];
+            error = [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject];
         }
         
         _listArr = arr;

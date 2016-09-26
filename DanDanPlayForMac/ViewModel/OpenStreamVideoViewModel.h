@@ -8,30 +8,11 @@
 
 #import "BaseViewModel.h"
 #import "VideoNetManager.h"
+#import "VideoInfoModel.h"
+
 @class StreamingVideoModel;
 @interface OpenStreamVideoViewModel : BaseViewModel
-/**
- *  获取视频总数
- *
- *  @return 视频总数
- */
-- (NSInteger)numOfVideos;
-/**
- *  获取视频对应下标名称
- *
- *  @param row 下标
- *
- *  @return 名称
- */
-- (NSString *)videoNameForRow:(NSInteger)row;
-/**
- *  获取视频对应下标弹幕id
- *
- *  @param row 下标
- *
- *  @return 弹幕id
- */
-- (NSString *)danmakuForRow:(NSInteger)row;
+@property (strong, nonatomic) NSArray <VideoInfoDataModel *>*models;
 /**
  *  获取视频模型 弹幕
  *

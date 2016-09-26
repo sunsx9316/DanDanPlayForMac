@@ -12,7 +12,7 @@
 @implementation MatchNetManager
 + (NSURLSessionDataTask *)GETWithFileName:(NSString *)fileName hash:(NSString *)hash length:(NSString *)length completionHandler:(void(^)(MatchModel* responseObj, DanDanPlayErrorModel *error))complete {
     if (!hash.length || !length.length) {
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return nil;
     }
     

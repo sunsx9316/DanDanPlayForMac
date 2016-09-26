@@ -14,7 +14,7 @@
 + (void)bilibiliVideoURLWithDanmaku:(NSString *)danmaku completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     //http://interface.bilibili.com/playurl?cid=6450647&quality=3&otype=json&appkey=86385cdc024c0f6c&type=mp4&sign=7fed8a9b7b446de4369936b6c1c40c3f
     if (!danmaku.length) {
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return;
     }
     //存放视频路径的字典
@@ -34,13 +34,14 @@
         if (responseObjects.count > 0) {
             videoPathDic[@(StreamingVideoQualityLow)] = [self bilibiliURLsWithResponseObj:responseObjects[1]];
         }
+        
         complete(videoPathDic, nil);
     }];
 }
 
 + (NSURLSessionDownloadTask *)downloadVideoWithURL:(NSURL *)URL progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock completionHandler:(void(^)(NSURL *downLoadURL, DanDanPlayErrorModel *error))complete {
     if (URL == nil || [URL isFileURL]) {
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeVideoNoExist]);
         return nil;
     }
     

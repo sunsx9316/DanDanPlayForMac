@@ -74,12 +74,12 @@
 
 - (void)downThirdPartyDanmakuWithDanmakuID:(NSString *)danmakuID provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(NSDictionary *danmakuDic, DanDanPlayErrorModel *error))complete {
     if (!danmakuID.length){
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return;
     }
     [DanmakuNetManager downThirdPartyDanmakuWithDanmaku:danmakuID provider:provider completionHandler:^(NSDictionary *danmakuDic, DanDanPlayErrorModel *error) {
         if (danmakuDic.count == 0) {
-            error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
+            error = [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
         }
         complete(danmakuDic, error);
         

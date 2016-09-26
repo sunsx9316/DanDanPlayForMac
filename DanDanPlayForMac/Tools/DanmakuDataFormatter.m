@@ -38,10 +38,10 @@ typedef void(^callBackBlock)(DanmakuDataModel *model);
     NSMutableArray *arr = [NSMutableArray array];
     if (obj) {
         NSFont *font = [UserDefaultManager shareUserDefaultManager].danmakuFont;
-        NSInteger danMufontSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
+        NSInteger danmakufontSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
         
         [self switchParseWithSource:source obj:obj block:^(DanmakuDataModel *model) {
-            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danMufontSpecially fontSize:font.pointSize font:font];
+            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danmakufontSpecially fontSize:font.pointSize font:font];
             danmaku.appearTime = model.time;
             danmaku.filter = model.isFilter;
             [arr addObject: danmaku];

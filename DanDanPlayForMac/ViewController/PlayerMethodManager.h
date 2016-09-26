@@ -44,10 +44,6 @@ typedef void(^loadLocalSubtitleBlock)(NSString *path);
  *  @param completionHandler 回调
  */
 + (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanmakuDataModel *model ,DanDanPlayErrorModel *error))completionHandler;
-
-+ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id<NSUserNotificationCenterDelegate>)delegate;
-
-+ (void)postMatchMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle informativeText:(NSString *)informativeText delegate:(id<NSUserNotificationCenterDelegate>)delegate;
 /**
  *  重设播放视图约束
  *

@@ -79,7 +79,7 @@
 
 - (void)refreshWithKeyWord:(NSString*)keyWord completionHandler:(void(^)(DanDanPlayErrorModel *error))complete {
     if (!keyWord.length) {
-        complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete([DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return;
     }
     
@@ -91,7 +91,7 @@
             BiliBiliSearchDataModel *dataModel = [[BiliBiliSearchDataModel alloc] init];
             dataModel.title = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoFoundDanmaku].message;
             tempArr = [NSMutableArray arrayWithObject:dataModel];
-            error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject];
+            error = [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject];
         }
         else {
             [responseObj.result enumerateObjectsUsingBlock:^(BiliBiliSearchDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

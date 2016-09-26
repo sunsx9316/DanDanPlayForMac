@@ -802,7 +802,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <button identifier="OpenStreamVideoCheakCell" id="i7X-B4-kV7" customClass="OpenStreamVideoCheakCell">
+                                                        <button identifier="OpenStreamVideoCheakCell" id="i7X-B4-kV7" customClass="NOResponseButton">
                                                             <rect key="frame" x="1" y="1" width="657" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="BEM-Fx-Zsq">
@@ -1324,7 +1324,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <button identifier="downOtherDanmakuCheakButton" id="D0g-dB-PzY">
+                                                        <button identifier="downOtherDanmakuCheakButton" id="D0g-dB-PzY" customClass="NOResponseButton">
                                                             <rect key="frame" x="1" y="1" width="254" height="48"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <buttonCell key="cell" type="check" title="Check" bezelStyle="regularSquare" imagePosition="right" alignment="left" inset="2" id="55L-56-gwG">
@@ -1336,6 +1336,7 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
+                                                <action selector="clickRow:" target="Gq5-OX-JaE" id="j8y-y7-XfQ"/>
                                                 <outlet property="dataSource" destination="Gq5-OX-JaE" id="GsZ-Sd-xlp"/>
                                                 <outlet property="delegate" destination="Gq5-OX-JaE" id="dwH-Cq-fK8"/>
                                             </connections>
@@ -1396,6 +1397,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="selectedAllButton" destination="yeX-8r-mRs" id="XJO-Vc-9bn"/>
                         <outlet property="tableView" destination="Hnm-MY-GOs" id="pyb-Zv-ASS"/>
                     </connections>
                 </viewController>
@@ -1568,7 +1570,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="bJu-IX-zua" id="c0I-rI-h8T">
-                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="566"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="315" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="0.0"/>
                                                     <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1636,7 +1638,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="96" rowSizeStyle="automatic" viewBased="YES" id="20F-Uf-FNd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="521" height="566"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="521" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

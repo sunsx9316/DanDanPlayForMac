@@ -97,7 +97,7 @@
 - (void)reloadDanmakuWithIndex:(NSInteger)index completionHandler:(reloadDanmakuCallBack)complete {
     id<VideoModelProtocol>videoModel = [self videoModelWithIndex:index];
     if (!videoModel) {
-        complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
+        complete(0, nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeVideoNoExist]);
         return;
     }
     if ([videoModel isKindOfClass:[LocalVideoModel class]]) {
@@ -108,7 +108,7 @@
     }
     else {
         //不是视频
-        complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
+        complete(0, nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeVideoNoExist]);
     }
     
 }
@@ -132,7 +132,7 @@
 #pragma mark - 私有方法
 - (void)reloadDanmakuWithLocalMedia:(LocalVideoModel *)media completionHandler:(reloadDanmakuCallBack)complete {
     if (![[NSFileManager defaultManager] fileExistsAtPath:media.fileURL.path]) {
-        complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVideoNoExist]);
+        complete(0, nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeVideoNoExist]);
         return;
     }
     
@@ -154,13 +154,13 @@
                 }
                 else {
                     //快速匹配失败
-                    complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
+                    complete(0, nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
                 }
             }];
         }
         else {
             //快速匹配失败
-            complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
+            complete(0, nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
             media.episodeId = nil;
         }
     }];
@@ -170,7 +170,7 @@
     media.episodeId = nil;
     NSInteger index = [self.videos indexOfObject:media];
     if (!media.danmaku.length) {
-        complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
+        complete(0, nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
         return;
     }
     complete(0.5, nil, nil);
@@ -183,7 +183,7 @@
                 complete(1, videoModel, error);
             }
             else {
-                complete(0, nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
+                complete(0, nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
             }
         }];
     }
@@ -206,7 +206,7 @@
 
 - (void)downloadCurrentVideoWithProgress:(void (^)(id<VideoModelProtocol>model))downloadProgressBlock completionHandler:(void(^)(id<VideoModelProtocol>model, NSURL *downLoadURL, DanDanPlayErrorModel *error))complete {
     id<VideoModelProtocol>videoModel = self.currentVideoModel;
-    if ([videoModel isKindOfClass:[StreamingVideoModel class]]) {
+    if ([videoModel isKindOfClass:[StreamingVideoModel class]] && [videoModel fileURL]) {
         StreamingVideoModel *vm = (StreamingVideoModel *)videoModel;
         //防止下载未完成更换地址
         NSInteger index = vm.URLIndex;
@@ -228,6 +228,9 @@
         objc_setAssociatedObject(task, "md5", md5, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         objc_setAssociatedObject(vm, "task", task, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [[ToolsManager shareToolsManager].downLoadTaskSet addObject:task];
+    }
+    else {
+        complete(nil, nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
     }
 }
 

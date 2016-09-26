@@ -40,7 +40,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"请求失败：%@", path);
         if (complete) {
-            complete(nil, [DanDanPlayErrorModel ErrorWithError:error]);
+            complete(nil, [DanDanPlayErrorModel errorWithError:error]);
         }
     }];
 }
@@ -54,7 +54,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"请求失败：%@", path);
         if (complete) {
-            complete(nil, [DanDanPlayErrorModel ErrorWithError:error]);
+            complete(nil, [DanDanPlayErrorModel errorWithError:error]);
         }
     }];
 }
@@ -67,7 +67,7 @@
     
     NSURLSessionDataTask *task = [[self sharedHTTPSessionManager] dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         NSLog(@"请求%@：%@", error ? @"失败" : @"成功", path);
-        complete(responseObject, [DanDanPlayErrorModel ErrorWithError:error]);
+        complete(responseObject, [DanDanPlayErrorModel errorWithError:error]);
     }];
     [task resume];
     return task;
@@ -79,7 +79,7 @@
                                        completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, DanDanPlayErrorModel *error))completionHandler {
     NSURLSessionDownloadTask *task = [[self sharedHTTPSessionManager] downloadTaskWithResumeData:resumeData progress:downloadProgressBlock destination:destination completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
         NSLog(@"下载%@：%@", error ? @"失败" : @"成功", response.URL);
-        completionHandler(response, filePath, [DanDanPlayErrorModel ErrorWithError:error]);
+        completionHandler(response, filePath, [DanDanPlayErrorModel errorWithError:error]);
     }];
     [task resume];
     
@@ -95,7 +95,7 @@
     
     NSURLSessionDownloadTask *task = [[self sharedHTTPSessionManager] downloadTaskWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:path]] progress:downloadProgressBlock destination:destination completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
         NSLog(@"下载%@：%@", error ? @"失败" : @"成功", path);
-        completionHandler(response, filePath, [DanDanPlayErrorModel ErrorWithError:error]);
+        completionHandler(response, filePath, [DanDanPlayErrorModel errorWithError:error]);
     }];
     
     [task resume];

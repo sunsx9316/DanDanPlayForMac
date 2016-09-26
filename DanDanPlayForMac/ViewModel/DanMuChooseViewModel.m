@@ -45,11 +45,11 @@
             self.providerArr = [responseObj allKeys];
             self.shiBanArr = responseObj[self.providerArr.firstObject];
             self.episodeTitleArr = self.shiBanArr.firstObject.videos;
-            complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
+            complete([DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]);
         }
         else {
             if (![responseObj count])  {
-                error = [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
+                error = [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNoMatchDanmaku];
             }
             id<VideoModelProtocol>vm = [ToolsManager shareToolsManager].currentVideoModel;
             vm.danmakuDic = responseObj;

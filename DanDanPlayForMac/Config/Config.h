@@ -48,13 +48,13 @@ typedef NS_ENUM(NSUInteger, DanDanPlayDanmakuSource){
 #define MAIN_COLOR RGBColor(49, 169, 226)
 
 //弹弹官方的key
-#define DANDANPLAY_KEY @""
+#define DANDANPLAY_KEY @"hWfrNe2edWO6orxZYXHnJzwkIYIvoy3vtCrHu7OCz8k="
 //弹弹官方的IV
-#define DANDANPLAY_IV @""
+#define DANDANPLAY_IV @"dzweYfq6KUb3/BWny4IHxA=="
 
 //b站的 appkey
-#define BILIBILI_APPKEY @"85eb6835b0a1034e"
+#define BILIBILI_APPKEY @""
 //b 站的 secretkey
-#define BILIBILI_SECRETKEY @"2ad42749773c441109bdc0191257a664"
+#define BILIBILI_SECRETKEY @""
 
 #endif /* Config_h */

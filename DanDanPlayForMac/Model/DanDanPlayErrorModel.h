@@ -38,6 +38,6 @@ typedef NS_ENUM(NSUInteger, DanDanPlayErrorType) {
  *  错误模型
  */
 @interface DanDanPlayErrorModel : NSError
-+ (instancetype)ErrorWithCode:(DanDanPlayErrorType)errorCode;
-+ (instancetype)ErrorWithError:(NSError *)error;
++ (instancetype)errorWithCode:(DanDanPlayErrorType)errorCode;
++ (instancetype)errorWithError:(NSError *)error;
 @end

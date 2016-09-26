@@ -9,7 +9,7 @@
 #import "DanDanPlayErrorModel.h"
 
 @implementation DanDanPlayErrorModel
-+ (instancetype)ErrorWithCode:(DanDanPlayErrorType)errorCode {
++ (instancetype)errorWithCode:(DanDanPlayErrorType)errorCode {
     NSString *errorMessage;
     
     switch (errorCode) {
@@ -40,7 +40,7 @@
     return error;
 }
 
-+ (instancetype)ErrorWithError:(NSError *)error {
++ (instancetype)errorWithError:(NSError *)error {
     if (!error) return nil;
     
     DanDanPlayErrorModel *model = [[DanDanPlayErrorModel alloc] initWithDomain:error.domain code:error.code userInfo:error.userInfo];

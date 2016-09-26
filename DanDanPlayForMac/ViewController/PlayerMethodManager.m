@@ -46,7 +46,7 @@
 
 + (void)launchDanmakuWithText:(NSString *)text color:(NSInteger)color mode:(NSInteger)mode time:(NSTimeInterval)time episodeId:(NSString *)episodeId completionHandler:(void(^)(DanmakuDataModel *model ,DanDanPlayErrorModel *error))completionHandler {
     if (!episodeId.length) {
-        completionHandler(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeEpisodeNoExist]);
+        completionHandler(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeEpisodeNoExist]);
         return;
     }
     
@@ -60,30 +60,9 @@
     }];
 }
 
-+ (void)postMatchMessageWithMatchName:(NSString *)matchName delegate:(id<NSUserNotificationCenterDelegate>)delegate {
-    matchName = matchName.length ? [NSString stringWithFormat:@"视频自动匹配为 %@", matchName] : [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeNoMatchVideo].message;
-    [self postMatchMessageWithTitle:[ToolsManager appName] subtitle:nil informativeText:matchName delegate:delegate];
-}
-
-+ (void)postMatchMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle informativeText:(NSString *)informativeText delegate:(id<NSUserNotificationCenterDelegate>)delegate {
-    //删除已经显示过的通知(已经存在用户的通知列表中的)
-    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
-    
-    //删除已经在执行的通知(比如那些循环递交的通知)
-    for (NSUserNotification *notify in [[NSUserNotificationCenter defaultUserNotificationCenter] scheduledNotifications]){
-        [[NSUserNotificationCenter defaultUserNotificationCenter] removeScheduledNotification:notify];
-    }
-    
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = title;
-    notification.subtitle = subtitle;
-    notification.informativeText = informativeText;
-    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = delegate;
-    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
-}
-
 + (void)remakeConstraintsPlayerMediaView:(NSView *)mediaView size:(CGSize)size {
     CGSize screenSize = [NSScreen mainScreen].frame.size;
+    mediaView.layer.frame = CGRectMake(0, 0, screenSize.width, screenSize.height);
     //宽高有一个为0 使用布满全屏的约束
     if (size.width <= 0 || size.height <= 0) {
         [mediaView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -134,7 +113,7 @@
         completionHandler(dic, nil);
     }
     else {
-        completionHandler(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        completionHandler(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
     }
 }
 

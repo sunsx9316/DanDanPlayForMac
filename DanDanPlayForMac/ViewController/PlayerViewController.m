@@ -33,6 +33,8 @@
 #import "NSButton+Tools.h"
 #import "NSAlert+Tools.h"
 #import "JHDanmakuEngine+Tools.h"
+#import "NSUserNotificationCenter+Tools.h"
+
 #import "PlayerMethodManager.h"
 #import "JHDanmakuRender.h"
 #import "JHMediaPlayer.h"
@@ -146,7 +148,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     id<VideoModelProtocol>model = self.vm.currentVideoModel;
-    [PlayerMethodManager postMatchMessageWithMatchName:model.matchTitle delegate:self];
+    [NSUserNotificationCenter postMatchMessageWithMatchName:model.matchTitle delegate:self];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillEnterFullScreen:) name:NSWindowWillEnterFullScreenNotification object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object: nil];
@@ -524,10 +526,17 @@
 }
 
 - (IBAction)clickDownloadButton:(NSMenuItem *)sender {
+    sender.hidden = YES;
     [self.vm downloadCurrentVideoWithProgress:^(id<VideoModelProtocol> model) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"VIDEO_DOWNLOAD_PROGRESS" object:model];
     } completionHandler:^(id<VideoModelProtocol> model, NSURL *downLoadURL, DanDanPlayErrorModel *error) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:[NSString stringWithFormat:@"%@缓存%@",[model fileName], (error ? @"失败" : @"完成")]];
+        if (!error) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:[NSString stringWithFormat:@"%@缓存%@",[model fileName], @"完成"]];
+        }
+        else {
+            sender.hidden = NO;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DOWNLOAD_OVER" object:[NSString stringWithFormat:@"%@缓存%@",[model fileName], @"失败"]];
+        }
     }];
 }
 
@@ -548,7 +557,7 @@
             NSMutableAttributedString *str = [danmaku.attributedString mutableCopy];
             [str addAttributes:@{NSUnderlineColorAttributeName:[NSColor greenColor], NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)} range:NSMakeRange(0, str.length)];
             danmaku.attributedString = str;
-            self.danmakuTextField.stringValue = @"";
+            self.danmakuTextField.text = nil;
             self.messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeLaunchDanmakuSuccess].message;
             [self.messageView showHUD];
             [self.danmakuEngine sendDanmaku: danmaku];
@@ -562,19 +571,6 @@
 }
 
 #pragma mark -------- 播放控制相关 --------
-//开始播放
-//- (void)startPlay {
-////    if (self.player.mediaType == JHMediaTypeNetMedia) {
-////        if (![self.vm currentVideoURL]) {
-////            [self videoAndDanMuPlay];
-////            [self videoAndDanMuPause];
-////        }
-////    }
-////    else {
-//        [self videoAndDanMuPlay];
-////    }
-//}
-
 //结束播放
 - (void)stopPlay {
     [self.danmakuEngine stop];
@@ -628,7 +624,7 @@
             if (error) {
                 [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
                 id vm = self.vm.currentVideoModel;
-                if ([vm isKindOfClass:[LocalVideoModel class]] && [error isEqual:[DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]]) {
+                if ([vm isKindOfClass:[LocalVideoModel class]] && [error isEqual:[DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNoMatchDanmaku]]) {
                     MatchViewController *vc = [MatchViewController viewController];
                     vc.videoModel = (LocalVideoModel *)vm;
                     [self presentViewControllerAsSheet: vc];
@@ -645,7 +641,7 @@
                 }
                 else if (progress == 1) {
                     [JHProgressHUD shareProgressHUD].text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message;
-                    [PlayerMethodManager postMatchMessageWithMatchName:videoModel.matchTitle delegate:self];
+                    [NSUserNotificationCenter postMatchMessageWithMatchName:videoModel.matchTitle delegate:self];
                     [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
                     complete(videoModel, error);
                 }
@@ -668,10 +664,10 @@
     [self.player saveVideoSnapshotAt:path withSize:CGSizeZero format:[UserDefaultManager shareUserDefaultManager].defaultScreenShotType completionHandler:^(NSString *savePath, NSError *error) {
         if (error) {
             DanDanPlayMessageModel *model = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeSnapshotError];
-            [PlayerMethodManager postMatchMessageWithTitle:[ToolsManager appName] subtitle:model.message informativeText:model.infomationMessage delegate:self];
+            [NSUserNotificationCenter postMatchMessageWithTitle:[ToolsManager appName] subtitle:model.message informativeText:model.infomationMessage delegate:self];
         }
         else {
-            [PlayerMethodManager postMatchMessageWithTitle:[ToolsManager appName] subtitle:@"截图成功" informativeText:nil delegate:self];
+            [NSUserNotificationCenter postMatchMessageWithTitle:[ToolsManager appName] subtitle:@"截图成功" informativeText:nil delegate:self];
         }
     }];
 }

@@ -32,7 +32,7 @@
 
 + (NSURLSessionDownloadTask *)downLatestVersionWithVersion:(NSString *)version progress:(void (^)(NSProgress *downloadProgress))progress completionHandler:(void(^)(NSURL *filePath, DanDanPlayErrorModel *error))complete {
     if (!version.length){
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVersionNoExist]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeVersionNoExist]);
         return nil;
     }
     //http://dandanmac.b0.upaiyun.com/dandanplay_1.1.dmg
@@ -56,7 +56,7 @@
 
 + (NSURLSessionDownloadTask *)downPatchWithVersion:(NSString *)version hash:(NSString *)hash completionHandler:(void(^)(NSURL *filePath, DanDanPlayErrorModel *error))complete {
     if (!version.length || !hash.length){
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeVersionNoExist]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeVersionNoExist]);
         return nil;
     }
     //http://dandanmac.b0.upaiyun.com/patch/2.0/318a79dcb7dcc17496789e02b9af521f

@@ -8,31 +8,19 @@
 
 #import "OpenStreamVideoViewModel.h"
 #import "DanmakuNetManager.h"
-#import "VideoInfoModel.h"
 #import "StreamingVideoModel.h"
+
 @interface OpenStreamVideoViewModel()
 @property (strong, nonatomic) NSString *aid;
 @property (assign, nonatomic) NSUInteger page;
 @property (assign, nonatomic) DanDanPlayDanmakuSource danmakuSource;
-@property (strong, nonatomic) NSArray <VideoInfoDataModel *>*models;
 @end
 
 @implementation OpenStreamVideoViewModel
 
-- (NSInteger)numOfVideos {
-    return self.models.count;
-}
-
-- (NSString *)videoNameForRow:(NSInteger)row {
-    return [self modelForRow:row].title;
-}
-
-- (NSString *)danmakuForRow:(NSInteger)row {
-    return [self modelForRow:row].danmaku;
-}
-
-- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error))complete{
-    [self getVideoURLAndDanmakuForVideoName:[self videoNameForRow:row] danmaku:[self danmakuForRow:row] danmakuSource:self.danmakuSource completionHandler:complete];
+- (void)getVideoURLAndDanmakuForRow:(NSInteger)row completionHandler:(void(^)(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error))complete {
+    VideoInfoDataModel *vm = self.models[row];
+    [self getVideoURLAndDanmakuForVideoName:vm.title danmaku:vm.danmaku danmakuSource:self.danmakuSource completionHandler:complete];
 }
 
 - (void)getVideoURLAndDanmakuForVideoName:(NSString *)videoName danmaku:(NSString *)danmaku danmakuSource:(DanDanPlayDanmakuSource)danmakuSource completionHandler:(void(^)(StreamingVideoModel *videoModel, DanDanPlayErrorModel *error))complete {

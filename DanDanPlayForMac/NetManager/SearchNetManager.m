@@ -14,7 +14,7 @@
 @implementation SearchNetManager
 + (NSURLSessionDataTask *)GETWithAnimeName:(NSString *)animeName episode:(NSString *)episode completionHandler:(void(^)(SearchModel* responseObj, DanDanPlayErrorModel *error))complete {
     if (!animeName.length){
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return nil;
     }
     
@@ -27,7 +27,7 @@
 
 + (NSURLSessionDataTask *)searchBiliBiliWithkeyword:(NSString *)keyword completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     if (!keyword.length){
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return nil;
     }
     
@@ -39,7 +39,7 @@
 
 + (NSURLSessionDataTask *)searchBiliBiliSeasonInfoWithSeasonId:(NSString *)seasonId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     if (!seasonId.length) {
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return nil;
     }
     
@@ -64,7 +64,7 @@
  {
     //http://search.acfun.tv/search?cd=1&type=2&sortType=-1&field=title&pageNo=1&pageSize=20&aiCount=3&spCount=3&isWeb=1&q=%E5%90%91%E9%98%B3%E7%B4%A0%E6%8F%8F
     if (!keyword.length) {
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return nil;
     }
     
@@ -77,7 +77,7 @@
             NSRange range = [responseObjStr rangeOfString:@"\\{.*\\}" options:NSRegularExpressionSearch];
             //a站服务器经常抽风 可能会没找到
             if (range.location == NSNotFound) {
-                complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeEpisodeNoExist]);
+                complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeEpisodeNoExist]);
                 return;
             }
             
@@ -91,7 +91,7 @@
 + (NSURLSessionDataTask *)searchAcfunSeasonInfoWithSeasonId:(NSString *)seasonId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     //http://www.acfun.tv/bangumi/video/page?bangumiId=2628&order=2
     if (seasonId.length == 0) {
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeNilObject]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeNilObject]);
         return nil;
     }
     

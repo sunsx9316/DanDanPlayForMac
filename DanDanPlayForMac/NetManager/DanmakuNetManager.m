@@ -36,7 +36,7 @@
 
 + (id)downOfficialDanmakuWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     if (!programId.length) {
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return nil;
     }
     //找缓存
@@ -70,7 +70,7 @@
 + (id)downThirdPartyDanmakuWithDanmaku:(NSString *)danmaku provider:(DanDanPlayDanmakuSource)provider completionHandler:(void(^)(NSDictionary *danmakuDic, DanDanPlayErrorModel *error))complete {
     // danmaku:弹幕库id provider 提供者
     if (!danmaku.length) {
-        complete(nil, [DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
+        complete(nil, [DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return nil;
     }
     
@@ -182,7 +182,7 @@
 
 + (id)launchDanmakuWithModel:(DanmakuDataModel *)model episodeId:(NSString *)episodeId completionHandler:(void(^)(DanDanPlayErrorModel *error))complete{
     if (!model || !episodeId.length) {
-        complete([DanDanPlayErrorModel ErrorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
+        complete([DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return nil;
     }
     return [self PUTWithPath:[NSString stringWithFormat:@"http://acplay.net/api/v1/comment/%@?clientId=ddplaymac", episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] Encrypt] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {

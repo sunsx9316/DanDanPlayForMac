@@ -24,7 +24,7 @@
 #import "UpdateNetManager.h"
 #import "SliderAnimate.h"
 #import "POPMasSpringAnimation.h"
-#import "PlayerMethodManager.h"
+#import "NSUserNotificationCenter+Tools.h"
 
 #import <JPEngine.h>
 
@@ -237,7 +237,7 @@
 
 #pragma mark 通知
 - (void)downloadOverNotification:(NSNotification *)aNotification {
-    [PlayerMethodManager postMatchMessageWithTitle:[ToolsManager appName] subtitle:nil informativeText:aNotification.object delegate:self];
+    [NSUserNotificationCenter postMatchMessageWithTitle:[ToolsManager appName] subtitle:nil informativeText:aNotification.object delegate:self];
 }
 
 
