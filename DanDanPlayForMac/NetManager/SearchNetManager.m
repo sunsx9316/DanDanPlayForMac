@@ -18,7 +18,7 @@
         return nil;
     }
     
-    NSString* basePath = [NSString stringWithFormat:@"http://acplay.net/api/v1/searchall/%@", episode.length == 0 ? [animeName stringByURLEncode] : [NSString stringWithFormat:@"%@/%@", [animeName stringByURLEncode], [episode stringByURLEncode]]];
+    NSString* basePath = [NSString stringWithFormat:@"%@/searchall/%@", API_PATH, episode.length == 0 ? [animeName stringByURLEncode] : [NSString stringWithFormat:@"%@/%@", [animeName stringByURLEncode], [episode stringByURLEncode]]];
     
     return [self GETWithPath:basePath parameters:nil completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete([SearchModel yy_modelWithDictionary:responseObj], error);

@@ -57,9 +57,9 @@
 //    return [self dataModelForRow:row].groups;
 //}
 
-- (BangumiModel *)bangumiModelWithIndex:(NSUInteger)index {
-    return self.bangumis[index];
-}
+//- (BangumiModel *)bangumiModelWithIndex:(NSUInteger)index {
+//    return self.bangumis[index];
+//}
 
 #pragma mark - 私有方法
 //- (BangumiDataModel *)dataModelForRow:(NSInteger)row{
@@ -68,10 +68,14 @@
 //}
 
 - (void)refreshWithCompletionHandler:(void(^)(DanDanPlayErrorModel *error))completion {
-    [RecommedNetManager recommedInfoWithCompletionHandler:^(FeaturedModel *featuredModel, NSArray *bangumis, DanDanPlayErrorModel *error) {
-        self.featuredModel = featuredModel;
-        self.bangumis = bangumis;
+    [RecommedNetManager recommedInfoWithCompletionHandler:^(JHHomePage *responseObject, DanDanPlayErrorModel *error) {
+        self.model = responseObject;
         completion(error);
     }];
+//    [RecommedNetManager recommedInfoWithCompletionHandler:^(FeaturedModel *featuredModel, NSArray *bangumis, DanDanPlayErrorModel *error) {
+//        self.featuredModel = featuredModel;
+//        self.bangumis = bangumis;
+//        completion(error);
+//    }];
 }
 @end

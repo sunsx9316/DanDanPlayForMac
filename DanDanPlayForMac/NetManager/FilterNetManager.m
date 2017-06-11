@@ -11,7 +11,7 @@
 
 @implementation FilterNetManager
 + (NSURLSessionDataTask *)filterWithCompletionHandler:(void(^)(id responseObj, NSError *error))complete {
-    NSString *path = @"http://api.acplay.net:8089/config/filter.xml";
+    NSString *path = @"https://api.acplay.net/config/filter.xml";
     
     return [self GETDataWithPath:path parameters:nil completionHandler:^(NSData *responseObj, NSError *error) {
         NSMutableArray *arr = [NSMutableArray array];

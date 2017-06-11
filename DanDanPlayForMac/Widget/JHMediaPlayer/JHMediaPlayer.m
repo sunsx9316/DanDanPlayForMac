@@ -64,7 +64,7 @@
     if (_length >= 0) return _length;
     
     if (self.mediaType == JHMediaTypeLocaleMedia) {
-        _length = _localMediaPlayer.media.length.numberValue.floatValue / 1000;
+        _length = _localMediaPlayer.media.length.value.floatValue / 1000;
     }
     else {
         _length = CMTimeGetSeconds(_netMediaPlayer.currentItem.duration);
@@ -74,7 +74,7 @@
 
 - (NSTimeInterval)currentTime {
     if (self.mediaType == JHMediaTypeLocaleMedia) {
-        return _localMediaPlayer.time.numberValue.floatValue / 1000;
+        return _localMediaPlayer.time.value.floatValue / 1000;
     }
     return CMTimeGetSeconds(_netMediaPlayer.currentTime);
 }

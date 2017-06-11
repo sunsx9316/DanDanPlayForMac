@@ -12,7 +12,7 @@
 /**
  *  版本
  */
-@property (assign, nonatomic) float version;
+@property (copy, nonatomic) NSString *version;
 /**
  *  升级详情
  */

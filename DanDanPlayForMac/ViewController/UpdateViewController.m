@@ -47,8 +47,10 @@
 - (IBAction)clickOKButton:(NSButton *)sender {
     [self.progressHUD showWithView:self.view];
     
-    [UpdateNetManager downLatestVersionWithVersion:[NSString stringWithFormat:@"%f", _model.version] progress:^(NSProgress *downloadProgress) {
-        self.progressHUD.progress = downloadProgress.fractionCompleted;
+    [UpdateNetManager downLatestVersionWithVersion:[NSString stringWithFormat:@"%@", _model.version] progress:^(NSProgress *downloadProgress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.progressHUD.progress = downloadProgress.fractionCompleted;
+        });
     } completionHandler:^(NSURL *filePath, NSError *error) {
         [self.progressHUD hideWithCompletion:nil];
         //下载文件不存在

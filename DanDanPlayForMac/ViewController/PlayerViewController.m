@@ -63,7 +63,7 @@
 #define PLAY_CONTROL_RIGHT_CONTRACT_CONSTRAINT @0
 
 
-@interface PlayerViewController ()<PlayerSlideViewDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSUserNotificationCenterDelegate, JHMediaPlayerDelegate>
+@interface PlayerViewController ()<PlayerSlideViewDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSUserNotificationCenterDelegate, JHMediaPlayerDelegate, JHDanmakuEngineDelegate>
 
 //放视频的 view
 @property (weak) IBOutlet PlayerHoldView *playerHoldView;
@@ -133,6 +133,7 @@
 @property (strong, nonatomic) NSArray *keyMap;
 @property (strong, nonatomic) NSTrackingArea *trackingArea;
 @property (strong, nonatomic) JHProgressHUD *bufferProgressHUD;
+@property (strong, nonatomic) NSMutableSet <NSNumber *>*globalDanmakuFilter;
 @end
 
 @implementation PlayerViewController
@@ -143,6 +144,7 @@
     NSDateFormatter *_formatter;
     NSDateFormatter *_snapshotFormatter;
     NSTimer *_autoHideTimer;
+    NSDictionary *_danmakuDic;
 }
 
 - (void)viewDidLoad {
@@ -161,7 +163,9 @@
     //初始化播放器相关参数
     [self reloadCurrentVideoDanmakuWithCompletionHandler:^(id<VideoModelProtocol>videoModel, NSError *error) {
         [self setupOnce];
-        [self.danmakuEngine sendAllDanmakusDic:self.vm.currentVideoModel.danmakuDic];
+//        [self.danmakuEngine sendAllDanmakusDic:self.vm.currentVideoModel.danmakuDic];
+        self->_danmakuDic = self.vm.currentVideoModel.danmakuDic;
+        self.danmakuEngine.currentTime = self.player.currentTime;
         [self.player videoSizeWithCompletionHandle:^(CGSize size) {
             if (size.width < 0 || size.height < 0) {
                 self.messageView.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoNoFound].message;
@@ -343,8 +347,11 @@
                     }];
                 }
                 else {
-                    weakSelf.vm.currentVideoModel.danmakuDic = danmakuDic;
-                    [weakSelf.danmakuEngine sendAllDanmakusDic:danmakuDic];
+                    __strong typeof(weakSelf)self = weakSelf;
+                    self.vm.currentVideoModel.danmakuDic = danmakuDic;
+                    self->_danmakuDic = danmakuDic;
+                    self.danmakuEngine.currentTime = self.player.currentTime;
+//                    [weakSelf.danmakuEngine sendAllDanmakusDic:danmakuDic];
                     weakSelf.danmakuEngine.currentTime = weakSelf.player.currentTime;
                 }
             }];
@@ -552,7 +559,7 @@
     [PlayerMethodManager launchDanmakuWithText:text color:color mode:mode time:self.danmakuEngine.currentTime + self.danmakuEngine.offsetTime episodeId:self.vm.currentVideoModel.episodeId completionHandler:^(DanmakuDataModel *model, NSError *error) {
         //无错误发射
         if (!error) {
-            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithModel:model shadowStyle:[UserDefaultManager shareUserDefaultManager].danmakuSpecially fontSize:0 font:[UserDefaultManager shareUserDefaultManager].danmakuFont];
+            JHBaseDanmaku *danmaku = [JHDanmakuEngine DanmakuWithModel:model shadowStyle:[UserDefaultManager shareUserDefaultManager].danmakuSpecially fontSize:0 font:[UserDefaultManager shareUserDefaultManager].danmakuFont];
             danmaku.appearTime = self.danmakuEngine.currentTime + self.danmakuEngine.offsetTime;
             NSMutableAttributedString *str = [danmaku.attributedString mutableCopy];
             [str addAttributes:@{NSUnderlineColorAttributeName:[NSColor greenColor], NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)} range:NSMakeRange(0, str.length)];
@@ -708,7 +715,7 @@
 
 #pragma mark 更改字体边缘特效
 - (void)changeFontSpecially:(NSNotification *)sender {
-    self.danmakuEngine.globalShadowStyle = sender.userInfo[@"fontSpecially"];
+    self.danmakuEngine.globalShadowStyle = [sender.userInfo[@"fontSpecially"] integerValue];
 }
 
 #pragma make 窗口大小变化
@@ -745,7 +752,9 @@
 - (void)reloadVideoModel {
     id<VideoModelProtocol>currentVideoModel = self.vm.currentVideoModel;
     [self.player setMediaURL:currentVideoModel.fileURL];
-    [self.danmakuEngine sendAllDanmakusDic:currentVideoModel.danmakuDic];
+    _danmakuDic = [currentVideoModel danmakuDic];
+    self.danmakuEngine.currentTime = self.player.currentTime;
+//    [self.danmakuEngine sendAllDanmakusDic:currentVideoModel.danmakuDic];
     [self.playerListViewController.tableView reloadData];
     [self.player videoSizeWithCompletionHandle:^(CGSize size) {
         if (size.width < 0 || size.height < 0) {
@@ -930,6 +939,18 @@
     [self.HUDTimeView updateMessage:[NSString stringWithFormat:@"%.2ld:%.2ld",time / 60, time % 60]];
 }
 
+#pragma mark - JHDanmakuEngineDelegate
+- (NSArray <__kindof JHBaseDanmaku*>*)danmakuEngine:(JHDanmakuEngine *)danmakuEngine didSendDanmakuAtTime:(NSUInteger)time {
+    return _danmakuDic[@(time)];
+}
+
+- (BOOL)danmakuEngine:(JHDanmakuEngine *)danmakuEngine shouldSendDanmaku:(__kindof JHScrollDanmaku *)danmaku {
+    if ([self.globalDanmakuFilter containsObject:@(danmaku.direction)]) {
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - NSMenu
 - (void)resetMenuByOpenStreamDic {
     //只有网络视频才显示
@@ -1080,7 +1101,8 @@
 - (JHDanmakuEngine *)danmakuEngine {
     if(_danmakuEngine == nil) {
         _danmakuEngine = [[JHDanmakuEngine alloc] init];
-        _danmakuEngine.turnonBackFunction = YES;
+//        _danmakuEngine.turnonBackFunction = YES;
+        _danmakuEngine.delegate = self;
         _danmakuEngine.canvas.layoutStyle = JHDanmakuCanvasLayoutStyleWhenSizeChanged;
         [_danmakuEngine setSpeed: [UserDefaultManager shareUserDefaultManager].danmakuSpeed];
         _danmakuEngine.canvas.alphaValue = [UserDefaultManager shareUserDefaultManager].danmakuOpacity;
@@ -1147,7 +1169,12 @@
         __weak typeof(self)weakSelf = self;
         //关闭窗口
         [_playerDanmakuAndSubtitleViewController.danmakuVC setHideDanMuAndCloseCallBack:^(NSInteger num, NSInteger status) {
-            status ? [weakSelf.danmakuEngine.globalFilterDanmaku addObject:@(num)] : [weakSelf.danmakuEngine.globalFilterDanmaku removeObject:@(num)];
+            if (status) {
+                [weakSelf.globalDanmakuFilter addObject:@(num)];
+            }
+            else {
+                [weakSelf.globalDanmakuFilter removeObject:@(num)];
+            }
         }];
         //调整弹幕字体大小
         [_playerDanmakuAndSubtitleViewController.danmakuVC setAdjustDanmakuFontSizeCallBack:^(CGFloat value) {
@@ -1178,8 +1205,11 @@
         [_playerDanmakuAndSubtitleViewController.danmakuVC setReloadLocaleDanmakuCallBack:^{
             [PlayerMethodManager loadLocaleDanMuWithBlock:^(NSDictionary *dic) {
                 if (dic.count > 0) {
-                    weakSelf.vm.currentVideoModel.danmakuDic = dic;
-                    [weakSelf.danmakuEngine sendAllDanmakusDic:dic];
+                    __strong typeof(weakSelf)self = weakSelf;
+                    self.vm.currentVideoModel.danmakuDic = dic;
+//                    [weakSelf.danmakuEngine sendAllDanmakusDic:dic];
+                    self->_danmakuDic = dic;
+                    self.danmakuEngine.currentTime = self.player.currentTime;
                     weakSelf.danmakuEngine.currentTime = weakSelf.player.currentTime;
                 }
                 else {
@@ -1225,6 +1255,13 @@
         _bufferProgressHUD.indicatorColor = RGBColor(255, 255, 255);
     }
     return _bufferProgressHUD;
+}
+
+- (NSMutableSet<NSNumber *> *)globalDanmakuFilter {
+    if (_globalDanmakuFilter == nil) {
+        _globalDanmakuFilter = [NSMutableSet set];
+    }
+    return _globalDanmakuFilter;
 }
 
 @end

@@ -17,7 +17,7 @@
         GDataXMLElement *rootElement = document.rootElement;
         
         VersionModel *model = [[VersionModel alloc] init];
-        model.version = [[rootElement elementsForName:@"version"].firstObject stringValue].floatValue;
+        model.version = [[rootElement elementsForName:@"version"].firstObject stringValue];
         model.details = [[rootElement elementsForName:@"details"].firstObject stringValue];
         model.md5 = [[rootElement elementsForName:@"hash"].firstObject stringValue];
         model.patchName = [[rootElement elementsForName:@"patch"].firstObject stringValue];

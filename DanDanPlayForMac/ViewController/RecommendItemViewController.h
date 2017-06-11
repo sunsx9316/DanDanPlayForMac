@@ -14,8 +14,8 @@
 //搜索路径
 #define SEARCH_PATH @"https://share.dmhy.org/topics/list?keyword="
 
-#import "BangumiModel.h"
+#import "JHHomePage.h"
 
 @interface RecommendItemViewController : BaseViewController
-@property (strong, nonatomic) BangumiModel *model;
+@property (strong, nonatomic) JHBangumiCollection *model;
 @end

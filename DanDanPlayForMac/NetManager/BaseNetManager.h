@@ -29,6 +29,21 @@
  *  @return 任务
  */
 + (NSURLSessionDataTask *)GETDataWithPath:(NSString*)path parameters:(NSDictionary*)parameters completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete;
+
+/**
+ *  GET data 数据的封装
+ *
+ *  @param path        路径
+ *  @param parameters  参数
+ *  @param headerField headerField
+ *  @param completionHandler    回调
+ *
+ *  @return 任务
+ */
++ (NSURLSessionDataTask *)GETDataWithPath:(NSString*)path
+                               parameters:(NSDictionary*)parameters
+                              headerField:(NSDictionary *)headerField
+                        completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))completionHandler;
 /**
  *  PUT封装
  *

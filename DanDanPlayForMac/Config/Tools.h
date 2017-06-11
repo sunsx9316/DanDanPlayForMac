@@ -16,6 +16,7 @@
 #define RGBColor(r,g,b) RGBAColor(r,g,b,1)
 #define RGBAColor(r,g,b,a) [NSColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
+
 /**
  YYCategories
  Synthsize a weak or strong reference.

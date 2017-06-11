@@ -7,12 +7,14 @@
 //
 
 #import "BaseViewModel.h"
-#import "FeaturedModel.h"
-#import "BangumiModel.h"
+#import "JHHomePage.h"
+//#import "FeaturedModel.h"
+//#import "BangumiModel.h"
 
 @interface RecommedViewModel : BaseViewModel
-@property (strong, nonatomic) FeaturedModel *featuredModel;
-@property (strong, nonatomic) NSArray <BangumiModel *>*bangumis;
+@property (strong, nonatomic) JHHomePage *model;
+//@property (strong, nonatomic) FeaturedModel *featuredModel;
+//@property (strong, nonatomic) NSArray <BangumiModel *>*bangumis;
 //- (BangumiModel *)bangumiModelWithIndex:(NSUInteger)index;
 //- (NSURL *)headImgURL;
 //- (NSString *)headTitle;

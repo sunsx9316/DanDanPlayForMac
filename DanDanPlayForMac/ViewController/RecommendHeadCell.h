@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "FeaturedModel.h"
+//#import "FeaturedModel.h"
+#import "JHHomePage.h"
 
 @interface RecommendHeadCell : NSView
 /**
@@ -16,7 +17,7 @@
  *  @param model 模型
  *
  */
-- (void)setWithModel:(FeaturedModel *)model;
+- (void)setWithModel:(JHFeatured *)model;
 @property (copy, nonatomic) void(^clickSearchButtonCallBack)(NSString *keyWord);
 @property (copy, nonatomic) void(^clickFilmReviewButtonCallBack)(NSString *fileReviewPath);
 @end

@@ -27,7 +27,7 @@
 
 @implementation RecommendHeadCell
 {
-    FeaturedModel *_model;
+    JHFeatured *_model;
 }
 
 - (void)awakeFromNib{
@@ -60,7 +60,7 @@
 
 - (IBAction)clickFilmReviewButton:(NSButton *)sender {
     if (self.clickFilmReviewButtonCallBack) {
-        self.clickFilmReviewButtonCallBack(_model.fileReviewPath);
+        self.clickFilmReviewButtonCallBack(_model.link);
     }
 }
 
@@ -76,7 +76,7 @@
     }
 }
 
-- (void)setWithModel:(FeaturedModel *)model {
+- (void)setWithModel:(JHFeatured *)model {
     _model = model;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -85,10 +85,10 @@
             self.coverImg.image = img;
         });
     });
-    self.titleButton.text =  _model.title;
+    self.titleButton.text = _model.name;
     self.infoTextField.text = _model.category;
-    self.briefTextView.string = _model.introduction;
-    if (_model.fileReviewPath) {
+    self.briefTextView.string = _model.desc;
+    if (_model.link) {
         [self.filmReviewButton setHidden:NO];
     }
 }

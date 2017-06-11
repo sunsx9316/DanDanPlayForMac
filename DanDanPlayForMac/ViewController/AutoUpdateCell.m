@@ -42,7 +42,7 @@
 
 - (IBAction)clickCheakUpdateInfoButton:(NSButton *)sender {
     [UpdateNetManager latestVersionWithCompletionHandler:^(VersionModel *model) {
-        if ([ToolsManager appVersion] < model.version) {
+        if ([ToolsManager appVersion] < model.version.floatValue) {
             NSViewController *vc = NSApp.keyWindow.contentViewController;
             [vc presentViewControllerAsModalWindow:[UpdateViewController viewControllerWithModel:model]];
         }

@@ -20,7 +20,7 @@
     [super viewDidLoad];
 }
 
-- (void)setModel:(BangumiModel *)model {
+- (void)setModel:(JHBangumiCollection *)model {
     _model = model;
     [self.tableView reloadData];
 }
@@ -28,11 +28,11 @@
 #pragma mark - NSTableViewDelegate
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row {
     RecommendBangumiCell *cell = [tableView makeViewWithIdentifier:@"RecommendBangumiCell" owner:self];
-    BangumiDataModel *model = self.model.bangumis[row];
+    JHBangumi *model = self.model.collection[row];
     [cell setWithModel:model];
-    [cell setClickGroupsButtonCallBack:^(BangumiGroupModel *model) {
+    [cell setClickGroupsButtonCallBack:^(JHBangumiGroup *model) {
         //替换URL
-        NSString *url = model.searchURL;
+        NSString *url = model.link;
         NSRange range = [url rangeOfString:OLD_PATH];
         if (range.location != NSNotFound) {
             NSMutableString *tempStr = [[NSMutableString alloc] initWithString:url];
@@ -45,7 +45,7 @@
 
 #pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView{
-    return self.model.bangumis.count;
+    return self.model.collection.count;
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
@@ -54,7 +54,7 @@
 
 #pragma mark - 私有方法
 - (IBAction)doubleClickTableView:(NSTableView *)sender {
-    BangumiDataModel *model = self.model.bangumis[sender.selectedRow];
+    JHBangumi *model = self.model.collection[sender.selectedRow];
     NSString *keyWord = [model.name stringByURLEncode];
     system([NSString stringWithFormat:@"open %@%@", SEARCH_PATH, keyWord].UTF8String);
 }

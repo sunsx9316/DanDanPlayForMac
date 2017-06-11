@@ -82,7 +82,7 @@
 - (IBAction)openLocaleFile:(NSMenuItem *)sender {
     NSWindow *window = [NSApplication sharedApplication].keyWindow;
     
-    if (window != self.mainWindowController.window || [self.mainWindowController.window.contentViewController childViewControllers].count) return;
+    if (window != self.mainWindowController.window) return;
     
     NSOpenPanel* openPanel = [NSOpenPanel chooseFileAndDirectoriesPanelWithTitle:@"选择文件/文件夹" defaultURL:nil allowsMultipleSelection:YES];
     
@@ -164,7 +164,7 @@
  */
 - (void)firstRun {
     //记录的版本比当前版本小
-    if ([UserDefaultManager shareUserDefaultManager].versionModel.version < [ToolsManager appVersion]) {
+    if ([UserDefaultManager shareUserDefaultManager].versionModel.version.floatValue < [ToolsManager appVersion]) {
         NSMutableArray *customKeyMapArr = [UserDefaultManager shareUserDefaultManager].customKeyMapArr;
         NSMutableArray *keyMapArr = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_key_map" ofType:@"plist"]];
         //添加关闭弹幕快捷键
@@ -175,7 +175,7 @@
         [UserDefaultManager shareUserDefaultManager].videoListOrderedSet = nil;
         //清空上一次的版本信息
         VersionModel *model = [[VersionModel alloc] init];
-        model.version = [ToolsManager appVersion];
+        model.version = [NSString stringWithFormat:@"%f", [ToolsManager appVersion]];
         [UserDefaultManager shareUserDefaultManager].versionModel = model;
     }
 }

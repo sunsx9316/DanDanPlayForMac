@@ -9,15 +9,16 @@
 #import "DanmakuDataFormatter.h"
 #import "DanmakuModel.h"
 #import "NSString+Tools.h"
-#import "ScrollDanmaku.h"
-#import "FloatDanmaku.h"
+#import "JHScrollDanmaku.h"
+#import "JHFloatDanmaku.h"
 #import "JHDanmakuEngine+Tools.h"
 #import <GDataXMLNode.h>
+#import "JHBaseDanmaku+Tools.h"
 
 typedef void(^callBackBlock)(DanmakuDataModel *model);
 @implementation DanmakuDataFormatter
 + (NSMutableDictionary *)dicWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
-    NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *> *> *dic = [NSMutableDictionary dictionary];
+    NSMutableDictionary <NSNumber *,NSMutableArray <JHBaseDanmaku *> *> *dic = [NSMutableDictionary dictionary];
     if (obj) {
         NSFont *font = [UserDefaultManager shareUserDefaultManager].danmakuFont;
         NSInteger danmakuSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
@@ -25,7 +26,7 @@ typedef void(^callBackBlock)(DanmakuDataModel *model);
         [self switchParseWithSource:source obj:obj block:^(DanmakuDataModel *model) {
             NSInteger time = model.time;
             if (!dic[@(time)]) dic[@(time)] = [NSMutableArray array];
-            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danmakuSpecially fontSize: font.pointSize font:font];
+            JHBaseDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danmakuSpecially fontSize: font.pointSize font:font];
             danmaku.appearTime = model.time;
             danmaku.filter = model.isFilter;
             [dic[@(time)] addObject: danmaku];
@@ -41,7 +42,7 @@ typedef void(^callBackBlock)(DanmakuDataModel *model);
         NSInteger danmakufontSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
         
         [self switchParseWithSource:source obj:obj block:^(DanmakuDataModel *model) {
-            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danmakufontSpecially fontSize:font.pointSize font:font];
+            JHBaseDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danmakufontSpecially fontSize:font.pointSize font:font];
             danmaku.appearTime = model.time;
             danmaku.filter = model.isFilter;
             [arr addObject: danmaku];

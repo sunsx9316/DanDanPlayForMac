@@ -7,7 +7,8 @@
 //
 
 #import "BaseNetManager.h"
-#import "FeaturedModel.h"
+#import "JHHomePage.h"
+//#import "FeaturedModel.h"
 
 
 @interface RecommedNetManager : BaseNetManager
@@ -18,5 +19,14 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)recommedInfoWithCompletionHandler:(void(^)(FeaturedModel *featuredModel, NSArray *bangumis, DanDanPlayErrorModel *error))complete;
+//+ (NSURLSessionDataTask *)recommedInfoWithCompletionHandler:(void(^)(FeaturedModel *featuredModel, NSArray *bangumis, DanDanPlayErrorModel *error))complete;
+
+/**
+ *  获取首页推荐信息
+ *
+ *  @param complete 回调
+ *
+ *  @return 任务
+ */
++ (NSURLSessionDataTask *)recommedInfoWithCompletionHandler:(void(^)(JHHomePage *responseObject, DanDanPlayErrorModel *error))completionHandler;
 @end

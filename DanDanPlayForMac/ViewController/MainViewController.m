@@ -169,7 +169,7 @@
     
     [UpdateNetManager latestVersionWithCompletionHandler:^(VersionModel *model) {
         //判断当前版本是否比服务器版本小
-        if ([ToolsManager appVersion] < model.version) {
+        if ([ToolsManager appVersion] < model.version.floatValue) {
             [self presentViewControllerAsModalWindow:[UpdateViewController viewControllerWithModel:model]];
         }
         else {
@@ -180,7 +180,7 @@
             NSString *patchPath = [[UserDefaultManager shareUserDefaultManager].patchPath stringByAppendingPathComponent:model.patchName];
             //不存在说明没下载过
             if (![[NSFileManager defaultManager] fileExistsAtPath:patchPath isDirectory:nil]) {
-                [UpdateNetManager downPatchWithVersion:[NSString stringWithFormat:@"%f", model.version] hash:model.patchName completionHandler:^(NSURL *filePath, DanDanPlayErrorModel *error) {
+                [UpdateNetManager downPatchWithVersion:[NSString stringWithFormat:@"%@", model.version] hash:model.patchName completionHandler:^(NSURL *filePath, DanDanPlayErrorModel *error) {
                     [JPEngine startEngine];
                     NSString *script = [NSString stringWithContentsOfURL:filePath encoding:NSUTF8StringEncoding error:nil];
                     //防止崩溃

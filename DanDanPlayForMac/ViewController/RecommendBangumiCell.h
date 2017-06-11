@@ -7,9 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "BangumiModel.h"
+//#import "BangumiModel.h"
+#import "JHHomePage.h"
 
 @interface RecommendBangumiCell : NSView
-- (void)setWithModel:(BangumiDataModel *)model;
-@property (copy, nonatomic) void(^clickGroupsButtonCallBack)(BangumiGroupModel *model);
+- (void)setWithModel:(JHBangumi *)model;
+@property (copy, nonatomic) void(^clickGroupsButtonCallBack)(JHBangumiGroup *model);
 @end

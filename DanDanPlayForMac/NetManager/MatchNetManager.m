@@ -20,7 +20,7 @@
         fileName = @"";
     }
     
-    return [self GETWithPath:@"http://acplay.net/api/v1/match" parameters:@{@"fileName":fileName, @"hash": hash, @"length": length} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    return [self GETWithPath:[NSString stringWithFormat:@"%@/match", API_PATH] parameters:@{@"fileName":fileName, @"hash": hash, @"length": length} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete([MatchModel yy_modelWithDictionary: responseObj], error);
     }];
 }

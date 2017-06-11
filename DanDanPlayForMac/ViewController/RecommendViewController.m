@@ -33,10 +33,10 @@
     
     [self.vm refreshWithCompletionHandler:^(NSError *error) {
         [self.progressHUD hideWithCompletion:nil];
-        [self.headView setWithModel:self.vm.featuredModel];
-        NSArray *arr = self.vm.bangumis;
+        [self.headView setWithModel:self.vm.model.todayFeaturedModel];
+        NSArray *arr = self.vm.model.bangumis;
         
-        [arr enumerateObjectsUsingBlock:^(BangumiModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [arr enumerateObjectsUsingBlock:^(JHBangumiCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSTabViewItem *item = [NSTabViewItem tabViewItemWithViewController:[RecommendItemViewController viewController]];
             item.label = obj.weekDayStringValue;
             [self.tabView addTabViewItem:item];
@@ -58,7 +58,7 @@
 #pragma mark - NSTableViewDelegate
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem {
     RecommendItemViewController *vc = (RecommendItemViewController *)tabViewItem.viewController;
-    vc.model = self.vm.bangumis[[tabView indexOfTabViewItem:tabViewItem]];
+    vc.model = self.vm.model.bangumis[[tabView indexOfTabViewItem:tabViewItem]];
 }
 
 #pragma mark -  私有方法

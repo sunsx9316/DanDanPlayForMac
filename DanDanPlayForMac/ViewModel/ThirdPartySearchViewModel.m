@@ -8,8 +8,8 @@
 
 #import "ThirdPartySearchViewModel.h"
 #import "DanmakuNetManager.h"
-#import "FloatDanmaku.h"
-#import "ScrollDanmaku.h"
+#import "JHFloatDanmaku.h"
+#import "JHScrollDanmaku.h"
 
 @implementation ThirdPartySearchViewModel
 - (NSInteger)shiBanArrCount{

@@ -11,7 +11,7 @@
 #import "VideoInfoModel.h"
 #import "DanmakuDataFormatter.h"
 #import "NSData+DanDanPlay.h"
-#import "ParentDanmaku.h"
+#import <JHBaseDanmaku.h>
 #import "NSString+Tools.h"
 
 #import "AFHTTPDataResponseSerializer.h"
@@ -47,7 +47,7 @@
         id userCache = [self danmakuCacheWithDanmakuID:programId provider:DanDanPlayDanmakuSourceOfficial | DanDanPlayDanmakuSourceUserSendCache];
         if (userCache) {
             userCache = [DanmakuDataFormatter arrWithObj:userCache source:DanDanPlayDanmakuSourceCache];
-            [userCache enumerateObjectsUsingBlock:^(ParentDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [userCache enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSInteger time = obj.appearTime;
                 if (!cache[@(time)]) {
                     cache[@(time)] = [NSMutableArray array];
@@ -60,7 +60,7 @@
         return nil;
     }
     
-    return [self GETWithPath:[@"http://acplay.net/api/v1/comment/" stringByAppendingString: programId] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
+    return [self GETWithPath:[NSString stringWithFormat:@"%@/comment/%@", API_PATH, programId] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         //写入缓存
         [self writeDanmakuCacheWithProvider:DanDanPlayDanmakuSourceOfficial danmakuID:programId responseObj:responseObj];
         complete([DanmakuDataFormatter dicWithObj:[DanmakuModel yy_modelWithDictionary: responseObj].comments source:DanDanPlayDanmakuSourceOfficial], error);
@@ -185,7 +185,8 @@
         complete([DanDanPlayErrorModel errorWithCode:DanDanPlayErrorTypeDanmakuNoExist]);
         return nil;
     }
-    return [self PUTWithPath:[NSString stringWithFormat:@"http://acplay.net/api/v1/comment/%@?clientId=ddplaymac", episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] Encrypt] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    
+    return [self PUTWithPath:[NSString stringWithFormat:@"%@/comment/%@?clientId=ddplaymac", API_PATH, episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] Encrypt] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete(error);
     }];
 }
@@ -202,7 +203,7 @@
 + (id)GETThirdPartyDanmakuWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     //http://acplay.net/api/v1/related/111240001
     
-    NSString *path = [@"http://acplay.net/api/v1/related/" stringByAppendingString: programId];
+    NSString *path = [NSString stringWithFormat:@"%@/related/%@", API_PATH, programId];
     return [self GETWithPath:path parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         if ([responseObj isKindOfClass:[NSDictionary class]]) {
             NSArray <NSDictionary *>*relateds = responseObj[@"Relateds"];

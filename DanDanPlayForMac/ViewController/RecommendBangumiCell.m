@@ -16,10 +16,10 @@
 
 @implementation RecommendBangumiCell
 {
-    BangumiDataModel *_model;
+    JHBangumi *_model;
 }
 
-- (void)setWithModel:(BangumiDataModel *)model {
+- (void)setWithModel:(JHBangumi *)model {
     _model = model;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSImage *img = [[NSImage alloc] initWithContentsOfURL:model.imageURL];
@@ -28,18 +28,18 @@
         });
     });
     self.titleTextField.text = model.name;
-    self.keyWord = model.keyWord;
+    self.keyWord = model.keyword;
     [self.captionsGroupPopUpButton removeAllItems];
-    [model.groups enumerateObjectsUsingBlock:^(BangumiGroupModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self.captionsGroupPopUpButton addItemWithTitle:obj.groupName];
+    [model.collection enumerateObjectsUsingBlock:^(JHBangumiGroup * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.captionsGroupPopUpButton addItemWithTitle:obj.name];
     }];
 }
 
 - (IBAction)clickCaptionsPopUpButton:(NSPopUpButton *)sender {
     if (self.clickGroupsButtonCallBack) {
         NSUInteger index = sender.indexOfSelectedItem;
-        if (index < _model.groups.count) {
-            self.clickGroupsButtonCallBack(_model.groups[index]);
+        if (index < _model.collection.count) {
+            self.clickGroupsButtonCallBack(_model.collection[index]);
         }
     }
 }

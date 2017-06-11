@@ -16,6 +16,11 @@
 #define NSLog(...)
 #endif
 
+#define API_DOMAIN @"https://api.acplay.net/api"
+#define API_VERSION @"v1"
+
+#define API_PATH [NSString stringWithFormat:@"%@/%@", API_DOMAIN, API_VERSION]
+
 //只能亦或用户发送缓存和其它
 typedef NS_ENUM(NSUInteger, DanDanPlayDanmakuSource){
     /**

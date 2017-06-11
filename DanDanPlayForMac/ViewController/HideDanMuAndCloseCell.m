@@ -76,7 +76,7 @@
 		_hideTopDanMuButton = [[NSButton alloc] init];
         _hideTopDanMuButton.title = @"顶部弹幕";
         _hideTopDanMuButton.bordered = NO;
-        _hideTopDanMuButton.tag = 100;
+        _hideTopDanMuButton.tag = 101;
         [_hideTopDanMuButton setButtonType: NSSwitchButton];
         [_hideTopDanMuButton setTitleColor: [NSColor whiteColor]];
         [_hideTopDanMuButton setTarget: self];
@@ -90,7 +90,7 @@
 		_hideBottomDanMuButton = [[NSButton alloc] init];
         _hideBottomDanMuButton.title = @"底部弹幕";
         _hideBottomDanMuButton.bordered = NO;
-        _hideBottomDanMuButton.tag = 101;
+        _hideBottomDanMuButton.tag = 100;
         [_hideBottomDanMuButton setButtonType: NSSwitchButton];
         [_hideBottomDanMuButton setTitleColor: [NSColor whiteColor]];
         [_hideBottomDanMuButton setTarget: self];

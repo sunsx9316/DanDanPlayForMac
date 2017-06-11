@@ -8,6 +8,7 @@
 
 #import "BaseNetManager.h"
 #import "AFHTTPDataResponseSerializer.h"
+#import "NSDictionary+Tools.h"
 
 @implementation BaseNetManager
 + (AFHTTPSessionManager *)sharedHTTPSessionManager {
@@ -55,6 +56,40 @@
         NSLog(@"请求失败：%@", path);
         if (complete) {
             complete(nil, [DanDanPlayErrorModel errorWithError:error]);
+        }
+    }];
+}
+
++ (NSURLSessionDataTask *)GETDataWithPath:(NSString*)path
+                               parameters:(NSDictionary*)parameters
+                              headerField:(NSDictionary *)headerField
+                        completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))completionHandler {
+    
+    if (completionHandler == nil) return nil;
+    
+    [headerField enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [[self sharedHTTPSessionDataManager].requestSerializer setValue:obj forHTTPHeaderField:key];
+    }];
+    
+    return [[self sharedHTTPSessionDataManager] GET:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSLog(@"GETDATA 请求成功：%@ \n\n%@", task.originalRequest.URL, [responseObject jsonStringEncoded]);
+        }
+        [headerField enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            [[self sharedHTTPSessionDataManager].requestSerializer setValue:nil forHTTPHeaderField:key];
+        }];
+        
+        if (completionHandler) {
+            completionHandler(responseObject, nil);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"GETDATA 请求失败：%@ \n\n%@", task.originalRequest.URL, error);
+        [headerField enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            [[self sharedHTTPSessionDataManager].requestSerializer setValue:nil forHTTPHeaderField:key];
+        }];
+        
+        if (completionHandler) {
+            completionHandler(nil, [DanDanPlayErrorModel errorWithError:error]);
         }
     }];
 }
