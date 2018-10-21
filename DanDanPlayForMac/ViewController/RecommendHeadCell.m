@@ -48,7 +48,7 @@
         @strongify(self)
         if (!self) return;
         
-        [self.titleButton setTitleColor:MAIN_COLOR];
+        [self.titleButton setTitleColor:[NSColor mainColor]];
     }];
     
     [self.titleButton setMouseExitedCallBackBlock:^{

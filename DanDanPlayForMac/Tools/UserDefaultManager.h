@@ -10,11 +10,6 @@
 #import "DanDanPlayMessageModel.h"
 #import "VersionModel.h"
 
-//弹幕默认字体大小
-#define DANMAKU_FONT_SIZE 25
-//字幕默认字体大小
-#define SUBTITLE_FONT_SIZE 25
-
 @interface UserDefaultManager : NSObject
 + (instancetype)shareUserDefaultManager;
 //字幕保护区域

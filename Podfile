@@ -3,6 +3,8 @@ platform :osx, '10.10'
 # Uncomment this line if you're using Swift
 # use_frameworks!
 
+inhibit_all_warnings!
+
 target 'DanDanPlayForMac' do
 pod 'AFNetworking'
 pod 'Masonry'
@@ -11,6 +13,6 @@ pod 'GDataXML-HTML'
 pod 'pop'
 pod 'JHDanmakuRender'
 pod 'JSPatch'
-pod 'VLCKit', '~> 3.0.0a24'
+pod 'VLCKit'
 end
 

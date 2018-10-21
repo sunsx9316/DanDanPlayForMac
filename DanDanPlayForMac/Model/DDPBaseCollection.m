@@ -1,16 +1,16 @@
 //
-//  JHBaseCollection.m
+//  DDPBaseCollection.m
 //  BreastDoctor
 //
 //  Created by JimHuang on 17/3/25.
 //  Copyright © 2017年 Convoy. All rights reserved.
 //
 
-#import "JHBaseCollection.h"
+#import "DDPBaseCollection.h"
 
-@implementation JHBaseCollection
+@implementation DDPBaseCollection
 
-+ (NSDictionary *)modelContainerPropertyGenericClass {
++ (NSDictionary<NSString *,id> *)modelContainerPropertyGenericClass {
     return @{@"collection" : [self entityClass]};
 }
 
@@ -25,13 +25,9 @@
 
 + (NSString *)collectionKey {
     NSMutableString *className = NSStringFromClass([self entityClass]).mutableCopy;
-    if (className.length > 2) {
-        //删掉JH
-        [className deleteCharactersInRange:NSMakeRange(0, 2)];
-        //首字母小写
-//        if (className.length > 1) {
-//            [className replaceCharactersInRange:NSMakeRange(0, 1) withString:[[className substringToIndex:1] lowercaseString]];
-//        }
+    if (className.length > 3) {
+        //删掉DDP
+        [className deleteCharactersInRange:NSMakeRange(0, 3)];
         //拼上s
         [className appendString:@"s"];
         return className;

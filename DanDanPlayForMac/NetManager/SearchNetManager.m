@@ -1,6 +1,6 @@
 //
 //  SearchNetManager.m
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 15/12/24.
 //  Copyright © 2015年 JimHuang. All rights reserved.
@@ -18,7 +18,7 @@
         return nil;
     }
     
-    NSString* basePath = [NSString stringWithFormat:@"%@/searchall/%@", API_PATH, episode.length == 0 ? [animeName stringByURLEncode] : [NSString stringWithFormat:@"%@/%@", [animeName stringByURLEncode], [episode stringByURLEncode]]];
+    NSString* basePath = [NSString stringWithFormat:@"%@/searchall/%@", [DDPMethod apiPath], episode.length == 0 ? [animeName stringByURLEncode] : [NSString stringWithFormat:@"%@/%@", [animeName stringByURLEncode], [episode stringByURLEncode]]];
     
     return [self GETWithPath:basePath parameters:nil completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete([SearchModel yy_modelWithDictionary:responseObj], error);

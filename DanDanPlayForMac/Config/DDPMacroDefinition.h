@@ -1,35 +1,29 @@
 //
-//  Tools.h
+//  DDPMacroDefinition.h
 //  DanDanPlayForMac
 //
-//  Created by JimHuang on 16/4/13.
-//  Copyright © 2016年 JimHuang. All rights reserved.
+//  Created by JimHuang on 2018/10/21.
+//  Copyright © 2018 JimHuang. All rights reserved.
 //
 
-#ifndef Tools_h
-#define Tools_h
+#ifndef DDPMacroDefinition_h
+#define DDPMacroDefinition_h
 
-//一些方法的宏
+//弹幕默认字体大小
+#define DANMAKU_FONT_SIZE 25
+//字幕默认字体大小
+#define SUBTITLE_FONT_SIZE 25
+
+#ifdef DEBUG
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...)
+#endif
+
 
 #define kViewControllerWithId(ID) [[NSStoryboard storyboardWithName:@"Main" bundle: nil] instantiateControllerWithIdentifier: ID]
 
-#define RGBColor(r,g,b) RGBAColor(r,g,b,1)
-#define RGBAColor(r,g,b,a) [NSColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
-
-/**
- YYCategories
- Synthsize a weak or strong reference.
- 
- Example:
- @weakify(self)
- [self doSomething^{
- @strongify(self)
- if (!self) return;
- ...
- }];
- 
- */
 #ifndef weakify
 #if DEBUG
 #if __has_feature(objc_arc)
@@ -62,4 +56,18 @@
 #endif
 #endif
 
-#endif /* Tools_h */
+#if defined(__cplusplus)
+#define let auto const
+#define var auto
+#else
+#define let const __auto_type
+#define var __auto_type
+#endif
+
+#if DEBUG
+#define DDP_KEYPATH(object, property) ((void)(NO && ((void)object.property, NO)), @ #property)
+#else
+#define DDP_KEYPATH(object, property) @ #property
+#endif
+
+#endif /* DDPMacroDefinition_h */

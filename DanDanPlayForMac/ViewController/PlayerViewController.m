@@ -1252,7 +1252,7 @@
     if(_bufferProgressHUD == nil) {
         _bufferProgressHUD = [[JHProgressHUD alloc] init];
         _bufferProgressHUD.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoBuffering].message;
-        _bufferProgressHUD.indicatorColor = RGBColor(255, 255, 255);
+        _bufferProgressHUD.indicatorColor = DDPRGBColor(255, 255, 255);
     }
     return _bufferProgressHUD;
 }

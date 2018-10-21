@@ -1,6 +1,6 @@
 //
 //  DanmakuNetManager.m
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 15/12/24.
 //  Copyright © 2015年 JimHuang. All rights reserved.
@@ -10,11 +10,11 @@
 #import "DanmakuModel.h"
 #import "VideoInfoModel.h"
 #import "DanmakuDataFormatter.h"
-#import "NSData+DanDanPlay.h"
 #import <JHBaseDanmaku.h>
 #import "NSString+Tools.h"
 
 #import "AFHTTPDataResponseSerializer.h"
+#import <DanDanPlayEncryptForMac/NSData+DanDanPlayEncrypt.h>
 
 @implementation DanmakuNetManager
 + (NSURLSessionDataTask *)GETWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
@@ -60,10 +60,16 @@
         return nil;
     }
     
-    return [self GETWithPath:[NSString stringWithFormat:@"%@/comment/%@", API_PATH, programId] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
+    //是否请求第三方弹幕
+    let parameters = @{@"withRelated" : @"true"};
+    
+    return [self GETWithPath:[NSString stringWithFormat:@"%@/comment/%@", [DDPMethod apiNewPath], programId] parameters:parameters completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         //写入缓存
         [self writeDanmakuCacheWithProvider:DanDanPlayDanmakuSourceOfficial danmakuID:programId responseObj:responseObj];
-        complete([DanmakuDataFormatter dicWithObj:[DanmakuModel yy_modelWithDictionary: responseObj].comments source:DanDanPlayDanmakuSourceOfficial], error);
+        
+        let collection = [DanmakuModel yy_modelWithDictionary: responseObj].comments;
+        
+        complete([DanmakuDataFormatter dicWithObj:collection source:DanDanPlayDanmakuSourceOfficial], error);
     }];
 }
 
@@ -186,7 +192,7 @@
         return nil;
     }
     
-    return [self PUTWithPath:[NSString stringWithFormat:@"%@/comment/%@?clientId=ddplaymac", API_PATH, episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] Encrypt] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    return [self PUTWithPath:[NSString stringWithFormat:@"%@/comment/%@?clientId=ddplaymac", [DDPMethod apiPath], episodeId] HTTPBody:[[[model launchDanmakuModel] yy_modelToJSONData] encryptWithDandanplayType] completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete(error);
     }];
 }
@@ -203,7 +209,7 @@
 + (id)GETThirdPartyDanmakuWithProgramId:(NSString *)programId completionHandler:(void(^)(id responseObj, DanDanPlayErrorModel *error))complete {
     //http://acplay.net/api/v1/related/111240001
     
-    NSString *path = [NSString stringWithFormat:@"%@/related/%@", API_PATH, programId];
+    NSString *path = [NSString stringWithFormat:@"%@/related/%@", [DDPMethod apiPath], programId];
     return [self GETWithPath:path parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
         if ([responseObj isKindOfClass:[NSDictionary class]]) {
             NSArray <NSDictionary *>*relateds = responseObj[@"Relateds"];

@@ -19,7 +19,7 @@
         return nil;
     }
     
-    return [self GETDataWithPath:[NSString stringWithFormat:@"%@/homepage?userId=0&token=0", API_PATH] parameters:nil headerField:@{@"Accept" : @"application/xml"} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    return [self GETDataWithPath:[NSString stringWithFormat:@"%@/homepage?userId=0&token=0", [DDPMethod apiPath]] parameters:nil headerField:@{@"Accept" : @"application/xml"} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         if (error) {
             completionHandler(nil, error);
         }
@@ -94,7 +94,7 @@
 }
 
 //+ (NSURLSessionDataTask *)recommedInfoWithCompletionHandler:(void(^)(FeaturedModel *featuredModel, NSArray *bangumis, DanDanPlayErrorModel *error))complete {
-//    return [self GETWithPath:[NSString stringWithFormat:@"%@/homepage?userId=0&token=0", API_PATH] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
+//    return [self GETWithPath:[NSString stringWithFormat:@"%@/homepage?userId=0&token=0", [DDPMethod apiPath]] parameters:nil completionHandler:^(NSDictionary *responseObj, DanDanPlayErrorModel *error) {
 ////        BangumiModel *bangumiModel;
 //        FeaturedModel *featuredModel;
 //        NSMutableArray *bangumis = [NSMutableArray array];

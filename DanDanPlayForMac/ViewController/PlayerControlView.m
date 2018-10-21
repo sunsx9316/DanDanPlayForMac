@@ -56,7 +56,7 @@
     [super awakeFromNib];
     [self addTrackingArea:self.trackingArea];
     [self setWantsLayer:YES];
-    self.layer.backgroundColor = RGBColor(27, 29, 37).CGColor;
+    self.layer.backgroundColor = DDPRGBColor(27, 29, 37).CGColor;
 }
 
 #pragma mark - 懒加载

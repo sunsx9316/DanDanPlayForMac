@@ -1,20 +1,20 @@
 //
 //  AnimesModel.h
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 15/12/24.
 //  Copyright © 2015年 JimHuang. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "DDPBase.h"
 @class EpisodesModel, SearchDataModel;
 
 #pragma mark - 官方搜索模型
-@interface SearchModel : BaseModel
+@interface SearchModel : DDPBase
 @property (nonatomic, strong)NSArray<SearchDataModel*>* animes;
 @end
 
-@interface SearchDataModel : BaseModel
+@interface SearchDataModel : DDPBase
 /**
  *  动画标题
  */
@@ -39,7 +39,7 @@
 @property (nonatomic, strong)NSArray<EpisodesModel*>* episodes;
 @end
 
-@interface EpisodesModel : BaseModel
+@interface EpisodesModel : DDPBase
 /**
  *  分集标题
  */
@@ -53,11 +53,11 @@
 
 #pragma mark - bilibili搜索模型
 @class BiliBiliSearchDataModel;
-@interface BiliBiliSearchModel : BaseModel
+@interface BiliBiliSearchModel : DDPBase
 @property (strong, nonatomic) NSArray <BiliBiliSearchDataModel *>*result;
 @end
 
-@interface BiliBiliSearchDataModel : BaseModel
+@interface BiliBiliSearchDataModel : DDPBase
 //data分为两种 番剧和普通视频 用isBangumi属性区分
 /**
  *  番剧id
@@ -82,7 +82,7 @@
 @end
 
 #pragma mark - acfun搜索模型
-@interface AcFunSearchModel : BaseModel
+@interface AcFunSearchModel : DDPBase
 /**
  *  单集
  */
@@ -94,7 +94,7 @@
 @end
 
 
-@interface AcFunSearchListModel : BaseModel
+@interface AcFunSearchListModel : DDPBase
 /**
  *  内容id
  */
@@ -113,7 +113,7 @@
 @property (assign, nonatomic, getter=isBangumi) BOOL bangumi;
 @end
 
-@interface AcFunSearchSpecialModel : BaseModel
+@interface AcFunSearchSpecialModel : DDPBase
 /**
  *  内容id
  */
