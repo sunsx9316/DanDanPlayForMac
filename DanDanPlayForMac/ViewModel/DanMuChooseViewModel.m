@@ -9,7 +9,7 @@
 #import "DanMuChooseViewModel.h"
 #import "DanmakuNetManager.h"
 #import "VideoInfoModel.h"
-#import "NSArray+Tools.h"
+#import <DDPCategory/NSArray+DDPTools.h>
 
 @implementation DanMuChooseViewModel
 - (NSString *)providerNameWithIndex:(NSInteger)index{

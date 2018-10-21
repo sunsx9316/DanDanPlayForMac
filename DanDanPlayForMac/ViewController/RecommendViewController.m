@@ -8,7 +8,7 @@
 
 #import "RecommendViewController.h"
 #import "RecommendItemViewController.h"
-#import "NSString+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 
 #import "RecommedViewModel.h"
 

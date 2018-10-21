@@ -8,12 +8,12 @@
 
 #import "DanmakuDataFormatter.h"
 #import "DanmakuModel.h"
-#import "NSString+Tools.h"
 #import "JHScrollDanmaku.h"
 #import "JHFloatDanmaku.h"
 #import "JHDanmakuEngine+Tools.h"
 #import <GDataXMLNode.h>
 #import "JHBaseDanmaku+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 
 typedef void(^callBackBlock)(DanmakuDataModel *model);
 @implementation DanmakuDataFormatter

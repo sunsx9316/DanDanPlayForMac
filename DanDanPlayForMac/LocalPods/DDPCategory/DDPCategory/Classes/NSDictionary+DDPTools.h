@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSDictionary (Tools)
+@interface NSDictionary (DDPTools)
 #pragma mark - Dictionary Convertor
 ///=============================================================================
 /// @name Dictionary Convertor

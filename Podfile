@@ -14,5 +14,7 @@ pod 'pop'
 pod 'JHDanmakuRender'
 pod 'JSPatch'
 pod 'VLCKit'
+
+pod 'DDPCategory', :path => 'DanDanPlayForMac/LocalPods/DDPCategory'
 end
 

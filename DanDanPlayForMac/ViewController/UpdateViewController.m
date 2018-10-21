@@ -9,7 +9,7 @@
 #import "UpdateViewController.h"
 #import "NSButton+Tools.h"
 #import "UpdateNetManager.h"
-#import "NSData+Tools.h"
+#import <DDPCategory/NSData+DDPTools.h>
 #import "NSAlert+Tools.h"
 #import "VersionModel.h"
 

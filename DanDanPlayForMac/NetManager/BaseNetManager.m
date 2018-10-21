@@ -8,7 +8,7 @@
 
 #import "BaseNetManager.h"
 #import "AFHTTPDataResponseSerializer.h"
-#import "NSDictionary+Tools.h"
+#import <DDPCategory/NSDictionary+DDPTools.h>
 
 @implementation BaseNetManager
 + (AFHTTPSessionManager *)sharedHTTPSessionManager {

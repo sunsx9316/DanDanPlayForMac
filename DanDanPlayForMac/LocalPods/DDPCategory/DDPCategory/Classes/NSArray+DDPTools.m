@@ -6,10 +6,10 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "NSArray+Tools.h"
-#import "NSData+Tools.h"
+#import "NSArray+DDPTools.h"
+#import "NSData+DDPTools.h"
 
-@implementation NSArray (Tools)
+@implementation NSArray (DDPTools)
 + (NSArray *)arrayWithPlistData:(NSData *)plist {
     if (!plist) return nil;
     NSArray *array = [NSPropertyListSerialization propertyListWithData:plist options:NSPropertyListImmutable format:NULL error:NULL];

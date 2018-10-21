@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSArray (Tools)
+@interface NSArray (DDPTools)
 /**
  Creates and returns an array from a specified property list data.
  

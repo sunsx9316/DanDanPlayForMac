@@ -25,5 +25,6 @@
 #import "NSControl+Tools.h"
 #import "NSColor+Tools.h"
 #import "DDPAPPKey.h"
+#import <DDPCategory/DDPCategory.h>
 
 #endif /* PrefixHeader_pch */

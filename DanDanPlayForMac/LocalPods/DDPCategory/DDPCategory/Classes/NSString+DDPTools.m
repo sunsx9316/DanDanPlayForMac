@@ -6,10 +6,10 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "NSString+Tools.h"
-#import "NSData+Tools.h"
+#import "NSString+DDPTools.h"
+#import "NSData+DDPTools.h"
 
-@implementation NSString (Tools)
+@implementation NSString (DDPTools)
 
 - (NSString *)md2String {
     return [[self dataUsingEncoding:NSUTF8StringEncoding] md2String];

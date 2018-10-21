@@ -7,7 +7,7 @@
 //
 
 #import "PlayerSubtitleTimeOffsetCell.h"
-#import "NSString+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 
 @interface PlayerSubtitleTimeOffsetCell()
 @property (weak) IBOutlet NSTextField *textField;

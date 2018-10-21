@@ -94,6 +94,7 @@
 
 #pragma mark - 私有方法
 - (void)setUpWithFilePath:(NSArray *)filePaths {
+    
     [self.videos removeAllObjects];
     //路径为文件夹时 扫描文件夹下第一级目录
     for (NSString *fileURL in filePaths) {
@@ -136,6 +137,7 @@
                     [JHProgressHUD shareProgressHUD].progress = 1;
                     [JHProgressHUD shareProgressHUD].text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeDownloadingDanmaku].message;
                     videoModel.episodeId = model.episodeId;
+                    [[JHProgressHUD shareProgressHUD] hideWithCompletion:nil];
                 }
                 else {
                     //快速匹配失败

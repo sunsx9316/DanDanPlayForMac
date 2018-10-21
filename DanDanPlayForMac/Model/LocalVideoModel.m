@@ -7,7 +7,8 @@
 //
 
 #import "LocalVideoModel.h"
-#import "NSData+Tools.h"
+#import <DDPCategory/NSData+DDPTools.h>
+
 @interface LocalVideoModel()
 @property (strong, nonatomic) NSURL *fileURL;
 @property (strong, nonatomic) NSString *fileName;

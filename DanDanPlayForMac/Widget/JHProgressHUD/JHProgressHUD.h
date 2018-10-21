@@ -22,8 +22,8 @@ typedef NS_ENUM(NSUInteger, JHProgressHUDStyle) {
 + (instancetype)shareProgressHUD;
 - (void)showWithView:(NSView *)view;
 - (void)showWithView:(NSView *)view anime:(BOOL)anime;
-- (void)hideWithCompletion:(void(^)())completion;
-- (void)hideWithCompletion:(void(^)())completion anime:(BOOL)anime;
+- (void)hideWithCompletion:(void(^)(void))completion;
+- (void)hideWithCompletion:(void(^)(void))completion anime:(BOOL)anime;
 @property (assign, nonatomic) JHProgressHUDStyle style;
 /**
  *  进度 0 ~ 1

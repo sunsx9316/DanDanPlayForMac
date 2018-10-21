@@ -6,12 +6,12 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "NSData+Tools.h"
+#import "NSData+DDPTools.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonHMAC.h>
 #import <CommonCrypto/CommonCryptor.h>
 
-@implementation NSData (Tools)
+@implementation NSData (DDPTools)
 - (NSString *)md2String {
     unsigned char result[CC_MD2_DIGEST_LENGTH];
     CC_MD2(self.bytes, (CC_LONG)self.length, result);

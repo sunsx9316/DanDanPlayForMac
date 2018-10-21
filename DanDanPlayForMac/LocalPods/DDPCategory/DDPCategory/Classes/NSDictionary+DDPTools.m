@@ -6,11 +6,11 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "NSDictionary+Tools.h"
-#import "NSData+Tools.h"
-#import "NSString+Tools.h"
+#import "NSDictionary+DDPTools.h"
+#import "NSData+DDPTools.h"
+#import "NSString+DDPTools.h"
 
-@implementation NSDictionary (Tools)
+@implementation NSDictionary (DDPTools)
 + (NSDictionary *)dictionaryWithPlistData:(NSData *)plist {
     if (!plist) return nil;
     NSDictionary *dictionary = [NSPropertyListSerialization propertyListWithData:plist options:NSPropertyListImmutable format:NULL error:NULL];

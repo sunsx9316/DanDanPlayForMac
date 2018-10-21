@@ -11,7 +11,7 @@
 #import "VideoInfoModel.h"
 #import "DanmakuDataFormatter.h"
 #import <JHBaseDanmaku.h>
-#import "NSString+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 
 #import "AFHTTPDataResponseSerializer.h"
 #import <DanDanPlayEncryptForMac/NSData+DanDanPlayEncrypt.h>
@@ -48,7 +48,7 @@
         if (userCache) {
             userCache = [DanmakuDataFormatter arrWithObj:userCache source:DanDanPlayDanmakuSourceCache];
             [userCache enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSInteger time = obj.appearTime;
+                NSInteger time = (NSInteger)(obj.appearTime);
                 if (!cache[@(time)]) {
                     cache[@(time)] = [NSMutableArray array];
                 }

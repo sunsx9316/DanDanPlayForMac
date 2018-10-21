@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSData (Tools)
+@interface NSData (DDPTools)
 /**
  Returns a lowercase NSString for md2 hash.
  */

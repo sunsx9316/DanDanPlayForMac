@@ -68,10 +68,6 @@
 		896DD4F61D62F8C00003AFE1 /* RecommendItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 896DD4F51D62F8C00003AFE1 /* RecommendItemViewController.m */; };
 		896DD4FC1D6320C80003AFE1 /* ToolsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896DD4FB1D6320C80003AFE1 /* ToolsManager.m */; };
 		897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B31C7571EC00F64D39 /* PlayerHoldView.m */; };
-		897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B61C759CB200F64D39 /* NSArray+Tools.m */; };
-		897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B81C759CB200F64D39 /* NSData+Tools.m */; };
-		897345BF1C759CB200F64D39 /* NSDictionary+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */; };
-		897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345BC1C759CB200F64D39 /* NSString+Tools.m */; };
 		897368031C70392000B9B765 /* default_key_map.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897368021C70392000B9B765 /* default_key_map.plist */; };
 		897368111C70708A00B9B765 /* NSString+KeyEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 897368101C70708A00B9B765 /* NSString+KeyEvent.m */; };
 		897368141C70974400B9B765 /* UserDefaultManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 897368131C70974400B9B765 /* UserDefaultManager.m */; };
@@ -300,14 +296,6 @@
 		896DD4FB1D6320C80003AFE1 /* ToolsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolsManager.m; sourceTree = "<group>"; };
 		897345B21C7571EC00F64D39 /* PlayerHoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHoldView.h; sourceTree = "<group>"; };
 		897345B31C7571EC00F64D39 /* PlayerHoldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerHoldView.m; sourceTree = "<group>"; };
-		897345B51C759CB200F64D39 /* NSArray+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Tools.h"; sourceTree = "<group>"; };
-		897345B61C759CB200F64D39 /* NSArray+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Tools.m"; sourceTree = "<group>"; };
-		897345B71C759CB200F64D39 /* NSData+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Tools.h"; sourceTree = "<group>"; };
-		897345B81C759CB200F64D39 /* NSData+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Tools.m"; sourceTree = "<group>"; };
-		897345B91C759CB200F64D39 /* NSDictionary+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Tools.h"; sourceTree = "<group>"; };
-		897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Tools.m"; sourceTree = "<group>"; };
-		897345BB1C759CB200F64D39 /* NSString+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tools.h"; sourceTree = "<group>"; };
-		897345BC1C759CB200F64D39 /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tools.m"; sourceTree = "<group>"; };
 		897368021C70392000B9B765 /* default_key_map.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = default_key_map.plist; sourceTree = "<group>"; };
 		8973680F1C70708A00B9B765 /* NSString+KeyEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+KeyEvent.h"; sourceTree = "<group>"; };
 		897368101C70708A00B9B765 /* NSString+KeyEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+KeyEvent.m"; sourceTree = "<group>"; };
@@ -718,14 +706,6 @@
 		896370C31C590C51002F32FD /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				897345B51C759CB200F64D39 /* NSArray+Tools.h */,
-				897345B61C759CB200F64D39 /* NSArray+Tools.m */,
-				897345B71C759CB200F64D39 /* NSData+Tools.h */,
-				897345B81C759CB200F64D39 /* NSData+Tools.m */,
-				897345B91C759CB200F64D39 /* NSDictionary+Tools.h */,
-				897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */,
-				897345BB1C759CB200F64D39 /* NSString+Tools.h */,
-				897345BC1C759CB200F64D39 /* NSString+Tools.m */,
 				89387EBB1D6597E900F273D7 /* NSDictionary+Bilibili.h */,
 				89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */,
 				8973680F1C70708A00B9B765 /* NSString+KeyEvent.h */,
@@ -1393,7 +1373,6 @@
 				89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */,
 				897368141C70974400B9B765 /* UserDefaultManager.m in Sources */,
 				89761A091C5A5E750046A245 /* MatchViewController.m in Sources */,
-				897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */,
 				897D7F721CA7E64B00FAC53A /* PlayerControlView.m in Sources */,
 				896AEA931C7CB8680011E046 /* PlayerMethodManager.m in Sources */,
 				896370581C59028C002F32FD /* DanmakuNetManager.m in Sources */,
@@ -1403,7 +1382,6 @@
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,
 				89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */,
 				89FDFEAD1C9042FD005499B9 /* UpdateViewController.m in Sources */,
-				897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */,
 				890B9A521C8B2E460063986B /* OpenStreamVideoViewController.m in Sources */,
 				89D403491D52EAFB00AED712 /* RespondKeyboardSearchField.m in Sources */,
 				897619F21C59E8520046A245 /* SearchViewModel.m in Sources */,
@@ -1471,7 +1449,6 @@
 				8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */,
 				89D403391D52EACB00AED712 /* JHMediaPlayer.m in Sources */,
 				89D6A1AA1D61538F00A14469 /* DanDanPlayErrorModel.m in Sources */,
-				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,
 				8950C9891CA97B1E000C863B /* QualityCell.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,
 				896BE9111CAEC478005BE0D1 /* TimeHUDMessageView.m in Sources */,
@@ -1484,7 +1461,6 @@
 				81680FA31D8FC8DB00A24A1E /* VersionModel.m in Sources */,
 				8975D1DC1C6EF634003FE797 /* ChangeFontCell.m in Sources */,
 				8996A6E01C6CD95A00D5AA6E /* SliderControlCell.m in Sources */,
-				897345BF1C759CB200F64D39 /* NSDictionary+Tools.m in Sources */,
 				894CFAE61EEC132800BF800B /* JHHomePage.m in Sources */,
 				897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */,
 				81D3BD2C1D91242D00579988 /* JHProgressHUD.m in Sources */,

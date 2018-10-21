@@ -9,7 +9,7 @@
 #import "SearchNetManager.h"
 #import "SearchModel.h"
 #import "ShiBanModel.h"
-#import "NSString+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 
 @implementation SearchNetManager
 + (NSURLSessionDataTask *)GETWithAnimeName:(NSString *)animeName episode:(NSString *)episode completionHandler:(void(^)(SearchModel* responseObj, DanDanPlayErrorModel *error))complete {

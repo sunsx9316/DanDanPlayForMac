@@ -78,7 +78,7 @@
 /**
  *  番剧/视频 描述
  */
-@property (strong, nonatomic) NSString *desc;
+//@property (strong, nonatomic) NSString *desc;
 @end
 
 #pragma mark - acfun搜索模型
@@ -99,10 +99,7 @@
  *  内容id
  */
 @property (strong, nonatomic) NSString *contentId;
-/**
- *  描述
- */
-@property (strong, nonatomic) NSString *desc;
+
 /**
  *  标题
  */
@@ -118,10 +115,7 @@
  *  内容id
  */
 @property (strong, nonatomic) NSString *contentId;
-/**
- *  描述
- */
-@property (strong, nonatomic) NSString *desc;
+
 /**
  *  标题
  */

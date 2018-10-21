@@ -7,7 +7,7 @@
 //
 
 #import "StreamingVideoModel.h"
-#import "NSString+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 
 @interface StreamingVideoModel ()
 @property (assign, nonatomic) DanDanPlayDanmakuSource danmakuSource;
