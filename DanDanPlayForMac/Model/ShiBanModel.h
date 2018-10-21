@@ -6,11 +6,11 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "DDPBase.h"
 
 #pragma mark - bilibili番剧模型
 
-@interface BiliBiliShiBanModel : BaseModel
+@interface BiliBiliShiBanModel : DDPBase
 /**
  *  标题
  */
@@ -29,7 +29,7 @@
 @property (strong, nonatomic) NSArray *episodes;
 @end
 
-@interface BiliBiliShiBanDataModel : BaseModel
+@interface BiliBiliShiBanDataModel : DDPBase
 @property (copy, nonatomic) NSString *aid;
 /**
  *  分集标题
@@ -39,11 +39,11 @@
 
 #pragma mark - acfun番剧模型
 
-@interface AcFunShiBanModel : BaseModel
+@interface AcFunShiBanModel : DDPBase
 @property (strong, nonatomic) NSArray *list;
 @end
 
-@interface AcFunShiBanDataModel : BaseModel
+@interface AcFunShiBanDataModel : DDPBase
 /**
  *  分集弹幕库id
  */

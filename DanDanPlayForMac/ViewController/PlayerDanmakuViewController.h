@@ -32,9 +32,9 @@
 /**
  *  重新选择弹幕回调
  */
-@property (copy, nonatomic) void(^showSearchViewControllerCallBack)();
+@property (copy, nonatomic) void(^showSearchViewControllerCallBack)(void);
 /**
  *  加载本地弹幕回调
  */
-@property (copy, nonatomic) void(^reloadLocaleDanmakuCallBack)();
+@property (copy, nonatomic) void(^reloadLocaleDanmakuCallBack)(void);
 @end

@@ -16,9 +16,9 @@ typedef NS_ENUM(NSUInteger, SliderAnimateDirection) {
 };
 
 @interface SliderAnimate : NSObject<NSViewControllerPresentationAnimator>
-@property (copy, nonatomic) void(^presentationWillBeginCompletion)();
-@property (copy, nonatomic) void(^presentationDidEndCompletion)();
-@property (copy, nonatomic) void(^dismissDidEndCompletion)();
-@property (copy, nonatomic) void(^dismissWillBeginCompletion)();
+@property (copy, nonatomic) void(^presentationWillBeginCompletion)(void);
+@property (copy, nonatomic) void(^presentationDidEndCompletion)(void);
+@property (copy, nonatomic) void(^dismissDidEndCompletion)(void);
+@property (copy, nonatomic) void(^dismissWillBeginCompletion)(void);
 @property (assign, nonatomic) SliderAnimateDirection direction;
 @end

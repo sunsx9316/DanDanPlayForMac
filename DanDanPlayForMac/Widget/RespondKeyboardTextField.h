@@ -8,5 +8,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface RespondKeyboardTextField : NSTextField
-@property (copy, nonatomic) void(^respondBlock)();
+@property (copy, nonatomic) void(^respondBlock)(void);
 @end

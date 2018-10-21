@@ -14,7 +14,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     //默认颜色
-    [self setTitleColor: RGBColor(48, 131, 251)];
+    [self setTitleColor: DDPRGBColor(48, 131, 251)];
 }
 
 

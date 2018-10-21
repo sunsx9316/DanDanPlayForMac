@@ -1,17 +1,17 @@
 //
 //  VideoInfoModel.h
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 16/1/2.
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "DDPBase.h"
 @class VideoInfoDataModel;
 /**
  *  视频详情模型
  */
-@interface VideoInfoModel : BaseModel
+@interface VideoInfoModel : DDPBase
 /**
  *  番剧名称
  */
@@ -23,7 +23,7 @@
 @end
 
 
-@interface VideoInfoDataModel : BaseModel
+@interface VideoInfoDataModel : DDPBase
 @property (copy, nonatomic) NSString *aid;
 /**
  *  弹幕id

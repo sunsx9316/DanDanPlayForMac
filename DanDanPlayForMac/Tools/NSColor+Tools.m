@@ -15,7 +15,13 @@
                             blue:(rgbValue & 0xFF) / 255.0f
                            alpha:alpha];
 }
+
 + (NSColor *)colorWithRGB:(uint32_t)rgbValue{
     return [NSColor colorWithRGB:rgbValue alpha: 1];
 }
+
++ (NSColor *)mainColor {
+    return DDPRGBColor(49, 169, 226);
+}
+
 @end

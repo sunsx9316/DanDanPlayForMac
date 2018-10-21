@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PlayerViewController">
@@ -63,7 +65,7 @@
                             </connections>
                         </button>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8ln-g1-4b9">
-                            <rect key="frame" x="577" y="20" width="91" height="17"/>
+                            <rect key="frame" x="580" y="19" width="88" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="00:00 / 00:00" id="8oe-XX-txD">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -81,7 +83,7 @@
                             </connections>
                         </button>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y6w-9H-nM4">
-                            <rect key="frame" x="153" y="15" width="37" height="26"/>
+                            <rect key="frame" x="153" y="14" width="38" height="25"/>
                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="KU7-Cj-f7H">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -92,7 +94,7 @@
                             </connections>
                         </popUpButton>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xWO-Wo-3VM">
-                            <rect key="frame" x="195" y="15" width="37" height="26"/>
+                            <rect key="frame" x="196" y="14" width="38" height="25"/>
                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="xff-L6-jTM">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -100,10 +102,10 @@
                             </popUpButtonCell>
                         </popUpButton>
                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pMg-Ks-RkP" customClass="RespondKeyboardTextField">
-                            <rect key="frame" x="239" y="17" width="330" height="22"/>
+                            <rect key="frame" x="241" y="17" width="331" height="22"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="回车发送弹幕" bezelStyle="round" id="Vge-3G-kEP">
                                 <font key="font" metaFont="system"/>
-                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
@@ -218,12 +220,12 @@
                     <rect key="frame" x="8" y="20" width="140" height="19"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="上次播放时间: 00:00" id="h6a-fd-Lkj">
                         <font key="font" size="15" name="STHeitiSC-Light"/>
-                        <color key="textColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p3d-y2-gRC">
-                    <rect key="frame" x="182" y="17" width="86" height="25"/>
+                    <rect key="frame" x="181" y="16" width="88" height="25"/>
                     <buttonCell key="cell" type="squareTextured" title="继续上次播放" bezelStyle="texturedSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vUh-t4-TiZ">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -233,7 +235,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QKh-3w-PYi">
-                    <rect key="frame" x="278" y="17" width="35" height="25"/>
+                    <rect key="frame" x="277" y="16" width="37" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="35" id="luz-IR-h9m"/>
                     </constraints>
@@ -283,7 +285,7 @@
                     <rect key="frame" x="8" y="17" width="64" height="19"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="弹幕数：" id="FWk-4I-vxj">
                         <font key="font" size="15" name="STHeitiSC-Light"/>
-                        <color key="textColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
@@ -291,12 +293,12 @@
                     <rect key="frame" x="68" y="17" width="13" height="19"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="X05-ER-iHV">
                         <font key="font" size="15" name="STHeitiSC-Light"/>
-                        <color key="textColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jvU-sE-z9i">
-                    <rect key="frame" x="99" y="14" width="35" height="25"/>
+                    <rect key="frame" x="98" y="14" width="37" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="35" id="rtj-YU-NNd"/>
                     </constraints>

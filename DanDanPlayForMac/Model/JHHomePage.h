@@ -6,13 +6,13 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "JHBaseCollection.h"
+#import "DDPBaseCollection.h"
 
 @class JHBannerPage;
 /**
  *  滚动页模型
  */
-@interface JHBannerPage : JHBase
+@interface JHBannerPage : DDPBase
 
 /**
  *  desc : 描述
@@ -26,7 +26,7 @@
 /**
  *  今日推荐模型
  */
-@interface JHFeatured : JHBase
+@interface JHFeatured : DDPBase
 /**
  *  name 标题
     link 跳转链接
@@ -43,13 +43,13 @@
 /**
  *  推荐番剧模型
  */
-@interface JHBangumiCollection : JHBaseCollection
+@interface JHBangumiCollection : DDPBaseCollection
 @property (assign, nonatomic) NSInteger weekDay;
 @property (strong, nonatomic, readonly) NSString *weekDayStringValue;
 //@property (strong, nonatomic) NSArray <JHBangumi *>*bangumis;
 @end
 
-@interface JHBangumi : JHBaseCollection
+@interface JHBangumi : DDPBaseCollection
 /**
  *  name 名称
  */
@@ -58,7 +58,7 @@
 @property (assign, nonatomic) BOOL isFavorite;
 @end
 
-@interface JHBangumiGroup : JHBase
+@interface JHBangumiGroup : DDPBase
 /**
  *  name 名称
  */
@@ -69,7 +69,7 @@
 /**
  *  主页模型
  */
-@interface JHHomePage : JHBase
+@interface JHHomePage : DDPBase
 @property (strong, nonatomic) NSArray <JHBannerPage *>*bannerPages;
 @property (strong, nonatomic) NSArray <JHBangumiCollection *>*bangumis;
 @property (strong, nonatomic) JHFeatured *todayFeaturedModel;

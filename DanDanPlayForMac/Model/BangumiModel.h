@@ -6,24 +6,24 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "DDPBase.h"
 
 @class BangumiDataModel, BangumiGroupModel;
 
-@interface BangumiModel : BaseModel
+@interface BangumiModel : DDPBase
 @property (assign, nonatomic) NSInteger weekDay;
 @property (strong, nonatomic, readonly) NSString *weekDayStringValue;
 @property (strong, nonatomic) NSArray <BangumiDataModel *>*bangumis;
 @end
 
-@interface BangumiDataModel : BaseModel
+@interface BangumiDataModel : DDPBase
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *keyWord;
 @property (strong, nonatomic) NSURL *imageURL;
 @property (strong, nonatomic) NSArray <BangumiGroupModel *>*groups;
 @end
 
-@interface BangumiGroupModel : BaseModel
+@interface BangumiGroupModel : DDPBase
 @property (strong, nonatomic) NSString *groupName;
 @property (strong, nonatomic) NSString *searchURL;
 @end

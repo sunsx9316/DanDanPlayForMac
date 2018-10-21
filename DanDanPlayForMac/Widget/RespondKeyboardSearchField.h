@@ -6,8 +6,8 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 #import <Cocoa/Cocoa.h>
-typedef void(^respondBlock)();
+typedef void(^respondBlock)(void);
 
 @interface RespondKeyboardSearchField : NSSearchField
-@property (copy, nonatomic) void(^respondBlock)();
+@property (copy, nonatomic) void(^respondBlock)(void);
 @end

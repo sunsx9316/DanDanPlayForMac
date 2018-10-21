@@ -147,14 +147,14 @@
 
 - (NSColor *)progressSliderColor {
     if(_progressSliderColor == nil) {
-        _progressSliderColor = MAIN_COLOR;
+        _progressSliderColor = [NSColor mainColor];
     }
     return _progressSliderColor;
 }
 
 - (NSColor *)backGroundColor{
     if (_backGroundColor == nil) {
-        _backGroundColor = RGBColor(51, 55, 69);
+        _backGroundColor = DDPRGBColor(51, 55, 69);
     }
     return _backGroundColor;
 }

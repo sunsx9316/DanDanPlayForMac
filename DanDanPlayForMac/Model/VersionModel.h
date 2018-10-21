@@ -6,9 +6,9 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "DDPBase.h"
 
-@interface VersionModel : BaseModel
+@interface VersionModel : DDPBase
 /**
  *  版本
  */

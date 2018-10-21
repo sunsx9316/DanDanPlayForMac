@@ -37,8 +37,6 @@
 		8946B5CC1C63B1D10042A370 /* BiliBiliSearchViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946B5CB1C63B1D10042A370 /* BiliBiliSearchViewModel.m */; };
 		894CFAE11EEC130300BF800B /* GDataXMLElement+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CFAE01EEC130300BF800B /* GDataXMLElement+Tools.m */; };
 		894CFAE61EEC132800BF800B /* JHHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CFAE31EEC132800BF800B /* JHHomePage.m */; };
-		894CFAEC1EEC135800BF800B /* JHBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CFAE91EEC135800BF800B /* JHBase.m */; };
-		894CFAED1EEC135800BF800B /* JHBaseCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CFAEB1EEC135800BF800B /* JHBaseCollection.m */; };
 		8950C9861CA95D04000C863B /* VolumeControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9851CA95D04000C863B /* VolumeControlView.m */; };
 		8950C9891CA97B1E000C863B /* QualityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8950C9881CA97B1E000C863B /* QualityCell.m */; };
 		8951A1DA1C8073AD002472AD /* DownLoadOtherDanmakuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8951A1D91C8073AD002472AD /* DownLoadOtherDanmakuViewController.m */; };
@@ -70,10 +68,6 @@
 		896DD4F61D62F8C00003AFE1 /* RecommendItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 896DD4F51D62F8C00003AFE1 /* RecommendItemViewController.m */; };
 		896DD4FC1D6320C80003AFE1 /* ToolsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 896DD4FB1D6320C80003AFE1 /* ToolsManager.m */; };
 		897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B31C7571EC00F64D39 /* PlayerHoldView.m */; };
-		897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B61C759CB200F64D39 /* NSArray+Tools.m */; };
-		897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345B81C759CB200F64D39 /* NSData+Tools.m */; };
-		897345BF1C759CB200F64D39 /* NSDictionary+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */; };
-		897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897345BC1C759CB200F64D39 /* NSString+Tools.m */; };
 		897368031C70392000B9B765 /* default_key_map.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897368021C70392000B9B765 /* default_key_map.plist */; };
 		897368111C70708A00B9B765 /* NSString+KeyEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 897368101C70708A00B9B765 /* NSString+KeyEvent.m */; };
 		897368141C70974400B9B765 /* UserDefaultManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 897368131C70974400B9B765 /* UserDefaultManager.m */; };
@@ -106,8 +100,7 @@
 		897DBA611D3E538E00479126 /* PlayerDanmakuAndSubtitleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897DBA601D3E538E00479126 /* PlayerDanmakuAndSubtitleViewController.xib */; };
 		897DBA651D3E544A00479126 /* PlayerSubtitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897DBA631D3E544A00479126 /* PlayerSubtitleViewController.m */; };
 		897DBA661D3E544A00479126 /* PlayerSubtitleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 897DBA641D3E544A00479126 /* PlayerSubtitleViewController.xib */; };
-		897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7B81C72056A00E1B03D /* BaseModel.m */; };
-		897EC7C61C72056A00E1B03D /* DanmakuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BA1C72056A00E1B03D /* DanmakuModel.m */; };
+		897EC7C51C72056A00E1B03D /* DDPBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7B81C72056A00E1B03D /* DDPBase.m */; };
 		897EC7C71C72056A00E1B03D /* LocalVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BC1C72056A00E1B03D /* LocalVideoModel.m */; };
 		897EC7C81C72056A00E1B03D /* MatchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7BE1C72056A00E1B03D /* MatchModel.m */; };
 		897EC7C91C72056A00E1B03D /* SearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7C01C72056A00E1B03D /* SearchModel.m */; };
@@ -115,12 +108,16 @@
 		897EC7CB1C72056A00E1B03D /* VideoInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897EC7C41C72056A00E1B03D /* VideoInfoModel.m */; };
 		897ECC5A1C74C9F9008AA5DB /* DanMuFastMatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */; };
 		8981629D1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981629C1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m */; };
-		8983C76D1C8819CC0080C316 /* NSData+DanDanPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */; };
 		8983C7751C8853B40080C316 /* danmaku_color.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8983C7741C8853B40080C316 /* danmaku_color.plist */; };
 		898732811C9701E50019F8BA /* PlayerLastWatchVideoTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898732801C9701E50019F8BA /* PlayerLastWatchVideoTimeView.m */; };
 		89880A6B1C92F15E0060916F /* RecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A6A1C92F15E0060916F /* RecommendViewController.m */; };
 		89880A6E1C92F1AA0060916F /* RecommendHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A6D1C92F1AA0060916F /* RecommendHeadCell.m */; };
 		89880A711C92F6AD0060916F /* RecommedNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89880A701C92F6AD0060916F /* RecommedNetManager.m */; };
+		8989CE3B217C59330036B1F5 /* DanDanPlayEncryptForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8989CE39217C59260036B1F5 /* DanDanPlayEncryptForMac.framework */; };
+		8989CE3C217C59330036B1F5 /* DanDanPlayEncryptForMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8989CE39217C59260036B1F5 /* DanDanPlayEncryptForMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8989CE3F217C5AAA0036B1F5 /* DDPMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989CE3E217C5AAA0036B1F5 /* DDPMethod.m */; };
+		8989CE4A217C61FC0036B1F5 /* DDPBaseCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989CE49217C61FC0036B1F5 /* DDPBaseCollection.m */; };
+		8989CE4D217C65380036B1F5 /* DanmakuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989CE4B217C65370036B1F5 /* DanmakuModel.m */; };
 		8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8993A87E1C93BA4300CF91D1 /* BangumiModel.m */; };
 		8993A8821C93BA4300CF91D1 /* FeaturedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8993A8801C93BA4300CF91D1 /* FeaturedModel.m */; };
 		8993A8851C93C34E00CF91D1 /* RecommedViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8993A8841C93C34E00CF91D1 /* RecommedViewModel.m */; };
@@ -171,6 +168,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				8989CE3C217C59330036B1F5 /* DanDanPlayEncryptForMac.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,7 +205,6 @@
 		890B9A4E1C8B259C0063986B /* OpenStreamVideoViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamVideoViewModel.m; sourceTree = "<group>"; };
 		890B9A501C8B2E460063986B /* OpenStreamVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStreamVideoViewController.h; sourceTree = "<group>"; };
 		890B9A511C8B2E460063986B /* OpenStreamVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreamVideoViewController.m; sourceTree = "<group>"; };
-		890FDDD61CBDEBAB00BFFACC /* Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		890FDDDC1CBDF5F600BFFACC /* NSView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+Tools.h"; sourceTree = "<group>"; };
 		890FDDDD1CBDF5F600BFFACC /* NSView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+Tools.m"; sourceTree = "<group>"; };
 		89118C8A1CBCABED0079FB70 /* NSOpenPanel+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOpenPanel+Tools.h"; sourceTree = "<group>"; };
@@ -237,10 +234,6 @@
 		894CFAE01EEC130300BF800B /* GDataXMLElement+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GDataXMLElement+Tools.m"; sourceTree = "<group>"; };
 		894CFAE21EEC132800BF800B /* JHHomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHHomePage.h; sourceTree = "<group>"; };
 		894CFAE31EEC132800BF800B /* JHHomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHHomePage.m; sourceTree = "<group>"; };
-		894CFAE81EEC135800BF800B /* JHBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBase.h; sourceTree = "<group>"; };
-		894CFAE91EEC135800BF800B /* JHBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBase.m; sourceTree = "<group>"; };
-		894CFAEA1EEC135800BF800B /* JHBaseCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBaseCollection.h; sourceTree = "<group>"; };
-		894CFAEB1EEC135800BF800B /* JHBaseCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBaseCollection.m; sourceTree = "<group>"; };
 		8950C9841CA95D04000C863B /* VolumeControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeControlView.h; sourceTree = "<group>"; };
 		8950C9851CA95D04000C863B /* VolumeControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeControlView.m; sourceTree = "<group>"; };
 		8950C9871CA97B1E000C863B /* QualityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QualityCell.h; sourceTree = "<group>"; };
@@ -303,14 +296,6 @@
 		896DD4FB1D6320C80003AFE1 /* ToolsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolsManager.m; sourceTree = "<group>"; };
 		897345B21C7571EC00F64D39 /* PlayerHoldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerHoldView.h; sourceTree = "<group>"; };
 		897345B31C7571EC00F64D39 /* PlayerHoldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerHoldView.m; sourceTree = "<group>"; };
-		897345B51C759CB200F64D39 /* NSArray+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Tools.h"; sourceTree = "<group>"; };
-		897345B61C759CB200F64D39 /* NSArray+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Tools.m"; sourceTree = "<group>"; };
-		897345B71C759CB200F64D39 /* NSData+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Tools.h"; sourceTree = "<group>"; };
-		897345B81C759CB200F64D39 /* NSData+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Tools.m"; sourceTree = "<group>"; };
-		897345B91C759CB200F64D39 /* NSDictionary+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Tools.h"; sourceTree = "<group>"; };
-		897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Tools.m"; sourceTree = "<group>"; };
-		897345BB1C759CB200F64D39 /* NSString+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tools.h"; sourceTree = "<group>"; };
-		897345BC1C759CB200F64D39 /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tools.m"; sourceTree = "<group>"; };
 		897368021C70392000B9B765 /* default_key_map.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = default_key_map.plist; sourceTree = "<group>"; };
 		8973680F1C70708A00B9B765 /* NSString+KeyEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+KeyEvent.h"; sourceTree = "<group>"; };
 		897368101C70708A00B9B765 /* NSString+KeyEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+KeyEvent.m"; sourceTree = "<group>"; };
@@ -353,7 +338,6 @@
 		897619F81C59EDBC0046A245 /* DanMuChooseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuChooseViewModel.m; sourceTree = "<group>"; };
 		89761A071C5A5E750046A245 /* MatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchViewController.h; sourceTree = "<group>"; };
 		89761A081C5A5E750046A245 /* MatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchViewController.m; sourceTree = "<group>"; };
-		89761A151C5A6F190046A245 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		89788D341C5E3DB100CA31EF /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		89788D351C5E3DB100CA31EF /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		897AE87D1D3D05B900143B9F /* PlayerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerListViewController.h; sourceTree = "<group>"; };
@@ -371,10 +355,8 @@
 		897DBA621D3E544A00479126 /* PlayerSubtitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubtitleViewController.h; sourceTree = "<group>"; };
 		897DBA631D3E544A00479126 /* PlayerSubtitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSubtitleViewController.m; sourceTree = "<group>"; };
 		897DBA641D3E544A00479126 /* PlayerSubtitleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerSubtitleViewController.xib; sourceTree = "<group>"; };
-		897EC7B71C72056A00E1B03D /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
-		897EC7B81C72056A00E1B03D /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
-		897EC7B91C72056A00E1B03D /* DanmakuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuModel.h; sourceTree = "<group>"; };
-		897EC7BA1C72056A00E1B03D /* DanmakuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuModel.m; sourceTree = "<group>"; };
+		897EC7B71C72056A00E1B03D /* DDPBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPBase.h; sourceTree = "<group>"; };
+		897EC7B81C72056A00E1B03D /* DDPBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPBase.m; sourceTree = "<group>"; };
 		897EC7BB1C72056A00E1B03D /* LocalVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalVideoModel.h; sourceTree = "<group>"; };
 		897EC7BC1C72056A00E1B03D /* LocalVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalVideoModel.m; sourceTree = "<group>"; };
 		897EC7BD1C72056A00E1B03D /* MatchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchModel.h; sourceTree = "<group>"; };
@@ -389,8 +371,6 @@
 		897ECC591C74C9F9008AA5DB /* DanMuFastMatchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanMuFastMatchCell.m; sourceTree = "<group>"; };
 		8981629B1CA58C0A0098B5E6 /* OtherOnlyButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherOnlyButtonCell.h; sourceTree = "<group>"; };
 		8981629C1CA58C0A0098B5E6 /* OtherOnlyButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherOnlyButtonCell.m; sourceTree = "<group>"; };
-		8983C76B1C8819CC0080C316 /* NSData+DanDanPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DanDanPlay.h"; sourceTree = "<group>"; };
-		8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+DanDanPlay.m"; sourceTree = "<group>"; };
 		8983C7741C8853B40080C316 /* danmaku_color.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = danmaku_color.plist; sourceTree = "<group>"; };
 		8987327F1C9701E50019F8BA /* PlayerLastWatchVideoTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerLastWatchVideoTimeView.h; sourceTree = "<group>"; };
 		898732801C9701E50019F8BA /* PlayerLastWatchVideoTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerLastWatchVideoTimeView.m; sourceTree = "<group>"; };
@@ -400,6 +380,16 @@
 		89880A6D1C92F1AA0060916F /* RecommendHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendHeadCell.m; sourceTree = "<group>"; };
 		89880A6F1C92F6AD0060916F /* RecommedNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommedNetManager.h; sourceTree = "<group>"; };
 		89880A701C92F6AD0060916F /* RecommedNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommedNetManager.m; sourceTree = "<group>"; };
+		8989CE39217C59260036B1F5 /* DanDanPlayEncryptForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DanDanPlayEncryptForMac.framework; sourceTree = "<group>"; };
+		8989CE3D217C5AAA0036B1F5 /* DDPMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPMethod.h; sourceTree = "<group>"; };
+		8989CE3E217C5AAA0036B1F5 /* DDPMethod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPMethod.m; sourceTree = "<group>"; };
+		8989CE40217C5E3D0036B1F5 /* DDPConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPConstant.h; sourceTree = "<group>"; };
+		8989CE41217C5E6B0036B1F5 /* DDPMacroDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPMacroDefinition.h; sourceTree = "<group>"; };
+		8989CE48217C61FC0036B1F5 /* DDPBaseCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPBaseCollection.h; sourceTree = "<group>"; };
+		8989CE49217C61FC0036B1F5 /* DDPBaseCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPBaseCollection.m; sourceTree = "<group>"; };
+		8989CE4B217C65370036B1F5 /* DanmakuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuModel.m; sourceTree = "<group>"; };
+		8989CE4C217C65380036B1F5 /* DanmakuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuModel.h; sourceTree = "<group>"; };
+		8989CE4E217C79610036B1F5 /* DDPAPPKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPAPPKey.h; sourceTree = "<group>"; };
 		8993A87D1C93BA4300CF91D1 /* BangumiModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BangumiModel.h; sourceTree = "<group>"; };
 		8993A87E1C93BA4300CF91D1 /* BangumiModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BangumiModel.m; sourceTree = "<group>"; };
 		8993A87F1C93BA4300CF91D1 /* FeaturedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeaturedModel.h; sourceTree = "<group>"; };
@@ -491,6 +481,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8989CE3B217C59330036B1F5 /* DanDanPlayEncryptForMac.framework in Frameworks */,
 				09304AA09D7DF9634D90ECFB /* libPods-DanDanPlayForMac.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -558,13 +549,6 @@
 			name = homeImage;
 			sourceTree = "<group>";
 		};
-		893BC58E1EEBFB1E003323C2 /* Vender */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Vender;
-			sourceTree = "<group>";
-		};
 		89636FC31C58C40A002F32FD = {
 			isa = PBXGroup;
 			children = (
@@ -588,7 +572,7 @@
 			children = (
 				89636FCF1C58C40B002F32FD /* AppDelegate.h */,
 				89636FD01C58C40B002F32FD /* AppDelegate.m */,
-				893BC58E1EEBFB1E003323C2 /* Vender */,
+				8989CE38217C58C20036B1F5 /* Vender */,
 				89D4030F1D52EACB00AED712 /* Widget */,
 				896370BC1C590900002F32FD /* Tools */,
 				89636FEE1C58FAD1002F32FD /* Config */,
@@ -615,8 +599,11 @@
 			children = (
 				89636FEF1C58FAD1002F32FD /* Info.plist */,
 				8963705B1C590424002F32FD /* PrefixHeader.pch */,
-				89761A151C5A6F190046A245 /* Config.h */,
-				890FDDD61CBDEBAB00BFFACC /* Tools.h */,
+				8989CE41217C5E6B0036B1F5 /* DDPMacroDefinition.h */,
+				8989CE40217C5E3D0036B1F5 /* DDPConstant.h */,
+				8989CE3D217C5AAA0036B1F5 /* DDPMethod.h */,
+				8989CE3E217C5AAA0036B1F5 /* DDPMethod.m */,
+				8989CE4E217C79610036B1F5 /* DDPAPPKey.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -719,16 +706,6 @@
 		896370C31C590C51002F32FD /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				897345B51C759CB200F64D39 /* NSArray+Tools.h */,
-				897345B61C759CB200F64D39 /* NSArray+Tools.m */,
-				897345B71C759CB200F64D39 /* NSData+Tools.h */,
-				897345B81C759CB200F64D39 /* NSData+Tools.m */,
-				897345B91C759CB200F64D39 /* NSDictionary+Tools.h */,
-				897345BA1C759CB200F64D39 /* NSDictionary+Tools.m */,
-				8983C76B1C8819CC0080C316 /* NSData+DanDanPlay.h */,
-				8983C76C1C8819CC0080C316 /* NSData+DanDanPlay.m */,
-				897345BB1C759CB200F64D39 /* NSString+Tools.h */,
-				897345BC1C759CB200F64D39 /* NSString+Tools.m */,
 				89387EBB1D6597E900F273D7 /* NSDictionary+Bilibili.h */,
 				89387EBC1D6597E900F273D7 /* NSDictionary+Bilibili.m */,
 				8973680F1C70708A00B9B765 /* NSString+KeyEvent.h */,
@@ -964,10 +941,12 @@
 			isa = PBXGroup;
 			children = (
 				896CF1EE1C8C659D0080019F /* 视频模型 */,
-				897EC7B71C72056A00E1B03D /* BaseModel.h */,
-				897EC7B81C72056A00E1B03D /* BaseModel.m */,
-				897EC7B91C72056A00E1B03D /* DanmakuModel.h */,
-				897EC7BA1C72056A00E1B03D /* DanmakuModel.m */,
+				897EC7B71C72056A00E1B03D /* DDPBase.h */,
+				897EC7B81C72056A00E1B03D /* DDPBase.m */,
+				8989CE48217C61FC0036B1F5 /* DDPBaseCollection.h */,
+				8989CE49217C61FC0036B1F5 /* DDPBaseCollection.m */,
+				8989CE4C217C65380036B1F5 /* DanmakuModel.h */,
+				8989CE4B217C65370036B1F5 /* DanmakuModel.m */,
 				897EC7BD1C72056A00E1B03D /* MatchModel.h */,
 				897EC7BE1C72056A00E1B03D /* MatchModel.m */,
 				897EC7BF1C72056A00E1B03D /* SearchModel.h */,
@@ -988,10 +967,6 @@
 				81680FA21D8FC8DB00A24A1E /* VersionModel.m */,
 				894CFAE21EEC132800BF800B /* JHHomePage.h */,
 				894CFAE31EEC132800BF800B /* JHHomePage.m */,
-				894CFAE81EEC135800BF800B /* JHBase.h */,
-				894CFAE91EEC135800BF800B /* JHBase.m */,
-				894CFAEA1EEC135800BF800B /* JHBaseCollection.h */,
-				894CFAEB1EEC135800BF800B /* JHBaseCollection.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1023,6 +998,14 @@
 				897345B31C7571EC00F64D39 /* PlayerHoldView.m */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		8989CE38217C58C20036B1F5 /* Vender */ = {
+			isa = PBXGroup;
+			children = (
+				8989CE39217C59260036B1F5 /* DanDanPlayEncryptForMac.framework */,
+			);
+			path = Vender;
 			sourceTree = "<group>";
 		};
 		899512161CA64416001C0772 /* 播放列表面板 */ = {
@@ -1239,8 +1222,9 @@
 		89636FC41C58C40A002F32FD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = DDP;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = JimHuang;
 				TargetAttributes = {
 					89636FCB1C58C40B002F32FD = {
@@ -1295,9 +1279,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-resources.sh",
+				"${PODS_ROOT}/JSPatch/JSPatch/JSPatch.js",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/JSPatch.js",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1310,9 +1297,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-frameworks.sh",
+				"${PODS_ROOT}/VLCKit/VLCKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VLCKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1325,13 +1315,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DanDanPlayForMac-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1356,6 +1349,7 @@
 				8975D1EA1C6F2B59003FE797 /* UseFilterExpressionCell.m in Sources */,
 				8919753F1D6ACF7F00210AB9 /* NSTableView+Tools.m in Sources */,
 				89FDFE891C90239C005499B9 /* UpdateNetManager.m in Sources */,
+				8989CE3F217C5AAA0036B1F5 /* DDPMethod.m in Sources */,
 				897ECC5A1C74C9F9008AA5DB /* DanMuFastMatchCell.m in Sources */,
 				89C2ACAE1D819E2F00B9CDB7 /* JHVLCMedia.m in Sources */,
 				816725391D98B45400B371C5 /* NOResponseButton.m in Sources */,
@@ -1365,7 +1359,6 @@
 				89973E901D3D1A6000814720 /* PlayerDanmakuViewController.m in Sources */,
 				897619ED1C59E8520046A245 /* BaseViewModel.m in Sources */,
 				8975D1ED1C6F355D003FE797 /* KeyboardSettingCell.m in Sources */,
-				897EC7C61C72056A00E1B03D /* DanmakuModel.m in Sources */,
 				89E9DA371C940C8600896977 /* RecommendBangumiCell.m in Sources */,
 				8975D1E31C6F2434003FE797 /* ChangeBackGroundImgCell.m in Sources */,
 				89E9DA3A1C942AB500896977 /* OtherSettingCell.m in Sources */,
@@ -1380,7 +1373,6 @@
 				89118C8C1CBCABED0079FB70 /* NSOpenPanel+Tools.m in Sources */,
 				897368141C70974400B9B765 /* UserDefaultManager.m in Sources */,
 				89761A091C5A5E750046A245 /* MatchViewController.m in Sources */,
-				897345C01C759CB200F64D39 /* NSString+Tools.m in Sources */,
 				897D7F721CA7E64B00FAC53A /* PlayerControlView.m in Sources */,
 				896AEA931C7CB8680011E046 /* PlayerMethodManager.m in Sources */,
 				896370581C59028C002F32FD /* DanmakuNetManager.m in Sources */,
@@ -1390,13 +1382,10 @@
 				8975D1CE1C6ECDAB003FE797 /* ThirdPartySearchVideoInfoView.m in Sources */,
 				89C107151C885FB200090A9A /* DanmakuModeMenuItem.m in Sources */,
 				89FDFEAD1C9042FD005499B9 /* UpdateViewController.m in Sources */,
-				897345BD1C759CB200F64D39 /* NSArray+Tools.m in Sources */,
 				890B9A521C8B2E460063986B /* OpenStreamVideoViewController.m in Sources */,
 				89D403491D52EAFB00AED712 /* RespondKeyboardSearchField.m in Sources */,
 				897619F21C59E8520046A245 /* SearchViewModel.m in Sources */,
-				894CFAED1EEC135800BF800B /* JHBaseCollection.m in Sources */,
 				892DD15C1D66A612001FBD3B /* ReverseVolumeCell.m in Sources */,
-				8983C76D1C8819CC0080C316 /* NSData+DanDanPlay.m in Sources */,
 				896347901C6860A000EF63E5 /* NSButton+Tools.m in Sources */,
 				8995C9911C648607008C1C02 /* ThirdPartySearchViewController.m in Sources */,
 				895B605F1CA646AE00F4665B /* VideoNameCell.m in Sources */,
@@ -1412,7 +1401,7 @@
 				89B5854B1C7E07270076FB26 /* FilterNetManager.m in Sources */,
 				89D403411D52EAE400AED712 /* ColorButton.m in Sources */,
 				89FC23F11C6F3EC3009FD27C /* CacheManagerCell.m in Sources */,
-				897EC7C51C72056A00E1B03D /* BaseModel.m in Sources */,
+				897EC7C51C72056A00E1B03D /* DDPBase.m in Sources */,
 				8993A8821C93BA4300CF91D1 /* FeaturedModel.m in Sources */,
 				897619F91C59EDBC0046A245 /* DanMuChooseViewModel.m in Sources */,
 				8965EE3A1C6DBCDD0089E187 /* PreferenceViewModel.m in Sources */,
@@ -1436,6 +1425,7 @@
 				896370591C59028C002F32FD /* MatchNetManager.m in Sources */,
 				896A716D1C66276C00280B79 /* ThirdPartySearchViewModel.m in Sources */,
 				89D4033A1D52EACB00AED712 /* JHMediaView.m in Sources */,
+				8989CE4A217C61FC0036B1F5 /* DDPBaseCollection.m in Sources */,
 				896370C21C59099C002F32FD /* DanmakuDataFormatter.m in Sources */,
 				896CF1F11C8C66010080019F /* StreamingVideoModel.m in Sources */,
 				89D6A1AD1D615C3B00A14469 /* DanDanPlayMessageModel.m in Sources */,
@@ -1447,6 +1437,7 @@
 				89264DA91D5C5F8E004B51BF /* POPMasBaseAnimation.m in Sources */,
 				897619F11C59E8520046A245 /* PlayViewModel.m in Sources */,
 				8995C9971C64F6F8008C1C02 /* ThirdPartyDanmakuChooseViewController.m in Sources */,
+				8989CE4D217C65380036B1F5 /* DanmakuModel.m in Sources */,
 				896A71731C6641C700280B79 /* ThirdPartyDanmakuChooseViewModel.m in Sources */,
 				890B9A491C8B1E770063986B /* VideoNetManager.m in Sources */,
 				89264DA61D5C3370004B51BF /* PlayerDanmakuCountView.m in Sources */,
@@ -1458,7 +1449,6 @@
 				8993A8811C93BA4300CF91D1 /* BangumiModel.m in Sources */,
 				89D403391D52EACB00AED712 /* JHMediaPlayer.m in Sources */,
 				89D6A1AA1D61538F00A14469 /* DanDanPlayErrorModel.m in Sources */,
-				897345BE1C759CB200F64D39 /* NSData+Tools.m in Sources */,
 				8950C9891CA97B1E000C863B /* QualityCell.m in Sources */,
 				89FE1F0B1C5E57BB00FF4586 /* DanDanSearchViewController.m in Sources */,
 				896BE9111CAEC478005BE0D1 /* TimeHUDMessageView.m in Sources */,
@@ -1471,7 +1461,6 @@
 				81680FA31D8FC8DB00A24A1E /* VersionModel.m in Sources */,
 				8975D1DC1C6EF634003FE797 /* ChangeFontCell.m in Sources */,
 				8996A6E01C6CD95A00D5AA6E /* SliderControlCell.m in Sources */,
-				897345BF1C759CB200F64D39 /* NSDictionary+Tools.m in Sources */,
 				894CFAE61EEC132800BF800B /* JHHomePage.m in Sources */,
 				897345B41C7571EC00F64D39 /* PlayerHoldView.m in Sources */,
 				81D3BD2C1D91242D00579988 /* JHProgressHUD.m in Sources */,
@@ -1480,7 +1469,6 @@
 				8975D1D61C6EF173003FE797 /* FontSpeciallyCell.m in Sources */,
 				896D0C011D41071500CAFAD0 /* PlayerSubtitleTimeOffsetCell.m in Sources */,
 				810BB1051D8F84BE00A0AD96 /* POPMasAnimatableProperty.m in Sources */,
-				894CFAEC1EEC135800BF800B /* JHBase.m in Sources */,
 				89C107121C885B8100090A9A /* DanmakuColorMenuItem.m in Sources */,
 				897EC7C71C72056A00E1B03D /* LocalVideoModel.m in Sources */,
 				89B585211C7D9D1B0076FB26 /* JHDanmakuEngine+Tools.m in Sources */,
@@ -1511,14 +1499,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1556,14 +1552,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

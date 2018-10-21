@@ -8,7 +8,7 @@
 
 #import "RecommendItemViewController.h"
 #import "RecommendBangumiCell.h"
-#import "NSString+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 
 @interface RecommendItemViewController ()
 @property (weak) IBOutlet NSTableView *tableView;

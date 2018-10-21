@@ -13,7 +13,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setWantsLayer:YES];
-    self.view.layer.backgroundColor = RGBAColor(0, 0, 0, 0.5).CGColor;
+    self.view.layer.backgroundColor = DDPRGBAColor(0, 0, 0, 0.5).CGColor;
     
     [self addChildViewController:self.danmakuVC];
     [self.view addSubview:_danmakuVC.view];
@@ -23,12 +23,12 @@
     
     [_danmakuVC.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.mas_equalTo(0);
-        make.right.equalTo(_subtitleVC.view.mas_left);
+        make.right.equalTo(self.subtitleVC.view.mas_left);
     }];
     
     [_subtitleVC.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.right.bottom.mas_equalTo(0);
-        make.width.equalTo(_danmakuVC.view.mas_width);
+        make.width.equalTo(self.danmakuVC.view.mas_width);
     }];
 }
 

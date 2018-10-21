@@ -1,13 +1,14 @@
 //
 //  VideoModel.m
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 15/12/24.
 //  Copyright © 2015年 JimHuang. All rights reserved.
 //
 
 #import "LocalVideoModel.h"
-#import "NSData+Tools.h"
+#import <DDPCategory/NSData+DDPTools.h>
+
 @interface LocalVideoModel()
 @property (strong, nonatomic) NSURL *fileURL;
 @property (strong, nonatomic) NSString *fileName;

@@ -1,0 +1,4 @@
+
+target 'DDPCategory' do
+  pod 'DDPCategory', :path => '../'
+end
