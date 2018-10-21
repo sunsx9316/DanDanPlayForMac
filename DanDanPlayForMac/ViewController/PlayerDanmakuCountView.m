@@ -18,8 +18,7 @@
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
-        [self setWantsLayer:YES];
-        self.layer.backgroundColor = RGBAColor(0, 0, 0, 0.5).CGColor;
+        self.backgroundColor = DDPRGBAColor(0, 0, 0, 0.5);
     }
     return self;
 }

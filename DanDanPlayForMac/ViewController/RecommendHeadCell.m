@@ -7,7 +7,7 @@
 //
 
 #import "RecommendHeadCell.h"
-#import "NSString+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 #import "NSButton+Tools.h"
 #import "RespondKeyboardSearchField.h"
 #import "AddTrackingAreaButton.h"
@@ -48,7 +48,7 @@
         @strongify(self)
         if (!self) return;
         
-        [self.titleButton setTitleColor:MAIN_COLOR];
+        [self.titleButton setTitleColor:[NSColor mainColor]];
     }];
     
     [self.titleButton setMouseExitedCallBackBlock:^{

@@ -11,7 +11,7 @@
 //需要外部把上次的播放时间传进来
 @property (assign, nonatomic) NSTimeInterval time;
 @property (copy, nonatomic) void(^continusBlock)(NSTimeInterval time);
-@property (copy, nonatomic) void(^closeViewBlock)();
+@property (copy, nonatomic) void(^closeViewBlock)(void);
 - (void)show;
 - (void)dismiss;
 @end

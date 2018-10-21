@@ -15,7 +15,7 @@
 
 @implementation PlayerMethodManager
 
-+ (void)controlView:(NSView *)controlView withRect:(CGRect)rect isHide:(BOOL)isHide completionHandler:(void(^)())completionHandler {
++ (void)controlView:(NSView *)controlView withRect:(CGRect)rect isHide:(BOOL)isHide completionHandler:(void(^)(void))completionHandler {
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
         controlView.animator.frame = rect;
         controlView.animator.hidden = isHide;

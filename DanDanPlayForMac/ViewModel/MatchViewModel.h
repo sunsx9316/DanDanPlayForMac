@@ -1,14 +1,14 @@
 //
 //  MatchViewModel.h
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 15/12/24.
 //  Copyright © 2015年 JimHuang. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "DDPBase.h"
 @class LocalVideoModel, MatchDataModel;
-@interface MatchViewModel : BaseModel
+@interface MatchViewModel : DDPBase
 @property (nonatomic, strong) NSArray<MatchDataModel*>* models;
 /**
  *  匹配结果模型

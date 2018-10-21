@@ -1,21 +1,26 @@
 //
 //  DanMuModel.h
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 15/12/24.
 //  Copyright © 2015年 JimHuang. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "DDPBase.h"
 @class DanmakuDataModel, LaunchDanmakuModel;
 /**
  *  弹幕模型
  */
-@interface DanmakuModel : BaseModel
+@interface DanmakuModel : DDPBase
 @property (nonatomic, strong)NSArray<DanmakuDataModel*>* comments;
 @end
 
-@interface DanmakuDataModel : BaseModel
+@interface DanmakuDataModel : DDPBase
+
+/**
+ 弹幕ID
+ */
+@property (copy, nonatomic) NSString *cid;
 /**
  *  Time: 浮点数形式的弹幕时间，单位为秒。
  */
@@ -47,7 +52,7 @@
 /**
  *  发射用弹幕模型
  */
-@interface LaunchDanmakuModel : BaseModel
+@interface LaunchDanmakuModel : DDPBase
 @property (assign, nonatomic) CGFloat Time;
 @property (assign, nonatomic) NSInteger Mode;
 @property (assign, nonatomic) NSInteger Color;

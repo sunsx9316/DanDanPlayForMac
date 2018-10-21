@@ -9,7 +9,7 @@
 #import "UpdateViewController.h"
 #import "NSButton+Tools.h"
 #import "UpdateNetManager.h"
-#import "NSData+Tools.h"
+#import <DDPCategory/NSData+DDPTools.h>
 #import "NSAlert+Tools.h"
 #import "VersionModel.h"
 
@@ -38,7 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.updateDetailTextField.text = _model.details;
-    [self.autoUpdateButton setTitleColor:MAIN_COLOR];
+    
+    [self.autoUpdateButton setTitleColor:[NSColor mainColor]];
     [self.downloadButton setTitleColor:[NSColor darkGrayColor]];
     
     self.autoCheakUpdateInfoButton.state = [UserDefaultManager shareUserDefaultManager].cheakDownLoadInfoAtStart;
@@ -63,7 +64,7 @@
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSData *fileData = [[NSData alloc] initWithContentsOfURL:filePath];
             dispatch_async(dispatch_get_main_queue(), ^{
-                if ([[fileData md5String] isEqualToString:_model.md5]) {
+                if ([[fileData md5String] isEqualToString:self.model.md5]) {
                     system([[NSString stringWithFormat:@"open %@", filePath] cStringUsingEncoding:NSUTF8StringEncoding]);
                 }
                 else {

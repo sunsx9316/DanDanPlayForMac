@@ -7,7 +7,7 @@
 //
 
 #import "TimeAxisCell.h"
-#import "NSString+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 
 @interface TimeAxisCell()
 @property (strong, nonatomic) NSButton *plusOneButton;

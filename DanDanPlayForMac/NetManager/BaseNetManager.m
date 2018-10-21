@@ -1,6 +1,6 @@
 //
 //  BaseNetManager.m
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 15/12/24.
 //  Copyright © 2015年 JimHuang. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import "BaseNetManager.h"
 #import "AFHTTPDataResponseSerializer.h"
-#import "NSDictionary+Tools.h"
+#import <DDPCategory/NSDictionary+DDPTools.h>
 
 @implementation BaseNetManager
 + (AFHTTPSessionManager *)sharedHTTPSessionManager {

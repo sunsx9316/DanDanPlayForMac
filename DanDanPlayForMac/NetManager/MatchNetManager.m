@@ -1,6 +1,6 @@
 //
 //  MatchNetManager.m
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 15/12/24.
 //  Copyright © 2015年 JimHuang. All rights reserved.
@@ -20,7 +20,7 @@
         fileName = @"";
     }
     
-    return [self GETWithPath:[NSString stringWithFormat:@"%@/match", API_PATH] parameters:@{@"fileName":fileName, @"hash": hash, @"length": length} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
+    return [self GETWithPath:[NSString stringWithFormat:@"%@/match", [DDPMethod apiPath]] parameters:@{@"fileName":fileName, @"hash": hash, @"length": length} completionHandler:^(id responseObj, DanDanPlayErrorModel *error) {
         complete([MatchModel yy_modelWithDictionary: responseObj], error);
     }];
 }

@@ -9,6 +9,10 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
+#import "DDPConstant.h"
+#import "DDPMacroDefinition.h"
+#import "DDPMethod.h"
+
 #import <YYModel.h>
 #import <AFNetworking.h>
 #import <Masonry.h>
@@ -19,10 +23,8 @@
 #import "NSView+Tools.h"
 #import "NSViewController+Tools.h"
 #import "NSControl+Tools.h"
-
-//配置头文件
-#import "Config.h"
-//工具头文件
-#import "Tools.h"
+#import "NSColor+Tools.h"
+#import "DDPAPPKey.h"
+#import <DDPCategory/DDPCategory.h>
 
 #endif /* PrefixHeader_pch */

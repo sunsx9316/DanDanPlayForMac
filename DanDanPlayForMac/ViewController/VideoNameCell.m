@@ -27,7 +27,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self setWantsLayer:YES];
-    self.progressView.backgroundColor = RGBAColor(49, 169, 226, 0.5);
+    self.progressView.backgroundColor = DDPRGBAColor(49, 169, 226, 0.5);
     [self.button setTitleColor:[NSColor whiteColor]];
     [self addTrackingArea:self.trackingArea];
 }

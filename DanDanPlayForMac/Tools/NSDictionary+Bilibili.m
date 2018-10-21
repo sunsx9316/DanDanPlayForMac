@@ -7,7 +7,7 @@
 //
 
 #import "NSDictionary+Bilibili.h"
-#import "NSString+Tools.h"
+#import <DDPCategory/NSString+DDPTools.h>
 
 @implementation NSDictionary (Bilibili)
 - (NSString *)requestPathWithBasePath:(NSString *)path {

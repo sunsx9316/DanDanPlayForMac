@@ -6,13 +6,13 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "DDPBase.h"
 typedef NS_ENUM(NSUInteger, StreamingVideoQuality) {
     StreamingVideoQualityHigh,
     StreamingVideoQualityLow
 };
 
-@interface StreamingVideoModel : BaseModel<VideoModelProtocol>
+@interface StreamingVideoModel : DDPBase<VideoModelProtocol>
 /**
  *  初始化
  *

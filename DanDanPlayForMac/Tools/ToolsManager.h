@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Config.h"
 #import "VideoModelProtocol.h"
 
 @interface ToolsManager : NSObject

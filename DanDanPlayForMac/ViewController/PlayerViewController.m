@@ -181,8 +181,9 @@
 - (void)dealloc {
     [[ToolsManager shareToolsManager] ableSleep];
     [self pop_removeAllAnimations];
-    [self.player removeObserver:self forKeyPath:@"volume"];
-    [self.playDanmakuShowButton removeObserver:self forKeyPath:@"state"];
+    [self.player removeObserverBlocksForKeyPath:DDP_KEYPATH(self.player, status)];
+    [self.playDanmakuShowButton removeObserverBlocksForKeyPath:DDP_KEYPATH(self.playDanmakuShowButton, state)];
+    
     [self.view removeTrackingArea:self.trackingArea];
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     [NSApplication sharedApplication].mainWindow.title = [ToolsManager appName];
@@ -248,15 +249,15 @@
     }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"volume"]) {
-        self.volumeControlView.volumeSlider.floatValue = [change[@"new"] floatValue];
-    }
-    // 显示隐藏弹幕按钮
-    else if ([keyPath isEqualToString:@"state"]) {
-        self.danmakuEngine.canvas.animator.hidden = [change[@"new"] intValue];
-    }
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+//    if ([keyPath isEqualToString:@"volume"]) {
+//        self.volumeControlView.volumeSlider.floatValue = [change[@"new"] floatValue];
+//    }
+//    // 显示隐藏弹幕按钮
+//    else if ([keyPath isEqualToString:@"state"]) {
+//        self.danmakuEngine.canvas.animator.hidden = [change[@"new"] intValue];
+//    }
+//}
 
 #pragma mark - 私有方法
 #pragma mark -------- 初始化相关 --------
@@ -381,7 +382,20 @@
     
     //音量
     [self.view addSubview:self.volumeControlView positioned:NSWindowAbove relativeTo:self.playerControlView];
-    [self.player addObserver:self forKeyPath:@"volume" options:NSKeyValueObservingOptionNew context:nil];
+//    [self.player addObserver:self forKeyPath:@"volume" options:NSKeyValueObservingOptionNew context:nil];
+    
+    @weakify(self)
+    [self.player addObserverBlockForKeyPath:DDP_KEYPATH(self.player, volume) block:^(id  _Nonnull obj, id  _Nonnull oldVal, NSNumber * _Nonnull newVal) {
+        @strongify(self)
+        if (!self) {
+            return;
+        }
+        
+        if ([newVal isKindOfClass:[NSNumber class]]) {
+            self.volumeControlView.volumeSlider.floatValue = [newVal floatValue];
+        }
+    }];
+    
     [self.volumeControlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(40);
         make.height.mas_equalTo(150);
@@ -417,7 +431,17 @@
     }];
     
     //监听弹幕显示/隐藏按钮状态
-    [self.playDanmakuShowButton addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:nil];
+    [self.playDanmakuShowButton addObserverBlockForKeyPath:DDP_KEYPATH(self.playDanmakuShowButton, state) block:^(id  _Nonnull obj, id  _Nonnull oldVal, NSNumber * _Nonnull newVal) {
+        @strongify(self)
+        if (!self) {
+            return;
+        }
+        
+        if ([newVal isKindOfClass:[NSNumber class]]) {
+            self.danmakuEngine.canvas.animator.hidden = newVal.boolValue;
+        }
+    }];
+//    [self.playDanmakuShowButton addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:nil];
     
     //时间缩略图
     [self.view addSubview:self.HUDTimeView positioned:NSWindowAbove relativeTo:self.playerControlView];
@@ -715,7 +739,7 @@
 
 #pragma mark 更改字体边缘特效
 - (void)changeFontSpecially:(NSNotification *)sender {
-    self.danmakuEngine.globalShadowStyle = [sender.userInfo[@"fontSpecially"] integerValue];
+    self.danmakuEngine.globalEffectStyle = [sender.userInfo[@"fontSpecially"] integerValue];
 }
 
 #pragma make 窗口大小变化
@@ -1252,7 +1276,7 @@
     if(_bufferProgressHUD == nil) {
         _bufferProgressHUD = [[JHProgressHUD alloc] init];
         _bufferProgressHUD.text = [DanDanPlayMessageModel messageModelWithType:DanDanPlayMessageTypeVideoBuffering].message;
-        _bufferProgressHUD.indicatorColor = RGBColor(255, 255, 255);
+        _bufferProgressHUD.indicatorColor = DDPRGBColor(255, 255, 255);
     }
     return _bufferProgressHUD;
 }

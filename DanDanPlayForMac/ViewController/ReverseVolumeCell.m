@@ -18,7 +18,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.switchButton addTarget:self action:@selector(clickButton:)];
-    self.switchButton.openColor = MAIN_COLOR;
+    self.switchButton.openColor = [NSColor mainColor];
     self.switchButton.status = [UserDefaultManager shareUserDefaultManager].reverseVolumeScroll;
 }
 

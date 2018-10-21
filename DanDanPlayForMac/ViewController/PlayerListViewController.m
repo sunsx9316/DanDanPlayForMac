@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = RGBAColor(0, 0, 0, 0.5);
+    self.view.backgroundColor = DDPRGBAColor(0, 0, 0, 0.5);
     [self.cleanButton setTitleColor:[NSColor whiteColor]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:@"VIDEO_DOWNLOAD_PROGRESS" object:nil];
 }

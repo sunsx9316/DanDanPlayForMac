@@ -12,6 +12,7 @@
 @property (strong, nonatomic) NSView *blackBackGroundMask;
 @property (strong, nonatomic) NSProgressIndicator *indicator;
 @property (strong, nonatomic) NSTextField *textField;
+@property (assign, nonatomic) BOOL isShowing;
 @end
 
 @implementation JHProgressHUD
@@ -164,11 +165,11 @@
     }
 }
 
-- (void)hideWithCompletion:(void(^)())completion {
+- (void)hideWithCompletion:(void (^)(void))completion {
     [self hideWithCompletion:completion anime:YES];
 }
 
-- (void)hideWithCompletion:(void(^)())completion anime:(BOOL)anime {
+- (void)hideWithCompletion:(void (^)(void))completion anime:(BOOL)anime {
     if (anime) {
         [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
             context.duration = 1;
@@ -177,7 +178,7 @@
             [self.indicator stopAnimation: self];
             self.progress = 0;
             [self removeFromSuperview];
-            _isShowing = NO;
+            self.isShowing = NO;
             if (completion) {
                 completion();
             }

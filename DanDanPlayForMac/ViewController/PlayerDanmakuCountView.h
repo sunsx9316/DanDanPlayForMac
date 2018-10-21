@@ -12,7 +12,7 @@
  */
 @interface PlayerDanmakuCountView : NSView
 @property (assign, nonatomic) NSUInteger danmakuCount;
-@property (copy, nonatomic) void(^touchCloseButtonCallBack)();
+@property (copy, nonatomic) void(^touchCloseButtonCallBack)(void);
 - (void)show;
 - (void)dismiss;
 @end

@@ -20,7 +20,7 @@ typedef void(^loadLocalSubtitleBlock)(NSString *path);
  *  @param isHide            是否隐藏
  *  @param completionHandler 回调
  */
-+ (void)controlView:(NSView *)controlView withRect:(CGRect)rect isHide:(BOOL)isHide completionHandler:(void(^)())completionHandler;
++ (void)controlView:(NSView *)controlView withRect:(CGRect)rect isHide:(BOOL)isHide completionHandler:(void(^)(void))completionHandler;
 /**
  *  加载本地弹幕
  *

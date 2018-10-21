@@ -1,21 +1,21 @@
 //
 //  MatchModel.h
-//  DanWanPlayer
+//  DanDanPlayer
 //
 //  Created by JimHuang on 15/12/24.
 //  Copyright © 2015年 JimHuang. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import "DDPBase.h"
 /**
  *  匹配模型
  */
 @class MatchDataModel;
-@interface MatchModel : BaseModel
+@interface MatchModel : DDPBase
 @property (nonatomic, strong)NSArray<MatchDataModel*>* matches;
 @end
 
-@interface MatchDataModel : BaseModel
+@interface MatchDataModel : DDPBase
 /**
  *  分集id
  */

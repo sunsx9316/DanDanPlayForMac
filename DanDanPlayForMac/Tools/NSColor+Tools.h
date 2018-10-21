@@ -11,4 +11,6 @@
 @interface NSColor (Tools)
 + (NSColor *)colorWithRGB:(uint32_t)rgbValue alpha:(CGFloat)alpha;
 + (NSColor *)colorWithRGB:(uint32_t)rgbValue;
+
+@property (strong, nonatomic, class, readonly) NSColor *mainColor;
 @end
