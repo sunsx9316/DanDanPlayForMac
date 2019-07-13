@@ -1229,7 +1229,7 @@
 				TargetAttributes = {
 					89636FCB1C58C40B002F32FD = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = B2C6Y83F26;
+						DevelopmentTeam = Q35T78D2D5;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1281,7 +1281,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-resources.sh",
 				"${PODS_ROOT}/JSPatch/JSPatch/JSPatch.js",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -1290,7 +1290,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		27E1A2FAF479DEDA6267E10B /* [CP] Embed Pods Frameworks */ = {
@@ -1299,7 +1299,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-frameworks.sh",
 				"${PODS_ROOT}/VLCKit/VLCKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1308,7 +1308,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForMac/Pods-DanDanPlayForMac-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E5486C681EB31934494526DC /* [CP] Check Pods Manifest.lock */ = {
@@ -1600,7 +1600,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = B2C6Y83F26;
+				DEVELOPMENT_TEAM = Q35T78D2D5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1610,7 +1610,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = com.convoy.dandanplayformac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.macplayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SHARED_PRECOMPS_DIR = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1625,7 +1625,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = B2C6Y83F26;
+				DEVELOPMENT_TEAM = Q35T78D2D5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1635,7 +1635,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForMac/Config/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = com.convoy.dandanplayformac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.macplayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SHARED_PRECOMPS_DIR = "";
 			};
